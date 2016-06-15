@@ -165,7 +165,7 @@ export declare class FormGroup extends AbstractControl {
     /**
      * Register a control with the group's list of controls.
      */
-    registerControl(name: string, control: AbstractControl): void;
+    registerControl(name: string, control: AbstractControl): AbstractControl;
     /**
      * Add a control to this group.
      */

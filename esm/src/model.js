@@ -219,6 +219,8 @@ export class AbstractControl {
 export class FormControl extends AbstractControl {
     constructor(value = null, validator = null, asyncValidator = null) {
         super(coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
+        /** @internal */
+        this._onChange = [];
         this._value = value;
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         this._initObservables();
@@ -238,8 +240,9 @@ export class FormControl extends AbstractControl {
     updateValue(value, { onlySelf, emitEvent, emitModelToViewChange } = {}) {
         emitModelToViewChange = isPresent(emitModelToViewChange) ? emitModelToViewChange : true;
         this._value = value;
-        if (isPresent(this._onChange) && emitModelToViewChange)
-            this._onChange(this._value);
+        if (this._onChange.length && emitModelToViewChange) {
+            this._onChange.forEach((changeFn) => changeFn(this._value));
+        }
         this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
     }
     /**
@@ -253,7 +256,7 @@ export class FormControl extends AbstractControl {
     /**
      * Register a listener for change events.
      */
-    registerOnChange(fn) { this._onChange = fn; }
+    registerOnChange(fn) { this._onChange.push(fn); }
 }
 /**
  * Defines a part of a form, of fixed length, that can contain other controls.
@@ -284,8 +287,11 @@ export class FormGroup extends AbstractControl {
      * Register a control with the group's list of controls.
      */
     registerControl(name, control) {
+        if (this.controls[name])
+            return this.controls[name];
         this.controls[name] = control;
         control.setParent(this);
+        return control;
     }
     /**
      * Add a control to this group.

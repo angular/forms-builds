@@ -52,9 +52,9 @@ var NgForm = (function (_super) {
         var ctrl = new model_1.FormControl();
         async_1.PromiseWrapper.scheduleMicrotask(function () {
             var container = _this._findContainer(dir.path);
-            shared_1.setUpControl(ctrl, dir);
-            container.registerControl(dir.name, ctrl);
-            ctrl.updateValueAndValidity({ emitEvent: false });
+            dir._control = container.registerControl(dir.name, ctrl);
+            shared_1.setUpControl(dir.control, dir);
+            dir.control.updateValueAndValidity({ emitEvent: false });
         });
         return ctrl;
     };

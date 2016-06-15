@@ -1132,7 +1132,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var _this = this;
             this._accessors.forEach(function (c) {
                 if (_this._isSameGroup(c, accessor) && c[1] !== accessor) {
-                    c[1].fireUncheck();
+                    c[1].fireUncheck(accessor.value);
                 }
             });
         };
@@ -1146,18 +1146,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     NewRadioControlRegistry.decorators = [
         { type: _angular_core.Injectable },
     ];
-    /**
-     * The value provided by the forms API for radio buttons.
-     *
-     * @experimental
-     */
-    var RadioButtonState = (function () {
-        function RadioButtonState(checked, value) {
-            this.checked = checked;
-            this.value = value;
-        }
-        return RadioButtonState;
-    }());
     var RadioControlValueAccessor = (function () {
         function RadioControlValueAccessor(_renderer, _elementRef, _registry, _injector) {
             this._renderer = _renderer;
@@ -1173,20 +1161,20 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
         RadioControlValueAccessor.prototype.writeValue = function (value) {
-            this._state = value;
-            if (isPresent(value) && value.checked) {
-                this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', true);
+            this._state = value === this.value;
+            if (isPresent(value)) {
+                this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
             }
         };
         RadioControlValueAccessor.prototype.registerOnChange = function (fn) {
             var _this = this;
             this._fn = fn;
             this.onChange = function () {
-                fn(new RadioButtonState(true, _this._state.value));
+                fn(_this.value);
                 _this._registry.select(_this);
             };
         };
-        RadioControlValueAccessor.prototype.fireUncheck = function () { this._fn(new RadioButtonState(false, this._state.value)); };
+        RadioControlValueAccessor.prototype.fireUncheck = function (value) { this.writeValue(value); };
         RadioControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
         return RadioControlValueAccessor;
     }());
@@ -1208,6 +1196,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     /** @nocollapse */
     RadioControlValueAccessor.propDecorators = {
         'name': [{ type: _angular_core.Input },],
+        'value': [{ type: _angular_core.Input },],
     };
     var SELECT_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
@@ -1689,6 +1678,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (validator === void 0) { validator = null; }
             if (asyncValidator === void 0) { asyncValidator = null; }
             _super.call(this, coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
+            /** @internal */
+            this._onChange = [];
             this._value = value;
             this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
             this._initObservables();
@@ -1706,11 +1697,13 @@ var __extends = (this && this.__extends) || function (d, b) {
          * specified.
          */
         FormControl.prototype.updateValue = function (value, _a) {
+            var _this = this;
             var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange;
             emitModelToViewChange = isPresent(emitModelToViewChange) ? emitModelToViewChange : true;
             this._value = value;
-            if (isPresent(this._onChange) && emitModelToViewChange)
-                this._onChange(this._value);
+            if (this._onChange.length && emitModelToViewChange) {
+                this._onChange.forEach(function (changeFn) { return changeFn(_this._value); });
+            }
             this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
@@ -1724,7 +1717,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         /**
          * Register a listener for change events.
          */
-        FormControl.prototype.registerOnChange = function (fn) { this._onChange = fn; };
+        FormControl.prototype.registerOnChange = function (fn) { this._onChange.push(fn); };
         return FormControl;
     }(AbstractControl));
     /**
@@ -1760,8 +1753,11 @@ var __extends = (this && this.__extends) || function (d, b) {
          * Register a control with the group's list of controls.
          */
         FormGroup.prototype.registerControl = function (name, control) {
+            if (this.controls[name])
+                return this.controls[name];
             this.controls[name] = control;
             control.setParent(this);
+            return control;
         };
         /**
          * Add a control to this group.
@@ -1992,9 +1988,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             var ctrl = new FormControl();
             PromiseWrapper.scheduleMicrotask(function () {
                 var container = _this._findContainer(dir.path);
-                setUpControl(ctrl, dir);
-                container.registerControl(dir.name, ctrl);
-                ctrl.updateValueAndValidity({ emitEvent: false });
+                dir._control = container.registerControl(dir.name, ctrl);
+                setUpControl(dir.control, dir);
+                dir.control.updateValueAndValidity({ emitEvent: false });
             });
             return ctrl;
         };
@@ -2921,7 +2917,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     }
     exports.FORM_DIRECTIVES = NEW_FORM_DIRECTIVES;
     exports.REACTIVE_FORM_DIRECTIVES = REACTIVE_FORM_DIRECTIVES;
-    exports.RadioButtonState = RadioButtonState;
     exports.AbstractControlDirective = AbstractControlDirective;
     exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
     exports.ControlContainer = ControlContainer;

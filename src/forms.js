@@ -18,7 +18,6 @@ function __export(m) {
 var directives_1 = require('./directives');
 exports.FORM_DIRECTIVES = directives_1.FORM_DIRECTIVES;
 exports.REACTIVE_FORM_DIRECTIVES = directives_1.REACTIVE_FORM_DIRECTIVES;
-exports.RadioButtonState = directives_1.RadioButtonState;
 var abstract_control_directive_1 = require('./directives/abstract_control_directive');
 exports.AbstractControlDirective = abstract_control_directive_1.AbstractControlDirective;
 var checkbox_value_accessor_1 = require('./directives/checkbox_value_accessor');

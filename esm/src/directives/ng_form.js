@@ -24,9 +24,9 @@ export class NgForm extends ControlContainer {
         const ctrl = new FormControl();
         PromiseWrapper.scheduleMicrotask(() => {
             const container = this._findContainer(dir.path);
-            setUpControl(ctrl, dir);
-            container.registerControl(dir.name, ctrl);
-            ctrl.updateValueAndValidity({ emitEvent: false });
+            dir._control = container.registerControl(dir.name, ctrl);
+            setUpControl(dir.control, dir);
+            dir.control.updateValueAndValidity({ emitEvent: false });
         });
         return ctrl;
     }

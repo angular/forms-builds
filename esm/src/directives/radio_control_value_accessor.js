@@ -27,7 +27,7 @@ export class RadioControlRegistry {
     select(accessor) {
         this._accessors.forEach((c) => {
             if (this._isSameGroup(c, accessor) && c[1] !== accessor) {
-                c[1].fireUncheck();
+                c[1].fireUncheck(accessor.value);
             }
         });
     }
@@ -40,17 +40,6 @@ export class RadioControlRegistry {
 RadioControlRegistry.decorators = [
     { type: Injectable },
 ];
-/**
- * The value provided by the forms API for radio buttons.
- *
- * @experimental
- */
-export class RadioButtonState {
-    constructor(checked, value) {
-        this.checked = checked;
-        this.value = value;
-    }
-}
 export class RadioControlValueAccessor {
     constructor(_renderer, _elementRef, _registry, _injector) {
         this._renderer = _renderer;
@@ -66,19 +55,19 @@ export class RadioControlValueAccessor {
     }
     ngOnDestroy() { this._registry.remove(this); }
     writeValue(value) {
-        this._state = value;
-        if (isPresent(value) && value.checked) {
-            this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', true);
+        this._state = value === this.value;
+        if (isPresent(value)) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
         }
     }
     registerOnChange(fn) {
         this._fn = fn;
         this.onChange = () => {
-            fn(new RadioButtonState(true, this._state.value));
+            fn(this.value);
             this._registry.select(this);
         };
     }
-    fireUncheck() { this._fn(new RadioButtonState(false, this._state.value)); }
+    fireUncheck(value) { this.writeValue(value); }
     registerOnTouched(fn) { this.onTouched = fn; }
 }
 /** @nocollapse */
@@ -99,5 +88,6 @@ RadioControlValueAccessor.ctorParameters = [
 /** @nocollapse */
 RadioControlValueAccessor.propDecorators = {
     'name': [{ type: Input },],
+    'value': [{ type: Input },],
 };
 //# sourceMappingURL=radio_control_value_accessor.js.map

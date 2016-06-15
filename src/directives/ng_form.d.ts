@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup } from '../model';
 import { ControlContainer } from './control_container';
 import { Form } from './form_interface';
 import { NgControl } from './ng_control';
+import { NgModel } from './ng_model';
 import { NgModelGroup } from './ng_model_group';
 export declare const formDirectiveProvider: any;
 /**
@@ -76,9 +77,9 @@ export declare class NgForm extends ControlContainer implements Form {
     controls: {
         [key: string]: AbstractControl;
     };
-    addControl(dir: NgControl): FormControl;
-    getControl(dir: NgControl): FormControl;
-    removeControl(dir: NgControl): void;
+    addControl(dir: NgModel): FormControl;
+    getControl(dir: NgModel): FormControl;
+    removeControl(dir: NgModel): void;
     addFormGroup(dir: NgModelGroup): void;
     removeFormGroup(dir: NgModelGroup): void;
     getFormGroup(dir: NgModelGroup): FormGroup;

@@ -31,7 +31,6 @@ exports.NgModelGroup = ng_model_group_2.NgModelGroup;
 var number_value_accessor_2 = require('./directives/number_value_accessor');
 exports.NumberValueAccessor = number_value_accessor_2.NumberValueAccessor;
 var radio_control_value_accessor_2 = require('./directives/radio_control_value_accessor');
-exports.RadioButtonState = radio_control_value_accessor_2.RadioButtonState;
 exports.RadioControlValueAccessor = radio_control_value_accessor_2.RadioControlValueAccessor;
 var form_control_directive_2 = require('./directives/reactive_directives/form_control_directive');
 exports.FormControlDirective = form_control_directive_2.FormControlDirective;

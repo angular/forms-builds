@@ -29,7 +29,7 @@ var RadioControlRegistry = (function () {
         var _this = this;
         this._accessors.forEach(function (c) {
             if (_this._isSameGroup(c, accessor) && c[1] !== accessor) {
-                c[1].fireUncheck();
+                c[1].fireUncheck(accessor.value);
             }
         });
     };
@@ -44,19 +44,6 @@ var RadioControlRegistry = (function () {
     return RadioControlRegistry;
 }());
 exports.RadioControlRegistry = RadioControlRegistry;
-/**
- * The value provided by the forms API for radio buttons.
- *
- * @experimental
- */
-var RadioButtonState = (function () {
-    function RadioButtonState(checked, value) {
-        this.checked = checked;
-        this.value = value;
-    }
-    return RadioButtonState;
-}());
-exports.RadioButtonState = RadioButtonState;
 var RadioControlValueAccessor = (function () {
     function RadioControlValueAccessor(_renderer, _elementRef, _registry, _injector) {
         this._renderer = _renderer;
@@ -72,20 +59,20 @@ var RadioControlValueAccessor = (function () {
     };
     RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
     RadioControlValueAccessor.prototype.writeValue = function (value) {
-        this._state = value;
-        if (lang_1.isPresent(value) && value.checked) {
-            this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', true);
+        this._state = value === this.value;
+        if (lang_1.isPresent(value)) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
         }
     };
     RadioControlValueAccessor.prototype.registerOnChange = function (fn) {
         var _this = this;
         this._fn = fn;
         this.onChange = function () {
-            fn(new RadioButtonState(true, _this._state.value));
+            fn(_this.value);
             _this._registry.select(_this);
         };
     };
-    RadioControlValueAccessor.prototype.fireUncheck = function () { this._fn(new RadioButtonState(false, this._state.value)); };
+    RadioControlValueAccessor.prototype.fireUncheck = function (value) { this.writeValue(value); };
     RadioControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
     /** @nocollapse */
     RadioControlValueAccessor.decorators = [
@@ -105,6 +92,7 @@ var RadioControlValueAccessor = (function () {
     /** @nocollapse */
     RadioControlValueAccessor.propDecorators = {
         'name': [{ type: core_1.Input },],
+        'value': [{ type: core_1.Input },],
     };
     return RadioControlValueAccessor;
 }());

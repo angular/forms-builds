@@ -287,6 +287,8 @@ var FormControl = (function (_super) {
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
         _super.call(this, coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
+        /** @internal */
+        this._onChange = [];
         this._value = value;
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         this._initObservables();
@@ -304,11 +306,13 @@ var FormControl = (function (_super) {
      * specified.
      */
     FormControl.prototype.updateValue = function (value, _a) {
+        var _this = this;
         var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange;
         emitModelToViewChange = lang_1.isPresent(emitModelToViewChange) ? emitModelToViewChange : true;
         this._value = value;
-        if (lang_1.isPresent(this._onChange) && emitModelToViewChange)
-            this._onChange(this._value);
+        if (this._onChange.length && emitModelToViewChange) {
+            this._onChange.forEach(function (changeFn) { return changeFn(_this._value); });
+        }
         this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
     };
     /**
@@ -322,7 +326,7 @@ var FormControl = (function (_super) {
     /**
      * Register a listener for change events.
      */
-    FormControl.prototype.registerOnChange = function (fn) { this._onChange = fn; };
+    FormControl.prototype.registerOnChange = function (fn) { this._onChange.push(fn); };
     return FormControl;
 }(AbstractControl));
 exports.FormControl = FormControl;
@@ -359,8 +363,11 @@ var FormGroup = (function (_super) {
      * Register a control with the group's list of controls.
      */
     FormGroup.prototype.registerControl = function (name, control) {
+        if (this.controls[name])
+            return this.controls[name];
         this.controls[name] = control;
         control.setParent(this);
+        return control;
     };
     /**
      * Add a control to this group.
