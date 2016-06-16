@@ -72,7 +72,7 @@ NgModel.decorators = [
     { type: Directive, args: [{
                 selector: '[ngModel]:not([formControlName]):not([formControl])',
                 providers: [formControlBinding],
-                exportAs: 'ngForm'
+                exportAs: 'ngModel'
             },] },
 ];
 /** @nocollapse */

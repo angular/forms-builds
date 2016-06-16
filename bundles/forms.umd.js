@@ -2146,7 +2146,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         { type: _angular_core.Directive, args: [{
                     selector: '[ngModel]:not([formControlName]):not([formControl])',
                     providers: [formControlBinding],
-                    exportAs: 'ngForm'
+                    exportAs: 'ngModel'
                 },] },
     ];
     /** @nocollapse */

@@ -97,7 +97,7 @@ var NgModel = (function (_super) {
         { type: core_1.Directive, args: [{
                     selector: '[ngModel]:not([formControlName]):not([formControl])',
                     providers: [exports.formControlBinding],
-                    exportAs: 'ngForm'
+                    exportAs: 'ngModel'
                 },] },
     ];
     /** @nocollapse */
