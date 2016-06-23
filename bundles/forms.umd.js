@@ -2885,8 +2885,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         /** @internal */
         NewFormBuilder.prototype._createControl = function (controlConfig) {
-            if (controlConfig instanceof FormControl ||
-                controlConfig instanceof FormGroup ||
+            if (controlConfig instanceof FormControl || controlConfig instanceof FormGroup ||
                 controlConfig instanceof FormArray) {
                 return controlConfig;
             }

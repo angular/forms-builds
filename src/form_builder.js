@@ -9,7 +9,7 @@
 var core_1 = require('@angular/core');
 var collection_1 = require('./facade/collection');
 var lang_1 = require('./facade/lang');
-var modelModule = require('./model');
+var model_1 = require('./model');
 var FormBuilder = (function () {
     function FormBuilder() {
     }
@@ -25,7 +25,7 @@ var FormBuilder = (function () {
         var optionals = (lang_1.isPresent(extra) ? collection_1.StringMapWrapper.get(extra, 'optionals') : null);
         var validator = lang_1.isPresent(extra) ? collection_1.StringMapWrapper.get(extra, 'validator') : null;
         var asyncValidator = lang_1.isPresent(extra) ? collection_1.StringMapWrapper.get(extra, 'asyncValidator') : null;
-        return new modelModule.FormGroup(controls, optionals, validator, asyncValidator);
+        return new model_1.FormGroup(controls, optionals, validator, asyncValidator);
     };
     /**
      * Construct a new {@link FormControl} with the given `value`,`validator`, and `asyncValidator`.
@@ -33,7 +33,7 @@ var FormBuilder = (function () {
     FormBuilder.prototype.control = function (value, validator, asyncValidator) {
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
-        return new modelModule.FormControl(value, validator, asyncValidator);
+        return new model_1.FormControl(value, validator, asyncValidator);
     };
     /**
      * Construct an array of {@link FormControl}s from the given `controlsConfig` array of
@@ -44,7 +44,7 @@ var FormBuilder = (function () {
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
         var controls = controlsConfig.map(function (c) { return _this._createControl(c); });
-        return new modelModule.FormArray(controls, validator, asyncValidator);
+        return new model_1.FormArray(controls, validator, asyncValidator);
     };
     /** @internal */
     FormBuilder.prototype._reduceControls = function (controlsConfig) {
@@ -57,9 +57,8 @@ var FormBuilder = (function () {
     };
     /** @internal */
     FormBuilder.prototype._createControl = function (controlConfig) {
-        if (controlConfig instanceof modelModule.FormControl ||
-            controlConfig instanceof modelModule.FormGroup ||
-            controlConfig instanceof modelModule.FormArray) {
+        if (controlConfig instanceof model_1.FormControl || controlConfig instanceof model_1.FormGroup ||
+            controlConfig instanceof model_1.FormArray) {
             return controlConfig;
         }
         else if (lang_1.isArray(controlConfig)) {
