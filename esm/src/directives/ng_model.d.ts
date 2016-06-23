@@ -44,6 +44,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     name: string;
     options: {
         name?: string;
+        standalone?: boolean;
     };
     update: EventEmitter<{}>;
     constructor(_parent: ControlContainer, _validators: any[], _asyncValidators: any[], valueAccessors: ControlValueAccessor[]);
@@ -55,7 +56,8 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     readonly validator: ValidatorFn;
     readonly asyncValidator: AsyncValidatorFn;
     viewToModelUpdate(newValue: any): void;
-    private _addControl();
-    private _addStandaloneControl();
+    private _setUpControl();
+    private _isStandalone();
+    private _setUpStandalone();
     private _checkName();
 }

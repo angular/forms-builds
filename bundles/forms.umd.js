@@ -2017,14 +2017,12 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         NgForm.prototype.addControl = function (dir) {
             var _this = this;
-            var ctrl = new FormControl();
             PromiseWrapper.scheduleMicrotask(function () {
                 var container = _this._findContainer(dir.path);
-                dir._control = container.registerControl(dir.name, ctrl);
+                dir._control = container.registerControl(dir.name, dir.control);
                 setUpControl(dir.control, dir);
                 dir.control.updateValueAndValidity({ emitEvent: false });
             });
-            return ctrl;
         };
         NgForm.prototype.getControl = function (dir) { return this.form.find(dir.path); };
         NgForm.prototype.removeControl = function (dir) {
@@ -2105,16 +2103,16 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._validators = _validators;
             this._asyncValidators = _asyncValidators;
             /** @internal */
-            this._added = false;
+            this._control = new FormControl();
+            /** @internal */
+            this._registered = false;
             this.update = new EventEmitter();
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
-            if (!this._parent)
-                this._control = new FormControl();
         }
         NgModel.prototype.ngOnChanges = function (changes) {
             this._checkName();
-            if (!this._added)
-                this._addControl();
+            if (!this._registered)
+                this._setUpControl();
             if (isPropertyUpdated(changes, this.viewModel)) {
                 this._control.updateValue(this.model);
                 this.viewModel = this.model;
@@ -2154,21 +2152,23 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.viewModel = newValue;
             ObservableWrapper.callEmit(this.update, newValue);
         };
-        NgModel.prototype._addControl = function () {
-            this._control = this.formDirective ? this.formDirective.addControl(this) :
-                this._addStandaloneControl();
-            this._added = true;
+        NgModel.prototype._setUpControl = function () {
+            this._isStandalone() ? this._setUpStandalone() :
+                this.formDirective.addControl(this);
+            this._registered = true;
         };
-        NgModel.prototype._addStandaloneControl = function () {
+        NgModel.prototype._isStandalone = function () {
+            return !this._parent || (this.options && this.options.standalone);
+        };
+        NgModel.prototype._setUpStandalone = function () {
             setUpControl(this._control, this);
             this._control.updateValueAndValidity({ emitEvent: false });
-            return this._control;
         };
         NgModel.prototype._checkName = function () {
             if (this.options && this.options.name)
                 this.name = this.options.name;
-            if (this._parent && !this.name) {
-                throw new BaseException("Name attribute must be set if ngModel is used within a form.\n                      Example: <input [(ngModel)]=\"person.firstName\" name=\"first\">");
+            if (!this._isStandalone() && !this.name) {
+                throw new BaseException("If ngModel is used within a form tag, either the name attribute must be set\n                      or the form control must be defined as 'standalone' in ngModelOptions.\n\n                      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n                      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">\n                   ");
             }
         };
         return NgModel;
@@ -2470,7 +2470,6 @@ var __extends = (this && this.__extends) || function (d, b) {
             setUpControl(ctrl, dir);
             ctrl.updateValueAndValidity({ emitEvent: false });
             this.directives.push(dir);
-            return ctrl;
         };
         FormGroupDirective.prototype.getControl = function (dir) { return this.form.find(dir.path); };
         FormGroupDirective.prototype.removeControl = function (dir) { ListWrapper.remove(this.directives, dir); };

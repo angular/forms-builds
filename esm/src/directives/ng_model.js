@@ -26,16 +26,16 @@ export class NgModel extends NgControl {
         this._validators = _validators;
         this._asyncValidators = _asyncValidators;
         /** @internal */
-        this._added = false;
+        this._control = new FormControl();
+        /** @internal */
+        this._registered = false;
         this.update = new EventEmitter();
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
-        if (!this._parent)
-            this._control = new FormControl();
     }
     ngOnChanges(changes) {
         this._checkName();
-        if (!this._added)
-            this._addControl();
+        if (!this._registered)
+            this._setUpControl();
         if (isPropertyUpdated(changes, this.viewModel)) {
             this._control.updateValue(this.model);
             this.viewModel = this.model;
@@ -55,22 +55,28 @@ export class NgModel extends NgControl {
         this.viewModel = newValue;
         ObservableWrapper.callEmit(this.update, newValue);
     }
-    _addControl() {
-        this._control = this.formDirective ? this.formDirective.addControl(this) :
-            this._addStandaloneControl();
-        this._added = true;
+    _setUpControl() {
+        this._isStandalone() ? this._setUpStandalone() :
+            this.formDirective.addControl(this);
+        this._registered = true;
     }
-    _addStandaloneControl() {
+    _isStandalone() {
+        return !this._parent || (this.options && this.options.standalone);
+    }
+    _setUpStandalone() {
         setUpControl(this._control, this);
         this._control.updateValueAndValidity({ emitEvent: false });
-        return this._control;
     }
     _checkName() {
         if (this.options && this.options.name)
             this.name = this.options.name;
-        if (this._parent && !this.name) {
-            throw new BaseException(`Name attribute must be set if ngModel is used within a form.
-                      Example: <input [(ngModel)]="person.firstName" name="first">`);
+        if (!this._isStandalone() && !this.name) {
+            throw new BaseException(`If ngModel is used within a form tag, either the name attribute must be set
+                      or the form control must be defined as 'standalone' in ngModelOptions.
+
+                      Example 1: <input [(ngModel)]="person.firstName" name="first">
+                      Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">
+                   `);
         }
     }
 }

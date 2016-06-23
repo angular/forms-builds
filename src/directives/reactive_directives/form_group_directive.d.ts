@@ -100,7 +100,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     formDirective: Form;
     control: FormGroup;
     path: string[];
-    addControl(dir: NgControl): FormControl;
+    addControl(dir: NgControl): void;
     getControl(dir: NgControl): FormControl;
     removeControl(dir: NgControl): void;
     addFormGroup(dir: FormGroupName): void;

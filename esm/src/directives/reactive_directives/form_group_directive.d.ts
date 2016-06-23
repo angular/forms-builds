@@ -100,7 +100,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     readonly formDirective: Form;
     readonly control: FormGroup;
     readonly path: string[];
-    addControl(dir: NgControl): FormControl;
+    addControl(dir: NgControl): void;
     getControl(dir: NgControl): FormControl;
     removeControl(dir: NgControl): void;
     addFormGroup(dir: FormGroupName): void;

@@ -56,14 +56,12 @@ var NgForm = (function (_super) {
     });
     NgForm.prototype.addControl = function (dir) {
         var _this = this;
-        var ctrl = new model_1.FormControl();
         async_1.PromiseWrapper.scheduleMicrotask(function () {
             var container = _this._findContainer(dir.path);
-            dir._control = container.registerControl(dir.name, ctrl);
+            dir._control = container.registerControl(dir.name, dir.control);
             shared_1.setUpControl(dir.control, dir);
             dir.control.updateValueAndValidity({ emitEvent: false });
         });
-        return ctrl;
     };
     NgForm.prototype.getControl = function (dir) { return this.form.find(dir.path); };
     NgForm.prototype.removeControl = function (dir) {

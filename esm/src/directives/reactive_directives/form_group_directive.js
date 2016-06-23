@@ -48,7 +48,6 @@ export class FormGroupDirective extends ControlContainer {
         setUpControl(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
         this.directives.push(dir);
-        return ctrl;
     }
     getControl(dir) { return this.form.find(dir.path); }
     removeControl(dir) { ListWrapper.remove(this.directives, dir); }

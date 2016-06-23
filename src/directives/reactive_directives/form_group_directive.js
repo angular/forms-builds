@@ -71,7 +71,6 @@ var FormGroupDirective = (function (_super) {
         shared_1.setUpControl(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
         this.directives.push(dir);
-        return ctrl;
     };
     FormGroupDirective.prototype.getControl = function (dir) { return this.form.find(dir.path); };
     FormGroupDirective.prototype.removeControl = function (dir) { collection_1.ListWrapper.remove(this.directives, dir); };
