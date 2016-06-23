@@ -72,6 +72,14 @@ export class AbstractControl {
     get valueChanges() { return this._valueChanges; }
     get statusChanges() { return this._statusChanges; }
     get pending() { return this._status == PENDING; }
+    setAsyncValidators(newValidator) {
+        this.asyncValidator = coerceToAsyncValidator(newValidator);
+    }
+    clearAsyncValidators() { this.asyncValidator = null; }
+    setValidators(newValidator) {
+        this.validator = coerceToValidator(newValidator);
+    }
+    clearValidators() { this.validator = null; }
     markAsTouched() { this._touched = true; }
     markAsDirty({ onlySelf } = {}) {
         onlySelf = normalizeBool(onlySelf);

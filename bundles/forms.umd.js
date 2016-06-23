@@ -1519,6 +1519,14 @@ var __extends = (this && this.__extends) || function (d, b) {
             enumerable: true,
             configurable: true
         });
+        AbstractControl.prototype.setAsyncValidators = function (newValidator) {
+            this.asyncValidator = coerceToAsyncValidator(newValidator);
+        };
+        AbstractControl.prototype.clearAsyncValidators = function () { this.asyncValidator = null; };
+        AbstractControl.prototype.setValidators = function (newValidator) {
+            this.validator = coerceToValidator(newValidator);
+        };
+        AbstractControl.prototype.clearValidators = function () { this.validator = null; };
         AbstractControl.prototype.markAsTouched = function () { this._touched = true; };
         AbstractControl.prototype.markAsDirty = function (_a) {
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
