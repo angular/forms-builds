@@ -2114,7 +2114,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (!this._registered)
                 this._setUpControl();
             if (isPropertyUpdated(changes, this.viewModel)) {
-                this._control.updateValue(this.model);
+                this._updateValue(this.model);
                 this.viewModel = this.model;
             }
         };
@@ -2170,6 +2170,10 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (!this._isStandalone() && !this.name) {
                 throw new BaseException("If ngModel is used within a form tag, either the name attribute must be set\n                      or the form control must be defined as 'standalone' in ngModelOptions.\n\n                      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n                      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">\n                   ");
             }
+        };
+        NgModel.prototype._updateValue = function (value) {
+            var _this = this;
+            PromiseWrapper.scheduleMicrotask(function () { _this.control.updateValue(value); });
         };
         return NgModel;
     }(NgControl));

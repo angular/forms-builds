@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, Host, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
-import { EventEmitter, ObservableWrapper } from '../facade/async';
+import { EventEmitter, ObservableWrapper, PromiseWrapper } from '../facade/async';
 import { BaseException } from '../facade/exceptions';
 import { FormControl } from '../model';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
@@ -37,7 +37,7 @@ export class NgModel extends NgControl {
         if (!this._registered)
             this._setUpControl();
         if (isPropertyUpdated(changes, this.viewModel)) {
-            this._control.updateValue(this.model);
+            this._updateValue(this.model);
             this.viewModel = this.model;
         }
     }
@@ -78,6 +78,9 @@ export class NgModel extends NgControl {
                       Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">
                    `);
         }
+    }
+    _updateValue(value) {
+        PromiseWrapper.scheduleMicrotask(() => { this.control.updateValue(value); });
     }
 }
 /** @nocollapse */

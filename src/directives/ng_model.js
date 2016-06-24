@@ -44,7 +44,7 @@ var NgModel = (function (_super) {
         if (!this._registered)
             this._setUpControl();
         if (shared_1.isPropertyUpdated(changes, this.viewModel)) {
-            this._control.updateValue(this.model);
+            this._updateValue(this.model);
             this.viewModel = this.model;
         }
     };
@@ -100,6 +100,10 @@ var NgModel = (function (_super) {
         if (!this._isStandalone() && !this.name) {
             throw new exceptions_1.BaseException("If ngModel is used within a form tag, either the name attribute must be set\n                      or the form control must be defined as 'standalone' in ngModelOptions.\n\n                      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n                      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">\n                   ");
         }
+    };
+    NgModel.prototype._updateValue = function (value) {
+        var _this = this;
+        async_1.PromiseWrapper.scheduleMicrotask(function () { _this.control.updateValue(value); });
     };
     /** @nocollapse */
     NgModel.decorators = [
