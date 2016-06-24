@@ -656,6 +656,20 @@ var __extends = (this && this.__extends) || function (d, b) {
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(AbstractControlDirective.prototype, "statusChanges", {
+            get: function () {
+                return isPresent(this.control) ? this.control.statusChanges : null;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControlDirective.prototype, "valueChanges", {
+            get: function () {
+                return isPresent(this.control) ? this.control.valueChanges : null;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(AbstractControlDirective.prototype, "path", {
             get: function () { return null; },
             enumerable: true,

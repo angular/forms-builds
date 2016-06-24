@@ -60,6 +60,20 @@ var AbstractControlDirective = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(AbstractControlDirective.prototype, "statusChanges", {
+        get: function () {
+            return lang_1.isPresent(this.control) ? this.control.statusChanges : null;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlDirective.prototype, "valueChanges", {
+        get: function () {
+            return lang_1.isPresent(this.control) ? this.control.valueChanges : null;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(AbstractControlDirective.prototype, "path", {
         get: function () { return null; },
         enumerable: true,

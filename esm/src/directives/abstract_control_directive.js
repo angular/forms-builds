@@ -25,6 +25,12 @@ export class AbstractControlDirective {
     get dirty() { return isPresent(this.control) ? this.control.dirty : null; }
     get touched() { return isPresent(this.control) ? this.control.touched : null; }
     get untouched() { return isPresent(this.control) ? this.control.untouched : null; }
+    get statusChanges() {
+        return isPresent(this.control) ? this.control.statusChanges : null;
+    }
+    get valueChanges() {
+        return isPresent(this.control) ? this.control.valueChanges : null;
+    }
     get path() { return null; }
 }
 //# sourceMappingURL=abstract_control_directive.js.map
