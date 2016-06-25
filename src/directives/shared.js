@@ -42,13 +42,13 @@ function setUpControl(control, dir) {
     dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
 }
 exports.setUpControl = setUpControl;
-function setUpFormGroup(control, dir) {
+function setUpFormContainer(control, dir) {
     if (lang_1.isBlank(control))
         _throwError(dir, 'Cannot find control');
     control.validator = validators_1.Validators.compose([control.validator, dir.validator]);
     control.asyncValidator = validators_1.Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
 }
-exports.setUpFormGroup = setUpFormGroup;
+exports.setUpFormContainer = setUpFormContainer;
 function _throwError(dir, message) {
     var path = dir.path.join(' -> ');
     throw new exceptions_1.BaseException(message + " '" + path + "'");

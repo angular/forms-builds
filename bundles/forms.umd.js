@@ -1385,7 +1385,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         // touched
         dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
     }
-    function setUpFormGroup(control, dir) {
+    function setUpFormContainer(control, dir) {
         if (isBlank(control))
             _throwError(dir, 'Cannot find control');
         control.validator = Validators.compose([control.validator, dir.validator]);
@@ -2053,7 +2053,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             PromiseWrapper.scheduleMicrotask(function () {
                 var container = _this._findContainer(dir.path);
                 var group = new FormGroup({});
-                setUpFormGroup(group, dir);
+                setUpFormContainer(group, dir);
                 container.registerControl(dir.name, group);
                 group.updateValueAndValidity({ emitEvent: false });
             });
@@ -2288,6 +2288,62 @@ var __extends = (this && this.__extends) || function (d, b) {
     NgModelGroup.propDecorators = {
         'name': [{ type: _angular_core.Input, args: ['ngModelGroup',] },],
     };
+    var formArrayNameProvider = 
+    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+        provide: ControlContainer,
+        useExisting: _angular_core.forwardRef(function () { return FormArrayName; })
+    };
+    var FormArrayName = (function (_super) {
+        __extends(FormArrayName, _super);
+        function FormArrayName(parent, validators, asyncValidators) {
+            _super.call(this);
+            this._parent = parent;
+            this._validators = validators;
+            this._asyncValidators = asyncValidators;
+        }
+        FormArrayName.prototype.ngOnInit = function () { this.formDirective.addFormArray(this); };
+        FormArrayName.prototype.ngOnDestroy = function () { this.formDirective.removeFormArray(this); };
+        Object.defineProperty(FormArrayName.prototype, "control", {
+            get: function () { return this.formDirective.getFormArray(this); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormArrayName.prototype, "formDirective", {
+            get: function () { return this._parent.formDirective; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormArrayName.prototype, "path", {
+            get: function () { return controlPath(this.name, this._parent); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormArrayName.prototype, "validator", {
+            get: function () { return composeValidators(this._validators); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormArrayName.prototype, "asyncValidator", {
+            get: function () { return composeAsyncValidators(this._asyncValidators); },
+            enumerable: true,
+            configurable: true
+        });
+        return FormArrayName;
+    }(ControlContainer));
+    /** @nocollapse */
+    FormArrayName.decorators = [
+        { type: _angular_core.Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] },
+    ];
+    /** @nocollapse */
+    FormArrayName.ctorParameters = [
+        { type: ControlContainer, decorators: [{ type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+    ];
+    /** @nocollapse */
+    FormArrayName.propDecorators = {
+        'name': [{ type: _angular_core.Input, args: ['formArrayName',] },],
+    };
     var formControlBinding$1 = 
     /*@ts2dart_const*/ /* @ts2dart_Provider */ {
         provide: NgControl,
@@ -2493,11 +2549,18 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormGroupDirective.prototype.removeControl = function (dir) { ListWrapper.remove(this.directives, dir); };
         FormGroupDirective.prototype.addFormGroup = function (dir) {
             var ctrl = this.form.find(dir.path);
-            setUpFormGroup(ctrl, dir);
+            setUpFormContainer(ctrl, dir);
             ctrl.updateValueAndValidity({ emitEvent: false });
         };
         FormGroupDirective.prototype.removeFormGroup = function (dir) { };
         FormGroupDirective.prototype.getFormGroup = function (dir) { return this.form.find(dir.path); };
+        FormGroupDirective.prototype.addFormArray = function (dir) {
+            var ctrl = this.form.find(dir.path);
+            setUpFormContainer(ctrl, dir);
+            ctrl.updateValueAndValidity({ emitEvent: false });
+        };
+        FormGroupDirective.prototype.removeFormArray = function (dir) { };
+        FormGroupDirective.prototype.getFormArray = function (dir) { return this.form.find(dir.path); };
         FormGroupDirective.prototype.updateModel = function (dir, value) {
             var ctrl = this.form.find(dir.path);
             ctrl.updateValue(value);
@@ -2855,7 +2918,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
     ];
     var REACTIVE_FORM_DIRECTIVES = 
-    /*@ts2dart_const*/ [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName];
+    /*@ts2dart_const*/ [
+        FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName
+    ];
     var NewFormBuilder = (function () {
         function NewFormBuilder() {
         }
@@ -2975,6 +3040,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.NgForm = NgForm;
     exports.NgModel = NgModel;
     exports.NgModelGroup = NgModelGroup;
+    exports.FormArrayName = FormArrayName;
     exports.FormControlDirective = FormControlDirective;
     exports.FormControlName = FormControlName;
     exports.FormGroupDirective = FormGroupDirective;

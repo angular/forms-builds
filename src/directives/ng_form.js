@@ -78,7 +78,7 @@ var NgForm = (function (_super) {
         async_1.PromiseWrapper.scheduleMicrotask(function () {
             var container = _this._findContainer(dir.path);
             var group = new model_1.FormGroup({});
-            shared_1.setUpFormGroup(group, dir);
+            shared_1.setUpFormContainer(group, dir);
             container.registerControl(dir.name, group);
             group.updateValueAndValidity({ emitEvent: false });
         });

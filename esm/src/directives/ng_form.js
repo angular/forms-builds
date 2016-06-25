@@ -12,7 +12,7 @@ import { isPresent } from '../facade/lang';
 import { FormGroup } from '../model';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
 import { ControlContainer } from './control_container';
-import { composeAsyncValidators, composeValidators, setUpControl, setUpFormGroup } from './shared';
+import { composeAsyncValidators, composeValidators, setUpControl, setUpFormContainer } from './shared';
 export const formDirectiveProvider = 
 /*@ts2dart_const*/ { provide: ControlContainer, useExisting: forwardRef(() => NgForm) };
 export class NgForm extends ControlContainer {
@@ -48,7 +48,7 @@ export class NgForm extends ControlContainer {
         PromiseWrapper.scheduleMicrotask(() => {
             var container = this._findContainer(dir.path);
             var group = new FormGroup({});
-            setUpFormGroup(group, dir);
+            setUpFormContainer(group, dir);
             container.registerControl(dir.name, group);
             group.updateValueAndValidity({ emitEvent: false });
         });

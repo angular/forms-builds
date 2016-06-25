@@ -76,11 +76,18 @@ var FormGroupDirective = (function (_super) {
     FormGroupDirective.prototype.removeControl = function (dir) { collection_1.ListWrapper.remove(this.directives, dir); };
     FormGroupDirective.prototype.addFormGroup = function (dir) {
         var ctrl = this.form.find(dir.path);
-        shared_1.setUpFormGroup(ctrl, dir);
+        shared_1.setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
     };
     FormGroupDirective.prototype.removeFormGroup = function (dir) { };
     FormGroupDirective.prototype.getFormGroup = function (dir) { return this.form.find(dir.path); };
+    FormGroupDirective.prototype.addFormArray = function (dir) {
+        var ctrl = this.form.find(dir.path);
+        shared_1.setUpFormContainer(ctrl, dir);
+        ctrl.updateValueAndValidity({ emitEvent: false });
+    };
+    FormGroupDirective.prototype.removeFormArray = function (dir) { };
+    FormGroupDirective.prototype.getFormArray = function (dir) { return this.form.find(dir.path); };
     FormGroupDirective.prototype.updateModel = function (dir, value) {
         var ctrl = this.form.find(dir.path);
         ctrl.updateValue(value);

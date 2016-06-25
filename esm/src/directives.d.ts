@@ -16,6 +16,7 @@ export { NgModel } from './directives/ng_model';
 export { NgModelGroup } from './directives/ng_model_group';
 export { NumberValueAccessor } from './directives/number_value_accessor';
 export { RadioControlValueAccessor } from './directives/radio_control_value_accessor';
+export { FormArrayName } from './directives/reactive_directives/form_array_name';
 export { FormControlDirective } from './directives/reactive_directives/form_control_directive';
 export { FormControlName } from './directives/reactive_directives/form_control_name';
 export { FormGroupDirective } from './directives/reactive_directives/form_group_directive';

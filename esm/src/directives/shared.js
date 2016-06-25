@@ -39,7 +39,7 @@ export function setUpControl(control, dir) {
     // touched
     dir.valueAccessor.registerOnTouched(() => control.markAsTouched());
 }
-export function setUpFormGroup(control, dir) {
+export function setUpFormContainer(control, dir) {
     if (isBlank(control))
         _throwError(dir, 'Cannot find control');
     control.validator = Validators.compose([control.validator, dir.validator]);
