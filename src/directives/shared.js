@@ -16,6 +16,7 @@ var normalize_validator_1 = require('./normalize_validator');
 var number_value_accessor_1 = require('./number_value_accessor');
 var radio_control_value_accessor_1 = require('./radio_control_value_accessor');
 var select_control_value_accessor_1 = require('./select_control_value_accessor');
+var select_multiple_control_value_accessor_1 = require('./select_multiple_control_value_accessor');
 function controlPath(name, parent) {
     var p = collection_1.ListWrapper.clone(parent.path);
     p.push(name);
@@ -84,6 +85,7 @@ function selectValueAccessor(dir, valueAccessors) {
         }
         else if (lang_1.hasConstructor(v, checkbox_value_accessor_1.CheckboxControlValueAccessor) || lang_1.hasConstructor(v, number_value_accessor_1.NumberValueAccessor) ||
             lang_1.hasConstructor(v, select_control_value_accessor_1.SelectControlValueAccessor) ||
+            lang_1.hasConstructor(v, select_multiple_control_value_accessor_1.SelectMultipleControlValueAccessor) ||
             lang_1.hasConstructor(v, radio_control_value_accessor_1.RadioControlValueAccessor)) {
             if (lang_1.isPresent(builtinAccessor))
                 _throwError(dir, 'More than one built-in value accessor matches');
