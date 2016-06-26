@@ -17,7 +17,7 @@ function normalizeValidator(validator) {
 exports.normalizeValidator = normalizeValidator;
 function normalizeAsyncValidator(validator) {
     if (validator.validate !== undefined) {
-        return function (c) { return Promise.resolve(validator.validate(c)); };
+        return function (c) { return validator.validate(c); };
     }
     else {
         return validator;
