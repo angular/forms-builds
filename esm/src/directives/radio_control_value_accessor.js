@@ -39,6 +39,8 @@ export class RadioControlRegistry {
         });
     }
     _isSameGroup(controlPair, accessor) {
+        if (!controlPair[0].control)
+            return false;
         return controlPair[0].control.root === accessor._control.control.root &&
             controlPair[1].name === accessor.name;
     }

@@ -1175,6 +1175,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             });
         };
         NewRadioControlRegistry.prototype._isSameGroup = function (controlPair, accessor) {
+            if (!controlPair[0].control)
+                return false;
             return controlPair[0].control.root === accessor._control.control.root &&
                 controlPair[1].name === accessor.name;
         };
