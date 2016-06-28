@@ -218,13 +218,7 @@ var AbstractControl = (function () {
         var emitEvent = (_a === void 0 ? {} : _a).emitEvent;
         emitEvent = lang_1.isPresent(emitEvent) ? emitEvent : true;
         this._errors = errors;
-        this._status = this._calculateStatus();
-        if (emitEvent) {
-            async_1.ObservableWrapper.callEmit(this._statusChanges, this._status);
-        }
-        if (lang_1.isPresent(this._parent)) {
-            this._parent._updateControlsErrors();
-        }
+        this._updateControlsErrors(emitEvent);
     };
     AbstractControl.prototype.find = function (path) { return _find(this, path); };
     AbstractControl.prototype.getError = function (errorCode, path) {
@@ -253,10 +247,13 @@ var AbstractControl = (function () {
         configurable: true
     });
     /** @internal */
-    AbstractControl.prototype._updateControlsErrors = function () {
+    AbstractControl.prototype._updateControlsErrors = function (emitEvent) {
         this._status = this._calculateStatus();
+        if (emitEvent) {
+            async_1.ObservableWrapper.callEmit(this._statusChanges, this._status);
+        }
         if (lang_1.isPresent(this._parent)) {
-            this._parent._updateControlsErrors();
+            this._parent._updateControlsErrors(emitEvent);
         }
     };
     /** @internal */

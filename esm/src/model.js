@@ -162,13 +162,7 @@ export class AbstractControl {
     setErrors(errors, { emitEvent } = {}) {
         emitEvent = isPresent(emitEvent) ? emitEvent : true;
         this._errors = errors;
-        this._status = this._calculateStatus();
-        if (emitEvent) {
-            ObservableWrapper.callEmit(this._statusChanges, this._status);
-        }
-        if (isPresent(this._parent)) {
-            this._parent._updateControlsErrors();
-        }
+        this._updateControlsErrors(emitEvent);
     }
     find(path) { return _find(this, path); }
     getError(errorCode, path = null) {
@@ -191,10 +185,13 @@ export class AbstractControl {
         return x;
     }
     /** @internal */
-    _updateControlsErrors() {
+    _updateControlsErrors(emitEvent) {
         this._status = this._calculateStatus();
+        if (emitEvent) {
+            ObservableWrapper.callEmit(this._statusChanges, this._status);
+        }
         if (isPresent(this._parent)) {
-            this._parent._updateControlsErrors();
+            this._parent._updateControlsErrors(emitEvent);
         }
     }
     /** @internal */

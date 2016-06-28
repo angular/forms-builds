@@ -1804,13 +1804,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             var emitEvent = (_a === void 0 ? {} : _a).emitEvent;
             emitEvent = isPresent(emitEvent) ? emitEvent : true;
             this._errors = errors;
-            this._status = this._calculateStatus();
-            if (emitEvent) {
-                ObservableWrapper.callEmit(this._statusChanges, this._status);
-            }
-            if (isPresent(this._parent)) {
-                this._parent._updateControlsErrors();
-            }
+            this._updateControlsErrors(emitEvent);
         };
         AbstractControl.prototype.find = function (path) { return _find(this, path); };
         AbstractControl.prototype.getError = function (errorCode, path) {
@@ -1839,10 +1833,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             configurable: true
         });
         /** @internal */
-        AbstractControl.prototype._updateControlsErrors = function () {
+        AbstractControl.prototype._updateControlsErrors = function (emitEvent) {
             this._status = this._calculateStatus();
+            if (emitEvent) {
+                ObservableWrapper.callEmit(this._statusChanges, this._status);
+            }
             if (isPresent(this._parent)) {
-                this._parent._updateControlsErrors();
+                this._parent._updateControlsErrors(emitEvent);
             }
         };
         /** @internal */
