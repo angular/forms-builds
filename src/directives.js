@@ -85,9 +85,6 @@ exports.FORM_DIRECTIVES = [
     radio_control_value_accessor_1.RadioControlValueAccessor, ng_control_status_1.NgControlStatus,
     validators_1.RequiredValidator, validators_1.MinLengthValidator, validators_1.MaxLengthValidator, validators_1.PatternValidator
 ];
-/**
- * @experimental
- */
 exports.REACTIVE_FORM_DIRECTIVES = 
 /*@ts2dart_const*/ [
     form_control_directive_1.FormControlDirective, form_group_directive_1.FormGroupDirective, form_control_name_1.FormControlName, form_group_name_1.FormGroupName, form_array_name_1.FormArrayName

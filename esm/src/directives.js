@@ -62,9 +62,6 @@ export const FORM_DIRECTIVES = [
     RadioControlValueAccessor, NgControlStatus,
     RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
 ];
-/**
- * @experimental
- */
 export const REACTIVE_FORM_DIRECTIVES = 
 /*@ts2dart_const*/ [
     FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName

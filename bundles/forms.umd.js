@@ -2917,9 +2917,6 @@ var __extends = (this && this.__extends) || function (d, b) {
         RadioControlValueAccessor, NgControlStatus,
         RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
     ];
-    /**
-     * @experimental
-     */
     var REACTIVE_FORM_DIRECTIVES = 
     /*@ts2dart_const*/ [
         FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName
@@ -2991,7 +2988,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     NewFormBuilder.decorators = [
         { type: _angular_core.Injectable },
     ];
-    /**
+    /*
      * Shorthand set of providers used for building Angular forms.
      *
      * ### Example
@@ -3015,9 +3012,6 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         return flattenedDirectives;
     }
-    /**
-     * @experimental
-     */
     function disableDeprecatedForms() {
         return [{
                 provide: _angular_compiler.CompilerConfig,
@@ -3029,9 +3023,6 @@ var __extends = (this && this.__extends) || function (d, b) {
                 deps: [_angular_core.PLATFORM_DIRECTIVES, _angular_core.PLATFORM_PIPES]
             }];
     }
-    /**
-     * @experimental
-     */
     function provideForms() {
         return [
             { provide: _angular_core.PLATFORM_DIRECTIVES, useValue: NEW_FORM_DIRECTIVES, multi: true }, FORM_PROVIDERS

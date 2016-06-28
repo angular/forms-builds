@@ -13,7 +13,7 @@ var directives_1 = require('./directives');
 var radio_control_value_accessor_1 = require('./directives/radio_control_value_accessor');
 var collection_1 = require('./facade/collection');
 var form_builder_1 = require('./form_builder');
-/**
+/*
  * Shorthand set of providers used for building Angular forms.
  *
  * ### Example
@@ -37,9 +37,6 @@ function flatten(platformDirectives) {
     });
     return flattenedDirectives;
 }
-/**
- * @experimental
- */
 function disableDeprecatedForms() {
     return [{
             provide: compiler_1.CompilerConfig,
@@ -52,9 +49,6 @@ function disableDeprecatedForms() {
         }];
 }
 exports.disableDeprecatedForms = disableDeprecatedForms;
-/**
- * @experimental
- */
 function provideForms() {
     return [
         { provide: core_1.PLATFORM_DIRECTIVES, useValue: directives_1.FORM_DIRECTIVES, multi: true }, exports.FORM_PROVIDERS
