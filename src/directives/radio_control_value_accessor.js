@@ -8,6 +8,7 @@
 "use strict";
 var core_1 = require('@angular/core');
 var collection_1 = require('../facade/collection');
+var exceptions_1 = require('../facade/exceptions');
 var lang_1 = require('../facade/lang');
 var control_value_accessor_1 = require('./control_value_accessor');
 var ng_control_1 = require('./ng_control');
@@ -64,6 +65,7 @@ var RadioControlValueAccessor = (function () {
     }
     RadioControlValueAccessor.prototype.ngOnInit = function () {
         this._control = this._injector.get(ng_control_1.NgControl);
+        this._checkName();
         this._registry.add(this._control, this);
     };
     RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
@@ -83,6 +85,16 @@ var RadioControlValueAccessor = (function () {
     };
     RadioControlValueAccessor.prototype.fireUncheck = function (value) { this.writeValue(value); };
     RadioControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    RadioControlValueAccessor.prototype._checkName = function () {
+        if (this.name && this.formControlName && this.name !== this.formControlName) {
+            this._throwNameError();
+        }
+        if (!this.name && this.formControlName)
+            this.name = this.formControlName;
+    };
+    RadioControlValueAccessor.prototype._throwNameError = function () {
+        throw new exceptions_1.BaseException("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
+    };
     /** @nocollapse */
     RadioControlValueAccessor.decorators = [
         { type: core_1.Directive, args: [{
@@ -101,6 +113,7 @@ var RadioControlValueAccessor = (function () {
     /** @nocollapse */
     RadioControlValueAccessor.propDecorators = {
         'name': [{ type: core_1.Input },],
+        'formControlName': [{ type: core_1.Input },],
         'value': [{ type: core_1.Input },],
     };
     return RadioControlValueAccessor;

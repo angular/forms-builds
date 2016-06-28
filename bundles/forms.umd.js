@@ -1197,6 +1197,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         }
         RadioControlValueAccessor.prototype.ngOnInit = function () {
             this._control = this._injector.get(NgControl);
+            this._checkName();
             this._registry.add(this._control, this);
         };
         RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
@@ -1216,6 +1217,16 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         RadioControlValueAccessor.prototype.fireUncheck = function (value) { this.writeValue(value); };
         RadioControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        RadioControlValueAccessor.prototype._checkName = function () {
+            if (this.name && this.formControlName && this.name !== this.formControlName) {
+                this._throwNameError();
+            }
+            if (!this.name && this.formControlName)
+                this.name = this.formControlName;
+        };
+        RadioControlValueAccessor.prototype._throwNameError = function () {
+            throw new BaseException("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
+        };
         return RadioControlValueAccessor;
     }());
     /** @nocollapse */
@@ -1236,6 +1247,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     /** @nocollapse */
     RadioControlValueAccessor.propDecorators = {
         'name': [{ type: _angular_core.Input },],
+        'formControlName': [{ type: _angular_core.Input },],
         'value': [{ type: _angular_core.Input },],
     };
     var SELECT_VALUE_ACCESSOR = {

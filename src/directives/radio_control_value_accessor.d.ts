@@ -44,6 +44,7 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     onChange: () => void;
     onTouched: () => void;
     name: string;
+    formControlName: string;
     value: any;
     constructor(_renderer: Renderer, _elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
     ngOnInit(): void;
@@ -52,4 +53,6 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     registerOnChange(fn: (_: any) => {}): void;
     fireUncheck(value: any): void;
     registerOnTouched(fn: () => {}): void;
+    private _checkName();
+    private _throwNameError();
 }
