@@ -2823,7 +2823,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                 },] },
     ];
     /**
-     * Provivder which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
+     * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
      *
      * ## Example:
      *

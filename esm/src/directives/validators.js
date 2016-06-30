@@ -24,7 +24,7 @@ RequiredValidator.decorators = [
             },] },
 ];
 /**
- * Provivder which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
+ * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
  *
  * ## Example:
  *
