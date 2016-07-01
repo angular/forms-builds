@@ -3068,6 +3068,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.FormGroupName = FormGroupName;
     exports.NgSelectOption = NgSelectOption;
     exports.SelectControlValueAccessor = SelectControlValueAccessor;
+    exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
     exports.MaxLengthValidator = MaxLengthValidator;
     exports.MinLengthValidator = MinLengthValidator;
     exports.PatternValidator = PatternValidator;

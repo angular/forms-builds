@@ -9,6 +9,8 @@ import { ElementRef, OnDestroy, Renderer } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
 /**
  * The accessor for writing a value and listening to changes on a select element.
+ *
+ * @experimental
  */
 export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
     value: any;
