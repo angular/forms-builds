@@ -102,7 +102,7 @@ var SelectMultipleControlValueAccessor = (function () {
     SelectMultipleControlValueAccessor.decorators = [
         { type: core_1.Directive, args: [{
                     selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
-                    host: { '(input)': 'onChange($event.target)', '(blur)': 'onTouched()' },
+                    host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
                     providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
                 },] },
     ];

@@ -1463,7 +1463,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     SelectMultipleControlValueAccessor.decorators = [
         { type: _angular_core.Directive, args: [{
                     selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
-                    host: { '(input)': 'onChange($event.target)', '(blur)': 'onTouched()' },
+                    host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
                     providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
                 },] },
     ];
