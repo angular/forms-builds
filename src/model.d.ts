@@ -49,7 +49,9 @@ export declare abstract class AbstractControl {
     clearAsyncValidators(): void;
     setValidators(newValidator: ValidatorFn | ValidatorFn[]): void;
     clearValidators(): void;
-    markAsTouched(): void;
+    markAsTouched({onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
     markAsDirty({onlySelf}?: {
         onlySelf?: boolean;
     }): void;

@@ -87,7 +87,13 @@ export class AbstractControl {
         this.validator = coerceToValidator(newValidator);
     }
     clearValidators() { this.validator = null; }
-    markAsTouched() { this._touched = true; }
+    markAsTouched({ onlySelf } = {}) {
+        onlySelf = normalizeBool(onlySelf);
+        this._touched = true;
+        if (isPresent(this._parent) && !onlySelf) {
+            this._parent.markAsTouched({ onlySelf: onlySelf });
+        }
+    }
     markAsDirty({ onlySelf } = {}) {
         onlySelf = normalizeBool(onlySelf);
         this._pristine = false;

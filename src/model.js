@@ -138,7 +138,14 @@ var AbstractControl = (function () {
         this.validator = coerceToValidator(newValidator);
     };
     AbstractControl.prototype.clearValidators = function () { this.validator = null; };
-    AbstractControl.prototype.markAsTouched = function () { this._touched = true; };
+    AbstractControl.prototype.markAsTouched = function (_a) {
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+        onlySelf = lang_1.normalizeBool(onlySelf);
+        this._touched = true;
+        if (lang_1.isPresent(this._parent) && !onlySelf) {
+            this._parent.markAsTouched({ onlySelf: onlySelf });
+        }
+    };
     AbstractControl.prototype.markAsDirty = function (_a) {
         var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         onlySelf = lang_1.normalizeBool(onlySelf);
