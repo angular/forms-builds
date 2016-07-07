@@ -41,8 +41,8 @@ export { MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValid
  * ```
  * @experimental
  */
-export declare const FORM_DIRECTIVES: Type[];
+export declare const FORM_DIRECTIVES: Type[][];
 /**
  * @experimental
  */
-export declare const REACTIVE_FORM_DIRECTIVES: Type[];
+export declare const REACTIVE_FORM_DIRECTIVES: Type[][];

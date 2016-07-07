@@ -9,10 +9,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/Subject'), require('rxjs/observable/PromiseObservable'), require('rxjs/operator/toPromise'), require('rxjs/Observable'), require('@angular/common'), require('@angular/compiler')) :
-        typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/Subject', 'rxjs/observable/PromiseObservable', 'rxjs/operator/toPromise', 'rxjs/Observable', '@angular/common', '@angular/compiler'], factory) :
-            (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}), global.ng.core, global.Rx, global.Rx, global.Rx.Observable.prototype, global.Rx, global.ng.common, global.ng.compiler));
-}(this, function (exports, _angular_core, rxjs_Subject, rxjs_observable_PromiseObservable, rxjs_operator_toPromise, rxjs_Observable, _angular_common, _angular_compiler) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/Subject'), require('rxjs/observable/PromiseObservable'), require('rxjs/operator/toPromise'), require('rxjs/Observable')) :
+        typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/Subject', 'rxjs/observable/PromiseObservable', 'rxjs/operator/toPromise', 'rxjs/Observable'], factory) :
+            (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}), global.ng.core, global.Rx, global.Rx, global.Rx.Observable.prototype, global.Rx));
+}(this, function (exports, _angular_core, rxjs_Subject, rxjs_observable_PromiseObservable, rxjs_operator_toPromise, rxjs_Observable) {
     'use strict';
     /**
      * Used to provide a {@link ControlValueAccessor} for form controls.
@@ -1150,14 +1150,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         useExisting: _angular_core.forwardRef(function () { return RadioControlValueAccessor; }),
         multi: true
     };
-    var NewRadioControlRegistry = (function () {
-        function NewRadioControlRegistry() {
+    var RadioControlRegistry = (function () {
+        function RadioControlRegistry() {
             this._accessors = [];
         }
-        NewRadioControlRegistry.prototype.add = function (control, accessor) {
+        RadioControlRegistry.prototype.add = function (control, accessor) {
             this._accessors.push([control, accessor]);
         };
-        NewRadioControlRegistry.prototype.remove = function (accessor) {
+        RadioControlRegistry.prototype.remove = function (accessor) {
             var indexToRemove = -1;
             for (var i = 0; i < this._accessors.length; ++i) {
                 if (this._accessors[i][1] === accessor) {
@@ -1166,7 +1166,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             ListWrapper.removeAt(this._accessors, indexToRemove);
         };
-        NewRadioControlRegistry.prototype.select = function (accessor) {
+        RadioControlRegistry.prototype.select = function (accessor) {
             var _this = this;
             this._accessors.forEach(function (c) {
                 if (_this._isSameGroup(c, accessor) && c[1] !== accessor) {
@@ -1174,16 +1174,16 @@ var __extends = (this && this.__extends) || function (d, b) {
                 }
             });
         };
-        NewRadioControlRegistry.prototype._isSameGroup = function (controlPair, accessor) {
+        RadioControlRegistry.prototype._isSameGroup = function (controlPair, accessor) {
             if (!controlPair[0].control)
                 return false;
             return controlPair[0].control.root === accessor._control.control.root &&
                 controlPair[1].name === accessor.name;
         };
-        return NewRadioControlRegistry;
+        return RadioControlRegistry;
     }());
     /** @nocollapse */
-    NewRadioControlRegistry.decorators = [
+    RadioControlRegistry.decorators = [
         { type: _angular_core.Injectable },
     ];
     var RadioControlValueAccessor = (function () {
@@ -1241,7 +1241,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     RadioControlValueAccessor.ctorParameters = [
         { type: _angular_core.Renderer, },
         { type: _angular_core.ElementRef, },
-        { type: NewRadioControlRegistry, },
+        { type: RadioControlRegistry, },
         { type: _angular_core.Injector, },
     ];
     /** @nocollapse */
@@ -2912,6 +2912,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     PatternValidator.ctorParameters = [
         { type: undefined, decorators: [{ type: _angular_core.Attribute, args: ['pattern',] },] },
     ];
+    var SHARED_FORM_DIRECTIVES = [
+        NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
+        CheckboxControlValueAccessor, SelectControlValueAccessor, SelectMultipleControlValueAccessor,
+        RadioControlValueAccessor, NgControlStatus, RequiredValidator, MinLengthValidator,
+        MaxLengthValidator, PatternValidator
+    ];
+    var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+    var REACTIVE_DRIVEN_DIRECTIVES = [
+        FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName
+    ];
     /**
      *
      * A list of all the form directives used as part of a `@Component` annotation.
@@ -2929,22 +2939,15 @@ var __extends = (this && this.__extends) || function (d, b) {
      * ```
      * @experimental
      */
-    var NEW_FORM_DIRECTIVES = [
-        NgModel, NgModelGroup, NgForm,
-        NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
-        CheckboxControlValueAccessor, SelectControlValueAccessor, SelectMultipleControlValueAccessor,
-        RadioControlValueAccessor, NgControlStatus,
-        RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
-    ];
+    var FORM_DIRECTIVES = 
+    /*@ts2dart_const*/ [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
     /**
      * @experimental
      */
     var REACTIVE_FORM_DIRECTIVES = 
-    /*@ts2dart_const*/ [
-        FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName
-    ];
-    var NewFormBuilder = (function () {
-        function NewFormBuilder() {
+    /*@ts2dart_const*/ [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+    var FormBuilder = (function () {
+        function FormBuilder() {
         }
         /**
          * Construct a new {@link FormGroup} with the given map of configuration.
@@ -2952,7 +2955,7 @@ var __extends = (this && this.__extends) || function (d, b) {
          *
          * See the {@link FormGroup} constructor for more details.
          */
-        NewFormBuilder.prototype.group = function (controlsConfig, extra) {
+        FormBuilder.prototype.group = function (controlsConfig, extra) {
             if (extra === void 0) { extra = null; }
             var controls = this._reduceControls(controlsConfig);
             var optionals = (isPresent(extra) ? StringMapWrapper.get(extra, 'optionals') : null);
@@ -2963,7 +2966,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         /**
          * Construct a new {@link FormControl} with the given `value`,`validator`, and `asyncValidator`.
          */
-        NewFormBuilder.prototype.control = function (value, validator, asyncValidator) {
+        FormBuilder.prototype.control = function (value, validator, asyncValidator) {
             if (validator === void 0) { validator = null; }
             if (asyncValidator === void 0) { asyncValidator = null; }
             return new FormControl(value, validator, asyncValidator);
@@ -2972,7 +2975,7 @@ var __extends = (this && this.__extends) || function (d, b) {
          * Construct an array of {@link FormControl}s from the given `controlsConfig` array of
          * configuration, with the given optional `validator` and `asyncValidator`.
          */
-        NewFormBuilder.prototype.array = function (controlsConfig, validator, asyncValidator) {
+        FormBuilder.prototype.array = function (controlsConfig, validator, asyncValidator) {
             var _this = this;
             if (validator === void 0) { validator = null; }
             if (asyncValidator === void 0) { asyncValidator = null; }
@@ -2980,7 +2983,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return new FormArray(controls, validator, asyncValidator);
         };
         /** @internal */
-        NewFormBuilder.prototype._reduceControls = function (controlsConfig) {
+        FormBuilder.prototype._reduceControls = function (controlsConfig) {
             var _this = this;
             var controls = {};
             StringMapWrapper.forEach(controlsConfig, function (controlConfig, controlName) {
@@ -2989,7 +2992,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             return controls;
         };
         /** @internal */
-        NewFormBuilder.prototype._createControl = function (controlConfig) {
+        FormBuilder.prototype._createControl = function (controlConfig) {
             if (controlConfig instanceof FormControl || controlConfig instanceof FormGroup ||
                 controlConfig instanceof FormArray) {
                 return controlConfig;
@@ -3004,59 +3007,42 @@ var __extends = (this && this.__extends) || function (d, b) {
                 return this.control(controlConfig);
             }
         };
-        return NewFormBuilder;
+        return FormBuilder;
     }());
     /** @nocollapse */
-    NewFormBuilder.decorators = [
+    FormBuilder.decorators = [
         { type: _angular_core.Injectable },
     ];
     /**
      * Shorthand set of providers used for building Angular forms.
-     *
-     * ### Example
-     *
-     * ```typescript
-     * bootstrap(MyApp, [FORM_PROVIDERS]);
-     * ```
-     *
      * @experimental
      */
-    var FORM_PROVIDERS = [NewFormBuilder, NewRadioControlRegistry];
-    function flatten(platformDirectives) {
-        var flattenedDirectives = [];
-        platformDirectives.forEach(function (directives) {
-            if (Array.isArray(directives)) {
-                flattenedDirectives = flattenedDirectives.concat(directives);
-            }
-            else {
-                flattenedDirectives.push(directives);
-            }
-        });
-        return flattenedDirectives;
-    }
+    var FORM_PROVIDERS = [RadioControlRegistry];
     /**
+     * Shorthand set of providers used for building reactive Angular forms.
      * @experimental
      */
-    function disableDeprecatedForms() {
-        return [{
-                provide: _angular_compiler.CompilerConfig,
-                useFactory: function (platformDirectives, platformPipes) {
-                    var flattenedDirectives = flatten(platformDirectives);
-                    ListWrapper.remove(flattenedDirectives, _angular_common.FORM_DIRECTIVES);
-                    return new _angular_compiler.CompilerConfig({ platformDirectives: flattenedDirectives, platformPipes: platformPipes });
-                },
-                deps: [_angular_core.PLATFORM_DIRECTIVES, _angular_core.PLATFORM_PIPES]
-            }];
-    }
-    /**
-     * @experimental
-     */
-    function provideForms() {
-        return [
-            { provide: _angular_core.PLATFORM_DIRECTIVES, useValue: NEW_FORM_DIRECTIVES, multi: true }, FORM_PROVIDERS
-        ];
-    }
-    exports.FORM_DIRECTIVES = NEW_FORM_DIRECTIVES;
+    var REACTIVE_FORM_PROVIDERS = 
+    /*@ts2dart_const*/ [FormBuilder, RadioControlRegistry];
+    var FormsModule = (function () {
+        function FormsModule() {
+        }
+        return FormsModule;
+    }());
+    /** @nocollapse */
+    FormsModule.decorators = [
+        { type: _angular_core.AppModule, args: [{ providers: [FORM_PROVIDERS], directives: FORM_DIRECTIVES, pipes: [] },] },
+    ];
+    var ReactiveFormsModule = (function () {
+        function ReactiveFormsModule() {
+        }
+        return ReactiveFormsModule;
+    }());
+    /** @nocollapse */
+    ReactiveFormsModule.decorators = [
+        { type: _angular_core.AppModule, args: [{ providers: [REACTIVE_FORM_PROVIDERS], directives: REACTIVE_FORM_DIRECTIVES, pipes: [] },] },
+    ];
+    exports.FORM_DIRECTIVES = FORM_DIRECTIVES;
     exports.REACTIVE_FORM_DIRECTIVES = REACTIVE_FORM_DIRECTIVES;
     exports.AbstractControlDirective = AbstractControlDirective;
     exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
@@ -3080,7 +3066,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.MinLengthValidator = MinLengthValidator;
     exports.PatternValidator = PatternValidator;
     exports.RequiredValidator = RequiredValidator;
-    exports.FormBuilder = NewFormBuilder;
+    exports.FormBuilder = FormBuilder;
     exports.AbstractControl = AbstractControl;
     exports.FormArray = FormArray;
     exports.FormControl = FormControl;
@@ -3089,6 +3075,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.NG_VALIDATORS = NG_VALIDATORS;
     exports.Validators = Validators;
     exports.FORM_PROVIDERS = FORM_PROVIDERS;
-    exports.disableDeprecatedForms = disableDeprecatedForms;
-    exports.provideForms = provideForms;
+    exports.REACTIVE_FORM_PROVIDERS = REACTIVE_FORM_PROVIDERS;
+    exports.FormsModule = FormsModule;
+    exports.ReactiveFormsModule = ReactiveFormsModule;
 }));
