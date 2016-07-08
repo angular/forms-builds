@@ -2018,6 +2018,21 @@ var __extends = (this && this.__extends) || function (d, b) {
             var c = StringMapWrapper.contains(this.controls, controlName);
             return c && this._included(controlName);
         };
+        FormGroup.prototype.updateValue = function (value, _a) {
+            var _this = this;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            StringMapWrapper.forEach(value, function (newValue, name) {
+                _this._throwIfControlMissing(name);
+                _this.controls[name].updateValue(newValue, { onlySelf: true });
+            });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
+        };
+        /** @internal */
+        FormGroup.prototype._throwIfControlMissing = function (name) {
+            if (!this.controls[name]) {
+                throw new BaseException("Cannot find form control with name: " + name + ".");
+            }
+        };
         /** @internal */
         FormGroup.prototype._setParentForControls = function () {
             var _this = this;
@@ -2129,6 +2144,21 @@ var __extends = (this && this.__extends) || function (d, b) {
             enumerable: true,
             configurable: true
         });
+        FormArray.prototype.updateValue = function (value, _a) {
+            var _this = this;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            value.forEach(function (newValue, index) {
+                _this._throwIfControlMissing(index);
+                _this.at(index).updateValue(newValue, { onlySelf: true });
+            });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
+        };
+        /** @internal */
+        FormArray.prototype._throwIfControlMissing = function (index) {
+            if (!this.at(index)) {
+                throw new BaseException("Cannot find form control at index " + index);
+            }
+        };
         /** @internal */
         FormArray.prototype._updateValue = function () { this._value = this.controls.map(function (control) { return control.value; }); };
         /** @internal */
@@ -2253,6 +2283,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                 ctrl.updateValue(value);
             });
         };
+        NgForm.prototype.updateValue = function (value) { this.control.updateValue(value); };
         NgForm.prototype.onSubmit = function () {
             this._submitted = true;
             ObservableWrapper.callEmit(this.ngSubmit, null);

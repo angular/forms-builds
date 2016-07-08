@@ -8,6 +8,7 @@
 import { composeAsyncValidators, composeValidators } from './directives/shared';
 import { EventEmitter, ObservableWrapper } from './facade/async';
 import { ListWrapper, StringMapWrapper } from './facade/collection';
+import { BaseException } from './facade/exceptions';
 import { isBlank, isPresent, isPromise, normalizeBool } from './facade/lang';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
@@ -345,6 +346,19 @@ export class FormGroup extends AbstractControl {
         var c = StringMapWrapper.contains(this.controls, controlName);
         return c && this._included(controlName);
     }
+    updateValue(value, { onlySelf } = {}) {
+        StringMapWrapper.forEach(value, (newValue, name) => {
+            this._throwIfControlMissing(name);
+            this.controls[name].updateValue(newValue, { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+    }
+    /** @internal */
+    _throwIfControlMissing(name) {
+        if (!this.controls[name]) {
+            throw new BaseException(`Cannot find form control with name: ${name}.`);
+        }
+    }
     /** @internal */
     _setParentForControls() {
         StringMapWrapper.forEach(this.controls, (control, name) => { control.setParent(this); });
@@ -445,6 +459,19 @@ export class FormArray extends AbstractControl {
      * Length of the control array.
      */
     get length() { return this.controls.length; }
+    updateValue(value, { onlySelf } = {}) {
+        value.forEach((newValue, index) => {
+            this._throwIfControlMissing(index);
+            this.at(index).updateValue(newValue, { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+    }
+    /** @internal */
+    _throwIfControlMissing(index) {
+        if (!this.at(index)) {
+            throw new BaseException(`Cannot find form control at index ${index}`);
+        }
+    }
     /** @internal */
     _updateValue() { this._value = this.controls.map((control) => control.value); }
     /** @internal */

@@ -100,6 +100,7 @@ var NgForm = (function (_super) {
             ctrl.updateValue(value);
         });
     };
+    NgForm.prototype.updateValue = function (value) { this.control.updateValue(value); };
     NgForm.prototype.onSubmit = function () {
         this._submitted = true;
         async_1.ObservableWrapper.callEmit(this.ngSubmit, null);

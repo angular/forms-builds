@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var shared_1 = require('./directives/shared');
 var async_1 = require('./facade/async');
 var collection_1 = require('./facade/collection');
+var exceptions_1 = require('./facade/exceptions');
 var lang_1 = require('./facade/lang');
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
@@ -422,6 +423,21 @@ var FormGroup = (function (_super) {
         var c = collection_1.StringMapWrapper.contains(this.controls, controlName);
         return c && this._included(controlName);
     };
+    FormGroup.prototype.updateValue = function (value, _a) {
+        var _this = this;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+        collection_1.StringMapWrapper.forEach(value, function (newValue, name) {
+            _this._throwIfControlMissing(name);
+            _this.controls[name].updateValue(newValue, { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+    };
+    /** @internal */
+    FormGroup.prototype._throwIfControlMissing = function (name) {
+        if (!this.controls[name]) {
+            throw new exceptions_1.BaseException("Cannot find form control with name: " + name + ".");
+        }
+    };
     /** @internal */
     FormGroup.prototype._setParentForControls = function () {
         var _this = this;
@@ -534,6 +550,21 @@ var FormArray = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    FormArray.prototype.updateValue = function (value, _a) {
+        var _this = this;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+        value.forEach(function (newValue, index) {
+            _this._throwIfControlMissing(index);
+            _this.at(index).updateValue(newValue, { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+    };
+    /** @internal */
+    FormArray.prototype._throwIfControlMissing = function (index) {
+        if (!this.at(index)) {
+            throw new exceptions_1.BaseException("Cannot find form control at index " + index);
+        }
+    };
     /** @internal */
     FormArray.prototype._updateValue = function () { this._value = this.controls.map(function (control) { return control.value; }); };
     /** @internal */

@@ -59,6 +59,7 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
     }): void;
     setParent(parent: FormGroup | FormArray): void;
+    abstract updateValue(value: any, options?: Object): void;
     updateValueAndValidity({onlySelf, emitEvent}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -192,6 +193,11 @@ export declare class FormGroup extends AbstractControl {
      * Check whether there is a control with the given name in the group.
      */
     contains(controlName: string): boolean;
+    updateValue(value: {
+        [key: string]: any;
+    }, {onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
 }
 /**
  * Defines a part of a form, of variable length, that can contain other controls.
@@ -240,4 +246,7 @@ export declare class FormArray extends AbstractControl {
      * Length of the control array.
      */
     readonly length: number;
+    updateValue(value: any[], {onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
 }
