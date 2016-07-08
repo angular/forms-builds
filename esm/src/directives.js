@@ -38,14 +38,14 @@ export { FormGroupName } from './directives/reactive_directives/form_group_name'
 export { NgSelectOption, SelectControlValueAccessor } from './directives/select_control_value_accessor';
 export { NgSelectMultipleOption, SelectMultipleControlValueAccessor } from './directives/select_multiple_control_value_accessor';
 export { MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator } from './directives/validators';
-const SHARED_FORM_DIRECTIVES = [
+export const SHARED_FORM_DIRECTIVES = [
     NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
     CheckboxControlValueAccessor, SelectControlValueAccessor, SelectMultipleControlValueAccessor,
     RadioControlValueAccessor, NgControlStatus, RequiredValidator, MinLengthValidator,
     MaxLengthValidator, PatternValidator
 ];
-const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
-const REACTIVE_DRIVEN_DIRECTIVES = [
+export const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+export const REACTIVE_DRIVEN_DIRECTIVES = [
     FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName
 ];
 /**

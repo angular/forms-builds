@@ -61,14 +61,14 @@ exports.MaxLengthValidator = validators_2.MaxLengthValidator;
 exports.MinLengthValidator = validators_2.MinLengthValidator;
 exports.PatternValidator = validators_2.PatternValidator;
 exports.RequiredValidator = validators_2.RequiredValidator;
-var SHARED_FORM_DIRECTIVES = [
+exports.SHARED_FORM_DIRECTIVES = [
     select_control_value_accessor_1.NgSelectOption, select_multiple_control_value_accessor_1.NgSelectMultipleOption, default_value_accessor_1.DefaultValueAccessor, number_value_accessor_1.NumberValueAccessor,
     checkbox_value_accessor_1.CheckboxControlValueAccessor, select_control_value_accessor_1.SelectControlValueAccessor, select_multiple_control_value_accessor_1.SelectMultipleControlValueAccessor,
     radio_control_value_accessor_1.RadioControlValueAccessor, ng_control_status_1.NgControlStatus, validators_1.RequiredValidator, validators_1.MinLengthValidator,
     validators_1.MaxLengthValidator, validators_1.PatternValidator
 ];
-var TEMPLATE_DRIVEN_DIRECTIVES = [ng_model_1.NgModel, ng_model_group_1.NgModelGroup, ng_form_1.NgForm];
-var REACTIVE_DRIVEN_DIRECTIVES = [
+exports.TEMPLATE_DRIVEN_DIRECTIVES = [ng_model_1.NgModel, ng_model_group_1.NgModelGroup, ng_form_1.NgForm];
+exports.REACTIVE_DRIVEN_DIRECTIVES = [
     form_control_directive_1.FormControlDirective, form_group_directive_1.FormGroupDirective, form_control_name_1.FormControlName, form_group_name_1.FormGroupName, form_array_name_1.FormArrayName
 ];
 /**
@@ -89,10 +89,10 @@ var REACTIVE_DRIVEN_DIRECTIVES = [
  * @experimental
  */
 exports.FORM_DIRECTIVES = 
-/*@ts2dart_const*/ [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+/*@ts2dart_const*/ [exports.TEMPLATE_DRIVEN_DIRECTIVES, exports.SHARED_FORM_DIRECTIVES];
 /**
  * @experimental
  */
 exports.REACTIVE_FORM_DIRECTIVES = 
-/*@ts2dart_const*/ [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+/*@ts2dart_const*/ [exports.REACTIVE_DRIVEN_DIRECTIVES, exports.SHARED_FORM_DIRECTIVES];
 //# sourceMappingURL=directives.js.map
