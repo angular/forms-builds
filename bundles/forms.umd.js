@@ -3073,6 +3073,20 @@ var __extends = (this && this.__extends) || function (d, b) {
     ReactiveFormsModule.decorators = [
         { type: _angular_core.AppModule, args: [{ providers: [REACTIVE_FORM_PROVIDERS], directives: REACTIVE_FORM_DIRECTIVES, pipes: [] },] },
     ];
+    /**
+     * @deprecated
+     */
+    function disableDeprecatedForms() {
+        return [];
+    }
+    /**
+     * @deprecated
+     */
+    function provideForms() {
+        return [
+            { provide: _angular_core.PLATFORM_DIRECTIVES, useValue: FORM_DIRECTIVES, multi: true }, REACTIVE_FORM_PROVIDERS
+        ];
+    }
     exports.FORM_DIRECTIVES = FORM_DIRECTIVES;
     exports.REACTIVE_FORM_DIRECTIVES = REACTIVE_FORM_DIRECTIVES;
     exports.AbstractControlDirective = AbstractControlDirective;
@@ -3109,4 +3123,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.REACTIVE_FORM_PROVIDERS = REACTIVE_FORM_PROVIDERS;
     exports.FormsModule = FormsModule;
     exports.ReactiveFormsModule = ReactiveFormsModule;
+    exports.disableDeprecatedForms = disableDeprecatedForms;
+    exports.provideForms = provideForms;
 }));

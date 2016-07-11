@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { AppModule } from '@angular/core';
+import { AppModule, PLATFORM_DIRECTIVES } from '@angular/core';
 import { FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES } from './directives';
 import { RadioControlRegistry } from './directives/radio_control_value_accessor';
 import { FormBuilder } from './form_builder';
@@ -32,4 +32,18 @@ export class ReactiveFormsModule {
 ReactiveFormsModule.decorators = [
     { type: AppModule, args: [{ providers: [REACTIVE_FORM_PROVIDERS], directives: REACTIVE_FORM_DIRECTIVES, pipes: [] },] },
 ];
+/**
+ * @deprecated
+ */
+export function disableDeprecatedForms() {
+    return [];
+}
+/**
+ * @deprecated
+ */
+export function provideForms() {
+    return [
+        { provide: PLATFORM_DIRECTIVES, useValue: FORM_DIRECTIVES, multi: true }, REACTIVE_FORM_PROVIDERS
+    ];
+}
 //# sourceMappingURL=form_providers.js.map

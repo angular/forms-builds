@@ -41,4 +41,20 @@ var ReactiveFormsModule = (function () {
     return ReactiveFormsModule;
 }());
 exports.ReactiveFormsModule = ReactiveFormsModule;
+/**
+ * @deprecated
+ */
+function disableDeprecatedForms() {
+    return [];
+}
+exports.disableDeprecatedForms = disableDeprecatedForms;
+/**
+ * @deprecated
+ */
+function provideForms() {
+    return [
+        { provide: core_1.PLATFORM_DIRECTIVES, useValue: directives_1.FORM_DIRECTIVES, multi: true }, exports.REACTIVE_FORM_PROVIDERS
+    ];
+}
+exports.provideForms = provideForms;
 //# sourceMappingURL=form_providers.js.map
