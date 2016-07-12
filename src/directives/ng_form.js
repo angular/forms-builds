@@ -106,6 +106,7 @@ var NgForm = (function (_super) {
         async_1.ObservableWrapper.callEmit(this.ngSubmit, null);
         return false;
     };
+    NgForm.prototype.onReset = function () { this.form.reset(); };
     /** @internal */
     NgForm.prototype._findContainer = function (path) {
         path.pop();
@@ -116,9 +117,7 @@ var NgForm = (function (_super) {
         { type: core_1.Directive, args: [{
                     selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
                     providers: [exports.formDirectiveProvider],
-                    host: {
-                        '(submit)': 'onSubmit()',
-                    },
+                    host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
                     outputs: ['ngSubmit'],
                     exportAs: 'ngForm'
                 },] },

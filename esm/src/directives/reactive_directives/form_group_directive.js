@@ -74,6 +74,7 @@ export class FormGroupDirective extends ControlContainer {
         ObservableWrapper.callEmit(this.ngSubmit, null);
         return false;
     }
+    onReset() { this.form.reset(); }
     /** @internal */
     _updateDomValue() {
         this.directives.forEach(dir => {
@@ -94,7 +95,7 @@ FormGroupDirective.decorators = [
     { type: Directive, args: [{
                 selector: '[formGroup]',
                 providers: [formDirectiveProvider],
-                host: { '(submit)': 'onSubmit()' },
+                host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
                 exportAs: 'ngForm'
             },] },
 ];

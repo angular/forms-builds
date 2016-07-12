@@ -112,5 +112,6 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     getFormArray(dir: FormArrayName): FormArray;
     updateModel(dir: NgControl, value: any): void;
     onSubmit(): boolean;
+    onReset(): void;
     private _checkFormPresent();
 }

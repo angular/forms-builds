@@ -35,8 +35,13 @@ export function setUpControl(control, dir) {
         control.updateValue(newValue, { emitModelToViewChange: false });
         control.markAsDirty();
     });
-    // model -> view
-    control.registerOnChange((newValue) => dir.valueAccessor.writeValue(newValue));
+    control.registerOnChange((newValue, emitModelEvent) => {
+        // control -> view
+        dir.valueAccessor.writeValue(newValue);
+        // control -> ngModel
+        if (emitModelEvent)
+            dir.viewToModelUpdate(newValue);
+    });
     // touched
     dir.valueAccessor.registerOnTouched(() => control.markAsTouched());
 }

@@ -97,6 +97,7 @@ var FormGroupDirective = (function (_super) {
         async_1.ObservableWrapper.callEmit(this.ngSubmit, null);
         return false;
     };
+    FormGroupDirective.prototype.onReset = function () { this.form.reset(); };
     /** @internal */
     FormGroupDirective.prototype._updateDomValue = function () {
         var _this = this;
@@ -115,7 +116,7 @@ var FormGroupDirective = (function (_super) {
         { type: core_1.Directive, args: [{
                     selector: '[formGroup]',
                     providers: [exports.formDirectiveProvider],
-                    host: { '(submit)': 'onSubmit()' },
+                    host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
                     exportAs: 'ngForm'
                 },] },
     ];

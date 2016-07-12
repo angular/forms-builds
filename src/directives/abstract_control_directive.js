@@ -79,6 +79,11 @@ var AbstractControlDirective = (function () {
         enumerable: true,
         configurable: true
     });
+    AbstractControlDirective.prototype.reset = function (value) {
+        if (value === void 0) { value = undefined; }
+        if (lang_1.isPresent(this.control))
+            this.control.reset(value);
+    };
     return AbstractControlDirective;
 }());
 exports.AbstractControlDirective = AbstractControlDirective;

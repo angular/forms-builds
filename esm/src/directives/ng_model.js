@@ -80,7 +80,7 @@ export class NgModel extends NgControl {
         }
     }
     _updateValue(value) {
-        PromiseWrapper.scheduleMicrotask(() => { this.control.updateValue(value); });
+        PromiseWrapper.scheduleMicrotask(() => { this.control.updateValue(value, { emitViewToModelChange: false }); });
     }
 }
 /** @nocollapse */

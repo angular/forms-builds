@@ -37,8 +37,13 @@ function setUpControl(control, dir) {
         control.updateValue(newValue, { emitModelToViewChange: false });
         control.markAsDirty();
     });
-    // model -> view
-    control.registerOnChange(function (newValue) { return dir.valueAccessor.writeValue(newValue); });
+    control.registerOnChange(function (newValue, emitModelEvent) {
+        // control -> view
+        dir.valueAccessor.writeValue(newValue);
+        // control -> ngModel
+        if (emitModelEvent)
+            dir.viewToModelUpdate(newValue);
+    });
     // touched
     dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
 }

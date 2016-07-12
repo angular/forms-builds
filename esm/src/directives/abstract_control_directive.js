@@ -32,5 +32,9 @@ export class AbstractControlDirective {
         return isPresent(this.control) ? this.control.valueChanges : null;
     }
     get path() { return null; }
+    reset(value = undefined) {
+        if (isPresent(this.control))
+            this.control.reset(value);
+    }
 }
 //# sourceMappingURL=abstract_control_directive.js.map

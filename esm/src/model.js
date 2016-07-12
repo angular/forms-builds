@@ -102,6 +102,20 @@ export class AbstractControl {
             this._parent.markAsDirty({ onlySelf: onlySelf });
         }
     }
+    markAsPristine({ onlySelf } = {}) {
+        this._pristine = true;
+        this._forEachChild((control) => { control.markAsPristine({ onlySelf: true }); });
+        if (isPresent(this._parent) && !onlySelf) {
+            this._parent._updatePristine({ onlySelf: onlySelf });
+        }
+    }
+    markAsUntouched({ onlySelf } = {}) {
+        this._touched = false;
+        this._forEachChild((control) => { control.markAsUntouched({ onlySelf: true }); });
+        if (isPresent(this._parent) && !onlySelf) {
+            this._parent._updateTouched({ onlySelf: onlySelf });
+        }
+    }
     markAsPending({ onlySelf } = {}) {
         onlySelf = normalizeBool(onlySelf);
         this._status = PENDING;
@@ -215,6 +229,32 @@ export class AbstractControl {
             return INVALID;
         return VALID;
     }
+    /** @internal */
+    _anyControlsHaveStatus(status) {
+        return this._anyControls((control) => control.status == status);
+    }
+    /** @internal */
+    _anyControlsDirty() {
+        return this._anyControls((control) => control.dirty);
+    }
+    /** @internal */
+    _anyControlsTouched() {
+        return this._anyControls((control) => control.touched);
+    }
+    /** @internal */
+    _updatePristine({ onlySelf } = {}) {
+        this._pristine = !this._anyControlsDirty();
+        if (isPresent(this._parent) && !onlySelf) {
+            this._parent._updatePristine({ onlySelf: onlySelf });
+        }
+    }
+    /** @internal */
+    _updateTouched({ onlySelf } = {}) {
+        this._touched = this._anyControlsTouched();
+        if (isPresent(this._parent) && !onlySelf) {
+            this._parent._updateTouched({ onlySelf: onlySelf });
+        }
+    }
 }
 /**
  * Defines a part of a form that cannot be divided into other controls. `FormControl`s have values
@@ -254,14 +294,23 @@ export class FormControl extends AbstractControl {
      * If `emitModelToViewChange` is `true`, the view will be notified about the new value
      * via an `onChange` event. This is the default behavior if `emitModelToViewChange` is not
      * specified.
+     *
+     * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
+     * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      */
-    updateValue(value, { onlySelf, emitEvent, emitModelToViewChange } = {}) {
+    updateValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange } = {}) {
         emitModelToViewChange = isPresent(emitModelToViewChange) ? emitModelToViewChange : true;
+        emitViewToModelChange = isPresent(emitViewToModelChange) ? emitViewToModelChange : true;
         this._value = value;
         if (this._onChange.length && emitModelToViewChange) {
-            this._onChange.forEach((changeFn) => changeFn(this._value));
+            this._onChange.forEach((changeFn) => changeFn(this._value, emitViewToModelChange));
         }
         this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+    }
+    reset(value = null, { onlySelf } = {}) {
+        this.updateValue(value, { onlySelf: onlySelf });
+        this.markAsPristine({ onlySelf: onlySelf });
+        this.markAsUntouched({ onlySelf: onlySelf });
     }
     /**
      * @internal
@@ -270,11 +319,15 @@ export class FormControl extends AbstractControl {
     /**
      * @internal
      */
-    _anyControlsHaveStatus(status) { return false; }
+    _anyControls(condition) { return false; }
     /**
      * Register a listener for change events.
      */
     registerOnChange(fn) { this._onChange.push(fn); }
+    /**
+     * @internal
+     */
+    _forEachChild(cb) { }
 }
 /**
  * Defines a part of a form, of fixed length, that can contain other controls.
@@ -353,6 +406,14 @@ export class FormGroup extends AbstractControl {
         });
         this.updateValueAndValidity({ onlySelf: onlySelf });
     }
+    reset(value = {}, { onlySelf } = {}) {
+        this._forEachChild((control, name) => {
+            control.reset(value[name], { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+        this._updatePristine({ onlySelf: onlySelf });
+        this._updateTouched({ onlySelf: onlySelf });
+    }
     /** @internal */
     _throwIfControlMissing(name) {
         if (!this.controls[name]) {
@@ -360,16 +421,18 @@ export class FormGroup extends AbstractControl {
         }
     }
     /** @internal */
+    _forEachChild(cb) { StringMapWrapper.forEach(this.controls, cb); }
+    /** @internal */
     _setParentForControls() {
-        StringMapWrapper.forEach(this.controls, (control, name) => { control.setParent(this); });
+        this._forEachChild((control, name) => { control.setParent(this); });
     }
     /** @internal */
     _updateValue() { this._value = this._reduceValue(); }
     /** @internal */
-    _anyControlsHaveStatus(status) {
+    _anyControls(condition) {
         var res = false;
-        StringMapWrapper.forEach(this.controls, (control, name) => {
-            res = res || (this.contains(name) && control.status == status);
+        this._forEachChild((control, name) => {
+            res = res || (this.contains(name) && condition(control));
         });
         return res;
     }
@@ -383,7 +446,7 @@ export class FormGroup extends AbstractControl {
     /** @internal */
     _reduceChildren(initValue, fn) {
         var res = initValue;
-        StringMapWrapper.forEach(this.controls, (control, name) => {
+        this._forEachChild((control, name) => {
             if (this._included(name)) {
                 res = fn(res, control, name);
             }
@@ -466,6 +529,14 @@ export class FormArray extends AbstractControl {
         });
         this.updateValueAndValidity({ onlySelf: onlySelf });
     }
+    reset(value = [], { onlySelf } = {}) {
+        this._forEachChild((control, index) => {
+            control.reset(value[index], { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+        this._updatePristine({ onlySelf: onlySelf });
+        this._updateTouched({ onlySelf: onlySelf });
+    }
     /** @internal */
     _throwIfControlMissing(index) {
         if (!this.at(index)) {
@@ -473,14 +544,18 @@ export class FormArray extends AbstractControl {
         }
     }
     /** @internal */
+    _forEachChild(cb) {
+        this.controls.forEach((control, index) => { cb(control, index); });
+    }
+    /** @internal */
     _updateValue() { this._value = this.controls.map((control) => control.value); }
     /** @internal */
-    _anyControlsHaveStatus(status) {
-        return this.controls.some(c => c.status == status);
+    _anyControls(condition) {
+        return this.controls.some((control) => condition(control));
     }
     /** @internal */
     _setParentForControls() {
-        this.controls.forEach((control) => { control.setParent(this); });
+        this._forEachChild((control) => { control.setParent(this); });
     }
 }
 //# sourceMappingURL=model.js.map

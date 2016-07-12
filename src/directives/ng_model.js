@@ -103,7 +103,7 @@ var NgModel = (function (_super) {
     };
     NgModel.prototype._updateValue = function (value) {
         var _this = this;
-        async_1.PromiseWrapper.scheduleMicrotask(function () { _this.control.updateValue(value); });
+        async_1.PromiseWrapper.scheduleMicrotask(function () { _this.control.updateValue(value, { emitViewToModelChange: false }); });
     };
     /** @nocollapse */
     NgModel.decorators = [

@@ -28,4 +28,5 @@ export declare abstract class AbstractControlDirective {
     readonly statusChanges: Observable<any>;
     readonly valueChanges: Observable<any>;
     readonly path: string[];
+    reset(value?: any): void;
 }

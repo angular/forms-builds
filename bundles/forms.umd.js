@@ -675,6 +675,11 @@ var __extends = (this && this.__extends) || function (d, b) {
             enumerable: true,
             configurable: true
         });
+        AbstractControlDirective.prototype.reset = function (value) {
+            if (value === void 0) { value = undefined; }
+            if (isPresent(this.control))
+                this.control.reset(value);
+        };
         return AbstractControlDirective;
     }());
     /**
@@ -1553,8 +1558,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             control.updateValue(newValue, { emitModelToViewChange: false });
             control.markAsDirty();
         });
-        // model -> view
-        control.registerOnChange(function (newValue) { return dir.valueAccessor.writeValue(newValue); });
+        control.registerOnChange(function (newValue, emitModelEvent) {
+            // control -> view
+            dir.valueAccessor.writeValue(newValue);
+            // control -> ngModel
+            if (emitModelEvent)
+                dir.viewToModelUpdate(newValue);
+        });
         // touched
         dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
     }
@@ -1752,6 +1762,22 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this._parent.markAsDirty({ onlySelf: onlySelf });
             }
         };
+        AbstractControl.prototype.markAsPristine = function (_a) {
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._pristine = true;
+            this._forEachChild(function (control) { control.markAsPristine({ onlySelf: true }); });
+            if (isPresent(this._parent) && !onlySelf) {
+                this._parent._updatePristine({ onlySelf: onlySelf });
+            }
+        };
+        AbstractControl.prototype.markAsUntouched = function (_a) {
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._touched = false;
+            this._forEachChild(function (control) { control.markAsUntouched({ onlySelf: true }); });
+            if (isPresent(this._parent) && !onlySelf) {
+                this._parent._updateTouched({ onlySelf: onlySelf });
+            }
+        };
         AbstractControl.prototype.markAsPending = function (_a) {
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             onlySelf = normalizeBool(onlySelf);
@@ -1875,6 +1901,34 @@ var __extends = (this && this.__extends) || function (d, b) {
                 return INVALID;
             return VALID;
         };
+        /** @internal */
+        AbstractControl.prototype._anyControlsHaveStatus = function (status) {
+            return this._anyControls(function (control) { return control.status == status; });
+        };
+        /** @internal */
+        AbstractControl.prototype._anyControlsDirty = function () {
+            return this._anyControls(function (control) { return control.dirty; });
+        };
+        /** @internal */
+        AbstractControl.prototype._anyControlsTouched = function () {
+            return this._anyControls(function (control) { return control.touched; });
+        };
+        /** @internal */
+        AbstractControl.prototype._updatePristine = function (_a) {
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._pristine = !this._anyControlsDirty();
+            if (isPresent(this._parent) && !onlySelf) {
+                this._parent._updatePristine({ onlySelf: onlySelf });
+            }
+        };
+        /** @internal */
+        AbstractControl.prototype._updateTouched = function (_a) {
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._touched = this._anyControlsTouched();
+            if (isPresent(this._parent) && !onlySelf) {
+                this._parent._updateTouched({ onlySelf: onlySelf });
+            }
+        };
         return AbstractControl;
     }());
     /**
@@ -1919,16 +1973,27 @@ var __extends = (this && this.__extends) || function (d, b) {
          * If `emitModelToViewChange` is `true`, the view will be notified about the new value
          * via an `onChange` event. This is the default behavior if `emitModelToViewChange` is not
          * specified.
+         *
+         * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
+         * model.  This is the default behavior if `emitViewToModelChange` is not specified.
          */
         FormControl.prototype.updateValue = function (value, _a) {
             var _this = this;
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange, emitViewToModelChange = _b.emitViewToModelChange;
             emitModelToViewChange = isPresent(emitModelToViewChange) ? emitModelToViewChange : true;
+            emitViewToModelChange = isPresent(emitViewToModelChange) ? emitViewToModelChange : true;
             this._value = value;
             if (this._onChange.length && emitModelToViewChange) {
-                this._onChange.forEach(function (changeFn) { return changeFn(_this._value); });
+                this._onChange.forEach(function (changeFn) { return changeFn(_this._value, emitViewToModelChange); });
             }
             this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        };
+        FormControl.prototype.reset = function (value, _a) {
+            if (value === void 0) { value = null; }
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this.updateValue(value, { onlySelf: onlySelf });
+            this.markAsPristine({ onlySelf: onlySelf });
+            this.markAsUntouched({ onlySelf: onlySelf });
         };
         /**
          * @internal
@@ -1937,11 +2002,15 @@ var __extends = (this && this.__extends) || function (d, b) {
         /**
          * @internal
          */
-        FormControl.prototype._anyControlsHaveStatus = function (status) { return false; };
+        FormControl.prototype._anyControls = function (condition) { return false; };
         /**
          * Register a listener for change events.
          */
         FormControl.prototype.registerOnChange = function (fn) { this._onChange.push(fn); };
+        /**
+         * @internal
+         */
+        FormControl.prototype._forEachChild = function (cb) { };
         return FormControl;
     }(AbstractControl));
     /**
@@ -2027,6 +2096,16 @@ var __extends = (this && this.__extends) || function (d, b) {
             });
             this.updateValueAndValidity({ onlySelf: onlySelf });
         };
+        FormGroup.prototype.reset = function (value, _a) {
+            if (value === void 0) { value = {}; }
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._forEachChild(function (control, name) {
+                control.reset(value[name], { onlySelf: true });
+            });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this._updatePristine({ onlySelf: onlySelf });
+            this._updateTouched({ onlySelf: onlySelf });
+        };
         /** @internal */
         FormGroup.prototype._throwIfControlMissing = function (name) {
             if (!this.controls[name]) {
@@ -2034,18 +2113,20 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
         };
         /** @internal */
+        FormGroup.prototype._forEachChild = function (cb) { StringMapWrapper.forEach(this.controls, cb); };
+        /** @internal */
         FormGroup.prototype._setParentForControls = function () {
             var _this = this;
-            StringMapWrapper.forEach(this.controls, function (control, name) { control.setParent(_this); });
+            this._forEachChild(function (control, name) { control.setParent(_this); });
         };
         /** @internal */
         FormGroup.prototype._updateValue = function () { this._value = this._reduceValue(); };
         /** @internal */
-        FormGroup.prototype._anyControlsHaveStatus = function (status) {
+        FormGroup.prototype._anyControls = function (condition) {
             var _this = this;
             var res = false;
-            StringMapWrapper.forEach(this.controls, function (control, name) {
-                res = res || (_this.contains(name) && control.status == status);
+            this._forEachChild(function (control, name) {
+                res = res || (_this.contains(name) && condition(control));
             });
             return res;
         };
@@ -2060,7 +2141,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormGroup.prototype._reduceChildren = function (initValue, fn) {
             var _this = this;
             var res = initValue;
-            StringMapWrapper.forEach(this.controls, function (control, name) {
+            this._forEachChild(function (control, name) {
                 if (_this._included(name)) {
                     res = fn(res, control, name);
                 }
@@ -2153,6 +2234,16 @@ var __extends = (this && this.__extends) || function (d, b) {
             });
             this.updateValueAndValidity({ onlySelf: onlySelf });
         };
+        FormArray.prototype.reset = function (value, _a) {
+            if (value === void 0) { value = []; }
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._forEachChild(function (control, index) {
+                control.reset(value[index], { onlySelf: true });
+            });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this._updatePristine({ onlySelf: onlySelf });
+            this._updateTouched({ onlySelf: onlySelf });
+        };
         /** @internal */
         FormArray.prototype._throwIfControlMissing = function (index) {
             if (!this.at(index)) {
@@ -2160,15 +2251,19 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
         };
         /** @internal */
+        FormArray.prototype._forEachChild = function (cb) {
+            this.controls.forEach(function (control, index) { cb(control, index); });
+        };
+        /** @internal */
         FormArray.prototype._updateValue = function () { this._value = this.controls.map(function (control) { return control.value; }); };
         /** @internal */
-        FormArray.prototype._anyControlsHaveStatus = function (status) {
-            return this.controls.some(function (c) { return c.status == status; });
+        FormArray.prototype._anyControls = function (condition) {
+            return this.controls.some(function (control) { return condition(control); });
         };
         /** @internal */
         FormArray.prototype._setParentForControls = function () {
             var _this = this;
-            this.controls.forEach(function (control) { control.setParent(_this); });
+            this._forEachChild(function (control) { control.setParent(_this); });
         };
         return FormArray;
     }(AbstractControl));
@@ -2289,6 +2384,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             ObservableWrapper.callEmit(this.ngSubmit, null);
             return false;
         };
+        NgForm.prototype.onReset = function () { this.form.reset(); };
         /** @internal */
         NgForm.prototype._findContainer = function (path) {
             path.pop();
@@ -2301,9 +2397,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         { type: _angular_core.Directive, args: [{
                     selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
                     providers: [formDirectiveProvider],
-                    host: {
-                        '(submit)': 'onSubmit()',
-                    },
+                    host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
                     outputs: ['ngSubmit'],
                     exportAs: 'ngForm'
                 },] },
@@ -2396,7 +2490,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         NgModel.prototype._updateValue = function (value) {
             var _this = this;
-            PromiseWrapper.scheduleMicrotask(function () { _this.control.updateValue(value); });
+            PromiseWrapper.scheduleMicrotask(function () { _this.control.updateValue(value, { emitViewToModelChange: false }); });
         };
         return NgModel;
     }(NgControl));
@@ -2779,6 +2873,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             ObservableWrapper.callEmit(this.ngSubmit, null);
             return false;
         };
+        FormGroupDirective.prototype.onReset = function () { this.form.reset(); };
         /** @internal */
         FormGroupDirective.prototype._updateDomValue = function () {
             var _this = this;
@@ -2799,7 +2894,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         { type: _angular_core.Directive, args: [{
                     selector: '[formGroup]',
                     providers: [formDirectiveProvider$1],
-                    host: { '(submit)': 'onSubmit()' },
+                    host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
                     exportAs: 'ngForm'
                 },] },
     ];

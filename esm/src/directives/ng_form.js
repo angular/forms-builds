@@ -74,6 +74,7 @@ export class NgForm extends ControlContainer {
         ObservableWrapper.callEmit(this.ngSubmit, null);
         return false;
     }
+    onReset() { this.form.reset(); }
     /** @internal */
     _findContainer(path) {
         path.pop();
@@ -85,9 +86,7 @@ NgForm.decorators = [
     { type: Directive, args: [{
                 selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
                 providers: [formDirectiveProvider],
-                host: {
-                    '(submit)': 'onSubmit()',
-                },
+                host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
                 outputs: ['ngSubmit'],
                 exportAs: 'ngForm'
             },] },

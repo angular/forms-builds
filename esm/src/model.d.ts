@@ -55,11 +55,18 @@ export declare abstract class AbstractControl {
     markAsDirty({onlySelf}?: {
         onlySelf?: boolean;
     }): void;
+    markAsPristine({onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
+    markAsUntouched({onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
     markAsPending({onlySelf}?: {
         onlySelf?: boolean;
     }): void;
     setParent(parent: FormGroup | FormArray): void;
     abstract updateValue(value: any, options?: Object): void;
+    abstract reset(value?: any, options?: Object): void;
     updateValueAndValidity({onlySelf, emitEvent}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -132,11 +139,18 @@ export declare class FormControl extends AbstractControl {
      * If `emitModelToViewChange` is `true`, the view will be notified about the new value
      * via an `onChange` event. This is the default behavior if `emitModelToViewChange` is not
      * specified.
+     *
+     * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
+     * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      */
-    updateValue(value: any, {onlySelf, emitEvent, emitModelToViewChange}?: {
+    updateValue(value: any, {onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;
+        emitViewToModelChange?: boolean;
+    }): void;
+    reset(value?: any, {onlySelf}?: {
+        onlySelf?: boolean;
     }): void;
     /**
      * Register a listener for change events.
@@ -198,6 +212,9 @@ export declare class FormGroup extends AbstractControl {
     }, {onlySelf}?: {
         onlySelf?: boolean;
     }): void;
+    reset(value?: any, {onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
 }
 /**
  * Defines a part of a form, of variable length, that can contain other controls.
@@ -247,6 +264,9 @@ export declare class FormArray extends AbstractControl {
      */
     readonly length: number;
     updateValue(value: any[], {onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
+    reset(value?: any, {onlySelf}?: {
         onlySelf?: boolean;
     }): void;
 }
