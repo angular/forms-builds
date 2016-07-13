@@ -56,7 +56,7 @@ var NgModel = (function (_super) {
     });
     Object.defineProperty(NgModel.prototype, "path", {
         get: function () {
-            return this._parent ? shared_1.controlPath(this.name, this._parent) : [];
+            return this._parent ? shared_1.controlPath(this.name, this._parent) : [this.name];
         },
         enumerable: true,
         configurable: true

@@ -44,7 +44,7 @@ export class NgModel extends NgControl {
     ngOnDestroy() { this.formDirective && this.formDirective.removeControl(this); }
     get control() { return this._control; }
     get path() {
-        return this._parent ? controlPath(this.name, this._parent) : [];
+        return this._parent ? controlPath(this.name, this._parent) : [this.name];
     }
     get formDirective() { return this._parent ? this._parent.formDirective : null; }
     get validator() { return composeValidators(this._validators); }
