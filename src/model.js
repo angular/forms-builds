@@ -508,7 +508,9 @@ var FormGroup = (function (_super) {
         }
     };
     /** @internal */
-    FormGroup.prototype._forEachChild = function (cb) { collection_1.StringMapWrapper.forEach(this.controls, cb); };
+    FormGroup.prototype._forEachChild = function (cb) {
+        collection_1.StringMapWrapper.forEach(this.controls, cb);
+    };
     /** @internal */
     FormGroup.prototype._setParentForControls = function () {
         var _this = this;

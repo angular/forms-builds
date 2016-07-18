@@ -421,7 +421,9 @@ export class FormGroup extends AbstractControl {
         }
     }
     /** @internal */
-    _forEachChild(cb) { StringMapWrapper.forEach(this.controls, cb); }
+    _forEachChild(cb) {
+        StringMapWrapper.forEach(this.controls, cb);
+    }
     /** @internal */
     _setParentForControls() {
         this._forEachChild((control, name) => { control.setParent(this); });
