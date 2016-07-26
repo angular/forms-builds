@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 "use strict";
+var core_1 = require('@angular/core');
 var checkbox_value_accessor_1 = require('./directives/checkbox_value_accessor');
 var default_value_accessor_1 = require('./directives/default_value_accessor');
 var ng_control_status_1 = require('./directives/ng_control_status');
@@ -95,4 +96,14 @@ exports.FORM_DIRECTIVES =
  */
 exports.REACTIVE_FORM_DIRECTIVES = 
 /*@ts2dart_const*/ [exports.REACTIVE_DRIVEN_DIRECTIVES, exports.SHARED_FORM_DIRECTIVES];
+var InternalFormsSharedModule = (function () {
+    function InternalFormsSharedModule() {
+    }
+    /** @nocollapse */
+    InternalFormsSharedModule.decorators = [
+        { type: core_1.NgModule, args: [{ declarations: exports.SHARED_FORM_DIRECTIVES, exports: exports.SHARED_FORM_DIRECTIVES },] },
+    ];
+    return InternalFormsSharedModule;
+}());
+exports.InternalFormsSharedModule = InternalFormsSharedModule;
 //# sourceMappingURL=directives.js.map

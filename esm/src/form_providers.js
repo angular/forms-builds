@@ -5,8 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { AppModule, PLATFORM_DIRECTIVES } from '@angular/core';
-import { FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES } from './directives';
+import { NgModule, PLATFORM_DIRECTIVES } from '@angular/core';
+import { FORM_DIRECTIVES, InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES, TEMPLATE_DRIVEN_DIRECTIVES } from './directives';
 import { RadioControlRegistry } from './directives/radio_control_value_accessor';
 import { FormBuilder } from './form_builder';
 /**
@@ -24,13 +24,21 @@ export class FormsModule {
 }
 /** @nocollapse */
 FormsModule.decorators = [
-    { type: AppModule, args: [{ providers: [FORM_PROVIDERS], directives: FORM_DIRECTIVES, pipes: [] },] },
+    { type: NgModule, args: [{
+                declarations: TEMPLATE_DRIVEN_DIRECTIVES,
+                providers: [FORM_PROVIDERS],
+                exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
+            },] },
 ];
 export class ReactiveFormsModule {
 }
 /** @nocollapse */
 ReactiveFormsModule.decorators = [
-    { type: AppModule, args: [{ providers: [REACTIVE_FORM_PROVIDERS], directives: REACTIVE_FORM_DIRECTIVES, pipes: [] },] },
+    { type: NgModule, args: [{
+                declarations: [REACTIVE_DRIVEN_DIRECTIVES],
+                providers: [REACTIVE_FORM_PROVIDERS],
+                exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
+            },] },
 ];
 /**
  * @deprecated

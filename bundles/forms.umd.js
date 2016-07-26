@@ -3077,6 +3077,15 @@ var __extends = (this && this.__extends) || function (d, b) {
      */
     var REACTIVE_FORM_DIRECTIVES = 
     /*@ts2dart_const*/ [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+    var InternalFormsSharedModule = (function () {
+        function InternalFormsSharedModule() {
+        }
+        return InternalFormsSharedModule;
+    }());
+    /** @nocollapse */
+    InternalFormsSharedModule.decorators = [
+        { type: _angular_core.NgModule, args: [{ declarations: SHARED_FORM_DIRECTIVES, exports: SHARED_FORM_DIRECTIVES },] },
+    ];
     var FormBuilder = (function () {
         function FormBuilder() {
         }
@@ -3162,7 +3171,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     }());
     /** @nocollapse */
     FormsModule.decorators = [
-        { type: _angular_core.AppModule, args: [{ providers: [FORM_PROVIDERS], directives: FORM_DIRECTIVES, pipes: [] },] },
+        { type: _angular_core.NgModule, args: [{
+                    declarations: TEMPLATE_DRIVEN_DIRECTIVES,
+                    providers: [FORM_PROVIDERS],
+                    exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
+                },] },
     ];
     var ReactiveFormsModule = (function () {
         function ReactiveFormsModule() {
@@ -3171,7 +3184,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     }());
     /** @nocollapse */
     ReactiveFormsModule.decorators = [
-        { type: _angular_core.AppModule, args: [{ providers: [REACTIVE_FORM_PROVIDERS], directives: REACTIVE_FORM_DIRECTIVES, pipes: [] },] },
+        { type: _angular_core.NgModule, args: [{
+                    declarations: [REACTIVE_DRIVEN_DIRECTIVES],
+                    providers: [REACTIVE_FORM_PROVIDERS],
+                    exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
+                },] },
     ];
     /**
      * @deprecated

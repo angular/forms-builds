@@ -5,6 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+import { NgModule } from '@angular/core';
 import { CheckboxControlValueAccessor } from './directives/checkbox_value_accessor';
 import { DefaultValueAccessor } from './directives/default_value_accessor';
 import { NgControlStatus } from './directives/ng_control_status';
@@ -72,4 +73,10 @@ export const FORM_DIRECTIVES =
  */
 export const REACTIVE_FORM_DIRECTIVES = 
 /*@ts2dart_const*/ [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+export class InternalFormsSharedModule {
+}
+/** @nocollapse */
+InternalFormsSharedModule.decorators = [
+    { type: NgModule, args: [{ declarations: SHARED_FORM_DIRECTIVES, exports: SHARED_FORM_DIRECTIVES },] },
+];
 //# sourceMappingURL=directives.js.map

@@ -49,3 +49,8 @@ export declare const FORM_DIRECTIVES: Type[][];
  * @experimental
  */
 export declare const REACTIVE_FORM_DIRECTIVES: Type[][];
+/**
+ * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
+ */
+export declare class InternalFormsSharedModule {
+}

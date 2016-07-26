@@ -26,7 +26,11 @@ var FormsModule = (function () {
     }
     /** @nocollapse */
     FormsModule.decorators = [
-        { type: core_1.AppModule, args: [{ providers: [exports.FORM_PROVIDERS], directives: directives_1.FORM_DIRECTIVES, pipes: [] },] },
+        { type: core_1.NgModule, args: [{
+                    declarations: directives_1.TEMPLATE_DRIVEN_DIRECTIVES,
+                    providers: [exports.FORM_PROVIDERS],
+                    exports: [directives_1.InternalFormsSharedModule, directives_1.TEMPLATE_DRIVEN_DIRECTIVES]
+                },] },
     ];
     return FormsModule;
 }());
@@ -36,7 +40,11 @@ var ReactiveFormsModule = (function () {
     }
     /** @nocollapse */
     ReactiveFormsModule.decorators = [
-        { type: core_1.AppModule, args: [{ providers: [exports.REACTIVE_FORM_PROVIDERS], directives: directives_1.REACTIVE_FORM_DIRECTIVES, pipes: [] },] },
+        { type: core_1.NgModule, args: [{
+                    declarations: [directives_1.REACTIVE_DRIVEN_DIRECTIVES],
+                    providers: [exports.REACTIVE_FORM_PROVIDERS],
+                    exports: [directives_1.InternalFormsSharedModule, directives_1.REACTIVE_DRIVEN_DIRECTIVES]
+                },] },
     ];
     return ReactiveFormsModule;
 }());

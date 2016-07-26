@@ -17,13 +17,13 @@ export declare const FORM_PROVIDERS: Type[];
  */
 export declare const REACTIVE_FORM_PROVIDERS: Type[];
 /**
- * The app module for forms.
+ * The ng module for forms.
  * @experimental
  */
 export declare class FormsModule {
 }
 /**
- * The app module for reactive forms.
+ * The ng module for reactive forms.
  * @experimental
  */
 export declare class ReactiveFormsModule {
