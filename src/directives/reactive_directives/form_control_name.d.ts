@@ -98,4 +98,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     validator: ValidatorFn;
     asyncValidator: AsyncValidatorFn;
     control: FormControl;
+    private _checkParentType();
+    private _throwParentException();
 }

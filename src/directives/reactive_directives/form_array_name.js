@@ -12,9 +12,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var core_1 = require('@angular/core');
+var exceptions_1 = require('../../facade/exceptions');
 var validators_1 = require('../../validators');
 var control_container_1 = require('../control_container');
 var shared_1 = require('../shared');
+var form_group_directive_1 = require('./form_group_directive');
+var form_group_name_1 = require('./form_group_name');
 exports.formArrayNameProvider = 
 /*@ts2dart_const*/ /* @ts2dart_Provider */ {
     provide: control_container_1.ControlContainer,
@@ -28,7 +31,10 @@ var FormArrayName = (function (_super) {
         this._validators = validators;
         this._asyncValidators = asyncValidators;
     }
-    FormArrayName.prototype.ngOnInit = function () { this.formDirective.addFormArray(this); };
+    FormArrayName.prototype.ngOnInit = function () {
+        this._checkParentType();
+        this.formDirective.addFormArray(this);
+    };
     FormArrayName.prototype.ngOnDestroy = function () { this.formDirective.removeFormArray(this); };
     Object.defineProperty(FormArrayName.prototype, "control", {
         get: function () { return this.formDirective.getFormArray(this); },
@@ -55,13 +61,21 @@ var FormArrayName = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    FormArrayName.prototype._checkParentType = function () {
+        if (!(this._parent instanceof form_group_name_1.FormGroupName) && !(this._parent instanceof form_group_directive_1.FormGroupDirective)) {
+            this._throwParentException();
+        }
+    };
+    FormArrayName.prototype._throwParentException = function () {
+        throw new exceptions_1.BaseException("formArrayName must be used with a parent formGroup directive.\n                You'll want to add a formGroup directive and pass it an existing FormGroup instance\n                (you can create one in your class).\n\n                Example:\n                <div [formGroup]=\"myGroup\">\n                  <div formArrayName=\"cities\">\n                    <div *ngFor=\"let city of cityArray.controls; let i=index\">\n                      <input [formControlName]=\"i\">\n                    </div>\n                  </div>\n                </div>\n\n                In your class:\n                this.cityArray = new FormArray([new FormControl('SF')]);\n                this.myGroup = new FormGroup({\n                  cities: this.cityArray\n                });");
+    };
     /** @nocollapse */
     FormArrayName.decorators = [
         { type: core_1.Directive, args: [{ selector: '[formArrayName]', providers: [exports.formArrayNameProvider] },] },
     ];
     /** @nocollapse */
     FormArrayName.ctorParameters = [
-        { type: control_container_1.ControlContainer, decorators: [{ type: core_1.Host }, { type: core_1.SkipSelf },] },
+        { type: control_container_1.ControlContainer, decorators: [{ type: core_1.Optional }, { type: core_1.Host }, { type: core_1.SkipSelf },] },
         { type: Array, decorators: [{ type: core_1.Optional }, { type: core_1.Self }, { type: core_1.Inject, args: [validators_1.NG_VALIDATORS,] },] },
         { type: Array, decorators: [{ type: core_1.Optional }, { type: core_1.Self }, { type: core_1.Inject, args: [validators_1.NG_ASYNC_VALIDATORS,] },] },
     ];

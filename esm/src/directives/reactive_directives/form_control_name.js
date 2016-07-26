@@ -7,11 +7,15 @@
  */
 import { Directive, Host, Inject, Input, Optional, Output, Self, SkipSelf, forwardRef } from '@angular/core';
 import { EventEmitter, ObservableWrapper } from '../../facade/async';
+import { BaseException } from '../../facade/exceptions';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../../validators';
 import { ControlContainer } from '../control_container';
 import { NG_VALUE_ACCESSOR } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
 import { composeAsyncValidators, composeValidators, controlPath, isPropertyUpdated, selectValueAccessor } from '../shared';
+import { FormArrayName } from './form_array_name';
+import { FormGroupDirective } from './form_group_directive';
+import { FormGroupName } from './form_group_name';
 export const controlNameBinding = 
 /*@ts2dart_const*/ /* @ts2dart_Provider */ {
     provide: NgControl,
@@ -29,6 +33,7 @@ export class FormControlName extends NgControl {
     }
     ngOnChanges(changes) {
         if (!this._added) {
+            this._checkParentType();
             this.formDirective.addControl(this);
             this._added = true;
         }
@@ -49,6 +54,28 @@ export class FormControlName extends NgControl {
         return composeAsyncValidators(this._asyncValidators);
     }
     get control() { return this.formDirective.getControl(this); }
+    _checkParentType() {
+        if (!(this._parent instanceof FormGroupName) &&
+            !(this._parent instanceof FormGroupDirective) &&
+            !(this._parent instanceof FormArrayName)) {
+            this._throwParentException();
+        }
+    }
+    _throwParentException() {
+        throw new BaseException(`formControlName must be used with a parent formGroup directive.
+                You'll want to add a formGroup directive and pass it an existing FormGroup instance
+                (you can create one in your class).
+
+                Example:
+                <div [formGroup]="myGroup">
+                  <input formControlName="firstName">
+                </div>
+
+                In your class:
+                this.myGroup = new FormGroup({
+                   firstName: new FormControl()
+                });`);
+    }
 }
 /** @nocollapse */
 FormControlName.decorators = [
@@ -56,7 +83,7 @@ FormControlName.decorators = [
 ];
 /** @nocollapse */
 FormControlName.ctorParameters = [
-    { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf },] },
+    { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },

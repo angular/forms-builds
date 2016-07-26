@@ -98,4 +98,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     readonly validator: ValidatorFn;
     readonly asyncValidator: AsyncValidatorFn;
     readonly control: FormControl;
+    private _checkParentType();
+    private _throwParentException();
 }

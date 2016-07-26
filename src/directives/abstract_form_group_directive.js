@@ -21,7 +21,10 @@ var AbstractFormGroupDirective = (function (_super) {
     function AbstractFormGroupDirective() {
         _super.apply(this, arguments);
     }
-    AbstractFormGroupDirective.prototype.ngOnInit = function () { this.formDirective.addFormGroup(this); };
+    AbstractFormGroupDirective.prototype.ngOnInit = function () {
+        this._checkParentType();
+        this.formDirective.addFormGroup(this);
+    };
     AbstractFormGroupDirective.prototype.ngOnDestroy = function () { this.formDirective.removeFormGroup(this); };
     Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
         /**
@@ -57,6 +60,8 @@ var AbstractFormGroupDirective = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /** @internal */
+    AbstractFormGroupDirective.prototype._checkParentType = function () { };
     return AbstractFormGroupDirective;
 }(control_container_1.ControlContainer));
 exports.AbstractFormGroupDirective = AbstractFormGroupDirective;

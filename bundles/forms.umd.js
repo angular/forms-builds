@@ -2529,7 +2529,10 @@ var __extends = (this && this.__extends) || function (d, b) {
         function AbstractFormGroupDirective() {
             _super.apply(this, arguments);
         }
-        AbstractFormGroupDirective.prototype.ngOnInit = function () { this.formDirective.addFormGroup(this); };
+        AbstractFormGroupDirective.prototype.ngOnInit = function () {
+            this._checkParentType();
+            this.formDirective.addFormGroup(this);
+        };
         AbstractFormGroupDirective.prototype.ngOnDestroy = function () { this.formDirective.removeFormGroup(this); };
         Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
             /**
@@ -2565,6 +2568,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             enumerable: true,
             configurable: true
         });
+        /** @internal */
+        AbstractFormGroupDirective.prototype._checkParentType = function () { };
         return AbstractFormGroupDirective;
     }(ControlContainer));
     var modelGroupProvider = 
@@ -2595,210 +2600,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     /** @nocollapse */
     NgModelGroup.propDecorators = {
         'name': [{ type: _angular_core.Input, args: ['ngModelGroup',] },],
-    };
-    var formArrayNameProvider = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
-        provide: ControlContainer,
-        useExisting: _angular_core.forwardRef(function () { return FormArrayName; })
-    };
-    var FormArrayName = (function (_super) {
-        __extends(FormArrayName, _super);
-        function FormArrayName(parent, validators, asyncValidators) {
-            _super.call(this);
-            this._parent = parent;
-            this._validators = validators;
-            this._asyncValidators = asyncValidators;
-        }
-        FormArrayName.prototype.ngOnInit = function () { this.formDirective.addFormArray(this); };
-        FormArrayName.prototype.ngOnDestroy = function () { this.formDirective.removeFormArray(this); };
-        Object.defineProperty(FormArrayName.prototype, "control", {
-            get: function () { return this.formDirective.getFormArray(this); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormArrayName.prototype, "formDirective", {
-            get: function () { return this._parent.formDirective; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormArrayName.prototype, "path", {
-            get: function () { return controlPath(this.name, this._parent); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormArrayName.prototype, "validator", {
-            get: function () { return composeValidators(this._validators); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormArrayName.prototype, "asyncValidator", {
-            get: function () { return composeAsyncValidators(this._asyncValidators); },
-            enumerable: true,
-            configurable: true
-        });
-        return FormArrayName;
-    }(ControlContainer));
-    /** @nocollapse */
-    FormArrayName.decorators = [
-        { type: _angular_core.Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] },
-    ];
-    /** @nocollapse */
-    FormArrayName.ctorParameters = [
-        { type: ControlContainer, decorators: [{ type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ];
-    /** @nocollapse */
-    FormArrayName.propDecorators = {
-        'name': [{ type: _angular_core.Input, args: ['formArrayName',] },],
-    };
-    var formControlBinding$1 = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
-        provide: NgControl,
-        useExisting: _angular_core.forwardRef(function () { return FormControlDirective; })
-    };
-    var FormControlDirective = (function (_super) {
-        __extends(FormControlDirective, _super);
-        function FormControlDirective(_validators, _asyncValidators, valueAccessors) {
-            _super.call(this);
-            this._validators = _validators;
-            this._asyncValidators = _asyncValidators;
-            this.update = new EventEmitter();
-            this.valueAccessor = selectValueAccessor(this, valueAccessors);
-        }
-        FormControlDirective.prototype.ngOnChanges = function (changes) {
-            if (this._isControlChanged(changes)) {
-                setUpControl(this.form, this);
-                this.form.updateValueAndValidity({ emitEvent: false });
-            }
-            if (isPropertyUpdated(changes, this.viewModel)) {
-                this.form.updateValue(this.model);
-                this.viewModel = this.model;
-            }
-        };
-        Object.defineProperty(FormControlDirective.prototype, "path", {
-            get: function () { return []; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormControlDirective.prototype, "validator", {
-            get: function () { return composeValidators(this._validators); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormControlDirective.prototype, "asyncValidator", {
-            get: function () {
-                return composeAsyncValidators(this._asyncValidators);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormControlDirective.prototype, "control", {
-            get: function () { return this.form; },
-            enumerable: true,
-            configurable: true
-        });
-        FormControlDirective.prototype.viewToModelUpdate = function (newValue) {
-            this.viewModel = newValue;
-            ObservableWrapper.callEmit(this.update, newValue);
-        };
-        FormControlDirective.prototype._isControlChanged = function (changes) {
-            return StringMapWrapper.contains(changes, 'form');
-        };
-        return FormControlDirective;
-    }(NgControl));
-    /** @nocollapse */
-    FormControlDirective.decorators = [
-        { type: _angular_core.Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] },
-    ];
-    /** @nocollapse */
-    FormControlDirective.ctorParameters = [
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALUE_ACCESSOR,] },] },
-    ];
-    /** @nocollapse */
-    FormControlDirective.propDecorators = {
-        'form': [{ type: _angular_core.Input, args: ['formControl',] },],
-        'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
-        'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
-    };
-    var controlNameBinding = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
-        provide: NgControl,
-        useExisting: _angular_core.forwardRef(function () { return FormControlName; })
-    };
-    var FormControlName = (function (_super) {
-        __extends(FormControlName, _super);
-        function FormControlName(_parent, _validators, _asyncValidators, valueAccessors) {
-            _super.call(this);
-            this._parent = _parent;
-            this._validators = _validators;
-            this._asyncValidators = _asyncValidators;
-            this._added = false;
-            this.update = new EventEmitter();
-            this.valueAccessor = selectValueAccessor(this, valueAccessors);
-        }
-        FormControlName.prototype.ngOnChanges = function (changes) {
-            if (!this._added) {
-                this.formDirective.addControl(this);
-                this._added = true;
-            }
-            if (isPropertyUpdated(changes, this.viewModel)) {
-                this.viewModel = this.model;
-                this.formDirective.updateModel(this, this.model);
-            }
-        };
-        FormControlName.prototype.ngOnDestroy = function () { this.formDirective.removeControl(this); };
-        FormControlName.prototype.viewToModelUpdate = function (newValue) {
-            this.viewModel = newValue;
-            ObservableWrapper.callEmit(this.update, newValue);
-        };
-        Object.defineProperty(FormControlName.prototype, "path", {
-            get: function () { return controlPath(this.name, this._parent); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormControlName.prototype, "formDirective", {
-            get: function () { return this._parent.formDirective; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormControlName.prototype, "validator", {
-            get: function () { return composeValidators(this._validators); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormControlName.prototype, "asyncValidator", {
-            get: function () {
-                return composeAsyncValidators(this._asyncValidators);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormControlName.prototype, "control", {
-            get: function () { return this.formDirective.getControl(this); },
-            enumerable: true,
-            configurable: true
-        });
-        return FormControlName;
-    }(NgControl));
-    /** @nocollapse */
-    FormControlName.decorators = [
-        { type: _angular_core.Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] },
-    ];
-    /** @nocollapse */
-    FormControlName.ctorParameters = [
-        { type: ControlContainer, decorators: [{ type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALUE_ACCESSOR,] },] },
-    ];
-    /** @nocollapse */
-    FormControlName.propDecorators = {
-        'name': [{ type: _angular_core.Input, args: ['formControlName',] },],
-        'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
-        'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
     };
     var formDirectiveProvider$1 = 
     /*@ts2dart_const*/ /* @ts2dart_Provider */ {
@@ -2926,6 +2727,15 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._validators = validators;
             this._asyncValidators = asyncValidators;
         }
+        /** @internal */
+        FormGroupName.prototype._checkParentType = function () {
+            if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective)) {
+                this._throwParentException();
+            }
+        };
+        FormGroupName.prototype._throwParentException = function () {
+            throw new BaseException("formGroupName must be used with a parent formGroup directive.\n                You'll want to add a formGroup directive and pass it an existing FormGroup instance\n                (you can create one in your class).\n\n                Example:\n                <div [formGroup]=\"myGroup\">\n                  <div formGroupName=\"person\">\n                    <input formControlName=\"firstName\">\n                  </div>\n                </div>\n\n                In your class:\n                this.myGroup = new FormGroup({\n                  person: new FormGroup({ firstName: new FormControl() })\n                });");
+        };
         return FormGroupName;
     }(AbstractFormGroupDirective));
     /** @nocollapse */
@@ -2934,13 +2744,239 @@ var __extends = (this && this.__extends) || function (d, b) {
     ];
     /** @nocollapse */
     FormGroupName.ctorParameters = [
-        { type: ControlContainer, decorators: [{ type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
+        { type: ControlContainer, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
         { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
         { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
     ];
     /** @nocollapse */
     FormGroupName.propDecorators = {
         'name': [{ type: _angular_core.Input, args: ['formGroupName',] },],
+    };
+    var formArrayNameProvider = 
+    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+        provide: ControlContainer,
+        useExisting: _angular_core.forwardRef(function () { return FormArrayName; })
+    };
+    var FormArrayName = (function (_super) {
+        __extends(FormArrayName, _super);
+        function FormArrayName(parent, validators, asyncValidators) {
+            _super.call(this);
+            this._parent = parent;
+            this._validators = validators;
+            this._asyncValidators = asyncValidators;
+        }
+        FormArrayName.prototype.ngOnInit = function () {
+            this._checkParentType();
+            this.formDirective.addFormArray(this);
+        };
+        FormArrayName.prototype.ngOnDestroy = function () { this.formDirective.removeFormArray(this); };
+        Object.defineProperty(FormArrayName.prototype, "control", {
+            get: function () { return this.formDirective.getFormArray(this); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormArrayName.prototype, "formDirective", {
+            get: function () { return this._parent.formDirective; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormArrayName.prototype, "path", {
+            get: function () { return controlPath(this.name, this._parent); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormArrayName.prototype, "validator", {
+            get: function () { return composeValidators(this._validators); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormArrayName.prototype, "asyncValidator", {
+            get: function () { return composeAsyncValidators(this._asyncValidators); },
+            enumerable: true,
+            configurable: true
+        });
+        FormArrayName.prototype._checkParentType = function () {
+            if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective)) {
+                this._throwParentException();
+            }
+        };
+        FormArrayName.prototype._throwParentException = function () {
+            throw new BaseException("formArrayName must be used with a parent formGroup directive.\n                You'll want to add a formGroup directive and pass it an existing FormGroup instance\n                (you can create one in your class).\n\n                Example:\n                <div [formGroup]=\"myGroup\">\n                  <div formArrayName=\"cities\">\n                    <div *ngFor=\"let city of cityArray.controls; let i=index\">\n                      <input [formControlName]=\"i\">\n                    </div>\n                  </div>\n                </div>\n\n                In your class:\n                this.cityArray = new FormArray([new FormControl('SF')]);\n                this.myGroup = new FormGroup({\n                  cities: this.cityArray\n                });");
+        };
+        return FormArrayName;
+    }(ControlContainer));
+    /** @nocollapse */
+    FormArrayName.decorators = [
+        { type: _angular_core.Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] },
+    ];
+    /** @nocollapse */
+    FormArrayName.ctorParameters = [
+        { type: ControlContainer, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+    ];
+    /** @nocollapse */
+    FormArrayName.propDecorators = {
+        'name': [{ type: _angular_core.Input, args: ['formArrayName',] },],
+    };
+    var formControlBinding$1 = 
+    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+        provide: NgControl,
+        useExisting: _angular_core.forwardRef(function () { return FormControlDirective; })
+    };
+    var FormControlDirective = (function (_super) {
+        __extends(FormControlDirective, _super);
+        function FormControlDirective(_validators, _asyncValidators, valueAccessors) {
+            _super.call(this);
+            this._validators = _validators;
+            this._asyncValidators = _asyncValidators;
+            this.update = new EventEmitter();
+            this.valueAccessor = selectValueAccessor(this, valueAccessors);
+        }
+        FormControlDirective.prototype.ngOnChanges = function (changes) {
+            if (this._isControlChanged(changes)) {
+                setUpControl(this.form, this);
+                this.form.updateValueAndValidity({ emitEvent: false });
+            }
+            if (isPropertyUpdated(changes, this.viewModel)) {
+                this.form.updateValue(this.model);
+                this.viewModel = this.model;
+            }
+        };
+        Object.defineProperty(FormControlDirective.prototype, "path", {
+            get: function () { return []; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormControlDirective.prototype, "validator", {
+            get: function () { return composeValidators(this._validators); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormControlDirective.prototype, "asyncValidator", {
+            get: function () {
+                return composeAsyncValidators(this._asyncValidators);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormControlDirective.prototype, "control", {
+            get: function () { return this.form; },
+            enumerable: true,
+            configurable: true
+        });
+        FormControlDirective.prototype.viewToModelUpdate = function (newValue) {
+            this.viewModel = newValue;
+            ObservableWrapper.callEmit(this.update, newValue);
+        };
+        FormControlDirective.prototype._isControlChanged = function (changes) {
+            return StringMapWrapper.contains(changes, 'form');
+        };
+        return FormControlDirective;
+    }(NgControl));
+    /** @nocollapse */
+    FormControlDirective.decorators = [
+        { type: _angular_core.Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] },
+    ];
+    /** @nocollapse */
+    FormControlDirective.ctorParameters = [
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALUE_ACCESSOR,] },] },
+    ];
+    /** @nocollapse */
+    FormControlDirective.propDecorators = {
+        'form': [{ type: _angular_core.Input, args: ['formControl',] },],
+        'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
+        'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
+    };
+    var controlNameBinding = 
+    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+        provide: NgControl,
+        useExisting: _angular_core.forwardRef(function () { return FormControlName; })
+    };
+    var FormControlName = (function (_super) {
+        __extends(FormControlName, _super);
+        function FormControlName(_parent, _validators, _asyncValidators, valueAccessors) {
+            _super.call(this);
+            this._parent = _parent;
+            this._validators = _validators;
+            this._asyncValidators = _asyncValidators;
+            this._added = false;
+            this.update = new EventEmitter();
+            this.valueAccessor = selectValueAccessor(this, valueAccessors);
+        }
+        FormControlName.prototype.ngOnChanges = function (changes) {
+            if (!this._added) {
+                this._checkParentType();
+                this.formDirective.addControl(this);
+                this._added = true;
+            }
+            if (isPropertyUpdated(changes, this.viewModel)) {
+                this.viewModel = this.model;
+                this.formDirective.updateModel(this, this.model);
+            }
+        };
+        FormControlName.prototype.ngOnDestroy = function () { this.formDirective.removeControl(this); };
+        FormControlName.prototype.viewToModelUpdate = function (newValue) {
+            this.viewModel = newValue;
+            ObservableWrapper.callEmit(this.update, newValue);
+        };
+        Object.defineProperty(FormControlName.prototype, "path", {
+            get: function () { return controlPath(this.name, this._parent); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormControlName.prototype, "formDirective", {
+            get: function () { return this._parent.formDirective; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormControlName.prototype, "validator", {
+            get: function () { return composeValidators(this._validators); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormControlName.prototype, "asyncValidator", {
+            get: function () {
+                return composeAsyncValidators(this._asyncValidators);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormControlName.prototype, "control", {
+            get: function () { return this.formDirective.getControl(this); },
+            enumerable: true,
+            configurable: true
+        });
+        FormControlName.prototype._checkParentType = function () {
+            if (!(this._parent instanceof FormGroupName) &&
+                !(this._parent instanceof FormGroupDirective) &&
+                !(this._parent instanceof FormArrayName)) {
+                this._throwParentException();
+            }
+        };
+        FormControlName.prototype._throwParentException = function () {
+            throw new BaseException("formControlName must be used with a parent formGroup directive.\n                You'll want to add a formGroup directive and pass it an existing FormGroup instance\n                (you can create one in your class).\n\n                Example:\n                <div [formGroup]=\"myGroup\">\n                  <input formControlName=\"firstName\">\n                </div>\n\n                In your class:\n                this.myGroup = new FormGroup({\n                   firstName: new FormControl()\n                });");
+        };
+        return FormControlName;
+    }(NgControl));
+    /** @nocollapse */
+    FormControlName.decorators = [
+        { type: _angular_core.Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] },
+    ];
+    /** @nocollapse */
+    FormControlName.ctorParameters = [
+        { type: ControlContainer, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALUE_ACCESSOR,] },] },
+    ];
+    /** @nocollapse */
+    FormControlName.propDecorators = {
+        'name': [{ type: _angular_core.Input, args: ['formControlName',] },],
+        'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
+        'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
     };
     var REQUIRED = Validators.required;
     var REQUIRED_VALIDATOR = {
