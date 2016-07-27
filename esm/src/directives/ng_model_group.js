@@ -9,6 +9,8 @@ import { Directive, Host, Inject, Input, Optional, Self, SkipSelf, forwardRef } 
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
 import { AbstractFormGroupDirective } from './abstract_form_group_directive';
 import { ControlContainer } from './control_container';
+import { NgForm } from './ng_form';
+import { TemplateDrivenErrors } from './template_driven_errors';
 export const modelGroupProvider = 
 /*@ts2dart_const*/ /* @ts2dart_Provider */ {
     provide: ControlContainer,
@@ -20,6 +22,12 @@ export class NgModelGroup extends AbstractFormGroupDirective {
         this._parent = parent;
         this._validators = validators;
         this._asyncValidators = asyncValidators;
+    }
+    /** @internal */
+    _checkParentType() {
+        if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
+            TemplateDrivenErrors.modelGroupParentException();
+        }
     }
 }
 /** @nocollapse */

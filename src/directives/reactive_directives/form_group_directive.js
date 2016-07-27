@@ -14,10 +14,10 @@ var __extends = (this && this.__extends) || function (d, b) {
 var core_1 = require('@angular/core');
 var async_1 = require('../../facade/async');
 var collection_1 = require('../../facade/collection');
-var exceptions_1 = require('../../facade/exceptions');
 var lang_1 = require('../../facade/lang');
 var validators_1 = require('../../validators');
 var control_container_1 = require('../control_container');
+var reactive_errors_1 = require('../reactive_errors');
 var shared_1 = require('../shared');
 exports.formDirectiveProvider = 
 /*@ts2dart_const*/ /* @ts2dart_Provider */ {
@@ -108,7 +108,7 @@ var FormGroupDirective = (function (_super) {
     };
     FormGroupDirective.prototype._checkFormPresent = function () {
         if (lang_1.isBlank(this.form)) {
-            throw new exceptions_1.BaseException("formGroup expects a FormGroup instance. Please pass one in.\n           Example: <form [formGroup]=\"myFormGroup\">\n      ");
+            reactive_errors_1.ReactiveErrors.missingFormException();
         }
     };
     /** @nocollapse */

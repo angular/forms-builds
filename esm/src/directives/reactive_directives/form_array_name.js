@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, Host, Inject, Input, Optional, Self, SkipSelf, forwardRef } from '@angular/core';
-import { BaseException } from '../../facade/exceptions';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../../validators';
 import { ControlContainer } from '../control_container';
+import { ReactiveErrors } from '../reactive_errors';
 import { composeAsyncValidators, composeValidators, controlPath } from '../shared';
 import { FormGroupDirective } from './form_group_directive';
 import { FormGroupName } from './form_group_name';
@@ -36,28 +36,8 @@ export class FormArrayName extends ControlContainer {
     get asyncValidator() { return composeAsyncValidators(this._asyncValidators); }
     _checkParentType() {
         if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective)) {
-            this._throwParentException();
+            ReactiveErrors.arrayParentException();
         }
-    }
-    _throwParentException() {
-        throw new BaseException(`formArrayName must be used with a parent formGroup directive.
-                You'll want to add a formGroup directive and pass it an existing FormGroup instance
-                (you can create one in your class).
-
-                Example:
-                <div [formGroup]="myGroup">
-                  <div formArrayName="cities">
-                    <div *ngFor="let city of cityArray.controls; let i=index">
-                      <input [formControlName]="i">
-                    </div>
-                  </div>
-                </div>
-
-                In your class:
-                this.cityArray = new FormArray([new FormControl('SF')]);
-                this.myGroup = new FormGroup({
-                  cities: this.cityArray
-                });`);
     }
 }
 /** @nocollapse */

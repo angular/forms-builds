@@ -12,10 +12,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var core_1 = require('@angular/core');
-var exceptions_1 = require('../../facade/exceptions');
 var validators_1 = require('../../validators');
 var abstract_form_group_directive_1 = require('../abstract_form_group_directive');
 var control_container_1 = require('../control_container');
+var reactive_errors_1 = require('../reactive_errors');
 var form_group_directive_1 = require('./form_group_directive');
 exports.formGroupNameProvider = 
 /*@ts2dart_const*/ /* @ts2dart_Provider */ {
@@ -33,11 +33,8 @@ var FormGroupName = (function (_super) {
     /** @internal */
     FormGroupName.prototype._checkParentType = function () {
         if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof form_group_directive_1.FormGroupDirective)) {
-            this._throwParentException();
+            reactive_errors_1.ReactiveErrors.groupParentException();
         }
-    };
-    FormGroupName.prototype._throwParentException = function () {
-        throw new exceptions_1.BaseException("formGroupName must be used with a parent formGroup directive.\n                You'll want to add a formGroup directive and pass it an existing FormGroup instance\n                (you can create one in your class).\n\n                Example:\n                <div [formGroup]=\"myGroup\">\n                  <div formGroupName=\"person\">\n                    <input formControlName=\"firstName\">\n                  </div>\n                </div>\n\n                In your class:\n                this.myGroup = new FormGroup({\n                  person: new FormGroup({ firstName: new FormControl() })\n                });");
     };
     /** @nocollapse */
     FormGroupName.decorators = [

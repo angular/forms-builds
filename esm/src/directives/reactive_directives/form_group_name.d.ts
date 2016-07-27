@@ -60,5 +60,4 @@ export declare const formGroupNameProvider: any;
 export declare class FormGroupName extends AbstractFormGroupDirective implements OnInit, OnDestroy {
     name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
-    private _throwParentException();
 }

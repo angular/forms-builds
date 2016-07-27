@@ -2417,6 +2417,123 @@ var __extends = (this && this.__extends) || function (d, b) {
         { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
         { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
     ];
+    /**
+      This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
+     */
+    var AbstractFormGroupDirective = (function (_super) {
+        __extends(AbstractFormGroupDirective, _super);
+        function AbstractFormGroupDirective() {
+            _super.apply(this, arguments);
+        }
+        AbstractFormGroupDirective.prototype.ngOnInit = function () {
+            this._checkParentType();
+            this.formDirective.addFormGroup(this);
+        };
+        AbstractFormGroupDirective.prototype.ngOnDestroy = function () { this.formDirective.removeFormGroup(this); };
+        Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
+            /**
+             * Get the {@link FormGroup} backing this binding.
+             */
+            get: function () { return this.formDirective.getFormGroup(this); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractFormGroupDirective.prototype, "path", {
+            /**
+             * Get the path to this control group.
+             */
+            get: function () { return controlPath(this.name, this._parent); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractFormGroupDirective.prototype, "formDirective", {
+            /**
+             * Get the {@link Form} to which this group belongs.
+             */
+            get: function () { return this._parent.formDirective; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractFormGroupDirective.prototype, "validator", {
+            get: function () { return composeValidators(this._validators); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractFormGroupDirective.prototype, "asyncValidator", {
+            get: function () { return composeAsyncValidators(this._asyncValidators); },
+            enumerable: true,
+            configurable: true
+        });
+        /** @internal */
+        AbstractFormGroupDirective.prototype._checkParentType = function () { };
+        return AbstractFormGroupDirective;
+    }(ControlContainer));
+    /**
+     * @license
+     * Copyright Google Inc. All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    var Examples = {
+        formControlName: "\n    <div [formGroup]=\"myGroup\">\n      <input formControlName=\"firstName\">\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       firstName: new FormControl()\n    });",
+        formGroupName: "\n    <div [formGroup]=\"myGroup\">\n       <div formGroupName=\"person\">\n          <input formControlName=\"firstName\">\n       </div>\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       person: new FormGroup({ firstName: new FormControl() })\n    });",
+        formArrayName: "\n    <div [formGroup]=\"myGroup\">\n      <div formArrayName=\"cities\">\n        <div *ngFor=\"let city of cityArray.controls; let i=index\">\n          <input [formControlName]=\"i\">\n        </div>\n      </div>\n    </div>\n\n    In your class:\n\n    this.cityArray = new FormArray([new FormControl('SF')]);\n    this.myGroup = new FormGroup({\n      cities: this.cityArray\n    });",
+        ngModelGroup: "\n    <form>\n       <div ngModelGroup=\"person\">\n          <input [(ngModel)]=\"person.name\" name=\"firstName\">\n       </div>\n    </form>",
+        ngModelWithFormGroup: "\n    <div [formGroup]=\"myGroup\">\n       <input formControlName=\"firstName\">\n       <input [(ngModel)]=\"showMoreControls\" [ngModelOptions]=\"{standalone: true}\">\n    </div>\n  "
+    };
+    var TemplateDrivenErrors = (function () {
+        function TemplateDrivenErrors() {
+        }
+        TemplateDrivenErrors.modelParentException = function () {
+            throw new BaseException("\n      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using\n      formGroup's partner directive \"formControlName\" instead.  Example:\n\n      " + Examples.formControlName + "\n\n      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:\n\n      Example:\n\n      " + Examples.ngModelWithFormGroup);
+        };
+        TemplateDrivenErrors.formGroupNameException = function () {
+            throw new BaseException("\n      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.\n\n      Option 1: Use formControlName instead of ngModel (reactive strategy):\n\n      " + Examples.formGroupName + "\n\n      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):\n\n      " + Examples.ngModelGroup);
+        };
+        TemplateDrivenErrors.missingNameException = function () {
+            throw new BaseException("If ngModel is used within a form tag, either the name attribute must be set or the form\n      control must be defined as 'standalone' in ngModelOptions.\n\n      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">");
+        };
+        TemplateDrivenErrors.modelGroupParentException = function () {
+            throw new BaseException("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + Examples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + Examples.ngModelGroup);
+        };
+        return TemplateDrivenErrors;
+    }());
+    var modelGroupProvider = 
+    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+        provide: ControlContainer,
+        useExisting: _angular_core.forwardRef(function () { return NgModelGroup; })
+    };
+    var NgModelGroup = (function (_super) {
+        __extends(NgModelGroup, _super);
+        function NgModelGroup(parent, validators, asyncValidators) {
+            _super.call(this);
+            this._parent = parent;
+            this._validators = validators;
+            this._asyncValidators = asyncValidators;
+        }
+        /** @internal */
+        NgModelGroup.prototype._checkParentType = function () {
+            if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
+                TemplateDrivenErrors.modelGroupParentException();
+            }
+        };
+        return NgModelGroup;
+    }(AbstractFormGroupDirective));
+    /** @nocollapse */
+    NgModelGroup.decorators = [
+        { type: _angular_core.Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] },
+    ];
+    /** @nocollapse */
+    NgModelGroup.ctorParameters = [
+        { type: ControlContainer, decorators: [{ type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+    ];
+    /** @nocollapse */
+    NgModelGroup.propDecorators = {
+        'name': [{ type: _angular_core.Input, args: ['ngModelGroup',] },],
+    };
     var formControlBinding = 
     /*@ts2dart_const*/ /* @ts2dart_Provider */ {
         provide: NgControl,
@@ -2437,7 +2554,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
         NgModel.prototype.ngOnChanges = function (changes) {
-            this._checkName();
+            this._checkForErrors();
             if (!this._registered)
                 this._setUpControl();
             if (isPropertyUpdated(changes, this.viewModel)) {
@@ -2491,11 +2608,26 @@ var __extends = (this && this.__extends) || function (d, b) {
             setUpControl(this._control, this);
             this._control.updateValueAndValidity({ emitEvent: false });
         };
+        NgModel.prototype._checkForErrors = function () {
+            if (!this._isStandalone()) {
+                this._checkParentType();
+            }
+            this._checkName();
+        };
+        NgModel.prototype._checkParentType = function () {
+            if (!(this._parent instanceof NgModelGroup) &&
+                this._parent instanceof AbstractFormGroupDirective) {
+                TemplateDrivenErrors.formGroupNameException();
+            }
+            else if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
+                TemplateDrivenErrors.modelParentException();
+            }
+        };
         NgModel.prototype._checkName = function () {
             if (this.options && this.options.name)
                 this.name = this.options.name;
             if (!this._isStandalone() && !this.name) {
-                throw new BaseException("If ngModel is used within a form tag, either the name attribute must be set\n                      or the form control must be defined as 'standalone' in ngModelOptions.\n\n                      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n                      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">\n                   ");
+                TemplateDrivenErrors.missingNameException();
             }
         };
         NgModel.prototype._updateValue = function (value) {
@@ -2526,86 +2658,26 @@ var __extends = (this && this.__extends) || function (d, b) {
         'options': [{ type: _angular_core.Input, args: ['ngModelOptions',] },],
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
     };
-    /**
-      This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
-     */
-    var AbstractFormGroupDirective = (function (_super) {
-        __extends(AbstractFormGroupDirective, _super);
-        function AbstractFormGroupDirective() {
-            _super.apply(this, arguments);
+    var ReactiveErrors = (function () {
+        function ReactiveErrors() {
         }
-        AbstractFormGroupDirective.prototype.ngOnInit = function () {
-            this._checkParentType();
-            this.formDirective.addFormGroup(this);
+        ReactiveErrors.controlParentException = function () {
+            throw new BaseException("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formControlName);
         };
-        AbstractFormGroupDirective.prototype.ngOnDestroy = function () { this.formDirective.removeFormGroup(this); };
-        Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
-            /**
-             * Get the {@link FormGroup} backing this binding.
-             */
-            get: function () { return this.formDirective.getFormGroup(this); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AbstractFormGroupDirective.prototype, "path", {
-            /**
-             * Get the path to this control group.
-             */
-            get: function () { return controlPath(this.name, this._parent); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AbstractFormGroupDirective.prototype, "formDirective", {
-            /**
-             * Get the {@link Form} to which this group belongs.
-             */
-            get: function () { return this._parent.formDirective; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AbstractFormGroupDirective.prototype, "validator", {
-            get: function () { return composeValidators(this._validators); },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AbstractFormGroupDirective.prototype, "asyncValidator", {
-            get: function () { return composeAsyncValidators(this._asyncValidators); },
-            enumerable: true,
-            configurable: true
-        });
-        /** @internal */
-        AbstractFormGroupDirective.prototype._checkParentType = function () { };
-        return AbstractFormGroupDirective;
-    }(ControlContainer));
-    var modelGroupProvider = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
-        provide: ControlContainer,
-        useExisting: _angular_core.forwardRef(function () { return NgModelGroup; })
-    };
-    var NgModelGroup = (function (_super) {
-        __extends(NgModelGroup, _super);
-        function NgModelGroup(parent, validators, asyncValidators) {
-            _super.call(this);
-            this._parent = parent;
-            this._validators = validators;
-            this._asyncValidators = asyncValidators;
-        }
-        return NgModelGroup;
-    }(AbstractFormGroupDirective));
-    /** @nocollapse */
-    NgModelGroup.decorators = [
-        { type: _angular_core.Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] },
-    ];
-    /** @nocollapse */
-    NgModelGroup.ctorParameters = [
-        { type: ControlContainer, decorators: [{ type: _angular_core.Host }, { type: _angular_core.SkipSelf },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ];
-    /** @nocollapse */
-    NgModelGroup.propDecorators = {
-        'name': [{ type: _angular_core.Input, args: ['ngModelGroup',] },],
-    };
+        ReactiveErrors.ngModelGroupException = function () {
+            throw new BaseException("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n       that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n       Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n        " + Examples.formGroupName + "\n\n        Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n        " + Examples.ngModelGroup);
+        };
+        ReactiveErrors.missingFormException = function () {
+            throw new BaseException("formGroup expects a FormGroup instance. Please pass one in.\n\n       Example:\n\n       " + Examples.formControlName);
+        };
+        ReactiveErrors.groupParentException = function () {
+            throw new BaseException("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formGroupName);
+        };
+        ReactiveErrors.arrayParentException = function () {
+            throw new BaseException("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n        Example:\n\n        " + Examples.formArrayName);
+        };
+        return ReactiveErrors;
+    }());
     var formDirectiveProvider$1 = 
     /*@ts2dart_const*/ /* @ts2dart_Provider */ {
         provide: ControlContainer,
@@ -2695,7 +2767,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         FormGroupDirective.prototype._checkFormPresent = function () {
             if (isBlank(this.form)) {
-                throw new BaseException("formGroup expects a FormGroup instance. Please pass one in.\n           Example: <form [formGroup]=\"myFormGroup\">\n      ");
+                ReactiveErrors.missingFormException();
             }
         };
         return FormGroupDirective;
@@ -2735,11 +2807,8 @@ var __extends = (this && this.__extends) || function (d, b) {
         /** @internal */
         FormGroupName.prototype._checkParentType = function () {
             if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective)) {
-                this._throwParentException();
+                ReactiveErrors.groupParentException();
             }
-        };
-        FormGroupName.prototype._throwParentException = function () {
-            throw new BaseException("formGroupName must be used with a parent formGroup directive.\n                You'll want to add a formGroup directive and pass it an existing FormGroup instance\n                (you can create one in your class).\n\n                Example:\n                <div [formGroup]=\"myGroup\">\n                  <div formGroupName=\"person\">\n                    <input formControlName=\"firstName\">\n                  </div>\n                </div>\n\n                In your class:\n                this.myGroup = new FormGroup({\n                  person: new FormGroup({ firstName: new FormControl() })\n                });");
         };
         return FormGroupName;
     }(AbstractFormGroupDirective));
@@ -2802,11 +2871,8 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         FormArrayName.prototype._checkParentType = function () {
             if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective)) {
-                this._throwParentException();
+                ReactiveErrors.arrayParentException();
             }
-        };
-        FormArrayName.prototype._throwParentException = function () {
-            throw new BaseException("formArrayName must be used with a parent formGroup directive.\n                You'll want to add a formGroup directive and pass it an existing FormGroup instance\n                (you can create one in your class).\n\n                Example:\n                <div [formGroup]=\"myGroup\">\n                  <div formArrayName=\"cities\">\n                    <div *ngFor=\"let city of cityArray.controls; let i=index\">\n                      <input [formControlName]=\"i\">\n                    </div>\n                  </div>\n                </div>\n\n                In your class:\n                this.cityArray = new FormArray([new FormControl('SF')]);\n                this.myGroup = new FormGroup({\n                  cities: this.cityArray\n                });");
         };
         return FormArrayName;
     }(ControlContainer));
@@ -2956,13 +3022,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         FormControlName.prototype._checkParentType = function () {
             if (!(this._parent instanceof FormGroupName) &&
+                this._parent instanceof AbstractFormGroupDirective) {
+                ReactiveErrors.ngModelGroupException();
+            }
+            else if (!(this._parent instanceof FormGroupName) &&
                 !(this._parent instanceof FormGroupDirective) &&
                 !(this._parent instanceof FormArrayName)) {
-                this._throwParentException();
+                ReactiveErrors.controlParentException();
             }
-        };
-        FormControlName.prototype._throwParentException = function () {
-            throw new BaseException("formControlName must be used with a parent formGroup directive.\n                You'll want to add a formGroup directive and pass it an existing FormGroup instance\n                (you can create one in your class).\n\n                Example:\n                <div [formGroup]=\"myGroup\">\n                  <input formControlName=\"firstName\">\n                </div>\n\n                In your class:\n                this.myGroup = new FormGroup({\n                   firstName: new FormControl()\n                });");
         };
         return FormControlName;
     }(NgControl));

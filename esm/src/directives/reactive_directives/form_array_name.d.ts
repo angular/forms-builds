@@ -57,5 +57,4 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
     readonly validator: ValidatorFn;
     readonly asyncValidator: AsyncValidatorFn;
     private _checkParentType();
-    private _throwParentException();
 }

@@ -8,10 +8,10 @@
 import { Directive, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
 import { EventEmitter, ObservableWrapper } from '../../facade/async';
 import { ListWrapper, StringMapWrapper } from '../../facade/collection';
-import { BaseException } from '../../facade/exceptions';
 import { isBlank } from '../../facade/lang';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators } from '../../validators';
 import { ControlContainer } from '../control_container';
+import { ReactiveErrors } from '../reactive_errors';
 import { composeAsyncValidators, composeValidators, setUpControl, setUpFormContainer } from '../shared';
 export const formDirectiveProvider = 
 /*@ts2dart_const*/ /* @ts2dart_Provider */ {
@@ -84,9 +84,7 @@ export class FormGroupDirective extends ControlContainer {
     }
     _checkFormPresent() {
         if (isBlank(this.form)) {
-            throw new BaseException(`formGroup expects a FormGroup instance. Please pass one in.
-           Example: <form [formGroup]="myFormGroup">
-      `);
+            ReactiveErrors.missingFormException();
         }
     }
 }

@@ -7,11 +7,12 @@
  */
 import { Directive, Host, Inject, Input, Optional, Output, Self, SkipSelf, forwardRef } from '@angular/core';
 import { EventEmitter, ObservableWrapper } from '../../facade/async';
-import { BaseException } from '../../facade/exceptions';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../../validators';
+import { AbstractFormGroupDirective } from '../abstract_form_group_directive';
 import { ControlContainer } from '../control_container';
 import { NG_VALUE_ACCESSOR } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
+import { ReactiveErrors } from '../reactive_errors';
 import { composeAsyncValidators, composeValidators, controlPath, isPropertyUpdated, selectValueAccessor } from '../shared';
 import { FormArrayName } from './form_array_name';
 import { FormGroupDirective } from './form_group_directive';
@@ -56,25 +57,14 @@ export class FormControlName extends NgControl {
     get control() { return this.formDirective.getControl(this); }
     _checkParentType() {
         if (!(this._parent instanceof FormGroupName) &&
+            this._parent instanceof AbstractFormGroupDirective) {
+            ReactiveErrors.ngModelGroupException();
+        }
+        else if (!(this._parent instanceof FormGroupName) &&
             !(this._parent instanceof FormGroupDirective) &&
             !(this._parent instanceof FormArrayName)) {
-            this._throwParentException();
+            ReactiveErrors.controlParentException();
         }
-    }
-    _throwParentException() {
-        throw new BaseException(`formControlName must be used with a parent formGroup directive.
-                You'll want to add a formGroup directive and pass it an existing FormGroup instance
-                (you can create one in your class).
-
-                Example:
-                <div [formGroup]="myGroup">
-                  <input formControlName="firstName">
-                </div>
-
-                In your class:
-                this.myGroup = new FormGroup({
-                   firstName: new FormControl()
-                });`);
     }
 }
 /** @nocollapse */

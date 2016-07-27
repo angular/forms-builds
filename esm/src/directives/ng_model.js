@@ -7,13 +7,16 @@
  */
 import { Directive, Host, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
 import { EventEmitter, ObservableWrapper, PromiseWrapper } from '../facade/async';
-import { BaseException } from '../facade/exceptions';
 import { FormControl } from '../model';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
+import { AbstractFormGroupDirective } from './abstract_form_group_directive';
 import { ControlContainer } from './control_container';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
 import { NgControl } from './ng_control';
+import { NgForm } from './ng_form';
+import { NgModelGroup } from './ng_model_group';
 import { composeAsyncValidators, composeValidators, controlPath, isPropertyUpdated, selectValueAccessor, setUpControl } from './shared';
+import { TemplateDrivenErrors } from './template_driven_errors';
 export const formControlBinding = 
 /*@ts2dart_const*/ /* @ts2dart_Provider */ {
     provide: NgControl,
@@ -33,7 +36,7 @@ export class NgModel extends NgControl {
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
     ngOnChanges(changes) {
-        this._checkName();
+        this._checkForErrors();
         if (!this._registered)
             this._setUpControl();
         if (isPropertyUpdated(changes, this.viewModel)) {
@@ -67,16 +70,26 @@ export class NgModel extends NgControl {
         setUpControl(this._control, this);
         this._control.updateValueAndValidity({ emitEvent: false });
     }
+    _checkForErrors() {
+        if (!this._isStandalone()) {
+            this._checkParentType();
+        }
+        this._checkName();
+    }
+    _checkParentType() {
+        if (!(this._parent instanceof NgModelGroup) &&
+            this._parent instanceof AbstractFormGroupDirective) {
+            TemplateDrivenErrors.formGroupNameException();
+        }
+        else if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
+            TemplateDrivenErrors.modelParentException();
+        }
+    }
     _checkName() {
         if (this.options && this.options.name)
             this.name = this.options.name;
         if (!this._isStandalone() && !this.name) {
-            throw new BaseException(`If ngModel is used within a form tag, either the name attribute must be set
-                      or the form control must be defined as 'standalone' in ngModelOptions.
-
-                      Example 1: <input [(ngModel)]="person.firstName" name="first">
-                      Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">
-                   `);
+            TemplateDrivenErrors.missingNameException();
         }
     }
     _updateValue(value) {
