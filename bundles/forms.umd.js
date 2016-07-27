@@ -92,8 +92,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function isString(obj) {
         return typeof obj === 'string';
     }
+    function isFunction(obj) {
+        return typeof obj === 'function';
+    }
     function isPromise(obj) {
-        return obj instanceof global$1.Promise;
+        // allow any Promise/A+ compliant thenable.
+        // It's up to the caller to ensure that obj.then conforms to the spec
+        return isPresent(obj) && isFunction(obj.then);
     }
     function isArray(obj) {
         return Array.isArray(obj);
