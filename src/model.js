@@ -385,9 +385,9 @@ var FormControl = (function (_super) {
     FormControl.prototype.reset = function (value, _a) {
         if (value === void 0) { value = null; }
         var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
-        this.updateValue(value, { onlySelf: onlySelf });
         this.markAsPristine({ onlySelf: onlySelf });
         this.markAsUntouched({ onlySelf: onlySelf });
+        this.updateValue(value, { onlySelf: onlySelf });
     };
     /**
      * @internal

@@ -1554,8 +1554,8 @@ var __extends = (this && this.__extends) || function (d, b) {
         // view -> model
         dir.valueAccessor.registerOnChange(function (newValue) {
             dir.viewToModelUpdate(newValue);
-            control.updateValue(newValue, { emitModelToViewChange: false });
             control.markAsDirty();
+            control.updateValue(newValue, { emitModelToViewChange: false });
         });
         control.registerOnChange(function (newValue, emitModelEvent) {
             // control -> view
@@ -1999,9 +1999,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormControl.prototype.reset = function (value, _a) {
             if (value === void 0) { value = null; }
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
-            this.updateValue(value, { onlySelf: onlySelf });
             this.markAsPristine({ onlySelf: onlySelf });
             this.markAsUntouched({ onlySelf: onlySelf });
+            this.updateValue(value, { onlySelf: onlySelf });
         };
         /**
          * @internal

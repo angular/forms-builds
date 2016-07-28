@@ -32,8 +32,8 @@ export function setUpControl(control, dir) {
     // view -> model
     dir.valueAccessor.registerOnChange((newValue) => {
         dir.viewToModelUpdate(newValue);
-        control.updateValue(newValue, { emitModelToViewChange: false });
         control.markAsDirty();
+        control.updateValue(newValue, { emitModelToViewChange: false });
     });
     control.registerOnChange((newValue, emitModelEvent) => {
         // control -> view

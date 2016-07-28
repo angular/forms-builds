@@ -308,9 +308,9 @@ export class FormControl extends AbstractControl {
         this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
     }
     reset(value = null, { onlySelf } = {}) {
-        this.updateValue(value, { onlySelf: onlySelf });
         this.markAsPristine({ onlySelf: onlySelf });
         this.markAsUntouched({ onlySelf: onlySelf });
+        this.updateValue(value, { onlySelf: onlySelf });
     }
     /**
      * @internal
