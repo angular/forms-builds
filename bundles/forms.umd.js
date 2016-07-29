@@ -1124,7 +1124,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.onTouched = function () { };
         }
         NumberValueAccessor.prototype.writeValue = function (value) {
-            this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', value);
+            // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
+            var normalizedValue = isBlank(value) ? '' : value;
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', normalizedValue);
         };
         NumberValueAccessor.prototype.registerOnChange = function (fn) {
             this.onChange = function (value) { fn(value == '' ? null : NumberWrapper.parseFloat(value)); };
