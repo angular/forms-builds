@@ -17,8 +17,7 @@ import { composeAsyncValidators, composeValidators, controlPath, isPropertyUpdat
 import { FormArrayName } from './form_array_name';
 import { FormGroupDirective } from './form_group_directive';
 import { FormGroupName } from './form_group_name';
-export const controlNameBinding = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+export const controlNameBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => FormControlName)
 };

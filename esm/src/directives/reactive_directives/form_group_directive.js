@@ -13,8 +13,7 @@ import { NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators } from '../../validators
 import { ControlContainer } from '../control_container';
 import { ReactiveErrors } from '../reactive_errors';
 import { composeAsyncValidators, composeValidators, setUpControl, setUpFormContainer } from '../shared';
-export const formDirectiveProvider = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+export const formDirectiveProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormGroupDirective)
 };

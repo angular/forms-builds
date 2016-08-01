@@ -18,8 +18,7 @@ export const FORM_PROVIDERS = [RadioControlRegistry];
  * Shorthand set of providers used for building reactive Angular forms.
  * @experimental
  */
-export const REACTIVE_FORM_PROVIDERS = 
-/*@ts2dart_const*/ [FormBuilder, RadioControlRegistry];
+export const REACTIVE_FORM_PROVIDERS = [FormBuilder, RadioControlRegistry];
 export class FormsModule {
 }
 /** @nocollapse */

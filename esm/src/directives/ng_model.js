@@ -17,8 +17,7 @@ import { NgForm } from './ng_form';
 import { NgModelGroup } from './ng_model_group';
 import { composeAsyncValidators, composeValidators, controlPath, isPropertyUpdated, selectValueAccessor, setUpControl } from './shared';
 import { TemplateDrivenErrors } from './template_driven_errors';
-export const formControlBinding = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+export const formControlBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => NgModel)
 };

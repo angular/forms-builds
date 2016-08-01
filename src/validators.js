@@ -32,8 +32,7 @@ exports.NG_VALIDATORS = new core_1.OpaqueToken('NgValidators');
  *
  * @experimental
  */
-exports.NG_ASYNC_VALIDATORS = 
-/*@ts2dart_const*/ new core_1.OpaqueToken('NgAsyncValidators');
+exports.NG_ASYNC_VALIDATORS = new core_1.OpaqueToken('NgAsyncValidators');
 /**
  * Provides a set of validators used by form controls.
  *

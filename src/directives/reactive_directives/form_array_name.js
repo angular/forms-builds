@@ -18,8 +18,7 @@ var reactive_errors_1 = require('../reactive_errors');
 var shared_1 = require('../shared');
 var form_group_directive_1 = require('./form_group_directive');
 var form_group_name_1 = require('./form_group_name');
-exports.formArrayNameProvider = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+exports.formArrayNameProvider = {
     provide: control_container_1.ControlContainer,
     useExisting: core_1.forwardRef(function () { return FormArrayName; })
 };

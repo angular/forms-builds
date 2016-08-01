@@ -23,8 +23,7 @@ var shared_1 = require('../shared');
 var form_array_name_1 = require('./form_array_name');
 var form_group_directive_1 = require('./form_group_directive');
 var form_group_name_1 = require('./form_group_name');
-exports.controlNameBinding = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+exports.controlNameBinding = {
     provide: ng_control_1.NgControl,
     useExisting: core_1.forwardRef(function () { return FormControlName; })
 };

@@ -17,8 +17,7 @@ var abstract_form_group_directive_1 = require('./abstract_form_group_directive')
 var control_container_1 = require('./control_container');
 var ng_form_1 = require('./ng_form');
 var template_driven_errors_1 = require('./template_driven_errors');
-exports.modelGroupProvider = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+exports.modelGroupProvider = {
     provide: control_container_1.ControlContainer,
     useExisting: core_1.forwardRef(function () { return NgModelGroup; })
 };

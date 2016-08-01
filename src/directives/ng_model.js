@@ -23,8 +23,7 @@ var ng_form_1 = require('./ng_form');
 var ng_model_group_1 = require('./ng_model_group');
 var shared_1 = require('./shared');
 var template_driven_errors_1 = require('./template_driven_errors');
-exports.formControlBinding = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+exports.formControlBinding = {
     provide: ng_control_1.NgControl,
     useExisting: core_1.forwardRef(function () { return NgModel; })
 };

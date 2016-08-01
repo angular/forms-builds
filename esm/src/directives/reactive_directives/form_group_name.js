@@ -11,8 +11,7 @@ import { AbstractFormGroupDirective } from '../abstract_form_group_directive';
 import { ControlContainer } from '../control_container';
 import { ReactiveErrors } from '../reactive_errors';
 import { FormGroupDirective } from './form_group_directive';
-export const formGroupNameProvider = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+export const formGroupNameProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormGroupName)
 };

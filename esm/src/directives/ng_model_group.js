@@ -11,8 +11,7 @@ import { AbstractFormGroupDirective } from './abstract_form_group_directive';
 import { ControlContainer } from './control_container';
 import { NgForm } from './ng_form';
 import { TemplateDrivenErrors } from './template_driven_errors';
-export const modelGroupProvider = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+export const modelGroupProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => NgModelGroup)
 };

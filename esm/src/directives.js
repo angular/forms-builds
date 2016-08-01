@@ -46,9 +46,7 @@ export const SHARED_FORM_DIRECTIVES = [
     MaxLengthValidator, PatternValidator
 ];
 export const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
-export const REACTIVE_DRIVEN_DIRECTIVES = [
-    FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName
-];
+export const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
  *
  * A list of all the form directives used as part of a `@Component` annotation.
@@ -66,13 +64,11 @@ export const REACTIVE_DRIVEN_DIRECTIVES = [
  * ```
  * @experimental
  */
-export const FORM_DIRECTIVES = 
-/*@ts2dart_const*/ [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+export const FORM_DIRECTIVES = [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
 /**
  * @experimental
  */
-export const REACTIVE_FORM_DIRECTIVES = 
-/*@ts2dart_const*/ [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+export const REACTIVE_FORM_DIRECTIVES = [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
 export class InternalFormsSharedModule {
 }
 /** @nocollapse */

@@ -20,8 +20,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      * See {@link DefaultValueAccessor} for how to implement one.
      * @experimental
      */
-    var NG_VALUE_ACCESSOR = 
-    /*@ts2dart_const*/ new _angular_core.OpaqueToken('NgValueAccessor');
+    var NG_VALUE_ACCESSOR = new _angular_core.OpaqueToken('NgValueAccessor');
     var CHECKBOX_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
         useExisting: _angular_core.forwardRef(function () { return CheckboxControlValueAccessor; }),
@@ -240,8 +239,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function hasConstructor(value, type) {
         return value.constructor === type;
     }
-    var DEFAULT_VALUE_ACCESSOR = 
-    /* @ts2dart_Provider */ {
+    var DEFAULT_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
         useExisting: _angular_core.forwardRef(function () { return DefaultValueAccessor; }),
         multi: true
@@ -976,8 +974,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      *
      * @experimental
      */
-    var NG_ASYNC_VALIDATORS = 
-    /*@ts2dart_const*/ new _angular_core.OpaqueToken('NgAsyncValidators');
+    var NG_ASYNC_VALIDATORS = new _angular_core.OpaqueToken('NgAsyncValidators');
     /**
      * Provides a set of validators used by form controls.
      *
@@ -2309,8 +2306,10 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         return ControlContainer;
     }(AbstractControlDirective));
-    var formDirectiveProvider = 
-    /*@ts2dart_const*/ { provide: ControlContainer, useExisting: _angular_core.forwardRef(function () { return NgForm; }) };
+    var formDirectiveProvider = {
+        provide: ControlContainer,
+        useExisting: _angular_core.forwardRef(function () { return NgForm; })
+    };
     var NgForm = (function (_super) {
         __extends(NgForm, _super);
         function NgForm(validators, asyncValidators) {
@@ -2501,8 +2500,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         return TemplateDrivenErrors;
     }());
-    var modelGroupProvider = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+    var modelGroupProvider = {
         provide: ControlContainer,
         useExisting: _angular_core.forwardRef(function () { return NgModelGroup; })
     };
@@ -2536,8 +2534,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     NgModelGroup.propDecorators = {
         'name': [{ type: _angular_core.Input, args: ['ngModelGroup',] },],
     };
-    var formControlBinding = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+    var formControlBinding = {
         provide: NgControl,
         useExisting: _angular_core.forwardRef(function () { return NgModel; })
     };
@@ -2680,8 +2677,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         return ReactiveErrors;
     }());
-    var formDirectiveProvider$1 = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+    var formDirectiveProvider$1 = {
         provide: ControlContainer,
         useExisting: _angular_core.forwardRef(function () { return FormGroupDirective; })
     };
@@ -2793,8 +2789,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         'form': [{ type: _angular_core.Input, args: ['formGroup',] },],
         'ngSubmit': [{ type: _angular_core.Output },],
     };
-    var formGroupNameProvider = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+    var formGroupNameProvider = {
         provide: ControlContainer,
         useExisting: _angular_core.forwardRef(function () { return FormGroupName; })
     };
@@ -2828,8 +2823,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     FormGroupName.propDecorators = {
         'name': [{ type: _angular_core.Input, args: ['formGroupName',] },],
     };
-    var formArrayNameProvider = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+    var formArrayNameProvider = {
         provide: ControlContainer,
         useExisting: _angular_core.forwardRef(function () { return FormArrayName; })
     };
@@ -2892,8 +2886,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     FormArrayName.propDecorators = {
         'name': [{ type: _angular_core.Input, args: ['formArrayName',] },],
     };
-    var formControlBinding$1 = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+    var formControlBinding$1 = {
         provide: NgControl,
         useExisting: _angular_core.forwardRef(function () { return FormControlDirective; })
     };
@@ -2963,8 +2956,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
     };
-    var controlNameBinding = 
-    /*@ts2dart_const*/ /* @ts2dart_Provider */ {
+    var controlNameBinding = {
         provide: NgControl,
         useExisting: _angular_core.forwardRef(function () { return FormControlName; })
     };
@@ -3160,9 +3152,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         MaxLengthValidator, PatternValidator
     ];
     var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
-    var REACTIVE_DRIVEN_DIRECTIVES = [
-        FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName
-    ];
+    var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
     /**
      *
      * A list of all the form directives used as part of a `@Component` annotation.
@@ -3180,13 +3170,11 @@ var __extends = (this && this.__extends) || function (d, b) {
      * ```
      * @experimental
      */
-    var FORM_DIRECTIVES = 
-    /*@ts2dart_const*/ [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+    var FORM_DIRECTIVES = [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
     /**
      * @experimental
      */
-    var REACTIVE_FORM_DIRECTIVES = 
-    /*@ts2dart_const*/ [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
+    var REACTIVE_FORM_DIRECTIVES = [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
     var InternalFormsSharedModule = (function () {
         function InternalFormsSharedModule() {
         }
@@ -3272,8 +3260,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      * Shorthand set of providers used for building reactive Angular forms.
      * @experimental
      */
-    var REACTIVE_FORM_PROVIDERS = 
-    /*@ts2dart_const*/ [FormBuilder, RadioControlRegistry];
+    var REACTIVE_FORM_PROVIDERS = [FormBuilder, RadioControlRegistry];
     var FormsModule = (function () {
         function FormsModule() {
         }

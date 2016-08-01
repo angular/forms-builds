@@ -17,8 +17,7 @@ var abstract_form_group_directive_1 = require('../abstract_form_group_directive'
 var control_container_1 = require('../control_container');
 var reactive_errors_1 = require('../reactive_errors');
 var form_group_directive_1 = require('./form_group_directive');
-exports.formGroupNameProvider = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+exports.formGroupNameProvider = {
     provide: control_container_1.ControlContainer,
     useExisting: core_1.forwardRef(function () { return FormGroupName; })
 };

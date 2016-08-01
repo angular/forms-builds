@@ -12,8 +12,7 @@ import { ReactiveErrors } from '../reactive_errors';
 import { composeAsyncValidators, composeValidators, controlPath } from '../shared';
 import { FormGroupDirective } from './form_group_directive';
 import { FormGroupName } from './form_group_name';
-export const formArrayNameProvider = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+export const formArrayNameProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormArrayName)
 };

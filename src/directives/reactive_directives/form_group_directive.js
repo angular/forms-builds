@@ -19,8 +19,7 @@ var validators_1 = require('../../validators');
 var control_container_1 = require('../control_container');
 var reactive_errors_1 = require('../reactive_errors');
 var shared_1 = require('../shared');
-exports.formDirectiveProvider = 
-/*@ts2dart_const*/ /* @ts2dart_Provider */ {
+exports.formDirectiveProvider = {
     provide: control_container_1.ControlContainer,
     useExisting: core_1.forwardRef(function () { return FormGroupDirective; })
 };
