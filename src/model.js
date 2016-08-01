@@ -33,11 +33,11 @@ function isControl(control) {
     return control instanceof AbstractControl;
 }
 exports.isControl = isControl;
-function _find(control, path) {
+function _find(control, path, delimiter) {
     if (lang_1.isBlank(path))
         return null;
     if (!(path instanceof Array)) {
-        path = path.split('/');
+        path = path.split(delimiter);
     }
     if (path instanceof Array && collection_1.ListWrapper.isEmpty(path))
         return null;
@@ -244,7 +244,8 @@ var AbstractControl = (function () {
         this._errors = errors;
         this._updateControlsErrors(emitEvent);
     };
-    AbstractControl.prototype.find = function (path) { return _find(this, path); };
+    AbstractControl.prototype.find = function (path) { return _find(this, path, '/'); };
+    AbstractControl.prototype.get = function (path) { return _find(this, path, '.'); };
     AbstractControl.prototype.getError = function (errorCode, path) {
         if (path === void 0) { path = null; }
         var control = lang_1.isPresent(path) && !collection_1.ListWrapper.isEmpty(path) ? this.find(path) : this;

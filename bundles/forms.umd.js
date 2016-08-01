@@ -1647,11 +1647,11 @@ var __extends = (this && this.__extends) || function (d, b) {
      * errors are not yet available for the input value.
      */
     var PENDING = 'PENDING';
-    function _find(control, path) {
+    function _find(control, path, delimiter) {
         if (isBlank(path))
             return null;
         if (!(path instanceof Array)) {
-            path = path.split('/');
+            path = path.split(delimiter);
         }
         if (path instanceof Array && ListWrapper.isEmpty(path))
             return null;
@@ -1858,7 +1858,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._errors = errors;
             this._updateControlsErrors(emitEvent);
         };
-        AbstractControl.prototype.find = function (path) { return _find(this, path); };
+        AbstractControl.prototype.find = function (path) { return _find(this, path, '/'); };
+        AbstractControl.prototype.get = function (path) { return _find(this, path, '.'); };
         AbstractControl.prototype.getError = function (errorCode, path) {
             if (path === void 0) { path = null; }
             var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.find(path) : this;

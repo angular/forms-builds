@@ -26,11 +26,11 @@ export const PENDING = 'PENDING';
 export function isControl(control) {
     return control instanceof AbstractControl;
 }
-function _find(control, path) {
+function _find(control, path, delimiter) {
     if (isBlank(path))
         return null;
     if (!(path instanceof Array)) {
-        path = path.split('/');
+        path = path.split(delimiter);
     }
     if (path instanceof Array && ListWrapper.isEmpty(path))
         return null;
@@ -185,7 +185,8 @@ export class AbstractControl {
         this._errors = errors;
         this._updateControlsErrors(emitEvent);
     }
-    find(path) { return _find(this, path); }
+    find(path) { return _find(this, path, '/'); }
+    get(path) { return _find(this, path, '.'); }
     getError(errorCode, path = null) {
         var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.find(path) : this;
         if (isPresent(control) && isPresent(control._errors)) {
