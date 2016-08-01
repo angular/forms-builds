@@ -185,6 +185,9 @@ export class AbstractControl {
         this._errors = errors;
         this._updateControlsErrors(emitEvent);
     }
+    /**
+     * @deprecated - use get() instead
+     */
     find(path) { return _find(this, path, '/'); }
     get(path) { return _find(this, path, '.'); }
     getError(errorCode, path = null) {

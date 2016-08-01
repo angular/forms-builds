@@ -244,6 +244,9 @@ var AbstractControl = (function () {
         this._errors = errors;
         this._updateControlsErrors(emitEvent);
     };
+    /**
+     * @deprecated - use get() instead
+     */
     AbstractControl.prototype.find = function (path) { return _find(this, path, '/'); };
     AbstractControl.prototype.get = function (path) { return _find(this, path, '.'); };
     AbstractControl.prototype.getError = function (errorCode, path) {

@@ -102,6 +102,9 @@ export declare abstract class AbstractControl {
     }, {emitEvent}?: {
         emitEvent?: boolean;
     }): void;
+    /**
+     * @deprecated - use get() instead
+     */
     find(path: Array<string | number> | string): AbstractControl;
     get(path: Array<string | number> | string): AbstractControl;
     getError(errorCode: string, path?: string[]): any;
