@@ -14,9 +14,8 @@ import { NG_VALUE_ACCESSOR } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
 import { ReactiveErrors } from '../reactive_errors';
 import { composeAsyncValidators, composeValidators, controlPath, isPropertyUpdated, selectValueAccessor } from '../shared';
-import { FormArrayName } from './form_array_name';
 import { FormGroupDirective } from './form_group_directive';
-import { FormGroupName } from './form_group_name';
+import { FormArrayName, FormGroupName } from './form_group_name';
 export const controlNameBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => FormControlName)

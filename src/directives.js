@@ -15,7 +15,6 @@ var ng_model_1 = require('./directives/ng_model');
 var ng_model_group_1 = require('./directives/ng_model_group');
 var number_value_accessor_1 = require('./directives/number_value_accessor');
 var radio_control_value_accessor_1 = require('./directives/radio_control_value_accessor');
-var form_array_name_1 = require('./directives/reactive_directives/form_array_name');
 var form_control_directive_1 = require('./directives/reactive_directives/form_control_directive');
 var form_control_name_1 = require('./directives/reactive_directives/form_control_name');
 var form_group_directive_1 = require('./directives/reactive_directives/form_group_directive');
@@ -41,8 +40,6 @@ var number_value_accessor_2 = require('./directives/number_value_accessor');
 exports.NumberValueAccessor = number_value_accessor_2.NumberValueAccessor;
 var radio_control_value_accessor_2 = require('./directives/radio_control_value_accessor');
 exports.RadioControlValueAccessor = radio_control_value_accessor_2.RadioControlValueAccessor;
-var form_array_name_2 = require('./directives/reactive_directives/form_array_name');
-exports.FormArrayName = form_array_name_2.FormArrayName;
 var form_control_directive_2 = require('./directives/reactive_directives/form_control_directive');
 exports.FormControlDirective = form_control_directive_2.FormControlDirective;
 var form_control_name_2 = require('./directives/reactive_directives/form_control_name');
@@ -50,6 +47,7 @@ exports.FormControlName = form_control_name_2.FormControlName;
 var form_group_directive_2 = require('./directives/reactive_directives/form_group_directive');
 exports.FormGroupDirective = form_group_directive_2.FormGroupDirective;
 var form_group_name_2 = require('./directives/reactive_directives/form_group_name');
+exports.FormArrayName = form_group_name_2.FormArrayName;
 exports.FormGroupName = form_group_name_2.FormGroupName;
 var select_control_value_accessor_2 = require('./directives/select_control_value_accessor');
 exports.NgSelectOption = select_control_value_accessor_2.NgSelectOption;
@@ -69,7 +67,7 @@ exports.SHARED_FORM_DIRECTIVES = [
     validators_1.MaxLengthValidator, validators_1.PatternValidator
 ];
 exports.TEMPLATE_DRIVEN_DIRECTIVES = [ng_model_1.NgModel, ng_model_group_1.NgModelGroup, ng_form_1.NgForm];
-exports.REACTIVE_DRIVEN_DIRECTIVES = [form_control_directive_1.FormControlDirective, form_group_directive_1.FormGroupDirective, form_control_name_1.FormControlName, form_group_name_1.FormGroupName, form_array_name_1.FormArrayName];
+exports.REACTIVE_DRIVEN_DIRECTIVES = [form_control_directive_1.FormControlDirective, form_group_directive_1.FormGroupDirective, form_control_name_1.FormControlName, form_group_name_1.FormGroupName, form_group_name_1.FormArrayName];
 /**
  *
  * A list of all the form directives used as part of a `@Component` annotation.

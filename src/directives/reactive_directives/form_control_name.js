@@ -20,7 +20,6 @@ var control_value_accessor_1 = require('../control_value_accessor');
 var ng_control_1 = require('../ng_control');
 var reactive_errors_1 = require('../reactive_errors');
 var shared_1 = require('../shared');
-var form_array_name_1 = require('./form_array_name');
 var form_group_directive_1 = require('./form_group_directive');
 var form_group_name_1 = require('./form_group_name');
 exports.controlNameBinding = {
@@ -88,7 +87,7 @@ var FormControlName = (function (_super) {
         }
         else if (!(this._parent instanceof form_group_name_1.FormGroupName) &&
             !(this._parent instanceof form_group_directive_1.FormGroupDirective) &&
-            !(this._parent instanceof form_array_name_1.FormArrayName)) {
+            !(this._parent instanceof form_group_name_1.FormArrayName)) {
             reactive_errors_1.ReactiveErrors.controlParentException();
         }
     };
