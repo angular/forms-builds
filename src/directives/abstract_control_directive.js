@@ -33,6 +33,16 @@ var AbstractControlDirective = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(AbstractControlDirective.prototype, "invalid", {
+        get: function () { return lang_1.isPresent(this.control) ? this.control.invalid : null; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlDirective.prototype, "pending", {
+        get: function () { return lang_1.isPresent(this.control) ? this.control.pending : null; },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(AbstractControlDirective.prototype, "errors", {
         get: function () {
             return lang_1.isPresent(this.control) ? this.control.errors : null;

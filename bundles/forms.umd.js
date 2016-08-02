@@ -626,6 +626,16 @@ var __extends = (this && this.__extends) || function (d, b) {
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(AbstractControlDirective.prototype, "invalid", {
+            get: function () { return isPresent(this.control) ? this.control.invalid : null; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControlDirective.prototype, "pending", {
+            get: function () { return isPresent(this.control) ? this.control.pending : null; },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(AbstractControlDirective.prototype, "errors", {
             get: function () {
                 return isPresent(this.control) ? this.control.errors : null;
@@ -1699,6 +1709,11 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         Object.defineProperty(AbstractControl.prototype, "valid", {
             get: function () { return this._status === VALID; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControl.prototype, "invalid", {
+            get: function () { return this._status === INVALID; },
             enumerable: true,
             configurable: true
         });

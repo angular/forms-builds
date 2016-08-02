@@ -32,6 +32,7 @@ export declare abstract class AbstractControl {
     value: any;
     status: string;
     valid: boolean;
+    invalid: boolean;
     /**
      * Returns the errors of this control.
      */

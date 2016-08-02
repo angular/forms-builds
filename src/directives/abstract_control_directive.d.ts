@@ -18,6 +18,8 @@ export declare abstract class AbstractControlDirective {
     control: AbstractControl;
     value: any;
     valid: boolean;
+    invalid: boolean;
+    pending: boolean;
     errors: {
         [key: string]: any;
     };

@@ -18,6 +18,8 @@ export declare abstract class AbstractControlDirective {
     readonly control: AbstractControl;
     readonly value: any;
     readonly valid: boolean;
+    readonly invalid: boolean;
+    readonly pending: boolean;
     readonly errors: {
         [key: string]: any;
     };

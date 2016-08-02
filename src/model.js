@@ -88,6 +88,11 @@ var AbstractControl = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(AbstractControl.prototype, "invalid", {
+        get: function () { return this._status === exports.INVALID; },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(AbstractControl.prototype, "errors", {
         /**
          * Returns the errors of this control.

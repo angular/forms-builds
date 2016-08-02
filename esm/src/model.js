@@ -69,6 +69,7 @@ export class AbstractControl {
     get value() { return this._value; }
     get status() { return this._status; }
     get valid() { return this._status === VALID; }
+    get invalid() { return this._status === INVALID; }
     /**
      * Returns the errors of this control.
      */

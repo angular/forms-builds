@@ -18,6 +18,8 @@ export class AbstractControlDirective {
     get control() { return unimplemented(); }
     get value() { return isPresent(this.control) ? this.control.value : null; }
     get valid() { return isPresent(this.control) ? this.control.valid : null; }
+    get invalid() { return isPresent(this.control) ? this.control.invalid : null; }
+    get pending() { return isPresent(this.control) ? this.control.pending : null; }
     get errors() {
         return isPresent(this.control) ? this.control.errors : null;
     }
