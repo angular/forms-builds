@@ -14,7 +14,9 @@ var __extends = (this && this.__extends) || function (d, b) {
 var control_container_1 = require('./control_container');
 var shared_1 = require('./shared');
 /**
-  This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
+ * This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
+ *
+ * @experimental
  */
 var AbstractFormGroupDirective = (function (_super) {
     __extends(AbstractFormGroupDirective, _super);

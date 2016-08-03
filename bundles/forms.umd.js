@@ -2438,7 +2438,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         { type: Array, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Self }, { type: _angular_core.Inject, args: [NG_ASYNC_VALIDATORS,] },] },
     ];
     /**
-      This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
+     * This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
+     *
+     * @experimental
      */
     var AbstractFormGroupDirective = (function (_super) {
         __extends(AbstractFormGroupDirective, _super);
@@ -3327,6 +3329,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.FORM_DIRECTIVES = FORM_DIRECTIVES;
     exports.REACTIVE_FORM_DIRECTIVES = REACTIVE_FORM_DIRECTIVES;
     exports.AbstractControlDirective = AbstractControlDirective;
+    exports.AbstractFormGroupDirective = AbstractFormGroupDirective;
     exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
     exports.ControlContainer = ControlContainer;
     exports.NG_VALUE_ACCESSOR = NG_VALUE_ACCESSOR;

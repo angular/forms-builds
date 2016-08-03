@@ -8,7 +8,9 @@
 import { ControlContainer } from './control_container';
 import { composeAsyncValidators, composeValidators, controlPath } from './shared';
 /**
-  This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
+ * This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
+ *
+ * @experimental
  */
 export class AbstractFormGroupDirective extends ControlContainer {
     ngOnInit() {
