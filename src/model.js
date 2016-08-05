@@ -381,7 +381,7 @@ var FormControl = (function (_super) {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      */
-    FormControl.prototype.updateValue = function (value, _a) {
+    FormControl.prototype.setValue = function (value, _a) {
         var _this = this;
         var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange, emitViewToModelChange = _b.emitViewToModelChange;
         emitModelToViewChange = lang_1.isPresent(emitModelToViewChange) ? emitModelToViewChange : true;
@@ -392,12 +392,27 @@ var FormControl = (function (_super) {
         }
         this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
     };
+    /**
+     * This function is functionally the same as updateValue() at this level.  It exists for
+     * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
+     */
+    FormControl.prototype.patchValue = function (value, options) {
+        if (options === void 0) { options = {}; }
+        this.setValue(value, options);
+    };
+    /**
+     * @deprecated Please use setValue() instead.
+     */
+    FormControl.prototype.updateValue = function (value, options) {
+        if (options === void 0) { options = {}; }
+        this.setValue(value, options);
+    };
     FormControl.prototype.reset = function (value, _a) {
         if (value === void 0) { value = null; }
         var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         this.markAsPristine({ onlySelf: onlySelf });
         this.markAsUntouched({ onlySelf: onlySelf });
-        this.updateValue(value, { onlySelf: onlySelf });
+        this.setValue(value, { onlySelf: onlySelf });
     };
     /**
      * @internal
@@ -492,12 +507,23 @@ var FormGroup = (function (_super) {
         var c = collection_1.StringMapWrapper.contains(this.controls, controlName);
         return c && this._included(controlName);
     };
-    FormGroup.prototype.updateValue = function (value, _a) {
+    FormGroup.prototype.setValue = function (value, _a) {
+        var _this = this;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+        this._checkAllValuesPresent(value);
+        collection_1.StringMapWrapper.forEach(value, function (newValue, name) {
+            _this._throwIfControlMissing(name);
+            _this.controls[name].setValue(newValue, { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+    };
+    FormGroup.prototype.patchValue = function (value, _a) {
         var _this = this;
         var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         collection_1.StringMapWrapper.forEach(value, function (newValue, name) {
-            _this._throwIfControlMissing(name);
-            _this.controls[name].updateValue(newValue, { onlySelf: true });
+            if (_this.controls[name]) {
+                _this.controls[name].patchValue(newValue, { onlySelf: true });
+            }
         });
         this.updateValueAndValidity({ onlySelf: onlySelf });
     };
@@ -513,6 +539,9 @@ var FormGroup = (function (_super) {
     };
     /** @internal */
     FormGroup.prototype._throwIfControlMissing = function (name) {
+        if (!Object.keys(this.controls).length) {
+            throw new exceptions_1.BaseException("\n        There are no form controls registered with this group yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+        }
         if (!this.controls[name]) {
             throw new exceptions_1.BaseException("Cannot find form control with name: " + name + ".");
         }
@@ -559,6 +588,14 @@ var FormGroup = (function (_super) {
     FormGroup.prototype._included = function (controlName) {
         var isOptional = collection_1.StringMapWrapper.contains(this._optionals, controlName);
         return !isOptional || collection_1.StringMapWrapper.get(this._optionals, controlName);
+    };
+    /** @internal */
+    FormGroup.prototype._checkAllValuesPresent = function (value) {
+        this._forEachChild(function (control, name) {
+            if (value[name] === undefined) {
+                throw new exceptions_1.BaseException("Must supply a value for form control with name: '" + name + "'.");
+            }
+        });
     };
     return FormGroup;
 }(AbstractControl));
@@ -633,12 +670,23 @@ var FormArray = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    FormArray.prototype.updateValue = function (value, _a) {
+    FormArray.prototype.setValue = function (value, _a) {
+        var _this = this;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+        this._checkAllValuesPresent(value);
+        value.forEach(function (newValue, index) {
+            _this._throwIfControlMissing(index);
+            _this.at(index).setValue(newValue, { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+    };
+    FormArray.prototype.patchValue = function (value, _a) {
         var _this = this;
         var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         value.forEach(function (newValue, index) {
-            _this._throwIfControlMissing(index);
-            _this.at(index).updateValue(newValue, { onlySelf: true });
+            if (_this.at(index)) {
+                _this.at(index).patchValue(newValue, { onlySelf: true });
+            }
         });
         this.updateValueAndValidity({ onlySelf: onlySelf });
     };
@@ -654,6 +702,9 @@ var FormArray = (function (_super) {
     };
     /** @internal */
     FormArray.prototype._throwIfControlMissing = function (index) {
+        if (!this.controls.length) {
+            throw new exceptions_1.BaseException("\n        There are no form controls registered with this array yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+        }
         if (!this.at(index)) {
             throw new exceptions_1.BaseException("Cannot find form control at index " + index);
         }
@@ -672,6 +723,14 @@ var FormArray = (function (_super) {
     FormArray.prototype._setParentForControls = function () {
         var _this = this;
         this._forEachChild(function (control) { control.setParent(_this); });
+    };
+    /** @internal */
+    FormArray.prototype._checkAllValuesPresent = function (value) {
+        this._forEachChild(function (control, i) {
+            if (value[i] === undefined) {
+                throw new exceptions_1.BaseException("Must supply a value for form control at index: " + i + ".");
+            }
+        });
     };
     return FormArray;
 }(AbstractControl));

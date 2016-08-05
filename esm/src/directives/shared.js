@@ -33,7 +33,7 @@ export function setUpControl(control, dir) {
     dir.valueAccessor.registerOnChange((newValue) => {
         dir.viewToModelUpdate(newValue);
         control.markAsDirty();
-        control.updateValue(newValue, { emitModelToViewChange: false });
+        control.setValue(newValue, { emitModelToViewChange: false });
     });
     control.registerOnChange((newValue, emitModelEvent) => {
         // control -> view

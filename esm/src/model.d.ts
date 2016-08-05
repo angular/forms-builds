@@ -66,7 +66,8 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
     }): void;
     setParent(parent: FormGroup | FormArray): void;
-    abstract updateValue(value: any, options?: Object): void;
+    abstract setValue(value: any, options?: Object): void;
+    abstract patchValue(value: any, options?: Object): void;
     abstract reset(value?: any, options?: Object): void;
     updateValueAndValidity({onlySelf, emitEvent}?: {
         onlySelf?: boolean;
@@ -148,7 +149,26 @@ export declare class FormControl extends AbstractControl {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      */
-    updateValue(value: any, {onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange}?: {
+    setValue(value: any, {onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange}?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+        emitModelToViewChange?: boolean;
+        emitViewToModelChange?: boolean;
+    }): void;
+    /**
+     * This function is functionally the same as updateValue() at this level.  It exists for
+     * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
+     */
+    patchValue(value: any, options?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+        emitModelToViewChange?: boolean;
+        emitViewToModelChange?: boolean;
+    }): void;
+    /**
+     * @deprecated Please use setValue() instead.
+     */
+    updateValue(value: any, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;
@@ -212,7 +232,12 @@ export declare class FormGroup extends AbstractControl {
      * Check whether there is a control with the given name in the group.
      */
     contains(controlName: string): boolean;
-    updateValue(value: {
+    setValue(value: {
+        [key: string]: any;
+    }, {onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
+    patchValue(value: {
         [key: string]: any;
     }, {onlySelf}?: {
         onlySelf?: boolean;
@@ -268,7 +293,10 @@ export declare class FormArray extends AbstractControl {
      * Length of the control array.
      */
     readonly length: number;
-    updateValue(value: any[], {onlySelf}?: {
+    setValue(value: any[], {onlySelf}?: {
+        onlySelf?: boolean;
+    }): void;
+    patchValue(value: any[], {onlySelf}?: {
         onlySelf?: boolean;
     }): void;
     reset(value?: any, {onlySelf}?: {

@@ -38,7 +38,7 @@ export class NgForm extends ControlContainer {
             dir.control.updateValueAndValidity({ emitEvent: false });
         });
     }
-    getControl(dir) { return this.form.find(dir.path); }
+    getControl(dir) { return this.form.get(dir.path); }
     removeControl(dir) {
         resolvedPromise.then(() => {
             var container = this._findContainer(dir.path);
@@ -64,14 +64,14 @@ export class NgForm extends ControlContainer {
             }
         });
     }
-    getFormGroup(dir) { return this.form.find(dir.path); }
+    getFormGroup(dir) { return this.form.get(dir.path); }
     updateModel(dir, value) {
         resolvedPromise.then(() => {
-            var ctrl = this.form.find(dir.path);
-            ctrl.updateValue(value);
+            var ctrl = this.form.get(dir.path);
+            ctrl.setValue(value);
         });
     }
-    updateValue(value) { this.control.updateValue(value); }
+    setValue(value) { this.control.setValue(value); }
     onSubmit() {
         this._submitted = true;
         this.ngSubmit.emit(null);
@@ -81,7 +81,7 @@ export class NgForm extends ControlContainer {
     /** @internal */
     _findContainer(path) {
         path.pop();
-        return ListWrapper.isEmpty(path) ? this.form : this.form.find(path);
+        return ListWrapper.isEmpty(path) ? this.form : this.form.get(path);
     }
 }
 /** @nocollapse */

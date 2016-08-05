@@ -43,30 +43,30 @@ export class FormGroupDirective extends ControlContainer {
     get control() { return this.form; }
     get path() { return []; }
     addControl(dir) {
-        const ctrl = this.form.find(dir.path);
+        const ctrl = this.form.get(dir.path);
         setUpControl(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
         this.directives.push(dir);
     }
-    getControl(dir) { return this.form.find(dir.path); }
+    getControl(dir) { return this.form.get(dir.path); }
     removeControl(dir) { ListWrapper.remove(this.directives, dir); }
     addFormGroup(dir) {
-        var ctrl = this.form.find(dir.path);
+        var ctrl = this.form.get(dir.path);
         setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
     }
     removeFormGroup(dir) { }
-    getFormGroup(dir) { return this.form.find(dir.path); }
+    getFormGroup(dir) { return this.form.get(dir.path); }
     addFormArray(dir) {
-        var ctrl = this.form.find(dir.path);
+        var ctrl = this.form.get(dir.path);
         setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
     }
     removeFormArray(dir) { }
-    getFormArray(dir) { return this.form.find(dir.path); }
+    getFormArray(dir) { return this.form.get(dir.path); }
     updateModel(dir, value) {
-        var ctrl = this.form.find(dir.path);
-        ctrl.updateValue(value);
+        var ctrl = this.form.get(dir.path);
+        ctrl.setValue(value);
     }
     onSubmit() {
         this._submitted = true;
@@ -77,7 +77,7 @@ export class FormGroupDirective extends ControlContainer {
     /** @internal */
     _updateDomValue() {
         this.directives.forEach(dir => {
-            var ctrl = this.form.find(dir.path);
+            var ctrl = this.form.get(dir.path);
             dir.valueAccessor.writeValue(ctrl.value);
         });
     }

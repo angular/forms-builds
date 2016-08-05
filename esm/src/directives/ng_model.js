@@ -93,7 +93,7 @@ export class NgModel extends NgControl {
         }
     }
     _updateValue(value) {
-        resolvedPromise.then(() => { this.control.updateValue(value, { emitViewToModelChange: false }); });
+        resolvedPromise.then(() => { this.control.setValue(value, { emitViewToModelChange: false }); });
     }
 }
 /** @nocollapse */

@@ -30,7 +30,7 @@ export class FormControlDirective extends NgControl {
             this.form.updateValueAndValidity({ emitEvent: false });
         }
         if (isPropertyUpdated(changes, this.viewModel)) {
-            this.form.updateValue(this.model);
+            this.form.setValue(this.model);
             this.viewModel = this.model;
         }
     }

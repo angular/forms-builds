@@ -35,7 +35,7 @@ function setUpControl(control, dir) {
     dir.valueAccessor.registerOnChange(function (newValue) {
         dir.viewToModelUpdate(newValue);
         control.markAsDirty();
-        control.updateValue(newValue, { emitModelToViewChange: false });
+        control.setValue(newValue, { emitModelToViewChange: false });
     });
     control.registerOnChange(function (newValue, emitModelEvent) {
         // control -> view

@@ -121,7 +121,7 @@ var NgModel = (function (_super) {
     };
     NgModel.prototype._updateValue = function (value) {
         var _this = this;
-        resolvedPromise.then(function () { _this.control.updateValue(value, { emitViewToModelChange: false }); });
+        resolvedPromise.then(function () { _this.control.setValue(value, { emitViewToModelChange: false }); });
     };
     /** @nocollapse */
     NgModel.decorators = [

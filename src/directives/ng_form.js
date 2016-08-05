@@ -66,7 +66,7 @@ var NgForm = (function (_super) {
             dir.control.updateValueAndValidity({ emitEvent: false });
         });
     };
-    NgForm.prototype.getControl = function (dir) { return this.form.find(dir.path); };
+    NgForm.prototype.getControl = function (dir) { return this.form.get(dir.path); };
     NgForm.prototype.removeControl = function (dir) {
         var _this = this;
         resolvedPromise.then(function () {
@@ -95,15 +95,15 @@ var NgForm = (function (_super) {
             }
         });
     };
-    NgForm.prototype.getFormGroup = function (dir) { return this.form.find(dir.path); };
+    NgForm.prototype.getFormGroup = function (dir) { return this.form.get(dir.path); };
     NgForm.prototype.updateModel = function (dir, value) {
         var _this = this;
         resolvedPromise.then(function () {
-            var ctrl = _this.form.find(dir.path);
-            ctrl.updateValue(value);
+            var ctrl = _this.form.get(dir.path);
+            ctrl.setValue(value);
         });
     };
-    NgForm.prototype.updateValue = function (value) { this.control.updateValue(value); };
+    NgForm.prototype.setValue = function (value) { this.control.setValue(value); };
     NgForm.prototype.onSubmit = function () {
         this._submitted = true;
         this.ngSubmit.emit(null);
@@ -113,7 +113,7 @@ var NgForm = (function (_super) {
     /** @internal */
     NgForm.prototype._findContainer = function (path) {
         path.pop();
-        return collection_1.ListWrapper.isEmpty(path) ? this.form : this.form.find(path);
+        return collection_1.ListWrapper.isEmpty(path) ? this.form : this.form.get(path);
     };
     /** @nocollapse */
     NgForm.decorators = [

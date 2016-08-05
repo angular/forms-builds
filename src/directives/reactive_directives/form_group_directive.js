@@ -66,30 +66,30 @@ var FormGroupDirective = (function (_super) {
         configurable: true
     });
     FormGroupDirective.prototype.addControl = function (dir) {
-        var ctrl = this.form.find(dir.path);
+        var ctrl = this.form.get(dir.path);
         shared_1.setUpControl(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
         this.directives.push(dir);
     };
-    FormGroupDirective.prototype.getControl = function (dir) { return this.form.find(dir.path); };
+    FormGroupDirective.prototype.getControl = function (dir) { return this.form.get(dir.path); };
     FormGroupDirective.prototype.removeControl = function (dir) { collection_1.ListWrapper.remove(this.directives, dir); };
     FormGroupDirective.prototype.addFormGroup = function (dir) {
-        var ctrl = this.form.find(dir.path);
+        var ctrl = this.form.get(dir.path);
         shared_1.setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
     };
     FormGroupDirective.prototype.removeFormGroup = function (dir) { };
-    FormGroupDirective.prototype.getFormGroup = function (dir) { return this.form.find(dir.path); };
+    FormGroupDirective.prototype.getFormGroup = function (dir) { return this.form.get(dir.path); };
     FormGroupDirective.prototype.addFormArray = function (dir) {
-        var ctrl = this.form.find(dir.path);
+        var ctrl = this.form.get(dir.path);
         shared_1.setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
     };
     FormGroupDirective.prototype.removeFormArray = function (dir) { };
-    FormGroupDirective.prototype.getFormArray = function (dir) { return this.form.find(dir.path); };
+    FormGroupDirective.prototype.getFormArray = function (dir) { return this.form.get(dir.path); };
     FormGroupDirective.prototype.updateModel = function (dir, value) {
-        var ctrl = this.form.find(dir.path);
-        ctrl.updateValue(value);
+        var ctrl = this.form.get(dir.path);
+        ctrl.setValue(value);
     };
     FormGroupDirective.prototype.onSubmit = function () {
         this._submitted = true;
@@ -101,7 +101,7 @@ var FormGroupDirective = (function (_super) {
     FormGroupDirective.prototype._updateDomValue = function () {
         var _this = this;
         this.directives.forEach(function (dir) {
-            var ctrl = _this.form.find(dir.path);
+            var ctrl = _this.form.get(dir.path);
             dir.valueAccessor.writeValue(ctrl.value);
         });
     };

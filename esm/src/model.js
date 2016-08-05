@@ -304,7 +304,7 @@ export class FormControl extends AbstractControl {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      */
-    updateValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange } = {}) {
+    setValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange } = {}) {
         emitModelToViewChange = isPresent(emitModelToViewChange) ? emitModelToViewChange : true;
         emitViewToModelChange = isPresent(emitViewToModelChange) ? emitViewToModelChange : true;
         this._value = value;
@@ -313,10 +313,23 @@ export class FormControl extends AbstractControl {
         }
         this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
     }
+    /**
+     * This function is functionally the same as updateValue() at this level.  It exists for
+     * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
+     */
+    patchValue(value, options = {}) {
+        this.setValue(value, options);
+    }
+    /**
+     * @deprecated Please use setValue() instead.
+     */
+    updateValue(value, options = {}) {
+        this.setValue(value, options);
+    }
     reset(value = null, { onlySelf } = {}) {
         this.markAsPristine({ onlySelf: onlySelf });
         this.markAsUntouched({ onlySelf: onlySelf });
-        this.updateValue(value, { onlySelf: onlySelf });
+        this.setValue(value, { onlySelf: onlySelf });
     }
     /**
      * @internal
@@ -405,10 +418,19 @@ export class FormGroup extends AbstractControl {
         var c = StringMapWrapper.contains(this.controls, controlName);
         return c && this._included(controlName);
     }
-    updateValue(value, { onlySelf } = {}) {
+    setValue(value, { onlySelf } = {}) {
+        this._checkAllValuesPresent(value);
         StringMapWrapper.forEach(value, (newValue, name) => {
             this._throwIfControlMissing(name);
-            this.controls[name].updateValue(newValue, { onlySelf: true });
+            this.controls[name].setValue(newValue, { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+    }
+    patchValue(value, { onlySelf } = {}) {
+        StringMapWrapper.forEach(value, (newValue, name) => {
+            if (this.controls[name]) {
+                this.controls[name].patchValue(newValue, { onlySelf: true });
+            }
         });
         this.updateValueAndValidity({ onlySelf: onlySelf });
     }
@@ -422,6 +444,12 @@ export class FormGroup extends AbstractControl {
     }
     /** @internal */
     _throwIfControlMissing(name) {
+        if (!Object.keys(this.controls).length) {
+            throw new BaseException(`
+        There are no form controls registered with this group yet.  If you're using ngModel,
+        you may want to check next tick (e.g. use setTimeout).
+      `);
+        }
         if (!this.controls[name]) {
             throw new BaseException(`Cannot find form control with name: ${name}.`);
         }
@@ -465,6 +493,14 @@ export class FormGroup extends AbstractControl {
     _included(controlName) {
         var isOptional = StringMapWrapper.contains(this._optionals, controlName);
         return !isOptional || StringMapWrapper.get(this._optionals, controlName);
+    }
+    /** @internal */
+    _checkAllValuesPresent(value) {
+        this._forEachChild((control, name) => {
+            if (value[name] === undefined) {
+                throw new BaseException(`Must supply a value for form control with name: '${name}'.`);
+            }
+        });
     }
 }
 /**
@@ -530,10 +566,19 @@ export class FormArray extends AbstractControl {
      * Length of the control array.
      */
     get length() { return this.controls.length; }
-    updateValue(value, { onlySelf } = {}) {
+    setValue(value, { onlySelf } = {}) {
+        this._checkAllValuesPresent(value);
         value.forEach((newValue, index) => {
             this._throwIfControlMissing(index);
-            this.at(index).updateValue(newValue, { onlySelf: true });
+            this.at(index).setValue(newValue, { onlySelf: true });
+        });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
+    }
+    patchValue(value, { onlySelf } = {}) {
+        value.forEach((newValue, index) => {
+            if (this.at(index)) {
+                this.at(index).patchValue(newValue, { onlySelf: true });
+            }
         });
         this.updateValueAndValidity({ onlySelf: onlySelf });
     }
@@ -547,6 +592,12 @@ export class FormArray extends AbstractControl {
     }
     /** @internal */
     _throwIfControlMissing(index) {
+        if (!this.controls.length) {
+            throw new BaseException(`
+        There are no form controls registered with this array yet.  If you're using ngModel,
+        you may want to check next tick (e.g. use setTimeout).
+      `);
+        }
         if (!this.at(index)) {
             throw new BaseException(`Cannot find form control at index ${index}`);
         }
@@ -564,6 +615,14 @@ export class FormArray extends AbstractControl {
     /** @internal */
     _setParentForControls() {
         this._forEachChild((control) => { control.setParent(this); });
+    }
+    /** @internal */
+    _checkAllValuesPresent(value) {
+        this._forEachChild((control, i) => {
+            if (value[i] === undefined) {
+                throw new BaseException(`Must supply a value for form control at index: ${i}.`);
+            }
+        });
     }
 }
 //# sourceMappingURL=model.js.map

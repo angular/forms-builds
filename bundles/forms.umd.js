@@ -1483,7 +1483,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         dir.valueAccessor.registerOnChange(function (newValue) {
             dir.viewToModelUpdate(newValue);
             control.markAsDirty();
-            control.updateValue(newValue, { emitModelToViewChange: false });
+            control.setValue(newValue, { emitModelToViewChange: false });
         });
         control.registerOnChange(function (newValue, emitModelEvent) {
             // control -> view
@@ -1922,7 +1922,7 @@ var __extends = (this && this.__extends) || function (d, b) {
          * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
          * model.  This is the default behavior if `emitViewToModelChange` is not specified.
          */
-        FormControl.prototype.updateValue = function (value, _a) {
+        FormControl.prototype.setValue = function (value, _a) {
             var _this = this;
             var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange, emitViewToModelChange = _b.emitViewToModelChange;
             emitModelToViewChange = isPresent(emitModelToViewChange) ? emitModelToViewChange : true;
@@ -1933,12 +1933,27 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
+        /**
+         * This function is functionally the same as updateValue() at this level.  It exists for
+         * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
+         */
+        FormControl.prototype.patchValue = function (value, options) {
+            if (options === void 0) { options = {}; }
+            this.setValue(value, options);
+        };
+        /**
+         * @deprecated Please use setValue() instead.
+         */
+        FormControl.prototype.updateValue = function (value, options) {
+            if (options === void 0) { options = {}; }
+            this.setValue(value, options);
+        };
         FormControl.prototype.reset = function (value, _a) {
             if (value === void 0) { value = null; }
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             this.markAsPristine({ onlySelf: onlySelf });
             this.markAsUntouched({ onlySelf: onlySelf });
-            this.updateValue(value, { onlySelf: onlySelf });
+            this.setValue(value, { onlySelf: onlySelf });
         };
         /**
          * @internal
@@ -2032,12 +2047,23 @@ var __extends = (this && this.__extends) || function (d, b) {
             var c = StringMapWrapper.contains(this.controls, controlName);
             return c && this._included(controlName);
         };
-        FormGroup.prototype.updateValue = function (value, _a) {
+        FormGroup.prototype.setValue = function (value, _a) {
+            var _this = this;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._checkAllValuesPresent(value);
+            StringMapWrapper.forEach(value, function (newValue, name) {
+                _this._throwIfControlMissing(name);
+                _this.controls[name].setValue(newValue, { onlySelf: true });
+            });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
+        };
+        FormGroup.prototype.patchValue = function (value, _a) {
             var _this = this;
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             StringMapWrapper.forEach(value, function (newValue, name) {
-                _this._throwIfControlMissing(name);
-                _this.controls[name].updateValue(newValue, { onlySelf: true });
+                if (_this.controls[name]) {
+                    _this.controls[name].patchValue(newValue, { onlySelf: true });
+                }
             });
             this.updateValueAndValidity({ onlySelf: onlySelf });
         };
@@ -2053,6 +2079,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         /** @internal */
         FormGroup.prototype._throwIfControlMissing = function (name) {
+            if (!Object.keys(this.controls).length) {
+                throw new BaseException("\n        There are no form controls registered with this group yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+            }
             if (!this.controls[name]) {
                 throw new BaseException("Cannot find form control with name: " + name + ".");
             }
@@ -2099,6 +2128,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormGroup.prototype._included = function (controlName) {
             var isOptional = StringMapWrapper.contains(this._optionals, controlName);
             return !isOptional || StringMapWrapper.get(this._optionals, controlName);
+        };
+        /** @internal */
+        FormGroup.prototype._checkAllValuesPresent = function (value) {
+            this._forEachChild(function (control, name) {
+                if (value[name] === undefined) {
+                    throw new BaseException("Must supply a value for form control with name: '" + name + "'.");
+                }
+            });
         };
         return FormGroup;
     }(AbstractControl));
@@ -2172,12 +2209,23 @@ var __extends = (this && this.__extends) || function (d, b) {
             enumerable: true,
             configurable: true
         });
-        FormArray.prototype.updateValue = function (value, _a) {
+        FormArray.prototype.setValue = function (value, _a) {
+            var _this = this;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._checkAllValuesPresent(value);
+            value.forEach(function (newValue, index) {
+                _this._throwIfControlMissing(index);
+                _this.at(index).setValue(newValue, { onlySelf: true });
+            });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
+        };
+        FormArray.prototype.patchValue = function (value, _a) {
             var _this = this;
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             value.forEach(function (newValue, index) {
-                _this._throwIfControlMissing(index);
-                _this.at(index).updateValue(newValue, { onlySelf: true });
+                if (_this.at(index)) {
+                    _this.at(index).patchValue(newValue, { onlySelf: true });
+                }
             });
             this.updateValueAndValidity({ onlySelf: onlySelf });
         };
@@ -2193,6 +2241,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         /** @internal */
         FormArray.prototype._throwIfControlMissing = function (index) {
+            if (!this.controls.length) {
+                throw new BaseException("\n        There are no form controls registered with this array yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+            }
             if (!this.at(index)) {
                 throw new BaseException("Cannot find form control at index " + index);
             }
@@ -2211,6 +2262,14 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormArray.prototype._setParentForControls = function () {
             var _this = this;
             this._forEachChild(function (control) { control.setParent(_this); });
+        };
+        /** @internal */
+        FormArray.prototype._checkAllValuesPresent = function (value) {
+            this._forEachChild(function (control, i) {
+                if (value[i] === undefined) {
+                    throw new BaseException("Must supply a value for form control at index: " + i + ".");
+                }
+            });
         };
         return FormArray;
     }(AbstractControl));
@@ -2291,7 +2350,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                 dir.control.updateValueAndValidity({ emitEvent: false });
             });
         };
-        NgForm.prototype.getControl = function (dir) { return this.form.find(dir.path); };
+        NgForm.prototype.getControl = function (dir) { return this.form.get(dir.path); };
         NgForm.prototype.removeControl = function (dir) {
             var _this = this;
             resolvedPromise.then(function () {
@@ -2320,15 +2379,15 @@ var __extends = (this && this.__extends) || function (d, b) {
                 }
             });
         };
-        NgForm.prototype.getFormGroup = function (dir) { return this.form.find(dir.path); };
+        NgForm.prototype.getFormGroup = function (dir) { return this.form.get(dir.path); };
         NgForm.prototype.updateModel = function (dir, value) {
             var _this = this;
             resolvedPromise.then(function () {
-                var ctrl = _this.form.find(dir.path);
-                ctrl.updateValue(value);
+                var ctrl = _this.form.get(dir.path);
+                ctrl.setValue(value);
             });
         };
-        NgForm.prototype.updateValue = function (value) { this.control.updateValue(value); };
+        NgForm.prototype.setValue = function (value) { this.control.setValue(value); };
         NgForm.prototype.onSubmit = function () {
             this._submitted = true;
             this.ngSubmit.emit(null);
@@ -2338,7 +2397,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         /** @internal */
         NgForm.prototype._findContainer = function (path) {
             path.pop();
-            return ListWrapper.isEmpty(path) ? this.form : this.form.find(path);
+            return ListWrapper.isEmpty(path) ? this.form : this.form.get(path);
         };
         return NgForm;
     }(ControlContainer));
@@ -2573,7 +2632,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         NgModel.prototype._updateValue = function (value) {
             var _this = this;
-            resolvedPromise$1.then(function () { _this.control.updateValue(value, { emitViewToModelChange: false }); });
+            resolvedPromise$1.then(function () { _this.control.setValue(value, { emitViewToModelChange: false }); });
         };
         return NgModel;
     }(NgControl));
@@ -2618,7 +2677,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this.form.updateValueAndValidity({ emitEvent: false });
             }
             if (isPropertyUpdated(changes, this.viewModel)) {
-                this.form.updateValue(this.model);
+                this.form.setValue(this.model);
                 this.viewModel = this.model;
             }
         };
@@ -2736,30 +2795,30 @@ var __extends = (this && this.__extends) || function (d, b) {
             configurable: true
         });
         FormGroupDirective.prototype.addControl = function (dir) {
-            var ctrl = this.form.find(dir.path);
+            var ctrl = this.form.get(dir.path);
             setUpControl(ctrl, dir);
             ctrl.updateValueAndValidity({ emitEvent: false });
             this.directives.push(dir);
         };
-        FormGroupDirective.prototype.getControl = function (dir) { return this.form.find(dir.path); };
+        FormGroupDirective.prototype.getControl = function (dir) { return this.form.get(dir.path); };
         FormGroupDirective.prototype.removeControl = function (dir) { ListWrapper.remove(this.directives, dir); };
         FormGroupDirective.prototype.addFormGroup = function (dir) {
-            var ctrl = this.form.find(dir.path);
+            var ctrl = this.form.get(dir.path);
             setUpFormContainer(ctrl, dir);
             ctrl.updateValueAndValidity({ emitEvent: false });
         };
         FormGroupDirective.prototype.removeFormGroup = function (dir) { };
-        FormGroupDirective.prototype.getFormGroup = function (dir) { return this.form.find(dir.path); };
+        FormGroupDirective.prototype.getFormGroup = function (dir) { return this.form.get(dir.path); };
         FormGroupDirective.prototype.addFormArray = function (dir) {
-            var ctrl = this.form.find(dir.path);
+            var ctrl = this.form.get(dir.path);
             setUpFormContainer(ctrl, dir);
             ctrl.updateValueAndValidity({ emitEvent: false });
         };
         FormGroupDirective.prototype.removeFormArray = function (dir) { };
-        FormGroupDirective.prototype.getFormArray = function (dir) { return this.form.find(dir.path); };
+        FormGroupDirective.prototype.getFormArray = function (dir) { return this.form.get(dir.path); };
         FormGroupDirective.prototype.updateModel = function (dir, value) {
-            var ctrl = this.form.find(dir.path);
-            ctrl.updateValue(value);
+            var ctrl = this.form.get(dir.path);
+            ctrl.setValue(value);
         };
         FormGroupDirective.prototype.onSubmit = function () {
             this._submitted = true;
@@ -2771,7 +2830,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormGroupDirective.prototype._updateDomValue = function () {
             var _this = this;
             this.directives.forEach(function (dir) {
-                var ctrl = _this.form.find(dir.path);
+                var ctrl = _this.form.get(dir.path);
                 dir.valueAccessor.writeValue(ctrl.value);
             });
         };
