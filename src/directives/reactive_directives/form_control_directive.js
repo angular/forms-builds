@@ -65,7 +65,7 @@ var FormControlDirective = (function (_super) {
     });
     FormControlDirective.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
-        async_1.ObservableWrapper.callEmit(this.update, newValue);
+        this.update.emit(newValue);
     };
     FormControlDirective.prototype._isControlChanged = function (changes) {
         return collection_1.StringMapWrapper.contains(changes, 'form');

@@ -9,10 +9,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/Subject'), require('rxjs/observable/PromiseObservable'), require('rxjs/operator/toPromise'), require('rxjs/Observable')) :
-        typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/Subject', 'rxjs/observable/PromiseObservable', 'rxjs/operator/toPromise', 'rxjs/Observable'], factory) :
-            (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}), global.ng.core, global.Rx, global.Rx, global.Rx.Observable.prototype, global.Rx));
-}(this, function (exports, _angular_core, rxjs_Subject, rxjs_observable_PromiseObservable, rxjs_operator_toPromise, rxjs_Observable) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/Subject'), require('rxjs/Observable'), require('rxjs/observable/PromiseObservable'), require('rxjs/operator/toPromise')) :
+        typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/Subject', 'rxjs/Observable', 'rxjs/observable/PromiseObservable', 'rxjs/operator/toPromise'], factory) :
+            (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}), global.ng.core, global.Rx, global.Rx, global.Rx, global.Rx.Observable.prototype));
+}(this, function (exports, _angular_core, rxjs_Subject, rxjs_Observable, rxjs_observable_PromiseObservable, rxjs_operator_toPromise) {
     'use strict';
     /**
      * Used to provide a {@link ControlValueAccessor} for form controls.
@@ -102,7 +102,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function isArray(obj) {
         return Array.isArray(obj);
     }
-    function noop() { }
     var StringWrapper = (function () {
         function StringWrapper() {
         }
@@ -787,86 +786,6 @@ var __extends = (this && this.__extends) || function (d, b) {
         { type: NgControl, decorators: [{ type: _angular_core.Self },] },
     ];
     /**
-     * @license
-     * Copyright Google Inc. All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    var PromiseCompleter = (function () {
-        function PromiseCompleter() {
-            var _this = this;
-            this.promise = new Promise(function (res, rej) {
-                _this.resolve = res;
-                _this.reject = rej;
-            });
-        }
-        return PromiseCompleter;
-    }());
-    var PromiseWrapper = (function () {
-        function PromiseWrapper() {
-        }
-        PromiseWrapper.resolve = function (obj) { return Promise.resolve(obj); };
-        PromiseWrapper.reject = function (obj, _) { return Promise.reject(obj); };
-        // Note: We can't rename this method into `catch`, as this is not a valid
-        // method name in Dart.
-        PromiseWrapper.catchError = function (promise, onError) {
-            return promise.catch(onError);
-        };
-        PromiseWrapper.all = function (promises) {
-            if (promises.length == 0)
-                return Promise.resolve([]);
-            return Promise.all(promises);
-        };
-        PromiseWrapper.then = function (promise, success, rejection) {
-            return promise.then(success, rejection);
-        };
-        PromiseWrapper.wrap = function (computation) {
-            return new Promise(function (res, rej) {
-                try {
-                    res(computation());
-                }
-                catch (e) {
-                    rej(e);
-                }
-            });
-        };
-        PromiseWrapper.scheduleMicrotask = function (computation) {
-            PromiseWrapper.then(PromiseWrapper.resolve(null), computation, function (_) { });
-        };
-        PromiseWrapper.completer = function () { return new PromiseCompleter(); };
-        return PromiseWrapper;
-    }());
-    var ObservableWrapper = (function () {
-        function ObservableWrapper() {
-        }
-        // TODO(vsavkin): when we use rxnext, try inferring the generic type from the first arg
-        ObservableWrapper.subscribe = function (emitter, onNext, onError, onComplete) {
-            if (onComplete === void 0) { onComplete = function () { }; }
-            onError = (typeof onError === 'function') && onError || noop;
-            onComplete = (typeof onComplete === 'function') && onComplete || noop;
-            return emitter.subscribe({ next: onNext, error: onError, complete: onComplete });
-        };
-        ObservableWrapper.isObservable = function (obs) { return !!obs.subscribe; };
-        /**
-         * Returns whether `obs` has any subscribers listening to events.
-         */
-        ObservableWrapper.hasSubscribers = function (obs) { return obs.observers.length > 0; };
-        ObservableWrapper.dispose = function (subscription) { subscription.unsubscribe(); };
-        /**
-         * @deprecated - use callEmit() instead
-         */
-        ObservableWrapper.callNext = function (emitter, value) { emitter.emit(value); };
-        ObservableWrapper.callEmit = function (emitter, value) { emitter.emit(value); };
-        ObservableWrapper.callError = function (emitter, error) { emitter.error(error); };
-        ObservableWrapper.callComplete = function (emitter) { emitter.complete(); };
-        ObservableWrapper.fromPromise = function (promise) {
-            return rxjs_observable_PromiseObservable.PromiseObservable.create(promise);
-        };
-        ObservableWrapper.toPromise = function (obj) { return rxjs_operator_toPromise.toPromise.call(obj); };
-        return ObservableWrapper;
-    }());
-    /**
      * Use by directives and components to emit custom Events.
      *
      * ### Examples
@@ -1075,13 +994,13 @@ var __extends = (this && this.__extends) || function (d, b) {
                 return null;
             return function (control) {
                 var promises = _executeAsyncValidators(control, presentValidators).map(_convertToPromise);
-                return PromiseWrapper.all(promises).then(_mergeErrors);
+                return Promise.all(promises).then(_mergeErrors);
             };
         };
         return Validators;
     }());
     function _convertToPromise(obj) {
-        return isPromise(obj) ? obj : ObservableWrapper.toPromise(obj);
+        return isPromise(obj) ? obj : rxjs_operator_toPromise.toPromise.call(obj);
     }
     function _executeValidators(control, validators) {
         return validators.map(function (v) { return v(control); });
@@ -1679,7 +1598,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         }, control);
     }
     function toObservable(r) {
-        return isPromise(r) ? ObservableWrapper.fromPromise(r) : r;
+        return isPromise(r) ? rxjs_observable_PromiseObservable.PromiseObservable.create(r) : r;
     }
     function coerceToValidator(validator) {
         return Array.isArray(validator) ? composeValidators(validator) : validator;
@@ -1820,8 +1739,8 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this._runAsyncValidator(emitEvent);
             }
             if (emitEvent) {
-                ObservableWrapper.callEmit(this._valueChanges, this._value);
-                ObservableWrapper.callEmit(this._statusChanges, this._status);
+                this._valueChanges.emit(this._value);
+                this._statusChanges.emit(this._status);
             }
             if (isPresent(this._parent) && !onlySelf) {
                 this._parent.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
@@ -1836,12 +1755,12 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this._status = PENDING;
                 this._cancelExistingSubscription();
                 var obs = toObservable(this.asyncValidator(this));
-                this._asyncValidationSubscription = ObservableWrapper.subscribe(obs, function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); });
+                this._asyncValidationSubscription = obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
             }
         };
         AbstractControl.prototype._cancelExistingSubscription = function () {
             if (isPresent(this._asyncValidationSubscription)) {
-                ObservableWrapper.dispose(this._asyncValidationSubscription);
+                this._asyncValidationSubscription.unsubscribe();
             }
         };
         /**
@@ -1907,7 +1826,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         AbstractControl.prototype._updateControlsErrors = function (emitEvent) {
             this._status = this._calculateStatus();
             if (emitEvent) {
-                ObservableWrapper.callEmit(this._statusChanges, this._status);
+                this._statusChanges.emit(this._status);
             }
             if (isPresent(this._parent)) {
                 this._parent._updateControlsErrors(emitEvent);
@@ -2329,6 +2248,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         provide: ControlContainer,
         useExisting: _angular_core.forwardRef(function () { return NgForm; })
     };
+    var resolvedPromise = Promise.resolve(null);
     var NgForm = (function (_super) {
         __extends(NgForm, _super);
         function NgForm(validators, asyncValidators) {
@@ -2364,7 +2284,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         NgForm.prototype.addControl = function (dir) {
             var _this = this;
-            PromiseWrapper.scheduleMicrotask(function () {
+            resolvedPromise.then(function () {
                 var container = _this._findContainer(dir.path);
                 dir._control = container.registerControl(dir.name, dir.control);
                 setUpControl(dir.control, dir);
@@ -2374,7 +2294,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         NgForm.prototype.getControl = function (dir) { return this.form.find(dir.path); };
         NgForm.prototype.removeControl = function (dir) {
             var _this = this;
-            PromiseWrapper.scheduleMicrotask(function () {
+            resolvedPromise.then(function () {
                 var container = _this._findContainer(dir.path);
                 if (isPresent(container)) {
                     container.removeControl(dir.name);
@@ -2383,7 +2303,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         NgForm.prototype.addFormGroup = function (dir) {
             var _this = this;
-            PromiseWrapper.scheduleMicrotask(function () {
+            resolvedPromise.then(function () {
                 var container = _this._findContainer(dir.path);
                 var group = new FormGroup({});
                 setUpFormContainer(group, dir);
@@ -2393,7 +2313,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         NgForm.prototype.removeFormGroup = function (dir) {
             var _this = this;
-            PromiseWrapper.scheduleMicrotask(function () {
+            resolvedPromise.then(function () {
                 var container = _this._findContainer(dir.path);
                 if (isPresent(container)) {
                     container.removeControl(dir.name);
@@ -2403,7 +2323,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         NgForm.prototype.getFormGroup = function (dir) { return this.form.find(dir.path); };
         NgForm.prototype.updateModel = function (dir, value) {
             var _this = this;
-            PromiseWrapper.scheduleMicrotask(function () {
+            resolvedPromise.then(function () {
                 var ctrl = _this.form.find(dir.path);
                 ctrl.updateValue(value);
             });
@@ -2411,7 +2331,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         NgForm.prototype.updateValue = function (value) { this.control.updateValue(value); };
         NgForm.prototype.onSubmit = function () {
             this._submitted = true;
-            ObservableWrapper.callEmit(this.ngSubmit, null);
+            this.ngSubmit.emit(null);
             return false;
         };
         NgForm.prototype.onReset = function () { this.form.reset(); };
@@ -2559,6 +2479,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         provide: NgControl,
         useExisting: _angular_core.forwardRef(function () { return NgModel; })
     };
+    var resolvedPromise$1 = Promise.resolve(null);
     var NgModel = (function (_super) {
         __extends(NgModel, _super);
         function NgModel(_parent, _validators, _asyncValidators, valueAccessors) {
@@ -2614,7 +2535,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         NgModel.prototype.viewToModelUpdate = function (newValue) {
             this.viewModel = newValue;
-            ObservableWrapper.callEmit(this.update, newValue);
+            this.update.emit(newValue);
         };
         NgModel.prototype._setUpControl = function () {
             this._isStandalone() ? this._setUpStandalone() :
@@ -2652,7 +2573,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         NgModel.prototype._updateValue = function (value) {
             var _this = this;
-            PromiseWrapper.scheduleMicrotask(function () { _this.control.updateValue(value, { emitViewToModelChange: false }); });
+            resolvedPromise$1.then(function () { _this.control.updateValue(value, { emitViewToModelChange: false }); });
         };
         return NgModel;
     }(NgControl));
@@ -2725,7 +2646,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         FormControlDirective.prototype.viewToModelUpdate = function (newValue) {
             this.viewModel = newValue;
-            ObservableWrapper.callEmit(this.update, newValue);
+            this.update.emit(newValue);
         };
         FormControlDirective.prototype._isControlChanged = function (changes) {
             return StringMapWrapper.contains(changes, 'form');
@@ -2842,7 +2763,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         FormGroupDirective.prototype.onSubmit = function () {
             this._submitted = true;
-            ObservableWrapper.callEmit(this.ngSubmit, null);
+            this.ngSubmit.emit(null);
             return false;
         };
         FormGroupDirective.prototype.onReset = function () { this.form.reset(); };
@@ -3010,7 +2931,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormControlName.prototype.ngOnDestroy = function () { this.formDirective.removeControl(this); };
         FormControlName.prototype.viewToModelUpdate = function (newValue) {
             this.viewModel = newValue;
-            ObservableWrapper.callEmit(this.update, newValue);
+            this.update.emit(newValue);
         };
         Object.defineProperty(FormControlName.prototype, "path", {
             get: function () { return controlPath(this.name, this._parent); },

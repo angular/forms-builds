@@ -93,7 +93,7 @@ var FormGroupDirective = (function (_super) {
     };
     FormGroupDirective.prototype.onSubmit = function () {
         this._submitted = true;
-        async_1.ObservableWrapper.callEmit(this.ngSubmit, null);
+        this.ngSubmit.emit(null);
         return false;
     };
     FormGroupDirective.prototype.onReset = function () { this.form.reset(); };

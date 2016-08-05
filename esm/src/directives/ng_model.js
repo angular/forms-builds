@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, Host, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
-import { EventEmitter, ObservableWrapper, PromiseWrapper } from '../facade/async';
+import { EventEmitter } from '../facade/async';
 import { FormControl } from '../model';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
 import { AbstractFormGroupDirective } from './abstract_form_group_directive';
@@ -21,6 +21,7 @@ export const formControlBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => NgModel)
 };
+const resolvedPromise = Promise.resolve(null);
 export class NgModel extends NgControl {
     constructor(_parent, _validators, _asyncValidators, valueAccessors) {
         super();
@@ -55,7 +56,7 @@ export class NgModel extends NgControl {
     }
     viewToModelUpdate(newValue) {
         this.viewModel = newValue;
-        ObservableWrapper.callEmit(this.update, newValue);
+        this.update.emit(newValue);
     }
     _setUpControl() {
         this._isStandalone() ? this._setUpStandalone() :
@@ -92,7 +93,7 @@ export class NgModel extends NgControl {
         }
     }
     _updateValue(value) {
-        PromiseWrapper.scheduleMicrotask(() => { this.control.updateValue(value, { emitViewToModelChange: false }); });
+        resolvedPromise.then(() => { this.control.updateValue(value, { emitViewToModelChange: false }); });
     }
 }
 /** @nocollapse */

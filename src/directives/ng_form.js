@@ -23,6 +23,7 @@ exports.formDirectiveProvider = {
     provide: control_container_1.ControlContainer,
     useExisting: core_1.forwardRef(function () { return NgForm; })
 };
+var resolvedPromise = Promise.resolve(null);
 var NgForm = (function (_super) {
     __extends(NgForm, _super);
     function NgForm(validators, asyncValidators) {
@@ -58,7 +59,7 @@ var NgForm = (function (_super) {
     });
     NgForm.prototype.addControl = function (dir) {
         var _this = this;
-        async_1.PromiseWrapper.scheduleMicrotask(function () {
+        resolvedPromise.then(function () {
             var container = _this._findContainer(dir.path);
             dir._control = container.registerControl(dir.name, dir.control);
             shared_1.setUpControl(dir.control, dir);
@@ -68,7 +69,7 @@ var NgForm = (function (_super) {
     NgForm.prototype.getControl = function (dir) { return this.form.find(dir.path); };
     NgForm.prototype.removeControl = function (dir) {
         var _this = this;
-        async_1.PromiseWrapper.scheduleMicrotask(function () {
+        resolvedPromise.then(function () {
             var container = _this._findContainer(dir.path);
             if (lang_1.isPresent(container)) {
                 container.removeControl(dir.name);
@@ -77,7 +78,7 @@ var NgForm = (function (_super) {
     };
     NgForm.prototype.addFormGroup = function (dir) {
         var _this = this;
-        async_1.PromiseWrapper.scheduleMicrotask(function () {
+        resolvedPromise.then(function () {
             var container = _this._findContainer(dir.path);
             var group = new model_1.FormGroup({});
             shared_1.setUpFormContainer(group, dir);
@@ -87,7 +88,7 @@ var NgForm = (function (_super) {
     };
     NgForm.prototype.removeFormGroup = function (dir) {
         var _this = this;
-        async_1.PromiseWrapper.scheduleMicrotask(function () {
+        resolvedPromise.then(function () {
             var container = _this._findContainer(dir.path);
             if (lang_1.isPresent(container)) {
                 container.removeControl(dir.name);
@@ -97,7 +98,7 @@ var NgForm = (function (_super) {
     NgForm.prototype.getFormGroup = function (dir) { return this.form.find(dir.path); };
     NgForm.prototype.updateModel = function (dir, value) {
         var _this = this;
-        async_1.PromiseWrapper.scheduleMicrotask(function () {
+        resolvedPromise.then(function () {
             var ctrl = _this.form.find(dir.path);
             ctrl.updateValue(value);
         });
@@ -105,7 +106,7 @@ var NgForm = (function (_super) {
     NgForm.prototype.updateValue = function (value) { this.control.updateValue(value); };
     NgForm.prototype.onSubmit = function () {
         this._submitted = true;
-        async_1.ObservableWrapper.callEmit(this.ngSubmit, null);
+        this.ngSubmit.emit(null);
         return false;
     };
     NgForm.prototype.onReset = function () { this.form.reset(); };

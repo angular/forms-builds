@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, Host, Inject, Input, Optional, Output, Self, SkipSelf, forwardRef } from '@angular/core';
-import { EventEmitter, ObservableWrapper } from '../../facade/async';
+import { EventEmitter } from '../../facade/async';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../../validators';
 import { AbstractFormGroupDirective } from '../abstract_form_group_directive';
 import { ControlContainer } from '../control_container';
@@ -44,7 +44,7 @@ export class FormControlName extends NgControl {
     ngOnDestroy() { this.formDirective.removeControl(this); }
     viewToModelUpdate(newValue) {
         this.viewModel = newValue;
-        ObservableWrapper.callEmit(this.update, newValue);
+        this.update.emit(newValue);
     }
     get path() { return controlPath(this.name, this._parent); }
     get formDirective() { return this._parent.formDirective; }

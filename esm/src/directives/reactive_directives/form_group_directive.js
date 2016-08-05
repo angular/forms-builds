@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
-import { EventEmitter, ObservableWrapper } from '../../facade/async';
+import { EventEmitter } from '../../facade/async';
 import { ListWrapper, StringMapWrapper } from '../../facade/collection';
 import { isBlank } from '../../facade/lang';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators } from '../../validators';
@@ -70,7 +70,7 @@ export class FormGroupDirective extends ControlContainer {
     }
     onSubmit() {
         this._submitted = true;
-        ObservableWrapper.callEmit(this.ngSubmit, null);
+        this.ngSubmit.emit(null);
         return false;
     }
     onReset() { this.form.reset(); }

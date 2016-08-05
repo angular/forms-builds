@@ -27,6 +27,7 @@ exports.formControlBinding = {
     provide: ng_control_1.NgControl,
     useExisting: core_1.forwardRef(function () { return NgModel; })
 };
+var resolvedPromise = Promise.resolve(null);
 var NgModel = (function (_super) {
     __extends(NgModel, _super);
     function NgModel(_parent, _validators, _asyncValidators, valueAccessors) {
@@ -82,7 +83,7 @@ var NgModel = (function (_super) {
     });
     NgModel.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
-        async_1.ObservableWrapper.callEmit(this.update, newValue);
+        this.update.emit(newValue);
     };
     NgModel.prototype._setUpControl = function () {
         this._isStandalone() ? this._setUpStandalone() :
@@ -120,7 +121,7 @@ var NgModel = (function (_super) {
     };
     NgModel.prototype._updateValue = function (value) {
         var _this = this;
-        async_1.PromiseWrapper.scheduleMicrotask(function () { _this.control.updateValue(value, { emitViewToModelChange: false }); });
+        resolvedPromise.then(function () { _this.control.updateValue(value, { emitViewToModelChange: false }); });
     };
     /** @nocollapse */
     NgModel.decorators = [

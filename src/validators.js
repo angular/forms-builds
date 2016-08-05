@@ -7,10 +7,9 @@
  */
 "use strict";
 var core_1 = require('@angular/core');
-var async_1 = require('./facade/async');
+var toPromise_1 = require('rxjs/operator/toPromise');
 var collection_1 = require('./facade/collection');
 var lang_1 = require('./facade/lang');
-var promise_1 = require('./facade/promise');
 /**
  * Providers for validators to be used for {@link FormControl}s in a form.
  *
@@ -123,14 +122,14 @@ var Validators = (function () {
             return null;
         return function (control) {
             var promises = _executeAsyncValidators(control, presentValidators).map(_convertToPromise);
-            return promise_1.PromiseWrapper.all(promises).then(_mergeErrors);
+            return Promise.all(promises).then(_mergeErrors);
         };
     };
     return Validators;
 }());
 exports.Validators = Validators;
 function _convertToPromise(obj) {
-    return lang_1.isPromise(obj) ? obj : async_1.ObservableWrapper.toPromise(obj);
+    return lang_1.isPromise(obj) ? obj : toPromise_1.toPromise.call(obj);
 }
 function _executeValidators(control, validators) {
     return validators.map(function (v) { return v(control); });

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
-import { EventEmitter, ObservableWrapper } from '../../facade/async';
+import { EventEmitter } from '../../facade/async';
 import { StringMapWrapper } from '../../facade/collection';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../../validators';
 import { NG_VALUE_ACCESSOR } from '../control_value_accessor';
@@ -42,7 +42,7 @@ export class FormControlDirective extends NgControl {
     get control() { return this.form; }
     viewToModelUpdate(newValue) {
         this.viewModel = newValue;
-        ObservableWrapper.callEmit(this.update, newValue);
+        this.update.emit(newValue);
     }
     _isControlChanged(changes) {
         return StringMapWrapper.contains(changes, 'form');

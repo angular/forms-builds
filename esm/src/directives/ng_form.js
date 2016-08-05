@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, Inject, Optional, Self, forwardRef } from '@angular/core';
-import { EventEmitter, ObservableWrapper, PromiseWrapper } from '../facade/async';
+import { EventEmitter } from '../facade/async';
 import { ListWrapper } from '../facade/collection';
 import { isPresent } from '../facade/lang';
 import { FormGroup } from '../model';
@@ -17,6 +17,7 @@ export const formDirectiveProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => NgForm)
 };
+const resolvedPromise = Promise.resolve(null);
 export class NgForm extends ControlContainer {
     constructor(validators, asyncValidators) {
         super();
@@ -30,7 +31,7 @@ export class NgForm extends ControlContainer {
     get path() { return []; }
     get controls() { return this.form.controls; }
     addControl(dir) {
-        PromiseWrapper.scheduleMicrotask(() => {
+        resolvedPromise.then(() => {
             const container = this._findContainer(dir.path);
             dir._control = container.registerControl(dir.name, dir.control);
             setUpControl(dir.control, dir);
@@ -39,7 +40,7 @@ export class NgForm extends ControlContainer {
     }
     getControl(dir) { return this.form.find(dir.path); }
     removeControl(dir) {
-        PromiseWrapper.scheduleMicrotask(() => {
+        resolvedPromise.then(() => {
             var container = this._findContainer(dir.path);
             if (isPresent(container)) {
                 container.removeControl(dir.name);
@@ -47,7 +48,7 @@ export class NgForm extends ControlContainer {
         });
     }
     addFormGroup(dir) {
-        PromiseWrapper.scheduleMicrotask(() => {
+        resolvedPromise.then(() => {
             var container = this._findContainer(dir.path);
             var group = new FormGroup({});
             setUpFormContainer(group, dir);
@@ -56,7 +57,7 @@ export class NgForm extends ControlContainer {
         });
     }
     removeFormGroup(dir) {
-        PromiseWrapper.scheduleMicrotask(() => {
+        resolvedPromise.then(() => {
             var container = this._findContainer(dir.path);
             if (isPresent(container)) {
                 container.removeControl(dir.name);
@@ -65,7 +66,7 @@ export class NgForm extends ControlContainer {
     }
     getFormGroup(dir) { return this.form.find(dir.path); }
     updateModel(dir, value) {
-        PromiseWrapper.scheduleMicrotask(() => {
+        resolvedPromise.then(() => {
             var ctrl = this.form.find(dir.path);
             ctrl.updateValue(value);
         });
@@ -73,7 +74,7 @@ export class NgForm extends ControlContainer {
     updateValue(value) { this.control.updateValue(value); }
     onSubmit() {
         this._submitted = true;
-        ObservableWrapper.callEmit(this.ngSubmit, null);
+        this.ngSubmit.emit(null);
         return false;
     }
     onReset() { this.form.reset(); }
