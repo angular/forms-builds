@@ -11,8 +11,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var exceptions_1 = require('../facade/exceptions');
+var core_1 = require('@angular/core');
 var abstract_control_directive_1 = require('./abstract_control_directive');
+function unimplemented() {
+    throw new core_1.BaseException('unimplemented');
+}
 /**
  * A base class that all control directive extend.
  * It binds a {@link Control} object to a DOM element.
@@ -29,12 +32,12 @@ var NgControl = (function (_super) {
         this.valueAccessor = null;
     }
     Object.defineProperty(NgControl.prototype, "validator", {
-        get: function () { return exceptions_1.unimplemented(); },
+        get: function () { return unimplemented(); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(NgControl.prototype, "asyncValidator", {
-        get: function () { return exceptions_1.unimplemented(); },
+        get: function () { return unimplemented(); },
         enumerable: true,
         configurable: true
     });

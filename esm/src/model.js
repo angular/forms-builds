@@ -5,11 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+import { BaseException } from '@angular/core';
 import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
 import { composeAsyncValidators, composeValidators } from './directives/shared';
 import { EventEmitter } from './facade/async';
 import { ListWrapper, StringMapWrapper } from './facade/collection';
-import { BaseException } from './facade/exceptions';
 import { isBlank, isPresent, isPromise, normalizeBool } from './facade/lang';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.

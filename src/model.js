@@ -11,11 +11,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var core_1 = require('@angular/core');
 var PromiseObservable_1 = require('rxjs/observable/PromiseObservable');
 var shared_1 = require('./directives/shared');
 var async_1 = require('./facade/async');
 var collection_1 = require('./facade/collection');
-var exceptions_1 = require('./facade/exceptions');
 var lang_1 = require('./facade/lang');
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
@@ -540,10 +540,10 @@ var FormGroup = (function (_super) {
     /** @internal */
     FormGroup.prototype._throwIfControlMissing = function (name) {
         if (!Object.keys(this.controls).length) {
-            throw new exceptions_1.BaseException("\n        There are no form controls registered with this group yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+            throw new core_1.BaseException("\n        There are no form controls registered with this group yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
         }
         if (!this.controls[name]) {
-            throw new exceptions_1.BaseException("Cannot find form control with name: " + name + ".");
+            throw new core_1.BaseException("Cannot find form control with name: " + name + ".");
         }
     };
     /** @internal */
@@ -593,7 +593,7 @@ var FormGroup = (function (_super) {
     FormGroup.prototype._checkAllValuesPresent = function (value) {
         this._forEachChild(function (control, name) {
             if (value[name] === undefined) {
-                throw new exceptions_1.BaseException("Must supply a value for form control with name: '" + name + "'.");
+                throw new core_1.BaseException("Must supply a value for form control with name: '" + name + "'.");
             }
         });
     };
@@ -703,10 +703,10 @@ var FormArray = (function (_super) {
     /** @internal */
     FormArray.prototype._throwIfControlMissing = function (index) {
         if (!this.controls.length) {
-            throw new exceptions_1.BaseException("\n        There are no form controls registered with this array yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+            throw new core_1.BaseException("\n        There are no form controls registered with this array yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
         }
         if (!this.at(index)) {
-            throw new exceptions_1.BaseException("Cannot find form control at index " + index);
+            throw new core_1.BaseException("Cannot find form control at index " + index);
         }
     };
     /** @internal */
@@ -728,7 +728,7 @@ var FormArray = (function (_super) {
     FormArray.prototype._checkAllValuesPresent = function (value) {
         this._forEachChild(function (control, i) {
             if (value[i] === undefined) {
-                throw new exceptions_1.BaseException("Must supply a value for form control at index: " + i + ".");
+                throw new core_1.BaseException("Must supply a value for form control at index: " + i + ".");
             }
         });
     };
