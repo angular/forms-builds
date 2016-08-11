@@ -23,9 +23,9 @@ export { FormArrayName, FormGroupName } from './directives/reactive_directives/f
 export { NgSelectOption, SelectControlValueAccessor } from './directives/select_control_value_accessor';
 export { NgSelectMultipleOption, SelectMultipleControlValueAccessor } from './directives/select_multiple_control_value_accessor';
 export { MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator } from './directives/validators';
-export declare const SHARED_FORM_DIRECTIVES: Type[];
-export declare const TEMPLATE_DRIVEN_DIRECTIVES: Type[];
-export declare const REACTIVE_DRIVEN_DIRECTIVES: Type[];
+export declare const SHARED_FORM_DIRECTIVES: Type<any>[];
+export declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
+export declare const REACTIVE_DRIVEN_DIRECTIVES: Type<any>[];
 /**
  *
  * A list of all the form directives used as part of a `@Component` annotation.
@@ -43,11 +43,11 @@ export declare const REACTIVE_DRIVEN_DIRECTIVES: Type[];
  * ```
  * @experimental
  */
-export declare const FORM_DIRECTIVES: Type[][];
+export declare const FORM_DIRECTIVES: Type<any>[][];
 /**
  * @experimental
  */
-export declare const REACTIVE_FORM_DIRECTIVES: Type[][];
+export declare const REACTIVE_FORM_DIRECTIVES: Type<any>[][];
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */

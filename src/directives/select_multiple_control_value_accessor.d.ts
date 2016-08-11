@@ -9,7 +9,7 @@ import { ElementRef, OnDestroy, OpaqueToken, Renderer, Type } from '@angular/cor
 import { ControlValueAccessor } from './control_value_accessor';
 export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: {
     provide: OpaqueToken;
-    useExisting: Type;
+    useExisting: Type<any>;
     multi: boolean;
 };
 /**
