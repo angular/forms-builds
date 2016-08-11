@@ -30,6 +30,7 @@ var ng_control_1 = require('./directives/ng_control');
 exports.NgControl = ng_control_1.NgControl;
 var ng_control_status_2 = require('./directives/ng_control_status');
 exports.NgControlStatus = ng_control_status_2.NgControlStatus;
+exports.NgControlStatusGroup = ng_control_status_2.NgControlStatusGroup;
 var ng_form_2 = require('./directives/ng_form');
 exports.NgForm = ng_form_2.NgForm;
 var ng_model_2 = require('./directives/ng_model');
@@ -63,8 +64,8 @@ exports.RequiredValidator = validators_2.RequiredValidator;
 exports.SHARED_FORM_DIRECTIVES = [
     select_control_value_accessor_1.NgSelectOption, select_multiple_control_value_accessor_1.NgSelectMultipleOption, default_value_accessor_1.DefaultValueAccessor, number_value_accessor_1.NumberValueAccessor,
     checkbox_value_accessor_1.CheckboxControlValueAccessor, select_control_value_accessor_1.SelectControlValueAccessor, select_multiple_control_value_accessor_1.SelectMultipleControlValueAccessor,
-    radio_control_value_accessor_1.RadioControlValueAccessor, ng_control_status_1.NgControlStatus, validators_1.RequiredValidator, validators_1.MinLengthValidator,
-    validators_1.MaxLengthValidator, validators_1.PatternValidator
+    radio_control_value_accessor_1.RadioControlValueAccessor, ng_control_status_1.NgControlStatus, ng_control_status_1.NgControlStatusGroup, validators_1.RequiredValidator,
+    validators_1.MinLengthValidator, validators_1.MaxLengthValidator, validators_1.PatternValidator
 ];
 exports.TEMPLATE_DRIVEN_DIRECTIVES = [ng_model_1.NgModel, ng_model_group_1.NgModelGroup, ng_form_1.NgForm];
 exports.REACTIVE_DRIVEN_DIRECTIVES = [form_control_directive_1.FormControlDirective, form_group_directive_1.FormGroupDirective, form_control_name_1.FormControlName, form_group_name_1.FormGroupName, form_group_name_1.FormArrayName];

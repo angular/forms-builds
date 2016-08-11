@@ -362,6 +362,36 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         return AbstractControlDirective;
     }());
+    /**
+     * A directive that contains multiple {@link NgControl}s.
+     *
+     * Only used by the forms module.
+     *
+     * @experimental
+     */
+    var ControlContainer = (function (_super) {
+        __extends(ControlContainer, _super);
+        function ControlContainer() {
+            _super.apply(this, arguments);
+        }
+        Object.defineProperty(ControlContainer.prototype, "formDirective", {
+            /**
+             * Get the form to which this container belongs.
+             */
+            get: function () { return null; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ControlContainer.prototype, "path", {
+            /**
+             * Get the path to this container.
+             */
+            get: function () { return null; },
+            enumerable: true,
+            configurable: true
+        });
+        return ControlContainer;
+    }(AbstractControlDirective));
     function unimplemented() {
         throw new _angular_core.BaseException('unimplemented');
     }
@@ -396,71 +426,94 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         return NgControl;
     }(AbstractControlDirective));
-    var NgControlStatus = (function () {
-        function NgControlStatus(cd) {
+    var AbstractControlStatus = (function () {
+        function AbstractControlStatus(cd) {
             this._cd = cd;
         }
-        Object.defineProperty(NgControlStatus.prototype, "ngClassUntouched", {
+        Object.defineProperty(AbstractControlStatus.prototype, "ngClassUntouched", {
             get: function () {
                 return isPresent(this._cd.control) ? this._cd.control.untouched : false;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(NgControlStatus.prototype, "ngClassTouched", {
+        Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
             get: function () {
                 return isPresent(this._cd.control) ? this._cd.control.touched : false;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(NgControlStatus.prototype, "ngClassPristine", {
+        Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
             get: function () {
                 return isPresent(this._cd.control) ? this._cd.control.pristine : false;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(NgControlStatus.prototype, "ngClassDirty", {
+        Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
             get: function () {
                 return isPresent(this._cd.control) ? this._cd.control.dirty : false;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(NgControlStatus.prototype, "ngClassValid", {
+        Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
             get: function () {
                 return isPresent(this._cd.control) ? this._cd.control.valid : false;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(NgControlStatus.prototype, "ngClassInvalid", {
+        Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
             get: function () {
-                return isPresent(this._cd.control) ? !this._cd.control.valid : false;
+                return isPresent(this._cd.control) ? this._cd.control.invalid : false;
             },
             enumerable: true,
             configurable: true
         });
-        return NgControlStatus;
+        return AbstractControlStatus;
     }());
+    var ngControlStatusHost = {
+        '[class.ng-untouched]': 'ngClassUntouched',
+        '[class.ng-touched]': 'ngClassTouched',
+        '[class.ng-pristine]': 'ngClassPristine',
+        '[class.ng-dirty]': 'ngClassDirty',
+        '[class.ng-valid]': 'ngClassValid',
+        '[class.ng-invalid]': 'ngClassInvalid'
+    };
+    var NgControlStatus = (function (_super) {
+        __extends(NgControlStatus, _super);
+        function NgControlStatus(cd) {
+            _super.call(this, cd);
+        }
+        return NgControlStatus;
+    }(AbstractControlStatus));
     /** @nocollapse */
     NgControlStatus.decorators = [
-        { type: _angular_core.Directive, args: [{
-                    selector: '[formControlName],[ngModel],[formControl]',
-                    host: {
-                        '[class.ng-untouched]': 'ngClassUntouched',
-                        '[class.ng-touched]': 'ngClassTouched',
-                        '[class.ng-pristine]': 'ngClassPristine',
-                        '[class.ng-dirty]': 'ngClassDirty',
-                        '[class.ng-valid]': 'ngClassValid',
-                        '[class.ng-invalid]': 'ngClassInvalid'
-                    }
-                },] },
+        { type: _angular_core.Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] },
     ];
     /** @nocollapse */
     NgControlStatus.ctorParameters = [
         { type: NgControl, decorators: [{ type: _angular_core.Self },] },
+    ];
+    var NgControlStatusGroup = (function (_super) {
+        __extends(NgControlStatusGroup, _super);
+        function NgControlStatusGroup(cd) {
+            _super.call(this, cd);
+        }
+        return NgControlStatusGroup;
+    }(AbstractControlStatus));
+    /** @nocollapse */
+    NgControlStatusGroup.decorators = [
+        { type: _angular_core.Directive, args: [{
+                    selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
+                    host: ngControlStatusHost
+                },] },
+    ];
+    /** @nocollapse */
+    NgControlStatusGroup.ctorParameters = [
+        { type: ControlContainer, decorators: [{ type: _angular_core.Self },] },
     ];
     /**
      * Use by directives and components to emit custom Events.
@@ -2259,36 +2312,6 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         return FormArray;
     }(AbstractControl));
-    /**
-     * A directive that contains multiple {@link NgControl}s.
-     *
-     * Only used by the forms module.
-     *
-     * @experimental
-     */
-    var ControlContainer = (function (_super) {
-        __extends(ControlContainer, _super);
-        function ControlContainer() {
-            _super.apply(this, arguments);
-        }
-        Object.defineProperty(ControlContainer.prototype, "formDirective", {
-            /**
-             * Get the form to which this container belongs.
-             */
-            get: function () { return null; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ControlContainer.prototype, "path", {
-            /**
-             * Get the path to this container.
-             */
-            get: function () { return null; },
-            enumerable: true,
-            configurable: true
-        });
-        return ControlContainer;
-    }(AbstractControlDirective));
     var formDirectiveProvider = {
         provide: ControlContainer,
         useExisting: _angular_core.forwardRef(function () { return NgForm; })
@@ -3139,8 +3162,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     var SHARED_FORM_DIRECTIVES = [
         NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
         CheckboxControlValueAccessor, SelectControlValueAccessor, SelectMultipleControlValueAccessor,
-        RadioControlValueAccessor, NgControlStatus, RequiredValidator, MinLengthValidator,
-        MaxLengthValidator, PatternValidator
+        RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator,
+        MinLengthValidator, MaxLengthValidator, PatternValidator
     ];
     var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
     var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
@@ -3302,6 +3325,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     exports.DefaultValueAccessor = DefaultValueAccessor;
     exports.NgControl = NgControl;
     exports.NgControlStatus = NgControlStatus;
+    exports.NgControlStatusGroup = NgControlStatusGroup;
     exports.NgForm = NgForm;
     exports.NgModel = NgModel;
     exports.NgModelGroup = NgModelGroup;
