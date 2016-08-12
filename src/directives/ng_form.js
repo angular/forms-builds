@@ -109,7 +109,12 @@ var NgForm = (function (_super) {
         this.ngSubmit.emit(null);
         return false;
     };
-    NgForm.prototype.onReset = function () { this.form.reset(); };
+    NgForm.prototype.onReset = function () { this.resetForm(); };
+    NgForm.prototype.resetForm = function (value) {
+        if (value === void 0) { value = undefined; }
+        this.form.reset(value);
+        this._submitted = false;
+    };
     /** @internal */
     NgForm.prototype._findContainer = function (path) {
         path.pop();

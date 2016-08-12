@@ -5,8 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { unimplemented } from '../facade/exceptions';
+import { BaseException } from '@angular/core';
 import { AbstractControlDirective } from './abstract_control_directive';
+function unimplemented() {
+    throw new BaseException('unimplemented');
+}
 /**
  * A base class that all control directive extend.
  * It binds a {@link Control} object to a DOM element.
