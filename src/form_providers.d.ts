@@ -28,11 +28,3 @@ export declare class FormsModule {
  */
 export declare class ReactiveFormsModule {
 }
-/**
- * @deprecated
- */
-export declare function disableDeprecatedForms(): any[];
-/**
- * @deprecated
- */
-export declare function provideForms(): any[];

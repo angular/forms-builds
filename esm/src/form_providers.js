@@ -5,8 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { NgModule, PLATFORM_DIRECTIVES } from '@angular/core';
-import { FORM_DIRECTIVES, InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES, TEMPLATE_DRIVEN_DIRECTIVES } from './directives';
+import { NgModule } from '@angular/core';
+import { InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES, TEMPLATE_DRIVEN_DIRECTIVES } from './directives';
 import { RadioControlRegistry } from './directives/radio_control_value_accessor';
 import { FormBuilder } from './form_builder';
 /**
@@ -39,18 +39,4 @@ ReactiveFormsModule.decorators = [
                 exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/**
- * @deprecated
- */
-export function disableDeprecatedForms() {
-    return [];
-}
-/**
- * @deprecated
- */
-export function provideForms() {
-    return [
-        { provide: PLATFORM_DIRECTIVES, useValue: FORM_DIRECTIVES, multi: true }, REACTIVE_FORM_PROVIDERS
-    ];
-}
 //# sourceMappingURL=form_providers.js.map
