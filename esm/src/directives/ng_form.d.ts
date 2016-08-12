@@ -89,5 +89,4 @@ export declare class NgForm extends ControlContainer implements Form {
     }): void;
     onSubmit(): boolean;
     onReset(): void;
-    resetForm(value?: any): void;
 }

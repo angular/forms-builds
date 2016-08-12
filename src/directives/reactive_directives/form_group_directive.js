@@ -96,12 +96,7 @@ var FormGroupDirective = (function (_super) {
         this.ngSubmit.emit(null);
         return false;
     };
-    FormGroupDirective.prototype.onReset = function () { this.resetForm(); };
-    FormGroupDirective.prototype.resetForm = function (value) {
-        if (value === void 0) { value = undefined; }
-        this.form.reset(value);
-        this._submitted = false;
-    };
+    FormGroupDirective.prototype.onReset = function () { this.form.reset(); };
     /** @internal */
     FormGroupDirective.prototype._updateDomValue = function () {
         var _this = this;

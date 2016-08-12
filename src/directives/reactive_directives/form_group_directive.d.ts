@@ -108,6 +108,5 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     updateModel(dir: NgControl, value: any): void;
     onSubmit(): boolean;
     onReset(): void;
-    resetForm(value?: any): void;
     private _checkFormPresent();
 }

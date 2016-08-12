@@ -77,11 +77,7 @@ export class NgForm extends ControlContainer {
         this.ngSubmit.emit(null);
         return false;
     }
-    onReset() { this.resetForm(); }
-    resetForm(value = undefined) {
-        this.form.reset(value);
-        this._submitted = false;
-    }
+    onReset() { this.form.reset(); }
     /** @internal */
     _findContainer(path) {
         path.pop();
