@@ -1831,14 +1831,10 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._errors = errors;
             this._updateControlsErrors(emitEvent);
         };
-        /**
-         * @deprecated - use get() instead
-         */
-        AbstractControl.prototype.find = function (path) { return _find(this, path, '/'); };
         AbstractControl.prototype.get = function (path) { return _find(this, path, '.'); };
         AbstractControl.prototype.getError = function (errorCode, path) {
             if (path === void 0) { path = null; }
-            var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.find(path) : this;
+            var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
             if (isPresent(control) && isPresent(control._errors)) {
                 return StringMapWrapper.get(control._errors, errorCode);
             }
@@ -1977,13 +1973,6 @@ var __extends = (this && this.__extends) || function (d, b) {
          * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
          */
         FormControl.prototype.patchValue = function (value, options) {
-            if (options === void 0) { options = {}; }
-            this.setValue(value, options);
-        };
-        /**
-         * @deprecated Please use setValue() instead.
-         */
-        FormControl.prototype.updateValue = function (value, options) {
             if (options === void 0) { options = {}; }
             this.setValue(value, options);
         };

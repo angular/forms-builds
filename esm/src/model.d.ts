@@ -104,10 +104,6 @@ export declare abstract class AbstractControl {
     }, {emitEvent}?: {
         emitEvent?: boolean;
     }): void;
-    /**
-     * @deprecated - use get() instead
-     */
-    find(path: Array<string | number> | string): AbstractControl;
     get(path: Array<string | number> | string): AbstractControl;
     getError(errorCode: string, path?: string[]): any;
     hasError(errorCode: string, path?: string[]): boolean;
@@ -160,15 +156,6 @@ export declare class FormControl extends AbstractControl {
      * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
      */
     patchValue(value: any, options?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-        emitModelToViewChange?: boolean;
-        emitViewToModelChange?: boolean;
-    }): void;
-    /**
-     * @deprecated Please use setValue() instead.
-     */
-    updateValue(value: any, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;

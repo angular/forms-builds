@@ -187,13 +187,9 @@ export class AbstractControl {
         this._errors = errors;
         this._updateControlsErrors(emitEvent);
     }
-    /**
-     * @deprecated - use get() instead
-     */
-    find(path) { return _find(this, path, '/'); }
     get(path) { return _find(this, path, '.'); }
     getError(errorCode, path = null) {
-        var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.find(path) : this;
+        var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
         if (isPresent(control) && isPresent(control._errors)) {
             return StringMapWrapper.get(control._errors, errorCode);
         }
@@ -318,12 +314,6 @@ export class FormControl extends AbstractControl {
      * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
      */
     patchValue(value, options = {}) {
-        this.setValue(value, options);
-    }
-    /**
-     * @deprecated Please use setValue() instead.
-     */
-    updateValue(value, options = {}) {
         this.setValue(value, options);
     }
     reset(value = null, { onlySelf } = {}) {

@@ -250,14 +250,10 @@ var AbstractControl = (function () {
         this._errors = errors;
         this._updateControlsErrors(emitEvent);
     };
-    /**
-     * @deprecated - use get() instead
-     */
-    AbstractControl.prototype.find = function (path) { return _find(this, path, '/'); };
     AbstractControl.prototype.get = function (path) { return _find(this, path, '.'); };
     AbstractControl.prototype.getError = function (errorCode, path) {
         if (path === void 0) { path = null; }
-        var control = lang_1.isPresent(path) && !collection_1.ListWrapper.isEmpty(path) ? this.find(path) : this;
+        var control = lang_1.isPresent(path) && !collection_1.ListWrapper.isEmpty(path) ? this.get(path) : this;
         if (lang_1.isPresent(control) && lang_1.isPresent(control._errors)) {
             return collection_1.StringMapWrapper.get(control._errors, errorCode);
         }
@@ -397,13 +393,6 @@ var FormControl = (function (_super) {
      * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
      */
     FormControl.prototype.patchValue = function (value, options) {
-        if (options === void 0) { options = {}; }
-        this.setValue(value, options);
-    };
-    /**
-     * @deprecated Please use setValue() instead.
-     */
-    FormControl.prototype.updateValue = function (value, options) {
         if (options === void 0) { options = {}; }
         this.setValue(value, options);
     };
