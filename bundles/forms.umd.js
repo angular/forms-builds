@@ -2389,7 +2389,12 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.ngSubmit.emit(null);
             return false;
         };
-        NgForm.prototype.onReset = function () { this.form.reset(); };
+        NgForm.prototype.onReset = function () { this.resetForm(); };
+        NgForm.prototype.resetForm = function (value) {
+            if (value === void 0) { value = undefined; }
+            this.form.reset(value);
+            this._submitted = false;
+        };
         /** @internal */
         NgForm.prototype._findContainer = function (path) {
             path.pop();
@@ -2821,7 +2826,12 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.ngSubmit.emit(null);
             return false;
         };
-        FormGroupDirective.prototype.onReset = function () { this.form.reset(); };
+        FormGroupDirective.prototype.onReset = function () { this.resetForm(); };
+        FormGroupDirective.prototype.resetForm = function (value) {
+            if (value === void 0) { value = undefined; }
+            this.form.reset(value);
+            this._submitted = false;
+        };
         /** @internal */
         FormGroupDirective.prototype._updateDomValue = function () {
             var _this = this;
