@@ -8,6 +8,7 @@
 "use strict";
 var core_1 = require('@angular/core');
 var collection_1 = require('../facade/collection');
+var exceptions_1 = require('../facade/exceptions');
 var lang_1 = require('../facade/lang');
 var control_value_accessor_1 = require('./control_value_accessor');
 var ng_control_1 = require('./ng_control');
@@ -92,7 +93,7 @@ var RadioControlValueAccessor = (function () {
             this.name = this.formControlName;
     };
     RadioControlValueAccessor.prototype._throwNameError = function () {
-        throw new core_1.BaseException("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
+        throw new exceptions_1.BaseException("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
     };
     /** @nocollapse */
     RadioControlValueAccessor.decorators = [

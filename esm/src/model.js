@@ -5,11 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { BaseException } from '@angular/core';
 import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
 import { composeAsyncValidators, composeValidators } from './directives/shared';
 import { EventEmitter } from './facade/async';
 import { ListWrapper, StringMapWrapper } from './facade/collection';
+import { BaseException } from './facade/exceptions';
 import { isBlank, isPresent, isPromise, normalizeBool } from './facade/lang';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
@@ -187,9 +187,13 @@ export class AbstractControl {
         this._errors = errors;
         this._updateControlsErrors(emitEvent);
     }
+    /**
+     * @deprecated - use get() instead
+     */
+    find(path) { return _find(this, path, '/'); }
     get(path) { return _find(this, path, '.'); }
     getError(errorCode, path = null) {
-        var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
+        var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.find(path) : this;
         if (isPresent(control) && isPresent(control._errors)) {
             return StringMapWrapper.get(control._errors, errorCode);
         }
@@ -316,6 +320,12 @@ export class FormControl extends AbstractControl {
     patchValue(value, options = {}) {
         this.setValue(value, options);
     }
+    /**
+     * @deprecated Please use setValue() instead.
+     */
+    updateValue(value, options = {}) {
+        this.setValue(value, options);
+    }
     reset(value = null, { onlySelf } = {}) {
         this.markAsPristine({ onlySelf: onlySelf });
         this.markAsUntouched({ onlySelf: onlySelf });
@@ -350,6 +360,7 @@ export class FormControl extends AbstractControl {
  * along with {@link FormControl} and {@link FormArray}. {@link FormArray} can also contain other
  * controls, but is of variable length.
  *
+ * ### Example ([live demo](http://plnkr.co/edit/23DESOpbNnBpBHZt1BR4?p=preview))
  *
  * @experimental
  */
@@ -512,6 +523,7 @@ export class FormGroup extends AbstractControl {
  * the `FormArray` directly, as that will result in strange and unexpected behavior such
  * as broken change detection.
  *
+ * ### Example ([live demo](http://plnkr.co/edit/23DESOpbNnBpBHZt1BR4?p=preview))
  *
  * @experimental
  */

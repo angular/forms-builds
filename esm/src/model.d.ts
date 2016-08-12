@@ -104,6 +104,10 @@ export declare abstract class AbstractControl {
     }, {emitEvent}?: {
         emitEvent?: boolean;
     }): void;
+    /**
+     * @deprecated - use get() instead
+     */
+    find(path: Array<string | number> | string): AbstractControl;
     get(path: Array<string | number> | string): AbstractControl;
     getError(errorCode: string, path?: string[]): any;
     hasError(errorCode: string, path?: string[]): boolean;
@@ -161,6 +165,15 @@ export declare class FormControl extends AbstractControl {
         emitModelToViewChange?: boolean;
         emitViewToModelChange?: boolean;
     }): void;
+    /**
+     * @deprecated Please use setValue() instead.
+     */
+    updateValue(value: any, options?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+        emitModelToViewChange?: boolean;
+        emitViewToModelChange?: boolean;
+    }): void;
     reset(value?: any, {onlySelf}?: {
         onlySelf?: boolean;
     }): void;
@@ -181,6 +194,7 @@ export declare class FormControl extends AbstractControl {
  * along with {@link FormControl} and {@link FormArray}. {@link FormArray} can also contain other
  * controls, but is of variable length.
  *
+ * ### Example ([live demo](http://plnkr.co/edit/23DESOpbNnBpBHZt1BR4?p=preview))
  *
  * @experimental
  */
@@ -252,6 +266,7 @@ export declare class FormGroup extends AbstractControl {
  * the `FormArray` directly, as that will result in strange and unexpected behavior such
  * as broken change detection.
  *
+ * ### Example ([live demo](http://plnkr.co/edit/23DESOpbNnBpBHZt1BR4?p=preview))
  *
  * @experimental
  */

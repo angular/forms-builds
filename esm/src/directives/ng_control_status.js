@@ -7,9 +7,8 @@
  */
 import { Directive, Self } from '@angular/core';
 import { isPresent } from '../facade/lang';
-import { ControlContainer } from './control_container';
 import { NgControl } from './ng_control';
-export class AbstractControlStatus {
+export class NgControlStatus {
     constructor(cd) {
         this._cd = cd;
     }
@@ -29,44 +28,25 @@ export class AbstractControlStatus {
         return isPresent(this._cd.control) ? this._cd.control.valid : false;
     }
     get ngClassInvalid() {
-        return isPresent(this._cd.control) ? this._cd.control.invalid : false;
-    }
-}
-export const ngControlStatusHost = {
-    '[class.ng-untouched]': 'ngClassUntouched',
-    '[class.ng-touched]': 'ngClassTouched',
-    '[class.ng-pristine]': 'ngClassPristine',
-    '[class.ng-dirty]': 'ngClassDirty',
-    '[class.ng-valid]': 'ngClassValid',
-    '[class.ng-invalid]': 'ngClassInvalid'
-};
-export class NgControlStatus extends AbstractControlStatus {
-    constructor(cd) {
-        super(cd);
+        return isPresent(this._cd.control) ? !this._cd.control.valid : false;
     }
 }
 /** @nocollapse */
 NgControlStatus.decorators = [
-    { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] },
+    { type: Directive, args: [{
+                selector: '[formControlName],[ngModel],[formControl]',
+                host: {
+                    '[class.ng-untouched]': 'ngClassUntouched',
+                    '[class.ng-touched]': 'ngClassTouched',
+                    '[class.ng-pristine]': 'ngClassPristine',
+                    '[class.ng-dirty]': 'ngClassDirty',
+                    '[class.ng-valid]': 'ngClassValid',
+                    '[class.ng-invalid]': 'ngClassInvalid'
+                }
+            },] },
 ];
 /** @nocollapse */
 NgControlStatus.ctorParameters = [
     { type: NgControl, decorators: [{ type: Self },] },
-];
-export class NgControlStatusGroup extends AbstractControlStatus {
-    constructor(cd) {
-        super(cd);
-    }
-}
-/** @nocollapse */
-NgControlStatusGroup.decorators = [
-    { type: Directive, args: [{
-                selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-                host: ngControlStatusHost
-            },] },
-];
-/** @nocollapse */
-NgControlStatusGroup.ctorParameters = [
-    { type: ControlContainer, decorators: [{ type: Self },] },
 ];
 //# sourceMappingURL=ng_control_status.js.map

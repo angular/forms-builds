@@ -41,7 +41,6 @@ var ng_control_1 = require('./directives/ng_control');
 exports.NgControl = ng_control_1.NgControl;
 var ng_control_status_1 = require('./directives/ng_control_status');
 exports.NgControlStatus = ng_control_status_1.NgControlStatus;
-exports.NgControlStatusGroup = ng_control_status_1.NgControlStatusGroup;
 var ng_form_1 = require('./directives/ng_form');
 exports.NgForm = ng_form_1.NgForm;
 var ng_model_1 = require('./directives/ng_model');

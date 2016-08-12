@@ -16,8 +16,7 @@ export declare const controlNameBinding: any;
 /**
  * Syncs an existing form control with the specified name to a DOM element.
  *
- * This directive can only be used as a child of {@link FormGroupDirective}.  It also requires
- * importing the {@link ReactiveFormsModule}.
+ * This directive can only be used as a child of {@link FormGroupDirective}.
 
  * ### Example
  *
@@ -28,6 +27,7 @@ export declare const controlNameBinding: any;
  *  ```
  * @Component({
  *      selector: "login-comp",
+ *      directives: [REACTIVE_FORM_DIRECTIVES],
  *      template: `
  *        <form [formGroup]="myForm" (submit)="onLogIn()">
  *          Login <input type="text" formControlName="login">
@@ -37,8 +37,8 @@ export declare const controlNameBinding: any;
  *        </form>
  *      `})
  * class LoginComp {
- *  loginCtrl = new FormControl();
- *  passwordCtrl = new FormControl();
+ *  loginCtrl = new Control();
+ *  passwordCtrl = new Control();
  *  myForm = new FormGroup({
  *     login: loginCtrl,
  *     password: passwordCtrl
@@ -49,27 +49,28 @@ export declare const controlNameBinding: any;
  * }
  *  ```
  *
- * We can also set the value of the form programmatically using setValue().
+ * TODO(kara): Remove ngModel example with reactive paradigm
+ * We can also use ngModel to bind a domain model to the form, if you don't want to provide
+ * individual init values to each control.
  *
  *  ```
  * @Component({
  *      selector: "login-comp",
+ *      directives: [REACTIVE_FORM_DIRECTIVES],
  *      template: `
  *        <form [formGroup]="myForm" (submit)='onLogIn()'>
- *          Login <input type='text' formControlName='login'>
- *          Password <input type='password' formControlName='password'>
+ *          Login <input type='text' formControlName='login' [(ngModel)]="credentials.login">
+ *          Password <input type='password' formControlName='password'
+ *                          [(ngModel)]="credentials.password">
  *          <button type='submit'>Log in!</button>
  *        </form>
  *      `})
  * class LoginComp {
+ *  credentials: {login:string, password:string};
  *  myForm = new FormGroup({
- *    login: new FormControl(),
- *    password: new FormControl()
+ *    login: new Control(this.credentials.login),
+ *    password: new Control(this.credentials.password)
  *  });
- *
- *  populate() {
- *     this.myForm.setValue({login: 'some login', password: 'some password'});
- *  }
  *
  *  onLogIn(): void {
  *    // this.credentials.login === "some login"

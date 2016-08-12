@@ -15,8 +15,7 @@ export declare const formGroupNameProvider: any;
 /**
  * Syncs an existing form group to a DOM element.
  *
- * This directive can only be used as a child of {@link FormGroupDirective}.  It also requires
- * importing the {@link ReactiveFormsModule}.
+ * This directive can only be used as a child of {@link FormGroupDirective}.
  *
  * ```typescript
  * @Component({
@@ -32,8 +31,8 @@ export declare const formGroupNameProvider: any;
  *           <p>Last: <input formControlName="last"></p>
  *         </div>
  *         <h3>Name value:</h3>
- *         <pre>{{ myForm.get('name') | json }}</pre>
- *         <p>Name is {{myForm.get('name')?.valid ? "valid" : "invalid"}}</p>
+ *         <pre>{{ nameGroup | json }}</pre>
+ *         <p>Name is {{nameGroup?.valid ? "valid" : "invalid"}}</p>
  *         <h3>What's your favorite food?</h3>
  *         <p><input formControlName="food"></p>
  *         <h3>Form value</h3>
@@ -43,12 +42,14 @@ export declare const formGroupNameProvider: any;
  *   `
  * })
  * export class App {
- *   myForm = new FormGroup({
- *     name: new FormGroup({
+ *   nameGroup = new FormGroup({
  *       first: new FormControl('', Validators.required),
  *       middle: new FormControl(''),
  *       last: new FormControl('', Validators.required)
- *     }),
+ *   });
+ *
+ *   myForm = new FormGroup({
+ *     name: this.nameGroup,
  *     food: new FormControl()
  *   });
  * }
@@ -67,8 +68,7 @@ export declare const formArrayNameProvider: any;
 /**
  * Syncs an existing form array to a DOM element.
  *
- * This directive can only be used as a child of {@link FormGroupDirective}.  It also requires
- * importing the {@link ReactiveFormsModule}.
+ * This directive can only be used as a child of {@link FormGroupDirective}.
  *
  * ```typescript
  * @Component({
