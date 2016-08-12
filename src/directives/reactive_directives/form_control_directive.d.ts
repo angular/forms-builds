@@ -13,8 +13,9 @@ import { NgControl } from '../ng_control';
 import { AsyncValidatorFn, ValidatorFn } from '../validators';
 export declare const formControlBinding: any;
 /**
- * Binds an existing {@link FormControl} to a DOM element.
- **
+ * Binds an existing {@link FormControl} to a DOM element. It requires importing the {@link
+ * ReactiveFormsModule}.
+ *
  * In this example, we bind the control to an input element. When the value of the input element
  * changes, the value of the control will reflect that change. Likewise, if the value of the
  * control changes, the input element reflects that change.
@@ -32,7 +33,6 @@ export declare const formControlBinding: any;
  *       </form>
  *     </div>
  *   `,
- *   directives: [REACTIVE_FORM_DIRECTIVES]
  * })
  * export class App {
  *   loginControl: FormControl = new FormControl('');
@@ -41,17 +41,21 @@ export declare const formControlBinding: any;
  *
  * ### ngModel
  *
- * We can also use `ngModel` to bind a domain model to the form.
+ * We can also set the value of the form programmatically with setValue().
  **
  *  ```typescript
  * @Component({
  *      selector: "login-comp",
- *      directives: [FORM_DIRECTIVES],
- *      template: "<input type='text' [formControl]='loginControl' [(ngModel)]='login'>"
+
+ *      template: "<input type='text' [formControl]='loginControl'>"
  *      })
  * class LoginComp {
  *  loginControl: FormControl = new FormControl('');
- *  login:string;
+ *
+ *  populate() {
+ *    this.loginControl.setValue('some login');
+ *  }
+ *
  * }
  *  ```
  *
