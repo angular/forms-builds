@@ -1,10 +1,3 @@
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 import { Observable } from '../facade/async';
 import { AbstractControl } from '../model';
 /**
@@ -18,6 +11,8 @@ export declare abstract class AbstractControlDirective {
     readonly control: AbstractControl;
     readonly value: any;
     readonly valid: boolean;
+    readonly invalid: boolean;
+    readonly pending: boolean;
     readonly errors: {
         [key: string]: any;
     };

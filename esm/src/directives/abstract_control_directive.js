@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { unimplemented } from '../facade/exceptions';
+import { BaseException } from '@angular/core';
 import { isPresent } from '../facade/lang';
 /**
  * Base class for control directives.
@@ -15,9 +15,11 @@ import { isPresent } from '../facade/lang';
  * @experimental
  */
 export class AbstractControlDirective {
-    get control() { return unimplemented(); }
+    get control() { throw new BaseException('unimplemented'); }
     get value() { return isPresent(this.control) ? this.control.value : null; }
     get valid() { return isPresent(this.control) ? this.control.valid : null; }
+    get invalid() { return isPresent(this.control) ? this.control.invalid : null; }
+    get pending() { return isPresent(this.control) ? this.control.pending : null; }
     get errors() {
         return isPresent(this.control) ? this.control.errors : null;
     }

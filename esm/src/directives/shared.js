@@ -5,8 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+import { BaseException } from '@angular/core';
 import { ListWrapper, StringMapWrapper } from '../facade/collection';
-import { BaseException } from '../facade/exceptions';
 import { hasConstructor, isBlank, isPresent, looseIdentical } from '../facade/lang';
 import { Validators } from '../validators';
 import { CheckboxControlValueAccessor } from './checkbox_value_accessor';
@@ -32,8 +32,8 @@ export function setUpControl(control, dir) {
     // view -> model
     dir.valueAccessor.registerOnChange((newValue) => {
         dir.viewToModelUpdate(newValue);
-        control.updateValue(newValue, { emitModelToViewChange: false });
         control.markAsDirty();
+        control.setValue(newValue, { emitModelToViewChange: false });
     });
     control.registerOnChange((newValue, emitModelEvent) => {
         // control -> view
