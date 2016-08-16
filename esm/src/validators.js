@@ -6,9 +6,10 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { OpaqueToken } from '@angular/core';
-import { toPromise } from 'rxjs/operator/toPromise';
+import { ObservableWrapper } from './facade/async';
 import { StringMapWrapper } from './facade/collection';
 import { isBlank, isPresent, isPromise, isString } from './facade/lang';
+import { PromiseWrapper } from './facade/promise';
 /**
  * Providers for validators to be used for {@link FormControl}s in a form.
  *
@@ -30,7 +31,8 @@ export const NG_VALIDATORS = new OpaqueToken('NgValidators');
  *
  * @experimental
  */
-export const NG_ASYNC_VALIDATORS = new OpaqueToken('NgAsyncValidators');
+export const NG_ASYNC_VALIDATORS = 
+/*@ts2dart_const*/ new OpaqueToken('NgAsyncValidators');
 /**
  * Provides a set of validators used by form controls.
  *
@@ -119,12 +121,12 @@ export class Validators {
             return null;
         return function (control) {
             let promises = _executeAsyncValidators(control, presentValidators).map(_convertToPromise);
-            return Promise.all(promises).then(_mergeErrors);
+            return PromiseWrapper.all(promises).then(_mergeErrors);
         };
     }
 }
 function _convertToPromise(obj) {
-    return isPromise(obj) ? obj : toPromise.call(obj);
+    return isPromise(obj) ? obj : ObservableWrapper.toPromise(obj);
 }
 function _executeValidators(control, validators) {
     return validators.map(v => v(control));

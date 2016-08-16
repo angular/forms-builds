@@ -32,7 +32,6 @@ export declare abstract class AbstractControl {
     value: any;
     status: string;
     valid: boolean;
-    invalid: boolean;
     /**
      * Returns the errors of this control.
      */
@@ -66,8 +65,7 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
     }): void;
     setParent(parent: FormGroup | FormArray): void;
-    abstract setValue(value: any, options?: Object): void;
-    abstract patchValue(value: any, options?: Object): void;
+    abstract updateValue(value: any, options?: Object): void;
     abstract reset(value?: any, options?: Object): void;
     updateValueAndValidity({onlySelf, emitEvent}?: {
         onlySelf?: boolean;
@@ -104,7 +102,7 @@ export declare abstract class AbstractControl {
     }, {emitEvent}?: {
         emitEvent?: boolean;
     }): void;
-    get(path: Array<string | number> | string): AbstractControl;
+    find(path: Array<string | number> | string): AbstractControl;
     getError(errorCode: string, path?: string[]): any;
     hasError(errorCode: string, path?: string[]): boolean;
     root: AbstractControl;
@@ -145,17 +143,7 @@ export declare class FormControl extends AbstractControl {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      */
-    setValue(value: any, {onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange}?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-        emitModelToViewChange?: boolean;
-        emitViewToModelChange?: boolean;
-    }): void;
-    /**
-     * This function is functionally the same as updateValue() at this level.  It exists for
-     * symmetry with patchValue() on FormGroups and FormArrays, where it does behave differently.
-     */
-    patchValue(value: any, options?: {
+    updateValue(value: any, {onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;
@@ -181,6 +169,7 @@ export declare class FormControl extends AbstractControl {
  * along with {@link FormControl} and {@link FormArray}. {@link FormArray} can also contain other
  * controls, but is of variable length.
  *
+ * ### Example ([live demo](http://plnkr.co/edit/23DESOpbNnBpBHZt1BR4?p=preview))
  *
  * @experimental
  */
@@ -218,12 +207,7 @@ export declare class FormGroup extends AbstractControl {
      * Check whether there is a control with the given name in the group.
      */
     contains(controlName: string): boolean;
-    setValue(value: {
-        [key: string]: any;
-    }, {onlySelf}?: {
-        onlySelf?: boolean;
-    }): void;
-    patchValue(value: {
+    updateValue(value: {
         [key: string]: any;
     }, {onlySelf}?: {
         onlySelf?: boolean;
@@ -252,6 +236,7 @@ export declare class FormGroup extends AbstractControl {
  * the `FormArray` directly, as that will result in strange and unexpected behavior such
  * as broken change detection.
  *
+ * ### Example ([live demo](http://plnkr.co/edit/23DESOpbNnBpBHZt1BR4?p=preview))
  *
  * @experimental
  */
@@ -278,10 +263,7 @@ export declare class FormArray extends AbstractControl {
      * Length of the control array.
      */
     length: number;
-    setValue(value: any[], {onlySelf}?: {
-        onlySelf?: boolean;
-    }): void;
-    patchValue(value: any[], {onlySelf}?: {
+    updateValue(value: any[], {onlySelf}?: {
         onlySelf?: boolean;
     }): void;
     reset(value?: any, {onlySelf}?: {

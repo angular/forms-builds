@@ -8,7 +8,8 @@
 import { Directive, ElementRef, Renderer, forwardRef } from '@angular/core';
 import { isBlank } from '../facade/lang';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
-export const DEFAULT_VALUE_ACCESSOR = {
+export const DEFAULT_VALUE_ACCESSOR = 
+/* @ts2dart_Provider */ {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => DefaultValueAccessor),
     multi: true

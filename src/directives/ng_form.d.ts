@@ -84,10 +84,9 @@ export declare class NgForm extends ControlContainer implements Form {
     removeFormGroup(dir: NgModelGroup): void;
     getFormGroup(dir: NgModelGroup): FormGroup;
     updateModel(dir: NgControl, value: any): void;
-    setValue(value: {
+    updateValue(value: {
         [key: string]: any;
     }): void;
     onSubmit(): boolean;
     onReset(): void;
-    resetForm(value?: any): void;
 }

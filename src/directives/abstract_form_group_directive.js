@@ -14,19 +14,14 @@ var __extends = (this && this.__extends) || function (d, b) {
 var control_container_1 = require('./control_container');
 var shared_1 = require('./shared');
 /**
- * This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
- *
- * @experimental
+  This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
  */
 var AbstractFormGroupDirective = (function (_super) {
     __extends(AbstractFormGroupDirective, _super);
     function AbstractFormGroupDirective() {
         _super.apply(this, arguments);
     }
-    AbstractFormGroupDirective.prototype.ngOnInit = function () {
-        this._checkParentType();
-        this.formDirective.addFormGroup(this);
-    };
+    AbstractFormGroupDirective.prototype.ngOnInit = function () { this.formDirective.addFormGroup(this); };
     AbstractFormGroupDirective.prototype.ngOnDestroy = function () { this.formDirective.removeFormGroup(this); };
     Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
         /**
@@ -62,8 +57,6 @@ var AbstractFormGroupDirective = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /** @internal */
-    AbstractFormGroupDirective.prototype._checkParentType = function () { };
     return AbstractFormGroupDirective;
 }(control_container_1.ControlContainer));
 exports.AbstractFormGroupDirective = AbstractFormGroupDirective;

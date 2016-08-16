@@ -19,17 +19,14 @@ exports.FORM_PROVIDERS = [radio_control_value_accessor_1.RadioControlRegistry];
  * Shorthand set of providers used for building reactive Angular forms.
  * @experimental
  */
-exports.REACTIVE_FORM_PROVIDERS = [form_builder_1.FormBuilder, radio_control_value_accessor_1.RadioControlRegistry];
+exports.REACTIVE_FORM_PROVIDERS = 
+/*@ts2dart_const*/ [form_builder_1.FormBuilder, radio_control_value_accessor_1.RadioControlRegistry];
 var FormsModule = (function () {
     function FormsModule() {
     }
     /** @nocollapse */
     FormsModule.decorators = [
-        { type: core_1.NgModule, args: [{
-                    declarations: directives_1.TEMPLATE_DRIVEN_DIRECTIVES,
-                    providers: [exports.FORM_PROVIDERS],
-                    exports: [directives_1.InternalFormsSharedModule, directives_1.TEMPLATE_DRIVEN_DIRECTIVES]
-                },] },
+        { type: core_1.AppModule, args: [{ providers: [exports.FORM_PROVIDERS], directives: directives_1.FORM_DIRECTIVES, pipes: [] },] },
     ];
     return FormsModule;
 }());
@@ -39,13 +36,25 @@ var ReactiveFormsModule = (function () {
     }
     /** @nocollapse */
     ReactiveFormsModule.decorators = [
-        { type: core_1.NgModule, args: [{
-                    declarations: [directives_1.REACTIVE_DRIVEN_DIRECTIVES],
-                    providers: [exports.REACTIVE_FORM_PROVIDERS],
-                    exports: [directives_1.InternalFormsSharedModule, directives_1.REACTIVE_DRIVEN_DIRECTIVES]
-                },] },
+        { type: core_1.AppModule, args: [{ providers: [exports.REACTIVE_FORM_PROVIDERS], directives: directives_1.REACTIVE_FORM_DIRECTIVES, pipes: [] },] },
     ];
     return ReactiveFormsModule;
 }());
 exports.ReactiveFormsModule = ReactiveFormsModule;
+/**
+ * @deprecated
+ */
+function disableDeprecatedForms() {
+    return [];
+}
+exports.disableDeprecatedForms = disableDeprecatedForms;
+/**
+ * @deprecated
+ */
+function provideForms() {
+    return [
+        { provide: core_1.PLATFORM_DIRECTIVES, useValue: directives_1.FORM_DIRECTIVES, multi: true }, exports.REACTIVE_FORM_PROVIDERS
+    ];
+}
+exports.provideForms = provideForms;
 //# sourceMappingURL=form_providers.js.map
