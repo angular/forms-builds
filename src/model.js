@@ -65,7 +65,7 @@ function coerceToAsyncValidator(asyncValidator) {
     return Array.isArray(asyncValidator) ? shared_1.composeAsyncValidators(asyncValidator) : asyncValidator;
 }
 /**
- * @experimental
+ * @stable
  */
 var AbstractControl = (function () {
     function AbstractControl(validator, asyncValidator) {
@@ -347,7 +347,7 @@ exports.AbstractControl = AbstractControl;
  * can be bound to a DOM element instead. This `FormControl` can be configured with a custom
  * validation function.
  *
- * @experimental
+ * @stable
  */
 var FormControl = (function (_super) {
     __extends(FormControl, _super);
@@ -435,11 +435,12 @@ exports.FormControl = FormControl;
  * controls, but is of variable length.
  *
  *
- * @experimental
+ * @stable
  */
 var FormGroup = (function (_super) {
     __extends(FormGroup, _super);
-    function FormGroup(controls, optionals, validator, asyncValidator) {
+    function FormGroup(controls, 
+        /* @deprecated */ optionals, validator, asyncValidator) {
         if (optionals === void 0) { optionals = null; }
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
@@ -476,6 +477,7 @@ var FormGroup = (function (_super) {
     };
     /**
      * Mark the named control as non-optional.
+     * @deprecated
      */
     FormGroup.prototype.include = function (controlName) {
         collection_1.StringMapWrapper.set(this._optionals, controlName, true);
@@ -483,6 +485,7 @@ var FormGroup = (function (_super) {
     };
     /**
      * Mark the named control as optional.
+     * @deprecated
      */
     FormGroup.prototype.exclude = function (controlName) {
         collection_1.StringMapWrapper.set(this._optionals, controlName, false);
@@ -609,7 +612,7 @@ exports.FormGroup = FormGroup;
  * as broken change detection.
  *
  *
- * @experimental
+ * @stable
  */
 var FormArray = (function (_super) {
     __extends(FormArray, _super);

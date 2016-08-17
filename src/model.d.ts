@@ -15,7 +15,7 @@ export declare const INVALID: string;
 export declare const PENDING: string;
 export declare function isControl(control: Object): boolean;
 /**
- * @experimental
+ * @stable
  */
 export declare abstract class AbstractControl {
     validator: ValidatorFn;
@@ -126,7 +126,7 @@ export declare abstract class AbstractControl {
  * can be bound to a DOM element instead. This `FormControl` can be configured with a custom
  * validation function.
  *
- * @experimental
+ * @stable
  */
 export declare class FormControl extends AbstractControl {
     constructor(value?: any, validator?: ValidatorFn | ValidatorFn[], asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[]);
@@ -182,7 +182,7 @@ export declare class FormControl extends AbstractControl {
  * controls, but is of variable length.
  *
  *
- * @experimental
+ * @stable
  */
 export declare class FormGroup extends AbstractControl {
     controls: {
@@ -208,10 +208,12 @@ export declare class FormGroup extends AbstractControl {
     removeControl(name: string): void;
     /**
      * Mark the named control as non-optional.
+     * @deprecated
      */
     include(controlName: string): void;
     /**
      * Mark the named control as optional.
+     * @deprecated
      */
     exclude(controlName: string): void;
     /**
@@ -253,7 +255,7 @@ export declare class FormGroup extends AbstractControl {
  * as broken change detection.
  *
  *
- * @experimental
+ * @stable
  */
 export declare class FormArray extends AbstractControl {
     controls: AbstractControl[];

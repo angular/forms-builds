@@ -23,7 +23,7 @@ export declare const ngControlStatusHost: {
  * Directive automatically applied to Angular form controls that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- * @experimental
+ * @stable
  */
 export declare class NgControlStatus extends AbstractControlStatus {
     constructor(cd: NgControl);
@@ -32,7 +32,7 @@ export declare class NgControlStatus extends AbstractControlStatus {
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- * @experimental
+ * @stable
  */
 export declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);

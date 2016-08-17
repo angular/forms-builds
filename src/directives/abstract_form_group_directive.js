@@ -16,7 +16,7 @@ var shared_1 = require('./shared');
 /**
  * This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
  *
- * @experimental
+ * @stable
  */
 var AbstractFormGroupDirective = (function (_super) {
     __extends(AbstractFormGroupDirective, _super);

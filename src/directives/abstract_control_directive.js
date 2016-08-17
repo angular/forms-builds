@@ -13,7 +13,7 @@ var lang_1 = require('../facade/lang');
  *
  * Only used internally in the forms module.
  *
- * @experimental
+ * @stable
  */
 var AbstractControlDirective = (function () {
     function AbstractControlDirective() {

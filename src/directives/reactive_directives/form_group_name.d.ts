@@ -57,7 +57,7 @@ export declare const formGroupNameProvider: any;
  * This example syncs the form group for the user's name. The value and validation state of
  * this group can be accessed separately from the overall form.
  *
- * @experimental
+ * @stable
  */
 export declare class FormGroupName extends AbstractFormGroupDirective implements OnInit, OnDestroy {
     name: string;
@@ -98,7 +98,7 @@ export declare const formArrayNameProvider: any;
  * }
  * ```
  *
- * @experimental
+ * @stable
  */
 export declare class FormArrayName extends ControlContainer implements OnInit, OnDestroy {
     name: string;

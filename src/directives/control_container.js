@@ -17,7 +17,7 @@ var abstract_control_directive_1 = require('./abstract_control_directive');
  *
  * Only used by the forms module.
  *
- * @experimental
+ * @stable
  */
 var ControlContainer = (function (_super) {
     __extends(ControlContainer, _super);

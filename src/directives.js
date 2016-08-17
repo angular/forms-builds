@@ -84,11 +84,11 @@ exports.REACTIVE_DRIVEN_DIRECTIVES = [form_control_directive_1.FormControlDirect
  * })
  * class MyApp {}
  * ```
- * @experimental
+ * @stable
  */
 exports.FORM_DIRECTIVES = [exports.TEMPLATE_DRIVEN_DIRECTIVES, exports.SHARED_FORM_DIRECTIVES];
 /**
- * @experimental
+ * @stable
  */
 exports.REACTIVE_FORM_DIRECTIVES = [exports.REACTIVE_DRIVEN_DIRECTIVES, exports.SHARED_FORM_DIRECTIVES];
 var InternalFormsSharedModule = (function () {

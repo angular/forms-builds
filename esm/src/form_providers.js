@@ -11,12 +11,12 @@ import { RadioControlRegistry } from './directives/radio_control_value_accessor'
 import { FormBuilder } from './form_builder';
 /**
  * Shorthand set of providers used for building Angular forms.
- * @experimental
+ * @stable
  */
 export const FORM_PROVIDERS = [RadioControlRegistry];
 /**
  * Shorthand set of providers used for building reactive Angular forms.
- * @experimental
+ * @stable
  */
 export const REACTIVE_FORM_PROVIDERS = [FormBuilder, RadioControlRegistry];
 export class FormsModule {

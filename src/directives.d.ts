@@ -41,11 +41,11 @@ export declare const REACTIVE_DRIVEN_DIRECTIVES: Type<any>[];
  * })
  * class MyApp {}
  * ```
- * @experimental
+ * @stable
  */
 export declare const FORM_DIRECTIVES: Type<any>[][];
 /**
- * @experimental
+ * @stable
  */
 export declare const REACTIVE_FORM_DIRECTIVES: Type<any>[][];
 /**

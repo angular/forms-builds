@@ -17,7 +17,7 @@ export declare const DEFAULT_VALUE_ACCESSOR: any;
  *  <input type="text" name="searchQuery" ngModel>
  *  ```
  *
- *  @experimental
+ *  @stable
  */
 export declare class DefaultValueAccessor implements ControlValueAccessor {
     private _renderer;

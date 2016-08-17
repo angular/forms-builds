@@ -18,11 +18,11 @@ function unimplemented() {
 }
 /**
  * A base class that all control directive extend.
- * It binds a {@link Control} object to a DOM element.
+ * It binds a {@link FormControl} object to a DOM element.
  *
  * Used internally by Angular forms.
  *
- * @experimental
+ * @stable
  */
 var NgControl = (function (_super) {
     __extends(NgControl, _super);

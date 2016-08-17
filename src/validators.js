@@ -18,7 +18,7 @@ var lang_1 = require('./facade/lang');
  * ### Example
  *
  * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
- * @experimental
+ * @stable
  */
 exports.NG_VALIDATORS = new core_1.OpaqueToken('NgValidators');
 /**
@@ -29,7 +29,7 @@ exports.NG_VALIDATORS = new core_1.OpaqueToken('NgValidators');
  *
  * See {@link NG_VALIDATORS} for more details.
  *
- * @experimental
+ * @stable
  */
 exports.NG_ASYNC_VALIDATORS = new core_1.OpaqueToken('NgAsyncValidators');
 /**
@@ -44,7 +44,7 @@ exports.NG_ASYNC_VALIDATORS = new core_1.OpaqueToken('NgAsyncValidators');
  * var loginControl = new FormControl("", Validators.required)
  * ```
  *
- * @experimental
+ * @stable
  */
 var Validators = (function () {
     function Validators() {

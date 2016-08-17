@@ -78,7 +78,7 @@ export declare const controlNameBinding: any;
  * }
  *  ```
  *
- *  @experimental
+ *  @stable
  */
 export declare class FormControlName extends NgControl implements OnChanges, OnDestroy {
     private _parent;

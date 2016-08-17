@@ -8,23 +8,23 @@
 import { Type } from '@angular/core';
 /**
  * Shorthand set of providers used for building Angular forms.
- * @experimental
+ * @stable
  */
 export declare const FORM_PROVIDERS: Type<any>[];
 /**
  * Shorthand set of providers used for building reactive Angular forms.
- * @experimental
+ * @stable
  */
 export declare const REACTIVE_FORM_PROVIDERS: Type<any>[];
 /**
  * The ng module for forms.
- * @experimental
+ * @stable
  */
 export declare class FormsModule {
 }
 /**
  * The ng module for reactive forms.
- * @experimental
+ * @stable
  */
 export declare class ReactiveFormsModule {
 }

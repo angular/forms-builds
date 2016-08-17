@@ -12,7 +12,7 @@ import { isPresent } from '../facade/lang';
  *
  * Only used internally in the forms module.
  *
- * @experimental
+ * @stable
  */
 export class AbstractControlDirective {
     get control() { throw new BaseException('unimplemented'); }

@@ -11,7 +11,7 @@ import { AbstractControlDirective } from './abstract_control_directive';
  *
  * Only used by the forms module.
  *
- * @experimental
+ * @stable
  */
 export class ControlContainer extends AbstractControlDirective {
     /**

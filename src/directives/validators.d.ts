@@ -17,7 +17,7 @@ import { Validators } from '../validators';
  * }
  * ```
  *
- * @experimental
+ * @stable
  */
 export interface Validator {
     validate(c: AbstractControl): {
@@ -36,12 +36,12 @@ export declare const REQUIRED_VALIDATOR: any;
  * <input name="fullName" ngModel required>
  * ```
  *
- * @experimental
+ * @stable
  */
 export declare class RequiredValidator {
 }
 /**
- * @experimental
+ * @stable
  */
 export interface ValidatorFn {
     (c: AbstractControl): {
@@ -49,7 +49,7 @@ export interface ValidatorFn {
     };
 }
 /**
- * @experimental
+ * @stable
  */
 export interface AsyncValidatorFn {
     (c: AbstractControl): any;
@@ -66,7 +66,7 @@ export declare const MIN_LENGTH_VALIDATOR: any;
  * A directive which installs the {@link MinLengthValidator} for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
  *
- * @experimental
+ * @stable
  */
 export declare class MinLengthValidator implements Validator {
     private _validator;
@@ -88,7 +88,7 @@ export declare const MAX_LENGTH_VALIDATOR: any;
  * `formControl`,
  * or control with `ngModel` that also has a `maxlength` attribute.
  *
- * @experimental
+ * @stable
  */
 export declare class MaxLengthValidator implements Validator {
     private _validator;
@@ -109,7 +109,7 @@ export declare const PATTERN_VALIDATOR: any;
  * ```
  * <input [name]="fullName" pattern="[a-zA-Z ]*" ngModel>
  * ```
- * @experimental
+ * @stable
  */
 export declare class PatternValidator implements Validator {
     private _validator;

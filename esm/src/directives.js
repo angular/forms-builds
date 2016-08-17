@@ -60,11 +60,11 @@ export const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirect
  * })
  * class MyApp {}
  * ```
- * @experimental
+ * @stable
  */
 export const FORM_DIRECTIVES = [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
 /**
- * @experimental
+ * @stable
  */
 export const REACTIVE_FORM_DIRECTIVES = [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
 export class InternalFormsSharedModule {

@@ -15,7 +15,7 @@ export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: {
 /**
  * The accessor for writing a value and listening to changes on a select element.
  *
- * @experimental
+ * @stable
  */
 export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
     value: any;

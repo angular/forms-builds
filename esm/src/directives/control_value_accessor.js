@@ -10,7 +10,7 @@ import { OpaqueToken } from '@angular/core';
  * Used to provide a {@link ControlValueAccessor} for form controls.
  *
  * See {@link DefaultValueAccessor} for how to implement one.
- * @experimental
+ * @stable
  */
 export const NG_VALUE_ACCESSOR = new OpaqueToken('NgValueAccessor');
 //# sourceMappingURL=control_value_accessor.js.map

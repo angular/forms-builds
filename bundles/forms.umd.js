@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      * Used to provide a {@link ControlValueAccessor} for form controls.
      *
      * See {@link DefaultValueAccessor} for how to implement one.
-     * @experimental
+     * @stable
      */
     var NG_VALUE_ACCESSOR = new _angular_core.OpaqueToken('NgValueAccessor');
     var CHECKBOX_VALUE_ACCESSOR = {
@@ -279,7 +279,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      *
      * Only used internally in the forms module.
      *
-     * @experimental
+     * @stable
      */
     var AbstractControlDirective = (function () {
         function AbstractControlDirective() {
@@ -367,7 +367,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      *
      * Only used by the forms module.
      *
-     * @experimental
+     * @stable
      */
     var ControlContainer = (function (_super) {
         __extends(ControlContainer, _super);
@@ -397,11 +397,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     }
     /**
      * A base class that all control directive extend.
-     * It binds a {@link Control} object to a DOM element.
+     * It binds a {@link FormControl} object to a DOM element.
      *
      * Used internally by Angular forms.
      *
-     * @experimental
+     * @stable
      */
     var NgControl = (function (_super) {
         __extends(NgControl, _super);
@@ -925,7 +925,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      * ### Example
      *
      * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
-     * @experimental
+     * @stable
      */
     var NG_VALIDATORS = new _angular_core.OpaqueToken('NgValidators');
     /**
@@ -936,7 +936,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      *
      * See {@link NG_VALIDATORS} for more details.
      *
-     * @experimental
+     * @stable
      */
     var NG_ASYNC_VALIDATORS = new _angular_core.OpaqueToken('NgAsyncValidators');
     /**
@@ -951,7 +951,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      * var loginControl = new FormControl("", Validators.required)
      * ```
      *
-     * @experimental
+     * @stable
      */
     var Validators = (function () {
         function Validators() {
@@ -1642,7 +1642,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         return Array.isArray(asyncValidator) ? composeAsyncValidators(asyncValidator) : asyncValidator;
     }
     /**
-     * @experimental
+     * @stable
      */
     var AbstractControl = (function () {
         function AbstractControl(validator, asyncValidator) {
@@ -1923,7 +1923,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      * can be bound to a DOM element instead. This `FormControl` can be configured with a custom
      * validation function.
      *
-     * @experimental
+     * @stable
      */
     var FormControl = (function (_super) {
         __extends(FormControl, _super);
@@ -2010,11 +2010,12 @@ var __extends = (this && this.__extends) || function (d, b) {
      * controls, but is of variable length.
      *
      *
-     * @experimental
+     * @stable
      */
     var FormGroup = (function (_super) {
         __extends(FormGroup, _super);
-        function FormGroup(controls, optionals, validator, asyncValidator) {
+        function FormGroup(controls, 
+            /* @deprecated */ optionals, validator, asyncValidator) {
             if (optionals === void 0) { optionals = null; }
             if (validator === void 0) { validator = null; }
             if (asyncValidator === void 0) { asyncValidator = null; }
@@ -2051,6 +2052,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         /**
          * Mark the named control as non-optional.
+         * @deprecated
          */
         FormGroup.prototype.include = function (controlName) {
             StringMapWrapper.set(this._optionals, controlName, true);
@@ -2058,6 +2060,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         /**
          * Mark the named control as optional.
+         * @deprecated
          */
         FormGroup.prototype.exclude = function (controlName) {
             StringMapWrapper.set(this._optionals, controlName, false);
@@ -2183,7 +2186,7 @@ var __extends = (this && this.__extends) || function (d, b) {
      * as broken change detection.
      *
      *
-     * @experimental
+     * @stable
      */
     var FormArray = (function (_super) {
         __extends(FormArray, _super);
@@ -2416,7 +2419,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     /**
      * This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
      *
-     * @experimental
+     * @stable
      */
     var AbstractFormGroupDirective = (function (_super) {
         __extends(AbstractFormGroupDirective, _super);
@@ -3175,11 +3178,11 @@ var __extends = (this && this.__extends) || function (d, b) {
      * })
      * class MyApp {}
      * ```
-     * @experimental
+     * @stable
      */
     var FORM_DIRECTIVES = [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
     /**
-     * @experimental
+     * @stable
      */
     var REACTIVE_FORM_DIRECTIVES = [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
     var InternalFormsSharedModule = (function () {
@@ -3260,12 +3263,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     ];
     /**
      * Shorthand set of providers used for building Angular forms.
-     * @experimental
+     * @stable
      */
     var FORM_PROVIDERS = [RadioControlRegistry];
     /**
      * Shorthand set of providers used for building reactive Angular forms.
-     * @experimental
+     * @stable
      */
     var REACTIVE_FORM_PROVIDERS = [FormBuilder, RadioControlRegistry];
     var FormsModule = (function () {

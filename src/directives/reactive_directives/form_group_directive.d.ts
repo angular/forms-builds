@@ -81,7 +81,7 @@ export declare const formDirectiveProvider: any;
  * }
  *  ```
  *
- *  @experimental
+ *  @stable
  */
 export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges {
     private _validators;

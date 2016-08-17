@@ -14,7 +14,7 @@ import { OpaqueToken } from '@angular/core';
  *
  * Please see {@link DefaultValueAccessor} for more information.
  *
- * @experimental
+ * @stable
  */
 export interface ControlValueAccessor {
     /**
@@ -34,6 +34,6 @@ export interface ControlValueAccessor {
  * Used to provide a {@link ControlValueAccessor} for form controls.
  *
  * See {@link DefaultValueAccessor} for how to implement one.
- * @experimental
+ * @stable
  */
 export declare const NG_VALUE_ACCESSOR: OpaqueToken;

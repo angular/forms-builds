@@ -59,7 +59,7 @@ export declare const formControlBinding: any;
  * }
  *  ```
  *
- *  @experimental
+ *  @stable
  */
 export declare class FormControlDirective extends NgControl implements OnChanges {
     private _validators;

@@ -63,7 +63,7 @@ export declare const formDirectiveProvider: any;
  * }
  *  ```
  *
- *  @experimental
+ *  @stable
  */
 export declare class NgForm extends ControlContainer implements Form {
     private _submitted;

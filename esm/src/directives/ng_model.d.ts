@@ -33,7 +33,7 @@ export declare const formControlBinding: any;
  * }
  *  ```
  *
- *  @experimental
+ *  @stable
  */
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _parent;
