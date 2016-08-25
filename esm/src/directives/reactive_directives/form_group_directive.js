@@ -12,7 +12,7 @@ import { isBlank } from '../../facade/lang';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators } from '../../validators';
 import { ControlContainer } from '../control_container';
 import { ReactiveErrors } from '../reactive_errors';
-import { composeAsyncValidators, composeValidators, setUpControl, setUpFormContainer } from '../shared';
+import { cleanUpControl, composeAsyncValidators, composeValidators, setUpControl, setUpFormContainer } from '../shared';
 export const formDirectiveProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormGroupDirective)
@@ -35,8 +35,8 @@ export class FormGroupDirective extends ControlContainer {
             var async = composeAsyncValidators(this._asyncValidators);
             this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
             this.form.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+            this._updateDomValue(changes);
         }
-        this._updateDomValue();
     }
     get submitted() { return this._submitted; }
     get formDirective() { return this; }
@@ -79,10 +79,16 @@ export class FormGroupDirective extends ControlContainer {
         this._submitted = false;
     }
     /** @internal */
-    _updateDomValue() {
+    _updateDomValue(changes) {
+        const oldForm = changes['form'].previousValue;
         this.directives.forEach(dir => {
-            var ctrl = this.form.get(dir.path);
-            dir.valueAccessor.writeValue(ctrl.value);
+            const newCtrl = this.form.get(dir.path);
+            const oldCtrl = oldForm.get(dir.path);
+            if (oldCtrl !== newCtrl) {
+                cleanUpControl(oldCtrl, dir);
+                if (newCtrl)
+                    setUpControl(newCtrl, dir);
+            }
         });
     }
     _checkFormPresent() {

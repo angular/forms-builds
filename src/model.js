@@ -481,6 +481,13 @@ var FormControl = (function (_super) {
      */
     FormControl.prototype.registerOnChange = function (fn) { this._onChange.push(fn); };
     /**
+     * @internal
+     */
+    FormControl.prototype._clearChangeFns = function () {
+        this._onChange = [];
+        this._onDisabledChange = null;
+    };
+    /**
      * Register a listener for disabled events.
      */
     FormControl.prototype.registerOnDisabledChange = function (fn) { this._onDisabledChange = fn; };

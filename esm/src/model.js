@@ -389,6 +389,13 @@ export class FormControl extends AbstractControl {
      */
     registerOnChange(fn) { this._onChange.push(fn); }
     /**
+     * @internal
+     */
+    _clearChangeFns() {
+        this._onChange = [];
+        this._onDisabledChange = null;
+    }
+    /**
      * Register a listener for disabled events.
      */
     registerOnDisabledChange(fn) { this._onDisabledChange = fn; }

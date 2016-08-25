@@ -48,11 +48,20 @@ export function setUpControl(control, dir) {
     // touched
     dir.valueAccessor.registerOnTouched(() => control.markAsTouched());
 }
+export function cleanUpControl(control, dir) {
+    dir.valueAccessor.registerOnChange(() => _noControlError(dir));
+    dir.valueAccessor.registerOnTouched(() => _noControlError(dir));
+    if (control)
+        control._clearChangeFns();
+}
 export function setUpFormContainer(control, dir) {
     if (isBlank(control))
         _throwError(dir, 'Cannot find control with');
     control.validator = Validators.compose([control.validator, dir.validator]);
     control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
+}
+function _noControlError(dir) {
+    return _throwError(dir, 'There is no FormControl instance attached to form control element with');
 }
 function _throwError(dir, message) {
     let messageEnd;

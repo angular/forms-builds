@@ -51,6 +51,13 @@ function setUpControl(control, dir) {
     dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
 }
 exports.setUpControl = setUpControl;
+function cleanUpControl(control, dir) {
+    dir.valueAccessor.registerOnChange(function () { return _noControlError(dir); });
+    dir.valueAccessor.registerOnTouched(function () { return _noControlError(dir); });
+    if (control)
+        control._clearChangeFns();
+}
+exports.cleanUpControl = cleanUpControl;
 function setUpFormContainer(control, dir) {
     if (lang_1.isBlank(control))
         _throwError(dir, 'Cannot find control with');
@@ -58,6 +65,9 @@ function setUpFormContainer(control, dir) {
     control.asyncValidator = validators_1.Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
 }
 exports.setUpFormContainer = setUpFormContainer;
+function _noControlError(dir) {
+    return _throwError(dir, 'There is no FormControl instance attached to form control element with');
+}
 function _throwError(dir, message) {
     var messageEnd;
     if (dir.path.length > 1) {

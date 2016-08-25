@@ -7,6 +7,7 @@ import { FormArrayName } from './reactive_directives/form_group_name';
 import { AsyncValidatorFn, ValidatorFn } from './validators';
 export declare function controlPath(name: string, parent: ControlContainer): string[];
 export declare function setUpControl(control: FormControl, dir: NgControl): void;
+export declare function cleanUpControl(control: FormControl, dir: NgControl): void;
 export declare function setUpFormContainer(control: FormGroup | FormArray, dir: AbstractFormGroupDirective | FormArrayName): void;
 export declare function composeValidators(validators: any[]): ValidatorFn;
 export declare function composeAsyncValidators(validators: any[]): AsyncValidatorFn;

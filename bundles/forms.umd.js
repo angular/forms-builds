@@ -1387,11 +1387,20 @@ var __extends = (this && this.__extends) || function (d, b) {
         // touched
         dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
     }
+    function cleanUpControl(control, dir) {
+        dir.valueAccessor.registerOnChange(function () { return _noControlError(dir); });
+        dir.valueAccessor.registerOnTouched(function () { return _noControlError(dir); });
+        if (control)
+            control._clearChangeFns();
+    }
     function setUpFormContainer(control, dir) {
         if (isBlank(control))
             _throwError(dir, 'Cannot find control with');
         control.validator = Validators.compose([control.validator, dir.validator]);
         control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
+    }
+    function _noControlError(dir) {
+        return _throwError(dir, 'There is no FormControl instance attached to form control element with');
     }
     function _throwError(dir, message) {
         var messageEnd;
@@ -2156,6 +2165,13 @@ var __extends = (this && this.__extends) || function (d, b) {
          * Register a listener for change events.
          */
         FormControl.prototype.registerOnChange = function (fn) { this._onChange.push(fn); };
+        /**
+         * @internal
+         */
+        FormControl.prototype._clearChangeFns = function () {
+            this._onChange = [];
+            this._onDisabledChange = null;
+        };
         /**
          * Register a listener for disabled events.
          */
@@ -2930,8 +2946,8 @@ var __extends = (this && this.__extends) || function (d, b) {
                 var async = composeAsyncValidators(this._asyncValidators);
                 this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
                 this.form.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+                this._updateDomValue(changes);
             }
-            this._updateDomValue();
         };
         Object.defineProperty(FormGroupDirective.prototype, "submitted", {
             get: function () { return this._submitted; },
@@ -2991,11 +3007,17 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._submitted = false;
         };
         /** @internal */
-        FormGroupDirective.prototype._updateDomValue = function () {
+        FormGroupDirective.prototype._updateDomValue = function (changes) {
             var _this = this;
+            var oldForm = changes['form'].previousValue;
             this.directives.forEach(function (dir) {
-                var ctrl = _this.form.get(dir.path);
-                dir.valueAccessor.writeValue(ctrl.value);
+                var newCtrl = _this.form.get(dir.path);
+                var oldCtrl = oldForm.get(dir.path);
+                if (oldCtrl !== newCtrl) {
+                    cleanUpControl(oldCtrl, dir);
+                    if (newCtrl)
+                        setUpControl(newCtrl, dir);
+                }
             });
         };
         FormGroupDirective.prototype._checkFormPresent = function () {

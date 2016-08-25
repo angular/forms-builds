@@ -42,8 +42,8 @@ var FormGroupDirective = (function (_super) {
             var async = shared_1.composeAsyncValidators(this._asyncValidators);
             this.form.asyncValidator = validators_1.Validators.composeAsync([this.form.asyncValidator, async]);
             this.form.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+            this._updateDomValue(changes);
         }
-        this._updateDomValue();
     };
     Object.defineProperty(FormGroupDirective.prototype, "submitted", {
         get: function () { return this._submitted; },
@@ -103,11 +103,17 @@ var FormGroupDirective = (function (_super) {
         this._submitted = false;
     };
     /** @internal */
-    FormGroupDirective.prototype._updateDomValue = function () {
+    FormGroupDirective.prototype._updateDomValue = function (changes) {
         var _this = this;
+        var oldForm = changes['form'].previousValue;
         this.directives.forEach(function (dir) {
-            var ctrl = _this.form.get(dir.path);
-            dir.valueAccessor.writeValue(ctrl.value);
+            var newCtrl = _this.form.get(dir.path);
+            var oldCtrl = oldForm.get(dir.path);
+            if (oldCtrl !== newCtrl) {
+                shared_1.cleanUpControl(oldCtrl, dir);
+                if (newCtrl)
+                    shared_1.setUpControl(newCtrl, dir);
+            }
         });
     };
     FormGroupDirective.prototype._checkFormPresent = function () {
