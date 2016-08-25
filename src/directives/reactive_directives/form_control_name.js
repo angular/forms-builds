@@ -55,7 +55,11 @@ var FormControlName = (function (_super) {
             this.formDirective.updateModel(this, this.model);
         }
     };
-    FormControlName.prototype.ngOnDestroy = function () { this.formDirective.removeControl(this); };
+    FormControlName.prototype.ngOnDestroy = function () {
+        if (this.formDirective) {
+            this.formDirective.removeControl(this);
+        }
+    };
     FormControlName.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
         this.update.emit(newValue);
@@ -66,7 +70,7 @@ var FormControlName = (function (_super) {
         configurable: true
     });
     Object.defineProperty(FormControlName.prototype, "formDirective", {
-        get: function () { return this._parent.formDirective; },
+        get: function () { return this._parent ? this._parent.formDirective : null; },
         enumerable: true,
         configurable: true
     });

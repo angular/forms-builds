@@ -27,7 +27,11 @@ var AbstractFormGroupDirective = (function (_super) {
         this._checkParentType();
         this.formDirective.addFormGroup(this);
     };
-    AbstractFormGroupDirective.prototype.ngOnDestroy = function () { this.formDirective.removeFormGroup(this); };
+    AbstractFormGroupDirective.prototype.ngOnDestroy = function () {
+        if (this.formDirective) {
+            this.formDirective.removeFormGroup(this);
+        }
+    };
     Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
         /**
          * Get the {@link FormGroup} backing this binding.
@@ -48,7 +52,7 @@ var AbstractFormGroupDirective = (function (_super) {
         /**
          * Get the {@link Form} to which this group belongs.
          */
-        get: function () { return this._parent.formDirective; },
+        get: function () { return this._parent ? this._parent.formDirective : null; },
         enumerable: true,
         configurable: true
     });

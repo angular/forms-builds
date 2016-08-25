@@ -17,7 +17,11 @@ export class AbstractFormGroupDirective extends ControlContainer {
         this._checkParentType();
         this.formDirective.addFormGroup(this);
     }
-    ngOnDestroy() { this.formDirective.removeFormGroup(this); }
+    ngOnDestroy() {
+        if (this.formDirective) {
+            this.formDirective.removeFormGroup(this);
+        }
+    }
     /**
      * Get the {@link FormGroup} backing this binding.
      */
@@ -29,7 +33,7 @@ export class AbstractFormGroupDirective extends ControlContainer {
     /**
      * Get the {@link Form} to which this group belongs.
      */
-    get formDirective() { return this._parent.formDirective; }
+    get formDirective() { return this._parent ? this._parent.formDirective : null; }
     get validator() { return composeValidators(this._validators); }
     get asyncValidator() { return composeAsyncValidators(this._asyncValidators); }
     /** @internal */

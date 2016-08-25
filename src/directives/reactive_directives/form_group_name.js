@@ -69,14 +69,20 @@ var FormArrayName = (function (_super) {
         this._checkParentType();
         this.formDirective.addFormArray(this);
     };
-    FormArrayName.prototype.ngOnDestroy = function () { this.formDirective.removeFormArray(this); };
+    FormArrayName.prototype.ngOnDestroy = function () {
+        if (this.formDirective) {
+            this.formDirective.removeFormArray(this);
+        }
+    };
     Object.defineProperty(FormArrayName.prototype, "control", {
         get: function () { return this.formDirective.getFormArray(this); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormArrayName.prototype, "formDirective", {
-        get: function () { return this._parent.formDirective; },
+        get: function () {
+            return this._parent ? this._parent.formDirective : null;
+        },
         enumerable: true,
         configurable: true
     });

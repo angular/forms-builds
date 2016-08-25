@@ -59,9 +59,15 @@ export class FormArrayName extends ControlContainer {
         this._checkParentType();
         this.formDirective.addFormArray(this);
     }
-    ngOnDestroy() { this.formDirective.removeFormArray(this); }
+    ngOnDestroy() {
+        if (this.formDirective) {
+            this.formDirective.removeFormArray(this);
+        }
+    }
     get control() { return this.formDirective.getFormArray(this); }
-    get formDirective() { return this._parent.formDirective; }
+    get formDirective() {
+        return this._parent ? this._parent.formDirective : null;
+    }
     get path() { return controlPath(this.name, this._parent); }
     get validator() { return composeValidators(this._validators); }
     get asyncValidator() { return composeAsyncValidators(this._asyncValidators); }
