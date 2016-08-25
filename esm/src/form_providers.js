@@ -9,23 +9,13 @@ import { NgModule } from '@angular/core';
 import { InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES, TEMPLATE_DRIVEN_DIRECTIVES } from './directives';
 import { RadioControlRegistry } from './directives/radio_control_value_accessor';
 import { FormBuilder } from './form_builder';
-/**
- * Shorthand set of providers used for building Angular forms.
- * @stable
- */
-export const FORM_PROVIDERS = [RadioControlRegistry];
-/**
- * Shorthand set of providers used for building reactive Angular forms.
- * @stable
- */
-export const REACTIVE_FORM_PROVIDERS = [FormBuilder, RadioControlRegistry];
 export class FormsModule {
 }
 /** @nocollapse */
 FormsModule.decorators = [
     { type: NgModule, args: [{
                 declarations: TEMPLATE_DRIVEN_DIRECTIVES,
-                providers: [FORM_PROVIDERS],
+                providers: [RadioControlRegistry],
                 exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
             },] },
 ];
@@ -35,7 +25,7 @@ export class ReactiveFormsModule {
 ReactiveFormsModule.decorators = [
     { type: NgModule, args: [{
                 declarations: [REACTIVE_DRIVEN_DIRECTIVES],
-                providers: [REACTIVE_FORM_PROVIDERS],
+                providers: [FormBuilder, RadioControlRegistry],
                 exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] },
 ];

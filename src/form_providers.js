@@ -10,16 +10,6 @@ var core_1 = require('@angular/core');
 var directives_1 = require('./directives');
 var radio_control_value_accessor_1 = require('./directives/radio_control_value_accessor');
 var form_builder_1 = require('./form_builder');
-/**
- * Shorthand set of providers used for building Angular forms.
- * @stable
- */
-exports.FORM_PROVIDERS = [radio_control_value_accessor_1.RadioControlRegistry];
-/**
- * Shorthand set of providers used for building reactive Angular forms.
- * @stable
- */
-exports.REACTIVE_FORM_PROVIDERS = [form_builder_1.FormBuilder, radio_control_value_accessor_1.RadioControlRegistry];
 var FormsModule = (function () {
     function FormsModule() {
     }
@@ -27,7 +17,7 @@ var FormsModule = (function () {
     FormsModule.decorators = [
         { type: core_1.NgModule, args: [{
                     declarations: directives_1.TEMPLATE_DRIVEN_DIRECTIVES,
-                    providers: [exports.FORM_PROVIDERS],
+                    providers: [radio_control_value_accessor_1.RadioControlRegistry],
                     exports: [directives_1.InternalFormsSharedModule, directives_1.TEMPLATE_DRIVEN_DIRECTIVES]
                 },] },
     ];
@@ -41,7 +31,7 @@ var ReactiveFormsModule = (function () {
     ReactiveFormsModule.decorators = [
         { type: core_1.NgModule, args: [{
                     declarations: [directives_1.REACTIVE_DRIVEN_DIRECTIVES],
-                    providers: [exports.REACTIVE_FORM_PROVIDERS],
+                    providers: [form_builder_1.FormBuilder, radio_control_value_accessor_1.RadioControlRegistry],
                     exports: [directives_1.InternalFormsSharedModule, directives_1.REACTIVE_DRIVEN_DIRECTIVES]
                 },] },
     ];

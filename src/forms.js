@@ -22,9 +22,6 @@ function __export(m) {
  * Forms providers are not included in default providers; you must import these providers
  * explicitly.
  */
-var directives_1 = require('./directives');
-exports.FORM_DIRECTIVES = directives_1.FORM_DIRECTIVES;
-exports.REACTIVE_FORM_DIRECTIVES = directives_1.REACTIVE_FORM_DIRECTIVES;
 var abstract_control_directive_1 = require('./directives/abstract_control_directive');
 exports.AbstractControlDirective = abstract_control_directive_1.AbstractControlDirective;
 var abstract_form_group_directive_1 = require('./directives/abstract_form_group_directive');
