@@ -23,7 +23,8 @@ export class NgForm extends ControlContainer {
         super();
         this._submitted = false;
         this.ngSubmit = new EventEmitter();
-        this.form = new FormGroup({}, null, composeValidators(validators), composeAsyncValidators(asyncValidators));
+        this.form =
+            new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
     }
     get submitted() { return this._submitted; }
     get formDirective() { return this; }

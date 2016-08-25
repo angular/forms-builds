@@ -27,6 +27,8 @@ export class AbstractControlDirective {
     get dirty() { return isPresent(this.control) ? this.control.dirty : null; }
     get touched() { return isPresent(this.control) ? this.control.touched : null; }
     get untouched() { return isPresent(this.control) ? this.control.untouched : null; }
+    get disabled() { return isPresent(this.control) ? this.control.disabled : null; }
+    get enabled() { return isPresent(this.control) ? this.control.enabled : null; }
     get statusChanges() {
         return isPresent(this.control) ? this.control.statusChanges : null;
     }

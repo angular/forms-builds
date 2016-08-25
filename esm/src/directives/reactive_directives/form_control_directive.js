@@ -11,6 +11,7 @@ import { StringMapWrapper } from '../../facade/collection';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../../validators';
 import { NG_VALUE_ACCESSOR } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
+import { ReactiveErrors } from '../reactive_errors';
 import { composeAsyncValidators, composeValidators, isPropertyUpdated, selectValueAccessor, setUpControl } from '../shared';
 export const formControlBinding = {
     provide: NgControl,
@@ -24,9 +25,12 @@ export class FormControlDirective extends NgControl {
         this.update = new EventEmitter();
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
+    set disabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
     ngOnChanges(changes) {
         if (this._isControlChanged(changes)) {
             setUpControl(this.form, this);
+            if (this.control.disabled)
+                this.valueAccessor.setDisabledState(true);
             this.form.updateValueAndValidity({ emitEvent: false });
         }
         if (isPropertyUpdated(changes, this.viewModel)) {
@@ -63,5 +67,6 @@ FormControlDirective.propDecorators = {
     'form': [{ type: Input, args: ['formControl',] },],
     'model': [{ type: Input, args: ['ngModel',] },],
     'update': [{ type: Output, args: ['ngModelChange',] },],
+    'disabled': [{ type: Input, args: ['disabled',] },],
 };
 //# sourceMappingURL=form_control_directive.js.map

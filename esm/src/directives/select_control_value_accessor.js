@@ -47,6 +47,9 @@ export class SelectControlValueAccessor {
         };
     }
     registerOnTouched(fn) { this.onTouched = fn; }
+    setDisabledState(isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
     /** @internal */
     _registerOption() { return (this._idCounter++).toString(); }
     /** @internal */

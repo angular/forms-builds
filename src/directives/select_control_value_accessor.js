@@ -49,6 +49,9 @@ var SelectControlValueAccessor = (function () {
         };
     };
     SelectControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    SelectControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    };
     /** @internal */
     SelectControlValueAccessor.prototype._registerOption = function () { return (this._idCounter++).toString(); };
     /** @internal */

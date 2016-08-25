@@ -30,6 +30,9 @@ var NumberValueAccessor = (function () {
         this.onChange = function (value) { fn(value == '' ? null : lang_1.NumberWrapper.parseFloat(value)); };
     };
     NumberValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    };
     /** @nocollapse */
     NumberValueAccessor.decorators = [
         { type: core_1.Directive, args: [{

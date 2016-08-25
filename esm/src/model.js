@@ -10,7 +10,7 @@ import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
 import { composeAsyncValidators, composeValidators } from './directives/shared';
 import { EventEmitter } from './facade/async';
 import { ListWrapper, StringMapWrapper } from './facade/collection';
-import { isBlank, isPresent, isPromise, normalizeBool } from './facade/lang';
+import { isBlank, isPresent, isPromise, isStringMap, normalizeBool } from './facade/lang';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
  */
@@ -24,6 +24,11 @@ export const INVALID = 'INVALID';
  * errors are not yet available for the input value.
  */
 export const PENDING = 'PENDING';
+/**
+ * Indicates that a FormControl is disabled, i.e. that the control is exempt from ancestor
+ * calculations of validity or value.
+ */
+export const DISABLED = 'DISABLED';
 export function isControl(control) {
     return control instanceof AbstractControl;
 }
@@ -82,6 +87,8 @@ export class AbstractControl {
     get valueChanges() { return this._valueChanges; }
     get statusChanges() { return this._statusChanges; }
     get pending() { return this._status == PENDING; }
+    get disabled() { return this._status === DISABLED; }
+    get enabled() { return this._status !== DISABLED; }
     setAsyncValidators(newValidator) {
         this.asyncValidator = coerceToAsyncValidator(newValidator);
     }
@@ -125,15 +132,45 @@ export class AbstractControl {
             this._parent.markAsPending({ onlySelf: onlySelf });
         }
     }
+    disable({ onlySelf, emitEvent } = {}) {
+        emitEvent = isPresent(emitEvent) ? emitEvent : true;
+        this._status = DISABLED;
+        this._forEachChild((control) => { control.disable({ onlySelf: true }); });
+        this._updateValue();
+        if (emitEvent) {
+            this._valueChanges.emit(this._value);
+            this._statusChanges.emit(this._status);
+        }
+        this._updateAncestors(onlySelf);
+        this._onDisabledChange(true);
+    }
+    enable({ onlySelf, emitEvent } = {}) {
+        this._status = VALID;
+        this._forEachChild((control) => { control.enable({ onlySelf: true }); });
+        this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
+        this._updateAncestors(onlySelf);
+        this._onDisabledChange(false);
+    }
+    _updateAncestors(onlySelf) {
+        if (isPresent(this._parent) && !onlySelf) {
+            this._parent.updateValueAndValidity();
+            this._parent._updatePristine();
+            this._parent._updateTouched();
+        }
+    }
     setParent(parent) { this._parent = parent; }
     updateValueAndValidity({ onlySelf, emitEvent } = {}) {
         onlySelf = normalizeBool(onlySelf);
         emitEvent = isPresent(emitEvent) ? emitEvent : true;
         this._updateValue();
         this._errors = this._runValidator();
+        const originalStatus = this._status;
         this._status = this._calculateStatus();
         if (this._status == VALID || this._status == PENDING) {
             this._runAsyncValidator(emitEvent);
+        }
+        if (this._disabledChanged(originalStatus)) {
+            this._updateValue();
         }
         if (emitEvent) {
             this._valueChanges.emit(this._value);
@@ -158,6 +195,10 @@ export class AbstractControl {
         if (isPresent(this._asyncValidationSubscription)) {
             this._asyncValidationSubscription.unsubscribe();
         }
+    }
+    _disabledChanged(originalStatus) {
+        return this._status !== originalStatus &&
+            (this._status === DISABLED || originalStatus === DISABLED);
     }
     /**
      * Sets errors on a form control.
@@ -229,6 +270,8 @@ export class AbstractControl {
             return PENDING;
         if (this._anyControlsHaveStatus(INVALID))
             return INVALID;
+        if (this._allControlsDisabled())
+            return DISABLED;
         return VALID;
     }
     /** @internal */
@@ -257,6 +300,13 @@ export class AbstractControl {
             this._parent._updateTouched({ onlySelf: onlySelf });
         }
     }
+    /** @internal */
+    _onDisabledChange(isDisabled) { }
+    /** @internal */
+    _isBoxedValue(formState) {
+        return isStringMap(formState) && Object.keys(formState).length === 2 && 'value' in formState &&
+            'disabled' in formState;
+    }
 }
 /**
  * Defines a part of a form that cannot be divided into other controls. `FormControl`s have values
@@ -277,11 +327,11 @@ export class AbstractControl {
  * @stable
  */
 export class FormControl extends AbstractControl {
-    constructor(value = null, validator = null, asyncValidator = null) {
+    constructor(formState = null, validator = null, asyncValidator = null) {
         super(coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
         /** @internal */
         this._onChange = [];
-        this._value = value;
+        this._applyFormState(formState);
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         this._initObservables();
     }
@@ -316,10 +366,11 @@ export class FormControl extends AbstractControl {
     patchValue(value, options = {}) {
         this.setValue(value, options);
     }
-    reset(value = null, { onlySelf } = {}) {
-        this.markAsPristine({ onlySelf: onlySelf });
-        this.markAsUntouched({ onlySelf: onlySelf });
-        this.setValue(value, { onlySelf: onlySelf });
+    reset(formState = null, { onlySelf } = {}) {
+        this._applyFormState(formState);
+        this.markAsPristine({ onlySelf });
+        this.markAsUntouched({ onlySelf });
+        this.setValue(this._value, { onlySelf });
     }
     /**
      * @internal
@@ -330,13 +381,31 @@ export class FormControl extends AbstractControl {
      */
     _anyControls(condition) { return false; }
     /**
+     * @internal
+     */
+    _allControlsDisabled() { return this.disabled; }
+    /**
      * Register a listener for change events.
      */
     registerOnChange(fn) { this._onChange.push(fn); }
     /**
+     * Register a listener for disabled events.
+     */
+    registerOnDisabledChange(fn) { this._onDisabledChange = fn; }
+    /**
      * @internal
      */
     _forEachChild(cb) { }
+    _applyFormState(formState) {
+        if (this._isBoxedValue(formState)) {
+            this._value = formState.value;
+            formState.disabled ? this.disable({ onlySelf: true, emitEvent: false }) :
+                this.enable({ onlySelf: true, emitEvent: false });
+        }
+        else {
+            this._value = formState;
+        }
+    }
 }
 /**
  * Defines a part of a form, of fixed length, that can contain other controls.
@@ -354,11 +423,9 @@ export class FormControl extends AbstractControl {
  * @stable
  */
 export class FormGroup extends AbstractControl {
-    constructor(controls, 
-        /* @deprecated */ optionals = null, validator = null, asyncValidator = null) {
+    constructor(controls, validator = null, asyncValidator = null) {
         super(validator, asyncValidator);
         this.controls = controls;
-        this._optionals = isPresent(optionals) ? optionals : {};
         this._initObservables();
         this._setParentForControls();
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -388,27 +455,11 @@ export class FormGroup extends AbstractControl {
         this.updateValueAndValidity();
     }
     /**
-     * Mark the named control as non-optional.
-     * @deprecated
-     */
-    include(controlName) {
-        StringMapWrapper.set(this._optionals, controlName, true);
-        this.updateValueAndValidity();
-    }
-    /**
-     * Mark the named control as optional.
-     * @deprecated
-     */
-    exclude(controlName) {
-        StringMapWrapper.set(this._optionals, controlName, false);
-        this.updateValueAndValidity();
-    }
-    /**
      * Check whether there is a control with the given name in the group.
      */
     contains(controlName) {
-        var c = StringMapWrapper.contains(this.controls, controlName);
-        return c && this._included(controlName);
+        const c = StringMapWrapper.contains(this.controls, controlName);
+        return c && this.get(controlName).enabled;
     }
     setValue(value, { onlySelf } = {}) {
         this._checkAllValuesPresent(value);
@@ -433,6 +484,12 @@ export class FormGroup extends AbstractControl {
         this.updateValueAndValidity({ onlySelf: onlySelf });
         this._updatePristine({ onlySelf: onlySelf });
         this._updateTouched({ onlySelf: onlySelf });
+    }
+    getRawValue() {
+        return this._reduceChildren({}, (acc, control, name) => {
+            acc[name] = control.value;
+            return acc;
+        });
     }
     /** @internal */
     _throwIfControlMissing(name) {
@@ -467,24 +524,26 @@ export class FormGroup extends AbstractControl {
     /** @internal */
     _reduceValue() {
         return this._reduceChildren({}, (acc, control, name) => {
-            acc[name] = control.value;
+            if (control.enabled || this.disabled) {
+                acc[name] = control.value;
+            }
             return acc;
         });
     }
     /** @internal */
     _reduceChildren(initValue, fn) {
         var res = initValue;
-        this._forEachChild((control, name) => {
-            if (this._included(name)) {
-                res = fn(res, control, name);
-            }
-        });
+        this._forEachChild((control, name) => { res = fn(res, control, name); });
         return res;
     }
     /** @internal */
-    _included(controlName) {
-        var isOptional = StringMapWrapper.contains(this._optionals, controlName);
-        return !isOptional || StringMapWrapper.get(this._optionals, controlName);
+    _allControlsDisabled() {
+        for (let controlName of Object.keys(this.controls)) {
+            if (this.controls[controlName].enabled) {
+                return false;
+            }
+        }
+        return !StringMapWrapper.isEmpty(this.controls);
     }
     /** @internal */
     _checkAllValuesPresent(value) {
@@ -581,6 +640,7 @@ export class FormArray extends AbstractControl {
         this._updatePristine({ onlySelf: onlySelf });
         this._updateTouched({ onlySelf: onlySelf });
     }
+    getRawValue() { return this.controls.map((control) => control.value); }
     /** @internal */
     _throwIfControlMissing(index) {
         if (!this.controls.length) {
@@ -598,10 +658,13 @@ export class FormArray extends AbstractControl {
         this.controls.forEach((control, index) => { cb(control, index); });
     }
     /** @internal */
-    _updateValue() { this._value = this.controls.map((control) => control.value); }
+    _updateValue() {
+        this._value = this.controls.filter((control) => control.enabled || this.disabled)
+            .map((control) => control.value);
+    }
     /** @internal */
     _anyControls(condition) {
-        return this.controls.some((control) => condition(control));
+        return this.controls.some((control) => control.enabled && condition(control));
     }
     /** @internal */
     _setParentForControls() {
@@ -614,6 +677,14 @@ export class FormArray extends AbstractControl {
                 throw new BaseException(`Must supply a value for form control at index: ${i}.`);
             }
         });
+    }
+    /** @internal */
+    _allControlsDisabled() {
+        for (let control of this.controls) {
+            if (control.enabled)
+                return false;
+        }
+        return !!this.controls.length;
     }
 }
 //# sourceMappingURL=model.js.map

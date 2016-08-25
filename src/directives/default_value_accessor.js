@@ -27,6 +27,9 @@ var DefaultValueAccessor = (function () {
     };
     DefaultValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
     DefaultValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    };
     /** @nocollapse */
     DefaultValueAccessor.decorators = [
         { type: core_1.Directive, args: [{

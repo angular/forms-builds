@@ -26,6 +26,9 @@ export class DefaultValueAccessor {
     }
     registerOnChange(fn) { this.onChange = fn; }
     registerOnTouched(fn) { this.onTouched = fn; }
+    setDisabledState(isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
 }
 /** @nocollapse */
 DefaultValueAccessor.decorators = [

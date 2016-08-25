@@ -79,6 +79,9 @@ export class RadioControlValueAccessor {
     }
     fireUncheck(value) { this.writeValue(value); }
     registerOnTouched(fn) { this.onTouched = fn; }
+    setDisabledState(isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
     _checkName() {
         if (this.name && this.formControlName && this.name !== this.formControlName) {
             this._throwNameError();

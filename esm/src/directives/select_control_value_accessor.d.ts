@@ -28,6 +28,7 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => any): void;
     registerOnTouched(fn: () => any): void;
+    setDisabledState(isDisabled: boolean): void;
 }
 /**
  * Marks `<option>` as dynamic, so Angular can be notified when options change.

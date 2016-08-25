@@ -20,6 +20,8 @@ export declare abstract class AbstractControlDirective {
     readonly dirty: boolean;
     readonly touched: boolean;
     readonly untouched: boolean;
+    readonly disabled: boolean;
+    readonly enabled: boolean;
     readonly statusChanges: Observable<any>;
     readonly valueChanges: Observable<any>;
     readonly path: string[];

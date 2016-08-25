@@ -30,7 +30,8 @@ var NgForm = (function (_super) {
         _super.call(this);
         this._submitted = false;
         this.ngSubmit = new async_1.EventEmitter();
-        this.form = new model_1.FormGroup({}, null, shared_1.composeValidators(validators), shared_1.composeAsyncValidators(asyncValidators));
+        this.form =
+            new model_1.FormGroup({}, shared_1.composeValidators(validators), shared_1.composeAsyncValidators(asyncValidators));
     }
     Object.defineProperty(NgForm.prototype, "submitted", {
         get: function () { return this._submitted; },

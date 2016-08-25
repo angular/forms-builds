@@ -38,6 +38,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
         CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
         return CheckboxControlValueAccessor;
     }());
     /** @nocollapse */
@@ -93,6 +96,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     }
     function isFunction(obj) {
         return typeof obj === 'function';
+    }
+    function isStringMap(obj) {
+        return typeof obj === 'object' && obj !== null;
     }
     function isPromise(obj) {
         // allow any Promise/A+ compliant thenable.
@@ -256,6 +262,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         DefaultValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
         DefaultValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
         return DefaultValueAccessor;
     }());
     /** @nocollapse */
@@ -333,6 +342,16 @@ var __extends = (this && this.__extends) || function (d, b) {
         });
         Object.defineProperty(AbstractControlDirective.prototype, "untouched", {
             get: function () { return isPresent(this.control) ? this.control.untouched : null; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControlDirective.prototype, "disabled", {
+            get: function () { return isPresent(this.control) ? this.control.disabled : null; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControlDirective.prototype, "enabled", {
+            get: function () { return isPresent(this.control) ? this.control.enabled : null; },
             enumerable: true,
             configurable: true
         });
@@ -1093,6 +1112,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.onChange = function (value) { fn(value == '' ? null : NumberWrapper.parseFloat(value)); };
         };
         NumberValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
         return NumberValueAccessor;
     }());
     /** @nocollapse */
@@ -1184,6 +1206,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         RadioControlValueAccessor.prototype.fireUncheck = function (value) { this.writeValue(value); };
         RadioControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        RadioControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
         RadioControlValueAccessor.prototype._checkName = function () {
             if (this.name && this.formControlName && this.name !== this.formControlName) {
                 this._throwNameError();
@@ -1256,6 +1281,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             };
         };
         SelectControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        SelectControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
         /** @internal */
         SelectControlValueAccessor.prototype._registerOption = function () { return (this._idCounter++).toString(); };
         /** @internal */
@@ -1360,7 +1388,9 @@ var __extends = (this && this.__extends) || function (d, b) {
         return valueString.split(':')[0];
     }
     var SelectMultipleControlValueAccessor = (function () {
-        function SelectMultipleControlValueAccessor() {
+        function SelectMultipleControlValueAccessor(_renderer, _elementRef) {
+            this._renderer = _renderer;
+            this._elementRef = _elementRef;
             /** @internal */
             this._optionMap = new Map();
             /** @internal */
@@ -1404,6 +1434,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             };
         };
         SelectMultipleControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        SelectMultipleControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
         /** @internal */
         SelectMultipleControlValueAccessor.prototype._registerOption = function (value) {
             var id = (this._idCounter++).toString();
@@ -1435,7 +1468,10 @@ var __extends = (this && this.__extends) || function (d, b) {
                 },] },
     ];
     /** @nocollapse */
-    SelectMultipleControlValueAccessor.ctorParameters = [];
+    SelectMultipleControlValueAccessor.ctorParameters = [
+        { type: _angular_core.Renderer, },
+        { type: _angular_core.ElementRef, },
+    ];
     var NgSelectMultipleOption = (function () {
         function NgSelectMultipleOption(_element, _renderer, _select) {
             this._element = _element;
@@ -1527,6 +1563,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (emitModelEvent)
                 dir.viewToModelUpdate(newValue);
         });
+        if (dir.valueAccessor.setDisabledState) {
+            control.registerOnDisabledChange(function (isDisabled) { dir.valueAccessor.setDisabledState(isDisabled); });
+        }
         // touched
         dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
     }
@@ -1564,6 +1603,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             return true;
         return !looseIdentical(viewModel, change.currentValue);
     }
+    function isBuiltInAccessor(valueAccessor) {
+        return (hasConstructor(valueAccessor, CheckboxControlValueAccessor) ||
+            hasConstructor(valueAccessor, NumberValueAccessor) ||
+            hasConstructor(valueAccessor, SelectControlValueAccessor) ||
+            hasConstructor(valueAccessor, SelectMultipleControlValueAccessor) ||
+            hasConstructor(valueAccessor, RadioControlValueAccessor));
+    }
     // TODO: vsavkin remove it once https://github.com/angular/angular/issues/3011 is implemented
     function selectValueAccessor(dir, valueAccessors) {
         if (isBlank(valueAccessors))
@@ -1575,10 +1621,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (hasConstructor(v, DefaultValueAccessor)) {
                 defaultAccessor = v;
             }
-            else if (hasConstructor(v, CheckboxControlValueAccessor) || hasConstructor(v, NumberValueAccessor) ||
-                hasConstructor(v, SelectControlValueAccessor) ||
-                hasConstructor(v, SelectMultipleControlValueAccessor) ||
-                hasConstructor(v, RadioControlValueAccessor)) {
+            else if (isBuiltInAccessor(v)) {
                 if (isPresent(builtinAccessor))
                     _throwError(dir, 'More than one built-in value accessor matches form control with');
                 builtinAccessor = v;
@@ -1611,6 +1654,11 @@ var __extends = (this && this.__extends) || function (d, b) {
      * errors are not yet available for the input value.
      */
     var PENDING = 'PENDING';
+    /**
+     * Indicates that a FormControl is disabled, i.e. that the control is exempt from ancestor
+     * calculations of validity or value.
+     */
+    var DISABLED = 'DISABLED';
     function _find(control, path, delimiter) {
         if (isBlank(path))
             return null;
@@ -1714,6 +1762,16 @@ var __extends = (this && this.__extends) || function (d, b) {
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(AbstractControl.prototype, "disabled", {
+            get: function () { return this._status === DISABLED; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControl.prototype, "enabled", {
+            get: function () { return this._status !== DISABLED; },
+            enumerable: true,
+            configurable: true
+        });
         AbstractControl.prototype.setAsyncValidators = function (newValidator) {
             this.asyncValidator = coerceToAsyncValidator(newValidator);
         };
@@ -1762,6 +1820,34 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this._parent.markAsPending({ onlySelf: onlySelf });
             }
         };
+        AbstractControl.prototype.disable = function (_a) {
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            emitEvent = isPresent(emitEvent) ? emitEvent : true;
+            this._status = DISABLED;
+            this._forEachChild(function (control) { control.disable({ onlySelf: true }); });
+            this._updateValue();
+            if (emitEvent) {
+                this._valueChanges.emit(this._value);
+                this._statusChanges.emit(this._status);
+            }
+            this._updateAncestors(onlySelf);
+            this._onDisabledChange(true);
+        };
+        AbstractControl.prototype.enable = function (_a) {
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            this._status = VALID;
+            this._forEachChild(function (control) { control.enable({ onlySelf: true }); });
+            this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
+            this._updateAncestors(onlySelf);
+            this._onDisabledChange(false);
+        };
+        AbstractControl.prototype._updateAncestors = function (onlySelf) {
+            if (isPresent(this._parent) && !onlySelf) {
+                this._parent.updateValueAndValidity();
+                this._parent._updatePristine();
+                this._parent._updateTouched();
+            }
+        };
         AbstractControl.prototype.setParent = function (parent) { this._parent = parent; };
         AbstractControl.prototype.updateValueAndValidity = function (_a) {
             var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
@@ -1769,9 +1855,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             emitEvent = isPresent(emitEvent) ? emitEvent : true;
             this._updateValue();
             this._errors = this._runValidator();
+            var originalStatus = this._status;
             this._status = this._calculateStatus();
             if (this._status == VALID || this._status == PENDING) {
                 this._runAsyncValidator(emitEvent);
+            }
+            if (this._disabledChanged(originalStatus)) {
+                this._updateValue();
             }
             if (emitEvent) {
                 this._valueChanges.emit(this._value);
@@ -1797,6 +1887,10 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (isPresent(this._asyncValidationSubscription)) {
                 this._asyncValidationSubscription.unsubscribe();
             }
+        };
+        AbstractControl.prototype._disabledChanged = function (originalStatus) {
+            return this._status !== originalStatus &&
+                (this._status === DISABLED || originalStatus === DISABLED);
         };
         /**
          * Sets errors on a form control.
@@ -1875,6 +1969,8 @@ var __extends = (this && this.__extends) || function (d, b) {
                 return PENDING;
             if (this._anyControlsHaveStatus(INVALID))
                 return INVALID;
+            if (this._allControlsDisabled())
+                return DISABLED;
             return VALID;
         };
         /** @internal */
@@ -1905,6 +2001,13 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this._parent._updateTouched({ onlySelf: onlySelf });
             }
         };
+        /** @internal */
+        AbstractControl.prototype._onDisabledChange = function (isDisabled) { };
+        /** @internal */
+        AbstractControl.prototype._isBoxedValue = function (formState) {
+            return isStringMap(formState) && Object.keys(formState).length === 2 && 'value' in formState &&
+                'disabled' in formState;
+        };
         return AbstractControl;
     }());
     /**
@@ -1927,14 +2030,14 @@ var __extends = (this && this.__extends) || function (d, b) {
      */
     var FormControl = (function (_super) {
         __extends(FormControl, _super);
-        function FormControl(value, validator, asyncValidator) {
-            if (value === void 0) { value = null; }
+        function FormControl(formState, validator, asyncValidator) {
+            if (formState === void 0) { formState = null; }
             if (validator === void 0) { validator = null; }
             if (asyncValidator === void 0) { asyncValidator = null; }
             _super.call(this, coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
             /** @internal */
             this._onChange = [];
-            this._value = value;
+            this._applyFormState(formState);
             this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
             this._initObservables();
         }
@@ -1972,12 +2075,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (options === void 0) { options = {}; }
             this.setValue(value, options);
         };
-        FormControl.prototype.reset = function (value, _a) {
-            if (value === void 0) { value = null; }
+        FormControl.prototype.reset = function (formState, _a) {
+            if (formState === void 0) { formState = null; }
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            this._applyFormState(formState);
             this.markAsPristine({ onlySelf: onlySelf });
             this.markAsUntouched({ onlySelf: onlySelf });
-            this.setValue(value, { onlySelf: onlySelf });
+            this.setValue(this._value, { onlySelf: onlySelf });
         };
         /**
          * @internal
@@ -1988,13 +2092,31 @@ var __extends = (this && this.__extends) || function (d, b) {
          */
         FormControl.prototype._anyControls = function (condition) { return false; };
         /**
+         * @internal
+         */
+        FormControl.prototype._allControlsDisabled = function () { return this.disabled; };
+        /**
          * Register a listener for change events.
          */
         FormControl.prototype.registerOnChange = function (fn) { this._onChange.push(fn); };
         /**
+         * Register a listener for disabled events.
+         */
+        FormControl.prototype.registerOnDisabledChange = function (fn) { this._onDisabledChange = fn; };
+        /**
          * @internal
          */
         FormControl.prototype._forEachChild = function (cb) { };
+        FormControl.prototype._applyFormState = function (formState) {
+            if (this._isBoxedValue(formState)) {
+                this._value = formState.value;
+                formState.disabled ? this.disable({ onlySelf: true, emitEvent: false }) :
+                    this.enable({ onlySelf: true, emitEvent: false });
+            }
+            else {
+                this._value = formState;
+            }
+        };
         return FormControl;
     }(AbstractControl));
     /**
@@ -2014,14 +2136,11 @@ var __extends = (this && this.__extends) || function (d, b) {
      */
     var FormGroup = (function (_super) {
         __extends(FormGroup, _super);
-        function FormGroup(controls, 
-            /* @deprecated */ optionals, validator, asyncValidator) {
-            if (optionals === void 0) { optionals = null; }
+        function FormGroup(controls, validator, asyncValidator) {
             if (validator === void 0) { validator = null; }
             if (asyncValidator === void 0) { asyncValidator = null; }
             _super.call(this, validator, asyncValidator);
             this.controls = controls;
-            this._optionals = isPresent(optionals) ? optionals : {};
             this._initObservables();
             this._setParentForControls();
             this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -2051,27 +2170,11 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.updateValueAndValidity();
         };
         /**
-         * Mark the named control as non-optional.
-         * @deprecated
-         */
-        FormGroup.prototype.include = function (controlName) {
-            StringMapWrapper.set(this._optionals, controlName, true);
-            this.updateValueAndValidity();
-        };
-        /**
-         * Mark the named control as optional.
-         * @deprecated
-         */
-        FormGroup.prototype.exclude = function (controlName) {
-            StringMapWrapper.set(this._optionals, controlName, false);
-            this.updateValueAndValidity();
-        };
-        /**
          * Check whether there is a control with the given name in the group.
          */
         FormGroup.prototype.contains = function (controlName) {
             var c = StringMapWrapper.contains(this.controls, controlName);
-            return c && this._included(controlName);
+            return c && this.get(controlName).enabled;
         };
         FormGroup.prototype.setValue = function (value, _a) {
             var _this = this;
@@ -2102,6 +2205,12 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.updateValueAndValidity({ onlySelf: onlySelf });
             this._updatePristine({ onlySelf: onlySelf });
             this._updateTouched({ onlySelf: onlySelf });
+        };
+        FormGroup.prototype.getRawValue = function () {
+            return this._reduceChildren({}, function (acc, control, name) {
+                acc[name] = control.value;
+                return acc;
+            });
         };
         /** @internal */
         FormGroup.prototype._throwIfControlMissing = function (name) {
@@ -2134,26 +2243,29 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         /** @internal */
         FormGroup.prototype._reduceValue = function () {
+            var _this = this;
             return this._reduceChildren({}, function (acc, control, name) {
-                acc[name] = control.value;
+                if (control.enabled || _this.disabled) {
+                    acc[name] = control.value;
+                }
                 return acc;
             });
         };
         /** @internal */
         FormGroup.prototype._reduceChildren = function (initValue, fn) {
-            var _this = this;
             var res = initValue;
-            this._forEachChild(function (control, name) {
-                if (_this._included(name)) {
-                    res = fn(res, control, name);
-                }
-            });
+            this._forEachChild(function (control, name) { res = fn(res, control, name); });
             return res;
         };
         /** @internal */
-        FormGroup.prototype._included = function (controlName) {
-            var isOptional = StringMapWrapper.contains(this._optionals, controlName);
-            return !isOptional || StringMapWrapper.get(this._optionals, controlName);
+        FormGroup.prototype._allControlsDisabled = function () {
+            for (var _i = 0, _a = Object.keys(this.controls); _i < _a.length; _i++) {
+                var controlName = _a[_i];
+                if (this.controls[controlName].enabled) {
+                    return false;
+                }
+            }
+            return !StringMapWrapper.isEmpty(this.controls);
         };
         /** @internal */
         FormGroup.prototype._checkAllValuesPresent = function (value) {
@@ -2264,6 +2376,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._updatePristine({ onlySelf: onlySelf });
             this._updateTouched({ onlySelf: onlySelf });
         };
+        FormArray.prototype.getRawValue = function () { return this.controls.map(function (control) { return control.value; }); };
         /** @internal */
         FormArray.prototype._throwIfControlMissing = function (index) {
             if (!this.controls.length) {
@@ -2278,10 +2391,14 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.controls.forEach(function (control, index) { cb(control, index); });
         };
         /** @internal */
-        FormArray.prototype._updateValue = function () { this._value = this.controls.map(function (control) { return control.value; }); };
+        FormArray.prototype._updateValue = function () {
+            var _this = this;
+            this._value = this.controls.filter(function (control) { return control.enabled || _this.disabled; })
+                .map(function (control) { return control.value; });
+        };
         /** @internal */
         FormArray.prototype._anyControls = function (condition) {
-            return this.controls.some(function (control) { return condition(control); });
+            return this.controls.some(function (control) { return control.enabled && condition(control); });
         };
         /** @internal */
         FormArray.prototype._setParentForControls = function () {
@@ -2296,6 +2413,15 @@ var __extends = (this && this.__extends) || function (d, b) {
                 }
             });
         };
+        /** @internal */
+        FormArray.prototype._allControlsDisabled = function () {
+            for (var _i = 0, _a = this.controls; _i < _a.length; _i++) {
+                var control = _a[_i];
+                if (control.enabled)
+                    return false;
+            }
+            return !!this.controls.length;
+        };
         return FormArray;
     }(AbstractControl));
     var formDirectiveProvider = {
@@ -2309,7 +2435,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             _super.call(this);
             this._submitted = false;
             this.ngSubmit = new EventEmitter();
-            this.form = new FormGroup({}, null, composeValidators(validators), composeAsyncValidators(asyncValidators));
+            this.form =
+                new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
         }
         Object.defineProperty(NgForm.prototype, "submitted", {
             get: function () { return this._submitted; },
@@ -2557,6 +2684,9 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._checkForErrors();
             if (!this._registered)
                 this._setUpControl();
+            if ('disabled' in changes) {
+                this._updateDisabled(changes);
+            }
             if (isPropertyUpdated(changes, this.viewModel)) {
                 this._updateValue(this.model);
                 this.viewModel = this.model;
@@ -2634,6 +2764,19 @@ var __extends = (this && this.__extends) || function (d, b) {
             var _this = this;
             resolvedPromise$1.then(function () { _this.control.setValue(value, { emitViewToModelChange: false }); });
         };
+        NgModel.prototype._updateDisabled = function (changes) {
+            var _this = this;
+            var disabledValue = changes['disabled'].currentValue;
+            var isDisabled = disabledValue != null && disabledValue != false;
+            resolvedPromise$1.then(function () {
+                if (isDisabled && !_this.control.disabled) {
+                    _this.control.disable();
+                }
+                else if (!isDisabled && _this.control.disabled) {
+                    _this.control.enable();
+                }
+            });
+        };
         return NgModel;
     }(NgControl));
     /** @nocollapse */
@@ -2653,11 +2796,35 @@ var __extends = (this && this.__extends) || function (d, b) {
     ];
     /** @nocollapse */
     NgModel.propDecorators = {
-        'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
         'name': [{ type: _angular_core.Input },],
+        'disabled': [{ type: _angular_core.Input },],
+        'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
         'options': [{ type: _angular_core.Input, args: ['ngModelOptions',] },],
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
     };
+    var ReactiveErrors = (function () {
+        function ReactiveErrors() {
+        }
+        ReactiveErrors.controlParentException = function () {
+            throw new _angular_core.BaseException("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formControlName);
+        };
+        ReactiveErrors.ngModelGroupException = function () {
+            throw new _angular_core.BaseException("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n       that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n       Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n        " + Examples.formGroupName + "\n\n        Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n        " + Examples.ngModelGroup);
+        };
+        ReactiveErrors.missingFormException = function () {
+            throw new _angular_core.BaseException("formGroup expects a FormGroup instance. Please pass one in.\n\n       Example:\n\n       " + Examples.formControlName);
+        };
+        ReactiveErrors.groupParentException = function () {
+            throw new _angular_core.BaseException("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formGroupName);
+        };
+        ReactiveErrors.arrayParentException = function () {
+            throw new _angular_core.BaseException("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n        Example:\n\n        " + Examples.formArrayName);
+        };
+        ReactiveErrors.disabledAttrWarning = function () {
+            console.warn("\n      It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true\n      when you set up this control in your component class, the disabled attribute will actually be set in the DOM for\n      you. We recommend using this approach to avoid 'changed after checked' errors.\n       \n      Example: \n      form = new FormGroup({\n        first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),\n        last: new FormControl('Drew', Validators.required)\n      });\n    ");
+        };
+        return ReactiveErrors;
+    }());
     var formControlBinding$1 = {
         provide: NgControl,
         useExisting: _angular_core.forwardRef(function () { return FormControlDirective; })
@@ -2671,9 +2838,16 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.update = new EventEmitter();
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
+        Object.defineProperty(FormControlDirective.prototype, "disabled", {
+            set: function (isDisabled) { ReactiveErrors.disabledAttrWarning(); },
+            enumerable: true,
+            configurable: true
+        });
         FormControlDirective.prototype.ngOnChanges = function (changes) {
             if (this._isControlChanged(changes)) {
                 setUpControl(this.form, this);
+                if (this.control.disabled)
+                    this.valueAccessor.setDisabledState(true);
                 this.form.updateValueAndValidity({ emitEvent: false });
             }
             if (isPropertyUpdated(changes, this.viewModel)) {
@@ -2727,27 +2901,8 @@ var __extends = (this && this.__extends) || function (d, b) {
         'form': [{ type: _angular_core.Input, args: ['formControl',] },],
         'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
+        'disabled': [{ type: _angular_core.Input, args: ['disabled',] },],
     };
-    var ReactiveErrors = (function () {
-        function ReactiveErrors() {
-        }
-        ReactiveErrors.controlParentException = function () {
-            throw new _angular_core.BaseException("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formControlName);
-        };
-        ReactiveErrors.ngModelGroupException = function () {
-            throw new _angular_core.BaseException("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n       that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n       Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n        " + Examples.formGroupName + "\n\n        Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n        " + Examples.ngModelGroup);
-        };
-        ReactiveErrors.missingFormException = function () {
-            throw new _angular_core.BaseException("formGroup expects a FormGroup instance. Please pass one in.\n\n       Example:\n\n       " + Examples.formControlName);
-        };
-        ReactiveErrors.groupParentException = function () {
-            throw new _angular_core.BaseException("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formGroupName);
-        };
-        ReactiveErrors.arrayParentException = function () {
-            throw new _angular_core.BaseException("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n        Example:\n\n        " + Examples.formArrayName);
-        };
-        return ReactiveErrors;
-    }());
     var formDirectiveProvider$1 = {
         provide: ControlContainer,
         useExisting: _angular_core.forwardRef(function () { return FormGroupDirective; })
@@ -2981,10 +3136,17 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.update = new EventEmitter();
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
+        Object.defineProperty(FormControlName.prototype, "disabled", {
+            set: function (isDisabled) { ReactiveErrors.disabledAttrWarning(); },
+            enumerable: true,
+            configurable: true
+        });
         FormControlName.prototype.ngOnChanges = function (changes) {
             if (!this._added) {
                 this._checkParentType();
                 this.formDirective.addControl(this);
+                if (this.control.disabled)
+                    this.valueAccessor.setDisabledState(true);
                 this._added = true;
             }
             if (isPropertyUpdated(changes, this.viewModel)) {
@@ -3013,9 +3175,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             configurable: true
         });
         Object.defineProperty(FormControlName.prototype, "asyncValidator", {
-            get: function () {
-                return composeAsyncValidators(this._asyncValidators);
-            },
+            get: function () { return composeAsyncValidators(this._asyncValidators); },
             enumerable: true,
             configurable: true
         });
@@ -3029,8 +3189,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this._parent instanceof AbstractFormGroupDirective) {
                 ReactiveErrors.ngModelGroupException();
             }
-            else if (!(this._parent instanceof FormGroupName) &&
-                !(this._parent instanceof FormGroupDirective) &&
+            else if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective) &&
                 !(this._parent instanceof FormArrayName)) {
                 ReactiveErrors.controlParentException();
             }
@@ -3053,6 +3212,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         'name': [{ type: _angular_core.Input, args: ['formControlName',] },],
         'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
+        'disabled': [{ type: _angular_core.Input, args: ['disabled',] },],
     };
     var REQUIRED = Validators.required;
     var REQUIRED_VALIDATOR = {
@@ -3206,18 +3366,18 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormBuilder.prototype.group = function (controlsConfig, extra) {
             if (extra === void 0) { extra = null; }
             var controls = this._reduceControls(controlsConfig);
-            var optionals = (isPresent(extra) ? StringMapWrapper.get(extra, 'optionals') : null);
             var validator = isPresent(extra) ? StringMapWrapper.get(extra, 'validator') : null;
             var asyncValidator = isPresent(extra) ? StringMapWrapper.get(extra, 'asyncValidator') : null;
-            return new FormGroup(controls, optionals, validator, asyncValidator);
+            return new FormGroup(controls, validator, asyncValidator);
         };
         /**
-         * Construct a new {@link FormControl} with the given `value`,`validator`, and `asyncValidator`.
+         * Construct a new {@link FormControl} with the given `formState`,`validator`, and
+         * `asyncValidator`.
          */
-        FormBuilder.prototype.control = function (value, validator, asyncValidator) {
+        FormBuilder.prototype.control = function (formState, validator, asyncValidator) {
             if (validator === void 0) { validator = null; }
             if (asyncValidator === void 0) { asyncValidator = null; }
-            return new FormControl(value, validator, asyncValidator);
+            return new FormControl(formState, validator, asyncValidator);
         };
         /**
          * Construct an array of {@link FormControl}s from the given `controlsConfig` array of

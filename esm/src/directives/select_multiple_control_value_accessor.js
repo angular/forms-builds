@@ -30,7 +30,9 @@ function _extractId(valueString) {
 class HTMLCollection {
 }
 export class SelectMultipleControlValueAccessor {
-    constructor() {
+    constructor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
         /** @internal */
         this._optionMap = new Map();
         /** @internal */
@@ -72,6 +74,9 @@ export class SelectMultipleControlValueAccessor {
         };
     }
     registerOnTouched(fn) { this.onTouched = fn; }
+    setDisabledState(isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
     /** @internal */
     _registerOption(value) {
         let id = (this._idCounter++).toString();
@@ -101,7 +106,10 @@ SelectMultipleControlValueAccessor.decorators = [
             },] },
 ];
 /** @nocollapse */
-SelectMultipleControlValueAccessor.ctorParameters = [];
+SelectMultipleControlValueAccessor.ctorParameters = [
+    { type: Renderer, },
+    { type: ElementRef, },
+];
 export class NgSelectMultipleOption {
     constructor(_element, _renderer, _select) {
         this._element = _element;

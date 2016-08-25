@@ -30,10 +30,13 @@ export class FormControlName extends NgControl {
         this.update = new EventEmitter();
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
+    set disabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
     ngOnChanges(changes) {
         if (!this._added) {
             this._checkParentType();
             this.formDirective.addControl(this);
+            if (this.control.disabled)
+                this.valueAccessor.setDisabledState(true);
             this._added = true;
         }
         if (isPropertyUpdated(changes, this.viewModel)) {
@@ -49,17 +52,14 @@ export class FormControlName extends NgControl {
     get path() { return controlPath(this.name, this._parent); }
     get formDirective() { return this._parent.formDirective; }
     get validator() { return composeValidators(this._validators); }
-    get asyncValidator() {
-        return composeAsyncValidators(this._asyncValidators);
-    }
+    get asyncValidator() { return composeAsyncValidators(this._asyncValidators); }
     get control() { return this.formDirective.getControl(this); }
     _checkParentType() {
         if (!(this._parent instanceof FormGroupName) &&
             this._parent instanceof AbstractFormGroupDirective) {
             ReactiveErrors.ngModelGroupException();
         }
-        else if (!(this._parent instanceof FormGroupName) &&
-            !(this._parent instanceof FormGroupDirective) &&
+        else if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective) &&
             !(this._parent instanceof FormArrayName)) {
             ReactiveErrors.controlParentException();
         }
@@ -81,5 +81,6 @@ FormControlName.propDecorators = {
     'name': [{ type: Input, args: ['formControlName',] },],
     'model': [{ type: Input, args: ['ngModel',] },],
     'update': [{ type: Output, args: ['ngModelChange',] },],
+    'disabled': [{ type: Input, args: ['disabled',] },],
 };
 //# sourceMappingURL=form_control_name.js.map

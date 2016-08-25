@@ -13,4 +13,5 @@ export declare function composeAsyncValidators(validators: any[]): AsyncValidato
 export declare function isPropertyUpdated(changes: {
     [key: string]: any;
 }, viewModel: any): boolean;
+export declare function isBuiltInAccessor(valueAccessor: ControlValueAccessor): boolean;
 export declare function selectValueAccessor(dir: NgControl, valueAccessors: ControlValueAccessor[]): ControlValueAccessor;

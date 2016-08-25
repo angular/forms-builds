@@ -30,6 +30,11 @@ exports.INVALID = 'INVALID';
  * errors are not yet available for the input value.
  */
 exports.PENDING = 'PENDING';
+/**
+ * Indicates that a FormControl is disabled, i.e. that the control is exempt from ancestor
+ * calculations of validity or value.
+ */
+exports.DISABLED = 'DISABLED';
 function isControl(control) {
     return control instanceof AbstractControl;
 }
@@ -137,6 +142,16 @@ var AbstractControl = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(AbstractControl.prototype, "disabled", {
+        get: function () { return this._status === exports.DISABLED; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControl.prototype, "enabled", {
+        get: function () { return this._status !== exports.DISABLED; },
+        enumerable: true,
+        configurable: true
+    });
     AbstractControl.prototype.setAsyncValidators = function (newValidator) {
         this.asyncValidator = coerceToAsyncValidator(newValidator);
     };
@@ -185,6 +200,34 @@ var AbstractControl = (function () {
             this._parent.markAsPending({ onlySelf: onlySelf });
         }
     };
+    AbstractControl.prototype.disable = function (_a) {
+        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        emitEvent = lang_1.isPresent(emitEvent) ? emitEvent : true;
+        this._status = exports.DISABLED;
+        this._forEachChild(function (control) { control.disable({ onlySelf: true }); });
+        this._updateValue();
+        if (emitEvent) {
+            this._valueChanges.emit(this._value);
+            this._statusChanges.emit(this._status);
+        }
+        this._updateAncestors(onlySelf);
+        this._onDisabledChange(true);
+    };
+    AbstractControl.prototype.enable = function (_a) {
+        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        this._status = exports.VALID;
+        this._forEachChild(function (control) { control.enable({ onlySelf: true }); });
+        this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
+        this._updateAncestors(onlySelf);
+        this._onDisabledChange(false);
+    };
+    AbstractControl.prototype._updateAncestors = function (onlySelf) {
+        if (lang_1.isPresent(this._parent) && !onlySelf) {
+            this._parent.updateValueAndValidity();
+            this._parent._updatePristine();
+            this._parent._updateTouched();
+        }
+    };
     AbstractControl.prototype.setParent = function (parent) { this._parent = parent; };
     AbstractControl.prototype.updateValueAndValidity = function (_a) {
         var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
@@ -192,9 +235,13 @@ var AbstractControl = (function () {
         emitEvent = lang_1.isPresent(emitEvent) ? emitEvent : true;
         this._updateValue();
         this._errors = this._runValidator();
+        var originalStatus = this._status;
         this._status = this._calculateStatus();
         if (this._status == exports.VALID || this._status == exports.PENDING) {
             this._runAsyncValidator(emitEvent);
+        }
+        if (this._disabledChanged(originalStatus)) {
+            this._updateValue();
         }
         if (emitEvent) {
             this._valueChanges.emit(this._value);
@@ -220,6 +267,10 @@ var AbstractControl = (function () {
         if (lang_1.isPresent(this._asyncValidationSubscription)) {
             this._asyncValidationSubscription.unsubscribe();
         }
+    };
+    AbstractControl.prototype._disabledChanged = function (originalStatus) {
+        return this._status !== originalStatus &&
+            (this._status === exports.DISABLED || originalStatus === exports.DISABLED);
     };
     /**
      * Sets errors on a form control.
@@ -298,6 +349,8 @@ var AbstractControl = (function () {
             return exports.PENDING;
         if (this._anyControlsHaveStatus(exports.INVALID))
             return exports.INVALID;
+        if (this._allControlsDisabled())
+            return exports.DISABLED;
         return exports.VALID;
     };
     /** @internal */
@@ -328,6 +381,13 @@ var AbstractControl = (function () {
             this._parent._updateTouched({ onlySelf: onlySelf });
         }
     };
+    /** @internal */
+    AbstractControl.prototype._onDisabledChange = function (isDisabled) { };
+    /** @internal */
+    AbstractControl.prototype._isBoxedValue = function (formState) {
+        return lang_1.isStringMap(formState) && Object.keys(formState).length === 2 && 'value' in formState &&
+            'disabled' in formState;
+    };
     return AbstractControl;
 }());
 exports.AbstractControl = AbstractControl;
@@ -351,14 +411,14 @@ exports.AbstractControl = AbstractControl;
  */
 var FormControl = (function (_super) {
     __extends(FormControl, _super);
-    function FormControl(value, validator, asyncValidator) {
-        if (value === void 0) { value = null; }
+    function FormControl(formState, validator, asyncValidator) {
+        if (formState === void 0) { formState = null; }
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
         _super.call(this, coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
         /** @internal */
         this._onChange = [];
-        this._value = value;
+        this._applyFormState(formState);
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         this._initObservables();
     }
@@ -396,12 +456,13 @@ var FormControl = (function (_super) {
         if (options === void 0) { options = {}; }
         this.setValue(value, options);
     };
-    FormControl.prototype.reset = function (value, _a) {
-        if (value === void 0) { value = null; }
+    FormControl.prototype.reset = function (formState, _a) {
+        if (formState === void 0) { formState = null; }
         var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+        this._applyFormState(formState);
         this.markAsPristine({ onlySelf: onlySelf });
         this.markAsUntouched({ onlySelf: onlySelf });
-        this.setValue(value, { onlySelf: onlySelf });
+        this.setValue(this._value, { onlySelf: onlySelf });
     };
     /**
      * @internal
@@ -412,13 +473,31 @@ var FormControl = (function (_super) {
      */
     FormControl.prototype._anyControls = function (condition) { return false; };
     /**
+     * @internal
+     */
+    FormControl.prototype._allControlsDisabled = function () { return this.disabled; };
+    /**
      * Register a listener for change events.
      */
     FormControl.prototype.registerOnChange = function (fn) { this._onChange.push(fn); };
     /**
+     * Register a listener for disabled events.
+     */
+    FormControl.prototype.registerOnDisabledChange = function (fn) { this._onDisabledChange = fn; };
+    /**
      * @internal
      */
     FormControl.prototype._forEachChild = function (cb) { };
+    FormControl.prototype._applyFormState = function (formState) {
+        if (this._isBoxedValue(formState)) {
+            this._value = formState.value;
+            formState.disabled ? this.disable({ onlySelf: true, emitEvent: false }) :
+                this.enable({ onlySelf: true, emitEvent: false });
+        }
+        else {
+            this._value = formState;
+        }
+    };
     return FormControl;
 }(AbstractControl));
 exports.FormControl = FormControl;
@@ -439,14 +518,11 @@ exports.FormControl = FormControl;
  */
 var FormGroup = (function (_super) {
     __extends(FormGroup, _super);
-    function FormGroup(controls, 
-        /* @deprecated */ optionals, validator, asyncValidator) {
-        if (optionals === void 0) { optionals = null; }
+    function FormGroup(controls, validator, asyncValidator) {
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
         _super.call(this, validator, asyncValidator);
         this.controls = controls;
-        this._optionals = lang_1.isPresent(optionals) ? optionals : {};
         this._initObservables();
         this._setParentForControls();
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -476,27 +552,11 @@ var FormGroup = (function (_super) {
         this.updateValueAndValidity();
     };
     /**
-     * Mark the named control as non-optional.
-     * @deprecated
-     */
-    FormGroup.prototype.include = function (controlName) {
-        collection_1.StringMapWrapper.set(this._optionals, controlName, true);
-        this.updateValueAndValidity();
-    };
-    /**
-     * Mark the named control as optional.
-     * @deprecated
-     */
-    FormGroup.prototype.exclude = function (controlName) {
-        collection_1.StringMapWrapper.set(this._optionals, controlName, false);
-        this.updateValueAndValidity();
-    };
-    /**
      * Check whether there is a control with the given name in the group.
      */
     FormGroup.prototype.contains = function (controlName) {
         var c = collection_1.StringMapWrapper.contains(this.controls, controlName);
-        return c && this._included(controlName);
+        return c && this.get(controlName).enabled;
     };
     FormGroup.prototype.setValue = function (value, _a) {
         var _this = this;
@@ -527,6 +587,12 @@ var FormGroup = (function (_super) {
         this.updateValueAndValidity({ onlySelf: onlySelf });
         this._updatePristine({ onlySelf: onlySelf });
         this._updateTouched({ onlySelf: onlySelf });
+    };
+    FormGroup.prototype.getRawValue = function () {
+        return this._reduceChildren({}, function (acc, control, name) {
+            acc[name] = control.value;
+            return acc;
+        });
     };
     /** @internal */
     FormGroup.prototype._throwIfControlMissing = function (name) {
@@ -559,26 +625,29 @@ var FormGroup = (function (_super) {
     };
     /** @internal */
     FormGroup.prototype._reduceValue = function () {
+        var _this = this;
         return this._reduceChildren({}, function (acc, control, name) {
-            acc[name] = control.value;
+            if (control.enabled || _this.disabled) {
+                acc[name] = control.value;
+            }
             return acc;
         });
     };
     /** @internal */
     FormGroup.prototype._reduceChildren = function (initValue, fn) {
-        var _this = this;
         var res = initValue;
-        this._forEachChild(function (control, name) {
-            if (_this._included(name)) {
-                res = fn(res, control, name);
-            }
-        });
+        this._forEachChild(function (control, name) { res = fn(res, control, name); });
         return res;
     };
     /** @internal */
-    FormGroup.prototype._included = function (controlName) {
-        var isOptional = collection_1.StringMapWrapper.contains(this._optionals, controlName);
-        return !isOptional || collection_1.StringMapWrapper.get(this._optionals, controlName);
+    FormGroup.prototype._allControlsDisabled = function () {
+        for (var _i = 0, _a = Object.keys(this.controls); _i < _a.length; _i++) {
+            var controlName = _a[_i];
+            if (this.controls[controlName].enabled) {
+                return false;
+            }
+        }
+        return !collection_1.StringMapWrapper.isEmpty(this.controls);
     };
     /** @internal */
     FormGroup.prototype._checkAllValuesPresent = function (value) {
@@ -690,6 +759,7 @@ var FormArray = (function (_super) {
         this._updatePristine({ onlySelf: onlySelf });
         this._updateTouched({ onlySelf: onlySelf });
     };
+    FormArray.prototype.getRawValue = function () { return this.controls.map(function (control) { return control.value; }); };
     /** @internal */
     FormArray.prototype._throwIfControlMissing = function (index) {
         if (!this.controls.length) {
@@ -704,10 +774,14 @@ var FormArray = (function (_super) {
         this.controls.forEach(function (control, index) { cb(control, index); });
     };
     /** @internal */
-    FormArray.prototype._updateValue = function () { this._value = this.controls.map(function (control) { return control.value; }); };
+    FormArray.prototype._updateValue = function () {
+        var _this = this;
+        this._value = this.controls.filter(function (control) { return control.enabled || _this.disabled; })
+            .map(function (control) { return control.value; });
+    };
     /** @internal */
     FormArray.prototype._anyControls = function (condition) {
-        return this.controls.some(function (control) { return condition(control); });
+        return this.controls.some(function (control) { return control.enabled && condition(control); });
     };
     /** @internal */
     FormArray.prototype._setParentForControls = function () {
@@ -721,6 +795,15 @@ var FormArray = (function (_super) {
                 throw new core_1.BaseException("Must supply a value for form control at index: " + i + ".");
             }
         });
+    };
+    /** @internal */
+    FormArray.prototype._allControlsDisabled = function () {
+        for (var _i = 0, _a = this.controls; _i < _a.length; _i++) {
+            var control = _a[_i];
+            if (control.enabled)
+                return false;
+        }
+        return !!this.controls.length;
     };
     return FormArray;
 }(AbstractControl));

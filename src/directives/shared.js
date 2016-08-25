@@ -44,6 +44,9 @@ function setUpControl(control, dir) {
         if (emitModelEvent)
             dir.viewToModelUpdate(newValue);
     });
+    if (dir.valueAccessor.setDisabledState) {
+        control.registerOnDisabledChange(function (isDisabled) { dir.valueAccessor.setDisabledState(isDisabled); });
+    }
     // touched
     dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
 }
@@ -86,6 +89,14 @@ function isPropertyUpdated(changes, viewModel) {
     return !lang_1.looseIdentical(viewModel, change.currentValue);
 }
 exports.isPropertyUpdated = isPropertyUpdated;
+function isBuiltInAccessor(valueAccessor) {
+    return (lang_1.hasConstructor(valueAccessor, checkbox_value_accessor_1.CheckboxControlValueAccessor) ||
+        lang_1.hasConstructor(valueAccessor, number_value_accessor_1.NumberValueAccessor) ||
+        lang_1.hasConstructor(valueAccessor, select_control_value_accessor_1.SelectControlValueAccessor) ||
+        lang_1.hasConstructor(valueAccessor, select_multiple_control_value_accessor_1.SelectMultipleControlValueAccessor) ||
+        lang_1.hasConstructor(valueAccessor, radio_control_value_accessor_1.RadioControlValueAccessor));
+}
+exports.isBuiltInAccessor = isBuiltInAccessor;
 // TODO: vsavkin remove it once https://github.com/angular/angular/issues/3011 is implemented
 function selectValueAccessor(dir, valueAccessors) {
     if (lang_1.isBlank(valueAccessors))
@@ -97,10 +108,7 @@ function selectValueAccessor(dir, valueAccessors) {
         if (lang_1.hasConstructor(v, default_value_accessor_1.DefaultValueAccessor)) {
             defaultAccessor = v;
         }
-        else if (lang_1.hasConstructor(v, checkbox_value_accessor_1.CheckboxControlValueAccessor) || lang_1.hasConstructor(v, number_value_accessor_1.NumberValueAccessor) ||
-            lang_1.hasConstructor(v, select_control_value_accessor_1.SelectControlValueAccessor) ||
-            lang_1.hasConstructor(v, select_multiple_control_value_accessor_1.SelectMultipleControlValueAccessor) ||
-            lang_1.hasConstructor(v, radio_control_value_accessor_1.RadioControlValueAccessor)) {
+        else if (isBuiltInAccessor(v)) {
             if (lang_1.isPresent(builtinAccessor))
                 _throwError(dir, 'More than one built-in value accessor matches form control with');
             builtinAccessor = v;

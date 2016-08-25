@@ -25,6 +25,9 @@ var CheckboxControlValueAccessor = (function () {
     };
     CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
     CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    };
     /** @nocollapse */
     CheckboxControlValueAccessor.decorators = [
         { type: core_1.Directive, args: [{

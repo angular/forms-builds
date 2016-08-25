@@ -70,6 +70,16 @@ var AbstractControlDirective = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(AbstractControlDirective.prototype, "disabled", {
+        get: function () { return lang_1.isPresent(this.control) ? this.control.disabled : null; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlDirective.prototype, "enabled", {
+        get: function () { return lang_1.isPresent(this.control) ? this.control.enabled : null; },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(AbstractControlDirective.prototype, "statusChanges", {
         get: function () {
             return lang_1.isPresent(this.control) ? this.control.statusChanges : null;

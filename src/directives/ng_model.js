@@ -46,6 +46,9 @@ var NgModel = (function (_super) {
         this._checkForErrors();
         if (!this._registered)
             this._setUpControl();
+        if ('disabled' in changes) {
+            this._updateDisabled(changes);
+        }
         if (shared_1.isPropertyUpdated(changes, this.viewModel)) {
             this._updateValue(this.model);
             this.viewModel = this.model;
@@ -123,6 +126,19 @@ var NgModel = (function (_super) {
         var _this = this;
         resolvedPromise.then(function () { _this.control.setValue(value, { emitViewToModelChange: false }); });
     };
+    NgModel.prototype._updateDisabled = function (changes) {
+        var _this = this;
+        var disabledValue = changes['disabled'].currentValue;
+        var isDisabled = disabledValue != null && disabledValue != false;
+        resolvedPromise.then(function () {
+            if (isDisabled && !_this.control.disabled) {
+                _this.control.disable();
+            }
+            else if (!isDisabled && _this.control.disabled) {
+                _this.control.enable();
+            }
+        });
+    };
     /** @nocollapse */
     NgModel.decorators = [
         { type: core_1.Directive, args: [{
@@ -140,8 +156,9 @@ var NgModel = (function (_super) {
     ];
     /** @nocollapse */
     NgModel.propDecorators = {
-        'model': [{ type: core_1.Input, args: ['ngModel',] },],
         'name': [{ type: core_1.Input },],
+        'disabled': [{ type: core_1.Input },],
+        'model': [{ type: core_1.Input, args: ['ngModel',] },],
         'options': [{ type: core_1.Input, args: ['ngModelOptions',] },],
         'update': [{ type: core_1.Output, args: ['ngModelChange',] },],
     };

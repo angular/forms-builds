@@ -37,10 +37,17 @@ var FormControlName = (function (_super) {
         this.update = new async_1.EventEmitter();
         this.valueAccessor = shared_1.selectValueAccessor(this, valueAccessors);
     }
+    Object.defineProperty(FormControlName.prototype, "disabled", {
+        set: function (isDisabled) { reactive_errors_1.ReactiveErrors.disabledAttrWarning(); },
+        enumerable: true,
+        configurable: true
+    });
     FormControlName.prototype.ngOnChanges = function (changes) {
         if (!this._added) {
             this._checkParentType();
             this.formDirective.addControl(this);
+            if (this.control.disabled)
+                this.valueAccessor.setDisabledState(true);
             this._added = true;
         }
         if (shared_1.isPropertyUpdated(changes, this.viewModel)) {
@@ -69,9 +76,7 @@ var FormControlName = (function (_super) {
         configurable: true
     });
     Object.defineProperty(FormControlName.prototype, "asyncValidator", {
-        get: function () {
-            return shared_1.composeAsyncValidators(this._asyncValidators);
-        },
+        get: function () { return shared_1.composeAsyncValidators(this._asyncValidators); },
         enumerable: true,
         configurable: true
     });
@@ -85,8 +90,7 @@ var FormControlName = (function (_super) {
             this._parent instanceof abstract_form_group_directive_1.AbstractFormGroupDirective) {
             reactive_errors_1.ReactiveErrors.ngModelGroupException();
         }
-        else if (!(this._parent instanceof form_group_name_1.FormGroupName) &&
-            !(this._parent instanceof form_group_directive_1.FormGroupDirective) &&
+        else if (!(this._parent instanceof form_group_name_1.FormGroupName) && !(this._parent instanceof form_group_directive_1.FormGroupDirective) &&
             !(this._parent instanceof form_group_name_1.FormArrayName)) {
             reactive_errors_1.ReactiveErrors.controlParentException();
         }
@@ -107,6 +111,7 @@ var FormControlName = (function (_super) {
         'name': [{ type: core_1.Input, args: ['formControlName',] },],
         'model': [{ type: core_1.Input, args: ['ngModel',] },],
         'update': [{ type: core_1.Output, args: ['ngModelChange',] },],
+        'disabled': [{ type: core_1.Input, args: ['disabled',] },],
     };
     return FormControlName;
 }(ng_control_1.NgControl));

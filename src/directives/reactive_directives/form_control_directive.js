@@ -17,6 +17,7 @@ var collection_1 = require('../../facade/collection');
 var validators_1 = require('../../validators');
 var control_value_accessor_1 = require('../control_value_accessor');
 var ng_control_1 = require('../ng_control');
+var reactive_errors_1 = require('../reactive_errors');
 var shared_1 = require('../shared');
 exports.formControlBinding = {
     provide: ng_control_1.NgControl,
@@ -31,9 +32,16 @@ var FormControlDirective = (function (_super) {
         this.update = new async_1.EventEmitter();
         this.valueAccessor = shared_1.selectValueAccessor(this, valueAccessors);
     }
+    Object.defineProperty(FormControlDirective.prototype, "disabled", {
+        set: function (isDisabled) { reactive_errors_1.ReactiveErrors.disabledAttrWarning(); },
+        enumerable: true,
+        configurable: true
+    });
     FormControlDirective.prototype.ngOnChanges = function (changes) {
         if (this._isControlChanged(changes)) {
             shared_1.setUpControl(this.form, this);
+            if (this.control.disabled)
+                this.valueAccessor.setDisabledState(true);
             this.form.updateValueAndValidity({ emitEvent: false });
         }
         if (shared_1.isPropertyUpdated(changes, this.viewModel)) {
@@ -85,6 +93,7 @@ var FormControlDirective = (function (_super) {
         'form': [{ type: core_1.Input, args: ['formControl',] },],
         'model': [{ type: core_1.Input, args: ['ngModel',] },],
         'update': [{ type: core_1.Output, args: ['ngModelChange',] },],
+        'disabled': [{ type: core_1.Input, args: ['disabled',] },],
     };
     return FormControlDirective;
 }(ng_control_1.NgControl));

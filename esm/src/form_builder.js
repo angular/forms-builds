@@ -17,17 +17,17 @@ export class FormBuilder {
      * See the {@link FormGroup} constructor for more details.
      */
     group(controlsConfig, extra = null) {
-        var controls = this._reduceControls(controlsConfig);
-        var optionals = (isPresent(extra) ? StringMapWrapper.get(extra, 'optionals') : null);
-        var validator = isPresent(extra) ? StringMapWrapper.get(extra, 'validator') : null;
-        var asyncValidator = isPresent(extra) ? StringMapWrapper.get(extra, 'asyncValidator') : null;
-        return new FormGroup(controls, optionals, validator, asyncValidator);
+        const controls = this._reduceControls(controlsConfig);
+        const validator = isPresent(extra) ? StringMapWrapper.get(extra, 'validator') : null;
+        const asyncValidator = isPresent(extra) ? StringMapWrapper.get(extra, 'asyncValidator') : null;
+        return new FormGroup(controls, validator, asyncValidator);
     }
     /**
-     * Construct a new {@link FormControl} with the given `value`,`validator`, and `asyncValidator`.
+     * Construct a new {@link FormControl} with the given `formState`,`validator`, and
+     * `asyncValidator`.
      */
-    control(value, validator = null, asyncValidator = null) {
-        return new FormControl(value, validator, asyncValidator);
+    control(formState, validator = null, asyncValidator = null) {
+        return new FormControl(formState, validator, asyncValidator);
     }
     /**
      * Construct an array of {@link FormControl}s from the given `controlsConfig` array of

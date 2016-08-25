@@ -18,13 +18,16 @@ export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: {
  * @stable
  */
 export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
+    private _renderer;
+    private _elementRef;
     value: any;
     onChange: (_: any) => void;
     onTouched: () => void;
-    constructor();
+    constructor(_renderer: Renderer, _elementRef: ElementRef);
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => any): void;
     registerOnTouched(fn: () => any): void;
+    setDisabledState(isDisabled: boolean): void;
 }
 /**
  * Marks `<option>` as dynamic, so Angular can be notified when options change.

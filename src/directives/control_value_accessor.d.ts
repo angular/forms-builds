@@ -29,6 +29,13 @@ export interface ControlValueAccessor {
      * Set the function to be called when the control receives a touch event.
      */
     registerOnTouched(fn: any): void;
+    /**
+     * This function is called when the control status changes to or from "DISABLED".
+     * Depending on the value, it will enable or disable the appropriate DOM element.
+     *
+     * @param isDisabled
+     */
+    setDisabledState?(isDisabled: boolean): void;
 }
 /**
  * Used to provide a {@link ControlValueAccessor} for form controls.

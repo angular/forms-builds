@@ -29,6 +29,9 @@ export class NumberValueAccessor {
         this.onChange = (value) => { fn(value == '' ? null : NumberWrapper.parseFloat(value)); };
     }
     registerOnTouched(fn) { this.onTouched = fn; }
+    setDisabledState(isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
 }
 /** @nocollapse */
 NumberValueAccessor.decorators = [

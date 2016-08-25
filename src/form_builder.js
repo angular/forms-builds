@@ -22,18 +22,18 @@ var FormBuilder = (function () {
     FormBuilder.prototype.group = function (controlsConfig, extra) {
         if (extra === void 0) { extra = null; }
         var controls = this._reduceControls(controlsConfig);
-        var optionals = (lang_1.isPresent(extra) ? collection_1.StringMapWrapper.get(extra, 'optionals') : null);
         var validator = lang_1.isPresent(extra) ? collection_1.StringMapWrapper.get(extra, 'validator') : null;
         var asyncValidator = lang_1.isPresent(extra) ? collection_1.StringMapWrapper.get(extra, 'asyncValidator') : null;
-        return new model_1.FormGroup(controls, optionals, validator, asyncValidator);
+        return new model_1.FormGroup(controls, validator, asyncValidator);
     };
     /**
-     * Construct a new {@link FormControl} with the given `value`,`validator`, and `asyncValidator`.
+     * Construct a new {@link FormControl} with the given `formState`,`validator`, and
+     * `asyncValidator`.
      */
-    FormBuilder.prototype.control = function (value, validator, asyncValidator) {
+    FormBuilder.prototype.control = function (formState, validator, asyncValidator) {
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
-        return new model_1.FormControl(value, validator, asyncValidator);
+        return new model_1.FormControl(formState, validator, asyncValidator);
     };
     /**
      * Construct an array of {@link FormControl}s from the given `controlsConfig` array of

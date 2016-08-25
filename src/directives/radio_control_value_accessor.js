@@ -84,6 +84,9 @@ var RadioControlValueAccessor = (function () {
     };
     RadioControlValueAccessor.prototype.fireUncheck = function (value) { this.writeValue(value); };
     RadioControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    RadioControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    };
     RadioControlValueAccessor.prototype._checkName = function () {
         if (this.name && this.formControlName && this.name !== this.formControlName) {
             this._throwNameError();

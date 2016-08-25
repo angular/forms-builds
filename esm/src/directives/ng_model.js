@@ -39,6 +39,9 @@ export class NgModel extends NgControl {
         this._checkForErrors();
         if (!this._registered)
             this._setUpControl();
+        if ('disabled' in changes) {
+            this._updateDisabled(changes);
+        }
         if (isPropertyUpdated(changes, this.viewModel)) {
             this._updateValue(this.model);
             this.viewModel = this.model;
@@ -95,6 +98,18 @@ export class NgModel extends NgControl {
     _updateValue(value) {
         resolvedPromise.then(() => { this.control.setValue(value, { emitViewToModelChange: false }); });
     }
+    _updateDisabled(changes) {
+        const disabledValue = changes['disabled'].currentValue;
+        const isDisabled = disabledValue != null && disabledValue != false;
+        resolvedPromise.then(() => {
+            if (isDisabled && !this.control.disabled) {
+                this.control.disable();
+            }
+            else if (!isDisabled && this.control.disabled) {
+                this.control.enable();
+            }
+        });
+    }
 }
 /** @nocollapse */
 NgModel.decorators = [
@@ -113,8 +128,9 @@ NgModel.ctorParameters = [
 ];
 /** @nocollapse */
 NgModel.propDecorators = {
-    'model': [{ type: Input, args: ['ngModel',] },],
     'name': [{ type: Input },],
+    'disabled': [{ type: Input },],
+    'model': [{ type: Input, args: ['ngModel',] },],
     'options': [{ type: Input, args: ['ngModelOptions',] },],
     'update': [{ type: Output, args: ['ngModelChange',] },],
 };

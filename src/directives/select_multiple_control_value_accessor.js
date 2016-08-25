@@ -34,7 +34,9 @@ var HTMLCollection = (function () {
     return HTMLCollection;
 }());
 var SelectMultipleControlValueAccessor = (function () {
-    function SelectMultipleControlValueAccessor() {
+    function SelectMultipleControlValueAccessor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
         /** @internal */
         this._optionMap = new Map();
         /** @internal */
@@ -78,6 +80,9 @@ var SelectMultipleControlValueAccessor = (function () {
         };
     };
     SelectMultipleControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    SelectMultipleControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    };
     /** @internal */
     SelectMultipleControlValueAccessor.prototype._registerOption = function (value) {
         var id = (this._idCounter++).toString();
@@ -107,7 +112,10 @@ var SelectMultipleControlValueAccessor = (function () {
                 },] },
     ];
     /** @nocollapse */
-    SelectMultipleControlValueAccessor.ctorParameters = [];
+    SelectMultipleControlValueAccessor.ctorParameters = [
+        { type: core_1.Renderer, },
+        { type: core_1.ElementRef, },
+    ];
     return SelectMultipleControlValueAccessor;
 }());
 exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
