@@ -37,7 +37,7 @@ var FormControlName = (function (_super) {
         this.update = new async_1.EventEmitter();
         this.valueAccessor = shared_1.selectValueAccessor(this, valueAccessors);
     }
-    Object.defineProperty(FormControlName.prototype, "disabled", {
+    Object.defineProperty(FormControlName.prototype, "isDisabled", {
         set: function (isDisabled) { reactive_errors_1.ReactiveErrors.disabledAttrWarning(); },
         enumerable: true,
         configurable: true
@@ -115,7 +115,7 @@ var FormControlName = (function (_super) {
         'name': [{ type: core_1.Input, args: ['formControlName',] },],
         'model': [{ type: core_1.Input, args: ['ngModel',] },],
         'update': [{ type: core_1.Output, args: ['ngModelChange',] },],
-        'disabled': [{ type: core_1.Input, args: ['disabled',] },],
+        'isDisabled': [{ type: core_1.Input, args: ['disabled',] },],
     };
     return FormControlName;
 }(ng_control_1.NgControl));

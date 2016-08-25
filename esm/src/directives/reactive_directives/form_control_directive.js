@@ -25,7 +25,7 @@ export class FormControlDirective extends NgControl {
         this.update = new EventEmitter();
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
-    set disabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
+    set isDisabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
     ngOnChanges(changes) {
         if (this._isControlChanged(changes)) {
             setUpControl(this.form, this);
@@ -67,6 +67,6 @@ FormControlDirective.propDecorators = {
     'form': [{ type: Input, args: ['formControl',] },],
     'model': [{ type: Input, args: ['ngModel',] },],
     'update': [{ type: Output, args: ['ngModelChange',] },],
-    'disabled': [{ type: Input, args: ['disabled',] },],
+    'isDisabled': [{ type: Input, args: ['disabled',] },],
 };
 //# sourceMappingURL=form_control_directive.js.map

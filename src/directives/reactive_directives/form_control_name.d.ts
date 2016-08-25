@@ -88,7 +88,7 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     name: string;
     model: any;
     update: EventEmitter<{}>;
-    disabled: boolean;
+    isDisabled: boolean;
     constructor(_parent: ControlContainer, _validators: any[], _asyncValidators: any[], valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;

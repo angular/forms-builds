@@ -41,7 +41,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _asyncValidators;
     viewModel: any;
     name: string;
-    disabled: boolean;
+    isDisabled: boolean;
     model: any;
     options: {
         name?: string;

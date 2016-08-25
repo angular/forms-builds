@@ -30,7 +30,7 @@ export class FormControlName extends NgControl {
         this.update = new EventEmitter();
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
-    set disabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
+    set isDisabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
     ngOnChanges(changes) {
         if (!this._added) {
             this._checkParentType();
@@ -85,6 +85,6 @@ FormControlName.propDecorators = {
     'name': [{ type: Input, args: ['formControlName',] },],
     'model': [{ type: Input, args: ['ngModel',] },],
     'update': [{ type: Output, args: ['ngModelChange',] },],
-    'disabled': [{ type: Input, args: ['disabled',] },],
+    'isDisabled': [{ type: Input, args: ['disabled',] },],
 };
 //# sourceMappingURL=form_control_name.js.map

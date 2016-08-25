@@ -2704,7 +2704,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this._checkForErrors();
             if (!this._registered)
                 this._setUpControl();
-            if ('disabled' in changes) {
+            if ('isDisabled' in changes) {
                 this._updateDisabled(changes);
             }
             if (isPropertyUpdated(changes, this.viewModel)) {
@@ -2786,7 +2786,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         NgModel.prototype._updateDisabled = function (changes) {
             var _this = this;
-            var disabledValue = changes['disabled'].currentValue;
+            var disabledValue = changes['isDisabled'].currentValue;
             var isDisabled = disabledValue != null && disabledValue != false;
             resolvedPromise$1.then(function () {
                 if (isDisabled && !_this.control.disabled) {
@@ -2817,7 +2817,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     /** @nocollapse */
     NgModel.propDecorators = {
         'name': [{ type: _angular_core.Input },],
-        'disabled': [{ type: _angular_core.Input },],
+        'isDisabled': [{ type: _angular_core.Input, args: ['disabled',] },],
         'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
         'options': [{ type: _angular_core.Input, args: ['ngModelOptions',] },],
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
@@ -2858,7 +2858,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.update = new EventEmitter();
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
-        Object.defineProperty(FormControlDirective.prototype, "disabled", {
+        Object.defineProperty(FormControlDirective.prototype, "isDisabled", {
             set: function (isDisabled) { ReactiveErrors.disabledAttrWarning(); },
             enumerable: true,
             configurable: true
@@ -2921,7 +2921,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         'form': [{ type: _angular_core.Input, args: ['formControl',] },],
         'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
-        'disabled': [{ type: _angular_core.Input, args: ['disabled',] },],
+        'isDisabled': [{ type: _angular_core.Input, args: ['disabled',] },],
     };
     var formDirectiveProvider$1 = {
         provide: ControlContainer,
@@ -3168,7 +3168,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             this.update = new EventEmitter();
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
-        Object.defineProperty(FormControlName.prototype, "disabled", {
+        Object.defineProperty(FormControlName.prototype, "isDisabled", {
             set: function (isDisabled) { ReactiveErrors.disabledAttrWarning(); },
             enumerable: true,
             configurable: true
@@ -3248,7 +3248,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         'name': [{ type: _angular_core.Input, args: ['formControlName',] },],
         'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
-        'disabled': [{ type: _angular_core.Input, args: ['disabled',] },],
+        'isDisabled': [{ type: _angular_core.Input, args: ['disabled',] },],
     };
     var REQUIRED = Validators.required;
     var REQUIRED_VALIDATOR = {

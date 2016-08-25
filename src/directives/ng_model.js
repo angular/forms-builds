@@ -46,7 +46,7 @@ var NgModel = (function (_super) {
         this._checkForErrors();
         if (!this._registered)
             this._setUpControl();
-        if ('disabled' in changes) {
+        if ('isDisabled' in changes) {
             this._updateDisabled(changes);
         }
         if (shared_1.isPropertyUpdated(changes, this.viewModel)) {
@@ -128,7 +128,7 @@ var NgModel = (function (_super) {
     };
     NgModel.prototype._updateDisabled = function (changes) {
         var _this = this;
-        var disabledValue = changes['disabled'].currentValue;
+        var disabledValue = changes['isDisabled'].currentValue;
         var isDisabled = disabledValue != null && disabledValue != false;
         resolvedPromise.then(function () {
             if (isDisabled && !_this.control.disabled) {
@@ -157,7 +157,7 @@ var NgModel = (function (_super) {
     /** @nocollapse */
     NgModel.propDecorators = {
         'name': [{ type: core_1.Input },],
-        'disabled': [{ type: core_1.Input },],
+        'isDisabled': [{ type: core_1.Input, args: ['disabled',] },],
         'model': [{ type: core_1.Input, args: ['ngModel',] },],
         'options': [{ type: core_1.Input, args: ['ngModelOptions',] },],
         'update': [{ type: core_1.Output, args: ['ngModelChange',] },],
