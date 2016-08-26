@@ -5,7 +5,6 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { BaseException } from '@angular/core';
 import { ListWrapper, StringMapWrapper } from '../facade/collection';
 import { hasConstructor, isBlank, isPresent, looseIdentical } from '../facade/lang';
 import { Validators } from '../validators';
@@ -74,7 +73,7 @@ function _throwError(dir, message) {
     else {
         messageEnd = 'unspecified name attribute';
     }
-    throw new BaseException(`${message} ${messageEnd}`);
+    throw new Error(`${message} ${messageEnd}`);
 }
 export function composeValidators(validators) {
     return isPresent(validators) ? Validators.compose(validators.map(normalizeValidator)) : null;

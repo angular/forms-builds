@@ -5,11 +5,10 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { BaseException } from '@angular/core';
 import { FormErrorExamples as Examples } from './error_examples';
 export class TemplateDrivenErrors {
     static modelParentException() {
-        throw new BaseException(`
+        throw new Error(`
       ngModel cannot be used to register form controls with a parent formGroup directive.  Try using
       formGroup's partner directive "formControlName" instead.  Example:
 
@@ -22,7 +21,7 @@ export class TemplateDrivenErrors {
       ${Examples.ngModelWithFormGroup}`);
     }
     static formGroupNameException() {
-        throw new BaseException(`
+        throw new Error(`
       ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.
 
       Option 1: Use formControlName instead of ngModel (reactive strategy):
@@ -34,14 +33,14 @@ export class TemplateDrivenErrors {
       ${Examples.ngModelGroup}`);
     }
     static missingNameException() {
-        throw new BaseException(`If ngModel is used within a form tag, either the name attribute must be set or the form
+        throw new Error(`If ngModel is used within a form tag, either the name attribute must be set or the form
       control must be defined as 'standalone' in ngModelOptions.
 
       Example 1: <input [(ngModel)]="person.firstName" name="first">
       Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">`);
     }
     static modelGroupParentException() {
-        throw new BaseException(`
+        throw new Error(`
       ngModelGroup cannot be used with a parent formGroup directive.
 
       Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):

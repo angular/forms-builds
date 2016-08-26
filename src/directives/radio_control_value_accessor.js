@@ -95,7 +95,7 @@ var RadioControlValueAccessor = (function () {
             this.name = this.formControlName;
     };
     RadioControlValueAccessor.prototype._throwNameError = function () {
-        throw new core_1.BaseException("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
+        throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
     };
     /** @nocollapse */
     RadioControlValueAccessor.decorators = [

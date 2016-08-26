@@ -11,10 +11,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var core_1 = require('@angular/core');
 var abstract_control_directive_1 = require('./abstract_control_directive');
 function unimplemented() {
-    throw new core_1.BaseException('unimplemented');
+    throw new Error('unimplemented');
 }
 /**
  * A base class that all control directive extend.

@@ -134,15 +134,6 @@ var __extends = (this && this.__extends) || function (d, b) {
         };
         return StringWrapper;
     }());
-    var NumberParseError = (function (_super) {
-        __extends(NumberParseError, _super);
-        function NumberParseError(message) {
-            _super.call(this);
-            this.message = message;
-        }
-        NumberParseError.prototype.toString = function () { return this.message; };
-        return NumberParseError;
-    }(Error));
     var NumberWrapper = (function () {
         function NumberWrapper() {
         }
@@ -151,7 +142,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         NumberWrapper.parseIntAutoRadix = function (text) {
             var result = parseInt(text);
             if (isNaN(result)) {
-                throw new NumberParseError('Invalid integer literal when parsing ' + text);
+                throw new Error('Invalid integer literal when parsing ' + text);
             }
             return result;
         };
@@ -172,7 +163,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                     return result;
                 }
             }
-            throw new NumberParseError('Invalid integer literal when parsing ' + text + ' in base ' + radix);
+            throw new Error('Invalid integer literal when parsing ' + text + ' in base ' + radix);
         };
         // TODO: NaN is a valid literal but is returned by parseFloat to indicate an error.
         NumberWrapper.parseFloat = function (text) { return parseFloat(text); };
@@ -213,7 +204,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         function AbstractControlDirective() {
         }
         Object.defineProperty(AbstractControlDirective.prototype, "control", {
-            get: function () { throw new _angular_core.BaseException('unimplemented'); },
+            get: function () { throw new Error('unimplemented'); },
             enumerable: true,
             configurable: true
         });
@@ -919,7 +910,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         { type: _angular_core.ElementRef, },
     ];
     function unimplemented() {
-        throw new _angular_core.BaseException('unimplemented');
+        throw new Error('unimplemented');
     }
     /**
      * A base class that all control directive extend.
@@ -1035,7 +1026,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this.name = this.formControlName;
         };
         RadioControlValueAccessor.prototype._throwNameError = function () {
-            throw new _angular_core.BaseException("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
+            throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
         };
         return RadioControlValueAccessor;
     }());
@@ -1413,7 +1404,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         else {
             messageEnd = 'unspecified name attribute';
         }
-        throw new _angular_core.BaseException(message + " " + messageEnd);
+        throw new Error(message + " " + messageEnd);
     }
     function composeValidators(validators) {
         return isPresent(validators) ? Validators.compose(validators.map(normalizeValidator)) : null;
@@ -2288,10 +2279,10 @@ var __extends = (this && this.__extends) || function (d, b) {
         /** @internal */
         FormGroup.prototype._throwIfControlMissing = function (name) {
             if (!Object.keys(this.controls).length) {
-                throw new _angular_core.BaseException("\n        There are no form controls registered with this group yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+                throw new Error("\n        There are no form controls registered with this group yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
             }
             if (!this.controls[name]) {
-                throw new _angular_core.BaseException("Cannot find form control with name: " + name + ".");
+                throw new Error("Cannot find form control with name: " + name + ".");
             }
         };
         /** @internal */
@@ -2344,7 +2335,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormGroup.prototype._checkAllValuesPresent = function (value) {
             this._forEachChild(function (control, name) {
                 if (value[name] === undefined) {
-                    throw new _angular_core.BaseException("Must supply a value for form control with name: '" + name + "'.");
+                    throw new Error("Must supply a value for form control with name: '" + name + "'.");
                 }
             });
         };
@@ -2453,10 +2444,10 @@ var __extends = (this && this.__extends) || function (d, b) {
         /** @internal */
         FormArray.prototype._throwIfControlMissing = function (index) {
             if (!this.controls.length) {
-                throw new _angular_core.BaseException("\n        There are no form controls registered with this array yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+                throw new Error("\n        There are no form controls registered with this array yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
             }
             if (!this.at(index)) {
-                throw new _angular_core.BaseException("Cannot find form control at index " + index);
+                throw new Error("Cannot find form control at index " + index);
             }
         };
         /** @internal */
@@ -2482,7 +2473,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         FormArray.prototype._checkAllValuesPresent = function (value) {
             this._forEachChild(function (control, i) {
                 if (value[i] === undefined) {
-                    throw new _angular_core.BaseException("Must supply a value for form control at index: " + i + ".");
+                    throw new Error("Must supply a value for form control at index: " + i + ".");
                 }
             });
         };
@@ -2634,16 +2625,16 @@ var __extends = (this && this.__extends) || function (d, b) {
         function TemplateDrivenErrors() {
         }
         TemplateDrivenErrors.modelParentException = function () {
-            throw new _angular_core.BaseException("\n      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using\n      formGroup's partner directive \"formControlName\" instead.  Example:\n\n      " + Examples.formControlName + "\n\n      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:\n\n      Example:\n\n      " + Examples.ngModelWithFormGroup);
+            throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using\n      formGroup's partner directive \"formControlName\" instead.  Example:\n\n      " + Examples.formControlName + "\n\n      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:\n\n      Example:\n\n      " + Examples.ngModelWithFormGroup);
         };
         TemplateDrivenErrors.formGroupNameException = function () {
-            throw new _angular_core.BaseException("\n      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.\n\n      Option 1: Use formControlName instead of ngModel (reactive strategy):\n\n      " + Examples.formGroupName + "\n\n      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):\n\n      " + Examples.ngModelGroup);
+            throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.\n\n      Option 1: Use formControlName instead of ngModel (reactive strategy):\n\n      " + Examples.formGroupName + "\n\n      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):\n\n      " + Examples.ngModelGroup);
         };
         TemplateDrivenErrors.missingNameException = function () {
-            throw new _angular_core.BaseException("If ngModel is used within a form tag, either the name attribute must be set or the form\n      control must be defined as 'standalone' in ngModelOptions.\n\n      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">");
+            throw new Error("If ngModel is used within a form tag, either the name attribute must be set or the form\n      control must be defined as 'standalone' in ngModelOptions.\n\n      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">");
         };
         TemplateDrivenErrors.modelGroupParentException = function () {
-            throw new _angular_core.BaseException("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + Examples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + Examples.ngModelGroup);
+            throw new Error("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + Examples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + Examples.ngModelGroup);
         };
         return TemplateDrivenErrors;
     }());
@@ -2826,19 +2817,19 @@ var __extends = (this && this.__extends) || function (d, b) {
         function ReactiveErrors() {
         }
         ReactiveErrors.controlParentException = function () {
-            throw new _angular_core.BaseException("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formControlName);
+            throw new Error("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formControlName);
         };
         ReactiveErrors.ngModelGroupException = function () {
-            throw new _angular_core.BaseException("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n       that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n       Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n        " + Examples.formGroupName + "\n\n        Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n        " + Examples.ngModelGroup);
+            throw new Error("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n       that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n       Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n        " + Examples.formGroupName + "\n\n        Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n        " + Examples.ngModelGroup);
         };
         ReactiveErrors.missingFormException = function () {
-            throw new _angular_core.BaseException("formGroup expects a FormGroup instance. Please pass one in.\n\n       Example:\n\n       " + Examples.formControlName);
+            throw new Error("formGroup expects a FormGroup instance. Please pass one in.\n\n       Example:\n\n       " + Examples.formControlName);
         };
         ReactiveErrors.groupParentException = function () {
-            throw new _angular_core.BaseException("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formGroupName);
+            throw new Error("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + Examples.formGroupName);
         };
         ReactiveErrors.arrayParentException = function () {
-            throw new _angular_core.BaseException("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n        Example:\n\n        " + Examples.formArrayName);
+            throw new Error("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n        Example:\n\n        " + Examples.formArrayName);
         };
         ReactiveErrors.disabledAttrWarning = function () {
             console.warn("\n      It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true\n      when you set up this control in your component class, the disabled attribute will actually be set in the DOM for\n      you. We recommend using this approach to avoid 'changed after checked' errors.\n       \n      Example: \n      form = new FormGroup({\n        first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),\n        last: new FormControl('Drew', Validators.required)\n      });\n    ");

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { BaseException, Directive, ElementRef, Injectable, Injector, Input, Renderer, forwardRef } from '@angular/core';
+import { Directive, ElementRef, Injectable, Injector, Input, Renderer, forwardRef } from '@angular/core';
 import { ListWrapper } from '../facade/collection';
 import { isPresent } from '../facade/lang';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
@@ -90,7 +90,7 @@ export class RadioControlValueAccessor {
             this.name = this.formControlName;
     }
     _throwNameError() {
-        throw new BaseException(`
+        throw new Error(`
       If you define both a name and a formControlName attribute on your radio button, their values
       must match. Ex: <input type="radio" formControlName="food" name="food">
     `);

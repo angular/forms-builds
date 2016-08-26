@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://angular.io/license
  */
 "use strict";
-var core_1 = require('@angular/core');
 var collection_1 = require('../facade/collection');
 var lang_1 = require('../facade/lang');
 var validators_1 = require('../validators');
@@ -79,7 +78,7 @@ function _throwError(dir, message) {
     else {
         messageEnd = 'unspecified name attribute';
     }
-    throw new core_1.BaseException(message + " " + messageEnd);
+    throw new Error(message + " " + messageEnd);
 }
 function composeValidators(validators) {
     return lang_1.isPresent(validators) ? validators_1.Validators.compose(validators.map(normalize_validator_1.normalizeValidator)) : null;
