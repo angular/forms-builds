@@ -11,7 +11,7 @@ import { FormControl } from '../model';
 import { ControlContainer } from './control_container';
 import { ControlValueAccessor } from './control_value_accessor';
 import { NgControl } from './ng_control';
-import { AsyncValidatorFn, ValidatorFn } from './validators';
+import { AsyncValidatorFn, Validator, ValidatorFn } from './validators';
 export declare const formControlBinding: any;
 /**
  * Binds a domain model to a form control.
@@ -37,8 +37,6 @@ export declare const formControlBinding: any;
  */
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _parent;
-    private _validators;
-    private _asyncValidators;
     viewModel: any;
     name: string;
     isDisabled: boolean;
@@ -48,7 +46,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
         standalone?: boolean;
     };
     update: EventEmitter<{}>;
-    constructor(_parent: ControlContainer, _validators: any[], _asyncValidators: any[], valueAccessors: ControlValueAccessor[]);
+    constructor(_parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<Validator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
     control: FormControl;

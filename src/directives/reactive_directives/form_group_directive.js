@@ -41,7 +41,6 @@ var FormGroupDirective = (function (_super) {
             this.form.validator = validators_1.Validators.compose([this.form.validator, sync]);
             var async = shared_1.composeAsyncValidators(this._asyncValidators);
             this.form.asyncValidator = validators_1.Validators.composeAsync([this.form.asyncValidator, async]);
-            this.form.updateValueAndValidity({ onlySelf: true, emitEvent: false });
             this._updateDomValue(changes);
         }
     };
@@ -115,6 +114,7 @@ var FormGroupDirective = (function (_super) {
                     shared_1.setUpControl(newCtrl, dir);
             }
         });
+        this.form._updateTreeValidity({ emitEvent: false });
     };
     FormGroupDirective.prototype._checkFormPresent = function () {
         if (lang_1.isBlank(this.form)) {

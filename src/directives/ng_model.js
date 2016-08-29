@@ -30,16 +30,16 @@ exports.formControlBinding = {
 var resolvedPromise = Promise.resolve(null);
 var NgModel = (function (_super) {
     __extends(NgModel, _super);
-    function NgModel(_parent, _validators, _asyncValidators, valueAccessors) {
+    function NgModel(_parent, validators, asyncValidators, valueAccessors) {
         _super.call(this);
         this._parent = _parent;
-        this._validators = _validators;
-        this._asyncValidators = _asyncValidators;
         /** @internal */
         this._control = new model_1.FormControl();
         /** @internal */
         this._registered = false;
         this.update = new async_1.EventEmitter();
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = shared_1.selectValueAccessor(this, valueAccessors);
     }
     NgModel.prototype.ngOnChanges = function (changes) {
@@ -73,13 +73,13 @@ var NgModel = (function (_super) {
         configurable: true
     });
     Object.defineProperty(NgModel.prototype, "validator", {
-        get: function () { return shared_1.composeValidators(this._validators); },
+        get: function () { return shared_1.composeValidators(this._rawValidators); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(NgModel.prototype, "asyncValidator", {
         get: function () {
-            return shared_1.composeAsyncValidators(this._asyncValidators);
+            return shared_1.composeAsyncValidators(this._rawAsyncValidators);
         },
         enumerable: true,
         configurable: true

@@ -179,6 +179,11 @@ export class AbstractControl {
             this._parent.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         }
     }
+    /** @internal */
+    _updateTreeValidity({ emitEvent } = { emitEvent: true }) {
+        this._forEachChild((ctrl) => ctrl._updateTreeValidity({ emitEvent }));
+        this.updateValueAndValidity({ onlySelf: true, emitEvent });
+    }
     _runValidator() {
         return isPresent(this.validator) ? this.validator(this) : null;
     }

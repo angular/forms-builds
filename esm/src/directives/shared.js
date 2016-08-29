@@ -34,6 +34,8 @@ export function setUpControl(control, dir) {
         control.markAsDirty();
         control.setValue(newValue, { emitModelToViewChange: false });
     });
+    // touched
+    dir.valueAccessor.registerOnTouched(() => control.markAsTouched());
     control.registerOnChange((newValue, emitModelEvent) => {
         // control -> view
         dir.valueAccessor.writeValue(newValue);
@@ -44,12 +46,21 @@ export function setUpControl(control, dir) {
     if (dir.valueAccessor.setDisabledState) {
         control.registerOnDisabledChange((isDisabled) => { dir.valueAccessor.setDisabledState(isDisabled); });
     }
-    // touched
-    dir.valueAccessor.registerOnTouched(() => control.markAsTouched());
+    // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
+    dir._rawValidators.forEach((validator) => {
+        if (validator.registerOnChange)
+            validator.registerOnChange(() => control.updateValueAndValidity());
+    });
+    dir._rawAsyncValidators.forEach((validator) => {
+        if (validator.registerOnChange)
+            validator.registerOnChange(() => control.updateValueAndValidity());
+    });
 }
 export function cleanUpControl(control, dir) {
     dir.valueAccessor.registerOnChange(() => _noControlError(dir));
     dir.valueAccessor.registerOnTouched(() => _noControlError(dir));
+    dir._rawValidators.forEach((validator) => validator.registerOnChange(null));
+    dir._rawAsyncValidators.forEach((validator) => validator.registerOnChange(null));
     if (control)
         control._clearChangeFns();
 }

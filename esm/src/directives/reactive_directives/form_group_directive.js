@@ -34,7 +34,6 @@ export class FormGroupDirective extends ControlContainer {
             this.form.validator = Validators.compose([this.form.validator, sync]);
             var async = composeAsyncValidators(this._asyncValidators);
             this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
-            this.form.updateValueAndValidity({ onlySelf: true, emitEvent: false });
             this._updateDomValue(changes);
         }
     }
@@ -90,6 +89,7 @@ export class FormGroupDirective extends ControlContainer {
                     setUpControl(newCtrl, dir);
             }
         });
+        this.form._updateTreeValidity({ emitEvent: false });
     }
     _checkFormPresent() {
         if (isBlank(this.form)) {

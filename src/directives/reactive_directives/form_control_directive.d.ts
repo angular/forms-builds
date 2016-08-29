@@ -10,7 +10,7 @@ import { EventEmitter } from '../../facade/async';
 import { FormControl } from '../../model';
 import { ControlValueAccessor } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
-import { AsyncValidatorFn, ValidatorFn } from '../validators';
+import { AsyncValidatorFn, Validator, ValidatorFn } from '../validators';
 export declare const formControlBinding: any;
 /**
  * Binds an existing {@link FormControl} to a DOM element. It requires importing the {@link
@@ -62,14 +62,12 @@ export declare const formControlBinding: any;
  *  @stable
  */
 export declare class FormControlDirective extends NgControl implements OnChanges {
-    private _validators;
-    private _asyncValidators;
     viewModel: any;
     form: FormControl;
     model: any;
     update: EventEmitter<{}>;
     isDisabled: boolean;
-    constructor(_validators: any[], _asyncValidators: any[], valueAccessors: ControlValueAccessor[]);
+    constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<Validator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
     path: string[];
     validator: ValidatorFn;

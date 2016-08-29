@@ -28,13 +28,13 @@ exports.controlNameBinding = {
 };
 var FormControlName = (function (_super) {
     __extends(FormControlName, _super);
-    function FormControlName(_parent, _validators, _asyncValidators, valueAccessors) {
+    function FormControlName(_parent, validators, asyncValidators, valueAccessors) {
         _super.call(this);
         this._parent = _parent;
-        this._validators = _validators;
-        this._asyncValidators = _asyncValidators;
         this._added = false;
         this.update = new async_1.EventEmitter();
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = shared_1.selectValueAccessor(this, valueAccessors);
     }
     Object.defineProperty(FormControlName.prototype, "isDisabled", {
@@ -75,12 +75,14 @@ var FormControlName = (function (_super) {
         configurable: true
     });
     Object.defineProperty(FormControlName.prototype, "validator", {
-        get: function () { return shared_1.composeValidators(this._validators); },
+        get: function () { return shared_1.composeValidators(this._rawValidators); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormControlName.prototype, "asyncValidator", {
-        get: function () { return shared_1.composeAsyncValidators(this._asyncValidators); },
+        get: function () {
+            return shared_1.composeAsyncValidators(this._rawAsyncValidators);
+        },
         enumerable: true,
         configurable: true
     });

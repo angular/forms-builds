@@ -11,7 +11,7 @@ import { FormControl } from '../../model';
 import { ControlContainer } from '../control_container';
 import { ControlValueAccessor } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
-import { AsyncValidatorFn, ValidatorFn } from '../validators';
+import { AsyncValidatorFn, Validator, ValidatorFn } from '../validators';
 export declare const controlNameBinding: any;
 /**
  * Syncs an existing form control with the specified name to a DOM element.
@@ -82,14 +82,12 @@ export declare const controlNameBinding: any;
  */
 export declare class FormControlName extends NgControl implements OnChanges, OnDestroy {
     private _parent;
-    private _validators;
-    private _asyncValidators;
     private _added;
     name: string;
     model: any;
     update: EventEmitter<{}>;
     isDisabled: boolean;
-    constructor(_parent: ControlContainer, _validators: any[], _asyncValidators: any[], valueAccessors: ControlValueAccessor[]);
+    constructor(_parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<Validator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
     viewToModelUpdate(newValue: any): void;

@@ -21,13 +21,13 @@ export const controlNameBinding = {
     useExisting: forwardRef(() => FormControlName)
 };
 export class FormControlName extends NgControl {
-    constructor(_parent, _validators, _asyncValidators, valueAccessors) {
+    constructor(_parent, validators, asyncValidators, valueAccessors) {
         super();
         this._parent = _parent;
-        this._validators = _validators;
-        this._asyncValidators = _asyncValidators;
         this._added = false;
         this.update = new EventEmitter();
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
     set isDisabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
@@ -55,8 +55,10 @@ export class FormControlName extends NgControl {
     }
     get path() { return controlPath(this.name, this._parent); }
     get formDirective() { return this._parent ? this._parent.formDirective : null; }
-    get validator() { return composeValidators(this._validators); }
-    get asyncValidator() { return composeAsyncValidators(this._asyncValidators); }
+    get validator() { return composeValidators(this._rawValidators); }
+    get asyncValidator() {
+        return composeAsyncValidators(this._rawAsyncValidators);
+    }
     get control() { return this.formDirective.getControl(this); }
     _checkParentType() {
         if (!(this._parent instanceof FormGroupName) &&

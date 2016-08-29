@@ -22,6 +22,10 @@ export class NgControl extends AbstractControlDirective {
         super(...args);
         this.name = null;
         this.valueAccessor = null;
+        /** @internal */
+        this._rawValidators = [];
+        /** @internal */
+        this._rawAsyncValidators = [];
     }
     get validator() { return unimplemented(); }
     get asyncValidator() { return unimplemented(); }

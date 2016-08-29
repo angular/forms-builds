@@ -25,11 +25,11 @@ exports.formControlBinding = {
 };
 var FormControlDirective = (function (_super) {
     __extends(FormControlDirective, _super);
-    function FormControlDirective(_validators, _asyncValidators, valueAccessors) {
+    function FormControlDirective(validators, asyncValidators, valueAccessors) {
         _super.call(this);
-        this._validators = _validators;
-        this._asyncValidators = _asyncValidators;
         this.update = new async_1.EventEmitter();
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = shared_1.selectValueAccessor(this, valueAccessors);
     }
     Object.defineProperty(FormControlDirective.prototype, "isDisabled", {
@@ -55,13 +55,13 @@ var FormControlDirective = (function (_super) {
         configurable: true
     });
     Object.defineProperty(FormControlDirective.prototype, "validator", {
-        get: function () { return shared_1.composeValidators(this._validators); },
+        get: function () { return shared_1.composeValidators(this._rawValidators); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormControlDirective.prototype, "asyncValidator", {
         get: function () {
-            return shared_1.composeAsyncValidators(this._asyncValidators);
+            return shared_1.composeAsyncValidators(this._rawAsyncValidators);
         },
         enumerable: true,
         configurable: true

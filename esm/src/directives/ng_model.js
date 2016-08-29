@@ -23,16 +23,16 @@ export const formControlBinding = {
 };
 const resolvedPromise = Promise.resolve(null);
 export class NgModel extends NgControl {
-    constructor(_parent, _validators, _asyncValidators, valueAccessors) {
+    constructor(_parent, validators, asyncValidators, valueAccessors) {
         super();
         this._parent = _parent;
-        this._validators = _validators;
-        this._asyncValidators = _asyncValidators;
         /** @internal */
         this._control = new FormControl();
         /** @internal */
         this._registered = false;
         this.update = new EventEmitter();
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
     ngOnChanges(changes) {
@@ -53,9 +53,9 @@ export class NgModel extends NgControl {
         return this._parent ? controlPath(this.name, this._parent) : [this.name];
     }
     get formDirective() { return this._parent ? this._parent.formDirective : null; }
-    get validator() { return composeValidators(this._validators); }
+    get validator() { return composeValidators(this._rawValidators); }
     get asyncValidator() {
-        return composeAsyncValidators(this._asyncValidators);
+        return composeAsyncValidators(this._rawAsyncValidators);
     }
     viewToModelUpdate(newValue) {
         this.viewModel = newValue;

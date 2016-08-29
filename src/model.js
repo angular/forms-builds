@@ -250,6 +250,12 @@ var AbstractControl = (function () {
             this._parent.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         }
     };
+    /** @internal */
+    AbstractControl.prototype._updateTreeValidity = function (_a) {
+        var emitEvent = (_a === void 0 ? { emitEvent: true } : _a).emitEvent;
+        this._forEachChild(function (ctrl) { return ctrl._updateTreeValidity({ emitEvent: emitEvent }); });
+        this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
+    };
     AbstractControl.prototype._runValidator = function () {
         return lang_1.isPresent(this.validator) ? this.validator(this) : null;
     };

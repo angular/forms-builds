@@ -18,11 +18,11 @@ export const formControlBinding = {
     useExisting: forwardRef(() => FormControlDirective)
 };
 export class FormControlDirective extends NgControl {
-    constructor(_validators, _asyncValidators, valueAccessors) {
+    constructor(validators, asyncValidators, valueAccessors) {
         super();
-        this._validators = _validators;
-        this._asyncValidators = _asyncValidators;
         this.update = new EventEmitter();
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
     set isDisabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
@@ -39,9 +39,9 @@ export class FormControlDirective extends NgControl {
         }
     }
     get path() { return []; }
-    get validator() { return composeValidators(this._validators); }
+    get validator() { return composeValidators(this._rawValidators); }
     get asyncValidator() {
-        return composeAsyncValidators(this._asyncValidators);
+        return composeAsyncValidators(this._rawAsyncValidators);
     }
     get control() { return this.form; }
     viewToModelUpdate(newValue) {

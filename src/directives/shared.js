@@ -36,6 +36,8 @@ function setUpControl(control, dir) {
         control.markAsDirty();
         control.setValue(newValue, { emitModelToViewChange: false });
     });
+    // touched
+    dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
     control.registerOnChange(function (newValue, emitModelEvent) {
         // control -> view
         dir.valueAccessor.writeValue(newValue);
@@ -46,13 +48,22 @@ function setUpControl(control, dir) {
     if (dir.valueAccessor.setDisabledState) {
         control.registerOnDisabledChange(function (isDisabled) { dir.valueAccessor.setDisabledState(isDisabled); });
     }
-    // touched
-    dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
+    // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
+    dir._rawValidators.forEach(function (validator) {
+        if (validator.registerOnChange)
+            validator.registerOnChange(function () { return control.updateValueAndValidity(); });
+    });
+    dir._rawAsyncValidators.forEach(function (validator) {
+        if (validator.registerOnChange)
+            validator.registerOnChange(function () { return control.updateValueAndValidity(); });
+    });
 }
 exports.setUpControl = setUpControl;
 function cleanUpControl(control, dir) {
     dir.valueAccessor.registerOnChange(function () { return _noControlError(dir); });
     dir.valueAccessor.registerOnTouched(function () { return _noControlError(dir); });
+    dir._rawValidators.forEach(function (validator) { return validator.registerOnChange(null); });
+    dir._rawAsyncValidators.forEach(function (validator) { return validator.registerOnChange(null); });
     if (control)
         control._clearChangeFns();
 }

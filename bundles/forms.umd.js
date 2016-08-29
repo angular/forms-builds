@@ -930,6 +930,10 @@ var __extends = (this && this.__extends) || function (d, b) {
             _super.apply(this, args);
             this.name = null;
             this.valueAccessor = null;
+            /** @internal */
+            this._rawValidators = [];
+            /** @internal */
+            this._rawAsyncValidators = [];
         }
         Object.defineProperty(NgControl.prototype, "validator", {
             get: function () { return unimplemented(); },
@@ -1365,6 +1369,8 @@ var __extends = (this && this.__extends) || function (d, b) {
             control.markAsDirty();
             control.setValue(newValue, { emitModelToViewChange: false });
         });
+        // touched
+        dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
         control.registerOnChange(function (newValue, emitModelEvent) {
             // control -> view
             dir.valueAccessor.writeValue(newValue);
@@ -1375,12 +1381,21 @@ var __extends = (this && this.__extends) || function (d, b) {
         if (dir.valueAccessor.setDisabledState) {
             control.registerOnDisabledChange(function (isDisabled) { dir.valueAccessor.setDisabledState(isDisabled); });
         }
-        // touched
-        dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
+        // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
+        dir._rawValidators.forEach(function (validator) {
+            if (validator.registerOnChange)
+                validator.registerOnChange(function () { return control.updateValueAndValidity(); });
+        });
+        dir._rawAsyncValidators.forEach(function (validator) {
+            if (validator.registerOnChange)
+                validator.registerOnChange(function () { return control.updateValueAndValidity(); });
+        });
     }
     function cleanUpControl(control, dir) {
         dir.valueAccessor.registerOnChange(function () { return _noControlError(dir); });
         dir.valueAccessor.registerOnTouched(function () { return _noControlError(dir); });
+        dir._rawValidators.forEach(function (validator) { return validator.registerOnChange(null); });
+        dir._rawAsyncValidators.forEach(function (validator) { return validator.registerOnChange(null); });
         if (control)
             control._clearChangeFns();
     }
@@ -1927,6 +1942,12 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (isPresent(this._parent) && !onlySelf) {
                 this._parent.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
             }
+        };
+        /** @internal */
+        AbstractControl.prototype._updateTreeValidity = function (_a) {
+            var emitEvent = (_a === void 0 ? { emitEvent: true } : _a).emitEvent;
+            this._forEachChild(function (ctrl) { return ctrl._updateTreeValidity({ emitEvent: emitEvent }); });
+            this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
         };
         AbstractControl.prototype._runValidator = function () {
             return isPresent(this.validator) ? this.validator(this) : null;
@@ -2679,16 +2700,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     var resolvedPromise$1 = Promise.resolve(null);
     var NgModel = (function (_super) {
         __extends(NgModel, _super);
-        function NgModel(_parent, _validators, _asyncValidators, valueAccessors) {
+        function NgModel(_parent, validators, asyncValidators, valueAccessors) {
             _super.call(this);
             this._parent = _parent;
-            this._validators = _validators;
-            this._asyncValidators = _asyncValidators;
             /** @internal */
             this._control = new FormControl();
             /** @internal */
             this._registered = false;
             this.update = new EventEmitter();
+            this._rawValidators = validators || [];
+            this._rawAsyncValidators = asyncValidators || [];
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
         NgModel.prototype.ngOnChanges = function (changes) {
@@ -2722,13 +2743,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             configurable: true
         });
         Object.defineProperty(NgModel.prototype, "validator", {
-            get: function () { return composeValidators(this._validators); },
+            get: function () { return composeValidators(this._rawValidators); },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(NgModel.prototype, "asyncValidator", {
             get: function () {
-                return composeAsyncValidators(this._asyncValidators);
+                return composeAsyncValidators(this._rawAsyncValidators);
             },
             enumerable: true,
             configurable: true
@@ -2842,11 +2863,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     };
     var FormControlDirective = (function (_super) {
         __extends(FormControlDirective, _super);
-        function FormControlDirective(_validators, _asyncValidators, valueAccessors) {
+        function FormControlDirective(validators, asyncValidators, valueAccessors) {
             _super.call(this);
-            this._validators = _validators;
-            this._asyncValidators = _asyncValidators;
             this.update = new EventEmitter();
+            this._rawValidators = validators || [];
+            this._rawAsyncValidators = asyncValidators || [];
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
         Object.defineProperty(FormControlDirective.prototype, "isDisabled", {
@@ -2872,13 +2893,13 @@ var __extends = (this && this.__extends) || function (d, b) {
             configurable: true
         });
         Object.defineProperty(FormControlDirective.prototype, "validator", {
-            get: function () { return composeValidators(this._validators); },
+            get: function () { return composeValidators(this._rawValidators); },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(FormControlDirective.prototype, "asyncValidator", {
             get: function () {
-                return composeAsyncValidators(this._asyncValidators);
+                return composeAsyncValidators(this._rawAsyncValidators);
             },
             enumerable: true,
             configurable: true
@@ -2936,7 +2957,6 @@ var __extends = (this && this.__extends) || function (d, b) {
                 this.form.validator = Validators.compose([this.form.validator, sync]);
                 var async = composeAsyncValidators(this._asyncValidators);
                 this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
-                this.form.updateValueAndValidity({ onlySelf: true, emitEvent: false });
                 this._updateDomValue(changes);
             }
         };
@@ -3010,6 +3030,7 @@ var __extends = (this && this.__extends) || function (d, b) {
                         setUpControl(newCtrl, dir);
                 }
             });
+            this.form._updateTreeValidity({ emitEvent: false });
         };
         FormGroupDirective.prototype._checkFormPresent = function () {
             if (isBlank(this.form)) {
@@ -3150,13 +3171,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     };
     var FormControlName = (function (_super) {
         __extends(FormControlName, _super);
-        function FormControlName(_parent, _validators, _asyncValidators, valueAccessors) {
+        function FormControlName(_parent, validators, asyncValidators, valueAccessors) {
             _super.call(this);
             this._parent = _parent;
-            this._validators = _validators;
-            this._asyncValidators = _asyncValidators;
             this._added = false;
             this.update = new EventEmitter();
+            this._rawValidators = validators || [];
+            this._rawAsyncValidators = asyncValidators || [];
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
         Object.defineProperty(FormControlName.prototype, "isDisabled", {
@@ -3197,12 +3218,14 @@ var __extends = (this && this.__extends) || function (d, b) {
             configurable: true
         });
         Object.defineProperty(FormControlName.prototype, "validator", {
-            get: function () { return composeValidators(this._validators); },
+            get: function () { return composeValidators(this._rawValidators); },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(FormControlName.prototype, "asyncValidator", {
-            get: function () { return composeAsyncValidators(this._asyncValidators); },
+            get: function () {
+                return composeAsyncValidators(this._rawAsyncValidators);
+            },
             enumerable: true,
             configurable: true
         });
@@ -3241,24 +3264,42 @@ var __extends = (this && this.__extends) || function (d, b) {
         'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
         'isDisabled': [{ type: _angular_core.Input, args: ['disabled',] },],
     };
-    var REQUIRED = Validators.required;
     var REQUIRED_VALIDATOR = {
         provide: NG_VALIDATORS,
-        useValue: REQUIRED,
+        useExisting: _angular_core.forwardRef(function () { return RequiredValidator; }),
         multi: true
     };
     var RequiredValidator = (function () {
         function RequiredValidator() {
         }
+        Object.defineProperty(RequiredValidator.prototype, "required", {
+            get: function () { return this._required; },
+            set: function (value) {
+                this._required = isPresent(value) && "" + value !== 'false';
+                if (this._onChange)
+                    this._onChange();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        RequiredValidator.prototype.validate = function (c) {
+            return this.required ? Validators.required(c) : null;
+        };
+        RequiredValidator.prototype.registerOnChange = function (fn) { this._onChange = fn; };
         return RequiredValidator;
     }());
     /** @nocollapse */
     RequiredValidator.decorators = [
         { type: _angular_core.Directive, args: [{
                     selector: '[required][formControlName],[required][formControl],[required][ngModel]',
-                    providers: [REQUIRED_VALIDATOR]
+                    providers: [REQUIRED_VALIDATOR],
+                    host: { '[attr.required]': 'required? "" : null' }
                 },] },
     ];
+    /** @nocollapse */
+    RequiredValidator.propDecorators = {
+        'required': [{ type: _angular_core.Input },],
+    };
     /**
      * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
      *
@@ -3272,23 +3313,36 @@ var __extends = (this && this.__extends) || function (d, b) {
         multi: true
     };
     var MinLengthValidator = (function () {
-        function MinLengthValidator(minLength) {
-            this._validator = Validators.minLength(NumberWrapper.parseInt(minLength, 10));
+        function MinLengthValidator() {
         }
-        MinLengthValidator.prototype.validate = function (c) { return this._validator(c); };
+        MinLengthValidator.prototype._createValidator = function () {
+            this._validator = Validators.minLength(parseInt(this.minlength, 10));
+        };
+        MinLengthValidator.prototype.ngOnChanges = function (changes) {
+            if (changes['minlength']) {
+                this._createValidator();
+                if (this._onChange)
+                    this._onChange();
+            }
+        };
+        MinLengthValidator.prototype.validate = function (c) {
+            return isPresent(this.minlength) ? this._validator(c) : null;
+        };
+        MinLengthValidator.prototype.registerOnChange = function (fn) { this._onChange = fn; };
         return MinLengthValidator;
     }());
     /** @nocollapse */
     MinLengthValidator.decorators = [
         { type: _angular_core.Directive, args: [{
                     selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
-                    providers: [MIN_LENGTH_VALIDATOR]
+                    providers: [MIN_LENGTH_VALIDATOR],
+                    host: { '[attr.minlength]': 'minlength? minlength : null' }
                 },] },
     ];
     /** @nocollapse */
-    MinLengthValidator.ctorParameters = [
-        { type: undefined, decorators: [{ type: _angular_core.Attribute, args: ['minlength',] },] },
-    ];
+    MinLengthValidator.propDecorators = {
+        'minlength': [{ type: _angular_core.Input },],
+    };
     /**
      * Provider which adds {@link MaxLengthValidator} to {@link NG_VALIDATORS}.
      *
@@ -3302,46 +3356,70 @@ var __extends = (this && this.__extends) || function (d, b) {
         multi: true
     };
     var MaxLengthValidator = (function () {
-        function MaxLengthValidator(maxLength) {
-            this._validator = Validators.maxLength(NumberWrapper.parseInt(maxLength, 10));
+        function MaxLengthValidator() {
         }
-        MaxLengthValidator.prototype.validate = function (c) { return this._validator(c); };
+        MaxLengthValidator.prototype._createValidator = function () {
+            this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
+        };
+        MaxLengthValidator.prototype.ngOnChanges = function (changes) {
+            if (changes['maxlength']) {
+                this._createValidator();
+                if (this._onChange)
+                    this._onChange();
+            }
+        };
+        MaxLengthValidator.prototype.validate = function (c) {
+            return isPresent(this.maxlength) ? this._validator(c) : null;
+        };
+        MaxLengthValidator.prototype.registerOnChange = function (fn) { this._onChange = fn; };
         return MaxLengthValidator;
     }());
     /** @nocollapse */
     MaxLengthValidator.decorators = [
         { type: _angular_core.Directive, args: [{
                     selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
-                    providers: [MAX_LENGTH_VALIDATOR]
+                    providers: [MAX_LENGTH_VALIDATOR],
+                    host: { '[attr.maxlength]': 'maxlength? maxlength : null' }
                 },] },
     ];
     /** @nocollapse */
-    MaxLengthValidator.ctorParameters = [
-        { type: undefined, decorators: [{ type: _angular_core.Attribute, args: ['maxlength',] },] },
-    ];
+    MaxLengthValidator.propDecorators = {
+        'maxlength': [{ type: _angular_core.Input },],
+    };
     var PATTERN_VALIDATOR = {
         provide: NG_VALIDATORS,
         useExisting: _angular_core.forwardRef(function () { return PatternValidator; }),
         multi: true
     };
     var PatternValidator = (function () {
-        function PatternValidator(pattern) {
-            this._validator = Validators.pattern(pattern);
+        function PatternValidator() {
         }
-        PatternValidator.prototype.validate = function (c) { return this._validator(c); };
+        PatternValidator.prototype._createValidator = function () { this._validator = Validators.pattern(this.pattern); };
+        PatternValidator.prototype.ngOnChanges = function (changes) {
+            if (changes['pattern']) {
+                this._createValidator();
+                if (this._onChange)
+                    this._onChange();
+            }
+        };
+        PatternValidator.prototype.validate = function (c) {
+            return isPresent(this.pattern) ? this._validator(c) : null;
+        };
+        PatternValidator.prototype.registerOnChange = function (fn) { this._onChange = fn; };
         return PatternValidator;
     }());
     /** @nocollapse */
     PatternValidator.decorators = [
         { type: _angular_core.Directive, args: [{
                     selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
-                    providers: [PATTERN_VALIDATOR]
+                    providers: [PATTERN_VALIDATOR],
+                    host: { '[attr.pattern]': 'pattern? pattern : null' }
                 },] },
     ];
     /** @nocollapse */
-    PatternValidator.ctorParameters = [
-        { type: undefined, decorators: [{ type: _angular_core.Attribute, args: ['pattern',] },] },
-    ];
+    PatternValidator.propDecorators = {
+        'pattern': [{ type: _angular_core.Input },],
+    };
     var FormBuilder = (function () {
         function FormBuilder() {
         }

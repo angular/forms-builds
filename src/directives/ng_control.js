@@ -29,6 +29,10 @@ var NgControl = (function (_super) {
         _super.apply(this, arguments);
         this.name = null;
         this.valueAccessor = null;
+        /** @internal */
+        this._rawValidators = [];
+        /** @internal */
+        this._rawAsyncValidators = [];
     }
     Object.defineProperty(NgControl.prototype, "validator", {
         get: function () { return unimplemented(); },
