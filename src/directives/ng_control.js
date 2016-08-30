@@ -27,6 +27,8 @@ var NgControl = (function (_super) {
     __extends(NgControl, _super);
     function NgControl() {
         _super.apply(this, arguments);
+        /** @internal */
+        this._parent = null;
         this.name = null;
         this.valueAccessor = null;
         /** @internal */

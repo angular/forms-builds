@@ -30,14 +30,14 @@ exports.formControlBinding = {
 var resolvedPromise = Promise.resolve(null);
 var NgModel = (function (_super) {
     __extends(NgModel, _super);
-    function NgModel(_parent, validators, asyncValidators, valueAccessors) {
+    function NgModel(parent, validators, asyncValidators, valueAccessors) {
         _super.call(this);
-        this._parent = _parent;
         /** @internal */
         this._control = new model_1.FormControl();
         /** @internal */
         this._registered = false;
         this.update = new async_1.EventEmitter();
+        this._parent = parent;
         this._rawValidators = validators || [];
         this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = shared_1.selectValueAccessor(this, valueAccessors);

@@ -23,14 +23,14 @@ export const formControlBinding = {
 };
 const resolvedPromise = Promise.resolve(null);
 export class NgModel extends NgControl {
-    constructor(_parent, validators, asyncValidators, valueAccessors) {
+    constructor(parent, validators, asyncValidators, valueAccessors) {
         super();
-        this._parent = _parent;
         /** @internal */
         this._control = new FormControl();
         /** @internal */
         this._registered = false;
         this.update = new EventEmitter();
+        this._parent = parent;
         this._rawValidators = validators || [];
         this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = selectValueAccessor(this, valueAccessors);

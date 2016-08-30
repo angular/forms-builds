@@ -28,11 +28,11 @@ exports.controlNameBinding = {
 };
 var FormControlName = (function (_super) {
     __extends(FormControlName, _super);
-    function FormControlName(_parent, validators, asyncValidators, valueAccessors) {
+    function FormControlName(parent, validators, asyncValidators, valueAccessors) {
         _super.call(this);
-        this._parent = _parent;
         this._added = false;
         this.update = new async_1.EventEmitter();
+        this._parent = parent;
         this._rawValidators = validators || [];
         this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = shared_1.selectValueAccessor(this, valueAccessors);

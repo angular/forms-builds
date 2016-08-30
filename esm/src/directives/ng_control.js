@@ -20,6 +20,8 @@ function unimplemented() {
 export class NgControl extends AbstractControlDirective {
     constructor(...args) {
         super(...args);
+        /** @internal */
+        this._parent = null;
         this.name = null;
         this.valueAccessor = null;
         /** @internal */

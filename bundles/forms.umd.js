@@ -928,6 +928,8 @@ var __extends = (this && this.__extends) || function (d, b) {
                 args[_i - 0] = arguments[_i];
             }
             _super.apply(this, args);
+            /** @internal */
+            this._parent = null;
             this.name = null;
             this.valueAccessor = null;
             /** @internal */
@@ -979,7 +981,7 @@ var __extends = (this && this.__extends) || function (d, b) {
         RadioControlRegistry.prototype._isSameGroup = function (controlPair, accessor) {
             if (!controlPair[0].control)
                 return false;
-            return controlPair[0].control.root === accessor._control.control.root &&
+            return controlPair[0]._parent === accessor._control._parent &&
                 controlPair[1].name === accessor.name;
         };
         return RadioControlRegistry;
@@ -2700,14 +2702,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     var resolvedPromise$1 = Promise.resolve(null);
     var NgModel = (function (_super) {
         __extends(NgModel, _super);
-        function NgModel(_parent, validators, asyncValidators, valueAccessors) {
+        function NgModel(parent, validators, asyncValidators, valueAccessors) {
             _super.call(this);
-            this._parent = _parent;
             /** @internal */
             this._control = new FormControl();
             /** @internal */
             this._registered = false;
             this.update = new EventEmitter();
+            this._parent = parent;
             this._rawValidators = validators || [];
             this._rawAsyncValidators = asyncValidators || [];
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
@@ -3171,11 +3173,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     };
     var FormControlName = (function (_super) {
         __extends(FormControlName, _super);
-        function FormControlName(_parent, validators, asyncValidators, valueAccessors) {
+        function FormControlName(parent, validators, asyncValidators, valueAccessors) {
             _super.call(this);
-            this._parent = _parent;
             this._added = false;
             this.update = new EventEmitter();
+            this._parent = parent;
             this._rawValidators = validators || [];
             this._rawAsyncValidators = asyncValidators || [];
             this.valueAccessor = selectValueAccessor(this, valueAccessors);

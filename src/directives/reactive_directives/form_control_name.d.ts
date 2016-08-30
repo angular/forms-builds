@@ -81,13 +81,12 @@ export declare const controlNameBinding: any;
  *  @stable
  */
 export declare class FormControlName extends NgControl implements OnChanges, OnDestroy {
-    private _parent;
     private _added;
     name: string;
     model: any;
     update: EventEmitter<{}>;
     isDisabled: boolean;
-    constructor(_parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<Validator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
+    constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<Validator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
     viewToModelUpdate(newValue: any): void;
