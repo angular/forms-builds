@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 import { composeAsyncValidators, composeValidators } from './directives/shared';
 import { EventEmitter } from './facade/async';
 import { ListWrapper, StringMapWrapper } from './facade/collection';
@@ -58,7 +58,7 @@ function _find(control, path, delimiter) {
     }, control);
 }
 function toObservable(r) {
-    return isPromise(r) ? PromiseObservable.create(r) : r;
+    return isPromise(r) ? fromPromise(r) : r;
 }
 function coerceToValidator(validator) {
     return Array.isArray(validator) ? composeValidators(validator) : validator;
