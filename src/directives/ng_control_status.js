@@ -5,66 +5,64 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var core_1 = require('@angular/core');
-var lang_1 = require('../facade/lang');
-var control_container_1 = require('./control_container');
-var ng_control_1 = require('./ng_control');
-var AbstractControlStatus = (function () {
+import { Directive, Self } from '@angular/core';
+import { isPresent } from '../facade/lang';
+import { ControlContainer } from './control_container';
+import { NgControl } from './ng_control';
+export var AbstractControlStatus = (function () {
     function AbstractControlStatus(cd) {
         this._cd = cd;
     }
     Object.defineProperty(AbstractControlStatus.prototype, "ngClassUntouched", {
         get: function () {
-            return lang_1.isPresent(this._cd.control) ? this._cd.control.untouched : false;
+            return isPresent(this._cd.control) ? this._cd.control.untouched : false;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
         get: function () {
-            return lang_1.isPresent(this._cd.control) ? this._cd.control.touched : false;
+            return isPresent(this._cd.control) ? this._cd.control.touched : false;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
         get: function () {
-            return lang_1.isPresent(this._cd.control) ? this._cd.control.pristine : false;
+            return isPresent(this._cd.control) ? this._cd.control.pristine : false;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
         get: function () {
-            return lang_1.isPresent(this._cd.control) ? this._cd.control.dirty : false;
+            return isPresent(this._cd.control) ? this._cd.control.dirty : false;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
         get: function () {
-            return lang_1.isPresent(this._cd.control) ? this._cd.control.valid : false;
+            return isPresent(this._cd.control) ? this._cd.control.valid : false;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
         get: function () {
-            return lang_1.isPresent(this._cd.control) ? this._cd.control.invalid : false;
+            return isPresent(this._cd.control) ? this._cd.control.invalid : false;
         },
         enumerable: true,
         configurable: true
     });
     return AbstractControlStatus;
 }());
-exports.AbstractControlStatus = AbstractControlStatus;
-exports.ngControlStatusHost = {
+export var ngControlStatusHost = {
     '[class.ng-untouched]': 'ngClassUntouched',
     '[class.ng-touched]': 'ngClassTouched',
     '[class.ng-pristine]': 'ngClassPristine',
@@ -72,39 +70,47 @@ exports.ngControlStatusHost = {
     '[class.ng-valid]': 'ngClassValid',
     '[class.ng-invalid]': 'ngClassInvalid'
 };
-var NgControlStatus = (function (_super) {
+/**
+ * Directive automatically applied to Angular form controls that sets CSS classes
+ * based on control status (valid/invalid/dirty/etc).
+ *
+ * @stable
+ */
+export var NgControlStatus = (function (_super) {
     __extends(NgControlStatus, _super);
     function NgControlStatus(cd) {
         _super.call(this, cd);
     }
-    /** @nocollapse */
     NgControlStatus.decorators = [
-        { type: core_1.Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: exports.ngControlStatusHost },] },
+        { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] },
     ];
     /** @nocollapse */
     NgControlStatus.ctorParameters = [
-        { type: ng_control_1.NgControl, decorators: [{ type: core_1.Self },] },
+        { type: NgControl, decorators: [{ type: Self },] },
     ];
     return NgControlStatus;
 }(AbstractControlStatus));
-exports.NgControlStatus = NgControlStatus;
-var NgControlStatusGroup = (function (_super) {
+/**
+ * Directive automatically applied to Angular form groups that sets CSS classes
+ * based on control status (valid/invalid/dirty/etc).
+ *
+ * @stable
+ */
+export var NgControlStatusGroup = (function (_super) {
     __extends(NgControlStatusGroup, _super);
     function NgControlStatusGroup(cd) {
         _super.call(this, cd);
     }
-    /** @nocollapse */
     NgControlStatusGroup.decorators = [
-        { type: core_1.Directive, args: [{
+        { type: Directive, args: [{
                     selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-                    host: exports.ngControlStatusHost
+                    host: ngControlStatusHost
                 },] },
     ];
     /** @nocollapse */
     NgControlStatusGroup.ctorParameters = [
-        { type: control_container_1.ControlContainer, decorators: [{ type: core_1.Self },] },
+        { type: ControlContainer, decorators: [{ type: Self },] },
     ];
     return NgControlStatusGroup;
 }(AbstractControlStatus));
-exports.NgControlStatusGroup = NgControlStatusGroup;
 //# sourceMappingURL=ng_control_status.js.map

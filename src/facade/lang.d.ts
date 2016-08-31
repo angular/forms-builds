@@ -1,3 +1,11 @@
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 export interface BrowserNodeGlobal {
     Object: typeof Object;
     Array: typeof Array;
@@ -29,7 +37,7 @@ export declare function isPresent(obj: any): boolean;
 export declare function isBlank(obj: any): boolean;
 export declare function isBoolean(obj: any): boolean;
 export declare function isNumber(obj: any): boolean;
-export declare function isString(obj: any): obj is String;
+export declare function isString(obj: any): obj is string;
 export declare function isFunction(obj: any): boolean;
 export declare function isType(obj: any): boolean;
 export declare function isStringMap(obj: any): obj is Object;

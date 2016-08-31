@@ -5,37 +5,44 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-"use strict";
-var core_1 = require('@angular/core');
-var directives_1 = require('./directives');
-var radio_control_value_accessor_1 = require('./directives/radio_control_value_accessor');
-var form_builder_1 = require('./form_builder');
-var FormsModule = (function () {
+import { NgModule } from '@angular/core';
+import { InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES, TEMPLATE_DRIVEN_DIRECTIVES } from './directives';
+import { RadioControlRegistry } from './directives/radio_control_value_accessor';
+import { FormBuilder } from './form_builder';
+/**
+ * The ng module for forms.
+ * @stable
+ */
+export var FormsModule = (function () {
     function FormsModule() {
     }
-    /** @nocollapse */
     FormsModule.decorators = [
-        { type: core_1.NgModule, args: [{
-                    declarations: directives_1.TEMPLATE_DRIVEN_DIRECTIVES,
-                    providers: [radio_control_value_accessor_1.RadioControlRegistry],
-                    exports: [directives_1.InternalFormsSharedModule, directives_1.TEMPLATE_DRIVEN_DIRECTIVES]
+        { type: NgModule, args: [{
+                    declarations: TEMPLATE_DRIVEN_DIRECTIVES,
+                    providers: [RadioControlRegistry],
+                    exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
                 },] },
     ];
+    /** @nocollapse */
+    FormsModule.ctorParameters = [];
     return FormsModule;
 }());
-exports.FormsModule = FormsModule;
-var ReactiveFormsModule = (function () {
+/**
+ * The ng module for reactive forms.
+ * @stable
+ */
+export var ReactiveFormsModule = (function () {
     function ReactiveFormsModule() {
     }
-    /** @nocollapse */
     ReactiveFormsModule.decorators = [
-        { type: core_1.NgModule, args: [{
-                    declarations: [directives_1.REACTIVE_DRIVEN_DIRECTIVES],
-                    providers: [form_builder_1.FormBuilder, radio_control_value_accessor_1.RadioControlRegistry],
-                    exports: [directives_1.InternalFormsSharedModule, directives_1.REACTIVE_DRIVEN_DIRECTIVES]
+        { type: NgModule, args: [{
+                    declarations: [REACTIVE_DRIVEN_DIRECTIVES],
+                    providers: [FormBuilder, RadioControlRegistry],
+                    exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
                 },] },
     ];
+    /** @nocollapse */
+    ReactiveFormsModule.ctorParameters = [];
     return ReactiveFormsModule;
 }());
-exports.ReactiveFormsModule = ReactiveFormsModule;
 //# sourceMappingURL=form_providers.js.map

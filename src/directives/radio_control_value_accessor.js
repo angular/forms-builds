@@ -5,18 +5,20 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-"use strict";
-var core_1 = require('@angular/core');
-var collection_1 = require('../facade/collection');
-var lang_1 = require('../facade/lang');
-var control_value_accessor_1 = require('./control_value_accessor');
-var ng_control_1 = require('./ng_control');
-exports.RADIO_VALUE_ACCESSOR = {
-    provide: control_value_accessor_1.NG_VALUE_ACCESSOR,
-    useExisting: core_1.forwardRef(function () { return RadioControlValueAccessor; }),
+import { Directive, ElementRef, Injectable, Injector, Input, Renderer, forwardRef } from '@angular/core';
+import { ListWrapper } from '../facade/collection';
+import { isPresent } from '../facade/lang';
+import { NG_VALUE_ACCESSOR } from './control_value_accessor';
+import { NgControl } from './ng_control';
+export var RADIO_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return RadioControlValueAccessor; }),
     multi: true
 };
-var RadioControlRegistry = (function () {
+/**
+ * Internal class used by Angular to uncheck radio buttons with the matching name.
+ */
+export var RadioControlRegistry = (function () {
     function RadioControlRegistry() {
         this._accessors = [];
     }
@@ -30,7 +32,7 @@ var RadioControlRegistry = (function () {
                 indexToRemove = i;
             }
         }
-        collection_1.ListWrapper.removeAt(this._accessors, indexToRemove);
+        ListWrapper.removeAt(this._accessors, indexToRemove);
     };
     RadioControlRegistry.prototype.select = function (accessor) {
         var _this = this;
@@ -46,14 +48,31 @@ var RadioControlRegistry = (function () {
         return controlPair[0]._parent === accessor._control._parent &&
             controlPair[1].name === accessor.name;
     };
-    /** @nocollapse */
     RadioControlRegistry.decorators = [
-        { type: core_1.Injectable },
+        { type: Injectable },
     ];
+    /** @nocollapse */
+    RadioControlRegistry.ctorParameters = [];
     return RadioControlRegistry;
 }());
-exports.RadioControlRegistry = RadioControlRegistry;
-var RadioControlValueAccessor = (function () {
+/**
+ * The accessor for writing a radio control value and listening to changes that is used by the
+ * {@link NgModel}, {@link FormControlDirective}, and {@link FormControlName} directives.
+ *
+ *  ### Example
+ *  ```
+ *  @Component({
+ *    template: `
+ *      <input type="radio" name="food" [(ngModel)]="food" value="chicken">
+ *      <input type="radio" name="food" [(ngModel)]="food" value="fish">
+ *    `
+ *  })
+ *  class FoodCmp {
+ *    food = 'chicken';
+ *  }
+ *  ```
+ */
+export var RadioControlValueAccessor = (function () {
     function RadioControlValueAccessor(_renderer, _elementRef, _registry, _injector) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
@@ -63,14 +82,14 @@ var RadioControlValueAccessor = (function () {
         this.onTouched = function () { };
     }
     RadioControlValueAccessor.prototype.ngOnInit = function () {
-        this._control = this._injector.get(ng_control_1.NgControl);
+        this._control = this._injector.get(NgControl);
         this._checkName();
         this._registry.add(this._control, this);
     };
     RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
     RadioControlValueAccessor.prototype.writeValue = function (value) {
         this._state = value === this.value;
-        if (lang_1.isPresent(value)) {
+        if (isPresent(value)) {
             this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
         }
     };
@@ -97,28 +116,25 @@ var RadioControlValueAccessor = (function () {
     RadioControlValueAccessor.prototype._throwNameError = function () {
         throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
     };
-    /** @nocollapse */
     RadioControlValueAccessor.decorators = [
-        { type: core_1.Directive, args: [{
+        { type: Directive, args: [{
                     selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
                     host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
-                    providers: [exports.RADIO_VALUE_ACCESSOR]
+                    providers: [RADIO_VALUE_ACCESSOR]
                 },] },
     ];
     /** @nocollapse */
     RadioControlValueAccessor.ctorParameters = [
-        { type: core_1.Renderer, },
-        { type: core_1.ElementRef, },
+        { type: Renderer, },
+        { type: ElementRef, },
         { type: RadioControlRegistry, },
-        { type: core_1.Injector, },
+        { type: Injector, },
     ];
-    /** @nocollapse */
     RadioControlValueAccessor.propDecorators = {
-        'name': [{ type: core_1.Input },],
-        'formControlName': [{ type: core_1.Input },],
-        'value': [{ type: core_1.Input },],
+        'name': [{ type: Input },],
+        'formControlName': [{ type: Input },],
+        'value': [{ type: Input },],
     };
     return RadioControlValueAccessor;
 }());
-exports.RadioControlValueAccessor = RadioControlValueAccessor;
 //# sourceMappingURL=radio_control_value_accessor.js.map
