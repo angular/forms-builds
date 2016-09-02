@@ -73,6 +73,8 @@ export var AbstractControl = (function () {
     function AbstractControl(validator, asyncValidator) {
         this.validator = validator;
         this.asyncValidator = asyncValidator;
+        /** @internal */
+        this._onCollectionChange = function () { };
         this._pristine = true;
         this._touched = false;
     }
@@ -391,6 +393,8 @@ export var AbstractControl = (function () {
         return isStringMap(formState) && Object.keys(formState).length === 2 && 'value' in formState &&
             'disabled' in formState;
     };
+    /** @internal */
+    AbstractControl.prototype._registerOnCollectionChange = function (fn) { this._onCollectionChange = fn; };
     return AbstractControl;
 }());
 /**
@@ -488,6 +492,7 @@ export var FormControl = (function (_super) {
     FormControl.prototype._clearChangeFns = function () {
         this._onChange = [];
         this._onDisabledChange = null;
+        this._onCollectionChange = function () { };
     };
     /**
      * Register a listener for disabled events.
@@ -532,7 +537,7 @@ export var FormGroup = (function (_super) {
         _super.call(this, validator, asyncValidator);
         this.controls = controls;
         this._initObservables();
-        this._setParentForControls();
+        this._setUpControls();
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     }
     /**
@@ -543,6 +548,7 @@ export var FormGroup = (function (_super) {
             return this.controls[name];
         this.controls[name] = control;
         control.setParent(this);
+        control._registerOnCollectionChange(this._onCollectionChange);
         return control;
     };
     /**
@@ -551,13 +557,29 @@ export var FormGroup = (function (_super) {
     FormGroup.prototype.addControl = function (name, control) {
         this.registerControl(name, control);
         this.updateValueAndValidity();
+        this._onCollectionChange();
     };
     /**
      * Remove a control from this group.
      */
     FormGroup.prototype.removeControl = function (name) {
+        if (this.controls[name])
+            this.controls[name]._registerOnCollectionChange(function () { });
         StringMapWrapper.delete(this.controls, name);
         this.updateValueAndValidity();
+        this._onCollectionChange();
+    };
+    /**
+     * Replace an existing control.
+     */
+    FormGroup.prototype.setControl = function (name, control) {
+        if (this.controls[name])
+            this.controls[name]._registerOnCollectionChange(function () { });
+        StringMapWrapper.delete(this.controls, name);
+        if (control)
+            this.registerControl(name, control);
+        this.updateValueAndValidity();
+        this._onCollectionChange();
     };
     /**
      * Check whether there is a control with the given name in the group.
@@ -616,9 +638,12 @@ export var FormGroup = (function (_super) {
         StringMapWrapper.forEach(this.controls, cb);
     };
     /** @internal */
-    FormGroup.prototype._setParentForControls = function () {
+    FormGroup.prototype._setUpControls = function () {
         var _this = this;
-        this._forEachChild(function (control, name) { control.setParent(_this); });
+        this._forEachChild(function (control) {
+            control.setParent(_this);
+            control._registerOnCollectionChange(_this._onCollectionChange);
+        });
     };
     /** @internal */
     FormGroup.prototype._updateValue = function () { this._value = this._reduceValue(); };
@@ -698,7 +723,7 @@ export var FormArray = (function (_super) {
         _super.call(this, validator, asyncValidator);
         this.controls = controls;
         this._initObservables();
-        this._setParentForControls();
+        this._setUpControls();
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     }
     /**
@@ -710,23 +735,42 @@ export var FormArray = (function (_super) {
      */
     FormArray.prototype.push = function (control) {
         this.controls.push(control);
-        control.setParent(this);
+        this._registerControl(control);
         this.updateValueAndValidity();
+        this._onCollectionChange();
     };
     /**
      * Insert a new {@link AbstractControl} at the given `index` in the array.
      */
     FormArray.prototype.insert = function (index, control) {
         ListWrapper.insert(this.controls, index, control);
-        control.setParent(this);
+        this._registerControl(control);
         this.updateValueAndValidity();
+        this._onCollectionChange();
     };
     /**
      * Remove the control at the given `index` in the array.
      */
     FormArray.prototype.removeAt = function (index) {
+        if (this.controls[index])
+            this.controls[index]._registerOnCollectionChange(function () { });
         ListWrapper.removeAt(this.controls, index);
         this.updateValueAndValidity();
+        this._onCollectionChange();
+    };
+    /**
+     * Replace an existing control.
+     */
+    FormArray.prototype.setControl = function (index, control) {
+        if (this.controls[index])
+            this.controls[index]._registerOnCollectionChange(function () { });
+        ListWrapper.removeAt(this.controls, index);
+        if (control) {
+            ListWrapper.insert(this.controls, index, control);
+            this._registerControl(control);
+        }
+        this.updateValueAndValidity();
+        this._onCollectionChange();
     };
     Object.defineProperty(FormArray.prototype, "length", {
         /**
@@ -791,9 +835,9 @@ export var FormArray = (function (_super) {
         return this.controls.some(function (control) { return control.enabled && condition(control); });
     };
     /** @internal */
-    FormArray.prototype._setParentForControls = function () {
+    FormArray.prototype._setUpControls = function () {
         var _this = this;
-        this._forEachChild(function (control) { control.setParent(_this); });
+        this._forEachChild(function (control) { return _this._registerControl(control); });
     };
     /** @internal */
     FormArray.prototype._checkAllValuesPresent = function (value) {
@@ -811,6 +855,10 @@ export var FormArray = (function (_super) {
                 return false;
         }
         return !!this.controls.length;
+    };
+    FormArray.prototype._registerControl = function (control) {
+        control.setParent(this);
+        control._registerOnCollectionChange(this._onCollectionChange);
     };
     return FormArray;
 }(AbstractControl));

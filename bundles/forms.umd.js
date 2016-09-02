@@ -1940,6 +1940,8 @@
         function AbstractControl(validator, asyncValidator) {
             this.validator = validator;
             this.asyncValidator = asyncValidator;
+            /** @internal */
+            this._onCollectionChange = function () { };
             this._pristine = true;
             this._touched = false;
         }
@@ -2258,6 +2260,8 @@
             return isStringMap(formState) && Object.keys(formState).length === 2 && 'value' in formState &&
                 'disabled' in formState;
         };
+        /** @internal */
+        AbstractControl.prototype._registerOnCollectionChange = function (fn) { this._onCollectionChange = fn; };
         return AbstractControl;
     }());
     /**
@@ -2355,6 +2359,7 @@
         FormControl.prototype._clearChangeFns = function () {
             this._onChange = [];
             this._onDisabledChange = null;
+            this._onCollectionChange = function () { };
         };
         /**
          * Register a listener for disabled events.
@@ -2399,7 +2404,7 @@
             _super.call(this, validator, asyncValidator);
             this.controls = controls;
             this._initObservables();
-            this._setParentForControls();
+            this._setUpControls();
             this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         }
         /**
@@ -2410,6 +2415,7 @@
                 return this.controls[name];
             this.controls[name] = control;
             control.setParent(this);
+            control._registerOnCollectionChange(this._onCollectionChange);
             return control;
         };
         /**
@@ -2418,13 +2424,29 @@
         FormGroup.prototype.addControl = function (name, control) {
             this.registerControl(name, control);
             this.updateValueAndValidity();
+            this._onCollectionChange();
         };
         /**
          * Remove a control from this group.
          */
         FormGroup.prototype.removeControl = function (name) {
+            if (this.controls[name])
+                this.controls[name]._registerOnCollectionChange(function () { });
             StringMapWrapper.delete(this.controls, name);
             this.updateValueAndValidity();
+            this._onCollectionChange();
+        };
+        /**
+         * Replace an existing control.
+         */
+        FormGroup.prototype.setControl = function (name, control) {
+            if (this.controls[name])
+                this.controls[name]._registerOnCollectionChange(function () { });
+            StringMapWrapper.delete(this.controls, name);
+            if (control)
+                this.registerControl(name, control);
+            this.updateValueAndValidity();
+            this._onCollectionChange();
         };
         /**
          * Check whether there is a control with the given name in the group.
@@ -2483,9 +2505,12 @@
             StringMapWrapper.forEach(this.controls, cb);
         };
         /** @internal */
-        FormGroup.prototype._setParentForControls = function () {
+        FormGroup.prototype._setUpControls = function () {
             var _this = this;
-            this._forEachChild(function (control, name) { control.setParent(_this); });
+            this._forEachChild(function (control) {
+                control.setParent(_this);
+                control._registerOnCollectionChange(_this._onCollectionChange);
+            });
         };
         /** @internal */
         FormGroup.prototype._updateValue = function () { this._value = this._reduceValue(); };
@@ -2565,7 +2590,7 @@
             _super.call(this, validator, asyncValidator);
             this.controls = controls;
             this._initObservables();
-            this._setParentForControls();
+            this._setUpControls();
             this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         }
         /**
@@ -2577,23 +2602,42 @@
          */
         FormArray.prototype.push = function (control) {
             this.controls.push(control);
-            control.setParent(this);
+            this._registerControl(control);
             this.updateValueAndValidity();
+            this._onCollectionChange();
         };
         /**
          * Insert a new {@link AbstractControl} at the given `index` in the array.
          */
         FormArray.prototype.insert = function (index, control) {
             ListWrapper.insert(this.controls, index, control);
-            control.setParent(this);
+            this._registerControl(control);
             this.updateValueAndValidity();
+            this._onCollectionChange();
         };
         /**
          * Remove the control at the given `index` in the array.
          */
         FormArray.prototype.removeAt = function (index) {
+            if (this.controls[index])
+                this.controls[index]._registerOnCollectionChange(function () { });
             ListWrapper.removeAt(this.controls, index);
             this.updateValueAndValidity();
+            this._onCollectionChange();
+        };
+        /**
+         * Replace an existing control.
+         */
+        FormArray.prototype.setControl = function (index, control) {
+            if (this.controls[index])
+                this.controls[index]._registerOnCollectionChange(function () { });
+            ListWrapper.removeAt(this.controls, index);
+            if (control) {
+                ListWrapper.insert(this.controls, index, control);
+                this._registerControl(control);
+            }
+            this.updateValueAndValidity();
+            this._onCollectionChange();
         };
         Object.defineProperty(FormArray.prototype, "length", {
             /**
@@ -2658,9 +2702,9 @@
             return this.controls.some(function (control) { return control.enabled && condition(control); });
         };
         /** @internal */
-        FormArray.prototype._setParentForControls = function () {
+        FormArray.prototype._setUpControls = function () {
             var _this = this;
-            this._forEachChild(function (control) { control.setParent(_this); });
+            this._forEachChild(function (control) { return _this._registerControl(control); });
         };
         /** @internal */
         FormArray.prototype._checkAllValuesPresent = function (value) {
@@ -2678,6 +2722,10 @@
                     return false;
             }
             return !!this.controls.length;
+        };
+        FormArray.prototype._registerControl = function (control) {
+            control.setParent(this);
+            control._registerOnCollectionChange(this._onCollectionChange);
         };
         return FormArray;
     }(AbstractControl));
@@ -3423,11 +3471,9 @@
         FormGroupDirective.prototype.ngOnChanges = function (changes) {
             this._checkFormPresent();
             if (StringMapWrapper.contains(changes, 'form')) {
-                var sync = composeValidators(this._validators);
-                this.form.validator = Validators.compose([this.form.validator, sync]);
-                var async = composeAsyncValidators(this._asyncValidators);
-                this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
-                this._updateDomValue(changes);
+                this._updateValidators();
+                this._updateDomValue();
+                this._updateRegistrations();
             }
         };
         Object.defineProperty(FormGroupDirective.prototype, "submitted", {
@@ -3455,6 +3501,7 @@
             setUpControl(ctrl, dir);
             ctrl.updateValueAndValidity({ emitEvent: false });
             this.directives.push(dir);
+            return ctrl;
         };
         FormGroupDirective.prototype.getControl = function (dir) { return this.form.get(dir.path); };
         FormGroupDirective.prototype.removeControl = function (dir) { ListWrapper.remove(this.directives, dir); };
@@ -3488,19 +3535,31 @@
             this._submitted = false;
         };
         /** @internal */
-        FormGroupDirective.prototype._updateDomValue = function (changes) {
+        FormGroupDirective.prototype._updateDomValue = function () {
             var _this = this;
-            var oldForm = changes['form'].previousValue;
             this.directives.forEach(function (dir) {
                 var newCtrl = _this.form.get(dir.path);
-                var oldCtrl = oldForm.get(dir.path);
-                if (oldCtrl !== newCtrl) {
-                    cleanUpControl(oldCtrl, dir);
+                if (dir._control !== newCtrl) {
+                    cleanUpControl(dir._control, dir);
                     if (newCtrl)
                         setUpControl(newCtrl, dir);
+                    dir._control = newCtrl;
                 }
             });
             this.form._updateTreeValidity({ emitEvent: false });
+        };
+        FormGroupDirective.prototype._updateRegistrations = function () {
+            var _this = this;
+            this.form._registerOnCollectionChange(function () { return _this._updateDomValue(); });
+            if (this._oldForm)
+                this._oldForm._registerOnCollectionChange(function () { });
+            this._oldForm = this.form;
+        };
+        FormGroupDirective.prototype._updateValidators = function () {
+            var sync = composeValidators(this._validators);
+            this.form.validator = Validators.compose([this.form.validator, sync]);
+            var async = composeAsyncValidators(this._asyncValidators);
+            this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
         };
         FormGroupDirective.prototype._checkFormPresent = function () {
             if (isBlank(this.form)) {
@@ -3826,13 +3885,8 @@
             configurable: true
         });
         FormControlName.prototype.ngOnChanges = function (changes) {
-            if (!this._added) {
-                this._checkParentType();
-                this.formDirective.addControl(this);
-                if (this.control.disabled)
-                    this.valueAccessor.setDisabledState(true);
-                this._added = true;
-            }
+            if (!this._added)
+                this._setUpControl();
             if (isPropertyUpdated(changes, this.viewModel)) {
                 this.viewModel = this.model;
                 this.formDirective.updateModel(this, this.model);
@@ -3870,7 +3924,7 @@
             configurable: true
         });
         Object.defineProperty(FormControlName.prototype, "control", {
-            get: function () { return this.formDirective.getControl(this); },
+            get: function () { return this._control; },
             enumerable: true,
             configurable: true
         });
@@ -3883,6 +3937,13 @@
                 !(this._parent instanceof FormArrayName)) {
                 ReactiveErrors.controlParentException();
             }
+        };
+        FormControlName.prototype._setUpControl = function () {
+            this._checkParentType();
+            this._control = this.formDirective.addControl(this);
+            if (this.control.disabled)
+                this.valueAccessor.setDisabledState(true);
+            this._added = true;
         };
         FormControlName.decorators = [
             { type: _angular_core.Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] },

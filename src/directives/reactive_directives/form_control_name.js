@@ -109,13 +109,8 @@ export var FormControlName = (function (_super) {
         configurable: true
     });
     FormControlName.prototype.ngOnChanges = function (changes) {
-        if (!this._added) {
-            this._checkParentType();
-            this.formDirective.addControl(this);
-            if (this.control.disabled)
-                this.valueAccessor.setDisabledState(true);
-            this._added = true;
-        }
+        if (!this._added)
+            this._setUpControl();
         if (isPropertyUpdated(changes, this.viewModel)) {
             this.viewModel = this.model;
             this.formDirective.updateModel(this, this.model);
@@ -153,7 +148,7 @@ export var FormControlName = (function (_super) {
         configurable: true
     });
     Object.defineProperty(FormControlName.prototype, "control", {
-        get: function () { return this.formDirective.getControl(this); },
+        get: function () { return this._control; },
         enumerable: true,
         configurable: true
     });
@@ -166,6 +161,13 @@ export var FormControlName = (function (_super) {
             !(this._parent instanceof FormArrayName)) {
             ReactiveErrors.controlParentException();
         }
+    };
+    FormControlName.prototype._setUpControl = function () {
+        this._checkParentType();
+        this._control = this.formDirective.addControl(this);
+        if (this.control.disabled)
+            this.valueAccessor.setDisabledState(true);
+        this._added = true;
     };
     FormControlName.decorators = [
         { type: Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] },

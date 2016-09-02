@@ -226,6 +226,10 @@ export declare class FormGroup extends AbstractControl {
      */
     removeControl(name: string): void;
     /**
+     * Replace an existing control.
+     */
+    setControl(name: string, control: AbstractControl): void;
+    /**
      * Check whether there is a control with the given name in the group.
      */
     contains(controlName: string): boolean;
@@ -287,6 +291,10 @@ export declare class FormArray extends AbstractControl {
      */
     removeAt(index: number): void;
     /**
+     * Replace an existing control.
+     */
+    setControl(index: number, control: AbstractControl): void;
+    /**
      * Length of the control array.
      */
     length: number;
@@ -300,4 +308,5 @@ export declare class FormArray extends AbstractControl {
         onlySelf?: boolean;
     }): void;
     getRawValue(): any[];
+    private _registerControl(control);
 }

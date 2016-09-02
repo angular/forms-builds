@@ -10,7 +10,7 @@ import { EventEmitter } from '../../facade/async';
 import { FormArray, FormControl, FormGroup } from '../../model';
 import { ControlContainer } from '../control_container';
 import { Form } from '../form_interface';
-import { NgControl } from '../ng_control';
+import { FormControlName } from './form_control_name';
 import { FormArrayName, FormGroupName } from './form_group_name';
 export declare const formDirectiveProvider: any;
 /**
@@ -87,7 +87,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     private _validators;
     private _asyncValidators;
     private _submitted;
-    directives: NgControl[];
+    private _oldForm;
+    directives: FormControlName[];
     form: FormGroup;
     ngSubmit: EventEmitter<{}>;
     constructor(_validators: any[], _asyncValidators: any[]);
@@ -96,18 +97,20 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     formDirective: Form;
     control: FormGroup;
     path: string[];
-    addControl(dir: NgControl): void;
-    getControl(dir: NgControl): FormControl;
-    removeControl(dir: NgControl): void;
+    addControl(dir: FormControlName): FormControl;
+    getControl(dir: FormControlName): FormControl;
+    removeControl(dir: FormControlName): void;
     addFormGroup(dir: FormGroupName): void;
     removeFormGroup(dir: FormGroupName): void;
     getFormGroup(dir: FormGroupName): FormGroup;
     addFormArray(dir: FormArrayName): void;
     removeFormArray(dir: FormArrayName): void;
     getFormArray(dir: FormArrayName): FormArray;
-    updateModel(dir: NgControl, value: any): void;
+    updateModel(dir: FormControlName, value: any): void;
     onSubmit(): boolean;
     onReset(): void;
     resetForm(value?: any): void;
+    private _updateRegistrations();
+    private _updateValidators();
     private _checkFormPresent();
 }

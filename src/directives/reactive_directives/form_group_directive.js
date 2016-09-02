@@ -106,11 +106,9 @@ export var FormGroupDirective = (function (_super) {
     FormGroupDirective.prototype.ngOnChanges = function (changes) {
         this._checkFormPresent();
         if (StringMapWrapper.contains(changes, 'form')) {
-            var sync = composeValidators(this._validators);
-            this.form.validator = Validators.compose([this.form.validator, sync]);
-            var async = composeAsyncValidators(this._asyncValidators);
-            this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
-            this._updateDomValue(changes);
+            this._updateValidators();
+            this._updateDomValue();
+            this._updateRegistrations();
         }
     };
     Object.defineProperty(FormGroupDirective.prototype, "submitted", {
@@ -138,6 +136,7 @@ export var FormGroupDirective = (function (_super) {
         setUpControl(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
         this.directives.push(dir);
+        return ctrl;
     };
     FormGroupDirective.prototype.getControl = function (dir) { return this.form.get(dir.path); };
     FormGroupDirective.prototype.removeControl = function (dir) { ListWrapper.remove(this.directives, dir); };
@@ -171,19 +170,31 @@ export var FormGroupDirective = (function (_super) {
         this._submitted = false;
     };
     /** @internal */
-    FormGroupDirective.prototype._updateDomValue = function (changes) {
+    FormGroupDirective.prototype._updateDomValue = function () {
         var _this = this;
-        var oldForm = changes['form'].previousValue;
         this.directives.forEach(function (dir) {
             var newCtrl = _this.form.get(dir.path);
-            var oldCtrl = oldForm.get(dir.path);
-            if (oldCtrl !== newCtrl) {
-                cleanUpControl(oldCtrl, dir);
+            if (dir._control !== newCtrl) {
+                cleanUpControl(dir._control, dir);
                 if (newCtrl)
                     setUpControl(newCtrl, dir);
+                dir._control = newCtrl;
             }
         });
         this.form._updateTreeValidity({ emitEvent: false });
+    };
+    FormGroupDirective.prototype._updateRegistrations = function () {
+        var _this = this;
+        this.form._registerOnCollectionChange(function () { return _this._updateDomValue(); });
+        if (this._oldForm)
+            this._oldForm._registerOnCollectionChange(function () { });
+        this._oldForm = this.form;
+    };
+    FormGroupDirective.prototype._updateValidators = function () {
+        var sync = composeValidators(this._validators);
+        this.form.validator = Validators.compose([this.form.validator, sync]);
+        var async = composeAsyncValidators(this._asyncValidators);
+        this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
     };
     FormGroupDirective.prototype._checkFormPresent = function () {
         if (isBlank(this.form)) {
