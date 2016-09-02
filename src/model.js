@@ -346,14 +346,14 @@ export var AbstractControl = (function () {
         this._statusChanges = new EventEmitter();
     };
     AbstractControl.prototype._calculateStatus = function () {
+        if (this._allControlsDisabled())
+            return DISABLED;
         if (isPresent(this._errors))
             return INVALID;
         if (this._anyControlsHaveStatus(PENDING))
             return PENDING;
         if (this._anyControlsHaveStatus(INVALID))
             return INVALID;
-        if (this._allControlsDisabled())
-            return DISABLED;
         return VALID;
     };
     /** @internal */
