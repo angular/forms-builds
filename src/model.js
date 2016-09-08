@@ -680,7 +680,7 @@ export var FormGroup = (function (_super) {
                 return false;
             }
         }
-        return !StringMapWrapper.isEmpty(this.controls);
+        return Object.keys(this.controls).length > 0 || this.disabled;
     };
     /** @internal */
     FormGroup.prototype._checkAllValuesPresent = function (value) {
@@ -854,7 +854,7 @@ export var FormArray = (function (_super) {
             if (control.enabled)
                 return false;
         }
-        return !!this.controls.length;
+        return this.controls.length > 0 || this.disabled;
     };
     FormArray.prototype._registerControl = function (control) {
         control.setParent(this);
