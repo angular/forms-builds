@@ -1490,19 +1490,19 @@
         }
         // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
         dir._rawValidators.forEach(function (validator) {
-            if (validator.registerOnChange)
-                validator.registerOnChange(function () { return control.updateValueAndValidity(); });
+            if (validator.registerOnValidatorChange)
+                validator.registerOnValidatorChange(function () { return control.updateValueAndValidity(); });
         });
         dir._rawAsyncValidators.forEach(function (validator) {
-            if (validator.registerOnChange)
-                validator.registerOnChange(function () { return control.updateValueAndValidity(); });
+            if (validator.registerOnValidatorChange)
+                validator.registerOnValidatorChange(function () { return control.updateValueAndValidity(); });
         });
     }
     function cleanUpControl(control, dir) {
         dir.valueAccessor.registerOnChange(function () { return _noControlError(dir); });
         dir.valueAccessor.registerOnTouched(function () { return _noControlError(dir); });
-        dir._rawValidators.forEach(function (validator) { return validator.registerOnChange(null); });
-        dir._rawAsyncValidators.forEach(function (validator) { return validator.registerOnChange(null); });
+        dir._rawValidators.forEach(function (validator) { return validator.registerOnValidatorChange(null); });
+        dir._rawAsyncValidators.forEach(function (validator) { return validator.registerOnValidatorChange(null); });
         if (control)
             control._clearChangeFns();
     }
@@ -3991,7 +3991,7 @@
         RequiredValidator.prototype.validate = function (c) {
             return this.required ? Validators.required(c) : null;
         };
-        RequiredValidator.prototype.registerOnChange = function (fn) { this._onChange = fn; };
+        RequiredValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         RequiredValidator.decorators = [
             { type: _angular_core.Directive, args: [{
                         selector: '[required][formControlName],[required][formControl],[required][ngModel]',
@@ -4040,7 +4040,7 @@
         MinLengthValidator.prototype.validate = function (c) {
             return isPresent(this.minlength) ? this._validator(c) : null;
         };
-        MinLengthValidator.prototype.registerOnChange = function (fn) { this._onChange = fn; };
+        MinLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         MinLengthValidator.decorators = [
             { type: _angular_core.Directive, args: [{
                         selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
@@ -4090,7 +4090,7 @@
         MaxLengthValidator.prototype.validate = function (c) {
             return isPresent(this.maxlength) ? this._validator(c) : null;
         };
-        MaxLengthValidator.prototype.registerOnChange = function (fn) { this._onChange = fn; };
+        MaxLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         MaxLengthValidator.decorators = [
             { type: _angular_core.Directive, args: [{
                         selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
@@ -4137,7 +4137,7 @@
         PatternValidator.prototype.validate = function (c) {
             return isPresent(this.pattern) ? this._validator(c) : null;
         };
-        PatternValidator.prototype.registerOnChange = function (fn) { this._onChange = fn; };
+        PatternValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         PatternValidator.decorators = [
             { type: _angular_core.Directive, args: [{
                         selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
