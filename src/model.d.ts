@@ -89,10 +89,10 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
+    private _setInitialStatus();
     private _runValidator();
     private _runAsyncValidator(emitEvent);
     private _cancelExistingSubscription();
-    private _disabledChanged(originalStatus);
     /**
      * Sets errors on a form control.
      *

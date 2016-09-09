@@ -203,6 +203,7 @@ export var AbstractControl = (function () {
         var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
         emitEvent = isPresent(emitEvent) ? emitEvent : true;
         this._status = DISABLED;
+        this._errors = null;
         this._forEachChild(function (control) { control.disable({ onlySelf: true }); });
         this._updateValue();
         if (emitEvent) {
@@ -232,15 +233,14 @@ export var AbstractControl = (function () {
         var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
         onlySelf = normalizeBool(onlySelf);
         emitEvent = isPresent(emitEvent) ? emitEvent : true;
+        this._setInitialStatus();
         this._updateValue();
-        this._errors = this._runValidator();
-        var originalStatus = this._status;
-        this._status = this._calculateStatus();
-        if (this._status == VALID || this._status == PENDING) {
-            this._runAsyncValidator(emitEvent);
-        }
-        if (this._disabledChanged(originalStatus)) {
-            this._updateValue();
+        if (this.enabled) {
+            this._errors = this._runValidator();
+            this._status = this._calculateStatus();
+            if (this._status === VALID || this._status === PENDING) {
+                this._runAsyncValidator(emitEvent);
+            }
         }
         if (emitEvent) {
             this._valueChanges.emit(this._value);
@@ -256,6 +256,7 @@ export var AbstractControl = (function () {
         this._forEachChild(function (ctrl) { return ctrl._updateTreeValidity({ emitEvent: emitEvent }); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
     };
+    AbstractControl.prototype._setInitialStatus = function () { this._status = this._allControlsDisabled() ? DISABLED : VALID; };
     AbstractControl.prototype._runValidator = function () {
         return isPresent(this.validator) ? this.validator(this) : null;
     };
@@ -272,10 +273,6 @@ export var AbstractControl = (function () {
         if (isPresent(this._asyncValidationSubscription)) {
             this._asyncValidationSubscription.unsubscribe();
         }
-    };
-    AbstractControl.prototype._disabledChanged = function (originalStatus) {
-        return this._status !== originalStatus &&
-            (this._status === DISABLED || originalStatus === DISABLED);
     };
     /**
      * Sets errors on a form control.
