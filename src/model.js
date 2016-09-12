@@ -582,8 +582,7 @@ export var FormGroup = (function (_super) {
      * Check whether there is a control with the given name in the group.
      */
     FormGroup.prototype.contains = function (controlName) {
-        var c = StringMapWrapper.contains(this.controls, controlName);
-        return c && this.get(controlName).enabled;
+        return this.controls.hasOwnProperty(controlName) && this.controls[controlName].enabled;
     };
     FormGroup.prototype.setValue = function (value, _a) {
         var _this = this;

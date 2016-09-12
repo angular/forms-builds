@@ -1078,9 +1078,7 @@
         RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
         RadioControlValueAccessor.prototype.writeValue = function (value) {
             this._state = value === this.value;
-            if (isPresent(value)) {
-                this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
-            }
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
         };
         RadioControlValueAccessor.prototype.registerOnChange = function (fn) {
             var _this = this;
@@ -2446,8 +2444,7 @@
          * Check whether there is a control with the given name in the group.
          */
         FormGroup.prototype.contains = function (controlName) {
-            var c = StringMapWrapper.contains(this.controls, controlName);
-            return c && this.get(controlName).enabled;
+            return this.controls.hasOwnProperty(controlName) && this.controls[controlName].enabled;
         };
         FormGroup.prototype.setValue = function (value, _a) {
             var _this = this;
