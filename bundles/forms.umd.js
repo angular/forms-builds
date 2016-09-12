@@ -3047,24 +3047,55 @@
     };
     var resolvedPromise$1 = Promise.resolve(null);
     /**
-     * Binds a domain model to a form control.
+     * @whatItDoes Creates a {@link FormControl} instance from a domain model and binds it
+     * to a form control element.
      *
-     * ### Usage
+     * The {@link FormControl} instance will track the value, user interaction, and
+     * validation status of the control and keep the view synced with the model. If used
+     * within a parent form, the directive will also register itself with the form as a child
+     * control.
      *
-     * `ngModel` binds an existing domain model to a form control. For a
-     * two-way binding, use `[(ngModel)]` to ensure the model updates in
-     * both directions.
+     * @howToUse
      *
-     *  ```typescript
-     * @Component({
-     *      selector: "search-comp",
-     *      directives: [],
-     *      template: `<input type='text' [(ngModel)]="searchQuery">`
-     *      })
-     * class SearchComp {
-     *  searchQuery: string;
-     * }
-     *  ```
+     * This directive can be used by itself or as part of a larger form. All you need is the
+     * `ngModel` selector to activate it.
+     *
+     * It accepts a domain model as an optional {@link @Input}. If you have a one-way binding
+     * to `ngModel` with `[]` syntax, changing the value of the domain model in the component
+     * class will set the value in the view. If you have a two-way binding with `[()]` syntax
+     * (also known as 'banana-box syntax'), the value in the UI will always be synced back to
+     * the domain model in your class as well.
+     *
+     * If you wish to inspect the properties of the associated {@link FormControl} (like
+     * validity state), you can also export the directive into a local template variable using
+     * `ngModel` as the key (ex: `#myVar="ngModel"`). You can then access the control using the
+     * directive's `control` property, but most properties you'll need (like `valid` and `dirty`)
+     * will fall through to the control anyway, so you can access them directly. You can see a
+     * full list of properties directly available in {@link AbstractControlDirective}.
+     *
+     * The following is an example of a simple standalone control using `ngModel`:
+     *
+     * {@example forms/ts/simpleNgModel/simple_ng_model_example.ts region='Component'}
+     *
+     * When using the `ngModel` within `<form>` tags, you'll also need to supply a `name` attribute
+     * so that the control can be registered with the parent form under that name.
+     *
+     * It's worth noting that in the context of a parent form, you often can skip one-way or
+     * two-way binding because the parent form will sync the value for you. You can access
+     * its properties by exporting it into a local template variable using `ngForm` (ex:
+     * `#f="ngForm"`). Then you can pass it where it needs to go on submit.
+     *
+     * If you do need to populate initial values into your form, using a one-way binding for
+     * `ngModel` tends to be sufficient as long as you use the exported form's value rather
+     * than the domain model's value on submit.
+     *
+     * Take a look at an example of using `ngModel` within a form:
+     *
+     * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
+     *
+     * **npm package**: `@angular/forms`
+     *
+     * **NgModule**: `FormsModule`
      *
      *  @stable
      */
@@ -3551,49 +3582,46 @@
         useExisting: _angular_core.forwardRef(function () { return FormGroupName; })
     };
     /**
-     * Syncs an existing form group to a DOM element.
+     * @whatItDoes Syncs a nested {@link FormGroup} to a DOM element.
      *
-     * This directive can only be used as a child of {@link FormGroupDirective}.  It also requires
-     * importing the {@link ReactiveFormsModule}.
+     * @howToUse
      *
-     * ```typescript
-     * @Component({
-     *   selector: 'my-app',
-     *   template: `
-     *     <div>
-     *       <h2>Angular FormGroup Example</h2>
-     *       <form [formGroup]="myForm">
-     *         <div formGroupName="name">
-     *           <h3>Enter your name:</h3>
-     *           <p>First: <input formControlName="first"></p>
-     *           <p>Middle: <input formControlName="middle"></p>
-     *           <p>Last: <input formControlName="last"></p>
-     *         </div>
-     *         <h3>Name value:</h3>
-     *         <pre>{{ myForm.get('name') | json }}</pre>
-     *         <p>Name is {{myForm.get('name')?.valid ? "valid" : "invalid"}}</p>
-     *         <h3>What's your favorite food?</h3>
-     *         <p><input formControlName="food"></p>
-     *         <h3>Form value</h3>
-     *         <pre> {{ myForm | json }} </pre>
-     *       </form>
-     *     </div>
-     *   `
-     * })
-     * export class App {
-     *   myForm = new FormGroup({
-     *     name: new FormGroup({
-     *       first: new FormControl('', Validators.required),
-     *       middle: new FormControl(''),
-     *       last: new FormControl('', Validators.required)
-     *     }),
-     *     food: new FormControl()
-     *   });
-     * }
-     * ```
+     * This directive can only be used with a parent {@link FormGroupDirective} (selector:
+     * `[formGroup]`).
      *
-     * This example syncs the form group for the user's name. The value and validation state of
-     * this group can be accessed separately from the overall form.
+     * It accepts the string name of the nested {@link FormGroup} you want to link, and
+     * will look for a {@link FormGroup} registered with that name in the parent
+     * {@link FormGroup} instance you passed into {@link FormGroupDirective}.
+     *
+     * Nested form groups can come in handy when you want to validate a sub-group of a
+     * form separately from the rest or when you'd like to group the values of certain
+     * controls into their own nested object.
+     *
+     * **Access the group**: You can access the associated {@link FormGroup} using the
+     * {@link AbstractControl.get} method. Ex: `this.form.get('name')`.
+     *
+     * You can also access individual controls within the group using dot syntax.
+     * Ex: `this.form.get('name.first')`
+     *
+     * **Get the value**: the `value` property is always synced and available on the
+     * {@link FormGroup}. See a full list of available properties in {@link AbstractControl}.
+     *
+     * **Set the value**: You can set an initial value for each child control when instantiating
+     * the {@link FormGroup}, or you can set it programmatically later using
+     * {@link AbstractControl.setValue} or {@link AbstractControl.patchValue}.
+     *
+     * **Listen to value**: If you want to listen to changes in the value of the group, you can
+     * subscribe to the {@link AbstractControl.valueChanges} event.  You can also listen to
+     * {@link AbstractControl.statusChanges} to be notified when the validation status is
+     * re-calculated.
+     *
+     * ### Example
+     *
+     * {@example forms/ts/nestedFormGroup/nested_form_group_example.ts region='Component'}
+     *
+     * * **npm package**: `@angular/forms`
+     *
+     * * **NgModule**: `ReactiveFormsModule`
      *
      * @stable
      */
@@ -3630,38 +3658,49 @@
         useExisting: _angular_core.forwardRef(function () { return FormArrayName; })
     };
     /**
-     * Syncs an existing form array to a DOM element.
+     * @whatItDoes Syncs a nested {@link FormArray} to a DOM element.
      *
-     * This directive can only be used as a child of {@link FormGroupDirective}.  It also requires
-     * importing the {@link ReactiveFormsModule}.
+     * @howToUse
      *
-     * ```typescript
-     * @Component({
-     *   selector: 'my-app',
-     *   template: `
-     *     <div>
-     *       <h2>Angular FormArray Example</h2>
-     *       <form [formGroup]="myForm">
-     *         <div formArrayName="cities">
-     *           <div *ngFor="let city of cityArray.controls; let i=index">
-     *             <input [formControlName]="i">
-     *           </div>
-     *         </div>
-     *       </form>
-     *       {{ myForm.value | json }}     // {cities: ['SF', 'NY']}
-     *     </div>
-     *   `
-     * })
-     * export class App {
-     *   cityArray = new FormArray([
-     *     new FormControl('SF'),
-     *     new FormControl('NY')
-     *   ]);
-     *   myForm = new FormGroup({
-     *     cities: this.cityArray
-     *   });
-     * }
-     * ```
+     * This directive is designed to be used with a parent {@link FormGroupDirective} (selector:
+     * `[formGroup]`).
+     *
+     * It accepts the string name of the nested {@link FormArray} you want to link, and
+     * will look for a {@link FormArray} registered with that name in the parent
+     * {@link FormGroup} instance you passed into {@link FormGroupDirective}.
+     *
+     * Nested form arrays can come in handy when you have a group of form controls but
+     * you're not sure how many there will be. Form arrays allow you to create new
+     * form controls dynamically.
+     *
+     * **Access the array**: You can access the associated {@link FormArray} using the
+     * {@link AbstractControl.get} method on the parent {@link FormGroup}.
+     * Ex: `this.form.get('cities')`.
+     *
+     * **Get the value**: the `value` property is always synced and available on the
+     * {@link FormArray}. See a full list of available properties in {@link AbstractControl}.
+     *
+     * **Set the value**: You can set an initial value for each child control when instantiating
+     * the {@link FormArray}, or you can set the value programmatically later using the
+     * {@link FormArray}'s {@link AbstractControl.setValue} or {@link AbstractControl.patchValue}
+     * methods.
+     *
+     * **Listen to value**: If you want to listen to changes in the value of the array, you can
+     * subscribe to the {@link FormArray}'s {@link AbstractControl.valueChanges} event.  You can also
+     * listen to its {@link AbstractControl.statusChanges} event to be notified when the validation
+     * status is re-calculated.
+     *
+     * **Add new controls**: You can add new controls to the {@link FormArray} dynamically by
+     * calling its {@link FormArray.push} method.
+     *  Ex: `this.form.get('cities').push(new FormControl());`
+     *
+     * ### Example
+     *
+     * {@example forms/ts/nestedFormArray/nested_form_array_example.ts region='Component'}
+     *
+     * * **npm package**: `@angular/forms`
+     *
+     * * **NgModule**: `ReactiveFormsModule`
      *
      * @stable
      */
