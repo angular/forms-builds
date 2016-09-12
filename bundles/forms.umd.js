@@ -3244,51 +3244,44 @@
         useExisting: _angular_core.forwardRef(function () { return FormControlDirective; })
     };
     /**
-     * Binds an existing {@link FormControl} to a DOM element. It requires importing the {@link
-     * ReactiveFormsModule}.
+     * @whatItDoes Syncs a standalone {@link FormControl} instance to a form control element.
      *
-     * In this example, we bind the control to an input element. When the value of the input element
-     * changes, the value of the control will reflect that change. Likewise, if the value of the
-     * control changes, the input element reflects that change.
+     * In other words, this directive ensures that any values written to the {@link FormControl}
+     * instance programmatically will be written to the DOM element (model -> view). Conversely,
+     * any values written to the DOM element through user input will be reflected in the
+     * {@link FormControl} instance (view -> model).
      *
-     *  ```typescript
-     * @Component({
-     *   selector: 'my-app',
-     *   template: `
-     *     <div>
-     *       <h2>Bind existing control example</h2>
-     *       <form>
-     *         <p>Element with existing control: <input type="text"
-     * [formControl]="loginControl"></p>
-     *         <p>Value of existing control: {{loginControl.value}}</p>
-     *       </form>
-     *     </div>
-     *   `,
-     * })
-     * export class App {
-     *   loginControl: FormControl = new FormControl('');
-     * }
-     *  ```
+     * @howToUse
      *
-     * ### ngModel
+     * Use this directive if you'd like to create and manage a {@link FormControl} instance directly.
+     * Simply create a {@link FormControl}, save it to your component class, and pass it into the
+     * {@link FormControlDirective}.
      *
-     * We can also set the value of the form programmatically with setValue().
-     **
-     *  ```typescript
-     * @Component({
-     *      selector: "login-comp",
-
-     *      template: "<input type='text' [formControl]='loginControl'>"
-     *      })
-     * class LoginComp {
-     *  loginControl: FormControl = new FormControl('');
+     * This directive is designed to be used as a standalone control.  Unlike {@link FormControlName},
+     * it does not require that your {@link FormControl} instance be part of any parent
+     * {@link FormGroup}, and it won't be registered to any {@link FormGroupDirective} that
+     * exists above it.
      *
-     *  populate() {
-     *    this.loginControl.setValue('some login');
-     *  }
+     * **Get the value**: the `value` property is always synced and available on the
+     * {@link FormControl} instance. See a full list of available properties in
+     * {@link AbstractControl}.
      *
-     * }
-     *  ```
+     * **Set the value**: You can pass in an initial value when instantiating the {@link FormControl},
+     * or you can set it programmatically later using {@link AbstractControl.setValue} or
+     * {@link AbstractControl.patchValue}.
+     *
+     * **Listen to value**: If you want to listen to changes in the value of the control, you can
+     * subscribe to the {@link AbstractControl.valueChanges} event.  You can also listen to
+     * {@link AbstractControl.statusChanges} to be notified when the validation status is
+     * re-calculated.
+     *
+     * ### Example
+     *
+     * {@example forms/ts/simpleFormControl/simple_form_control_example.ts region='Component'}
+     *
+     * * **npm package**: `@angular/forms`
+     *
+     * * **NgModule**: `ReactiveFormsModule`
      *
      *  @stable
      */
@@ -3558,49 +3551,46 @@
         useExisting: _angular_core.forwardRef(function () { return FormGroupName; })
     };
     /**
-     * Syncs an existing form group to a DOM element.
+     * @whatItDoes Syncs a nested {@link FormGroup} to a DOM element.
      *
-     * This directive can only be used as a child of {@link FormGroupDirective}.  It also requires
-     * importing the {@link ReactiveFormsModule}.
+     * @howToUse
      *
-     * ```typescript
-     * @Component({
-     *   selector: 'my-app',
-     *   template: `
-     *     <div>
-     *       <h2>Angular FormGroup Example</h2>
-     *       <form [formGroup]="myForm">
-     *         <div formGroupName="name">
-     *           <h3>Enter your name:</h3>
-     *           <p>First: <input formControlName="first"></p>
-     *           <p>Middle: <input formControlName="middle"></p>
-     *           <p>Last: <input formControlName="last"></p>
-     *         </div>
-     *         <h3>Name value:</h3>
-     *         <pre>{{ myForm.get('name') | json }}</pre>
-     *         <p>Name is {{myForm.get('name')?.valid ? "valid" : "invalid"}}</p>
-     *         <h3>What's your favorite food?</h3>
-     *         <p><input formControlName="food"></p>
-     *         <h3>Form value</h3>
-     *         <pre> {{ myForm | json }} </pre>
-     *       </form>
-     *     </div>
-     *   `
-     * })
-     * export class App {
-     *   myForm = new FormGroup({
-     *     name: new FormGroup({
-     *       first: new FormControl('', Validators.required),
-     *       middle: new FormControl(''),
-     *       last: new FormControl('', Validators.required)
-     *     }),
-     *     food: new FormControl()
-     *   });
-     * }
-     * ```
+     * This directive can only be used with a parent {@link FormGroupDirective} (selector:
+     * `[formGroup]`).
      *
-     * This example syncs the form group for the user's name. The value and validation state of
-     * this group can be accessed separately from the overall form.
+     * It accepts the string name of the nested {@link FormGroup} you want to link, and
+     * will look for a {@link FormGroup} registered with that name in the parent
+     * {@link FormGroup} instance you passed into {@link FormGroupDirective}.
+     *
+     * Nested form groups can come in handy when you want to validate a sub-group of a
+     * form separately from the rest or when you'd like to group the values of certain
+     * controls into their own nested object.
+     *
+     * **Access the group**: You can access the associated {@link FormGroup} using the
+     * {@link AbstractControl.get} method. Ex: `this.form.get('name')`.
+     *
+     * You can also access individual controls within the group using dot syntax.
+     * Ex: `this.form.get('name.first')`
+     *
+     * **Get the value**: the `value` property is always synced and available on the
+     * {@link FormGroup}. See a full list of available properties in {@link AbstractControl}.
+     *
+     * **Set the value**: You can set an initial value for each child control when instantiating
+     * the {@link FormGroup}, or you can set it programmatically later using
+     * {@link AbstractControl.setValue} or {@link AbstractControl.patchValue}.
+     *
+     * **Listen to value**: If you want to listen to changes in the value of the group, you can
+     * subscribe to the {@link AbstractControl.valueChanges} event.  You can also listen to
+     * {@link AbstractControl.statusChanges} to be notified when the validation status is
+     * re-calculated.
+     *
+     * ### Example
+     *
+     * {@example forms/ts/nestedFormGroup/nested_form_group_example.ts region='Component'}
+     *
+     * * **npm package**: `@angular/forms`
+     *
+     * * **NgModule**: `ReactiveFormsModule`
      *
      * @stable
      */
