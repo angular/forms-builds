@@ -1078,9 +1078,7 @@
         RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
         RadioControlValueAccessor.prototype.writeValue = function (value) {
             this._state = value === this.value;
-            if (isPresent(value)) {
-                this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
-            }
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
         };
         RadioControlValueAccessor.prototype.registerOnChange = function (fn) {
             var _this = this;
