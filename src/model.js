@@ -14,7 +14,8 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import { composeAsyncValidators, composeValidators } from './directives/shared';
 import { EventEmitter } from './facade/async';
 import { ListWrapper, StringMapWrapper } from './facade/collection';
-import { isBlank, isPresent, isPromise, isStringMap, normalizeBool } from './facade/lang';
+import { isBlank, isPresent, isStringMap, normalizeBool } from './facade/lang';
+import { isPromise } from './private_import_core';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
  */

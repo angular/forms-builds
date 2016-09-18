@@ -47,16 +47,8 @@
     function isString(obj) {
         return typeof obj === 'string';
     }
-    function isFunction(obj) {
-        return typeof obj === 'function';
-    }
     function isStringMap(obj) {
         return typeof obj === 'object' && obj !== null;
-    }
-    function isPromise(obj) {
-        // allow any Promise/A+ compliant thenable.
-        // It's up to the caller to ensure that obj.then conforms to the spec
-        return isPresent(obj) && isFunction(obj.then);
     }
     function isArray(obj) {
         return Array.isArray(obj);
@@ -637,6 +629,8 @@
             };
         }
     })();
+
+    var isPromise = _angular_core.__core_private__.isPromise;
 
     /**
      * Providers for validators to be used for {@link FormControl}s in a form.
