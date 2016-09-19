@@ -149,8 +149,9 @@ export var FormControlName = (function (_super) {
     FormControlName.prototype._setUpControl = function () {
         this._checkParentType();
         this._control = this.formDirective.addControl(this);
-        if (this.control.disabled)
+        if (this.control.disabled && this.valueAccessor.setDisabledState) {
             this.valueAccessor.setDisabledState(true);
+        }
         this._added = true;
     };
     FormControlName.decorators = [

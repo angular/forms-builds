@@ -3777,8 +3777,9 @@
         FormControlDirective.prototype.ngOnChanges = function (changes) {
             if (this._isControlChanged(changes)) {
                 setUpControl(this.form, this);
-                if (this.control.disabled)
+                if (this.control.disabled && this.valueAccessor.setDisabledState) {
                     this.valueAccessor.setDisabledState(true);
+                }
                 this.form.updateValueAndValidity({ emitEvent: false });
             }
             if (isPropertyUpdated(changes, this.viewModel)) {
@@ -4356,8 +4357,9 @@
         FormControlName.prototype._setUpControl = function () {
             this._checkParentType();
             this._control = this.formDirective.addControl(this);
-            if (this.control.disabled)
+            if (this.control.disabled && this.valueAccessor.setDisabledState) {
                 this.valueAccessor.setDisabledState(true);
+            }
             this._added = true;
         };
         FormControlName.decorators = [
