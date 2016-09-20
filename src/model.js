@@ -86,6 +86,8 @@ export var AbstractControl = (function () {
         this._onCollectionChange = function () { };
         this._pristine = true;
         this._touched = false;
+        /** @internal */
+        this._onDisabledChange = [];
     }
     Object.defineProperty(AbstractControl.prototype, "value", {
         /**
@@ -346,7 +348,7 @@ export var AbstractControl = (function () {
             this._statusChanges.emit(this._status);
         }
         this._updateAncestors(onlySelf);
-        this._onDisabledChange(true);
+        this._onDisabledChange.forEach(function (changeFn) { return changeFn(true); });
     };
     /**
      * Enables the control. This means the control will be included in validation checks and
@@ -361,7 +363,7 @@ export var AbstractControl = (function () {
         this._forEachChild(function (control) { control.enable({ onlySelf: true }); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
         this._updateAncestors(onlySelf);
-        this._onDisabledChange(false);
+        this._onDisabledChange.forEach(function (changeFn) { return changeFn(false); });
     };
     AbstractControl.prototype._updateAncestors = function (onlySelf) {
         if (isPresent(this._parent) && !onlySelf) {
@@ -559,8 +561,6 @@ export var AbstractControl = (function () {
         }
     };
     /** @internal */
-    AbstractControl.prototype._onDisabledChange = function (isDisabled) { };
-    /** @internal */
     AbstractControl.prototype._isBoxedValue = function (formState) {
         return isStringMap(formState) && Object.keys(formState).length === 2 && 'value' in formState &&
             'disabled' in formState;
@@ -719,13 +719,15 @@ export var FormControl = (function (_super) {
      */
     FormControl.prototype._clearChangeFns = function () {
         this._onChange = [];
-        this._onDisabledChange = null;
+        this._onDisabledChange = [];
         this._onCollectionChange = function () { };
     };
     /**
      * Register a listener for disabled events.
      */
-    FormControl.prototype.registerOnDisabledChange = function (fn) { this._onDisabledChange = fn; };
+    FormControl.prototype.registerOnDisabledChange = function (fn) {
+        this._onDisabledChange.push(fn);
+    };
     /**
      * @internal
      */
