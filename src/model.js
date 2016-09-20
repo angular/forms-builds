@@ -833,7 +833,7 @@ export var FormGroup = (function (_super) {
     FormGroup.prototype.removeControl = function (name) {
         if (this.controls[name])
             this.controls[name]._registerOnCollectionChange(function () { });
-        StringMapWrapper.delete(this.controls, name);
+        delete (this.controls[name]);
         this.updateValueAndValidity();
         this._onCollectionChange();
     };
@@ -843,7 +843,7 @@ export var FormGroup = (function (_super) {
     FormGroup.prototype.setControl = function (name, control) {
         if (this.controls[name])
             this.controls[name]._registerOnCollectionChange(function () { });
-        StringMapWrapper.delete(this.controls, name);
+        delete (this.controls[name]);
         if (control)
             this.registerControl(name, control);
         this.updateValueAndValidity();
