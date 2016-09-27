@@ -41,8 +41,8 @@ export var FormBuilder = (function () {
     FormBuilder.prototype.group = function (controlsConfig, extra) {
         if (extra === void 0) { extra = null; }
         var controls = this._reduceControls(controlsConfig);
-        var validator = isPresent(extra) ? StringMapWrapper.get(extra, 'validator') : null;
-        var asyncValidator = isPresent(extra) ? StringMapWrapper.get(extra, 'asyncValidator') : null;
+        var validator = isPresent(extra) ? extra['validator'] : null;
+        var asyncValidator = isPresent(extra) ? extra['asyncValidator'] : null;
         return new FormGroup(controls, validator, asyncValidator);
     };
     /**

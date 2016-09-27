@@ -476,7 +476,7 @@ export var AbstractControl = (function () {
         if (path === void 0) { path = null; }
         var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
         if (isPresent(control) && isPresent(control._errors)) {
-            return StringMapWrapper.get(control._errors, errorCode);
+            return control._errors[errorCode];
         }
         else {
             return null;

@@ -375,10 +375,15 @@
     var StringMapWrapper = (function () {
         function StringMapWrapper() {
         }
-        StringMapWrapper.get = function (map, key) {
-            return map.hasOwnProperty(key) ? map[key] : undefined;
+        StringMapWrapper.create = function () {
+            // Note: We are not using Object.create(null) here due to
+            // performance!
+            // http://jsperf.com/ng2-object-create-null
+            return {};
         };
-        StringMapWrapper.set = function (map, key, value) { map[key] = value; };
+        StringMapWrapper.contains = function (map, key) {
+            return map.hasOwnProperty(key);
+        };
         StringMapWrapper.keys = function (map) { return Object.keys(map); };
         StringMapWrapper.values = function (map) {
             return Object.keys(map).map(function (k) { return map[k]; });
@@ -2291,7 +2296,7 @@
             if (path === void 0) { path = null; }
             var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
             if (isPresent(control) && isPresent(control._errors)) {
-                return StringMapWrapper.get(control._errors, errorCode);
+                return control._errors[errorCode];
             }
             else {
                 return null;
@@ -4534,8 +4539,8 @@
         FormBuilder.prototype.group = function (controlsConfig, extra) {
             if (extra === void 0) { extra = null; }
             var controls = this._reduceControls(controlsConfig);
-            var validator = isPresent(extra) ? StringMapWrapper.get(extra, 'validator') : null;
-            var asyncValidator = isPresent(extra) ? StringMapWrapper.get(extra, 'asyncValidator') : null;
+            var validator = isPresent(extra) ? extra['validator'] : null;
+            var asyncValidator = isPresent(extra) ? extra['asyncValidator'] : null;
             return new FormGroup(controls, validator, asyncValidator);
         };
         /**
