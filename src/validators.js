@@ -105,7 +105,7 @@ export var Validators = (function () {
      * of the individual error maps.
      */
     Validators.compose = function (validators) {
-        if (isBlank(validators))
+        if (!validators)
             return null;
         var presentValidators = validators.filter(isPresent);
         if (presentValidators.length == 0)
@@ -115,7 +115,7 @@ export var Validators = (function () {
         };
     };
     Validators.composeAsync = function (validators) {
-        if (isBlank(validators))
+        if (!validators)
             return null;
         var presentValidators = validators.filter(isPresent);
         if (presentValidators.length == 0)

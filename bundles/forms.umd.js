@@ -656,7 +656,7 @@
          * of the individual error maps.
          */
         Validators.compose = function (validators) {
-            if (isBlank(validators))
+            if (!validators)
                 return null;
             var presentValidators = validators.filter(isPresent);
             if (presentValidators.length == 0)
@@ -666,7 +666,7 @@
             };
         };
         Validators.composeAsync = function (validators) {
-            if (isBlank(validators))
+            if (!validators)
                 return null;
             var presentValidators = validators.filter(isPresent);
             if (presentValidators.length == 0)
@@ -1420,9 +1420,9 @@
         return p;
     }
     function setUpControl(control, dir) {
-        if (isBlank(control))
+        if (!control)
             _throwError(dir, 'Cannot find control with');
-        if (isBlank(dir.valueAccessor))
+        if (!dir.valueAccessor)
             _throwError(dir, 'No value accessor for form control with');
         control.validator = Validators.compose([control.validator, dir.validator]);
         control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
@@ -1509,7 +1509,7 @@
     }
     // TODO: vsavkin remove it once https://github.com/angular/angular/issues/3011 is implemented
     function selectValueAccessor(dir, valueAccessors) {
-        if (isBlank(valueAccessors))
+        if (!valueAccessors)
             return null;
         var defaultAccessor;
         var builtinAccessor;
@@ -3919,7 +3919,7 @@
             this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
         };
         FormGroupDirective.prototype._checkFormPresent = function () {
-            if (isBlank(this.form)) {
+            if (!this.form) {
                 ReactiveErrors.missingFormException();
             }
         };

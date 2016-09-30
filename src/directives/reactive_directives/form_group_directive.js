@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || function (d, b) {
 import { Directive, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
 import { EventEmitter } from '../../facade/async';
 import { ListWrapper } from '../../facade/collection';
-import { isBlank } from '../../facade/lang';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators } from '../../validators';
 import { ControlContainer } from '../control_container';
 import { ReactiveErrors } from '../reactive_errors';
@@ -158,7 +157,7 @@ export var FormGroupDirective = (function (_super) {
         this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
     };
     FormGroupDirective.prototype._checkFormPresent = function () {
-        if (isBlank(this.form)) {
+        if (!this.form) {
             ReactiveErrors.missingFormException();
         }
     };
