@@ -375,31 +375,6 @@
     var StringMapWrapper = (function () {
         function StringMapWrapper() {
         }
-        StringMapWrapper.create = function () {
-            // Note: We are not using Object.create(null) here due to
-            // performance!
-            // http://jsperf.com/ng2-object-create-null
-            return {};
-        };
-        StringMapWrapper.contains = function (map, key) {
-            return map.hasOwnProperty(key);
-        };
-        StringMapWrapper.keys = function (map) { return Object.keys(map); };
-        StringMapWrapper.values = function (map) {
-            return Object.keys(map).map(function (k) { return map[k]; });
-        };
-        StringMapWrapper.isEmpty = function (map) {
-            for (var prop in map) {
-                return false;
-            }
-            return true;
-        };
-        StringMapWrapper.forEach = function (map, callback) {
-            for (var _i = 0, _a = Object.keys(map); _i < _a.length; _i++) {
-                var k = _a[_i];
-                callback(map[k], k);
-            }
-        };
         StringMapWrapper.merge = function (m1, m2) {
             var m = {};
             for (var _i = 0, _a = Object.keys(m1); _i < _a.length; _i++) {
@@ -691,7 +666,7 @@
         var res = arrayOfErrors.reduce(function (res, errors) {
             return isPresent(errors) ? StringMapWrapper.merge(res, errors) : res;
         }, {});
-        return StringMapWrapper.isEmpty(res) ? null : res;
+        return Object.keys(res).length === 0 ? null : res;
     }
 
     /**
@@ -2708,9 +2683,9 @@
             var _this = this;
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             this._checkAllValuesPresent(value);
-            StringMapWrapper.forEach(value, function (newValue, name) {
+            Object.keys(value).forEach(function (name) {
                 _this._throwIfControlMissing(name);
-                _this.controls[name].setValue(newValue, { onlySelf: true });
+                _this.controls[name].setValue(value[name], { onlySelf: true });
             });
             this.updateValueAndValidity({ onlySelf: onlySelf });
         };
@@ -2738,9 +2713,9 @@
         FormGroup.prototype.patchValue = function (value, _a) {
             var _this = this;
             var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
-            StringMapWrapper.forEach(value, function (newValue, name) {
+            Object.keys(value).forEach(function (name) {
                 if (_this.controls[name]) {
-                    _this.controls[name].patchValue(newValue, { onlySelf: true });
+                    _this.controls[name].patchValue(value[name], { onlySelf: true });
                 }
             });
             this.updateValueAndValidity({ onlySelf: onlySelf });
@@ -2810,7 +2785,8 @@
         };
         /** @internal */
         FormGroup.prototype._forEachChild = function (cb) {
-            StringMapWrapper.forEach(this.controls, cb);
+            var _this = this;
+            Object.keys(this.controls).forEach(function (k) { return cb(_this.controls[k], k); });
         };
         /** @internal */
         FormGroup.prototype._setUpControls = function () {
@@ -4573,8 +4549,8 @@
         FormBuilder.prototype._reduceControls = function (controlsConfig) {
             var _this = this;
             var controls = {};
-            StringMapWrapper.forEach(controlsConfig, function (controlConfig, controlName) {
-                controls[controlName] = _this._createControl(controlConfig);
+            Object.keys(controlsConfig).forEach(function (controlName) {
+                controls[controlName] = _this._createControl(controlsConfig[controlName]);
             });
             return controls;
         };

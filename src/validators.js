@@ -140,6 +140,6 @@ function _mergeErrors(arrayOfErrors) {
     var res = arrayOfErrors.reduce(function (res, errors) {
         return isPresent(errors) ? StringMapWrapper.merge(res, errors) : res;
     }, {});
-    return StringMapWrapper.isEmpty(res) ? null : res;
+    return Object.keys(res).length === 0 ? null : res;
 }
 //# sourceMappingURL=validators.js.map
