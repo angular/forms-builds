@@ -614,8 +614,6 @@
          */
         Validators.pattern = function (pattern) {
             return function (control) {
-                if (isPresent(Validators.required(control)))
-                    return null;
                 var regex = new RegExp("^" + pattern + "$");
                 var v = control.value;
                 return regex.test(v) ? null :
