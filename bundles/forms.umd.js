@@ -520,11 +520,9 @@
          */
         Validators.minLength = function (minLength) {
             return function (control) {
-                if (isPresent(Validators.required(control)))
-                    return null;
-                var v = control.value;
-                return v.length < minLength ?
-                    { 'minlength': { 'requiredLength': minLength, 'actualLength': v.length } } :
+                var length = typeof control.value === 'string' ? control.value.length : 0;
+                return length < minLength ?
+                    { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
                     null;
             };
         };
@@ -533,11 +531,9 @@
          */
         Validators.maxLength = function (maxLength) {
             return function (control) {
-                if (isPresent(Validators.required(control)))
-                    return null;
-                var v = control.value;
-                return v.length > maxLength ?
-                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': v.length } } :
+                var length = typeof control.value === 'string' ? control.value.length : 0;
+                return length > maxLength ?
+                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
                     null;
             };
         };
