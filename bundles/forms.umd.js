@@ -24,74 +24,6 @@
     function isArray(obj) {
         return Array.isArray(obj);
     }
-    var StringWrapper = (function () {
-        function StringWrapper() {
-        }
-        StringWrapper.fromCharCode = function (code) { return String.fromCharCode(code); };
-        StringWrapper.charCodeAt = function (s, index) { return s.charCodeAt(index); };
-        StringWrapper.split = function (s, regExp) { return s.split(regExp); };
-        StringWrapper.equals = function (s, s2) { return s === s2; };
-        StringWrapper.stripLeft = function (s, charVal) {
-            if (s && s.length) {
-                var pos = 0;
-                for (var i = 0; i < s.length; i++) {
-                    if (s[i] != charVal)
-                        break;
-                    pos++;
-                }
-                s = s.substring(pos);
-            }
-            return s;
-        };
-        StringWrapper.stripRight = function (s, charVal) {
-            if (s && s.length) {
-                var pos = s.length;
-                for (var i = s.length - 1; i >= 0; i--) {
-                    if (s[i] != charVal)
-                        break;
-                    pos--;
-                }
-                s = s.substring(0, pos);
-            }
-            return s;
-        };
-        StringWrapper.replace = function (s, from, replace) {
-            return s.replace(from, replace);
-        };
-        StringWrapper.replaceAll = function (s, from, replace) {
-            return s.replace(from, replace);
-        };
-        StringWrapper.slice = function (s, from, to) {
-            if (from === void 0) { from = 0; }
-            if (to === void 0) { to = null; }
-            return s.slice(from, to === null ? undefined : to);
-        };
-        StringWrapper.replaceAllMapped = function (s, from, cb) {
-            return s.replace(from, function () {
-                var matches = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    matches[_i - 0] = arguments[_i];
-                }
-                // Remove offset & string from the result array
-                matches.splice(-2, 2);
-                // The callback receives match, p1, ..., pn
-                return cb(matches);
-            });
-        };
-        StringWrapper.contains = function (s, substr) { return s.indexOf(substr) != -1; };
-        StringWrapper.compare = function (a, b) {
-            if (a < b) {
-                return -1;
-            }
-            else if (a > b) {
-                return 1;
-            }
-            else {
-                return 0;
-            }
-        };
-        return StringWrapper;
-    }());
     var NumberWrapper = (function () {
         function NumberWrapper() {
         }
@@ -588,11 +520,9 @@
          */
         Validators.minLength = function (minLength) {
             return function (control) {
-                if (isPresent(Validators.required(control)))
-                    return null;
-                var v = control.value;
-                return v.length < minLength ?
-                    { 'minlength': { 'requiredLength': minLength, 'actualLength': v.length } } :
+                var length = typeof control.value === 'string' ? control.value.length : 0;
+                return length < minLength ?
+                    { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
                     null;
             };
         };
@@ -601,11 +531,9 @@
          */
         Validators.maxLength = function (maxLength) {
             return function (control) {
-                if (isPresent(Validators.required(control)))
-                    return null;
-                var v = control.value;
-                return v.length > maxLength ?
-                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': v.length } } :
+                var length = typeof control.value === 'string' ? control.value.length : 0;
+                return length > maxLength ?
+                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
                     null;
             };
         };
@@ -1043,7 +971,7 @@
             return "" + value;
         if (!isPrimitive(value))
             value = 'Object';
-        return StringWrapper.slice(id + ": " + value, 0, 50);
+        return (id + ": " + value).slice(0, 50);
     }
     function _extractId(valueString) {
         return valueString.split(':')[0];
@@ -1218,7 +1146,7 @@
             value = "'" + value + "'";
         if (!isPrimitive(value))
             value = 'Object';
-        return StringWrapper.slice(id + ": " + value, 0, 50);
+        return (id + ": " + value).slice(0, 50);
     }
     function _extractId$1(valueString) {
         return valueString.split(':')[0];
