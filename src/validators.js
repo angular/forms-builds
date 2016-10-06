@@ -62,9 +62,11 @@ export var Validators = (function () {
      */
     Validators.minLength = function (minLength) {
         return function (control) {
-            var length = typeof control.value === 'string' ? control.value.length : 0;
-            return length < minLength ?
-                { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
+            if (isPresent(Validators.required(control)))
+                return null;
+            var v = control.value;
+            return v.length < minLength ?
+                { 'minlength': { 'requiredLength': minLength, 'actualLength': v.length } } :
                 null;
         };
     };
@@ -73,9 +75,11 @@ export var Validators = (function () {
      */
     Validators.maxLength = function (maxLength) {
         return function (control) {
-            var length = typeof control.value === 'string' ? control.value.length : 0;
-            return length > maxLength ?
-                { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
+            if (isPresent(Validators.required(control)))
+                return null;
+            var v = control.value;
+            return v.length > maxLength ?
+                { 'maxlength': { 'requiredLength': maxLength, 'actualLength': v.length } } :
                 null;
         };
     };
