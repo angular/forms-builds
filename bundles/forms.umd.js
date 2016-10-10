@@ -468,6 +468,9 @@
 
     var isPromise = _angular_core.__core_private__.isPromise;
 
+    function isEmptyInputValue(value) {
+        return value == null || typeof value === 'string' && value.length === 0;
+    }
     /**
      * Providers for validators to be used for {@link FormControl}s in a form.
      *
@@ -511,15 +514,16 @@
          * Validator that requires controls to have a non-empty value.
          */
         Validators.required = function (control) {
-            return isBlank(control.value) || (isString(control.value) && control.value == '') ?
-                { 'required': true } :
-                null;
+            return isEmptyInputValue(control.value) ? { 'required': true } : null;
         };
         /**
          * Validator that requires controls to have a value of a minimum length.
          */
         Validators.minLength = function (minLength) {
             return function (control) {
+                if (isEmptyInputValue(control.value)) {
+                    return null; // don't validate empty values to allow optional controls
+                }
                 var length = typeof control.value === 'string' ? control.value.length : 0;
                 return length < minLength ?
                     { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
@@ -542,10 +546,14 @@
          */
         Validators.pattern = function (pattern) {
             return function (control) {
+                if (isEmptyInputValue(control.value)) {
+                    return null; // don't validate empty values to allow optional controls
+                }
                 var regex = new RegExp("^" + pattern + "$");
-                var v = control.value;
-                return regex.test(v) ? null :
-                    { 'pattern': { 'requiredPattern': "^" + pattern + "$", 'actualValue': v } };
+                var value = control.value;
+                return regex.test(value) ?
+                    null :
+                    { 'pattern': { 'requiredPattern': "^" + pattern + "$", 'actualValue': value } };
             };
         };
         /**
