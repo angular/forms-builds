@@ -1706,9 +1706,9 @@
             var errorFn = function (err) { return null; };
             var completeFn = function () { return null; };
             if (generatorOrNext && typeof generatorOrNext === 'object') {
-                schedulerFn = this.__isAsync ? function (value /** TODO #9100 */) {
+                schedulerFn = this.__isAsync ? function (value) {
                     setTimeout(function () { return generatorOrNext.next(value); });
-                } : function (value /** TODO #9100 */) { generatorOrNext.next(value); };
+                } : function (value) { generatorOrNext.next(value); };
                 if (generatorOrNext.error) {
                     errorFn = this.__isAsync ? function (err) { setTimeout(function () { return generatorOrNext.error(err); }); } :
                         function (err) { generatorOrNext.error(err); };
@@ -1719,9 +1719,8 @@
                 }
             }
             else {
-                schedulerFn = this.__isAsync ? function (value /** TODO #9100 */) {
-                    setTimeout(function () { return generatorOrNext(value); });
-                } : function (value /** TODO #9100 */) { generatorOrNext(value); };
+                schedulerFn = this.__isAsync ? function (value) { setTimeout(function () { return generatorOrNext(value); }); } :
+                    function (value) { generatorOrNext(value); };
                 if (error) {
                     errorFn =
                         this.__isAsync ? function (err) { setTimeout(function () { return error(err); }); } : function (err) { error(err); };
@@ -1776,15 +1775,12 @@
             return null;
         return path.reduce(function (v, name) {
             if (v instanceof FormGroup) {
-                return isPresent(v.controls[name]) ? v.controls[name] : null;
+                return v.controls[name] || null;
             }
-            else if (v instanceof FormArray) {
-                var index = name;
-                return isPresent(v.at(index)) ? v.at(index) : null;
+            if (v instanceof FormArray) {
+                return v.at(name) || null;
             }
-            else {
-                return null;
-            }
+            return null;
         }, control);
     }
     function toObservable(r) {
