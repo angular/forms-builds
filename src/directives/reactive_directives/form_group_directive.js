@@ -40,6 +40,10 @@ export var formDirectiveProvider = {
  * its {@link AbstractControl.statusChanges} event to be notified when the validation status is
  * re-calculated.
  *
+ * Furthermore, you can listen to the directive's `ngSubmit` event to be notified when the user has
+ * triggered a form submission. The `ngSubmit` event will be emitted with the original form
+ * submission event.
+ *
  * ### Example
  *
  * In this example, we create form controls for first name and last name.
@@ -118,9 +122,9 @@ export var FormGroupDirective = (function (_super) {
         var ctrl = this.form.get(dir.path);
         ctrl.setValue(value);
     };
-    FormGroupDirective.prototype.onSubmit = function () {
+    FormGroupDirective.prototype.onSubmit = function ($event) {
         this._submitted = true;
-        this.ngSubmit.emit(null);
+        this.ngSubmit.emit($event);
         return false;
     };
     FormGroupDirective.prototype.onReset = function () { this.resetForm(); };
@@ -165,7 +169,7 @@ export var FormGroupDirective = (function (_super) {
         { type: Directive, args: [{
                     selector: '[formGroup]',
                     providers: [formDirectiveProvider],
-                    host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
+                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                     exportAs: 'ngForm'
                 },] },
     ];
