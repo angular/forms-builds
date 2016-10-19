@@ -1552,6 +1552,13 @@
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.pending : false;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return AbstractControlStatus;
     }());
     var ngControlStatusHost = {
@@ -1560,7 +1567,8 @@
         '[class.ng-pristine]': 'ngClassPristine',
         '[class.ng-dirty]': 'ngClassDirty',
         '[class.ng-valid]': 'ngClassValid',
-        '[class.ng-invalid]': 'ngClassInvalid'
+        '[class.ng-invalid]': 'ngClassInvalid',
+        '[class.ng-pending]': 'ngClassPending'
     };
     /**
      * Directive automatically applied to Angular form controls that sets CSS classes
@@ -1747,7 +1755,7 @@
         if (!(path instanceof Array)) {
             path = path.split(delimiter);
         }
-        if (path instanceof Array && ListWrapper.isEmpty(path))
+        if (path instanceof Array && (path.length === 0))
             return null;
         return path.reduce(function (v, name) {
             if (v instanceof FormGroup) {
@@ -1795,6 +1803,14 @@
              * The value of the control.
              */
             get: function () { return this._value; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControl.prototype, "parent", {
+            /**
+             * The parent control.
+             */
+            get: function () { return this._parent; },
             enumerable: true,
             configurable: true
         });
@@ -2176,7 +2192,7 @@
          */
         AbstractControl.prototype.getError = function (errorCode, path) {
             if (path === void 0) { path = null; }
-            var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
+            var control = isPresent(path) && (path.length > 0) ? this.get(path) : this;
             if (isPresent(control) && isPresent(control._errors)) {
                 return control._errors[errorCode];
             }
@@ -2236,7 +2252,7 @@
         };
         /** @internal */
         AbstractControl.prototype._anyControlsHaveStatus = function (status) {
-            return this._anyControls(function (control) { return control.status == status; });
+            return this._anyControls(function (control) { return control.status === status; });
         };
         /** @internal */
         AbstractControl.prototype._anyControlsDirty = function () {
@@ -2822,7 +2838,7 @@
          * Insert a new {@link AbstractControl} at the given `index` in the array.
          */
         FormArray.prototype.insert = function (index, control) {
-            ListWrapper.insert(this.controls, index, control);
+            this.controls.splice(index, 0, control);
             this._registerControl(control);
             this.updateValueAndValidity();
             this._onCollectionChange();
@@ -2833,7 +2849,7 @@
         FormArray.prototype.removeAt = function (index) {
             if (this.controls[index])
                 this.controls[index]._registerOnCollectionChange(function () { });
-            ListWrapper.removeAt(this.controls, index);
+            this.controls.splice(index, 1);
             this.updateValueAndValidity();
             this._onCollectionChange();
         };
@@ -2843,9 +2859,9 @@
         FormArray.prototype.setControl = function (index, control) {
             if (this.controls[index])
                 this.controls[index]._registerOnCollectionChange(function () { });
-            ListWrapper.removeAt(this.controls, index);
+            this.controls.splice(index, 1);
             if (control) {
-                ListWrapper.insert(this.controls, index, control);
+                this.controls.splice(index, 0, control);
                 this._registerControl(control);
             }
             this.updateValueAndValidity();
