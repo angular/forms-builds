@@ -945,6 +945,56 @@
         return RadioControlValueAccessor;
     }());
 
+    var RANGE_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: _angular_core.forwardRef(function () { return RangeValueAccessor; }),
+        multi: true
+    };
+    /**
+     * The accessor for writing a range value and listening to changes that is used by the
+     * {@link NgModel}, {@link FormControlDirective}, and {@link FormControlName} directives.
+     *
+     *  ### Example
+     *  ```
+     *  <input type="range" [(ngModel)]="age" >
+     *  ```
+     */
+    var RangeValueAccessor = (function () {
+        function RangeValueAccessor(_renderer, _elementRef) {
+            this._renderer = _renderer;
+            this._elementRef = _elementRef;
+            this.onChange = function (_) { };
+            this.onTouched = function () { };
+        }
+        RangeValueAccessor.prototype.writeValue = function (value) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
+        };
+        RangeValueAccessor.prototype.registerOnChange = function (fn) {
+            this.onChange = function (value) { fn(value == '' ? null : parseFloat(value)); };
+        };
+        RangeValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        RangeValueAccessor.decorators = [
+            { type: _angular_core.Directive, args: [{
+                        selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
+                        host: {
+                            '(change)': 'onChange($event.target.value)',
+                            '(input)': 'onChange($event.target.value)',
+                            '(blur)': 'onTouched()'
+                        },
+                        providers: [RANGE_VALUE_ACCESSOR]
+                    },] },
+        ];
+        /** @nocollapse */
+        RangeValueAccessor.ctorParameters = [
+            { type: _angular_core.Renderer, },
+            { type: _angular_core.ElementRef, },
+        ];
+        return RangeValueAccessor;
+    }());
+
     var SELECT_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
         useExisting: _angular_core.forwardRef(function () { return SelectControlValueAccessor; }),
@@ -1387,6 +1437,7 @@
     }
     function isBuiltInAccessor(valueAccessor) {
         return (hasConstructor(valueAccessor, CheckboxControlValueAccessor) ||
+            hasConstructor(valueAccessor, RangeValueAccessor) ||
             hasConstructor(valueAccessor, NumberValueAccessor) ||
             hasConstructor(valueAccessor, SelectControlValueAccessor) ||
             hasConstructor(valueAccessor, SelectMultipleControlValueAccessor) ||
@@ -4508,9 +4559,9 @@
 
     var SHARED_FORM_DIRECTIVES = [
         NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
-        CheckboxControlValueAccessor, SelectControlValueAccessor, SelectMultipleControlValueAccessor,
-        RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator,
-        MinLengthValidator, MaxLengthValidator, PatternValidator
+        RangeValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor,
+        SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus,
+        NgControlStatusGroup, RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
     ];
     var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
     var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
