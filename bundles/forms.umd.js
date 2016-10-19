@@ -1747,7 +1747,7 @@
         if (!(path instanceof Array)) {
             path = path.split(delimiter);
         }
-        if (path instanceof Array && ListWrapper.isEmpty(path))
+        if (path instanceof Array && (path.length === 0))
             return null;
         return path.reduce(function (v, name) {
             if (v instanceof FormGroup) {
@@ -1795,6 +1795,14 @@
              * The value of the control.
              */
             get: function () { return this._value; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControl.prototype, "parent", {
+            /**
+             * The parent control.
+             */
+            get: function () { return this._parent; },
             enumerable: true,
             configurable: true
         });
@@ -2116,7 +2124,8 @@
                 this._status = PENDING;
                 this._cancelExistingSubscription();
                 var obs = toObservable(this.asyncValidator(this));
-                this._asyncValidationSubscription = obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
+                this._asyncValidationSubscription =
+                    obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
             }
         };
         AbstractControl.prototype._cancelExistingSubscription = function () {
@@ -2175,7 +2184,7 @@
          */
         AbstractControl.prototype.getError = function (errorCode, path) {
             if (path === void 0) { path = null; }
-            var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
+            var control = isPresent(path) && (path.length > 0) ? this.get(path) : this;
             if (isPresent(control) && isPresent(control._errors)) {
                 return control._errors[errorCode];
             }
@@ -2235,7 +2244,7 @@
         };
         /** @internal */
         AbstractControl.prototype._anyControlsHaveStatus = function (status) {
-            return this._anyControls(function (control) { return control.status == status; });
+            return this._anyControls(function (control) { return control.status === status; });
         };
         /** @internal */
         AbstractControl.prototype._anyControlsDirty = function () {
@@ -2395,11 +2404,11 @@
          */
         FormControl.prototype.reset = function (formState, _a) {
             if (formState === void 0) { formState = null; }
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._applyFormState(formState);
             this.markAsPristine({ onlySelf: onlySelf });
             this.markAsUntouched({ onlySelf: onlySelf });
-            this.setValue(this._value, { onlySelf: onlySelf });
+            this.setValue(this._value, { onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          * @internal
@@ -2587,13 +2596,13 @@
          */
         FormGroup.prototype.setValue = function (value, _a) {
             var _this = this;
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._checkAllValuesPresent(value);
             Object.keys(value).forEach(function (name) {
                 _this._throwIfControlMissing(name);
-                _this.controls[name].setValue(value[name], { onlySelf: true });
+                _this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: emitEvent });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          *  Patches the value of the {@link FormGroup}. It accepts an object with control
@@ -2618,13 +2627,13 @@
          */
         FormGroup.prototype.patchValue = function (value, _a) {
             var _this = this;
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             Object.keys(value).forEach(function (name) {
                 if (_this.controls[name]) {
-                    _this.controls[name].patchValue(value[name], { onlySelf: true });
+                    _this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: emitEvent });
                 }
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          * Resets the {@link FormGroup}. This means by default:
@@ -2660,11 +2669,11 @@
          */
         FormGroup.prototype.reset = function (value, _a) {
             if (value === void 0) { value = {}; }
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._forEachChild(function (control, name) {
-                control.reset(value[name], { onlySelf: true });
+                control.reset(value[name], { onlySelf: true, emitEvent: emitEvent });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
             this._updatePristine({ onlySelf: onlySelf });
             this._updateTouched({ onlySelf: onlySelf });
         };
@@ -2821,7 +2830,7 @@
          * Insert a new {@link AbstractControl} at the given `index` in the array.
          */
         FormArray.prototype.insert = function (index, control) {
-            ListWrapper.insert(this.controls, index, control);
+            this.controls.splice(index, 0, control);
             this._registerControl(control);
             this.updateValueAndValidity();
             this._onCollectionChange();
@@ -2832,7 +2841,7 @@
         FormArray.prototype.removeAt = function (index) {
             if (this.controls[index])
                 this.controls[index]._registerOnCollectionChange(function () { });
-            ListWrapper.removeAt(this.controls, index);
+            this.controls.splice(index, 1);
             this.updateValueAndValidity();
             this._onCollectionChange();
         };
@@ -2842,9 +2851,9 @@
         FormArray.prototype.setControl = function (index, control) {
             if (this.controls[index])
                 this.controls[index]._registerOnCollectionChange(function () { });
-            ListWrapper.removeAt(this.controls, index);
+            this.controls.splice(index, 1);
             if (control) {
-                ListWrapper.insert(this.controls, index, control);
+                this.controls.splice(index, 0, control);
                 this._registerControl(control);
             }
             this.updateValueAndValidity();
@@ -2881,13 +2890,13 @@
          */
         FormArray.prototype.setValue = function (value, _a) {
             var _this = this;
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._checkAllValuesPresent(value);
             value.forEach(function (newValue, index) {
                 _this._throwIfControlMissing(index);
-                _this.at(index).setValue(newValue, { onlySelf: true });
+                _this.at(index).setValue(newValue, { onlySelf: true, emitEvent: emitEvent });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          *  Patches the value of the {@link FormArray}. It accepts an array that matches the
@@ -2911,13 +2920,13 @@
          */
         FormArray.prototype.patchValue = function (value, _a) {
             var _this = this;
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             value.forEach(function (newValue, index) {
                 if (_this.at(index)) {
-                    _this.at(index).patchValue(newValue, { onlySelf: true });
+                    _this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: emitEvent });
                 }
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          * Resets the {@link FormArray}. This means by default:
@@ -2952,11 +2961,11 @@
          */
         FormArray.prototype.reset = function (value, _a) {
             if (value === void 0) { value = []; }
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._forEachChild(function (control, index) {
-                control.reset(value[index], { onlySelf: true });
+                control.reset(value[index], { onlySelf: true, emitEvent: emitEvent });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
             this._updatePristine({ onlySelf: onlySelf });
             this._updateTouched({ onlySelf: onlySelf });
         };
