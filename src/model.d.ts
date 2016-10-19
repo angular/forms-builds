@@ -47,10 +47,6 @@ export declare abstract class AbstractControl {
      */
     value: any;
     /**
-     * The parent control.
-     */
-    parent: FormGroup | FormArray;
-    /**
      * The validation status of the control. There are four possible
      * validation statuses:
      *
