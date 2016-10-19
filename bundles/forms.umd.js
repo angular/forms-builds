@@ -15,56 +15,6 @@
     function isBlank(obj) {
         return obj === undefined || obj === null;
     }
-    function isString(obj) {
-        return typeof obj === 'string';
-    }
-    function isStringMap(obj) {
-        return typeof obj === 'object' && obj !== null;
-    }
-    function isArray(obj) {
-        return Array.isArray(obj);
-    }
-    var NumberWrapper = (function () {
-        function NumberWrapper() {
-        }
-        NumberWrapper.toFixed = function (n, fractionDigits) { return n.toFixed(fractionDigits); };
-        NumberWrapper.equal = function (a, b) { return a === b; };
-        NumberWrapper.parseIntAutoRadix = function (text) {
-            var result = parseInt(text);
-            if (isNaN(result)) {
-                throw new Error('Invalid integer literal when parsing ' + text);
-            }
-            return result;
-        };
-        NumberWrapper.parseInt = function (text, radix) {
-            if (radix == 10) {
-                if (/^(\-|\+)?[0-9]+$/.test(text)) {
-                    return parseInt(text, radix);
-                }
-            }
-            else if (radix == 16) {
-                if (/^(\-|\+)?[0-9ABCDEFabcdef]+$/.test(text)) {
-                    return parseInt(text, radix);
-                }
-            }
-            else {
-                var result = parseInt(text, radix);
-                if (!isNaN(result)) {
-                    return result;
-                }
-            }
-            throw new Error('Invalid integer literal when parsing ' + text + ' in base ' + radix);
-        };
-        Object.defineProperty(NumberWrapper, "NaN", {
-            get: function () { return NaN; },
-            enumerable: true,
-            configurable: true
-        });
-        NumberWrapper.isNumeric = function (value) { return !isNaN(value - parseFloat(value)); };
-        NumberWrapper.isNaN = function (value) { return isNaN(value); };
-        NumberWrapper.isInteger = function (value) { return Number.isInteger(value); };
-        return NumberWrapper;
-    }());
     // JS has NaN !== NaN
     function looseIdentical(a, b) {
         return a === b || typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b);
@@ -77,9 +27,6 @@
     }
     function isPrimitive(obj) {
         return !isJsObject(obj);
-    }
-    function hasConstructor(value, type) {
-        return value.constructor === type;
     }
 
     /**
@@ -421,7 +368,7 @@
         if (isPresent(source)) {
             for (var i = 0; i < source.length; i++) {
                 var item = source[i];
-                if (isArray(item)) {
+                if (Array.isArray(item)) {
                     _flattenArray(item, target);
                 }
                 else {
@@ -1176,7 +1123,7 @@
     function _buildValueString$1(id, value) {
         if (isBlank(id))
             return "" + value;
-        if (isString(value))
+        if (typeof value === 'string')
             value = "'" + value + "'";
         if (!isPrimitive(value))
             value = 'Object';
@@ -1350,9 +1297,7 @@
     }());
 
     function controlPath(name, parent) {
-        var p = ListWrapper.clone(parent.path);
-        p.push(name);
-        return p;
+        return parent.path.concat([name]);
     }
     function setUpControl(control, dir) {
         if (!control)
@@ -1435,13 +1380,16 @@
             return true;
         return !looseIdentical(viewModel, change.currentValue);
     }
+    var BUILTIN_ACCESSORS = [
+        CheckboxControlValueAccessor,
+        RangeValueAccessor,
+        NumberValueAccessor,
+        SelectControlValueAccessor,
+        SelectMultipleControlValueAccessor,
+        RadioControlValueAccessor,
+    ];
     function isBuiltInAccessor(valueAccessor) {
-        return (hasConstructor(valueAccessor, CheckboxControlValueAccessor) ||
-            hasConstructor(valueAccessor, RangeValueAccessor) ||
-            hasConstructor(valueAccessor, NumberValueAccessor) ||
-            hasConstructor(valueAccessor, SelectControlValueAccessor) ||
-            hasConstructor(valueAccessor, SelectMultipleControlValueAccessor) ||
-            hasConstructor(valueAccessor, RadioControlValueAccessor));
+        return BUILTIN_ACCESSORS.some(function (a) { return valueAccessor.constructor === a; });
     }
     // TODO: vsavkin remove it once https://github.com/angular/angular/issues/3011 is implemented
     function selectValueAccessor(dir, valueAccessors) {
@@ -1451,25 +1399,25 @@
         var builtinAccessor;
         var customAccessor;
         valueAccessors.forEach(function (v) {
-            if (hasConstructor(v, DefaultValueAccessor)) {
+            if (v.constructor === DefaultValueAccessor) {
                 defaultAccessor = v;
             }
             else if (isBuiltInAccessor(v)) {
-                if (isPresent(builtinAccessor))
+                if (builtinAccessor)
                     _throwError(dir, 'More than one built-in value accessor matches form control with');
                 builtinAccessor = v;
             }
             else {
-                if (isPresent(customAccessor))
+                if (customAccessor)
                     _throwError(dir, 'More than one custom value accessor matches form control with');
                 customAccessor = v;
             }
         });
-        if (isPresent(customAccessor))
+        if (customAccessor)
             return customAccessor;
-        if (isPresent(builtinAccessor))
+        if (builtinAccessor)
             return builtinAccessor;
-        if (isPresent(defaultAccessor))
+        if (defaultAccessor)
             return defaultAccessor;
         _throwError(dir, 'No valid value accessor for form control with');
         return null;
@@ -2331,8 +2279,8 @@
         };
         /** @internal */
         AbstractControl.prototype._isBoxedValue = function (formState) {
-            return isStringMap(formState) && Object.keys(formState).length === 2 && 'value' in formState &&
-                'disabled' in formState;
+            return typeof formState === 'object' && formState !== null &&
+                Object.keys(formState).length === 2 && 'value' in formState && 'disabled' in formState;
         };
         /** @internal */
         AbstractControl.prototype._registerOnCollectionChange = function (fn) { this._onCollectionChange = fn; };
@@ -4539,7 +4487,7 @@
                 controlConfig instanceof FormArray) {
                 return controlConfig;
             }
-            else if (isArray(controlConfig)) {
+            else if (Array.isArray(controlConfig)) {
                 var value = controlConfig[0];
                 var validator = controlConfig.length > 1 ? controlConfig[1] : null;
                 var asyncValidator = controlConfig.length > 2 ? controlConfig[2] : null;
