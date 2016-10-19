@@ -178,6 +178,14 @@
             if (isPresent(this.control))
                 this.control.reset(value);
         };
+        AbstractControlDirective.prototype.hasError = function (errorCode, path) {
+            if (path === void 0) { path = null; }
+            return isPresent(this.control) ? this.control.hasError(errorCode, path) : false;
+        };
+        AbstractControlDirective.prototype.getError = function (errorCode, path) {
+            if (path === void 0) { path = null; }
+            return isPresent(this.control) ? this.control.getError(errorCode, path) : null;
+        };
         return AbstractControlDirective;
     }());
 
