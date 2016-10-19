@@ -13,7 +13,6 @@ import { DefaultValueAccessor } from './default_value_accessor';
 import { normalizeAsyncValidator, normalizeValidator } from './normalize_validator';
 import { NumberValueAccessor } from './number_value_accessor';
 import { RadioControlValueAccessor } from './radio_control_value_accessor';
-import { RangeValueAccessor } from './range_value_accessor';
 import { SelectControlValueAccessor } from './select_control_value_accessor';
 import { SelectMultipleControlValueAccessor } from './select_multiple_control_value_accessor';
 export function controlPath(name, parent) {
@@ -104,7 +103,6 @@ export function isPropertyUpdated(changes, viewModel) {
 }
 export function isBuiltInAccessor(valueAccessor) {
     return (hasConstructor(valueAccessor, CheckboxControlValueAccessor) ||
-        hasConstructor(valueAccessor, RangeValueAccessor) ||
         hasConstructor(valueAccessor, NumberValueAccessor) ||
         hasConstructor(valueAccessor, SelectControlValueAccessor) ||
         hasConstructor(valueAccessor, SelectMultipleControlValueAccessor) ||
