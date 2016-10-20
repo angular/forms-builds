@@ -60,13 +60,6 @@ export var AbstractControlStatus = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
-        get: function () {
-            return isPresent(this._cd.control) ? this._cd.control.pending : false;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return AbstractControlStatus;
 }());
 export var ngControlStatusHost = {
@@ -75,8 +68,7 @@ export var ngControlStatusHost = {
     '[class.ng-pristine]': 'ngClassPristine',
     '[class.ng-dirty]': 'ngClassDirty',
     '[class.ng-valid]': 'ngClassValid',
-    '[class.ng-invalid]': 'ngClassInvalid',
-    '[class.ng-pending]': 'ngClassPending'
+    '[class.ng-invalid]': 'ngClassInvalid'
 };
 /**
  * Directive automatically applied to Angular form controls that sets CSS classes

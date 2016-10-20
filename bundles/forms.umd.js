@@ -15,6 +15,56 @@
     function isBlank(obj) {
         return obj === undefined || obj === null;
     }
+    function isString(obj) {
+        return typeof obj === 'string';
+    }
+    function isStringMap(obj) {
+        return typeof obj === 'object' && obj !== null;
+    }
+    function isArray(obj) {
+        return Array.isArray(obj);
+    }
+    var NumberWrapper = (function () {
+        function NumberWrapper() {
+        }
+        NumberWrapper.toFixed = function (n, fractionDigits) { return n.toFixed(fractionDigits); };
+        NumberWrapper.equal = function (a, b) { return a === b; };
+        NumberWrapper.parseIntAutoRadix = function (text) {
+            var result = parseInt(text);
+            if (isNaN(result)) {
+                throw new Error('Invalid integer literal when parsing ' + text);
+            }
+            return result;
+        };
+        NumberWrapper.parseInt = function (text, radix) {
+            if (radix == 10) {
+                if (/^(\-|\+)?[0-9]+$/.test(text)) {
+                    return parseInt(text, radix);
+                }
+            }
+            else if (radix == 16) {
+                if (/^(\-|\+)?[0-9ABCDEFabcdef]+$/.test(text)) {
+                    return parseInt(text, radix);
+                }
+            }
+            else {
+                var result = parseInt(text, radix);
+                if (!isNaN(result)) {
+                    return result;
+                }
+            }
+            throw new Error('Invalid integer literal when parsing ' + text + ' in base ' + radix);
+        };
+        Object.defineProperty(NumberWrapper, "NaN", {
+            get: function () { return NaN; },
+            enumerable: true,
+            configurable: true
+        });
+        NumberWrapper.isNumeric = function (value) { return !isNaN(value - parseFloat(value)); };
+        NumberWrapper.isNaN = function (value) { return isNaN(value); };
+        NumberWrapper.isInteger = function (value) { return Number.isInteger(value); };
+        return NumberWrapper;
+    }());
     // JS has NaN !== NaN
     function looseIdentical(a, b) {
         return a === b || typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b);
@@ -27,6 +77,9 @@
     }
     function isPrimitive(obj) {
         return !isJsObject(obj);
+    }
+    function hasConstructor(value, type) {
+        return value.constructor === type;
     }
 
     /**
@@ -125,14 +178,6 @@
             if (isPresent(this.control))
                 this.control.reset(value);
         };
-        AbstractControlDirective.prototype.hasError = function (errorCode, path) {
-            if (path === void 0) { path = null; }
-            return isPresent(this.control) ? this.control.hasError(errorCode, path) : false;
-        };
-        AbstractControlDirective.prototype.getError = function (errorCode, path) {
-            if (path === void 0) { path = null; }
-            return isPresent(this.control) ? this.control.getError(errorCode, path) : null;
-        };
         return AbstractControlDirective;
     }());
 
@@ -179,6 +224,41 @@
         return ControlContainer;
     }(AbstractControlDirective));
 
+    // Safari and Internet Explorer do not support the iterable parameter to the
+    // Map constructor.  We work around that by manually adding the items.
+    var createMapFromPairs = (function () {
+        try {
+            if (new Map([[1, 2]]).size === 1) {
+                return function createMapFromPairs(pairs) { return new Map(pairs); };
+            }
+        }
+        catch (e) {
+        }
+        return function createMapAndPopulateFromPairs(pairs) {
+            var map = new Map();
+            for (var i = 0; i < pairs.length; i++) {
+                var pair = pairs[i];
+                map.set(pair[0], pair[1]);
+            }
+            return map;
+        };
+    })();
+    var _clearValues = (function () {
+        if ((new Map()).keys().next) {
+            return function _clearValues(m) {
+                var keyIterator = m.keys();
+                var k;
+                while (!((k = keyIterator.next()).done)) {
+                    m.set(k.value, null);
+                }
+            };
+        }
+        else {
+            return function _clearValuesWithForeEach(m) {
+                m.forEach(function (v, k) { m.set(k, null); });
+            };
+        }
+    })();
     // Safari doesn't implement MapIterator.next(), which is used is Traceur's polyfill of Array.from
     // TODO(mlaval): remove the work around once we have a working polyfill of Array.from
     var _arrayFromMap = (function () {
@@ -210,6 +290,13 @@
             }
             return result;
         };
+        MapWrapper.toStringMap = function (m) {
+            var r = {};
+            m.forEach(function (v, k) { return r[k] = v; });
+            return r;
+        };
+        MapWrapper.createFromPairs = function (pairs) { return createMapFromPairs(pairs); };
+        MapWrapper.iterable = function (m) { return m; };
         MapWrapper.keys = function (m) { return _arrayFromMap(m, false); };
         MapWrapper.values = function (m) { return _arrayFromMap(m, true); };
         return MapWrapper;
@@ -368,7 +455,7 @@
         if (isPresent(source)) {
             for (var i = 0; i < source.length; i++) {
                 var item = source[i];
-                if (Array.isArray(item)) {
+                if (isArray(item)) {
                     _flattenArray(item, target);
                 }
                 else {
@@ -458,25 +545,15 @@
          * Validator that requires a control to match a regex to its value.
          */
         Validators.pattern = function (pattern) {
-            if (!pattern)
-                return Validators.nullValidator;
-            var regex;
-            var regexStr;
-            if (typeof pattern === 'string') {
-                regexStr = "^" + pattern + "$";
-                regex = new RegExp(regexStr);
-            }
-            else {
-                regexStr = pattern.toString();
-                regex = pattern;
-            }
             return function (control) {
                 if (isEmptyInputValue(control.value)) {
                     return null; // don't validate empty values to allow optional controls
                 }
+                var regex = new RegExp("^" + pattern + "$");
                 var value = control.value;
-                return regex.test(value) ? null :
-                    { 'pattern': { 'requiredPattern': regexStr, 'actualValue': value } };
+                return regex.test(value) ?
+                    null :
+                    { 'pattern': { 'requiredPattern': "^" + pattern + "$", 'actualValue': value } };
             };
         };
         /**
@@ -892,56 +969,6 @@
         return RadioControlValueAccessor;
     }());
 
-    var RANGE_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: _angular_core.forwardRef(function () { return RangeValueAccessor; }),
-        multi: true
-    };
-    /**
-     * The accessor for writing a range value and listening to changes that is used by the
-     * {@link NgModel}, {@link FormControlDirective}, and {@link FormControlName} directives.
-     *
-     *  ### Example
-     *  ```
-     *  <input type="range" [(ngModel)]="age" >
-     *  ```
-     */
-    var RangeValueAccessor = (function () {
-        function RangeValueAccessor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            this.onChange = function (_) { };
-            this.onTouched = function () { };
-        }
-        RangeValueAccessor.prototype.writeValue = function (value) {
-            this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
-        };
-        RangeValueAccessor.prototype.registerOnChange = function (fn) {
-            this.onChange = function (value) { fn(value == '' ? null : parseFloat(value)); };
-        };
-        RangeValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-        RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        RangeValueAccessor.decorators = [
-            { type: _angular_core.Directive, args: [{
-                        selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
-                        host: {
-                            '(change)': 'onChange($event.target.value)',
-                            '(input)': 'onChange($event.target.value)',
-                            '(blur)': 'onTouched()'
-                        },
-                        providers: [RANGE_VALUE_ACCESSOR]
-                    },] },
-        ];
-        /** @nocollapse */
-        RangeValueAccessor.ctorParameters = [
-            { type: _angular_core.Renderer, },
-            { type: _angular_core.ElementRef, },
-        ];
-        return RangeValueAccessor;
-    }());
-
     var SELECT_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
         useExisting: _angular_core.forwardRef(function () { return SelectControlValueAccessor; }),
@@ -1123,7 +1150,7 @@
     function _buildValueString$1(id, value) {
         if (isBlank(id))
             return "" + value;
-        if (typeof value === 'string')
+        if (isString(value))
             value = "'" + value + "'";
         if (!isPrimitive(value))
             value = 'Object';
@@ -1297,7 +1324,9 @@
     }());
 
     function controlPath(name, parent) {
-        return parent.path.concat([name]);
+        var p = ListWrapper.clone(parent.path);
+        p.push(name);
+        return p;
     }
     function setUpControl(control, dir) {
         if (!control)
@@ -1380,16 +1409,12 @@
             return true;
         return !looseIdentical(viewModel, change.currentValue);
     }
-    var BUILTIN_ACCESSORS = [
-        CheckboxControlValueAccessor,
-        RangeValueAccessor,
-        NumberValueAccessor,
-        SelectControlValueAccessor,
-        SelectMultipleControlValueAccessor,
-        RadioControlValueAccessor,
-    ];
     function isBuiltInAccessor(valueAccessor) {
-        return BUILTIN_ACCESSORS.some(function (a) { return valueAccessor.constructor === a; });
+        return (hasConstructor(valueAccessor, CheckboxControlValueAccessor) ||
+            hasConstructor(valueAccessor, NumberValueAccessor) ||
+            hasConstructor(valueAccessor, SelectControlValueAccessor) ||
+            hasConstructor(valueAccessor, SelectMultipleControlValueAccessor) ||
+            hasConstructor(valueAccessor, RadioControlValueAccessor));
     }
     // TODO: vsavkin remove it once https://github.com/angular/angular/issues/3011 is implemented
     function selectValueAccessor(dir, valueAccessors) {
@@ -1399,25 +1424,25 @@
         var builtinAccessor;
         var customAccessor;
         valueAccessors.forEach(function (v) {
-            if (v.constructor === DefaultValueAccessor) {
+            if (hasConstructor(v, DefaultValueAccessor)) {
                 defaultAccessor = v;
             }
             else if (isBuiltInAccessor(v)) {
-                if (builtinAccessor)
+                if (isPresent(builtinAccessor))
                     _throwError(dir, 'More than one built-in value accessor matches form control with');
                 builtinAccessor = v;
             }
             else {
-                if (customAccessor)
+                if (isPresent(customAccessor))
                     _throwError(dir, 'More than one custom value accessor matches form control with');
                 customAccessor = v;
             }
         });
-        if (customAccessor)
+        if (isPresent(customAccessor))
             return customAccessor;
-        if (builtinAccessor)
+        if (isPresent(builtinAccessor))
             return builtinAccessor;
-        if (defaultAccessor)
+        if (isPresent(defaultAccessor))
             return defaultAccessor;
         _throwError(dir, 'No valid value accessor for form control with');
         return null;
@@ -1551,13 +1576,6 @@
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
-            get: function () {
-                return isPresent(this._cd.control) ? this._cd.control.pending : false;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return AbstractControlStatus;
     }());
     var ngControlStatusHost = {
@@ -1566,8 +1584,7 @@
         '[class.ng-pristine]': 'ngClassPristine',
         '[class.ng-dirty]': 'ngClassDirty',
         '[class.ng-valid]': 'ngClassValid',
-        '[class.ng-invalid]': 'ngClassInvalid',
-        '[class.ng-pending]': 'ngClassPending'
+        '[class.ng-invalid]': 'ngClassInvalid'
     };
     /**
      * Directive automatically applied to Angular form controls that sets CSS classes
@@ -1754,7 +1771,7 @@
         if (!(path instanceof Array)) {
             path = path.split(delimiter);
         }
-        if (path instanceof Array && (path.length === 0))
+        if (path instanceof Array && ListWrapper.isEmpty(path))
             return null;
         return path.reduce(function (v, name) {
             if (v instanceof FormGroup) {
@@ -1802,14 +1819,6 @@
              * The value of the control.
              */
             get: function () { return this._value; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AbstractControl.prototype, "parent", {
-            /**
-             * The parent control.
-             */
-            get: function () { return this._parent; },
             enumerable: true,
             configurable: true
         });
@@ -2131,8 +2140,7 @@
                 this._status = PENDING;
                 this._cancelExistingSubscription();
                 var obs = toObservable(this.asyncValidator(this));
-                this._asyncValidationSubscription =
-                    obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
+                this._asyncValidationSubscription = obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
             }
         };
         AbstractControl.prototype._cancelExistingSubscription = function () {
@@ -2191,7 +2199,7 @@
          */
         AbstractControl.prototype.getError = function (errorCode, path) {
             if (path === void 0) { path = null; }
-            var control = isPresent(path) && (path.length > 0) ? this.get(path) : this;
+            var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
             if (isPresent(control) && isPresent(control._errors)) {
                 return control._errors[errorCode];
             }
@@ -2251,7 +2259,7 @@
         };
         /** @internal */
         AbstractControl.prototype._anyControlsHaveStatus = function (status) {
-            return this._anyControls(function (control) { return control.status === status; });
+            return this._anyControls(function (control) { return control.status == status; });
         };
         /** @internal */
         AbstractControl.prototype._anyControlsDirty = function () {
@@ -2279,8 +2287,8 @@
         };
         /** @internal */
         AbstractControl.prototype._isBoxedValue = function (formState) {
-            return typeof formState === 'object' && formState !== null &&
-                Object.keys(formState).length === 2 && 'value' in formState && 'disabled' in formState;
+            return isStringMap(formState) && Object.keys(formState).length === 2 && 'value' in formState &&
+                'disabled' in formState;
         };
         /** @internal */
         AbstractControl.prototype._registerOnCollectionChange = function (fn) { this._onCollectionChange = fn; };
@@ -2411,11 +2419,11 @@
          */
         FormControl.prototype.reset = function (formState, _a) {
             if (formState === void 0) { formState = null; }
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             this._applyFormState(formState);
             this.markAsPristine({ onlySelf: onlySelf });
             this.markAsUntouched({ onlySelf: onlySelf });
-            this.setValue(this._value, { onlySelf: onlySelf, emitEvent: emitEvent });
+            this.setValue(this._value, { onlySelf: onlySelf });
         };
         /**
          * @internal
@@ -2603,13 +2611,13 @@
          */
         FormGroup.prototype.setValue = function (value, _a) {
             var _this = this;
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             this._checkAllValuesPresent(value);
             Object.keys(value).forEach(function (name) {
                 _this._throwIfControlMissing(name);
-                _this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: emitEvent });
+                _this.controls[name].setValue(value[name], { onlySelf: true });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
         };
         /**
          *  Patches the value of the {@link FormGroup}. It accepts an object with control
@@ -2634,13 +2642,13 @@
          */
         FormGroup.prototype.patchValue = function (value, _a) {
             var _this = this;
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             Object.keys(value).forEach(function (name) {
                 if (_this.controls[name]) {
-                    _this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: emitEvent });
+                    _this.controls[name].patchValue(value[name], { onlySelf: true });
                 }
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
         };
         /**
          * Resets the {@link FormGroup}. This means by default:
@@ -2676,11 +2684,11 @@
          */
         FormGroup.prototype.reset = function (value, _a) {
             if (value === void 0) { value = {}; }
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             this._forEachChild(function (control, name) {
-                control.reset(value[name], { onlySelf: true, emitEvent: emitEvent });
+                control.reset(value[name], { onlySelf: true });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
             this._updatePristine({ onlySelf: onlySelf });
             this._updateTouched({ onlySelf: onlySelf });
         };
@@ -2837,7 +2845,7 @@
          * Insert a new {@link AbstractControl} at the given `index` in the array.
          */
         FormArray.prototype.insert = function (index, control) {
-            this.controls.splice(index, 0, control);
+            ListWrapper.insert(this.controls, index, control);
             this._registerControl(control);
             this.updateValueAndValidity();
             this._onCollectionChange();
@@ -2848,7 +2856,7 @@
         FormArray.prototype.removeAt = function (index) {
             if (this.controls[index])
                 this.controls[index]._registerOnCollectionChange(function () { });
-            this.controls.splice(index, 1);
+            ListWrapper.removeAt(this.controls, index);
             this.updateValueAndValidity();
             this._onCollectionChange();
         };
@@ -2858,9 +2866,9 @@
         FormArray.prototype.setControl = function (index, control) {
             if (this.controls[index])
                 this.controls[index]._registerOnCollectionChange(function () { });
-            this.controls.splice(index, 1);
+            ListWrapper.removeAt(this.controls, index);
             if (control) {
-                this.controls.splice(index, 0, control);
+                ListWrapper.insert(this.controls, index, control);
                 this._registerControl(control);
             }
             this.updateValueAndValidity();
@@ -2897,13 +2905,13 @@
          */
         FormArray.prototype.setValue = function (value, _a) {
             var _this = this;
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             this._checkAllValuesPresent(value);
             value.forEach(function (newValue, index) {
                 _this._throwIfControlMissing(index);
-                _this.at(index).setValue(newValue, { onlySelf: true, emitEvent: emitEvent });
+                _this.at(index).setValue(newValue, { onlySelf: true });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
         };
         /**
          *  Patches the value of the {@link FormArray}. It accepts an array that matches the
@@ -2927,13 +2935,13 @@
          */
         FormArray.prototype.patchValue = function (value, _a) {
             var _this = this;
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             value.forEach(function (newValue, index) {
                 if (_this.at(index)) {
-                    _this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: emitEvent });
+                    _this.at(index).patchValue(newValue, { onlySelf: true });
                 }
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
         };
         /**
          * Resets the {@link FormArray}. This means by default:
@@ -2968,11 +2976,11 @@
          */
         FormArray.prototype.reset = function (value, _a) {
             if (value === void 0) { value = []; }
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
             this._forEachChild(function (control, index) {
-                control.reset(value[index], { onlySelf: true, emitEvent: emitEvent });
+                control.reset(value[index], { onlySelf: true });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+            this.updateValueAndValidity({ onlySelf: onlySelf });
             this._updatePristine({ onlySelf: onlySelf });
             this._updateTouched({ onlySelf: onlySelf });
         };
@@ -4487,7 +4495,7 @@
                 controlConfig instanceof FormArray) {
                 return controlConfig;
             }
-            else if (Array.isArray(controlConfig)) {
+            else if (isArray(controlConfig)) {
                 var value = controlConfig[0];
                 var validator = controlConfig.length > 1 ? controlConfig[1] : null;
                 var asyncValidator = controlConfig.length > 2 ? controlConfig[2] : null;
@@ -4507,9 +4515,9 @@
 
     var SHARED_FORM_DIRECTIVES = [
         NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
-        RangeValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor,
-        SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus,
-        NgControlStatusGroup, RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
+        CheckboxControlValueAccessor, SelectControlValueAccessor, SelectMultipleControlValueAccessor,
+        RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator,
+        MinLengthValidator, MaxLengthValidator, PatternValidator
     ];
     var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
     var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
