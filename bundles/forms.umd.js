@@ -176,41 +176,6 @@
         return ControlContainer;
     }(AbstractControlDirective));
 
-    // Safari doesn't implement MapIterator.next(), which is used is Traceur's polyfill of Array.from
-    // TODO(mlaval): remove the work around once we have a working polyfill of Array.from
-    var _arrayFromMap = (function () {
-        try {
-            if ((new Map()).values().next) {
-                return function createArrayFromMap(m, getValues) {
-                    return getValues ? Array.from(m.values()) : Array.from(m.keys());
-                };
-            }
-        }
-        catch (e) {
-        }
-        return function createArrayFromMapWithForeach(m, getValues) {
-            var res = new Array(m.size), i = 0;
-            m.forEach(function (v, k) {
-                res[i] = getValues ? v : k;
-                i++;
-            });
-            return res;
-        };
-    })();
-    var MapWrapper = (function () {
-        function MapWrapper() {
-        }
-        MapWrapper.createFromStringMap = function (stringMap) {
-            var result = new Map();
-            for (var prop in stringMap) {
-                result.set(prop, stringMap[prop]);
-            }
-            return result;
-        };
-        MapWrapper.keys = function (m) { return _arrayFromMap(m, false); };
-        MapWrapper.values = function (m) { return _arrayFromMap(m, true); };
-        return MapWrapper;
-    }());
     /**
      * Wraps Javascript Objects
      */
@@ -959,7 +924,7 @@
         SelectControlValueAccessor.prototype._registerOption = function () { return (this._idCounter++).toString(); };
         /** @internal */
         SelectControlValueAccessor.prototype._getOptionId = function (value) {
-            for (var _i = 0, _a = MapWrapper.keys(this._optionMap); _i < _a.length; _i++) {
+            for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
                 var id = _a[_i];
                 if (looseIdentical(this._optionMap.get(id), value))
                     return id;
@@ -1128,7 +1093,7 @@
         };
         /** @internal */
         SelectMultipleControlValueAccessor.prototype._getOptionId = function (value) {
-            for (var _i = 0, _a = MapWrapper.keys(this._optionMap); _i < _a.length; _i++) {
+            for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
                 var id = _a[_i];
                 if (looseIdentical(this._optionMap.get(id)._value, value))
                     return id;
