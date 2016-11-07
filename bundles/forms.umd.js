@@ -122,6 +122,14 @@
             if (isPresent(this.control))
                 this.control.reset(value);
         };
+        AbstractControlDirective.prototype.hasError = function (errorCode, path) {
+            if (path === void 0) { path = null; }
+            return isPresent(this.control) ? this.control.hasError(errorCode, path) : false;
+        };
+        AbstractControlDirective.prototype.getError = function (errorCode, path) {
+            if (path === void 0) { path = null; }
+            return isPresent(this.control) ? this.control.getError(errorCode, path) : null;
+        };
         return AbstractControlDirective;
     }());
 
@@ -168,41 +176,6 @@
         return ControlContainer;
     }(AbstractControlDirective));
 
-    // Safari doesn't implement MapIterator.next(), which is used is Traceur's polyfill of Array.from
-    // TODO(mlaval): remove the work around once we have a working polyfill of Array.from
-    var _arrayFromMap = (function () {
-        try {
-            if ((new Map()).values().next) {
-                return function createArrayFromMap(m, getValues) {
-                    return getValues ? Array.from(m.values()) : Array.from(m.keys());
-                };
-            }
-        }
-        catch (e) {
-        }
-        return function createArrayFromMapWithForeach(m, getValues) {
-            var res = new Array(m.size), i = 0;
-            m.forEach(function (v, k) {
-                res[i] = getValues ? v : k;
-                i++;
-            });
-            return res;
-        };
-    })();
-    var MapWrapper = (function () {
-        function MapWrapper() {
-        }
-        MapWrapper.createFromStringMap = function (stringMap) {
-            var result = new Map();
-            for (var prop in stringMap) {
-                result.set(prop, stringMap[prop]);
-            }
-            return result;
-        };
-        MapWrapper.keys = function (m) { return _arrayFromMap(m, false); };
-        MapWrapper.values = function (m) { return _arrayFromMap(m, true); };
-        return MapWrapper;
-    }());
     /**
      * Wraps Javascript Objects
      */
@@ -383,15 +356,25 @@
          * Validator that requires a control to match a regex to its value.
          */
         Validators.pattern = function (pattern) {
+            if (!pattern)
+                return Validators.nullValidator;
+            var regex;
+            var regexStr;
+            if (typeof pattern === 'string') {
+                regexStr = "^" + pattern + "$";
+                regex = new RegExp(regexStr);
+            }
+            else {
+                regexStr = pattern.toString();
+                regex = pattern;
+            }
             return function (control) {
                 if (isEmptyInputValue(control.value)) {
                     return null; // don't validate empty values to allow optional controls
                 }
-                var regex = new RegExp("^" + pattern + "$");
                 var value = control.value;
-                return regex.test(value) ?
-                    null :
-                    { 'pattern': { 'requiredPattern': "^" + pattern + "$", 'actualValue': value } };
+                return regex.test(value) ? null :
+                    { 'pattern': { 'requiredPattern': regexStr, 'actualValue': value } };
             };
         };
         /**
@@ -807,6 +790,56 @@
         return RadioControlValueAccessor;
     }());
 
+    var RANGE_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: _angular_core.forwardRef(function () { return RangeValueAccessor; }),
+        multi: true
+    };
+    /**
+     * The accessor for writing a range value and listening to changes that is used by the
+     * {@link NgModel}, {@link FormControlDirective}, and {@link FormControlName} directives.
+     *
+     *  ### Example
+     *  ```
+     *  <input type="range" [(ngModel)]="age" >
+     *  ```
+     */
+    var RangeValueAccessor = (function () {
+        function RangeValueAccessor(_renderer, _elementRef) {
+            this._renderer = _renderer;
+            this._elementRef = _elementRef;
+            this.onChange = function (_) { };
+            this.onTouched = function () { };
+        }
+        RangeValueAccessor.prototype.writeValue = function (value) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
+        };
+        RangeValueAccessor.prototype.registerOnChange = function (fn) {
+            this.onChange = function (value) { fn(value == '' ? null : parseFloat(value)); };
+        };
+        RangeValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+        RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        RangeValueAccessor.decorators = [
+            { type: _angular_core.Directive, args: [{
+                        selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
+                        host: {
+                            '(change)': 'onChange($event.target.value)',
+                            '(input)': 'onChange($event.target.value)',
+                            '(blur)': 'onTouched()'
+                        },
+                        providers: [RANGE_VALUE_ACCESSOR]
+                    },] },
+        ];
+        /** @nocollapse */
+        RangeValueAccessor.ctorParameters = [
+            { type: _angular_core.Renderer, },
+            { type: _angular_core.ElementRef, },
+        ];
+        return RangeValueAccessor;
+    }());
+
     var SELECT_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
         useExisting: _angular_core.forwardRef(function () { return SelectControlValueAccessor; }),
@@ -891,7 +924,7 @@
         SelectControlValueAccessor.prototype._registerOption = function () { return (this._idCounter++).toString(); };
         /** @internal */
         SelectControlValueAccessor.prototype._getOptionId = function (value) {
-            for (var _i = 0, _a = MapWrapper.keys(this._optionMap); _i < _a.length; _i++) {
+            for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
                 var id = _a[_i];
                 if (looseIdentical(this._optionMap.get(id), value))
                     return id;
@@ -1060,7 +1093,7 @@
         };
         /** @internal */
         SelectMultipleControlValueAccessor.prototype._getOptionId = function (value) {
-            for (var _i = 0, _a = MapWrapper.keys(this._optionMap); _i < _a.length; _i++) {
+            for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
                 var id = _a[_i];
                 if (looseIdentical(this._optionMap.get(id)._value, value))
                     return id;
@@ -1247,6 +1280,7 @@
     }
     var BUILTIN_ACCESSORS = [
         CheckboxControlValueAccessor,
+        RangeValueAccessor,
         NumberValueAccessor,
         SelectControlValueAccessor,
         SelectMultipleControlValueAccessor,
@@ -1415,6 +1449,13 @@
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.pending : false;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return AbstractControlStatus;
     }());
     var ngControlStatusHost = {
@@ -1423,7 +1464,8 @@
         '[class.ng-pristine]': 'ngClassPristine',
         '[class.ng-dirty]': 'ngClassDirty',
         '[class.ng-valid]': 'ngClassValid',
-        '[class.ng-invalid]': 'ngClassInvalid'
+        '[class.ng-invalid]': 'ngClassInvalid',
+        '[class.ng-pending]': 'ngClassPending'
     };
     /**
      * Directive automatically applied to Angular form controls that sets CSS classes
@@ -1658,6 +1700,14 @@
              * The value of the control.
              */
             get: function () { return this._value; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControl.prototype, "parent", {
+            /**
+             * The parent control.
+             */
+            get: function () { return this._parent; },
             enumerable: true,
             configurable: true
         });
@@ -2245,11 +2295,11 @@
          */
         FormControl.prototype.reset = function (formState, _a) {
             if (formState === void 0) { formState = null; }
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._applyFormState(formState);
             this.markAsPristine({ onlySelf: onlySelf });
             this.markAsUntouched({ onlySelf: onlySelf });
-            this.setValue(this._value, { onlySelf: onlySelf });
+            this.setValue(this._value, { onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          * @internal
@@ -2437,13 +2487,13 @@
          */
         FormGroup.prototype.setValue = function (value, _a) {
             var _this = this;
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._checkAllValuesPresent(value);
             Object.keys(value).forEach(function (name) {
                 _this._throwIfControlMissing(name);
-                _this.controls[name].setValue(value[name], { onlySelf: true });
+                _this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: emitEvent });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          *  Patches the value of the {@link FormGroup}. It accepts an object with control
@@ -2468,13 +2518,13 @@
          */
         FormGroup.prototype.patchValue = function (value, _a) {
             var _this = this;
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             Object.keys(value).forEach(function (name) {
                 if (_this.controls[name]) {
-                    _this.controls[name].patchValue(value[name], { onlySelf: true });
+                    _this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: emitEvent });
                 }
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          * Resets the {@link FormGroup}. This means by default:
@@ -2510,11 +2560,11 @@
          */
         FormGroup.prototype.reset = function (value, _a) {
             if (value === void 0) { value = {}; }
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._forEachChild(function (control, name) {
-                control.reset(value[name], { onlySelf: true });
+                control.reset(value[name], { onlySelf: true, emitEvent: emitEvent });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
             this._updatePristine({ onlySelf: onlySelf });
             this._updateTouched({ onlySelf: onlySelf });
         };
@@ -2731,13 +2781,13 @@
          */
         FormArray.prototype.setValue = function (value, _a) {
             var _this = this;
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._checkAllValuesPresent(value);
             value.forEach(function (newValue, index) {
                 _this._throwIfControlMissing(index);
-                _this.at(index).setValue(newValue, { onlySelf: true });
+                _this.at(index).setValue(newValue, { onlySelf: true, emitEvent: emitEvent });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          *  Patches the value of the {@link FormArray}. It accepts an array that matches the
@@ -2761,13 +2811,13 @@
          */
         FormArray.prototype.patchValue = function (value, _a) {
             var _this = this;
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             value.forEach(function (newValue, index) {
                 if (_this.at(index)) {
-                    _this.at(index).patchValue(newValue, { onlySelf: true });
+                    _this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: emitEvent });
                 }
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
         };
         /**
          * Resets the {@link FormArray}. This means by default:
@@ -2802,11 +2852,11 @@
          */
         FormArray.prototype.reset = function (value, _a) {
             if (value === void 0) { value = []; }
-            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
             this._forEachChild(function (control, index) {
-                control.reset(value[index], { onlySelf: true });
+                control.reset(value[index], { onlySelf: true, emitEvent: emitEvent });
             });
-            this.updateValueAndValidity({ onlySelf: onlySelf });
+            this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
             this._updatePristine({ onlySelf: onlySelf });
             this._updateTouched({ onlySelf: onlySelf });
         };
@@ -4341,9 +4391,9 @@
 
     var SHARED_FORM_DIRECTIVES = [
         NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
-        CheckboxControlValueAccessor, SelectControlValueAccessor, SelectMultipleControlValueAccessor,
-        RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator,
-        MinLengthValidator, MaxLengthValidator, PatternValidator
+        RangeValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor,
+        SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus,
+        NgControlStatusGroup, RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
     ];
     var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
     var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
