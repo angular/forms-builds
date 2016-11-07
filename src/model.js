@@ -92,14 +92,6 @@ export var AbstractControl = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AbstractControl.prototype, "parent", {
-        /**
-         * The parent control.
-         */
-        get: function () { return this._parent; },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(AbstractControl.prototype, "status", {
         /**
          * The validation status of the control. There are four possible
@@ -684,11 +676,11 @@ export var FormControl = (function (_super) {
      */
     FormControl.prototype.reset = function (formState, _a) {
         if (formState === void 0) { formState = null; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         this._applyFormState(formState);
         this.markAsPristine({ onlySelf: onlySelf });
         this.markAsUntouched({ onlySelf: onlySelf });
-        this.setValue(this._value, { onlySelf: onlySelf, emitEvent: emitEvent });
+        this.setValue(this._value, { onlySelf: onlySelf });
     };
     /**
      * @internal
@@ -876,13 +868,13 @@ export var FormGroup = (function (_super) {
      */
     FormGroup.prototype.setValue = function (value, _a) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         this._checkAllValuesPresent(value);
         Object.keys(value).forEach(function (name) {
             _this._throwIfControlMissing(name);
-            _this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: emitEvent });
+            _this.controls[name].setValue(value[name], { onlySelf: true });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
     };
     /**
      *  Patches the value of the {@link FormGroup}. It accepts an object with control
@@ -907,13 +899,13 @@ export var FormGroup = (function (_super) {
      */
     FormGroup.prototype.patchValue = function (value, _a) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         Object.keys(value).forEach(function (name) {
             if (_this.controls[name]) {
-                _this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: emitEvent });
+                _this.controls[name].patchValue(value[name], { onlySelf: true });
             }
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
     };
     /**
      * Resets the {@link FormGroup}. This means by default:
@@ -949,11 +941,11 @@ export var FormGroup = (function (_super) {
      */
     FormGroup.prototype.reset = function (value, _a) {
         if (value === void 0) { value = {}; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         this._forEachChild(function (control, name) {
-            control.reset(value[name], { onlySelf: true, emitEvent: emitEvent });
+            control.reset(value[name], { onlySelf: true });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
         this._updatePristine({ onlySelf: onlySelf });
         this._updateTouched({ onlySelf: onlySelf });
     };
@@ -1170,13 +1162,13 @@ export var FormArray = (function (_super) {
      */
     FormArray.prototype.setValue = function (value, _a) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         this._checkAllValuesPresent(value);
         value.forEach(function (newValue, index) {
             _this._throwIfControlMissing(index);
-            _this.at(index).setValue(newValue, { onlySelf: true, emitEvent: emitEvent });
+            _this.at(index).setValue(newValue, { onlySelf: true });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
     };
     /**
      *  Patches the value of the {@link FormArray}. It accepts an array that matches the
@@ -1200,13 +1192,13 @@ export var FormArray = (function (_super) {
      */
     FormArray.prototype.patchValue = function (value, _a) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         value.forEach(function (newValue, index) {
             if (_this.at(index)) {
-                _this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: emitEvent });
+                _this.at(index).patchValue(newValue, { onlySelf: true });
             }
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
     };
     /**
      * Resets the {@link FormArray}. This means by default:
@@ -1241,11 +1233,11 @@ export var FormArray = (function (_super) {
      */
     FormArray.prototype.reset = function (value, _a) {
         if (value === void 0) { value = []; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
         this._forEachChild(function (control, index) {
-            control.reset(value[index], { onlySelf: true, emitEvent: emitEvent });
+            control.reset(value[index], { onlySelf: true });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity({ onlySelf: onlySelf });
         this._updatePristine({ onlySelf: onlySelf });
         this._updateTouched({ onlySelf: onlySelf });
     };

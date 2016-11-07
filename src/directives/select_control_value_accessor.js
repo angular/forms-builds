@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, ElementRef, Host, Input, Optional, Renderer, forwardRef } from '@angular/core';
+import { MapWrapper } from '../facade/collection';
 import { isBlank, isPresent, isPrimitive, looseIdentical } from '../facade/lang';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
 export var SELECT_VALUE_ACCESSOR = {
@@ -92,7 +93,7 @@ export var SelectControlValueAccessor = (function () {
     SelectControlValueAccessor.prototype._registerOption = function () { return (this._idCounter++).toString(); };
     /** @internal */
     SelectControlValueAccessor.prototype._getOptionId = function (value) {
-        for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
+        for (var _i = 0, _a = MapWrapper.keys(this._optionMap); _i < _a.length; _i++) {
             var id = _a[_i];
             if (looseIdentical(this._optionMap.get(id), value))
                 return id;
