@@ -619,7 +619,7 @@ export declare class FormGroup extends AbstractControl {
      * If you'd like to include all values regardless of disabled status, use this method.
      * Otherwise, the `value` property is the best way to get the value of the group.
      */
-    getRawValue(): any;
+    getRawValue(): Object;
 }
 /**
  * @whatItDoes Tracks the value and validity state of an array of {@link FormControl}
