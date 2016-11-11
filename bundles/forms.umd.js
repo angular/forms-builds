@@ -1206,8 +1206,16 @@
     function cleanUpControl(control, dir) {
         dir.valueAccessor.registerOnChange(function () { return _noControlError(dir); });
         dir.valueAccessor.registerOnTouched(function () { return _noControlError(dir); });
-        dir._rawValidators.forEach(function (validator) { return validator.registerOnValidatorChange(null); });
-        dir._rawAsyncValidators.forEach(function (validator) { return validator.registerOnValidatorChange(null); });
+        dir._rawValidators.forEach(function (validator) {
+            if (validator.registerOnValidatorChange) {
+                validator.registerOnValidatorChange(null);
+            }
+        });
+        dir._rawAsyncValidators.forEach(function (validator) {
+            if (validator.registerOnValidatorChange) {
+                validator.registerOnValidatorChange(null);
+            }
+        });
         if (control)
             control._clearChangeFns();
     }
