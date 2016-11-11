@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive, ElementRef, Host, Input, Optional, Renderer, forwardRef } from '@angular/core';
-import { isPrimitive, looseIdentical } from '../facade/lang';
+import { isBlank, isPresent, isPrimitive, looseIdentical } from '../facade/lang';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
 export var SELECT_MULTIPLE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -14,7 +14,7 @@ export var SELECT_MULTIPLE_VALUE_ACCESSOR = {
     multi: true
 };
 function _buildValueString(id, value) {
-    if (id == null)
+    if (isBlank(id))
         return "" + value;
     if (typeof value === 'string')
         value = "'" + value + "'";
@@ -104,7 +104,7 @@ export var SelectMultipleControlValueAccessor = (function () {
     /** @internal */
     SelectMultipleControlValueAccessor.prototype._getOptionValue = function (valueString) {
         var opt = this._optionMap.get(_extractId(valueString));
-        return opt ? opt._value : valueString;
+        return isPresent(opt) ? opt._value : valueString;
     };
     SelectMultipleControlValueAccessor.decorators = [
         { type: Directive, args: [{
@@ -136,7 +136,7 @@ export var NgSelectMultipleOption = (function () {
         this._element = _element;
         this._renderer = _renderer;
         this._select = _select;
-        if (this._select) {
+        if (isPresent(this._select)) {
             this.id = this._select._registerOption(this);
         }
     }
@@ -153,7 +153,7 @@ export var NgSelectMultipleOption = (function () {
     });
     Object.defineProperty(NgSelectMultipleOption.prototype, "value", {
         set: function (value) {
-            if (this._select) {
+            if (isPresent(this._select)) {
                 this._value = value;
                 this._setElementValue(_buildValueString(this.id, value));
                 this._select.writeValue(this._select.value);
@@ -174,7 +174,7 @@ export var NgSelectMultipleOption = (function () {
         this._renderer.setElementProperty(this._element.nativeElement, 'selected', selected);
     };
     NgSelectMultipleOption.prototype.ngOnDestroy = function () {
-        if (this._select) {
+        if (isPresent(this._select)) {
             this._select._optionMap.delete(this.id);
             this._select.writeValue(this._select.value);
         }

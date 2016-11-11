@@ -9,13 +9,23 @@
     (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable.prototype,global.Rx,global.Rx,global.Rx.Observable));
 }(this, function (exports,_angular_core,rxjs_operator_toPromise,rxjs_Subject,rxjs_Observable,rxjs_observable_fromPromise) { 'use strict';
 
-    /**
-     * @license
-     * Copyright Google Inc. All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
+    function isPresent(obj) {
+        return obj != null;
+    }
+    function isBlank(obj) {
+        return obj == null;
+    }
+    // JS has NaN !== NaN
+    function looseIdentical(a, b) {
+        return a === b || typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b);
+    }
+    function isJsObject(o) {
+        return o !== null && (typeof o === 'function' || typeof o === 'object');
+    }
+    function isPrimitive(obj) {
+        return !isJsObject(obj);
+    }
+
     /**
      * Base class for control directives.
      *
@@ -32,67 +42,73 @@
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "value", {
-            get: function () { return this.control ? this.control.value : null; },
+            get: function () { return isPresent(this.control) ? this.control.value : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "valid", {
-            get: function () { return this.control ? this.control.valid : null; },
+            get: function () { return isPresent(this.control) ? this.control.valid : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "invalid", {
-            get: function () { return this.control ? this.control.invalid : null; },
+            get: function () { return isPresent(this.control) ? this.control.invalid : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "pending", {
-            get: function () { return this.control ? this.control.pending : null; },
+            get: function () { return isPresent(this.control) ? this.control.pending : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "errors", {
-            get: function () { return this.control ? this.control.errors : null; },
+            get: function () {
+                return isPresent(this.control) ? this.control.errors : null;
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "pristine", {
-            get: function () { return this.control ? this.control.pristine : null; },
+            get: function () { return isPresent(this.control) ? this.control.pristine : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "dirty", {
-            get: function () { return this.control ? this.control.dirty : null; },
+            get: function () { return isPresent(this.control) ? this.control.dirty : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "touched", {
-            get: function () { return this.control ? this.control.touched : null; },
+            get: function () { return isPresent(this.control) ? this.control.touched : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "untouched", {
-            get: function () { return this.control ? this.control.untouched : null; },
+            get: function () { return isPresent(this.control) ? this.control.untouched : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "disabled", {
-            get: function () { return this.control ? this.control.disabled : null; },
+            get: function () { return isPresent(this.control) ? this.control.disabled : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "enabled", {
-            get: function () { return this.control ? this.control.enabled : null; },
+            get: function () { return isPresent(this.control) ? this.control.enabled : null; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "statusChanges", {
-            get: function () { return this.control ? this.control.statusChanges : null; },
+            get: function () {
+                return isPresent(this.control) ? this.control.statusChanges : null;
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "valueChanges", {
-            get: function () { return this.control ? this.control.valueChanges : null; },
+            get: function () {
+                return isPresent(this.control) ? this.control.valueChanges : null;
+            },
             enumerable: true,
             configurable: true
         });
@@ -103,16 +119,16 @@
         });
         AbstractControlDirective.prototype.reset = function (value) {
             if (value === void 0) { value = undefined; }
-            if (this.control)
+            if (isPresent(this.control))
                 this.control.reset(value);
         };
         AbstractControlDirective.prototype.hasError = function (errorCode, path) {
             if (path === void 0) { path = null; }
-            return this.control ? this.control.hasError(errorCode, path) : false;
+            return isPresent(this.control) ? this.control.hasError(errorCode, path) : false;
         };
         AbstractControlDirective.prototype.getError = function (errorCode, path) {
             if (path === void 0) { path = null; }
-            return this.control ? this.control.getError(errorCode, path) : null;
+            return isPresent(this.control) ? this.control.getError(errorCode, path) : null;
         };
         return AbstractControlDirective;
     }());
@@ -159,23 +175,6 @@
         });
         return ControlContainer;
     }(AbstractControlDirective));
-
-    function isPresent(obj) {
-        return obj != null;
-    }
-    function isBlank(obj) {
-        return obj == null;
-    }
-    // JS has NaN !== NaN
-    function looseIdentical(a, b) {
-        return a === b || typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b);
-    }
-    function isJsObject(o) {
-        return o !== null && (typeof o === 'function' || typeof o === 'object');
-    }
-    function isPrimitive(obj) {
-        return !isJsObject(obj);
-    }
 
     /**
      * Wraps Javascript Objects
@@ -406,7 +405,7 @@
     var CHECKBOX_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
         useExisting: _angular_core.forwardRef(function () { return CheckboxControlValueAccessor; }),
-        multi: true,
+        multi: true
     };
     /**
      * The accessor for writing a value and listening to changes on a checkbox input element.
@@ -472,7 +471,7 @@
             this.onTouched = function () { };
         }
         DefaultValueAccessor.prototype.writeValue = function (value) {
-            var normalizedValue = value == null ? '' : value;
+            var normalizedValue = isBlank(value) ? '' : value;
             this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', normalizedValue);
         };
         DefaultValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
@@ -506,7 +505,7 @@
      * found in the LICENSE file at https://angular.io/license
      */
     function normalizeValidator(validator) {
-        if (validator.validate) {
+        if (validator.validate !== undefined) {
             return function (c) { return validator.validate(c); };
         }
         else {
@@ -514,7 +513,7 @@
         }
     }
     function normalizeAsyncValidator(validator) {
-        if (validator.validate) {
+        if (validator.validate !== undefined) {
             return function (c) { return validator.validate(c); };
         }
         else {
@@ -545,7 +544,7 @@
         }
         NumberValueAccessor.prototype.writeValue = function (value) {
             // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
-            var normalizedValue = value == null ? '' : value;
+            var normalizedValue = isBlank(value) ? '' : value;
             this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', normalizedValue);
         };
         NumberValueAccessor.prototype.registerOnChange = function (fn) {
@@ -639,12 +638,13 @@
             this._accessors.push([control, accessor]);
         };
         RadioControlRegistry.prototype.remove = function (accessor) {
-            for (var i = this._accessors.length - 1; i >= 0; --i) {
+            var indexToRemove = -1;
+            for (var i = 0; i < this._accessors.length; ++i) {
                 if (this._accessors[i][1] === accessor) {
-                    this._accessors.splice(i, 1);
-                    return;
+                    indexToRemove = i;
                 }
             }
+            this._accessors.splice(indexToRemove, 1);
         };
         RadioControlRegistry.prototype.select = function (accessor) {
             var _this = this;
@@ -816,7 +816,7 @@
         multi: true
     };
     function _buildValueString(id, value) {
-        if (id == null)
+        if (isBlank(id))
             return "" + value;
         if (!isPrimitive(value))
             value = 'Object';
@@ -904,7 +904,7 @@
         /** @internal */
         SelectControlValueAccessor.prototype._getOptionValue = function (valueString) {
             var value = this._optionMap.get(_extractId(valueString));
-            return value != null ? value : valueString;
+            return isPresent(value) ? value : valueString;
         };
         SelectControlValueAccessor.decorators = [
             { type: _angular_core.Directive, args: [{
@@ -934,7 +934,7 @@
             this._element = _element;
             this._renderer = _renderer;
             this._select = _select;
-            if (this._select)
+            if (isPresent(this._select))
                 this.id = this._select._registerOption();
         }
         Object.defineProperty(NgSelectOption.prototype, "ngValue", {
@@ -951,7 +951,7 @@
         Object.defineProperty(NgSelectOption.prototype, "value", {
             set: function (value) {
                 this._setElementValue(value);
-                if (this._select)
+                if (isPresent(this._select))
                     this._select.writeValue(this._select.value);
             },
             enumerable: true,
@@ -962,7 +962,7 @@
             this._renderer.setElementProperty(this._element.nativeElement, 'value', value);
         };
         NgSelectOption.prototype.ngOnDestroy = function () {
-            if (this._select) {
+            if (isPresent(this._select)) {
                 this._select._optionMap.delete(this.id);
                 this._select.writeValue(this._select.value);
             }
@@ -989,7 +989,7 @@
         multi: true
     };
     function _buildValueString$1(id, value) {
-        if (id == null)
+        if (isBlank(id))
             return "" + value;
         if (typeof value === 'string')
             value = "'" + value + "'";
@@ -1073,7 +1073,7 @@
         /** @internal */
         SelectMultipleControlValueAccessor.prototype._getOptionValue = function (valueString) {
             var opt = this._optionMap.get(_extractId$1(valueString));
-            return opt ? opt._value : valueString;
+            return isPresent(opt) ? opt._value : valueString;
         };
         SelectMultipleControlValueAccessor.decorators = [
             { type: _angular_core.Directive, args: [{
@@ -1105,7 +1105,7 @@
             this._element = _element;
             this._renderer = _renderer;
             this._select = _select;
-            if (this._select) {
+            if (isPresent(this._select)) {
                 this.id = this._select._registerOption(this);
             }
         }
@@ -1122,7 +1122,7 @@
         });
         Object.defineProperty(NgSelectMultipleOption.prototype, "value", {
             set: function (value) {
-                if (this._select) {
+                if (isPresent(this._select)) {
                     this._value = value;
                     this._setElementValue(_buildValueString$1(this.id, value));
                     this._select.writeValue(this._select.value);
@@ -1143,7 +1143,7 @@
             this._renderer.setElementProperty(this._element.nativeElement, 'selected', selected);
         };
         NgSelectMultipleOption.prototype.ngOnDestroy = function () {
-            if (this._select) {
+            if (isPresent(this._select)) {
                 this._select._optionMap.delete(this.id);
                 this._select.writeValue(this._select.value);
             }
@@ -1386,37 +1386,51 @@
             this._cd = cd;
         }
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassUntouched", {
-            get: function () { return this._cd.control ? this._cd.control.untouched : false; },
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.untouched : false;
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
-            get: function () { return this._cd.control ? this._cd.control.touched : false; },
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.touched : false;
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
-            get: function () { return this._cd.control ? this._cd.control.pristine : false; },
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.pristine : false;
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
-            get: function () { return this._cd.control ? this._cd.control.dirty : false; },
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.dirty : false;
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
-            get: function () { return this._cd.control ? this._cd.control.valid : false; },
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.valid : false;
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
-            get: function () { return this._cd.control ? this._cd.control.invalid : false; },
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.invalid : false;
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
-            get: function () { return this._cd.control ? this._cd.control.pending : false; },
+            get: function () {
+                return isPresent(this._cd.control) ? this._cd.control.pending : false;
+            },
             enumerable: true,
             configurable: true
         });
@@ -1429,7 +1443,7 @@
         '[class.ng-dirty]': 'ngClassDirty',
         '[class.ng-valid]': 'ngClassValid',
         '[class.ng-invalid]': 'ngClassInvalid',
-        '[class.ng-pending]': 'ngClassPending',
+        '[class.ng-pending]': 'ngClassPending'
     };
     /**
      * Directive automatically applied to Angular form controls that sets CSS classes
@@ -2979,7 +2993,7 @@
             var _this = this;
             resolvedPromise.then(function () {
                 var container = _this._findContainer(dir.path);
-                if (container) {
+                if (isPresent(container)) {
                     container.removeControl(dir.name);
                 }
             });
@@ -2998,7 +3012,7 @@
             var _this = this;
             resolvedPromise.then(function () {
                 var container = _this._findContainer(dir.path);
-                if (container) {
+                if (isPresent(container)) {
                     container.removeControl(dir.name);
                 }
             });
@@ -4145,7 +4159,7 @@
             }
         };
         MinLengthValidator.prototype.validate = function (c) {
-            return this.minlength == null ? null : this._validator(c);
+            return isPresent(this.minlength) ? this._validator(c) : null;
         };
         MinLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         MinLengthValidator.decorators = [
@@ -4242,14 +4256,14 @@
             }
         };
         PatternValidator.prototype.validate = function (c) {
-            return this.pattern ? this._validator(c) : null;
+            return isPresent(this.pattern) ? this._validator(c) : null;
         };
         PatternValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         PatternValidator.decorators = [
             { type: _angular_core.Directive, args: [{
                         selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
                         providers: [PATTERN_VALIDATOR],
-                        host: { '[attr.pattern]': 'pattern ? pattern : null' }
+                        host: { '[attr.pattern]': 'pattern? pattern : null' }
                     },] },
         ];
         /** @nocollapse */

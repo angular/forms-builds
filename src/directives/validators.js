@@ -88,7 +88,7 @@ export var MinLengthValidator = (function () {
         }
     };
     MinLengthValidator.prototype.validate = function (c) {
-        return this.minlength == null ? null : this._validator(c);
+        return isPresent(this.minlength) ? this._validator(c) : null;
     };
     MinLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     MinLengthValidator.decorators = [
@@ -185,14 +185,14 @@ export var PatternValidator = (function () {
         }
     };
     PatternValidator.prototype.validate = function (c) {
-        return this.pattern ? this._validator(c) : null;
+        return isPresent(this.pattern) ? this._validator(c) : null;
     };
     PatternValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     PatternValidator.decorators = [
         { type: Directive, args: [{
                     selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
                     providers: [PATTERN_VALIDATOR],
-                    host: { '[attr.pattern]': 'pattern ? pattern : null' }
+                    host: { '[attr.pattern]': 'pattern? pattern : null' }
                 },] },
     ];
     /** @nocollapse */
