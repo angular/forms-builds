@@ -28,16 +28,6 @@ export declare const SHARED_FORM_DIRECTIVES: Type<any>[];
 export declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
 export declare const REACTIVE_DRIVEN_DIRECTIVES: Type<any>[];
 /**
- * A list of all the form directives.
- *
- * @stable
- */
-export declare const FORM_DIRECTIVES: Type<any>[][];
-/**
- * @stable
- */
-export declare const REACTIVE_FORM_DIRECTIVES: Type<any>[][];
-/**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
 export declare class InternalFormsSharedModule {

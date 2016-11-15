@@ -4385,7 +4385,10 @@
         function InternalFormsSharedModule() {
         }
         InternalFormsSharedModule.decorators = [
-            { type: _angular_core.NgModule, args: [{ declarations: SHARED_FORM_DIRECTIVES, exports: SHARED_FORM_DIRECTIVES },] },
+            { type: _angular_core.NgModule, args: [{
+                        declarations: SHARED_FORM_DIRECTIVES,
+                        exports: SHARED_FORM_DIRECTIVES,
+                    },] },
         ];
         /** @nocollapse */
         InternalFormsSharedModule.ctorParameters = [];

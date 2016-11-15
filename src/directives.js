@@ -48,23 +48,16 @@ export var SHARED_FORM_DIRECTIVES = [
 export var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
 export var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
- * A list of all the form directives.
- *
- * @stable
- */
-export var FORM_DIRECTIVES = [TEMPLATE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
-/**
- * @stable
- */
-export var REACTIVE_FORM_DIRECTIVES = [REACTIVE_DRIVEN_DIRECTIVES, SHARED_FORM_DIRECTIVES];
-/**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
 export var InternalFormsSharedModule = (function () {
     function InternalFormsSharedModule() {
     }
     InternalFormsSharedModule.decorators = [
-        { type: NgModule, args: [{ declarations: SHARED_FORM_DIRECTIVES, exports: SHARED_FORM_DIRECTIVES },] },
+        { type: NgModule, args: [{
+                    declarations: SHARED_FORM_DIRECTIVES,
+                    exports: SHARED_FORM_DIRECTIVES,
+                },] },
     ];
     /** @nocollapse */
     InternalFormsSharedModule.ctorParameters = [];
