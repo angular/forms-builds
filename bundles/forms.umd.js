@@ -903,8 +903,8 @@
         };
         /** @internal */
         SelectControlValueAccessor.prototype._getOptionValue = function (valueString) {
-            var value = this._optionMap.get(_extractId(valueString));
-            return value != null ? value : valueString;
+            var id = _extractId(valueString);
+            return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
         };
         SelectControlValueAccessor.decorators = [
             { type: _angular_core.Directive, args: [{
@@ -1072,8 +1072,8 @@
         };
         /** @internal */
         SelectMultipleControlValueAccessor.prototype._getOptionValue = function (valueString) {
-            var opt = this._optionMap.get(_extractId$1(valueString));
-            return opt ? opt._value : valueString;
+            var id = _extractId$1(valueString);
+            return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
         };
         SelectMultipleControlValueAccessor.decorators = [
             { type: _angular_core.Directive, args: [{

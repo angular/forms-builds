@@ -101,8 +101,8 @@ export var SelectControlValueAccessor = (function () {
     };
     /** @internal */
     SelectControlValueAccessor.prototype._getOptionValue = function (valueString) {
-        var value = this._optionMap.get(_extractId(valueString));
-        return value != null ? value : valueString;
+        var id = _extractId(valueString);
+        return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
     };
     SelectControlValueAccessor.decorators = [
         { type: Directive, args: [{

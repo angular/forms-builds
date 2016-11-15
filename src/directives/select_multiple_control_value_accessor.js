@@ -103,8 +103,8 @@ export var SelectMultipleControlValueAccessor = (function () {
     };
     /** @internal */
     SelectMultipleControlValueAccessor.prototype._getOptionValue = function (valueString) {
-        var opt = this._optionMap.get(_extractId(valueString));
-        return opt ? opt._value : valueString;
+        var id = _extractId(valueString);
+        return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
     };
     SelectMultipleControlValueAccessor.decorators = [
         { type: Directive, args: [{
@@ -194,5 +194,4 @@ export var NgSelectMultipleOption = (function () {
     };
     return NgSelectMultipleOption;
 }());
-export var SELECT_DIRECTIVES = [SelectMultipleControlValueAccessor, NgSelectMultipleOption];
 //# sourceMappingURL=select_multiple_control_value_accessor.js.map
