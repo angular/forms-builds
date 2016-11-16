@@ -4105,7 +4105,7 @@
         Object.defineProperty(RequiredValidator.prototype, "required", {
             get: function () { return this._required; },
             set: function (value) {
-                this._required = isPresent(value) && "" + value !== 'false';
+                this._required = value != null && value !== false && "" + value !== 'false';
                 if (this._onChange)
                     this._onChange();
             },
@@ -4120,7 +4120,7 @@
             { type: _angular_core.Directive, args: [{
                         selector: '[required][formControlName],[required][formControl],[required][ngModel]',
                         providers: [REQUIRED_VALIDATOR],
-                        host: { '[attr.required]': 'required? "" : null' }
+                        host: { '[attr.required]': 'required ? "" : null' }
                     },] },
         ];
         /** @nocollapse */
@@ -4151,11 +4151,8 @@
     var MinLengthValidator = (function () {
         function MinLengthValidator() {
         }
-        MinLengthValidator.prototype._createValidator = function () {
-            this._validator = Validators.minLength(parseInt(this.minlength, 10));
-        };
         MinLengthValidator.prototype.ngOnChanges = function (changes) {
-            if (changes['minlength']) {
+            if ('minlength' in changes) {
                 this._createValidator();
                 if (this._onChange)
                     this._onChange();
@@ -4165,11 +4162,14 @@
             return this.minlength == null ? null : this._validator(c);
         };
         MinLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+        MinLengthValidator.prototype._createValidator = function () {
+            this._validator = Validators.minLength(parseInt(this.minlength, 10));
+        };
         MinLengthValidator.decorators = [
             { type: _angular_core.Directive, args: [{
                         selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
                         providers: [MIN_LENGTH_VALIDATOR],
-                        host: { '[attr.minlength]': 'minlength? minlength : null' }
+                        host: { '[attr.minlength]': 'minlength ? minlength : null' }
                     },] },
         ];
         /** @nocollapse */
@@ -4201,25 +4201,25 @@
     var MaxLengthValidator = (function () {
         function MaxLengthValidator() {
         }
-        MaxLengthValidator.prototype._createValidator = function () {
-            this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
-        };
         MaxLengthValidator.prototype.ngOnChanges = function (changes) {
-            if (changes['maxlength']) {
+            if ('maxlength' in changes) {
                 this._createValidator();
                 if (this._onChange)
                     this._onChange();
             }
         };
         MaxLengthValidator.prototype.validate = function (c) {
-            return isPresent(this.maxlength) ? this._validator(c) : null;
+            return this.maxlength != null ? this._validator(c) : null;
         };
         MaxLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+        MaxLengthValidator.prototype._createValidator = function () {
+            this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
+        };
         MaxLengthValidator.decorators = [
             { type: _angular_core.Directive, args: [{
                         selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
                         providers: [MAX_LENGTH_VALIDATOR],
-                        host: { '[attr.maxlength]': 'maxlength? maxlength : null' }
+                        host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
                     },] },
         ];
         /** @nocollapse */
@@ -4250,18 +4250,16 @@
     var PatternValidator = (function () {
         function PatternValidator() {
         }
-        PatternValidator.prototype._createValidator = function () { this._validator = Validators.pattern(this.pattern); };
         PatternValidator.prototype.ngOnChanges = function (changes) {
-            if (changes['pattern']) {
+            if ('pattern' in changes) {
                 this._createValidator();
                 if (this._onChange)
                     this._onChange();
             }
         };
-        PatternValidator.prototype.validate = function (c) {
-            return this.pattern ? this._validator(c) : null;
-        };
+        PatternValidator.prototype.validate = function (c) { return this._validator(c); };
         PatternValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+        PatternValidator.prototype._createValidator = function () { this._validator = Validators.pattern(this.pattern); };
         PatternValidator.decorators = [
             { type: _angular_core.Directive, args: [{
                         selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
