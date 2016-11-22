@@ -11,19 +11,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 import { AbstractControlDirective } from './abstract_control_directive';
-/**
- * @return {?}
- */
 function unimplemented() {
     throw new Error('unimplemented');
 }
 /**
- *  A base class that all control directive extend.
-  * It binds a {@link FormControl} object to a DOM element.
-  * *
-  * Used internally by Angular forms.
-  * *
- * @abstract
+ * A base class that all control directive extend.
+ * It binds a {@link FormControl} object to a DOM element.
+ *
+ * Used internally by Angular forms.
+ *
+ * @stable
  */
 export var NgControl = (function (_super) {
     __extends(NgControl, _super);
@@ -39,39 +36,15 @@ export var NgControl = (function (_super) {
         this._rawAsyncValidators = [];
     }
     Object.defineProperty(NgControl.prototype, "validator", {
-        /**
-         * @return {?}
-         */
-        get: function () { return (unimplemented()); },
+        get: function () { return unimplemented(); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(NgControl.prototype, "asyncValidator", {
-        /**
-         * @return {?}
-         */
-        get: function () { return (unimplemented()); },
+        get: function () { return unimplemented(); },
         enumerable: true,
         configurable: true
     });
-    /**
-     * @abstract
-     * @param {?} newValue
-     * @return {?}
-     */
-    NgControl.prototype.viewToModelUpdate = function (newValue) { };
     return NgControl;
 }(AbstractControlDirective));
-function NgControl_tsickle_Closure_declarations() {
-    /** @type {?} */
-    NgControl.prototype._parent;
-    /** @type {?} */
-    NgControl.prototype.name;
-    /** @type {?} */
-    NgControl.prototype.valueAccessor;
-    /** @type {?} */
-    NgControl.prototype._rawValidators;
-    /** @type {?} */
-    NgControl.prototype._rawAsyncValidators;
-}
 //# sourceMappingURL=ng_control.js.map
