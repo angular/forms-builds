@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.3.0-beta.0-be3784c
+ * @license Angular v2.3.0-beta.0-f5c8e09
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -304,6 +304,19 @@
     var ListWrapper = (function () {
         function ListWrapper() {
         }
+        /**
+         * @param {?} arr
+         * @param {?} condition
+         * @return {?}
+         */
+        ListWrapper.findLast = function (arr, condition) {
+            for (var /** @type {?} */ i = arr.length - 1; i >= 0; i--) {
+                if (condition(arr[i])) {
+                    return arr[i];
+                }
+            }
+            return null;
+        };
         /**
          * @param {?} list
          * @param {?} items

@@ -1,1 +1,1 @@
-{"__symbolic":"module","version":2,"metadata":{"AbstractControlDirective":{"__symbolic":"class"}}}
+{"__symbolic":"module","version":2,"metadata":{"AbstractControlDirective":{"__symbolic":"class","members":{"reset":[{"__symbolic":"method"}],"hasError":[{"__symbolic":"method"}],"getError":[{"__symbolic":"method"}]}}}}
