@@ -38,5 +38,5 @@ export { MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValid
 export { FormBuilder } from './form_builder';
 export { AbstractControl, FormArray, FormControl, FormGroup } from './model';
 export { NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators } from './validators';
-export * from './form_providers';
+export { FormsModule, ReactiveFormsModule } from './form_providers';
 //# sourceMappingURL=forms.js.map
