@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.3.0-rc.0-986abbe
+ * @license Angular v2.3.0-rc.0-16efb13
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5590,6 +5590,11 @@
         return FormBuilder;
     }());
 
+    /**
+     * @stable
+     */
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-rc.0-16efb13');
+
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
         NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
         RangeValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor,
@@ -5650,12 +5655,6 @@
         return ReactiveFormsModule;
     }());
 
-    /**
-     * @stable
-     */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-rc.0-986abbe');
-
-    exports.VERSION = VERSION;
     exports.AbstractControlDirective = AbstractControlDirective;
     exports.AbstractFormGroupDirective = AbstractFormGroupDirective;
     exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
@@ -5689,6 +5688,7 @@
     exports.NG_ASYNC_VALIDATORS = NG_ASYNC_VALIDATORS;
     exports.NG_VALIDATORS = NG_VALIDATORS;
     exports.Validators = Validators;
+    exports.VERSION = VERSION;
     exports.FormsModule = FormsModule;
     exports.ReactiveFormsModule = ReactiveFormsModule;
 

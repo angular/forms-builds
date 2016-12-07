@@ -8,6 +8,10 @@
 /**
  * @module
  * @description
- * Entry point for all public APIs of the forms package.
+ * Entry point for all public APIs of the common package.
  */
-export * from './src/forms';
+import { Version } from '@angular/core';
+/**
+ * @stable
+ */
+export declare const VERSION: Version;
