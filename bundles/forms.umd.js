@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.3.0-9591a08
+ * @license Angular v2.3.0-1b54788
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5593,7 +5593,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-9591a08');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-1b54788');
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
         NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
