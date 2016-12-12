@@ -12,6 +12,7 @@ import { NgControlStatus, NgControlStatusGroup } from './directives/ng_control_s
 import { NgForm } from './directives/ng_form';
 import { NgModel } from './directives/ng_model';
 import { NgModelGroup } from './directives/ng_model_group';
+import { NgNovalidate } from './directives/ng_novalidate_directive';
 import { NumberValueAccessor } from './directives/number_value_accessor';
 import { RadioControlValueAccessor } from './directives/radio_control_value_accessor';
 import { RangeValueAccessor } from './directives/range_value_accessor';
@@ -42,7 +43,7 @@ export { MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValid
 export var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
     NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
     RangeValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor,
-    SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus,
+    SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgNovalidate,
     NgControlStatusGroup, RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
 ];
 export var /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];

@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.3.0-e9f307f
+ * @license Angular v2.3.0-4c35be3
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5593,12 +5593,26 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-e9f307f');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-4c35be3');
+
+    var NgNovalidate = (function () {
+        function NgNovalidate() {
+        }
+        NgNovalidate.decorators = [
+            { type: _angular_core.Directive, args: [{
+                        selector: 'form:not([ngNoForm])',
+                        host: { 'novalidate': '' },
+                    },] },
+        ];
+        /** @nocollapse */
+        NgNovalidate.ctorParameters = function () { return []; };
+        return NgNovalidate;
+    }());
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
         NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
         RangeValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor,
-        SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus,
+        SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgNovalidate,
         NgControlStatusGroup, RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
     ];
     var /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
