@@ -73,7 +73,7 @@ export var Validators = (function () {
             if (isEmptyInputValue(control.value)) {
                 return null; // don't validate empty values to allow optional controls
             }
-            var /** @type {?} */ length = typeof control.value === 'string' ? control.value.length : 0;
+            var /** @type {?} */ length = control.value ? control.value.length : 0;
             return length < minLength ?
                 { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
                 null;
@@ -86,7 +86,7 @@ export var Validators = (function () {
      */
     Validators.maxLength = function (maxLength) {
         return function (control) {
-            var /** @type {?} */ length = typeof control.value === 'string' ? control.value.length : 0;
+            var /** @type {?} */ length = control.value ? control.value.length : 0;
             return length > maxLength ?
                 { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
                 null;

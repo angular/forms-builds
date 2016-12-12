@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.3.0-2e500cc
+ * @license Angular v2.3.0-e9f307f
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -435,7 +435,7 @@
                 if (isEmptyInputValue(control.value)) {
                     return null; // don't validate empty values to allow optional controls
                 }
-                var /** @type {?} */ length = typeof control.value === 'string' ? control.value.length : 0;
+                var /** @type {?} */ length = control.value ? control.value.length : 0;
                 return length < minLength ?
                     { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
                     null;
@@ -448,7 +448,7 @@
          */
         Validators.maxLength = function (maxLength) {
             return function (control) {
-                var /** @type {?} */ length = typeof control.value === 'string' ? control.value.length : 0;
+                var /** @type {?} */ length = control.value ? control.value.length : 0;
                 return length > maxLength ?
                     { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
                     null;
@@ -5593,7 +5593,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-2e500cc');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-e9f307f');
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
         NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,

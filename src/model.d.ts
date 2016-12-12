@@ -18,7 +18,6 @@ export declare const PENDING: string;
  * calculations of validity or value.
  */
 export declare const DISABLED: string;
-export declare function isControl(control: Object): boolean;
 /**
  * @whatItDoes This is the base class for {@link FormControl}, {@link FormGroup}, and
  * {@link FormArray}.
