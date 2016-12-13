@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.3.0-9ec0a4e
+ * @license Angular v2.3.0-2b90cd5
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5593,7 +5593,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-9ec0a4e');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-2b90cd5');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {
