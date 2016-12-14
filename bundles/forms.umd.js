@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.3.0-3edca4d
+ * @license Angular v2.3.0-7b0a867
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1401,12 +1401,16 @@
         SelectMultipleControlValueAccessor.prototype.writeValue = function (value) {
             var _this = this;
             this.value = value;
-            if (value == null)
-                return;
-            var /** @type {?} */ values = (value);
-            // convert values to ids
-            var /** @type {?} */ ids = values.map(function (v) { return _this._getOptionId(v); });
-            this._optionMap.forEach(function (opt, o) { opt._setSelected(ids.indexOf(o.toString()) > -1); });
+            var /** @type {?} */ optionSelectedStateSetter;
+            if (Array.isArray(value)) {
+                // convert values to ids
+                var /** @type {?} */ ids_1 = value.map(function (v) { return _this._getOptionId(v); });
+                optionSelectedStateSetter = function (opt, o) { opt._setSelected(ids_1.indexOf(o.toString()) > -1); };
+            }
+            else {
+                optionSelectedStateSetter = function (opt, o) { opt._setSelected(false); };
+            }
+            this._optionMap.forEach(optionSelectedStateSetter);
         };
         /**
          * @param {?} fn
@@ -5593,7 +5597,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-3edca4d');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-7b0a867');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {
