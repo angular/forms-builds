@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.3.0-7b0a867
+ * @license Angular v2.3.0-821b8f0
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -424,6 +424,14 @@
          */
         Validators.required = function (control) {
             return isEmptyInputValue(control.value) ? { 'required': true } : null;
+        };
+        /**
+         *  Validator that requires control value to be true.
+         * @param {?} control
+         * @return {?}
+         */
+        Validators.requiredTrue = function (control) {
+            return control.value === true ? null : { 'required': true };
         };
         /**
          *  Validator that requires controls to have a value of a minimum length.
@@ -1438,6 +1446,7 @@
                         }
                     }
                 }
+                _this.value = selected;
                 fn(selected);
             };
         };
@@ -5238,9 +5247,19 @@
         return FormControlName;
     }(NgControl));
 
+    var __extends$13 = (this && this.__extends) || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
     var /** @type {?} */ REQUIRED_VALIDATOR = {
         provide: NG_VALIDATORS,
         useExisting: _angular_core.forwardRef(function () { return RequiredValidator; }),
+        multi: true
+    };
+    var /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
+        provide: NG_VALIDATORS,
+        useExisting: _angular_core.forwardRef(function () { return CheckboxRequiredValidator; }),
         multi: true
     };
     /**
@@ -5288,7 +5307,7 @@
         RequiredValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         RequiredValidator.decorators = [
             { type: _angular_core.Directive, args: [{
-                        selector: '[required][formControlName],[required][formControl],[required][ngModel]',
+                        selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
                         providers: [REQUIRED_VALIDATOR],
                         host: { '[attr.required]': 'required ? "" : null' }
                     },] },
@@ -5300,6 +5319,40 @@
         };
         return RequiredValidator;
     }());
+    /**
+     *  A Directive that adds the `required` validator to checkbox controls marked with the
+      * `required` attribute, via the {@link NG_VALIDATORS} binding.
+      * *
+      * ### Example
+      * *
+      * ```
+      * <input type="checkbox" name="active" ngModel required>
+      * ```
+      * *
+     */
+    var CheckboxRequiredValidator = (function (_super) {
+        __extends$13(CheckboxRequiredValidator, _super);
+        function CheckboxRequiredValidator() {
+            _super.apply(this, arguments);
+        }
+        /**
+         * @param {?} c
+         * @return {?}
+         */
+        CheckboxRequiredValidator.prototype.validate = function (c) {
+            return this.required ? Validators.requiredTrue(c) : null;
+        };
+        CheckboxRequiredValidator.decorators = [
+            { type: _angular_core.Directive, args: [{
+                        selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
+                        providers: [CHECKBOX_REQUIRED_VALIDATOR],
+                        host: { '[attr.required]': 'required ? "" : null' }
+                    },] },
+        ];
+        /** @nocollapse */
+        CheckboxRequiredValidator.ctorParameters = function () { return []; };
+        return CheckboxRequiredValidator;
+    }(RequiredValidator));
     /**
      * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
      *
@@ -5597,7 +5650,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-7b0a867');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0-821b8f0');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {
@@ -5614,10 +5667,23 @@
     }());
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
-        NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
-        RangeValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor,
-        SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgNovalidate,
-        NgControlStatusGroup, RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
+        NgNovalidate,
+        NgSelectOption,
+        NgSelectMultipleOption,
+        DefaultValueAccessor,
+        NumberValueAccessor,
+        RangeValueAccessor,
+        CheckboxControlValueAccessor,
+        SelectControlValueAccessor,
+        SelectMultipleControlValueAccessor,
+        RadioControlValueAccessor,
+        NgControlStatus,
+        NgControlStatusGroup,
+        RequiredValidator,
+        MinLengthValidator,
+        MaxLengthValidator,
+        PatternValidator,
+        CheckboxRequiredValidator,
     ];
     var /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
     var /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
@@ -5694,6 +5760,7 @@
     exports.NgSelectOption = NgSelectOption;
     exports.SelectControlValueAccessor = SelectControlValueAccessor;
     exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
+    exports.CheckboxRequiredValidator = CheckboxRequiredValidator;
     exports.MaxLengthValidator = MaxLengthValidator;
     exports.MinLengthValidator = MinLengthValidator;
     exports.PatternValidator = PatternValidator;

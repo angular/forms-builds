@@ -116,6 +116,7 @@ export var SelectMultipleControlValueAccessor = (function () {
                     }
                 }
             }
+            _this.value = selected;
             fn(selected);
         };
     };

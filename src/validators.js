@@ -64,6 +64,14 @@ export var Validators = (function () {
         return isEmptyInputValue(control.value) ? { 'required': true } : null;
     };
     /**
+     *  Validator that requires control value to be true.
+     * @param {?} control
+     * @return {?}
+     */
+    Validators.requiredTrue = function (control) {
+        return control.value === true ? null : { 'required': true };
+    };
+    /**
      *  Validator that requires controls to have a value of a minimum length.
      * @param {?} minLength
      * @return {?}
