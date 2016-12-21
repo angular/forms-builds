@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-beta.0-9b8488f
+ * @license Angular v4.0.0-beta.0-383adc9
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5650,7 +5650,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.0-9b8488f');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.0-383adc9');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {
