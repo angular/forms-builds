@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-beta.1-2dd6280
+ * @license Angular v4.0.0-beta.1-9898d8f
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -377,7 +377,8 @@
      * @return {?}
      */
     function isEmptyInputValue(value) {
-        return value == null || typeof value === 'string' && value.length === 0;
+        // we don't check for string here so it also works with arrays
+        return value == null || value.length === 0;
     }
     /**
      * Providers for validators to be used for {@link FormControl}s in a form.
@@ -5650,7 +5651,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.1-2dd6280');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.1-9898d8f');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {

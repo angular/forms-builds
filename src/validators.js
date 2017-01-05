@@ -15,7 +15,8 @@ import { isPromise } from './private_import_core';
  * @return {?}
  */
 function isEmptyInputValue(value) {
-    return value == null || typeof value === 'string' && value.length === 0;
+    // we don't check for string here so it also works with arrays
+    return value == null || value.length === 0;
 }
 /**
  * Providers for validators to be used for {@link FormControl}s in a form.
