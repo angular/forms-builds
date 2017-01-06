@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.4.1-28a92b2
+ * @license Angular v2.4.1-56b4296
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -377,7 +377,8 @@
      * @return {?}
      */
     function isEmptyInputValue(value) {
-        return value == null || typeof value === 'string' && value.length === 0;
+        // we don't check for string here so it also works with arrays
+        return value == null || value.length === 0;
     }
     /**
      * Providers for validators to be used for {@link FormControl}s in a form.
@@ -5650,7 +5651,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.1-28a92b2');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.1-56b4296');
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
         NgSelectOption,
