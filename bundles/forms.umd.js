@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.4.2-7dc12b9
+ * @license Angular v2.4.2-6164eb2
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5651,7 +5651,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.2-7dc12b9');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.2-6164eb2');
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
         NgSelectOption,
