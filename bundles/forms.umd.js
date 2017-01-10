@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.4.2-d43e5dd
+ * @license Angular v4.0.0-beta.2-aeed737
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5651,9 +5651,24 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.2-d43e5dd');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.2-aeed737');
+
+    var NgNovalidate = (function () {
+        function NgNovalidate() {
+        }
+        NgNovalidate.decorators = [
+            { type: _angular_core.Directive, args: [{
+                        selector: 'form:not([ngNoForm])',
+                        host: { 'novalidate': '' },
+                    },] },
+        ];
+        /** @nocollapse */
+        NgNovalidate.ctorParameters = function () { return []; };
+        return NgNovalidate;
+    }());
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
+        NgNovalidate,
         NgSelectOption,
         NgSelectMultipleOption,
         DefaultValueAccessor,
