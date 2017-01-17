@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-beta.3-5237b1c
+ * @license Angular v4.0.0-beta.3-d169c24
  * (c) 2010-2016 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -390,7 +390,7 @@
      * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
      * @stable
      */
-    var /** @type {?} */ NG_VALIDATORS = new _angular_core.OpaqueToken('NgValidators');
+    var /** @type {?} */ NG_VALIDATORS = new _angular_core.InjectionToken('NgValidators');
     /**
      * Providers for asynchronous validators to be used for {@link FormControl}s
      * in a form.
@@ -401,7 +401,7 @@
      *
      * @stable
      */
-    var /** @type {?} */ NG_ASYNC_VALIDATORS = new _angular_core.OpaqueToken('NgAsyncValidators');
+    var /** @type {?} */ NG_ASYNC_VALIDATORS = new _angular_core.InjectionToken('NgAsyncValidators');
     /**
      *  Provides a set of validators used by form controls.
       * *
@@ -569,7 +569,7 @@
      * See {@link DefaultValueAccessor} for how to implement one.
      * @stable
      */
-    var /** @type {?} */ NG_VALUE_ACCESSOR = new _angular_core.OpaqueToken('NgValueAccessor');
+    var /** @type {?} */ NG_VALUE_ACCESSOR = new _angular_core.InjectionToken('NgValueAccessor');
 
     var /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
@@ -5651,7 +5651,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.3-5237b1c');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.3-d169c24');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {

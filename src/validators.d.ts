@@ -5,8 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { OpaqueToken } from '@angular/core';
-import { AsyncValidatorFn, ValidatorFn } from './directives/validators';
+import { InjectionToken } from '@angular/core';
+import { AsyncValidatorFn, Validator, ValidatorFn } from './directives/validators';
 import { AbstractControl } from './model';
 /**
  * Providers for validators to be used for {@link FormControl}s in a form.
@@ -18,7 +18,7 @@ import { AbstractControl } from './model';
  * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
  * @stable
  */
-export declare const NG_VALIDATORS: OpaqueToken;
+export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
 /**
  * Providers for asynchronous validators to be used for {@link FormControl}s
  * in a form.
@@ -29,7 +29,7 @@ export declare const NG_VALIDATORS: OpaqueToken;
  *
  * @stable
  */
-export declare const NG_ASYNC_VALIDATORS: OpaqueToken;
+export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[]>;
 /**
  * Provides a set of validators used by form controls.
  *

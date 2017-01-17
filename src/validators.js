@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { OpaqueToken } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 import { toPromise } from 'rxjs/operator/toPromise';
 import { StringMapWrapper } from './facade/collection';
 import { isPresent } from './facade/lang';
@@ -28,7 +28,7 @@ function isEmptyInputValue(value) {
  * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
  * @stable
  */
-export var /** @type {?} */ NG_VALIDATORS = new OpaqueToken('NgValidators');
+export var /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators');
 /**
  * Providers for asynchronous validators to be used for {@link FormControl}s
  * in a form.
@@ -39,7 +39,7 @@ export var /** @type {?} */ NG_VALIDATORS = new OpaqueToken('NgValidators');
  *
  * @stable
  */
-export var /** @type {?} */ NG_ASYNC_VALIDATORS = new OpaqueToken('NgAsyncValidators');
+export var /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
 /**
  *  Provides a set of validators used by form controls.
   * *
