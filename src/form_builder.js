@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Injectable } from '@angular/core/index';
+import { Injectable } from '@angular/core';
 import { isPresent } from './facade/lang';
 import { FormArray, FormControl, FormGroup } from './model';
 /**
@@ -28,7 +28,9 @@ import { FormArray, FormControl, FormGroup } from './model';
  *
  * \@stable
  */
-export class FormBuilder {
+export var FormBuilder = (function () {
+    function FormBuilder() {
+    }
     /**
      * Construct a new {\@link FormGroup} with the given map of configuration.
      * Valid keys for the `extra` parameter map are `validator` and `asyncValidator`.
@@ -38,12 +40,13 @@ export class FormBuilder {
      * @param {?=} extra
      * @return {?}
      */
-    group(controlsConfig, extra = null) {
-        const /** @type {?} */ controls = this._reduceControls(controlsConfig);
-        const /** @type {?} */ validator = isPresent(extra) ? extra['validator'] : null;
-        const /** @type {?} */ asyncValidator = isPresent(extra) ? extra['asyncValidator'] : null;
+    FormBuilder.prototype.group = function (controlsConfig, extra) {
+        if (extra === void 0) { extra = null; }
+        var /** @type {?} */ controls = this._reduceControls(controlsConfig);
+        var /** @type {?} */ validator = isPresent(extra) ? extra['validator'] : null;
+        var /** @type {?} */ asyncValidator = isPresent(extra) ? extra['asyncValidator'] : null;
         return new FormGroup(controls, validator, asyncValidator);
-    }
+    };
     /**
      * Construct a new {\@link FormControl} with the given `formState`,`validator`, and
      * `asyncValidator`.
@@ -56,9 +59,11 @@ export class FormBuilder {
      * @param {?=} asyncValidator
      * @return {?}
      */
-    control(formState, validator = null, asyncValidator = null) {
+    FormBuilder.prototype.control = function (formState, validator, asyncValidator) {
+        if (validator === void 0) { validator = null; }
+        if (asyncValidator === void 0) { asyncValidator = null; }
         return new FormControl(formState, validator, asyncValidator);
-    }
+    };
     /**
      * Construct a {\@link FormArray} from the given `controlsConfig` array of
      * configuration, with the given optional `validator` and `asyncValidator`.
@@ -67,48 +72,53 @@ export class FormBuilder {
      * @param {?=} asyncValidator
      * @return {?}
      */
-    array(controlsConfig, validator = null, asyncValidator = null) {
-        const /** @type {?} */ controls = controlsConfig.map(c => this._createControl(c));
+    FormBuilder.prototype.array = function (controlsConfig, validator, asyncValidator) {
+        var _this = this;
+        if (validator === void 0) { validator = null; }
+        if (asyncValidator === void 0) { asyncValidator = null; }
+        var /** @type {?} */ controls = controlsConfig.map(function (c) { return _this._createControl(c); });
         return new FormArray(controls, validator, asyncValidator);
-    }
+    };
     /**
      * \@internal
      * @param {?} controlsConfig
      * @return {?}
      */
-    _reduceControls(controlsConfig) {
-        const /** @type {?} */ controls = {};
-        Object.keys(controlsConfig).forEach(controlName => {
-            controls[controlName] = this._createControl(controlsConfig[controlName]);
+    FormBuilder.prototype._reduceControls = function (controlsConfig) {
+        var _this = this;
+        var /** @type {?} */ controls = {};
+        Object.keys(controlsConfig).forEach(function (controlName) {
+            controls[controlName] = _this._createControl(controlsConfig[controlName]);
         });
         return controls;
-    }
+    };
     /**
      * \@internal
      * @param {?} controlConfig
      * @return {?}
      */
-    _createControl(controlConfig) {
+    FormBuilder.prototype._createControl = function (controlConfig) {
         if (controlConfig instanceof FormControl || controlConfig instanceof FormGroup ||
             controlConfig instanceof FormArray) {
             return controlConfig;
         }
         else if (Array.isArray(controlConfig)) {
-            const /** @type {?} */ value = controlConfig[0];
-            const /** @type {?} */ validator = controlConfig.length > 1 ? controlConfig[1] : null;
-            const /** @type {?} */ asyncValidator = controlConfig.length > 2 ? controlConfig[2] : null;
+            var /** @type {?} */ value = controlConfig[0];
+            var /** @type {?} */ validator = controlConfig.length > 1 ? controlConfig[1] : null;
+            var /** @type {?} */ asyncValidator = controlConfig.length > 2 ? controlConfig[2] : null;
             return this.control(value, validator, asyncValidator);
         }
         else {
             return this.control(controlConfig);
         }
-    }
-}
-FormBuilder.decorators = [
-    { type: Injectable },
-];
-/** @nocollapse */
-FormBuilder.ctorParameters = () => [];
+    };
+    FormBuilder.decorators = [
+        { type: Injectable },
+    ];
+    /** @nocollapse */
+    FormBuilder.ctorParameters = function () { return []; };
+    return FormBuilder;
+}());
 function FormBuilder_tsickle_Closure_declarations() {
     /** @type {?} */
     FormBuilder.decorators;

@@ -5,6 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 import { AbstractControlDirective } from './abstract_control_directive';
 /**
  * A directive that contains multiple {\@link NgControl}s.
@@ -13,18 +18,31 @@ import { AbstractControlDirective } from './abstract_control_directive';
  *
  * \@stable
  */
-export class ControlContainer extends AbstractControlDirective {
-    /**
-     * Get the form to which this container belongs.
-     * @return {?}
-     */
-    get formDirective() { return null; }
-    /**
-     * Get the path to this container.
-     * @return {?}
-     */
-    get path() { return null; }
-}
+export var ControlContainer = (function (_super) {
+    __extends(ControlContainer, _super);
+    function ControlContainer() {
+        _super.apply(this, arguments);
+    }
+    Object.defineProperty(ControlContainer.prototype, "formDirective", {
+        /**
+         * Get the form to which this container belongs.
+         * @return {?}
+         */
+        get: function () { return null; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ControlContainer.prototype, "path", {
+        /**
+         * Get the path to this container.
+         * @return {?}
+         */
+        get: function () { return null; },
+        enumerable: true,
+        configurable: true
+    });
+    return ControlContainer;
+}(AbstractControlDirective));
 function ControlContainer_tsickle_Closure_declarations() {
     /** @type {?} */
     ControlContainer.prototype.name;

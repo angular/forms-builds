@@ -5,12 +5,12 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Directive, ElementRef, Host, Input, Optional, Renderer, forwardRef } from '@angular/core/index';
+import { Directive, ElementRef, Host, Input, Optional, Renderer, forwardRef } from '@angular/core';
 import { isPrimitive, looseIdentical } from '../facade/lang';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
-export const /** @type {?} */ SELECT_VALUE_ACCESSOR = {
+export var /** @type {?} */ SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SelectControlValueAccessor),
+    useExisting: forwardRef(function () { return SelectControlValueAccessor; }),
     multi: true
 };
 /**
@@ -20,10 +20,10 @@ export const /** @type {?} */ SELECT_VALUE_ACCESSOR = {
  */
 function _buildValueString(id, value) {
     if (id == null)
-        return `${value}`;
+        return "" + value;
     if (!isPrimitive(value))
         value = 'Object';
-    return `${id}: ${value}`.slice(0, 50);
+    return (id + ": " + value).slice(0, 50);
 }
 /**
  * @param {?} valueString
@@ -70,91 +70,94 @@ function _extractId(valueString) {
  *
  * \@stable
  */
-export class SelectControlValueAccessor {
+export var SelectControlValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
      */
-    constructor(_renderer, _elementRef) {
+    function SelectControlValueAccessor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
         /** @internal */
         this._optionMap = new Map();
         /** @internal */
         this._idCounter = 0;
-        this.onChange = (_) => { };
-        this.onTouched = () => { };
+        this.onChange = function (_) { };
+        this.onTouched = function () { };
     }
     /**
      * @param {?} value
      * @return {?}
      */
-    writeValue(value) {
+    SelectControlValueAccessor.prototype.writeValue = function (value) {
         this.value = value;
-        const /** @type {?} */ valueString = _buildValueString(this._getOptionId(value), value);
+        var /** @type {?} */ valueString = _buildValueString(this._getOptionId(value), value);
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', valueString);
-    }
+    };
     /**
      * @param {?} fn
      * @return {?}
      */
-    registerOnChange(fn) {
-        this.onChange = (valueString) => {
-            this.value = valueString;
-            fn(this._getOptionValue(valueString));
+    SelectControlValueAccessor.prototype.registerOnChange = function (fn) {
+        var _this = this;
+        this.onChange = function (valueString) {
+            _this.value = valueString;
+            fn(_this._getOptionValue(valueString));
         };
-    }
+    };
     /**
      * @param {?} fn
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    SelectControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
     /**
      * @param {?} isDisabled
      * @return {?}
      */
-    setDisabledState(isDisabled) {
+    SelectControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    }
+    };
     /**
      * \@internal
      * @return {?}
      */
-    _registerOption() { return (this._idCounter++).toString(); }
+    SelectControlValueAccessor.prototype._registerOption = function () { return (this._idCounter++).toString(); };
     /**
      * \@internal
      * @param {?} value
      * @return {?}
      */
-    _getOptionId(value) {
-        for (const id of Array.from(this._optionMap.keys())) {
+    SelectControlValueAccessor.prototype._getOptionId = function (value) {
+        for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
+            var id = _a[_i];
             if (looseIdentical(this._optionMap.get(id), value))
                 return id;
         }
         return null;
-    }
+    };
     /**
      * \@internal
      * @param {?} valueString
      * @return {?}
      */
-    _getOptionValue(valueString) {
-        const /** @type {?} */ id = _extractId(valueString);
+    SelectControlValueAccessor.prototype._getOptionValue = function (valueString) {
+        var /** @type {?} */ id = _extractId(valueString);
         return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
-    }
-}
-SelectControlValueAccessor.decorators = [
-    { type: Directive, args: [{
-                selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
-                host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
-                providers: [SELECT_VALUE_ACCESSOR]
-            },] },
-];
-/** @nocollapse */
-SelectControlValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
-    { type: ElementRef, },
-];
+    };
+    SelectControlValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
+                    host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                    providers: [SELECT_VALUE_ACCESSOR]
+                },] },
+    ];
+    /** @nocollapse */
+    SelectControlValueAccessor.ctorParameters = function () { return [
+        { type: Renderer, },
+        { type: ElementRef, },
+    ]; };
+    return SelectControlValueAccessor;
+}());
 function SelectControlValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     SelectControlValueAccessor.decorators;
@@ -193,70 +196,79 @@ function SelectControlValueAccessor_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export class NgSelectOption {
+export var NgSelectOption = (function () {
     /**
      * @param {?} _element
      * @param {?} _renderer
      * @param {?} _select
      */
-    constructor(_element, _renderer, _select) {
+    function NgSelectOption(_element, _renderer, _select) {
         this._element = _element;
         this._renderer = _renderer;
         this._select = _select;
         if (this._select)
             this.id = this._select._registerOption();
     }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set ngValue(value) {
-        if (this._select == null)
-            return;
-        this._select._optionMap.set(this.id, value);
-        this._setElementValue(_buildValueString(this.id, value));
-        this._select.writeValue(this._select.value);
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set value(value) {
-        this._setElementValue(value);
-        if (this._select)
+    Object.defineProperty(NgSelectOption.prototype, "ngValue", {
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) {
+            if (this._select == null)
+                return;
+            this._select._optionMap.set(this.id, value);
+            this._setElementValue(_buildValueString(this.id, value));
             this._select.writeValue(this._select.value);
-    }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NgSelectOption.prototype, "value", {
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) {
+            this._setElementValue(value);
+            if (this._select)
+                this._select.writeValue(this._select.value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * \@internal
      * @param {?} value
      * @return {?}
      */
-    _setElementValue(value) {
+    NgSelectOption.prototype._setElementValue = function (value) {
         this._renderer.setElementProperty(this._element.nativeElement, 'value', value);
-    }
+    };
     /**
      * @return {?}
      */
-    ngOnDestroy() {
+    NgSelectOption.prototype.ngOnDestroy = function () {
         if (this._select) {
             this._select._optionMap.delete(this.id);
             this._select.writeValue(this._select.value);
         }
-    }
-}
-NgSelectOption.decorators = [
-    { type: Directive, args: [{ selector: 'option' },] },
-];
-/** @nocollapse */
-NgSelectOption.ctorParameters = () => [
-    { type: ElementRef, },
-    { type: Renderer, },
-    { type: SelectControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
-];
-NgSelectOption.propDecorators = {
-    'ngValue': [{ type: Input, args: ['ngValue',] },],
-    'value': [{ type: Input, args: ['value',] },],
-};
+    };
+    NgSelectOption.decorators = [
+        { type: Directive, args: [{ selector: 'option' },] },
+    ];
+    /** @nocollapse */
+    NgSelectOption.ctorParameters = function () { return [
+        { type: ElementRef, },
+        { type: Renderer, },
+        { type: SelectControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
+    ]; };
+    NgSelectOption.propDecorators = {
+        'ngValue': [{ type: Input, args: ['ngValue',] },],
+        'value': [{ type: Input, args: ['value',] },],
+    };
+    return NgSelectOption;
+}());
 function NgSelectOption_tsickle_Closure_declarations() {
     /** @type {?} */
     NgSelectOption.decorators;

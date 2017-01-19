@@ -5,7 +5,12 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Directive, Host, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core/index';
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+import { Directive, Host, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
 import { EventEmitter } from '../facade/async';
 import { FormControl } from '../model';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
@@ -17,9 +22,9 @@ import { NgForm } from './ng_form';
 import { NgModelGroup } from './ng_model_group';
 import { composeAsyncValidators, composeValidators, controlPath, isPropertyUpdated, selectValueAccessor, setUpControl } from './shared';
 import { TemplateDrivenErrors } from './template_driven_errors';
-export const /** @type {?} */ formControlBinding = {
+export var /** @type {?} */ formControlBinding = {
     provide: NgControl,
-    useExisting: forwardRef(() => NgModel)
+    useExisting: forwardRef(function () { return NgModel; })
 };
 /**
  * `ngModel` forces an additional change detection run when its inputs change:
@@ -38,7 +43,7 @@ export const /** @type {?} */ formControlBinding = {
  * - this is just one extra run no matter how many `ngModel` have been changed.
  * - this is a general problem when using `exportAs` for directives!
  */
-const /** @type {?} */ resolvedPromise = Promise.resolve(null);
+var /** @type {?} */ resolvedPromise = Promise.resolve(null);
 /**
  * \@whatItDoes Creates a {\@link FormControl} instance from a domain model and binds it
  * to a form control element.
@@ -97,15 +102,16 @@ const /** @type {?} */ resolvedPromise = Promise.resolve(null);
  *
  *  \@stable
  */
-export class NgModel extends NgControl {
+export var NgModel = (function (_super) {
+    __extends(NgModel, _super);
     /**
      * @param {?} parent
      * @param {?} validators
      * @param {?} asyncValidators
      * @param {?} valueAccessors
      */
-    constructor(parent, validators, asyncValidators, valueAccessors) {
-        super();
+    function NgModel(parent, validators, asyncValidators, valueAccessors) {
+        _super.call(this);
         /** @internal */
         this._control = new FormControl();
         /** @internal */
@@ -120,7 +126,7 @@ export class NgModel extends NgControl {
      * @param {?} changes
      * @return {?}
      */
-    ngOnChanges(changes) {
+    NgModel.prototype.ngOnChanges = function (changes) {
         this._checkForErrors();
         if (!this._registered)
             this._setUpControl();
@@ -131,77 +137,97 @@ export class NgModel extends NgControl {
             this._updateValue(this.model);
             this.viewModel = this.model;
         }
-    }
+    };
     /**
      * @return {?}
      */
-    ngOnDestroy() { this.formDirective && this.formDirective.removeControl(this); }
-    /**
-     * @return {?}
-     */
-    get control() { return this._control; }
-    /**
-     * @return {?}
-     */
-    get path() {
-        return this._parent ? controlPath(this.name, this._parent) : [this.name];
-    }
-    /**
-     * @return {?}
-     */
-    get formDirective() { return this._parent ? this._parent.formDirective : null; }
-    /**
-     * @return {?}
-     */
-    get validator() { return composeValidators(this._rawValidators); }
-    /**
-     * @return {?}
-     */
-    get asyncValidator() {
-        return composeAsyncValidators(this._rawAsyncValidators);
-    }
+    NgModel.prototype.ngOnDestroy = function () { this.formDirective && this.formDirective.removeControl(this); };
+    Object.defineProperty(NgModel.prototype, "control", {
+        /**
+         * @return {?}
+         */
+        get: function () { return this._control; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NgModel.prototype, "path", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._parent ? controlPath(this.name, this._parent) : [this.name];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NgModel.prototype, "formDirective", {
+        /**
+         * @return {?}
+         */
+        get: function () { return this._parent ? this._parent.formDirective : null; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NgModel.prototype, "validator", {
+        /**
+         * @return {?}
+         */
+        get: function () { return composeValidators(this._rawValidators); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NgModel.prototype, "asyncValidator", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return composeAsyncValidators(this._rawAsyncValidators);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * @param {?} newValue
      * @return {?}
      */
-    viewToModelUpdate(newValue) {
+    NgModel.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
         this.update.emit(newValue);
-    }
+    };
     /**
      * @return {?}
      */
-    _setUpControl() {
+    NgModel.prototype._setUpControl = function () {
         this._isStandalone() ? this._setUpStandalone() :
             this.formDirective.addControl(this);
         this._registered = true;
-    }
+    };
     /**
      * @return {?}
      */
-    _isStandalone() {
+    NgModel.prototype._isStandalone = function () {
         return !this._parent || (this.options && this.options.standalone);
-    }
+    };
     /**
      * @return {?}
      */
-    _setUpStandalone() {
+    NgModel.prototype._setUpStandalone = function () {
         setUpControl(this._control, this);
         this._control.updateValueAndValidity({ emitEvent: false });
-    }
+    };
     /**
      * @return {?}
      */
-    _checkForErrors() {
+    NgModel.prototype._checkForErrors = function () {
         if (!this._isStandalone()) {
             this._checkParentType();
         }
         this._checkName();
-    }
+    };
     /**
      * @return {?}
      */
-    _checkParentType() {
+    NgModel.prototype._checkParentType = function () {
         if (!(this._parent instanceof NgModelGroup) &&
             this._parent instanceof AbstractFormGroupDirective) {
             TemplateDrivenErrors.formGroupNameException();
@@ -209,62 +235,65 @@ export class NgModel extends NgControl {
         else if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
             TemplateDrivenErrors.modelParentException();
         }
-    }
+    };
     /**
      * @return {?}
      */
-    _checkName() {
+    NgModel.prototype._checkName = function () {
         if (this.options && this.options.name)
             this.name = this.options.name;
         if (!this._isStandalone() && !this.name) {
             TemplateDrivenErrors.missingNameException();
         }
-    }
+    };
     /**
      * @param {?} value
      * @return {?}
      */
-    _updateValue(value) {
-        resolvedPromise.then(() => { this.control.setValue(value, { emitViewToModelChange: false }); });
-    }
+    NgModel.prototype._updateValue = function (value) {
+        var _this = this;
+        resolvedPromise.then(function () { _this.control.setValue(value, { emitViewToModelChange: false }); });
+    };
     /**
      * @param {?} changes
      * @return {?}
      */
-    _updateDisabled(changes) {
-        const /** @type {?} */ disabledValue = changes['isDisabled'].currentValue;
-        const /** @type {?} */ isDisabled = disabledValue === '' || (disabledValue && disabledValue !== 'false');
-        resolvedPromise.then(() => {
-            if (isDisabled && !this.control.disabled) {
-                this.control.disable();
+    NgModel.prototype._updateDisabled = function (changes) {
+        var _this = this;
+        var /** @type {?} */ disabledValue = changes['isDisabled'].currentValue;
+        var /** @type {?} */ isDisabled = disabledValue === '' || (disabledValue && disabledValue !== 'false');
+        resolvedPromise.then(function () {
+            if (isDisabled && !_this.control.disabled) {
+                _this.control.disable();
             }
-            else if (!isDisabled && this.control.disabled) {
-                this.control.enable();
+            else if (!isDisabled && _this.control.disabled) {
+                _this.control.enable();
             }
         });
-    }
-}
-NgModel.decorators = [
-    { type: Directive, args: [{
-                selector: '[ngModel]:not([formControlName]):not([formControl])',
-                providers: [formControlBinding],
-                exportAs: 'ngModel'
-            },] },
-];
-/** @nocollapse */
-NgModel.ctorParameters = () => [
-    { type: ControlContainer, decorators: [{ type: Optional }, { type: Host },] },
-    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
-];
-NgModel.propDecorators = {
-    'name': [{ type: Input },],
-    'isDisabled': [{ type: Input, args: ['disabled',] },],
-    'model': [{ type: Input, args: ['ngModel',] },],
-    'options': [{ type: Input, args: ['ngModelOptions',] },],
-    'update': [{ type: Output, args: ['ngModelChange',] },],
-};
+    };
+    NgModel.decorators = [
+        { type: Directive, args: [{
+                    selector: '[ngModel]:not([formControlName]):not([formControl])',
+                    providers: [formControlBinding],
+                    exportAs: 'ngModel'
+                },] },
+    ];
+    /** @nocollapse */
+    NgModel.ctorParameters = function () { return [
+        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host },] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
+    ]; };
+    NgModel.propDecorators = {
+        'name': [{ type: Input },],
+        'isDisabled': [{ type: Input, args: ['disabled',] },],
+        'model': [{ type: Input, args: ['ngModel',] },],
+        'options': [{ type: Input, args: ['ngModelOptions',] },],
+        'update': [{ type: Output, args: ['ngModelChange',] },],
+    };
+    return NgModel;
+}(NgControl));
 function NgModel_tsickle_Closure_declarations() {
     /** @type {?} */
     NgModel.decorators;

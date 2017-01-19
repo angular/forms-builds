@@ -15,23 +15,23 @@ import { AbstractControl } from '../model';
  * @stable
  */
 export declare abstract class AbstractControlDirective {
-    readonly control: AbstractControl;
-    readonly value: any;
-    readonly valid: boolean;
-    readonly invalid: boolean;
-    readonly pending: boolean;
-    readonly errors: {
+    control: AbstractControl;
+    value: any;
+    valid: boolean;
+    invalid: boolean;
+    pending: boolean;
+    errors: {
         [key: string]: any;
     };
-    readonly pristine: boolean;
-    readonly dirty: boolean;
-    readonly touched: boolean;
-    readonly untouched: boolean;
-    readonly disabled: boolean;
-    readonly enabled: boolean;
-    readonly statusChanges: Observable<any>;
-    readonly valueChanges: Observable<any>;
-    readonly path: string[];
+    pristine: boolean;
+    dirty: boolean;
+    touched: boolean;
+    untouched: boolean;
+    disabled: boolean;
+    enabled: boolean;
+    statusChanges: Observable<any>;
+    valueChanges: Observable<any>;
+    path: string[];
     reset(value?: any): void;
     hasError(errorCode: string, path?: string[]): boolean;
     getError(errorCode: string, path?: string[]): any;

@@ -62,10 +62,10 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     isDisabled: boolean;
     constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<Validator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
-    readonly path: string[];
-    readonly validator: ValidatorFn;
-    readonly asyncValidator: AsyncValidatorFn;
-    readonly control: FormControl;
+    path: string[];
+    validator: ValidatorFn;
+    asyncValidator: AsyncValidatorFn;
+    control: FormControl;
     viewToModelUpdate(newValue: any): void;
     private _isControlChanged(changes);
 }

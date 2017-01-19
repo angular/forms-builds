@@ -19,9 +19,9 @@ export declare class ControlContainer extends AbstractControlDirective {
     /**
      * Get the form to which this container belongs.
      */
-    readonly formDirective: Form;
+    formDirective: Form;
     /**
      * Get the path to this container.
      */
-    readonly path: string[];
+    path: string[];
 }

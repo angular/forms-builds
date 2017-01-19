@@ -5,6 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 import { AbstractControlDirective } from './abstract_control_directive';
 /**
  * @return {?}
@@ -21,9 +26,10 @@ function unimplemented() {
  * \@stable
  * @abstract
  */
-export class NgControl extends AbstractControlDirective {
-    constructor() {
-        super(...arguments);
+export var NgControl = (function (_super) {
+    __extends(NgControl, _super);
+    function NgControl() {
+        _super.apply(this, arguments);
         /** @internal */
         this._parent = null;
         this.name = null;
@@ -33,21 +39,30 @@ export class NgControl extends AbstractControlDirective {
         /** @internal */
         this._rawAsyncValidators = [];
     }
-    /**
-     * @return {?}
-     */
-    get validator() { return (unimplemented()); }
-    /**
-     * @return {?}
-     */
-    get asyncValidator() { return (unimplemented()); }
+    Object.defineProperty(NgControl.prototype, "validator", {
+        /**
+         * @return {?}
+         */
+        get: function () { return (unimplemented()); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NgControl.prototype, "asyncValidator", {
+        /**
+         * @return {?}
+         */
+        get: function () { return (unimplemented()); },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * @abstract
      * @param {?} newValue
      * @return {?}
      */
-    viewToModelUpdate(newValue) { }
-}
+    NgControl.prototype.viewToModelUpdate = function (newValue) { };
+    return NgControl;
+}(AbstractControlDirective));
 function NgControl_tsickle_Closure_declarations() {
     /**
      * \@internal

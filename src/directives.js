@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { NgModule } from '@angular/core/index';
+import { NgModule } from '@angular/core';
 import { CheckboxControlValueAccessor } from './directives/checkbox_value_accessor';
 import { DefaultValueAccessor } from './directives/default_value_accessor';
 import { NgControlStatus, NgControlStatusGroup } from './directives/ng_control_status';
@@ -39,7 +39,7 @@ export { FormGroupDirective } from './directives/reactive_directives/form_group_
 export { FormArrayName, FormGroupName } from './directives/reactive_directives/form_group_name';
 export { NgSelectOption, SelectControlValueAccessor } from './directives/select_control_value_accessor';
 export { NgSelectMultipleOption, SelectMultipleControlValueAccessor } from './directives/select_multiple_control_value_accessor';
-export const /** @type {?} */ SHARED_FORM_DIRECTIVES = [
+export var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
     NgNovalidate,
     NgSelectOption,
     NgSelectMultipleOption,
@@ -58,21 +58,24 @@ export const /** @type {?} */ SHARED_FORM_DIRECTIVES = [
     PatternValidator,
     CheckboxRequiredValidator,
 ];
-export const /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
-export const /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
+export var /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+export var /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
-export class InternalFormsSharedModule {
-}
-InternalFormsSharedModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: SHARED_FORM_DIRECTIVES,
-                exports: SHARED_FORM_DIRECTIVES,
-            },] },
-];
-/** @nocollapse */
-InternalFormsSharedModule.ctorParameters = () => [];
+export var InternalFormsSharedModule = (function () {
+    function InternalFormsSharedModule() {
+    }
+    InternalFormsSharedModule.decorators = [
+        { type: NgModule, args: [{
+                    declarations: SHARED_FORM_DIRECTIVES,
+                    exports: SHARED_FORM_DIRECTIVES,
+                },] },
+    ];
+    /** @nocollapse */
+    InternalFormsSharedModule.ctorParameters = function () { return []; };
+    return InternalFormsSharedModule;
+}());
 function InternalFormsSharedModule_tsickle_Closure_declarations() {
     /** @type {?} */
     InternalFormsSharedModule.decorators;

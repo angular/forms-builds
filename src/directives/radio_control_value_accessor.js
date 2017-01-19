@@ -5,19 +5,19 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Directive, ElementRef, Injectable, Injector, Input, Renderer, forwardRef } from '@angular/core/index';
+import { Directive, ElementRef, Injectable, Injector, Input, Renderer, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
 import { NgControl } from './ng_control';
-export const /** @type {?} */ RADIO_VALUE_ACCESSOR = {
+export var /** @type {?} */ RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => RadioControlValueAccessor),
+    useExisting: forwardRef(function () { return RadioControlValueAccessor; }),
     multi: true
 };
 /**
  * Internal class used by Angular to uncheck radio buttons with the matching name.
  */
-export class RadioControlRegistry {
-    constructor() {
+export var RadioControlRegistry = (function () {
+    function RadioControlRegistry() {
         this._accessors = [];
     }
     /**
@@ -25,49 +25,51 @@ export class RadioControlRegistry {
      * @param {?} accessor
      * @return {?}
      */
-    add(control, accessor) {
+    RadioControlRegistry.prototype.add = function (control, accessor) {
         this._accessors.push([control, accessor]);
-    }
+    };
     /**
      * @param {?} accessor
      * @return {?}
      */
-    remove(accessor) {
-        for (let /** @type {?} */ i = this._accessors.length - 1; i >= 0; --i) {
+    RadioControlRegistry.prototype.remove = function (accessor) {
+        for (var /** @type {?} */ i = this._accessors.length - 1; i >= 0; --i) {
             if (this._accessors[i][1] === accessor) {
                 this._accessors.splice(i, 1);
                 return;
             }
         }
-    }
+    };
     /**
      * @param {?} accessor
      * @return {?}
      */
-    select(accessor) {
-        this._accessors.forEach((c) => {
-            if (this._isSameGroup(c, accessor) && c[1] !== accessor) {
+    RadioControlRegistry.prototype.select = function (accessor) {
+        var _this = this;
+        this._accessors.forEach(function (c) {
+            if (_this._isSameGroup(c, accessor) && c[1] !== accessor) {
                 c[1].fireUncheck(accessor.value);
             }
         });
-    }
+    };
     /**
      * @param {?} controlPair
      * @param {?} accessor
      * @return {?}
      */
-    _isSameGroup(controlPair, accessor) {
+    RadioControlRegistry.prototype._isSameGroup = function (controlPair, accessor) {
         if (!controlPair[0].control)
             return false;
         return controlPair[0]._parent === accessor._control._parent &&
             controlPair[1].name === accessor.name;
-    }
-}
-RadioControlRegistry.decorators = [
-    { type: Injectable },
-];
-/** @nocollapse */
-RadioControlRegistry.ctorParameters = () => [];
+    };
+    RadioControlRegistry.decorators = [
+        { type: Injectable },
+    ];
+    /** @nocollapse */
+    RadioControlRegistry.ctorParameters = function () { return []; };
+    return RadioControlRegistry;
+}());
 function RadioControlRegistry_tsickle_Closure_declarations() {
     /** @type {?} */
     RadioControlRegistry.decorators;
@@ -108,108 +110,107 @@ function RadioControlRegistry_tsickle_Closure_declarations() {
  *
  *  \@stable
  */
-export class RadioControlValueAccessor {
+export var RadioControlValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
      * @param {?} _registry
      * @param {?} _injector
      */
-    constructor(_renderer, _elementRef, _registry, _injector) {
+    function RadioControlValueAccessor(_renderer, _elementRef, _registry, _injector) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
         this._registry = _registry;
         this._injector = _injector;
-        this.onChange = () => { };
-        this.onTouched = () => { };
+        this.onChange = function () { };
+        this.onTouched = function () { };
     }
     /**
      * @return {?}
      */
-    ngOnInit() {
+    RadioControlValueAccessor.prototype.ngOnInit = function () {
         this._control = this._injector.get(NgControl);
         this._checkName();
         this._registry.add(this._control, this);
-    }
+    };
     /**
      * @return {?}
      */
-    ngOnDestroy() { this._registry.remove(this); }
+    RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
     /**
      * @param {?} value
      * @return {?}
      */
-    writeValue(value) {
+    RadioControlValueAccessor.prototype.writeValue = function (value) {
         this._state = value === this.value;
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
-    }
+    };
     /**
      * @param {?} fn
      * @return {?}
      */
-    registerOnChange(fn) {
+    RadioControlValueAccessor.prototype.registerOnChange = function (fn) {
+        var _this = this;
         this._fn = fn;
-        this.onChange = () => {
-            fn(this.value);
-            this._registry.select(this);
+        this.onChange = function () {
+            fn(_this.value);
+            _this._registry.select(_this);
         };
-    }
+    };
     /**
      * @param {?} value
      * @return {?}
      */
-    fireUncheck(value) { this.writeValue(value); }
+    RadioControlValueAccessor.prototype.fireUncheck = function (value) { this.writeValue(value); };
     /**
      * @param {?} fn
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    RadioControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
     /**
      * @param {?} isDisabled
      * @return {?}
      */
-    setDisabledState(isDisabled) {
+    RadioControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    }
+    };
     /**
      * @return {?}
      */
-    _checkName() {
+    RadioControlValueAccessor.prototype._checkName = function () {
         if (this.name && this.formControlName && this.name !== this.formControlName) {
             this._throwNameError();
         }
         if (!this.name && this.formControlName)
             this.name = this.formControlName;
-    }
+    };
     /**
      * @return {?}
      */
-    _throwNameError() {
-        throw new Error(`
-      If you define both a name and a formControlName attribute on your radio button, their values
-      must match. Ex: <input type="radio" formControlName="food" name="food">
-    `);
-    }
-}
-RadioControlValueAccessor.decorators = [
-    { type: Directive, args: [{
-                selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
-                host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
-                providers: [RADIO_VALUE_ACCESSOR]
-            },] },
-];
-/** @nocollapse */
-RadioControlValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
-    { type: ElementRef, },
-    { type: RadioControlRegistry, },
-    { type: Injector, },
-];
-RadioControlValueAccessor.propDecorators = {
-    'name': [{ type: Input },],
-    'formControlName': [{ type: Input },],
-    'value': [{ type: Input },],
-};
+    RadioControlValueAccessor.prototype._throwNameError = function () {
+        throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
+    };
+    RadioControlValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
+                    host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
+                    providers: [RADIO_VALUE_ACCESSOR]
+                },] },
+    ];
+    /** @nocollapse */
+    RadioControlValueAccessor.ctorParameters = function () { return [
+        { type: Renderer, },
+        { type: ElementRef, },
+        { type: RadioControlRegistry, },
+        { type: Injector, },
+    ]; };
+    RadioControlValueAccessor.propDecorators = {
+        'name': [{ type: Input },],
+        'formControlName': [{ type: Input },],
+        'value': [{ type: Input },],
+    };
+    return RadioControlValueAccessor;
+}());
 function RadioControlValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     RadioControlValueAccessor.decorators;

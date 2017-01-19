@@ -5,6 +5,6 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { __core_private__ as r } from '@angular/core/index';
-export const /** @type {?} */ isPromise = r.isPromise;
+import { __core_private__ as r } from '@angular/core';
+export var /** @type {?} */ isPromise = r.isPromise;
 //# sourceMappingURL=private_import_core.js.map

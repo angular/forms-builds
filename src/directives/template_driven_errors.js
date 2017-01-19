@@ -6,62 +6,33 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { FormErrorExamples as Examples } from './error_examples';
-export class TemplateDrivenErrors {
-    /**
-     * @return {?}
-     */
-    static modelParentException() {
-        throw new Error(`
-      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using
-      formGroup's partner directive "formControlName" instead.  Example:
-
-      ${Examples.formControlName}
-
-      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:
-
-      Example:
-
-      ${Examples.ngModelWithFormGroup}`);
+export var TemplateDrivenErrors = (function () {
+    function TemplateDrivenErrors() {
     }
     /**
      * @return {?}
      */
-    static formGroupNameException() {
-        throw new Error(`
-      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.
-
-      Option 1: Use formControlName instead of ngModel (reactive strategy):
-
-      ${Examples.formGroupName}
-
-      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):
-
-      ${Examples.ngModelGroup}`);
-    }
+    TemplateDrivenErrors.modelParentException = function () {
+        throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using\n      formGroup's partner directive \"formControlName\" instead.  Example:\n\n      " + Examples.formControlName + "\n\n      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:\n\n      Example:\n\n      " + Examples.ngModelWithFormGroup);
+    };
     /**
      * @return {?}
      */
-    static missingNameException() {
-        throw new Error(`If ngModel is used within a form tag, either the name attribute must be set or the form
-      control must be defined as 'standalone' in ngModelOptions.
-
-      Example 1: <input [(ngModel)]="person.firstName" name="first">
-      Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">`);
-    }
+    TemplateDrivenErrors.formGroupNameException = function () {
+        throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.\n\n      Option 1: Use formControlName instead of ngModel (reactive strategy):\n\n      " + Examples.formGroupName + "\n\n      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):\n\n      " + Examples.ngModelGroup);
+    };
     /**
      * @return {?}
      */
-    static modelGroupParentException() {
-        throw new Error(`
-      ngModelGroup cannot be used with a parent formGroup directive.
-
-      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):
-
-      ${Examples.formGroupName}
-
-      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):
-
-      ${Examples.ngModelGroup}`);
-    }
-}
+    TemplateDrivenErrors.missingNameException = function () {
+        throw new Error("If ngModel is used within a form tag, either the name attribute must be set or the form\n      control must be defined as 'standalone' in ngModelOptions.\n\n      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">");
+    };
+    /**
+     * @return {?}
+     */
+    TemplateDrivenErrors.modelGroupParentException = function () {
+        throw new Error("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + Examples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + Examples.ngModelGroup);
+    };
+    return TemplateDrivenErrors;
+}());
 //# sourceMappingURL=template_driven_errors.js.map

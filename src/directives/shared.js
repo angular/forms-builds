@@ -21,7 +21,7 @@ import { SelectMultipleControlValueAccessor } from './select_multiple_control_va
  * @return {?}
  */
 export function controlPath(name, parent) {
-    return [...parent.path, name];
+    return parent.path.concat([name]);
 }
 /**
  * @param {?} control
@@ -37,14 +37,14 @@ export function setUpControl(control, dir) {
     control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
     dir.valueAccessor.writeValue(control.value);
     // view -> model
-    dir.valueAccessor.registerOnChange((newValue) => {
+    dir.valueAccessor.registerOnChange(function (newValue) {
         dir.viewToModelUpdate(newValue);
         control.markAsDirty();
         control.setValue(newValue, { emitModelToViewChange: false });
     });
     // touched
-    dir.valueAccessor.registerOnTouched(() => control.markAsTouched());
-    control.registerOnChange((newValue, emitModelEvent) => {
+    dir.valueAccessor.registerOnTouched(function () { return control.markAsTouched(); });
+    control.registerOnChange(function (newValue, emitModelEvent) {
         // control -> view
         dir.valueAccessor.writeValue(newValue);
         // control -> ngModel
@@ -52,16 +52,16 @@ export function setUpControl(control, dir) {
             dir.viewToModelUpdate(newValue);
     });
     if (dir.valueAccessor.setDisabledState) {
-        control.registerOnDisabledChange((isDisabled) => { dir.valueAccessor.setDisabledState(isDisabled); });
+        control.registerOnDisabledChange(function (isDisabled) { dir.valueAccessor.setDisabledState(isDisabled); });
     }
     // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
-    dir._rawValidators.forEach((validator) => {
+    dir._rawValidators.forEach(function (validator) {
         if (((validator)).registerOnValidatorChange)
-            ((validator)).registerOnValidatorChange(() => control.updateValueAndValidity());
+            ((validator)).registerOnValidatorChange(function () { return control.updateValueAndValidity(); });
     });
-    dir._rawAsyncValidators.forEach((validator) => {
+    dir._rawAsyncValidators.forEach(function (validator) {
         if (((validator)).registerOnValidatorChange)
-            ((validator)).registerOnValidatorChange(() => control.updateValueAndValidity());
+            ((validator)).registerOnValidatorChange(function () { return control.updateValueAndValidity(); });
     });
 }
 /**
@@ -70,14 +70,14 @@ export function setUpControl(control, dir) {
  * @return {?}
  */
 export function cleanUpControl(control, dir) {
-    dir.valueAccessor.registerOnChange(() => _noControlError(dir));
-    dir.valueAccessor.registerOnTouched(() => _noControlError(dir));
-    dir._rawValidators.forEach((validator) => {
+    dir.valueAccessor.registerOnChange(function () { return _noControlError(dir); });
+    dir.valueAccessor.registerOnTouched(function () { return _noControlError(dir); });
+    dir._rawValidators.forEach(function (validator) {
         if (validator.registerOnValidatorChange) {
             validator.registerOnValidatorChange(null);
         }
     });
-    dir._rawAsyncValidators.forEach((validator) => {
+    dir._rawAsyncValidators.forEach(function (validator) {
         if (validator.registerOnValidatorChange) {
             validator.registerOnValidatorChange(null);
         }
@@ -109,17 +109,17 @@ function _noControlError(dir) {
  * @return {?}
  */
 function _throwError(dir, message) {
-    let /** @type {?} */ messageEnd;
+    var /** @type {?} */ messageEnd;
     if (dir.path.length > 1) {
-        messageEnd = `path: '${dir.path.join(' -> ')}'`;
+        messageEnd = "path: '" + dir.path.join(' -> ') + "'";
     }
     else if (dir.path[0]) {
-        messageEnd = `name: '${dir.path}'`;
+        messageEnd = "name: '" + dir.path + "'";
     }
     else {
         messageEnd = 'unspecified name attribute';
     }
-    throw new Error(`${message} ${messageEnd}`);
+    throw new Error(message + " " + messageEnd);
 }
 /**
  * @param {?} validators
@@ -144,12 +144,12 @@ export function composeAsyncValidators(validators) {
 export function isPropertyUpdated(changes, viewModel) {
     if (!changes.hasOwnProperty('model'))
         return false;
-    const /** @type {?} */ change = changes['model'];
+    var /** @type {?} */ change = changes['model'];
     if (change.isFirstChange())
         return true;
     return !looseIdentical(viewModel, change.currentValue);
 }
-const /** @type {?} */ BUILTIN_ACCESSORS = [
+var /** @type {?} */ BUILTIN_ACCESSORS = [
     CheckboxControlValueAccessor,
     RangeValueAccessor,
     NumberValueAccessor,
@@ -162,7 +162,7 @@ const /** @type {?} */ BUILTIN_ACCESSORS = [
  * @return {?}
  */
 export function isBuiltInAccessor(valueAccessor) {
-    return BUILTIN_ACCESSORS.some(a => valueAccessor.constructor === a);
+    return BUILTIN_ACCESSORS.some(function (a) { return valueAccessor.constructor === a; });
 }
 /**
  * @param {?} dir
@@ -172,10 +172,10 @@ export function isBuiltInAccessor(valueAccessor) {
 export function selectValueAccessor(dir, valueAccessors) {
     if (!valueAccessors)
         return null;
-    let /** @type {?} */ defaultAccessor;
-    let /** @type {?} */ builtinAccessor;
-    let /** @type {?} */ customAccessor;
-    valueAccessors.forEach((v) => {
+    var /** @type {?} */ defaultAccessor;
+    var /** @type {?} */ builtinAccessor;
+    var /** @type {?} */ customAccessor;
+    valueAccessors.forEach(function (v) {
         if (v.constructor === DefaultValueAccessor) {
             defaultAccessor = v;
         }

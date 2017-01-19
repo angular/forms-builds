@@ -21,15 +21,15 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
     /**
      * Get the {@link FormGroup} backing this binding.
      */
-    readonly control: FormGroup;
+    control: FormGroup;
     /**
      * Get the path to this control group.
      */
-    readonly path: string[];
+    path: string[];
     /**
      * Get the {@link Form} to which this group belongs.
      */
-    readonly formDirective: Form;
-    readonly validator: ValidatorFn;
-    readonly asyncValidator: AsyncValidatorFn;
+    formDirective: Form;
+    validator: ValidatorFn;
+    asyncValidator: AsyncValidatorFn;
 }
