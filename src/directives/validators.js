@@ -1,18 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-import { Directive, Input, forwardRef } from '@angular/core';
+import { Directive, Input, forwardRef } from '@angular/core/index';
 import { NG_VALIDATORS, Validators } from '../validators';
-export var /** @type {?} */ REQUIRED_VALIDATOR = {
+export const /** @type {?} */ REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(function () { return RequiredValidator; }),
+    useExisting: forwardRef(() => RequiredValidator),
     multi: true
 };
-export var /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
+export const /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(function () { return CheckboxRequiredValidator; }),
+    useExisting: forwardRef(() => CheckboxRequiredValidator),
     multi: true
 };
 /**
@@ -27,52 +22,45 @@ export var /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
  *
  * \@stable
  */
-export var RequiredValidator = (function () {
-    function RequiredValidator() {
+export class RequiredValidator {
+    /**
+     * @return {?}
+     */
+    get required() { return this._required; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set required(value) {
+        this._required = value != null && value !== false && `${value}` !== 'false';
+        if (this._onChange)
+            this._onChange();
     }
-    Object.defineProperty(RequiredValidator.prototype, "required", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this._required; },
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        set: function (value) {
-            this._required = value != null && value !== false && "" + value !== 'false';
-            if (this._onChange)
-                this._onChange();
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * @param {?} c
      * @return {?}
      */
-    RequiredValidator.prototype.validate = function (c) {
+    validate(c) {
         return this.required ? Validators.required(c) : null;
-    };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    RequiredValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
-    RequiredValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
-                    providers: [REQUIRED_VALIDATOR],
-                    host: { '[attr.required]': 'required ? "" : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    RequiredValidator.ctorParameters = function () { return []; };
-    RequiredValidator.propDecorators = {
-        'required': [{ type: Input },],
-    };
-    return RequiredValidator;
-}());
+    registerOnValidatorChange(fn) { this._onChange = fn; }
+}
+RequiredValidator.decorators = [
+    { type: Directive, args: [{
+                selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
+                providers: [REQUIRED_VALIDATOR],
+                host: { '[attr.required]': 'required ? "" : null' }
+            },] },
+];
+/** @nocollapse */
+RequiredValidator.ctorParameters = () => [];
+RequiredValidator.propDecorators = {
+    'required': [{ type: Input },],
+};
 function RequiredValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     RequiredValidator.decorators;
@@ -100,29 +88,24 @@ function RequiredValidator_tsickle_Closure_declarations() {
  *
  * \@experimental
  */
-export var CheckboxRequiredValidator = (function (_super) {
-    __extends(CheckboxRequiredValidator, _super);
-    function CheckboxRequiredValidator() {
-        _super.apply(this, arguments);
-    }
+export class CheckboxRequiredValidator extends RequiredValidator {
     /**
      * @param {?} c
      * @return {?}
      */
-    CheckboxRequiredValidator.prototype.validate = function (c) {
+    validate(c) {
         return this.required ? Validators.requiredTrue(c) : null;
-    };
-    CheckboxRequiredValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
-                    providers: [CHECKBOX_REQUIRED_VALIDATOR],
-                    host: { '[attr.required]': 'required ? "" : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    CheckboxRequiredValidator.ctorParameters = function () { return []; };
-    return CheckboxRequiredValidator;
-}(RequiredValidator));
+    }
+}
+CheckboxRequiredValidator.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
+                providers: [CHECKBOX_REQUIRED_VALIDATOR],
+                host: { '[attr.required]': 'required ? "" : null' }
+            },] },
+];
+/** @nocollapse */
+CheckboxRequiredValidator.ctorParameters = () => [];
 function CheckboxRequiredValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     CheckboxRequiredValidator.decorators;
@@ -139,9 +122,9 @@ function CheckboxRequiredValidator_tsickle_Closure_declarations() {
  *
  * {@example common/forms/ts/validators/validators.ts region='min'}
  */
-export var /** @type {?} */ MIN_LENGTH_VALIDATOR = {
+export const /** @type {?} */ MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(function () { return MinLengthValidator; }),
+    useExisting: forwardRef(() => MinLengthValidator),
     multi: true
 };
 /**
@@ -150,52 +133,49 @@ export var /** @type {?} */ MIN_LENGTH_VALIDATOR = {
  *
  * \@stable
  */
-export var MinLengthValidator = (function () {
-    function MinLengthValidator() {
-    }
+export class MinLengthValidator {
     /**
      * @param {?} changes
      * @return {?}
      */
-    MinLengthValidator.prototype.ngOnChanges = function (changes) {
+    ngOnChanges(changes) {
         if ('minlength' in changes) {
             this._createValidator();
             if (this._onChange)
                 this._onChange();
         }
-    };
+    }
     /**
      * @param {?} c
      * @return {?}
      */
-    MinLengthValidator.prototype.validate = function (c) {
+    validate(c) {
         return this.minlength == null ? null : this._validator(c);
-    };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    MinLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+    registerOnValidatorChange(fn) { this._onChange = fn; }
     /**
      * @return {?}
      */
-    MinLengthValidator.prototype._createValidator = function () {
+    _createValidator() {
         this._validator = Validators.minLength(parseInt(this.minlength, 10));
-    };
-    MinLengthValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
-                    providers: [MIN_LENGTH_VALIDATOR],
-                    host: { '[attr.minlength]': 'minlength ? minlength : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    MinLengthValidator.ctorParameters = function () { return []; };
-    MinLengthValidator.propDecorators = {
-        'minlength': [{ type: Input },],
-    };
-    return MinLengthValidator;
-}());
+    }
+}
+MinLengthValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
+                providers: [MIN_LENGTH_VALIDATOR],
+                host: { '[attr.minlength]': 'minlength ? minlength : null' }
+            },] },
+];
+/** @nocollapse */
+MinLengthValidator.ctorParameters = () => [];
+MinLengthValidator.propDecorators = {
+    'minlength': [{ type: Input },],
+};
 function MinLengthValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     MinLengthValidator.decorators;
@@ -220,9 +200,9 @@ function MinLengthValidator_tsickle_Closure_declarations() {
  *
  * {@example common/forms/ts/validators/validators.ts region='max'}
  */
-export var /** @type {?} */ MAX_LENGTH_VALIDATOR = {
+export const /** @type {?} */ MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(function () { return MaxLengthValidator; }),
+    useExisting: forwardRef(() => MaxLengthValidator),
     multi: true
 };
 /**
@@ -232,52 +212,49 @@ export var /** @type {?} */ MAX_LENGTH_VALIDATOR = {
  *
  * \@stable
  */
-export var MaxLengthValidator = (function () {
-    function MaxLengthValidator() {
-    }
+export class MaxLengthValidator {
     /**
      * @param {?} changes
      * @return {?}
      */
-    MaxLengthValidator.prototype.ngOnChanges = function (changes) {
+    ngOnChanges(changes) {
         if ('maxlength' in changes) {
             this._createValidator();
             if (this._onChange)
                 this._onChange();
         }
-    };
+    }
     /**
      * @param {?} c
      * @return {?}
      */
-    MaxLengthValidator.prototype.validate = function (c) {
+    validate(c) {
         return this.maxlength != null ? this._validator(c) : null;
-    };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    MaxLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+    registerOnValidatorChange(fn) { this._onChange = fn; }
     /**
      * @return {?}
      */
-    MaxLengthValidator.prototype._createValidator = function () {
+    _createValidator() {
         this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
-    };
-    MaxLengthValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
-                    providers: [MAX_LENGTH_VALIDATOR],
-                    host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    MaxLengthValidator.ctorParameters = function () { return []; };
-    MaxLengthValidator.propDecorators = {
-        'maxlength': [{ type: Input },],
-    };
-    return MaxLengthValidator;
-}());
+    }
+}
+MaxLengthValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
+                providers: [MAX_LENGTH_VALIDATOR],
+                host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
+            },] },
+];
+/** @nocollapse */
+MaxLengthValidator.ctorParameters = () => [];
+MaxLengthValidator.propDecorators = {
+    'maxlength': [{ type: Input },],
+};
 function MaxLengthValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     MaxLengthValidator.decorators;
@@ -295,9 +272,9 @@ function MaxLengthValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     MaxLengthValidator.prototype.maxlength;
 }
-export var /** @type {?} */ PATTERN_VALIDATOR = {
+export const /** @type {?} */ PATTERN_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(function () { return PatternValidator; }),
+    useExisting: forwardRef(() => PatternValidator),
     multi: true
 };
 /**
@@ -313,48 +290,45 @@ export var /** @type {?} */ PATTERN_VALIDATOR = {
  * ```
  * \@stable
  */
-export var PatternValidator = (function () {
-    function PatternValidator() {
-    }
+export class PatternValidator {
     /**
      * @param {?} changes
      * @return {?}
      */
-    PatternValidator.prototype.ngOnChanges = function (changes) {
+    ngOnChanges(changes) {
         if ('pattern' in changes) {
             this._createValidator();
             if (this._onChange)
                 this._onChange();
         }
-    };
+    }
     /**
      * @param {?} c
      * @return {?}
      */
-    PatternValidator.prototype.validate = function (c) { return this._validator(c); };
+    validate(c) { return this._validator(c); }
     /**
      * @param {?} fn
      * @return {?}
      */
-    PatternValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+    registerOnValidatorChange(fn) { this._onChange = fn; }
     /**
      * @return {?}
      */
-    PatternValidator.prototype._createValidator = function () { this._validator = Validators.pattern(this.pattern); };
-    PatternValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
-                    providers: [PATTERN_VALIDATOR],
-                    host: { '[attr.pattern]': 'pattern ? pattern : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    PatternValidator.ctorParameters = function () { return []; };
-    PatternValidator.propDecorators = {
-        'pattern': [{ type: Input },],
-    };
-    return PatternValidator;
-}());
+    _createValidator() { this._validator = Validators.pattern(this.pattern); }
+}
+PatternValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
+                providers: [PATTERN_VALIDATOR],
+                host: { '[attr.pattern]': 'pattern ? pattern : null' }
+            },] },
+];
+/** @nocollapse */
+PatternValidator.ctorParameters = () => [];
+PatternValidator.propDecorators = {
+    'pattern': [{ type: Input },],
+};
 function PatternValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     PatternValidator.decorators;

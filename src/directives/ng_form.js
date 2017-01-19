@@ -5,22 +5,17 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-import { Directive, Inject, Optional, Self, forwardRef } from '@angular/core';
+import { Directive, Inject, Optional, Self, forwardRef } from '@angular/core/index';
 import { EventEmitter } from '../facade/async';
 import { FormGroup } from '../model';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
 import { ControlContainer } from './control_container';
 import { composeAsyncValidators, composeValidators, setUpControl, setUpFormContainer } from './shared';
-export var /** @type {?} */ formDirectiveProvider = {
+export const /** @type {?} */ formDirectiveProvider = {
     provide: ControlContainer,
-    useExisting: forwardRef(function () { return NgForm; })
+    useExisting: forwardRef(() => NgForm)
 };
-var /** @type {?} */ resolvedPromise = Promise.resolve(null);
+const /** @type {?} */ resolvedPromise = Promise.resolve(null);
 /**
  * \@whatItDoes Creates a top-level {\@link FormGroup} instance and binds it to a form
  * to track aggregate form value and validation status.
@@ -52,186 +47,158 @@ var /** @type {?} */ resolvedPromise = Promise.resolve(null);
  *
  *  \@stable
  */
-export var NgForm = (function (_super) {
-    __extends(NgForm, _super);
+export class NgForm extends ControlContainer {
     /**
      * @param {?} validators
      * @param {?} asyncValidators
      */
-    function NgForm(validators, asyncValidators) {
-        _super.call(this);
+    constructor(validators, asyncValidators) {
+        super();
         this._submitted = false;
         this.ngSubmit = new EventEmitter();
         this.form =
             new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
     }
-    Object.defineProperty(NgForm.prototype, "submitted", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this._submitted; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgForm.prototype, "formDirective", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgForm.prototype, "control", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.form; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgForm.prototype, "path", {
-        /**
-         * @return {?}
-         */
-        get: function () { return []; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgForm.prototype, "controls", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.form.controls; },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * @return {?}
+     */
+    get submitted() { return this._submitted; }
+    /**
+     * @return {?}
+     */
+    get formDirective() { return this; }
+    /**
+     * @return {?}
+     */
+    get control() { return this.form; }
+    /**
+     * @return {?}
+     */
+    get path() { return []; }
+    /**
+     * @return {?}
+     */
+    get controls() { return this.form.controls; }
     /**
      * @param {?} dir
      * @return {?}
      */
-    NgForm.prototype.addControl = function (dir) {
-        var _this = this;
-        resolvedPromise.then(function () {
-            var /** @type {?} */ container = _this._findContainer(dir.path);
+    addControl(dir) {
+        resolvedPromise.then(() => {
+            const /** @type {?} */ container = this._findContainer(dir.path);
             dir._control = (container.registerControl(dir.name, dir.control));
             setUpControl(dir.control, dir);
             dir.control.updateValueAndValidity({ emitEvent: false });
         });
-    };
+    }
     /**
      * @param {?} dir
      * @return {?}
      */
-    NgForm.prototype.getControl = function (dir) { return (this.form.get(dir.path)); };
+    getControl(dir) { return (this.form.get(dir.path)); }
     /**
      * @param {?} dir
      * @return {?}
      */
-    NgForm.prototype.removeControl = function (dir) {
-        var _this = this;
-        resolvedPromise.then(function () {
-            var /** @type {?} */ container = _this._findContainer(dir.path);
+    removeControl(dir) {
+        resolvedPromise.then(() => {
+            const /** @type {?} */ container = this._findContainer(dir.path);
             if (container) {
                 container.removeControl(dir.name);
             }
         });
-    };
+    }
     /**
      * @param {?} dir
      * @return {?}
      */
-    NgForm.prototype.addFormGroup = function (dir) {
-        var _this = this;
-        resolvedPromise.then(function () {
-            var /** @type {?} */ container = _this._findContainer(dir.path);
-            var /** @type {?} */ group = new FormGroup({});
+    addFormGroup(dir) {
+        resolvedPromise.then(() => {
+            const /** @type {?} */ container = this._findContainer(dir.path);
+            const /** @type {?} */ group = new FormGroup({});
             setUpFormContainer(group, dir);
             container.registerControl(dir.name, group);
             group.updateValueAndValidity({ emitEvent: false });
         });
-    };
+    }
     /**
      * @param {?} dir
      * @return {?}
      */
-    NgForm.prototype.removeFormGroup = function (dir) {
-        var _this = this;
-        resolvedPromise.then(function () {
-            var /** @type {?} */ container = _this._findContainer(dir.path);
+    removeFormGroup(dir) {
+        resolvedPromise.then(() => {
+            const /** @type {?} */ container = this._findContainer(dir.path);
             if (container) {
                 container.removeControl(dir.name);
             }
         });
-    };
+    }
     /**
      * @param {?} dir
      * @return {?}
      */
-    NgForm.prototype.getFormGroup = function (dir) { return (this.form.get(dir.path)); };
+    getFormGroup(dir) { return (this.form.get(dir.path)); }
     /**
      * @param {?} dir
      * @param {?} value
      * @return {?}
      */
-    NgForm.prototype.updateModel = function (dir, value) {
-        var _this = this;
-        resolvedPromise.then(function () {
-            var /** @type {?} */ ctrl = (_this.form.get(dir.path));
+    updateModel(dir, value) {
+        resolvedPromise.then(() => {
+            const /** @type {?} */ ctrl = (this.form.get(dir.path));
             ctrl.setValue(value);
         });
-    };
+    }
     /**
      * @param {?} value
      * @return {?}
      */
-    NgForm.prototype.setValue = function (value) { this.control.setValue(value); };
+    setValue(value) { this.control.setValue(value); }
     /**
      * @param {?} $event
      * @return {?}
      */
-    NgForm.prototype.onSubmit = function ($event) {
+    onSubmit($event) {
         this._submitted = true;
         this.ngSubmit.emit($event);
         return false;
-    };
+    }
     /**
      * @return {?}
      */
-    NgForm.prototype.onReset = function () { this.resetForm(); };
+    onReset() { this.resetForm(); }
     /**
      * @param {?=} value
      * @return {?}
      */
-    NgForm.prototype.resetForm = function (value) {
-        if (value === void 0) { value = undefined; }
+    resetForm(value = undefined) {
         this.form.reset(value);
         this._submitted = false;
-    };
+    }
     /**
      * \@internal
      * @param {?} path
      * @return {?}
      */
-    NgForm.prototype._findContainer = function (path) {
+    _findContainer(path) {
         path.pop();
         return path.length ? (this.form.get(path)) : this.form;
-    };
-    NgForm.decorators = [
-        { type: Directive, args: [{
-                    selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
-                    providers: [formDirectiveProvider],
-                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-                    outputs: ['ngSubmit'],
-                    exportAs: 'ngForm'
-                },] },
-    ];
-    /** @nocollapse */
-    NgForm.ctorParameters = function () { return [
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ]; };
-    return NgForm;
-}(ControlContainer));
+    }
+}
+NgForm.decorators = [
+    { type: Directive, args: [{
+                selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
+                providers: [formDirectiveProvider],
+                host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                outputs: ['ngSubmit'],
+                exportAs: 'ngForm'
+            },] },
+];
+/** @nocollapse */
+NgForm.ctorParameters = () => [
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+];
 function NgForm_tsickle_Closure_declarations() {
     /** @type {?} */
     NgForm.decorators;

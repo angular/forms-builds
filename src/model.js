@@ -5,11 +5,6 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { composeAsyncValidators, composeValidators } from './directives/shared';
 import { EventEmitter } from './facade/async';
@@ -17,21 +12,21 @@ import { isPromise } from './private_import_core';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
  */
-export var /** @type {?} */ VALID = 'VALID';
+export const /** @type {?} */ VALID = 'VALID';
 /**
  * Indicates that a FormControl is invalid, i.e. that an error exists in the input value.
  */
-export var /** @type {?} */ INVALID = 'INVALID';
+export const /** @type {?} */ INVALID = 'INVALID';
 /**
  * Indicates that a FormControl is pending, i.e. that async validation is occurring and
  * errors are not yet available for the input value.
  */
-export var /** @type {?} */ PENDING = 'PENDING';
+export const /** @type {?} */ PENDING = 'PENDING';
 /**
  * Indicates that a FormControl is disabled, i.e. that the control is exempt from ancestor
  * calculations of validity or value.
  */
-export var /** @type {?} */ DISABLED = 'DISABLED';
+export const /** @type {?} */ DISABLED = 'DISABLED';
 /**
  * @param {?} control
  * @param {?} path
@@ -46,7 +41,7 @@ function _find(control, path, delimiter) {
     }
     if (path instanceof Array && (path.length === 0))
         return null;
-    return ((path)).reduce(function (v, name) {
+    return ((path)).reduce((v, name) => {
         if (v instanceof FormGroup) {
             return v.controls[name] || null;
         }
@@ -89,222 +84,162 @@ function coerceToAsyncValidator(asyncValidator) {
  * \@stable
  * @abstract
  */
-export var AbstractControl = (function () {
+export class AbstractControl {
     /**
      * @param {?} validator
      * @param {?} asyncValidator
      */
-    function AbstractControl(validator, asyncValidator) {
+    constructor(validator, asyncValidator) {
         this.validator = validator;
         this.asyncValidator = asyncValidator;
         /** @internal */
-        this._onCollectionChange = function () { };
+        this._onCollectionChange = () => { };
         this._pristine = true;
         this._touched = false;
         /** @internal */
         this._onDisabledChange = [];
     }
-    Object.defineProperty(AbstractControl.prototype, "value", {
-        /**
-         * The value of the control.
-         * @return {?}
-         */
-        get: function () { return this._value; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "parent", {
-        /**
-         * The parent control.
-         * @return {?}
-         */
-        get: function () { return this._parent; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "status", {
-        /**
-         * The validation status of the control. There are four possible
-         * validation statuses:
-         *
-         * * **VALID**:  control has passed all validation checks
-         * * **INVALID**: control has failed at least one validation check
-         * * **PENDING**: control is in the midst of conducting a validation check
-         * * **DISABLED**: control is exempt from validation checks
-         *
-         * These statuses are mutually exclusive, so a control cannot be
-         * both valid AND invalid or invalid AND disabled.
-         * @return {?}
-         */
-        get: function () { return this._status; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "valid", {
-        /**
-         * A control is `valid` when its `status === VALID`.
-         *
-         * In order to have this status, the control must have passed all its
-         * validation checks.
-         * @return {?}
-         */
-        get: function () { return this._status === VALID; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "invalid", {
-        /**
-         * A control is `invalid` when its `status === INVALID`.
-         *
-         * In order to have this status, the control must have failed
-         * at least one of its validation checks.
-         * @return {?}
-         */
-        get: function () { return this._status === INVALID; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "pending", {
-        /**
-         * A control is `pending` when its `status === PENDING`.
-         *
-         * In order to have this status, the control must be in the
-         * middle of conducting a validation check.
-         * @return {?}
-         */
-        get: function () { return this._status == PENDING; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "disabled", {
-        /**
-         * A control is `disabled` when its `status === DISABLED`.
-         *
-         * Disabled controls are exempt from validation checks and
-         * are not included in the aggregate value of their ancestor
-         * controls.
-         * @return {?}
-         */
-        get: function () { return this._status === DISABLED; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "enabled", {
-        /**
-         * A control is `enabled` as long as its `status !== DISABLED`.
-         *
-         * In other words, it has a status of `VALID`, `INVALID`, or
-         * `PENDING`.
-         * @return {?}
-         */
-        get: function () { return this._status !== DISABLED; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "errors", {
-        /**
-         * Returns any errors generated by failing validation. If there
-         * are no errors, it will return null.
-         * @return {?}
-         */
-        get: function () { return this._errors; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "pristine", {
-        /**
-         * A control is `pristine` if the user has not yet changed
-         * the value in the UI.
-         *
-         * Note that programmatic changes to a control's value will
-         * *not* mark it dirty.
-         * @return {?}
-         */
-        get: function () { return this._pristine; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "dirty", {
-        /**
-         * A control is `dirty` if the user has changed the value
-         * in the UI.
-         *
-         * Note that programmatic changes to a control's value will
-         * *not* mark it dirty.
-         * @return {?}
-         */
-        get: function () { return !this.pristine; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "touched", {
-        /**
-         * A control is marked `touched` once the user has triggered
-         * a `blur` event on it.
-         * @return {?}
-         */
-        get: function () { return this._touched; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "untouched", {
-        /**
-         * A control is `untouched` if the user has not yet triggered
-         * a `blur` event on it.
-         * @return {?}
-         */
-        get: function () { return !this._touched; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "valueChanges", {
-        /**
-         * Emits an event every time the value of the control changes, in
-         * the UI or programmatically.
-         * @return {?}
-         */
-        get: function () { return this._valueChanges; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControl.prototype, "statusChanges", {
-        /**
-         * Emits an event every time the validation status of the control
-         * is re-calculated.
-         * @return {?}
-         */
-        get: function () { return this._statusChanges; },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * The value of the control.
+     * @return {?}
+     */
+    get value() { return this._value; }
+    /**
+     * The parent control.
+     * @return {?}
+     */
+    get parent() { return this._parent; }
+    /**
+     * The validation status of the control. There are four possible
+     * validation statuses:
+     *
+     * * **VALID**:  control has passed all validation checks
+     * * **INVALID**: control has failed at least one validation check
+     * * **PENDING**: control is in the midst of conducting a validation check
+     * * **DISABLED**: control is exempt from validation checks
+     *
+     * These statuses are mutually exclusive, so a control cannot be
+     * both valid AND invalid or invalid AND disabled.
+     * @return {?}
+     */
+    get status() { return this._status; }
+    /**
+     * A control is `valid` when its `status === VALID`.
+     *
+     * In order to have this status, the control must have passed all its
+     * validation checks.
+     * @return {?}
+     */
+    get valid() { return this._status === VALID; }
+    /**
+     * A control is `invalid` when its `status === INVALID`.
+     *
+     * In order to have this status, the control must have failed
+     * at least one of its validation checks.
+     * @return {?}
+     */
+    get invalid() { return this._status === INVALID; }
+    /**
+     * A control is `pending` when its `status === PENDING`.
+     *
+     * In order to have this status, the control must be in the
+     * middle of conducting a validation check.
+     * @return {?}
+     */
+    get pending() { return this._status == PENDING; }
+    /**
+     * A control is `disabled` when its `status === DISABLED`.
+     *
+     * Disabled controls are exempt from validation checks and
+     * are not included in the aggregate value of their ancestor
+     * controls.
+     * @return {?}
+     */
+    get disabled() { return this._status === DISABLED; }
+    /**
+     * A control is `enabled` as long as its `status !== DISABLED`.
+     *
+     * In other words, it has a status of `VALID`, `INVALID`, or
+     * `PENDING`.
+     * @return {?}
+     */
+    get enabled() { return this._status !== DISABLED; }
+    /**
+     * Returns any errors generated by failing validation. If there
+     * are no errors, it will return null.
+     * @return {?}
+     */
+    get errors() { return this._errors; }
+    /**
+     * A control is `pristine` if the user has not yet changed
+     * the value in the UI.
+     *
+     * Note that programmatic changes to a control's value will
+     * *not* mark it dirty.
+     * @return {?}
+     */
+    get pristine() { return this._pristine; }
+    /**
+     * A control is `dirty` if the user has changed the value
+     * in the UI.
+     *
+     * Note that programmatic changes to a control's value will
+     * *not* mark it dirty.
+     * @return {?}
+     */
+    get dirty() { return !this.pristine; }
+    /**
+     * A control is marked `touched` once the user has triggered
+     * a `blur` event on it.
+     * @return {?}
+     */
+    get touched() { return this._touched; }
+    /**
+     * A control is `untouched` if the user has not yet triggered
+     * a `blur` event on it.
+     * @return {?}
+     */
+    get untouched() { return !this._touched; }
+    /**
+     * Emits an event every time the value of the control changes, in
+     * the UI or programmatically.
+     * @return {?}
+     */
+    get valueChanges() { return this._valueChanges; }
+    /**
+     * Emits an event every time the validation status of the control
+     * is re-calculated.
+     * @return {?}
+     */
+    get statusChanges() { return this._statusChanges; }
     /**
      * Sets the synchronous validators that are active on this control.  Calling
      * this will overwrite any existing sync validators.
      * @param {?} newValidator
      * @return {?}
      */
-    AbstractControl.prototype.setValidators = function (newValidator) {
+    setValidators(newValidator) {
         this.validator = coerceToValidator(newValidator);
-    };
+    }
     /**
      * Sets the async validators that are active on this control. Calling this
      * will overwrite any existing async validators.
      * @param {?} newValidator
      * @return {?}
      */
-    AbstractControl.prototype.setAsyncValidators = function (newValidator) {
+    setAsyncValidators(newValidator) {
         this.asyncValidator = coerceToAsyncValidator(newValidator);
-    };
+    }
     /**
      * Empties out the sync validator list.
      * @return {?}
      */
-    AbstractControl.prototype.clearValidators = function () { this.validator = null; };
+    clearValidators() { this.validator = null; }
     /**
      * Empties out the async validator list.
      * @return {?}
      */
-    AbstractControl.prototype.clearAsyncValidators = function () { this.asyncValidator = null; };
+    clearAsyncValidators() { this.asyncValidator = null; }
     /**
      * Marks the control as `touched`.
      *
@@ -313,13 +248,12 @@ export var AbstractControl = (function () {
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype.markAsTouched = function (_a) {
-        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+    markAsTouched({ onlySelf } = {}) {
         this._touched = true;
         if (this._parent && !onlySelf) {
-            this._parent.markAsTouched({ onlySelf: onlySelf });
+            this._parent.markAsTouched({ onlySelf });
         }
-    };
+    }
     /**
      * Marks the control as `untouched`.
      *
@@ -329,14 +263,13 @@ export var AbstractControl = (function () {
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype.markAsUntouched = function (_a) {
-        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+    markAsUntouched({ onlySelf } = {}) {
         this._touched = false;
-        this._forEachChild(function (control) { control.markAsUntouched({ onlySelf: true }); });
+        this._forEachChild((control) => { control.markAsUntouched({ onlySelf: true }); });
         if (this._parent && !onlySelf) {
-            this._parent._updateTouched({ onlySelf: onlySelf });
+            this._parent._updateTouched({ onlySelf });
         }
-    };
+    }
     /**
      * Marks the control as `dirty`.
      *
@@ -345,13 +278,12 @@ export var AbstractControl = (function () {
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype.markAsDirty = function (_a) {
-        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+    markAsDirty({ onlySelf } = {}) {
         this._pristine = false;
         if (this._parent && !onlySelf) {
-            this._parent.markAsDirty({ onlySelf: onlySelf });
+            this._parent.markAsDirty({ onlySelf });
         }
-    };
+    }
     /**
      * Marks the control as `pristine`.
      *
@@ -361,26 +293,24 @@ export var AbstractControl = (function () {
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype.markAsPristine = function (_a) {
-        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+    markAsPristine({ onlySelf } = {}) {
         this._pristine = true;
-        this._forEachChild(function (control) { control.markAsPristine({ onlySelf: true }); });
+        this._forEachChild((control) => { control.markAsPristine({ onlySelf: true }); });
         if (this._parent && !onlySelf) {
-            this._parent._updatePristine({ onlySelf: onlySelf });
+            this._parent._updatePristine({ onlySelf });
         }
-    };
+    }
     /**
      * Marks the control as `pending`.
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype.markAsPending = function (_a) {
-        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+    markAsPending({ onlySelf } = {}) {
         this._status = PENDING;
         if (this._parent && !onlySelf) {
-            this._parent.markAsPending({ onlySelf: onlySelf });
+            this._parent.markAsPending({ onlySelf });
         }
-    };
+    }
     /**
      * Disables the control. This means the control will be exempt from validation checks and
      * excluded from the aggregate value of any parent. Its status is `DISABLED`.
@@ -389,19 +319,18 @@ export var AbstractControl = (function () {
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype.disable = function (_a) {
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+    disable({ onlySelf, emitEvent } = {}) {
         this._status = DISABLED;
         this._errors = null;
-        this._forEachChild(function (control) { control.disable({ onlySelf: true }); });
+        this._forEachChild((control) => { control.disable({ onlySelf: true }); });
         this._updateValue();
         if (emitEvent !== false) {
             this._valueChanges.emit(this._value);
             this._statusChanges.emit(this._status);
         }
         this._updateAncestors(onlySelf);
-        this._onDisabledChange.forEach(function (changeFn) { return changeFn(true); });
-    };
+        this._onDisabledChange.forEach((changeFn) => changeFn(true));
+    }
     /**
      * Enables the control. This means the control will be included in validation checks and
      * the aggregate value of its parent. Its status is re-calculated based on its value and
@@ -411,30 +340,29 @@ export var AbstractControl = (function () {
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype.enable = function (_a) {
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+    enable({ onlySelf, emitEvent } = {}) {
         this._status = VALID;
-        this._forEachChild(function (control) { control.enable({ onlySelf: true }); });
-        this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
+        this._forEachChild((control) => { control.enable({ onlySelf: true }); });
+        this.updateValueAndValidity({ onlySelf: true, emitEvent });
         this._updateAncestors(onlySelf);
-        this._onDisabledChange.forEach(function (changeFn) { return changeFn(false); });
-    };
+        this._onDisabledChange.forEach((changeFn) => changeFn(false));
+    }
     /**
      * @param {?} onlySelf
      * @return {?}
      */
-    AbstractControl.prototype._updateAncestors = function (onlySelf) {
+    _updateAncestors(onlySelf) {
         if (this._parent && !onlySelf) {
             this._parent.updateValueAndValidity();
             this._parent._updatePristine();
             this._parent._updateTouched();
         }
-    };
+    }
     /**
      * @param {?} parent
      * @return {?}
      */
-    AbstractControl.prototype.setParent = function (parent) { this._parent = parent; };
+    setParent(parent) { this._parent = parent; }
     /**
      * Sets the value of the control. Abstract method (implemented in sub-classes).
      * @abstract
@@ -442,7 +370,7 @@ export var AbstractControl = (function () {
      * @param {?=} options
      * @return {?}
      */
-    AbstractControl.prototype.setValue = function (value, options) { };
+    setValue(value, options) { }
     /**
      * Patches the value of the control. Abstract method (implemented in sub-classes).
      * @abstract
@@ -450,7 +378,7 @@ export var AbstractControl = (function () {
      * @param {?=} options
      * @return {?}
      */
-    AbstractControl.prototype.patchValue = function (value, options) { };
+    patchValue(value, options) { }
     /**
      * Resets the control. Abstract method (implemented in sub-classes).
      * @abstract
@@ -458,7 +386,7 @@ export var AbstractControl = (function () {
      * @param {?=} options
      * @return {?}
      */
-    AbstractControl.prototype.reset = function (value, options) { };
+    reset(value, options) { }
     /**
      * Re-calculates the value and validation status of the control.
      *
@@ -466,8 +394,7 @@ export var AbstractControl = (function () {
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype.updateValueAndValidity = function (_a) {
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+    updateValueAndValidity({ onlySelf, emitEvent } = {}) {
         this._setInitialStatus();
         this._updateValue();
         if (this.enabled) {
@@ -482,51 +409,49 @@ export var AbstractControl = (function () {
             this._statusChanges.emit(this._status);
         }
         if (this._parent && !onlySelf) {
-            this._parent.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+            this._parent.updateValueAndValidity({ onlySelf, emitEvent });
         }
-    };
+    }
     /**
      * \@internal
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype._updateTreeValidity = function (_a) {
-        var emitEvent = (_a === void 0 ? { emitEvent: true } : _a).emitEvent;
-        this._forEachChild(function (ctrl) { return ctrl._updateTreeValidity({ emitEvent: emitEvent }); });
-        this.updateValueAndValidity({ onlySelf: true, emitEvent: emitEvent });
-    };
+    _updateTreeValidity({ emitEvent } = { emitEvent: true }) {
+        this._forEachChild((ctrl) => ctrl._updateTreeValidity({ emitEvent }));
+        this.updateValueAndValidity({ onlySelf: true, emitEvent });
+    }
     /**
      * @return {?}
      */
-    AbstractControl.prototype._setInitialStatus = function () { this._status = this._allControlsDisabled() ? DISABLED : VALID; };
+    _setInitialStatus() { this._status = this._allControlsDisabled() ? DISABLED : VALID; }
     /**
      * @return {?}
      */
-    AbstractControl.prototype._runValidator = function () {
+    _runValidator() {
         return this.validator ? this.validator(this) : null;
-    };
+    }
     /**
      * @param {?} emitEvent
      * @return {?}
      */
-    AbstractControl.prototype._runAsyncValidator = function (emitEvent) {
-        var _this = this;
+    _runAsyncValidator(emitEvent) {
         if (this.asyncValidator) {
             this._status = PENDING;
             this._cancelExistingSubscription();
-            var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
+            const /** @type {?} */ obs = toObservable(this.asyncValidator(this));
             this._asyncValidationSubscription =
-                obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
+                obs.subscribe({ next: (res) => this.setErrors(res, { emitEvent }) });
         }
-    };
+    }
     /**
      * @return {?}
      */
-    AbstractControl.prototype._cancelExistingSubscription = function () {
+    _cancelExistingSubscription() {
         if (this._asyncValidationSubscription) {
             this._asyncValidationSubscription.unsubscribe();
         }
-    };
+    }
     /**
      * Sets errors on a form control.
      *
@@ -553,11 +478,10 @@ export var AbstractControl = (function () {
      * @param {?=} __1
      * @return {?}
      */
-    AbstractControl.prototype.setErrors = function (errors, _a) {
-        var emitEvent = (_a === void 0 ? {} : _a).emitEvent;
+    setErrors(errors, { emitEvent } = {}) {
         this._errors = errors;
         this._updateControlsErrors(emitEvent !== false);
-    };
+    }
     /**
      * Retrieves a child control given the control's name or path.
      *
@@ -573,7 +497,7 @@ export var AbstractControl = (function () {
      * @param {?} path
      * @return {?}
      */
-    AbstractControl.prototype.get = function (path) { return _find(this, path, '.'); };
+    get(path) { return _find(this, path, '.'); }
     /**
      * Returns true if the control with the given path has the error specified. Otherwise
      * returns null or undefined.
@@ -583,11 +507,10 @@ export var AbstractControl = (function () {
      * @param {?=} path
      * @return {?}
      */
-    AbstractControl.prototype.getError = function (errorCode, path) {
-        if (path === void 0) { path = null; }
-        var /** @type {?} */ control = path ? this.get(path) : this;
+    getError(errorCode, path = null) {
+        const /** @type {?} */ control = path ? this.get(path) : this;
         return control && control._errors ? control._errors[errorCode] : null;
-    };
+    }
     /**
      * Returns true if the control with the given path has the error specified. Otherwise
      * returns false.
@@ -597,31 +520,26 @@ export var AbstractControl = (function () {
      * @param {?=} path
      * @return {?}
      */
-    AbstractControl.prototype.hasError = function (errorCode, path) {
-        if (path === void 0) { path = null; }
+    hasError(errorCode, path = null) {
         return !!this.getError(errorCode, path);
-    };
-    Object.defineProperty(AbstractControl.prototype, "root", {
-        /**
-         * Retrieves the top-level ancestor of this control.
-         * @return {?}
-         */
-        get: function () {
-            var /** @type {?} */ x = this;
-            while (x._parent) {
-                x = x._parent;
-            }
-            return x;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    }
+    /**
+     * Retrieves the top-level ancestor of this control.
+     * @return {?}
+     */
+    get root() {
+        let /** @type {?} */ x = this;
+        while (x._parent) {
+            x = x._parent;
+        }
+        return x;
+    }
     /**
      * \@internal
      * @param {?} emitEvent
      * @return {?}
      */
-    AbstractControl.prototype._updateControlsErrors = function (emitEvent) {
+    _updateControlsErrors(emitEvent) {
         this._status = this._calculateStatus();
         if (emitEvent) {
             this._statusChanges.emit(this._status);
@@ -629,19 +547,19 @@ export var AbstractControl = (function () {
         if (this._parent) {
             this._parent._updateControlsErrors(emitEvent);
         }
-    };
+    }
     /**
      * \@internal
      * @return {?}
      */
-    AbstractControl.prototype._initObservables = function () {
+    _initObservables() {
         this._valueChanges = new EventEmitter();
         this._statusChanges = new EventEmitter();
-    };
+    }
     /**
      * @return {?}
      */
-    AbstractControl.prototype._calculateStatus = function () {
+    _calculateStatus() {
         if (this._allControlsDisabled())
             return DISABLED;
         if (this._errors)
@@ -651,96 +569,93 @@ export var AbstractControl = (function () {
         if (this._anyControlsHaveStatus(INVALID))
             return INVALID;
         return VALID;
-    };
+    }
     /**
      * \@internal
      * @abstract
      * @return {?}
      */
-    AbstractControl.prototype._updateValue = function () { };
+    _updateValue() { }
     /**
      * \@internal
      * @abstract
      * @param {?} cb
      * @return {?}
      */
-    AbstractControl.prototype._forEachChild = function (cb) { };
+    _forEachChild(cb) { }
     /**
      * \@internal
      * @abstract
      * @param {?} condition
      * @return {?}
      */
-    AbstractControl.prototype._anyControls = function (condition) { };
+    _anyControls(condition) { }
     /**
      * \@internal
      * @abstract
      * @return {?}
      */
-    AbstractControl.prototype._allControlsDisabled = function () { };
+    _allControlsDisabled() { }
     /**
      * \@internal
      * @param {?} status
      * @return {?}
      */
-    AbstractControl.prototype._anyControlsHaveStatus = function (status) {
-        return this._anyControls(function (control) { return control.status === status; });
-    };
+    _anyControlsHaveStatus(status) {
+        return this._anyControls((control) => control.status === status);
+    }
     /**
      * \@internal
      * @return {?}
      */
-    AbstractControl.prototype._anyControlsDirty = function () {
-        return this._anyControls(function (control) { return control.dirty; });
-    };
+    _anyControlsDirty() {
+        return this._anyControls((control) => control.dirty);
+    }
     /**
      * \@internal
      * @return {?}
      */
-    AbstractControl.prototype._anyControlsTouched = function () {
-        return this._anyControls(function (control) { return control.touched; });
-    };
+    _anyControlsTouched() {
+        return this._anyControls((control) => control.touched);
+    }
     /**
      * \@internal
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype._updatePristine = function (_a) {
-        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+    _updatePristine({ onlySelf } = {}) {
         this._pristine = !this._anyControlsDirty();
         if (this._parent && !onlySelf) {
-            this._parent._updatePristine({ onlySelf: onlySelf });
+            this._parent._updatePristine({ onlySelf });
         }
-    };
+    }
     /**
      * \@internal
      * @param {?=} __0
      * @return {?}
      */
-    AbstractControl.prototype._updateTouched = function (_a) {
-        var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
+    _updateTouched({ onlySelf } = {}) {
         this._touched = this._anyControlsTouched();
         if (this._parent && !onlySelf) {
-            this._parent._updateTouched({ onlySelf: onlySelf });
+            this._parent._updateTouched({ onlySelf });
         }
-    };
+    }
     /**
      * \@internal
      * @param {?} formState
      * @return {?}
      */
-    AbstractControl.prototype._isBoxedValue = function (formState) {
+    _isBoxedValue(formState) {
         return typeof formState === 'object' && formState !== null &&
             Object.keys(formState).length === 2 && 'value' in formState && 'disabled' in formState;
-    };
+    }
     /**
      * \@internal
      * @param {?} fn
      * @return {?}
      */
-    AbstractControl.prototype._registerOnCollectionChange = function (fn) { this._onCollectionChange = fn; };
-    return AbstractControl;
-}());
+    _registerOnCollectionChange(fn) { this._onCollectionChange = fn; }
+}
 function AbstractControl_tsickle_Closure_declarations() {
     /**
      * \@internal
@@ -821,18 +736,14 @@ function AbstractControl_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var FormControl = (function (_super) {
-    __extends(FormControl, _super);
+export class FormControl extends AbstractControl {
     /**
      * @param {?=} formState
      * @param {?=} validator
      * @param {?=} asyncValidator
      */
-    function FormControl(formState, validator, asyncValidator) {
-        if (formState === void 0) { formState = null; }
-        if (validator === void 0) { validator = null; }
-        if (asyncValidator === void 0) { asyncValidator = null; }
-        _super.call(this, coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
+    constructor(formState = null, validator = null, asyncValidator = null) {
+        super(coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
         /** @internal */
         this._onChange = [];
         this._applyFormState(formState);
@@ -859,15 +770,13 @@ export var FormControl = (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    FormControl.prototype.setValue = function (value, _a) {
-        var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange, emitViewToModelChange = _b.emitViewToModelChange;
+    setValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange } = {}) {
         this._value = value;
         if (this._onChange.length && emitModelToViewChange !== false) {
-            this._onChange.forEach(function (changeFn) { return changeFn(_this._value, emitViewToModelChange !== false); });
+            this._onChange.forEach((changeFn) => changeFn(this._value, emitViewToModelChange !== false));
         }
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-    };
+        this.updateValueAndValidity({ onlySelf, emitEvent });
+    }
     /**
      * Patches the value of a control.
      *
@@ -878,10 +787,9 @@ export var FormControl = (function (_super) {
      * @param {?=} options
      * @return {?}
      */
-    FormControl.prototype.patchValue = function (value, options) {
-        if (options === void 0) { options = {}; }
+    patchValue(value, options = {}) {
         this.setValue(value, options);
-    };
+    }
     /**
      * Resets the form control. This means by default:
      *
@@ -913,64 +821,62 @@ export var FormControl = (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    FormControl.prototype.reset = function (formState, _a) {
-        if (formState === void 0) { formState = null; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+    reset(formState = null, { onlySelf, emitEvent } = {}) {
         this._applyFormState(formState);
-        this.markAsPristine({ onlySelf: onlySelf });
-        this.markAsUntouched({ onlySelf: onlySelf });
-        this.setValue(this._value, { onlySelf: onlySelf, emitEvent: emitEvent });
-    };
+        this.markAsPristine({ onlySelf });
+        this.markAsUntouched({ onlySelf });
+        this.setValue(this._value, { onlySelf, emitEvent });
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormControl.prototype._updateValue = function () { };
+    _updateValue() { }
     /**
      * \@internal
      * @param {?} condition
      * @return {?}
      */
-    FormControl.prototype._anyControls = function (condition) { return false; };
+    _anyControls(condition) { return false; }
     /**
      * \@internal
      * @return {?}
      */
-    FormControl.prototype._allControlsDisabled = function () { return this.disabled; };
+    _allControlsDisabled() { return this.disabled; }
     /**
      * Register a listener for change events.
      * @param {?} fn
      * @return {?}
      */
-    FormControl.prototype.registerOnChange = function (fn) { this._onChange.push(fn); };
+    registerOnChange(fn) { this._onChange.push(fn); }
     /**
      * \@internal
      * @return {?}
      */
-    FormControl.prototype._clearChangeFns = function () {
+    _clearChangeFns() {
         this._onChange = [];
         this._onDisabledChange = [];
-        this._onCollectionChange = function () { };
-    };
+        this._onCollectionChange = () => { };
+    }
     /**
      * Register a listener for disabled events.
      * @param {?} fn
      * @return {?}
      */
-    FormControl.prototype.registerOnDisabledChange = function (fn) {
+    registerOnDisabledChange(fn) {
         this._onDisabledChange.push(fn);
-    };
+    }
     /**
      * \@internal
      * @param {?} cb
      * @return {?}
      */
-    FormControl.prototype._forEachChild = function (cb) { };
+    _forEachChild(cb) { }
     /**
      * @param {?} formState
      * @return {?}
      */
-    FormControl.prototype._applyFormState = function (formState) {
+    _applyFormState(formState) {
         if (this._isBoxedValue(formState)) {
             this._value = formState.value;
             formState.disabled ? this.disable({ onlySelf: true, emitEvent: false }) :
@@ -979,9 +885,8 @@ export var FormControl = (function (_super) {
         else {
             this._value = formState;
         }
-    };
-    return FormControl;
-}(AbstractControl));
+    }
+}
 function FormControl_tsickle_Closure_declarations() {
     /**
      * \@internal
@@ -1041,17 +946,14 @@ function FormControl_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var FormGroup = (function (_super) {
-    __extends(FormGroup, _super);
+export class FormGroup extends AbstractControl {
     /**
      * @param {?} controls
      * @param {?=} validator
      * @param {?=} asyncValidator
      */
-    function FormGroup(controls, validator, asyncValidator) {
-        if (validator === void 0) { validator = null; }
-        if (asyncValidator === void 0) { asyncValidator = null; }
-        _super.call(this, validator, asyncValidator);
+    constructor(controls, validator = null, asyncValidator = null) {
+        super(validator, asyncValidator);
         this.controls = controls;
         this._initObservables();
         this._setUpControls();
@@ -1066,52 +968,52 @@ export var FormGroup = (function (_super) {
      * @param {?} control
      * @return {?}
      */
-    FormGroup.prototype.registerControl = function (name, control) {
+    registerControl(name, control) {
         if (this.controls[name])
             return this.controls[name];
         this.controls[name] = control;
         control.setParent(this);
         control._registerOnCollectionChange(this._onCollectionChange);
         return control;
-    };
+    }
     /**
      * Add a control to this group.
      * @param {?} name
      * @param {?} control
      * @return {?}
      */
-    FormGroup.prototype.addControl = function (name, control) {
+    addControl(name, control) {
         this.registerControl(name, control);
         this.updateValueAndValidity();
         this._onCollectionChange();
-    };
+    }
     /**
      * Remove a control from this group.
      * @param {?} name
      * @return {?}
      */
-    FormGroup.prototype.removeControl = function (name) {
+    removeControl(name) {
         if (this.controls[name])
-            this.controls[name]._registerOnCollectionChange(function () { });
+            this.controls[name]._registerOnCollectionChange(() => { });
         delete (this.controls[name]);
         this.updateValueAndValidity();
         this._onCollectionChange();
-    };
+    }
     /**
      * Replace an existing control.
      * @param {?} name
      * @param {?} control
      * @return {?}
      */
-    FormGroup.prototype.setControl = function (name, control) {
+    setControl(name, control) {
         if (this.controls[name])
-            this.controls[name]._registerOnCollectionChange(function () { });
+            this.controls[name]._registerOnCollectionChange(() => { });
         delete (this.controls[name]);
         if (control)
             this.registerControl(name, control);
         this.updateValueAndValidity();
         this._onCollectionChange();
-    };
+    }
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
@@ -1120,9 +1022,9 @@ export var FormGroup = (function (_super) {
      * @param {?} controlName
      * @return {?}
      */
-    FormGroup.prototype.contains = function (controlName) {
+    contains(controlName) {
         return this.controls.hasOwnProperty(controlName) && this.controls[controlName].enabled;
-    };
+    }
     /**
      *  Sets the value of the {\@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
@@ -1148,16 +1050,14 @@ export var FormGroup = (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    FormGroup.prototype.setValue = function (value, _a) {
-        var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+    setValue(value, { onlySelf, emitEvent } = {}) {
         this._checkAllValuesPresent(value);
-        Object.keys(value).forEach(function (name) {
-            _this._throwIfControlMissing(name);
-            _this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: emitEvent });
+        Object.keys(value).forEach(name => {
+            this._throwIfControlMissing(name);
+            this.controls[name].setValue(value[name], { onlySelf: true, emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-    };
+        this.updateValueAndValidity({ onlySelf, emitEvent });
+    }
     /**
      *  Patches the value of the {\@link FormGroup}. It accepts an object with control
      *  names as keys, and will do its best to match the values to the correct controls
@@ -1182,16 +1082,14 @@ export var FormGroup = (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    FormGroup.prototype.patchValue = function (value, _a) {
-        var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
-        Object.keys(value).forEach(function (name) {
-            if (_this.controls[name]) {
-                _this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: emitEvent });
+    patchValue(value, { onlySelf, emitEvent } = {}) {
+        Object.keys(value).forEach(name => {
+            if (this.controls[name]) {
+                this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-    };
+        this.updateValueAndValidity({ onlySelf, emitEvent });
+    }
     /**
      * Resets the {\@link FormGroup}. This means by default:
      *
@@ -1227,16 +1125,14 @@ export var FormGroup = (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    FormGroup.prototype.reset = function (value, _a) {
-        if (value === void 0) { value = {}; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
-        this._forEachChild(function (control, name) {
-            control.reset(value[name], { onlySelf: true, emitEvent: emitEvent });
+    reset(value = {}, { onlySelf, emitEvent } = {}) {
+        this._forEachChild((control, name) => {
+            control.reset(value[name], { onlySelf: true, emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-        this._updatePristine({ onlySelf: onlySelf });
-        this._updateTouched({ onlySelf: onlySelf });
-    };
+        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this._updatePristine({ onlySelf });
+        this._updateTouched({ onlySelf });
+    }
     /**
      * The aggregate value of the {\@link FormGroup}, including any disabled controls.
      *
@@ -1244,114 +1140,111 @@ export var FormGroup = (function (_super) {
      * Otherwise, the `value` property is the best way to get the value of the group.
      * @return {?}
      */
-    FormGroup.prototype.getRawValue = function () {
-        return this._reduceChildren({}, function (acc, control, name) {
+    getRawValue() {
+        return this._reduceChildren({}, (acc, control, name) => {
             acc[name] = control.value;
             return acc;
         });
-    };
+    }
     /**
      * \@internal
      * @param {?} name
      * @return {?}
      */
-    FormGroup.prototype._throwIfControlMissing = function (name) {
+    _throwIfControlMissing(name) {
         if (!Object.keys(this.controls).length) {
-            throw new Error("\n        There are no form controls registered with this group yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+            throw new Error(`
+        There are no form controls registered with this group yet.  If you're using ngModel,
+        you may want to check next tick (e.g. use setTimeout).
+      `);
         }
         if (!this.controls[name]) {
-            throw new Error("Cannot find form control with name: " + name + ".");
+            throw new Error(`Cannot find form control with name: ${name}.`);
         }
-    };
+    }
     /**
      * \@internal
      * @param {?} cb
      * @return {?}
      */
-    FormGroup.prototype._forEachChild = function (cb) {
-        var _this = this;
-        Object.keys(this.controls).forEach(function (k) { return cb(_this.controls[k], k); });
-    };
+    _forEachChild(cb) {
+        Object.keys(this.controls).forEach(k => cb(this.controls[k], k));
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormGroup.prototype._setUpControls = function () {
-        var _this = this;
-        this._forEachChild(function (control) {
-            control.setParent(_this);
-            control._registerOnCollectionChange(_this._onCollectionChange);
+    _setUpControls() {
+        this._forEachChild((control) => {
+            control.setParent(this);
+            control._registerOnCollectionChange(this._onCollectionChange);
         });
-    };
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormGroup.prototype._updateValue = function () { this._value = this._reduceValue(); };
+    _updateValue() { this._value = this._reduceValue(); }
     /**
      * \@internal
      * @param {?} condition
      * @return {?}
      */
-    FormGroup.prototype._anyControls = function (condition) {
-        var _this = this;
-        var /** @type {?} */ res = false;
-        this._forEachChild(function (control, name) {
-            res = res || (_this.contains(name) && condition(control));
+    _anyControls(condition) {
+        let /** @type {?} */ res = false;
+        this._forEachChild((control, name) => {
+            res = res || (this.contains(name) && condition(control));
         });
         return res;
-    };
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormGroup.prototype._reduceValue = function () {
-        var _this = this;
-        return this._reduceChildren({}, function (acc, control, name) {
-            if (control.enabled || _this.disabled) {
+    _reduceValue() {
+        return this._reduceChildren({}, (acc, control, name) => {
+            if (control.enabled || this.disabled) {
                 acc[name] = control.value;
             }
             return acc;
         });
-    };
+    }
     /**
      * \@internal
      * @param {?} initValue
      * @param {?} fn
      * @return {?}
      */
-    FormGroup.prototype._reduceChildren = function (initValue, fn) {
-        var /** @type {?} */ res = initValue;
-        this._forEachChild(function (control, name) { res = fn(res, control, name); });
+    _reduceChildren(initValue, fn) {
+        let /** @type {?} */ res = initValue;
+        this._forEachChild((control, name) => { res = fn(res, control, name); });
         return res;
-    };
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormGroup.prototype._allControlsDisabled = function () {
-        for (var _i = 0, _a = Object.keys(this.controls); _i < _a.length; _i++) {
-            var controlName = _a[_i];
+    _allControlsDisabled() {
+        for (const controlName of Object.keys(this.controls)) {
             if (this.controls[controlName].enabled) {
                 return false;
             }
         }
         return Object.keys(this.controls).length > 0 || this.disabled;
-    };
+    }
     /**
      * \@internal
      * @param {?} value
      * @return {?}
      */
-    FormGroup.prototype._checkAllValuesPresent = function (value) {
-        this._forEachChild(function (control, name) {
+    _checkAllValuesPresent(value) {
+        this._forEachChild((control, name) => {
             if (value[name] === undefined) {
-                throw new Error("Must supply a value for form control with name: '" + name + "'.");
+                throw new Error(`Must supply a value for form control with name: '${name}'.`);
             }
         });
-    };
-    return FormGroup;
-}(AbstractControl));
+    }
+}
 function FormGroup_tsickle_Closure_declarations() {
     /** @type {?} */
     FormGroup.prototype.controls;
@@ -1400,17 +1293,14 @@ function FormGroup_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var FormArray = (function (_super) {
-    __extends(FormArray, _super);
+export class FormArray extends AbstractControl {
     /**
      * @param {?} controls
      * @param {?=} validator
      * @param {?=} asyncValidator
      */
-    function FormArray(controls, validator, asyncValidator) {
-        if (validator === void 0) { validator = null; }
-        if (asyncValidator === void 0) { asyncValidator = null; }
-        _super.call(this, validator, asyncValidator);
+    constructor(controls, validator = null, asyncValidator = null) {
+        super(validator, asyncValidator);
         this.controls = controls;
         this._initObservables();
         this._setUpControls();
@@ -1421,51 +1311,51 @@ export var FormArray = (function (_super) {
      * @param {?} index
      * @return {?}
      */
-    FormArray.prototype.at = function (index) { return this.controls[index]; };
+    at(index) { return this.controls[index]; }
     /**
      * Insert a new {\@link AbstractControl} at the end of the array.
      * @param {?} control
      * @return {?}
      */
-    FormArray.prototype.push = function (control) {
+    push(control) {
         this.controls.push(control);
         this._registerControl(control);
         this.updateValueAndValidity();
         this._onCollectionChange();
-    };
+    }
     /**
      * Insert a new {\@link AbstractControl} at the given `index` in the array.
      * @param {?} index
      * @param {?} control
      * @return {?}
      */
-    FormArray.prototype.insert = function (index, control) {
+    insert(index, control) {
         this.controls.splice(index, 0, control);
         this._registerControl(control);
         this.updateValueAndValidity();
         this._onCollectionChange();
-    };
+    }
     /**
      * Remove the control at the given `index` in the array.
      * @param {?} index
      * @return {?}
      */
-    FormArray.prototype.removeAt = function (index) {
+    removeAt(index) {
         if (this.controls[index])
-            this.controls[index]._registerOnCollectionChange(function () { });
+            this.controls[index]._registerOnCollectionChange(() => { });
         this.controls.splice(index, 1);
         this.updateValueAndValidity();
         this._onCollectionChange();
-    };
+    }
     /**
      * Replace an existing control.
      * @param {?} index
      * @param {?} control
      * @return {?}
      */
-    FormArray.prototype.setControl = function (index, control) {
+    setControl(index, control) {
         if (this.controls[index])
-            this.controls[index]._registerOnCollectionChange(function () { });
+            this.controls[index]._registerOnCollectionChange(() => { });
         this.controls.splice(index, 1);
         if (control) {
             this.controls.splice(index, 0, control);
@@ -1473,16 +1363,12 @@ export var FormArray = (function (_super) {
         }
         this.updateValueAndValidity();
         this._onCollectionChange();
-    };
-    Object.defineProperty(FormArray.prototype, "length", {
-        /**
-         * Length of the control array.
-         * @return {?}
-         */
-        get: function () { return this.controls.length; },
-        enumerable: true,
-        configurable: true
-    });
+    }
+    /**
+     * Length of the control array.
+     * @return {?}
+     */
+    get length() { return this.controls.length; }
     /**
      *  Sets the value of the {\@link FormArray}. It accepts an array that matches
      *  the structure of the control.
@@ -1507,16 +1393,14 @@ export var FormArray = (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    FormArray.prototype.setValue = function (value, _a) {
-        var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+    setValue(value, { onlySelf, emitEvent } = {}) {
         this._checkAllValuesPresent(value);
-        value.forEach(function (newValue, index) {
-            _this._throwIfControlMissing(index);
-            _this.at(index).setValue(newValue, { onlySelf: true, emitEvent: emitEvent });
+        value.forEach((newValue, index) => {
+            this._throwIfControlMissing(index);
+            this.at(index).setValue(newValue, { onlySelf: true, emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-    };
+        this.updateValueAndValidity({ onlySelf, emitEvent });
+    }
     /**
      *  Patches the value of the {\@link FormArray}. It accepts an array that matches the
      *  structure of the control, and will do its best to match the values to the correct
@@ -1540,16 +1424,14 @@ export var FormArray = (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    FormArray.prototype.patchValue = function (value, _a) {
-        var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
-        value.forEach(function (newValue, index) {
-            if (_this.at(index)) {
-                _this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: emitEvent });
+    patchValue(value, { onlySelf, emitEvent } = {}) {
+        value.forEach((newValue, index) => {
+            if (this.at(index)) {
+                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-    };
+        this.updateValueAndValidity({ onlySelf, emitEvent });
+    }
     /**
      * Resets the {\@link FormArray}. This means by default:
      *
@@ -1584,16 +1466,14 @@ export var FormArray = (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    FormArray.prototype.reset = function (value, _a) {
-        if (value === void 0) { value = []; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
-        this._forEachChild(function (control, index) {
-            control.reset(value[index], { onlySelf: true, emitEvent: emitEvent });
+    reset(value = [], { onlySelf, emitEvent } = {}) {
+        this._forEachChild((control, index) => {
+            control.reset(value[index], { onlySelf: true, emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-        this._updatePristine({ onlySelf: onlySelf });
-        this._updateTouched({ onlySelf: onlySelf });
-    };
+        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this._updatePristine({ onlySelf });
+        this._updateTouched({ onlySelf });
+    }
     /**
      * The aggregate value of the array, including any disabled controls.
      *
@@ -1601,87 +1481,86 @@ export var FormArray = (function (_super) {
      * Otherwise, the `value` property is the best way to get the value of the array.
      * @return {?}
      */
-    FormArray.prototype.getRawValue = function () { return this.controls.map(function (control) { return control.value; }); };
+    getRawValue() { return this.controls.map((control) => control.value); }
     /**
      * \@internal
      * @param {?} index
      * @return {?}
      */
-    FormArray.prototype._throwIfControlMissing = function (index) {
+    _throwIfControlMissing(index) {
         if (!this.controls.length) {
-            throw new Error("\n        There are no form controls registered with this array yet.  If you're using ngModel,\n        you may want to check next tick (e.g. use setTimeout).\n      ");
+            throw new Error(`
+        There are no form controls registered with this array yet.  If you're using ngModel,
+        you may want to check next tick (e.g. use setTimeout).
+      `);
         }
         if (!this.at(index)) {
-            throw new Error("Cannot find form control at index " + index);
+            throw new Error(`Cannot find form control at index ${index}`);
         }
-    };
+    }
     /**
      * \@internal
      * @param {?} cb
      * @return {?}
      */
-    FormArray.prototype._forEachChild = function (cb) {
-        this.controls.forEach(function (control, index) { cb(control, index); });
-    };
+    _forEachChild(cb) {
+        this.controls.forEach((control, index) => { cb(control, index); });
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormArray.prototype._updateValue = function () {
-        var _this = this;
-        this._value = this.controls.filter(function (control) { return control.enabled || _this.disabled; })
-            .map(function (control) { return control.value; });
-    };
+    _updateValue() {
+        this._value = this.controls.filter((control) => control.enabled || this.disabled)
+            .map((control) => control.value);
+    }
     /**
      * \@internal
      * @param {?} condition
      * @return {?}
      */
-    FormArray.prototype._anyControls = function (condition) {
-        return this.controls.some(function (control) { return control.enabled && condition(control); });
-    };
+    _anyControls(condition) {
+        return this.controls.some((control) => control.enabled && condition(control));
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormArray.prototype._setUpControls = function () {
-        var _this = this;
-        this._forEachChild(function (control) { return _this._registerControl(control); });
-    };
+    _setUpControls() {
+        this._forEachChild((control) => this._registerControl(control));
+    }
     /**
      * \@internal
      * @param {?} value
      * @return {?}
      */
-    FormArray.prototype._checkAllValuesPresent = function (value) {
-        this._forEachChild(function (control, i) {
+    _checkAllValuesPresent(value) {
+        this._forEachChild((control, i) => {
             if (value[i] === undefined) {
-                throw new Error("Must supply a value for form control at index: " + i + ".");
+                throw new Error(`Must supply a value for form control at index: ${i}.`);
             }
         });
-    };
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormArray.prototype._allControlsDisabled = function () {
-        for (var _i = 0, _a = this.controls; _i < _a.length; _i++) {
-            var control = _a[_i];
+    _allControlsDisabled() {
+        for (const control of this.controls) {
             if (control.enabled)
                 return false;
         }
         return this.controls.length > 0 || this.disabled;
-    };
+    }
     /**
      * @param {?} control
      * @return {?}
      */
-    FormArray.prototype._registerControl = function (control) {
+    _registerControl(control) {
         control.setParent(this);
         control._registerOnCollectionChange(this._onCollectionChange);
-    };
-    return FormArray;
-}(AbstractControl));
+    }
+}
 function FormArray_tsickle_Closure_declarations() {
     /** @type {?} */
     FormArray.prototype.controls;

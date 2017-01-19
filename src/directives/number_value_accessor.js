@@ -5,11 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Directive, ElementRef, Renderer, forwardRef } from '@angular/core';
+import { Directive, ElementRef, Renderer, forwardRef } from '@angular/core/index';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
-export var /** @type {?} */ NUMBER_VALUE_ACCESSOR = {
+export const /** @type {?} */ NUMBER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return NumberValueAccessor; }),
+    useExisting: forwardRef(() => NumberValueAccessor),
     multi: true
 };
 /**
@@ -21,63 +21,62 @@ export var /** @type {?} */ NUMBER_VALUE_ACCESSOR = {
  *  <input type="number" [(ngModel)]="age">
  *  ```
  */
-export var NumberValueAccessor = (function () {
+export class NumberValueAccessor {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
      */
-    function NumberValueAccessor(_renderer, _elementRef) {
+    constructor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
+        this.onChange = (_) => { };
+        this.onTouched = () => { };
     }
     /**
      * @param {?} value
      * @return {?}
      */
-    NumberValueAccessor.prototype.writeValue = function (value) {
+    writeValue(value) {
         // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
-        var /** @type {?} */ normalizedValue = value == null ? '' : value;
+        const /** @type {?} */ normalizedValue = value == null ? '' : value;
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', normalizedValue);
-    };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    NumberValueAccessor.prototype.registerOnChange = function (fn) {
-        this.onChange = function (value) { fn(value == '' ? null : parseFloat(value)); };
-    };
+    registerOnChange(fn) {
+        this.onChange = (value) => { fn(value == '' ? null : parseFloat(value)); };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    NumberValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    registerOnTouched(fn) { this.onTouched = fn; }
     /**
      * @param {?} isDisabled
      * @return {?}
      */
-    NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
+    setDisabledState(isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    };
-    NumberValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-                    host: {
-                        '(change)': 'onChange($event.target.value)',
-                        '(input)': 'onChange($event.target.value)',
-                        '(blur)': 'onTouched()'
-                    },
-                    providers: [NUMBER_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    NumberValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
-    return NumberValueAccessor;
-}());
+    }
+}
+NumberValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
+                host: {
+                    '(change)': 'onChange($event.target.value)',
+                    '(input)': 'onChange($event.target.value)',
+                    '(blur)': 'onTouched()'
+                },
+                providers: [NUMBER_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+NumberValueAccessor.ctorParameters = () => [
+    { type: Renderer, },
+    { type: ElementRef, },
+];
 function NumberValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     NumberValueAccessor.decorators;

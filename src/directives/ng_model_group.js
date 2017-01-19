@@ -5,20 +5,15 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-import { Directive, Host, Inject, Input, Optional, Self, SkipSelf, forwardRef } from '@angular/core';
+import { Directive, Host, Inject, Input, Optional, Self, SkipSelf, forwardRef } from '@angular/core/index';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
 import { AbstractFormGroupDirective } from './abstract_form_group_directive';
 import { ControlContainer } from './control_container';
 import { NgForm } from './ng_form';
 import { TemplateDrivenErrors } from './template_driven_errors';
-export var /** @type {?} */ modelGroupProvider = {
+export const /** @type {?} */ modelGroupProvider = {
     provide: ControlContainer,
-    useExisting: forwardRef(function () { return NgModelGroup; })
+    useExisting: forwardRef(() => NgModelGroup)
 };
 /**
  * \@whatItDoes Creates and binds a {\@link FormGroup} instance to a DOM element.
@@ -45,15 +40,14 @@ export var /** @type {?} */ modelGroupProvider = {
  *
  * \@stable
  */
-export var NgModelGroup = (function (_super) {
-    __extends(NgModelGroup, _super);
+export class NgModelGroup extends AbstractFormGroupDirective {
     /**
      * @param {?} parent
      * @param {?} validators
      * @param {?} asyncValidators
      */
-    function NgModelGroup(parent, validators, asyncValidators) {
-        _super.call(this);
+    constructor(parent, validators, asyncValidators) {
+        super();
         this._parent = parent;
         this._validators = validators;
         this._asyncValidators = asyncValidators;
@@ -62,25 +56,24 @@ export var NgModelGroup = (function (_super) {
      * \@internal
      * @return {?}
      */
-    NgModelGroup.prototype._checkParentType = function () {
+    _checkParentType() {
         if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
             TemplateDrivenErrors.modelGroupParentException();
         }
-    };
-    NgModelGroup.decorators = [
-        { type: Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] },
-    ];
-    /** @nocollapse */
-    NgModelGroup.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ]; };
-    NgModelGroup.propDecorators = {
-        'name': [{ type: Input, args: ['ngModelGroup',] },],
-    };
-    return NgModelGroup;
-}(AbstractFormGroupDirective));
+    }
+}
+NgModelGroup.decorators = [
+    { type: Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] },
+];
+/** @nocollapse */
+NgModelGroup.ctorParameters = () => [
+    { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+];
+NgModelGroup.propDecorators = {
+    'name': [{ type: Input, args: ['ngModelGroup',] },],
+};
 function NgModelGroup_tsickle_Closure_declarations() {
     /** @type {?} */
     NgModelGroup.decorators;

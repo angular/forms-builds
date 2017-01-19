@@ -19,7 +19,7 @@ import { AsyncValidatorFn, ValidatorFn } from './validators';
 export declare abstract class NgControl extends AbstractControlDirective {
     name: string;
     valueAccessor: ControlValueAccessor;
-    validator: ValidatorFn;
-    asyncValidator: AsyncValidatorFn;
+    readonly validator: ValidatorFn;
+    readonly asyncValidator: AsyncValidatorFn;
     abstract viewToModelUpdate(newValue: any): void;
 }

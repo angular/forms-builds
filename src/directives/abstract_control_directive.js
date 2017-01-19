@@ -13,156 +13,90 @@
  * \@stable
  * @abstract
  */
-export var AbstractControlDirective = (function () {
-    function AbstractControlDirective() {
-    }
-    Object.defineProperty(AbstractControlDirective.prototype, "control", {
-        /**
-         * @return {?}
-         */
-        get: function () { throw new Error('unimplemented'); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "value", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.value : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "valid", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.valid : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "invalid", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.invalid : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "pending", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.pending : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "errors", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.errors : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "pristine", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.pristine : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "dirty", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.dirty : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "touched", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.touched : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "untouched", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.untouched : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "disabled", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.disabled : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "enabled", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.enabled : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "statusChanges", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.statusChanges : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "valueChanges", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.control ? this.control.valueChanges : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlDirective.prototype, "path", {
-        /**
-         * @return {?}
-         */
-        get: function () { return null; },
-        enumerable: true,
-        configurable: true
-    });
+export class AbstractControlDirective {
+    /**
+     * @return {?}
+     */
+    get control() { throw new Error('unimplemented'); }
+    /**
+     * @return {?}
+     */
+    get value() { return this.control ? this.control.value : null; }
+    /**
+     * @return {?}
+     */
+    get valid() { return this.control ? this.control.valid : null; }
+    /**
+     * @return {?}
+     */
+    get invalid() { return this.control ? this.control.invalid : null; }
+    /**
+     * @return {?}
+     */
+    get pending() { return this.control ? this.control.pending : null; }
+    /**
+     * @return {?}
+     */
+    get errors() { return this.control ? this.control.errors : null; }
+    /**
+     * @return {?}
+     */
+    get pristine() { return this.control ? this.control.pristine : null; }
+    /**
+     * @return {?}
+     */
+    get dirty() { return this.control ? this.control.dirty : null; }
+    /**
+     * @return {?}
+     */
+    get touched() { return this.control ? this.control.touched : null; }
+    /**
+     * @return {?}
+     */
+    get untouched() { return this.control ? this.control.untouched : null; }
+    /**
+     * @return {?}
+     */
+    get disabled() { return this.control ? this.control.disabled : null; }
+    /**
+     * @return {?}
+     */
+    get enabled() { return this.control ? this.control.enabled : null; }
+    /**
+     * @return {?}
+     */
+    get statusChanges() { return this.control ? this.control.statusChanges : null; }
+    /**
+     * @return {?}
+     */
+    get valueChanges() { return this.control ? this.control.valueChanges : null; }
+    /**
+     * @return {?}
+     */
+    get path() { return null; }
     /**
      * @param {?=} value
      * @return {?}
      */
-    AbstractControlDirective.prototype.reset = function (value) {
-        if (value === void 0) { value = undefined; }
+    reset(value = undefined) {
         if (this.control)
             this.control.reset(value);
-    };
+    }
     /**
      * @param {?} errorCode
      * @param {?=} path
      * @return {?}
      */
-    AbstractControlDirective.prototype.hasError = function (errorCode, path) {
-        if (path === void 0) { path = null; }
+    hasError(errorCode, path = null) {
         return this.control ? this.control.hasError(errorCode, path) : false;
-    };
+    }
     /**
      * @param {?} errorCode
      * @param {?=} path
      * @return {?}
      */
-    AbstractControlDirective.prototype.getError = function (errorCode, path) {
-        if (path === void 0) { path = null; }
+    getError(errorCode, path = null) {
         return this.control ? this.control.getError(errorCode, path) : null;
-    };
-    return AbstractControlDirective;
-}());
+    }
+}
 //# sourceMappingURL=abstract_control_directive.js.map

@@ -5,11 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Directive, ElementRef, Renderer, forwardRef } from '@angular/core';
+import { Directive, ElementRef, Renderer, forwardRef } from '@angular/core/index';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
-export var /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
+export const /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return CheckboxControlValueAccessor; }),
+    useExisting: forwardRef(() => CheckboxControlValueAccessor),
     multi: true,
 };
 /**
@@ -22,55 +22,54 @@ export var /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
  *
  *  \@stable
  */
-export var CheckboxControlValueAccessor = (function () {
+export class CheckboxControlValueAccessor {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
      */
-    function CheckboxControlValueAccessor(_renderer, _elementRef) {
+    constructor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
+        this.onChange = (_) => { };
+        this.onTouched = () => { };
     }
     /**
      * @param {?} value
      * @return {?}
      */
-    CheckboxControlValueAccessor.prototype.writeValue = function (value) {
+    writeValue(value) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', value);
-    };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
+    registerOnChange(fn) { this.onChange = fn; }
     /**
      * @param {?} fn
      * @return {?}
      */
-    CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    registerOnTouched(fn) { this.onTouched = fn; }
     /**
      * @param {?} isDisabled
      * @return {?}
      */
-    CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+    setDisabledState(isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    };
-    CheckboxControlValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
-                    host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
-                    providers: [CHECKBOX_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    CheckboxControlValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
-    return CheckboxControlValueAccessor;
-}());
+    }
+}
+CheckboxControlValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
+                host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
+                providers: [CHECKBOX_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+CheckboxControlValueAccessor.ctorParameters = () => [
+    { type: Renderer, },
+    { type: ElementRef, },
+];
 function CheckboxControlValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     CheckboxControlValueAccessor.decorators;

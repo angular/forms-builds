@@ -5,21 +5,16 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-import { Directive, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
+import { Directive, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core/index';
 import { EventEmitter } from '../../facade/async';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../../validators';
 import { NG_VALUE_ACCESSOR } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
 import { ReactiveErrors } from '../reactive_errors';
 import { composeAsyncValidators, composeValidators, isPropertyUpdated, selectValueAccessor, setUpControl } from '../shared';
-export var /** @type {?} */ formControlBinding = {
+export const /** @type {?} */ formControlBinding = {
     provide: NgControl,
-    useExisting: forwardRef(function () { return FormControlDirective; })
+    useExisting: forwardRef(() => FormControlDirective)
 };
 /**
  * \@whatItDoes Syncs a standalone {\@link FormControl} instance to a form control element.
@@ -63,34 +58,29 @@ export var /** @type {?} */ formControlBinding = {
  *
  *  \@stable
  */
-export var FormControlDirective = (function (_super) {
-    __extends(FormControlDirective, _super);
+export class FormControlDirective extends NgControl {
     /**
      * @param {?} validators
      * @param {?} asyncValidators
      * @param {?} valueAccessors
      */
-    function FormControlDirective(validators, asyncValidators, valueAccessors) {
-        _super.call(this);
+    constructor(validators, asyncValidators, valueAccessors) {
+        super();
         this.update = new EventEmitter();
         this._rawValidators = validators || [];
         this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
-    Object.defineProperty(FormControlDirective.prototype, "isDisabled", {
-        /**
-         * @param {?} isDisabled
-         * @return {?}
-         */
-        set: function (isDisabled) { ReactiveErrors.disabledAttrWarning(); },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * @param {?} isDisabled
+     * @return {?}
+     */
+    set isDisabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
     /**
      * @param {?} changes
      * @return {?}
      */
-    FormControlDirective.prototype.ngOnChanges = function (changes) {
+    ngOnChanges(changes) {
         if (this._isControlChanged(changes)) {
             setUpControl(this.form, this);
             if (this.control.disabled && this.valueAccessor.setDisabledState) {
@@ -102,73 +92,56 @@ export var FormControlDirective = (function (_super) {
             this.form.setValue(this.model);
             this.viewModel = this.model;
         }
-    };
-    Object.defineProperty(FormControlDirective.prototype, "path", {
-        /**
-         * @return {?}
-         */
-        get: function () { return []; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(FormControlDirective.prototype, "validator", {
-        /**
-         * @return {?}
-         */
-        get: function () { return composeValidators(this._rawValidators); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(FormControlDirective.prototype, "asyncValidator", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return composeAsyncValidators(this._rawAsyncValidators);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(FormControlDirective.prototype, "control", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.form; },
-        enumerable: true,
-        configurable: true
-    });
+    }
+    /**
+     * @return {?}
+     */
+    get path() { return []; }
+    /**
+     * @return {?}
+     */
+    get validator() { return composeValidators(this._rawValidators); }
+    /**
+     * @return {?}
+     */
+    get asyncValidator() {
+        return composeAsyncValidators(this._rawAsyncValidators);
+    }
+    /**
+     * @return {?}
+     */
+    get control() { return this.form; }
     /**
      * @param {?} newValue
      * @return {?}
      */
-    FormControlDirective.prototype.viewToModelUpdate = function (newValue) {
+    viewToModelUpdate(newValue) {
         this.viewModel = newValue;
         this.update.emit(newValue);
-    };
+    }
     /**
      * @param {?} changes
      * @return {?}
      */
-    FormControlDirective.prototype._isControlChanged = function (changes) {
+    _isControlChanged(changes) {
         return changes.hasOwnProperty('form');
-    };
-    FormControlDirective.decorators = [
-        { type: Directive, args: [{ selector: '[formControl]', providers: [formControlBinding], exportAs: 'ngForm' },] },
-    ];
-    /** @nocollapse */
-    FormControlDirective.ctorParameters = function () { return [
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
-    ]; };
-    FormControlDirective.propDecorators = {
-        'form': [{ type: Input, args: ['formControl',] },],
-        'model': [{ type: Input, args: ['ngModel',] },],
-        'update': [{ type: Output, args: ['ngModelChange',] },],
-        'isDisabled': [{ type: Input, args: ['disabled',] },],
-    };
-    return FormControlDirective;
-}(NgControl));
+    }
+}
+FormControlDirective.decorators = [
+    { type: Directive, args: [{ selector: '[formControl]', providers: [formControlBinding], exportAs: 'ngForm' },] },
+];
+/** @nocollapse */
+FormControlDirective.ctorParameters = () => [
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
+];
+FormControlDirective.propDecorators = {
+    'form': [{ type: Input, args: ['formControl',] },],
+    'model': [{ type: Input, args: ['ngModel',] },],
+    'update': [{ type: Output, args: ['ngModelChange',] },],
+    'isDisabled': [{ type: Input, args: ['disabled',] },],
+};
 function FormControlDirective_tsickle_Closure_declarations() {
     /** @type {?} */
     FormControlDirective.decorators;

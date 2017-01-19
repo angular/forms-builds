@@ -5,12 +5,12 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Directive, ElementRef, Host, Input, Optional, Renderer, forwardRef } from '@angular/core';
+import { Directive, ElementRef, Host, Input, Optional, Renderer, forwardRef } from '@angular/core/index';
 import { isPrimitive, looseIdentical } from '../facade/lang';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
-export var /** @type {?} */ SELECT_MULTIPLE_VALUE_ACCESSOR = {
+export const /** @type {?} */ SELECT_MULTIPLE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return SelectMultipleControlValueAccessor; }),
+    useExisting: forwardRef(() => SelectMultipleControlValueAccessor),
     multi: true
 };
 /**
@@ -20,12 +20,12 @@ export var /** @type {?} */ SELECT_MULTIPLE_VALUE_ACCESSOR = {
  */
 function _buildValueString(id, value) {
     if (id == null)
-        return "" + value;
+        return `${value}`;
     if (typeof value === 'string')
-        value = "'" + value + "'";
+        value = `'${value}'`;
     if (!isPrimitive(value))
         value = 'Object';
-    return (id + ": " + value).slice(0, 50);
+    return `${id}: ${value}`.slice(0, 50);
 }
 /**
  * @param {?} valueString
@@ -38,17 +38,14 @@ function _extractId(valueString) {
  * Mock interface for HTMLCollection
  * @abstract
  */
-var HTMLCollection = (function () {
-    function HTMLCollection() {
-    }
+class HTMLCollection {
     /**
      * @abstract
      * @param {?} _
      * @return {?}
      */
-    HTMLCollection.prototype.item = function (_) { };
-    return HTMLCollection;
-}());
+    item(_) { }
+}
 function HTMLCollection_tsickle_Closure_declarations() {
     /** @type {?} */
     HTMLCollection.prototype.length;
@@ -58,127 +55,123 @@ function HTMLCollection_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var SelectMultipleControlValueAccessor = (function () {
+export class SelectMultipleControlValueAccessor {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
      */
-    function SelectMultipleControlValueAccessor(_renderer, _elementRef) {
+    constructor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
         /** @internal */
         this._optionMap = new Map();
         /** @internal */
         this._idCounter = 0;
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
+        this.onChange = (_) => { };
+        this.onTouched = () => { };
     }
     /**
      * @param {?} value
      * @return {?}
      */
-    SelectMultipleControlValueAccessor.prototype.writeValue = function (value) {
-        var _this = this;
+    writeValue(value) {
         this.value = value;
-        var /** @type {?} */ optionSelectedStateSetter;
+        let /** @type {?} */ optionSelectedStateSetter;
         if (Array.isArray(value)) {
             // convert values to ids
-            var /** @type {?} */ ids_1 = value.map(function (v) { return _this._getOptionId(v); });
-            optionSelectedStateSetter = function (opt, o) { opt._setSelected(ids_1.indexOf(o.toString()) > -1); };
+            const /** @type {?} */ ids = value.map((v) => this._getOptionId(v));
+            optionSelectedStateSetter = (opt, o) => { opt._setSelected(ids.indexOf(o.toString()) > -1); };
         }
         else {
-            optionSelectedStateSetter = function (opt, o) { opt._setSelected(false); };
+            optionSelectedStateSetter = (opt, o) => { opt._setSelected(false); };
         }
         this._optionMap.forEach(optionSelectedStateSetter);
-    };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    SelectMultipleControlValueAccessor.prototype.registerOnChange = function (fn) {
-        var _this = this;
-        this.onChange = function (_) {
-            var /** @type {?} */ selected = [];
+    registerOnChange(fn) {
+        this.onChange = (_) => {
+            const /** @type {?} */ selected = [];
             if (_.hasOwnProperty('selectedOptions')) {
-                var /** @type {?} */ options = _.selectedOptions;
-                for (var /** @type {?} */ i = 0; i < options.length; i++) {
-                    var /** @type {?} */ opt = options.item(i);
-                    var /** @type {?} */ val = _this._getOptionValue(opt.value);
+                const /** @type {?} */ options = _.selectedOptions;
+                for (let /** @type {?} */ i = 0; i < options.length; i++) {
+                    const /** @type {?} */ opt = options.item(i);
+                    const /** @type {?} */ val = this._getOptionValue(opt.value);
                     selected.push(val);
                 }
             }
             else {
-                var /** @type {?} */ options = (_.options);
-                for (var /** @type {?} */ i = 0; i < options.length; i++) {
-                    var /** @type {?} */ opt = options.item(i);
+                const /** @type {?} */ options = (_.options);
+                for (let /** @type {?} */ i = 0; i < options.length; i++) {
+                    const /** @type {?} */ opt = options.item(i);
                     if (opt.selected) {
-                        var /** @type {?} */ val = _this._getOptionValue(opt.value);
+                        const /** @type {?} */ val = this._getOptionValue(opt.value);
                         selected.push(val);
                     }
                 }
             }
-            _this.value = selected;
+            this.value = selected;
             fn(selected);
         };
-    };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    SelectMultipleControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    registerOnTouched(fn) { this.onTouched = fn; }
     /**
      * @param {?} isDisabled
      * @return {?}
      */
-    SelectMultipleControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+    setDisabledState(isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    };
+    }
     /**
      * \@internal
      * @param {?} value
      * @return {?}
      */
-    SelectMultipleControlValueAccessor.prototype._registerOption = function (value) {
-        var /** @type {?} */ id = (this._idCounter++).toString();
+    _registerOption(value) {
+        const /** @type {?} */ id = (this._idCounter++).toString();
         this._optionMap.set(id, value);
         return id;
-    };
+    }
     /**
      * \@internal
      * @param {?} value
      * @return {?}
      */
-    SelectMultipleControlValueAccessor.prototype._getOptionId = function (value) {
-        for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
-            var id = _a[_i];
+    _getOptionId(value) {
+        for (const id of Array.from(this._optionMap.keys())) {
             if (looseIdentical(this._optionMap.get(id)._value, value))
                 return id;
         }
         return null;
-    };
+    }
     /**
      * \@internal
      * @param {?} valueString
      * @return {?}
      */
-    SelectMultipleControlValueAccessor.prototype._getOptionValue = function (valueString) {
-        var /** @type {?} */ id = _extractId(valueString);
+    _getOptionValue(valueString) {
+        const /** @type {?} */ id = _extractId(valueString);
         return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
-    };
-    SelectMultipleControlValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
-                    host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
-                    providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    SelectMultipleControlValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
-    return SelectMultipleControlValueAccessor;
-}());
+    }
+}
+SelectMultipleControlValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
+                host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
+                providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+SelectMultipleControlValueAccessor.ctorParameters = () => [
+    { type: Renderer, },
+    { type: ElementRef, },
+];
 function SelectMultipleControlValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     SelectMultipleControlValueAccessor.decorators;
@@ -219,13 +212,13 @@ function SelectMultipleControlValueAccessor_tsickle_Closure_declarations() {
  * </select>
  * ```
  */
-export var NgSelectMultipleOption = (function () {
+export class NgSelectMultipleOption {
     /**
      * @param {?} _element
      * @param {?} _renderer
      * @param {?} _select
      */
-    function NgSelectMultipleOption(_element, _renderer, _select) {
+    constructor(_element, _renderer, _select) {
         this._element = _element;
         this._renderer = _renderer;
         this._select = _select;
@@ -233,79 +226,70 @@ export var NgSelectMultipleOption = (function () {
             this.id = this._select._registerOption(this);
         }
     }
-    Object.defineProperty(NgSelectMultipleOption.prototype, "ngValue", {
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        set: function (value) {
-            if (this._select == null)
-                return;
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set ngValue(value) {
+        if (this._select == null)
+            return;
+        this._value = value;
+        this._setElementValue(_buildValueString(this.id, value));
+        this._select.writeValue(this._select.value);
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set value(value) {
+        if (this._select) {
             this._value = value;
             this._setElementValue(_buildValueString(this.id, value));
             this._select.writeValue(this._select.value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgSelectMultipleOption.prototype, "value", {
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        set: function (value) {
-            if (this._select) {
-                this._value = value;
-                this._setElementValue(_buildValueString(this.id, value));
-                this._select.writeValue(this._select.value);
-            }
-            else {
-                this._setElementValue(value);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
+        }
+        else {
+            this._setElementValue(value);
+        }
+    }
     /**
      * \@internal
      * @param {?} value
      * @return {?}
      */
-    NgSelectMultipleOption.prototype._setElementValue = function (value) {
+    _setElementValue(value) {
         this._renderer.setElementProperty(this._element.nativeElement, 'value', value);
-    };
+    }
     /**
      * \@internal
      * @param {?} selected
      * @return {?}
      */
-    NgSelectMultipleOption.prototype._setSelected = function (selected) {
+    _setSelected(selected) {
         this._renderer.setElementProperty(this._element.nativeElement, 'selected', selected);
-    };
+    }
     /**
      * @return {?}
      */
-    NgSelectMultipleOption.prototype.ngOnDestroy = function () {
+    ngOnDestroy() {
         if (this._select) {
             this._select._optionMap.delete(this.id);
             this._select.writeValue(this._select.value);
         }
-    };
-    NgSelectMultipleOption.decorators = [
-        { type: Directive, args: [{ selector: 'option' },] },
-    ];
-    /** @nocollapse */
-    NgSelectMultipleOption.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: SelectMultipleControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
-    ]; };
-    NgSelectMultipleOption.propDecorators = {
-        'ngValue': [{ type: Input, args: ['ngValue',] },],
-        'value': [{ type: Input, args: ['value',] },],
-    };
-    return NgSelectMultipleOption;
-}());
+    }
+}
+NgSelectMultipleOption.decorators = [
+    { type: Directive, args: [{ selector: 'option' },] },
+];
+/** @nocollapse */
+NgSelectMultipleOption.ctorParameters = () => [
+    { type: ElementRef, },
+    { type: Renderer, },
+    { type: SelectMultipleControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
+];
+NgSelectMultipleOption.propDecorators = {
+    'ngValue': [{ type: Input, args: ['ngValue',] },],
+    'value': [{ type: Input, args: ['value',] },],
+};
 function NgSelectMultipleOption_tsickle_Closure_declarations() {
     /** @type {?} */
     NgSelectMultipleOption.decorators;

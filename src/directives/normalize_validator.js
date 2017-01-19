@@ -11,7 +11,7 @@
  */
 export function normalizeValidator(validator) {
     if (((validator)).validate) {
-        return function (c) { return ((validator)).validate(c); };
+        return (c) => ((validator)).validate(c);
     }
     else {
         return (validator);
@@ -23,7 +23,7 @@ export function normalizeValidator(validator) {
  */
 export function normalizeAsyncValidator(validator) {
     if (((validator)).validate) {
-        return function (c) { return ((validator)).validate(c); };
+        return (c) => ((validator)).validate(c);
     }
     else {
         return (validator);

@@ -42,11 +42,11 @@ export declare class NgForm extends ControlContainer implements Form {
     form: FormGroup;
     ngSubmit: EventEmitter<{}>;
     constructor(validators: any[], asyncValidators: any[]);
-    submitted: boolean;
-    formDirective: Form;
-    control: FormGroup;
-    path: string[];
-    controls: {
+    readonly submitted: boolean;
+    readonly formDirective: Form;
+    readonly control: FormGroup;
+    readonly path: string[];
+    readonly controls: {
         [key: string]: AbstractControl;
     };
     addControl(dir: NgModel): void;

@@ -5,11 +5,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Directive, ElementRef, Renderer, forwardRef } from '@angular/core';
+import { Directive, ElementRef, Renderer, forwardRef } from '@angular/core/index';
 import { NG_VALUE_ACCESSOR } from './control_value_accessor';
-export var /** @type {?} */ RANGE_VALUE_ACCESSOR = {
+export const /** @type {?} */ RANGE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return RangeValueAccessor; }),
+    useExisting: forwardRef(() => RangeValueAccessor),
     multi: true
 };
 /**
@@ -21,61 +21,60 @@ export var /** @type {?} */ RANGE_VALUE_ACCESSOR = {
  *  <input type="range" [(ngModel)]="age" >
  *  ```
  */
-export var RangeValueAccessor = (function () {
+export class RangeValueAccessor {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
      */
-    function RangeValueAccessor(_renderer, _elementRef) {
+    constructor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
+        this.onChange = (_) => { };
+        this.onTouched = () => { };
     }
     /**
      * @param {?} value
      * @return {?}
      */
-    RangeValueAccessor.prototype.writeValue = function (value) {
+    writeValue(value) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
-    };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    RangeValueAccessor.prototype.registerOnChange = function (fn) {
-        this.onChange = function (value) { fn(value == '' ? null : parseFloat(value)); };
-    };
+    registerOnChange(fn) {
+        this.onChange = (value) => { fn(value == '' ? null : parseFloat(value)); };
+    }
     /**
      * @param {?} fn
      * @return {?}
      */
-    RangeValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    registerOnTouched(fn) { this.onTouched = fn; }
     /**
      * @param {?} isDisabled
      * @return {?}
      */
-    RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
+    setDisabledState(isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    };
-    RangeValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
-                    host: {
-                        '(change)': 'onChange($event.target.value)',
-                        '(input)': 'onChange($event.target.value)',
-                        '(blur)': 'onTouched()'
-                    },
-                    providers: [RANGE_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    RangeValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
-    return RangeValueAccessor;
-}());
+    }
+}
+RangeValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
+                host: {
+                    '(change)': 'onChange($event.target.value)',
+                    '(input)': 'onChange($event.target.value)',
+                    '(blur)': 'onTouched()'
+                },
+                providers: [RANGE_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+RangeValueAccessor.ctorParameters = () => [
+    { type: Renderer, },
+    { type: ElementRef, },
+];
 function RangeValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     RangeValueAccessor.decorators;

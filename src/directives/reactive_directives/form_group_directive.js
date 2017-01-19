@@ -5,21 +5,16 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-import { Directive, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
+import { Directive, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core/index';
 import { EventEmitter } from '../../facade/async';
 import { ListWrapper } from '../../facade/collection';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators } from '../../validators';
 import { ControlContainer } from '../control_container';
 import { ReactiveErrors } from '../reactive_errors';
 import { cleanUpControl, composeAsyncValidators, composeValidators, setUpControl, setUpFormContainer } from '../shared';
-export var /** @type {?} */ formDirectiveProvider = {
+export const /** @type {?} */ formDirectiveProvider = {
     provide: ControlContainer,
-    useExisting: forwardRef(function () { return FormGroupDirective; })
+    useExisting: forwardRef(() => FormGroupDirective)
 };
 /**
  * \@whatItDoes Binds an existing {\@link FormGroup} to a DOM element.
@@ -56,14 +51,13 @@ export var /** @type {?} */ formDirectiveProvider = {
  *
  *  \@stable
  */
-export var FormGroupDirective = (function (_super) {
-    __extends(FormGroupDirective, _super);
+export class FormGroupDirective extends ControlContainer {
     /**
      * @param {?} _validators
      * @param {?} _asyncValidators
      */
-    function FormGroupDirective(_validators, _asyncValidators) {
-        _super.call(this);
+    constructor(_validators, _asyncValidators) {
+        super();
         this._validators = _validators;
         this._asyncValidators = _asyncValidators;
         this._submitted = false;
@@ -75,144 +69,126 @@ export var FormGroupDirective = (function (_super) {
      * @param {?} changes
      * @return {?}
      */
-    FormGroupDirective.prototype.ngOnChanges = function (changes) {
+    ngOnChanges(changes) {
         this._checkFormPresent();
         if (changes.hasOwnProperty('form')) {
             this._updateValidators();
             this._updateDomValue();
             this._updateRegistrations();
         }
-    };
-    Object.defineProperty(FormGroupDirective.prototype, "submitted", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this._submitted; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(FormGroupDirective.prototype, "formDirective", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(FormGroupDirective.prototype, "control", {
-        /**
-         * @return {?}
-         */
-        get: function () { return this.form; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(FormGroupDirective.prototype, "path", {
-        /**
-         * @return {?}
-         */
-        get: function () { return []; },
-        enumerable: true,
-        configurable: true
-    });
+    }
+    /**
+     * @return {?}
+     */
+    get submitted() { return this._submitted; }
+    /**
+     * @return {?}
+     */
+    get formDirective() { return this; }
+    /**
+     * @return {?}
+     */
+    get control() { return this.form; }
+    /**
+     * @return {?}
+     */
+    get path() { return []; }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.addControl = function (dir) {
-        var /** @type {?} */ ctrl = this.form.get(dir.path);
+    addControl(dir) {
+        const /** @type {?} */ ctrl = this.form.get(dir.path);
         setUpControl(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
         this.directives.push(dir);
         return ctrl;
-    };
+    }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.getControl = function (dir) { return (this.form.get(dir.path)); };
+    getControl(dir) { return (this.form.get(dir.path)); }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.removeControl = function (dir) { ListWrapper.remove(this.directives, dir); };
+    removeControl(dir) { ListWrapper.remove(this.directives, dir); }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.addFormGroup = function (dir) {
-        var /** @type {?} */ ctrl = this.form.get(dir.path);
+    addFormGroup(dir) {
+        const /** @type {?} */ ctrl = this.form.get(dir.path);
         setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
-    };
+    }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.removeFormGroup = function (dir) { };
+    removeFormGroup(dir) { }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.getFormGroup = function (dir) { return (this.form.get(dir.path)); };
+    getFormGroup(dir) { return (this.form.get(dir.path)); }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.addFormArray = function (dir) {
-        var /** @type {?} */ ctrl = this.form.get(dir.path);
+    addFormArray(dir) {
+        const /** @type {?} */ ctrl = this.form.get(dir.path);
         setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
-    };
+    }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.removeFormArray = function (dir) { };
+    removeFormArray(dir) { }
     /**
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.getFormArray = function (dir) { return (this.form.get(dir.path)); };
+    getFormArray(dir) { return (this.form.get(dir.path)); }
     /**
      * @param {?} dir
      * @param {?} value
      * @return {?}
      */
-    FormGroupDirective.prototype.updateModel = function (dir, value) {
-        var /** @type {?} */ ctrl = (this.form.get(dir.path));
+    updateModel(dir, value) {
+        const /** @type {?} */ ctrl = (this.form.get(dir.path));
         ctrl.setValue(value);
-    };
+    }
     /**
      * @param {?} $event
      * @return {?}
      */
-    FormGroupDirective.prototype.onSubmit = function ($event) {
+    onSubmit($event) {
         this._submitted = true;
         this.ngSubmit.emit($event);
         return false;
-    };
+    }
     /**
      * @return {?}
      */
-    FormGroupDirective.prototype.onReset = function () { this.resetForm(); };
+    onReset() { this.resetForm(); }
     /**
      * @param {?=} value
      * @return {?}
      */
-    FormGroupDirective.prototype.resetForm = function (value) {
-        if (value === void 0) { value = undefined; }
+    resetForm(value = undefined) {
         this.form.reset(value);
         this._submitted = false;
-    };
+    }
     /**
      * \@internal
      * @return {?}
      */
-    FormGroupDirective.prototype._updateDomValue = function () {
-        var _this = this;
-        this.directives.forEach(function (dir) {
-            var /** @type {?} */ newCtrl = _this.form.get(dir.path);
+    _updateDomValue() {
+        this.directives.forEach(dir => {
+            const /** @type {?} */ newCtrl = this.form.get(dir.path);
             if (dir._control !== newCtrl) {
                 cleanUpControl(dir._control, dir);
                 if (newCtrl)
@@ -221,53 +197,51 @@ export var FormGroupDirective = (function (_super) {
             }
         });
         this.form._updateTreeValidity({ emitEvent: false });
-    };
+    }
     /**
      * @return {?}
      */
-    FormGroupDirective.prototype._updateRegistrations = function () {
-        var _this = this;
-        this.form._registerOnCollectionChange(function () { return _this._updateDomValue(); });
+    _updateRegistrations() {
+        this.form._registerOnCollectionChange(() => this._updateDomValue());
         if (this._oldForm)
-            this._oldForm._registerOnCollectionChange(function () { });
+            this._oldForm._registerOnCollectionChange(() => { });
         this._oldForm = this.form;
-    };
+    }
     /**
      * @return {?}
      */
-    FormGroupDirective.prototype._updateValidators = function () {
-        var /** @type {?} */ sync = composeValidators(this._validators);
+    _updateValidators() {
+        const /** @type {?} */ sync = composeValidators(this._validators);
         this.form.validator = Validators.compose([this.form.validator, sync]);
-        var /** @type {?} */ async = composeAsyncValidators(this._asyncValidators);
+        const /** @type {?} */ async = composeAsyncValidators(this._asyncValidators);
         this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
-    };
+    }
     /**
      * @return {?}
      */
-    FormGroupDirective.prototype._checkFormPresent = function () {
+    _checkFormPresent() {
         if (!this.form) {
             ReactiveErrors.missingFormException();
         }
-    };
-    FormGroupDirective.decorators = [
-        { type: Directive, args: [{
-                    selector: '[formGroup]',
-                    providers: [formDirectiveProvider],
-                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-                    exportAs: 'ngForm'
-                },] },
-    ];
-    /** @nocollapse */
-    FormGroupDirective.ctorParameters = function () { return [
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ]; };
-    FormGroupDirective.propDecorators = {
-        'form': [{ type: Input, args: ['formGroup',] },],
-        'ngSubmit': [{ type: Output },],
-    };
-    return FormGroupDirective;
-}(ControlContainer));
+    }
+}
+FormGroupDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[formGroup]',
+                providers: [formDirectiveProvider],
+                host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                exportAs: 'ngForm'
+            },] },
+];
+/** @nocollapse */
+FormGroupDirective.ctorParameters = () => [
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+];
+FormGroupDirective.propDecorators = {
+    'form': [{ type: Input, args: ['formGroup',] },],
+    'ngSubmit': [{ type: Output },],
+};
 function FormGroupDirective_tsickle_Closure_declarations() {
     /** @type {?} */
     FormGroupDirective.decorators;
