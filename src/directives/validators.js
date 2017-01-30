@@ -116,6 +116,77 @@ function CheckboxRequiredValidator_tsickle_Closure_declarations() {
     CheckboxRequiredValidator.ctorParameters;
 }
 /**
+ * Provider which adds {@link EmailValidator} to {@link NG_VALIDATORS}.
+ */
+export const /** @type {?} */ EMAIL_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(() => EmailValidator),
+    multi: true
+};
+/**
+ * A Directive that adds the `email` validator to controls marked with the
+ * `email` attribute, via the {\@link NG_VALIDATORS} binding.
+ *
+ * ### Example
+ *
+ * ```
+ * <input type="email" name="email" ngModel email>
+ * <input type="email" name="email" ngModel email="true">
+ * <input type="email" name="email" ngModel [email]="true">
+ * ```
+ *
+ * \@experimental
+ */
+export class EmailValidator {
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set email(value) {
+        this._enabled = value === '' || value === true || value === 'true';
+        if (this._onChange)
+            this._onChange();
+    }
+    /**
+     * @param {?} c
+     * @return {?}
+     */
+    validate(c) {
+        return this._enabled ? Validators.email(c) : null;
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnValidatorChange(fn) { this._onChange = fn; }
+}
+EmailValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[email][formControlName],[email][formControl],[email][ngModel]',
+                providers: [EMAIL_VALIDATOR]
+            },] },
+];
+/** @nocollapse */
+EmailValidator.ctorParameters = () => [];
+EmailValidator.propDecorators = {
+    'email': [{ type: Input },],
+};
+function EmailValidator_tsickle_Closure_declarations() {
+    /** @type {?} */
+    EmailValidator.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    EmailValidator.ctorParameters;
+    /** @type {?} */
+    EmailValidator.propDecorators;
+    /** @type {?} */
+    EmailValidator.prototype._enabled;
+    /** @type {?} */
+    EmailValidator.prototype._onChange;
+}
+/**
  * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
  *
  * ## Example:

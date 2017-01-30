@@ -404,6 +404,7 @@
      * @stable
      */
     var /** @type {?} */ NG_ASYNC_VALIDATORS = new _angular_core.InjectionToken('NgAsyncValidators');
+    var /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
     /**
      * Provides a set of validators used by form controls.
      *
@@ -422,6 +423,33 @@
         function Validators() {
         }
         /**
+         * Validator that compares the value of the given FormControls
+         * @param {...?} fieldPaths
+         * @return {?}
+         */
+        Validators.equalsTo = function () {
+            var fieldPaths = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                fieldPaths[_i - 0] = arguments[_i];
+            }
+            return function (control) {
+                if (fieldPaths.length < 1) {
+                    throw new Error('You must compare to at least 1 other field');
+                }
+                for (var _i = 0, fieldPaths_1 = fieldPaths; _i < fieldPaths_1.length; _i++) {
+                    var fieldName = fieldPaths_1[_i];
+                    var /** @type {?} */ field = ((control.parent)).get(fieldName);
+                    if (!field) {
+                        throw new Error("Field: " + fieldName + " undefined, are you sure that " + fieldName + " exists in the group");
+                    }
+                    if (field.value !== control.value) {
+                        return { 'equalsTo': { 'unequalField': fieldName } };
+                    }
+                }
+                return null;
+            };
+        };
+        /**
          * Validator that requires controls to have a non-empty value.
          * @param {?} control
          * @return {?}
@@ -436,6 +464,14 @@
          */
         Validators.requiredTrue = function (control) {
             return control.value === true ? null : { 'required': true };
+        };
+        /**
+         * Validator that performs email validation.
+         * @param {?} control
+         * @return {?}
+         */
+        Validators.email = function (control) {
+            return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
         };
         /**
          * Validator that requires controls to have a value of a minimum length.
@@ -1224,7 +1260,11 @@
          */
         SelectControlValueAccessor.prototype.writeValue = function (value) {
             this.value = value;
-            var /** @type {?} */ valueString = _buildValueString(this._getOptionId(value), value);
+            var /** @type {?} */ id = this._getOptionId(value);
+            if (id == null) {
+                this._renderer.setElementProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
+            }
+            var /** @type {?} */ valueString = _buildValueString(id, value);
             this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', valueString);
         };
         /**
@@ -4241,12 +4281,24 @@
             this._control = new FormControl();
             /** @internal */
             this._registered = false;
+            this._composing = false;
             this.update = new EventEmitter();
             this._parent = parent;
             this._rawValidators = validators || [];
             this._rawAsyncValidators = asyncValidators || [];
             this.valueAccessor = selectValueAccessor(this, valueAccessors);
         }
+        /**
+         * @return {?}
+         */
+        NgModel.prototype.compositionStart = function () { this._composing = true; };
+        /**
+         * @return {?}
+         */
+        NgModel.prototype.compositionEnd = function () {
+            this._composing = false;
+            this.update.emit(this.viewModel);
+        };
         /**
          * @param {?} changes
          * @return {?}
@@ -4317,7 +4369,7 @@
          */
         NgModel.prototype.viewToModelUpdate = function (newValue) {
             this.viewModel = newValue;
-            this.update.emit(newValue);
+            !this._composing && this.update.emit(newValue);
         };
         /**
          * @return {?}
@@ -4416,6 +4468,8 @@
             'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
             'options': [{ type: _angular_core.Input, args: ['ngModelOptions',] },],
             'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
+            'compositionStart': [{ type: _angular_core.HostListener, args: ['compositionstart',] },],
+            'compositionEnd': [{ type: _angular_core.HostListener, args: ['compositionend',] },],
         };
         return NgModel;
     }(NgControl));
@@ -5454,6 +5508,69 @@
         return CheckboxRequiredValidator;
     }(RequiredValidator));
     /**
+     * Provider which adds {@link EmailValidator} to {@link NG_VALIDATORS}.
+     */
+    var /** @type {?} */ EMAIL_VALIDATOR = {
+        provide: NG_VALIDATORS,
+        useExisting: _angular_core.forwardRef(function () { return EmailValidator; }),
+        multi: true
+    };
+    /**
+     * A Directive that adds the `email` validator to controls marked with the
+     * `email` attribute, via the {\@link NG_VALIDATORS} binding.
+     *
+     * ### Example
+     *
+     * ```
+     * <input type="email" name="email" ngModel email>
+     * <input type="email" name="email" ngModel email="true">
+     * <input type="email" name="email" ngModel [email]="true">
+     * ```
+     *
+     * \@experimental
+     */
+    var EmailValidator = (function () {
+        function EmailValidator() {
+        }
+        Object.defineProperty(EmailValidator.prototype, "email", {
+            /**
+             * @param {?} value
+             * @return {?}
+             */
+            set: function (value) {
+                this._enabled = value === '' || value === true || value === 'true';
+                if (this._onChange)
+                    this._onChange();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @param {?} c
+         * @return {?}
+         */
+        EmailValidator.prototype.validate = function (c) {
+            return this._enabled ? Validators.email(c) : null;
+        };
+        /**
+         * @param {?} fn
+         * @return {?}
+         */
+        EmailValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+        EmailValidator.decorators = [
+            { type: _angular_core.Directive, args: [{
+                        selector: '[email][formControlName],[email][formControl],[email][ngModel]',
+                        providers: [EMAIL_VALIDATOR]
+                    },] },
+        ];
+        /** @nocollapse */
+        EmailValidator.ctorParameters = function () { return []; };
+        EmailValidator.propDecorators = {
+            'email': [{ type: _angular_core.Input },],
+        };
+        return EmailValidator;
+    }());
+    /**
      * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
      *
      * ## Example:
@@ -5792,6 +5909,7 @@
         MaxLengthValidator,
         PatternValidator,
         CheckboxRequiredValidator,
+        EmailValidator,
     ];
     var /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
     var /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
@@ -5871,6 +5989,7 @@
     exports.SelectControlValueAccessor = SelectControlValueAccessor;
     exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
     exports.CheckboxRequiredValidator = CheckboxRequiredValidator;
+    exports.EmailValidator = EmailValidator;
     exports.MaxLengthValidator = MaxLengthValidator;
     exports.MinLengthValidator = MinLengthValidator;
     exports.PatternValidator = PatternValidator;

@@ -73,6 +73,33 @@ export declare class CheckboxRequiredValidator extends RequiredValidator {
     };
 }
 /**
+ * Provider which adds {@link EmailValidator} to {@link NG_VALIDATORS}.
+ */
+export declare const EMAIL_VALIDATOR: any;
+/**
+ * A Directive that adds the `email` validator to controls marked with the
+ * `email` attribute, via the {@link NG_VALIDATORS} binding.
+ *
+ * ### Example
+ *
+ * ```
+ * <input type="email" name="email" ngModel email>
+ * <input type="email" name="email" ngModel email="true">
+ * <input type="email" name="email" ngModel [email]="true">
+ * ```
+ *
+ * @experimental
+ */
+export declare class EmailValidator implements Validator {
+    private _enabled;
+    private _onChange;
+    email: boolean | string;
+    validate(c: AbstractControl): {
+        [key: string]: any;
+    };
+    registerOnValidatorChange(fn: () => void): void;
+}
+/**
  * @stable
  */
 export interface ValidatorFn {

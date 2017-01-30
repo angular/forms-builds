@@ -72,6 +72,7 @@ export declare const formControlBinding: any;
  *  @stable
  */
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
+    private _composing;
     viewModel: any;
     name: string;
     isDisabled: boolean;
@@ -81,6 +82,8 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
         standalone?: boolean;
     };
     update: EventEmitter<{}>;
+    compositionStart(): void;
+    compositionEnd(): void;
     constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<Validator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Directive, Host, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core/index';
+import { Directive, Host, HostListener, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core/index';
 import { EventEmitter } from '../facade/async';
 import { FormControl } from '../model';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
@@ -110,11 +110,23 @@ export class NgModel extends NgControl {
         this._control = new FormControl();
         /** @internal */
         this._registered = false;
+        this._composing = false;
         this.update = new EventEmitter();
         this._parent = parent;
         this._rawValidators = validators || [];
         this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
+    }
+    /**
+     * @return {?}
+     */
+    compositionStart() { this._composing = true; }
+    /**
+     * @return {?}
+     */
+    compositionEnd() {
+        this._composing = false;
+        this.update.emit(this.viewModel);
     }
     /**
      * @param {?} changes
@@ -166,7 +178,7 @@ export class NgModel extends NgControl {
      */
     viewToModelUpdate(newValue) {
         this.viewModel = newValue;
-        this.update.emit(newValue);
+        !this._composing && this.update.emit(newValue);
     }
     /**
      * @return {?}
@@ -264,6 +276,8 @@ NgModel.propDecorators = {
     'model': [{ type: Input, args: ['ngModel',] },],
     'options': [{ type: Input, args: ['ngModelOptions',] },],
     'update': [{ type: Output, args: ['ngModelChange',] },],
+    'compositionStart': [{ type: HostListener, args: ['compositionstart',] },],
+    'compositionEnd': [{ type: HostListener, args: ['compositionend',] },],
 };
 function NgModel_tsickle_Closure_declarations() {
     /** @type {?} */
@@ -285,6 +299,8 @@ function NgModel_tsickle_Closure_declarations() {
      * @type {?}
      */
     NgModel.prototype._registered;
+    /** @type {?} */
+    NgModel.prototype._composing;
     /** @type {?} */
     NgModel.prototype.viewModel;
     /** @type {?} */

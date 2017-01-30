@@ -46,6 +46,10 @@ export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[
  */
 export declare class Validators {
     /**
+     * Validator that compares the value of the given FormControls
+     */
+    static equalsTo(...fieldPaths: string[]): ValidatorFn;
+    /**
      * Validator that requires controls to have a non-empty value.
      */
     static required(control: AbstractControl): {
@@ -55,6 +59,12 @@ export declare class Validators {
      * Validator that requires control value to be true.
      */
     static requiredTrue(control: AbstractControl): {
+        [key: string]: boolean;
+    };
+    /**
+     * Validator that performs email validation.
+     */
+    static email(control: AbstractControl): {
         [key: string]: boolean;
     };
     /**

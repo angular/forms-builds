@@ -40,6 +40,7 @@ export const /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators')
  * @stable
  */
 export const /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
+const /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 /**
  * Provides a set of validators used by form controls.
  *
@@ -56,6 +57,28 @@ export const /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncV
  */
 export class Validators {
     /**
+     * Validator that compares the value of the given FormControls
+     * @param {...?} fieldPaths
+     * @return {?}
+     */
+    static equalsTo(...fieldPaths) {
+        return function (control) {
+            if (fieldPaths.length < 1) {
+                throw new Error('You must compare to at least 1 other field');
+            }
+            for (let fieldName of fieldPaths) {
+                let /** @type {?} */ field = ((control.parent)).get(fieldName);
+                if (!field) {
+                    throw new Error(`Field: ${fieldName} undefined, are you sure that ${fieldName} exists in the group`);
+                }
+                if (field.value !== control.value) {
+                    return { 'equalsTo': { 'unequalField': fieldName } };
+                }
+            }
+            return null;
+        };
+    }
+    /**
      * Validator that requires controls to have a non-empty value.
      * @param {?} control
      * @return {?}
@@ -70,6 +93,14 @@ export class Validators {
      */
     static requiredTrue(control) {
         return control.value === true ? null : { 'required': true };
+    }
+    /**
+     * Validator that performs email validation.
+     * @param {?} control
+     * @return {?}
+     */
+    static email(control) {
+        return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
     }
     /**
      * Validator that requires controls to have a value of a minimum length.
