@@ -40,6 +40,7 @@ export var /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators');
  * @stable
  */
 export var /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
+var /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 /**
  * Provides a set of validators used by form controls.
  *
@@ -58,6 +59,33 @@ export var Validators = (function () {
     function Validators() {
     }
     /**
+     * Validator that compares the value of the given FormControls
+     * @param {...?} fieldPaths
+     * @return {?}
+     */
+    Validators.equalsTo = function () {
+        var fieldPaths = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            fieldPaths[_i - 0] = arguments[_i];
+        }
+        return function (control) {
+            if (fieldPaths.length < 1) {
+                throw new Error('You must compare to at least 1 other field');
+            }
+            for (var _i = 0, fieldPaths_1 = fieldPaths; _i < fieldPaths_1.length; _i++) {
+                var fieldName = fieldPaths_1[_i];
+                var /** @type {?} */ field = ((control.parent)).get(fieldName);
+                if (!field) {
+                    throw new Error("Field: " + fieldName + " undefined, are you sure that " + fieldName + " exists in the group");
+                }
+                if (field.value !== control.value) {
+                    return { 'equalsTo': { 'unequalField': fieldName } };
+                }
+            }
+            return null;
+        };
+    };
+    /**
      * Validator that requires controls to have a non-empty value.
      * @param {?} control
      * @return {?}
@@ -72,6 +100,14 @@ export var Validators = (function () {
      */
     Validators.requiredTrue = function (control) {
         return control.value === true ? null : { 'required': true };
+    };
+    /**
+     * Validator that performs email validation.
+     * @param {?} control
+     * @return {?}
+     */
+    Validators.email = function (control) {
+        return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
     };
     /**
      * Validator that requires controls to have a value of a minimum length.

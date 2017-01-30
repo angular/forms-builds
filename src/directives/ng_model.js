@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-import { Directive, Host, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
+import { Directive, Host, HostListener, Inject, Input, Optional, Output, Self, forwardRef } from '@angular/core';
 import { EventEmitter } from '../facade/async';
 import { FormControl } from '../model';
 import { NG_ASYNC_VALIDATORS, NG_VALIDATORS } from '../validators';
@@ -116,12 +116,24 @@ export var NgModel = (function (_super) {
         this._control = new FormControl();
         /** @internal */
         this._registered = false;
+        this._composing = false;
         this.update = new EventEmitter();
         this._parent = parent;
         this._rawValidators = validators || [];
         this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
+    /**
+     * @return {?}
+     */
+    NgModel.prototype.compositionStart = function () { this._composing = true; };
+    /**
+     * @return {?}
+     */
+    NgModel.prototype.compositionEnd = function () {
+        this._composing = false;
+        this.update.emit(this.viewModel);
+    };
     /**
      * @param {?} changes
      * @return {?}
@@ -192,7 +204,7 @@ export var NgModel = (function (_super) {
      */
     NgModel.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
-        this.update.emit(newValue);
+        !this._composing && this.update.emit(newValue);
     };
     /**
      * @return {?}
@@ -291,6 +303,8 @@ export var NgModel = (function (_super) {
         'model': [{ type: Input, args: ['ngModel',] },],
         'options': [{ type: Input, args: ['ngModelOptions',] },],
         'update': [{ type: Output, args: ['ngModelChange',] },],
+        'compositionStart': [{ type: HostListener, args: ['compositionstart',] },],
+        'compositionEnd': [{ type: HostListener, args: ['compositionend',] },],
     };
     return NgModel;
 }(NgControl));
@@ -314,6 +328,8 @@ function NgModel_tsickle_Closure_declarations() {
      * @type {?}
      */
     NgModel.prototype._registered;
+    /** @type {?} */
+    NgModel.prototype._composing;
     /** @type {?} */
     NgModel.prototype.viewModel;
     /** @type {?} */

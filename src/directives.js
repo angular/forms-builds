@@ -22,7 +22,7 @@ import { FormGroupDirective } from './directives/reactive_directives/form_group_
 import { FormArrayName, FormGroupName } from './directives/reactive_directives/form_group_name';
 import { NgSelectOption, SelectControlValueAccessor } from './directives/select_control_value_accessor';
 import { NgSelectMultipleOption, SelectMultipleControlValueAccessor } from './directives/select_multiple_control_value_accessor';
-import { CheckboxRequiredValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator } from './directives/validators';
+import { CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator } from './directives/validators';
 export { CheckboxControlValueAccessor } from './directives/checkbox_value_accessor';
 export { DefaultValueAccessor } from './directives/default_value_accessor';
 export { NgControl } from './directives/ng_control';
@@ -57,6 +57,7 @@ export var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
     MaxLengthValidator,
     PatternValidator,
     CheckboxRequiredValidator,
+    EmailValidator,
 ];
 export var /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
 export var /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
