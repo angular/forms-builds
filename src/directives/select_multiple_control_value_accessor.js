@@ -53,6 +53,31 @@ function HTMLCollection_tsickle_Closure_declarations() {
 /**
  * The accessor for writing a value and listening to changes on a select element.
  *
+ *  ### Caveat: Options selection
+ *
+ * Angular uses object identity to select options. It's possible for the identities of items
+ * to change while the data does not. This can happen, for example, if the items are produced
+ * from an RPC to the server, and that RPC is re-run. Even if the data hasn't changed, the
+ * second response will produce objects with different identities.
+ *
+ * To customize the default option comparison algorithm, `<select multiple>` supports `compareWith`
+ * input. `compareWith` takes a **function** which has two arguments: `option1` and `option2`.
+ * If `compareWith` is given, Angular selects options by the return value of the function.
+ *
+ * #### Syntax
+ *
+ * ```
+ * <select multiple [compareWith]="compareFn"  [(ngModel)]="selectedCountries">
+ *     <option *ngFor="let country of countries" [ngValue]="country">
+ *         {{country.name}}
+ *     </option>
+ * </select>
+ *
+ * compareFn(c1: Country, c2: Country): boolean {
+ *     return c1 && c2 ? c1.id === c2.id : c1 === c2;
+ * }
+ * ```
+ *
  * \@stable
  */
 export class SelectMultipleControlValueAccessor {
@@ -69,6 +94,17 @@ export class SelectMultipleControlValueAccessor {
         this._idCounter = 0;
         this.onChange = (_) => { };
         this.onTouched = () => { };
+        this._compareWith = looseIdentical;
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    set compareWith(fn) {
+        if (typeof fn !== 'function') {
+            throw new Error(`compareWith must be a function, but received ${JSON.stringify(fn)}`);
+        }
+        this._compareWith = fn;
     }
     /**
      * @param {?} value
@@ -145,7 +181,7 @@ export class SelectMultipleControlValueAccessor {
      */
     _getOptionId(value) {
         for (const id of Array.from(this._optionMap.keys())) {
-            if (looseIdentical(this._optionMap.get(id)._value, value))
+            if (this._compareWith(this._optionMap.get(id)._value, value))
                 return id;
         }
         return null;
@@ -172,6 +208,9 @@ SelectMultipleControlValueAccessor.ctorParameters = () => [
     { type: Renderer, },
     { type: ElementRef, },
 ];
+SelectMultipleControlValueAccessor.propDecorators = {
+    'compareWith': [{ type: Input },],
+};
 function SelectMultipleControlValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     SelectMultipleControlValueAccessor.decorators;
@@ -180,6 +219,8 @@ function SelectMultipleControlValueAccessor_tsickle_Closure_declarations() {
      * @type {?}
      */
     SelectMultipleControlValueAccessor.ctorParameters;
+    /** @type {?} */
+    SelectMultipleControlValueAccessor.propDecorators;
     /** @type {?} */
     SelectMultipleControlValueAccessor.prototype.value;
     /**
@@ -196,6 +237,8 @@ function SelectMultipleControlValueAccessor_tsickle_Closure_declarations() {
     SelectMultipleControlValueAccessor.prototype.onChange;
     /** @type {?} */
     SelectMultipleControlValueAccessor.prototype.onTouched;
+    /** @type {?} */
+    SelectMultipleControlValueAccessor.prototype._compareWith;
     /** @type {?} */
     SelectMultipleControlValueAccessor.prototype._renderer;
     /** @type {?} */

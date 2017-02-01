@@ -1230,6 +1230,31 @@
      *
      * {\@example forms/ts/reactiveSelectControl/reactive_select_control_example.ts region='Component'}
      *
+     * ### Caveat: Option selection
+     *
+     * Angular uses object identity to select option. It's possible for the identities of items
+     * to change while the data does not. This can happen, for example, if the items are produced
+     * from an RPC to the server, and that RPC is re-run. Even if the data hasn't changed, the
+     * second response will produce objects with different identities.
+     *
+     * To customize the default option comparison algorithm, `<select>` supports `compareWith` input.
+     * `compareWith` takes a **function** which has two arguments: `option1` and `option2`.
+     * If `compareWith` is given, Angular selects option by the return value of the function.
+     *
+     * #### Syntax
+     *
+     * ```
+     * <select [compareWith]="compareFn"  [(ngModel)]="selectedCountries">
+     *     <option *ngFor="let country of countries" [ngValue]="country">
+     *         {{country.name}}
+     *     </option>
+     * </select>
+     *
+     * compareFn(c1: Country, c2: Country): boolean {
+     *     return c1 && c2 ? c1.id === c2.id : c1 === c2;
+     * }
+     * ```
+     *
      * Note: We listen to the 'change' event because 'input' events aren't fired
      * for selects in Firefox and IE:
      * https://bugzilla.mozilla.org/show_bug.cgi?id=1024350
@@ -1253,7 +1278,22 @@
             this._idCounter = 0;
             this.onChange = function (_) { };
             this.onTouched = function () { };
+            this._compareWith = looseIdentical;
         }
+        Object.defineProperty(SelectControlValueAccessor.prototype, "compareWith", {
+            /**
+             * @param {?} fn
+             * @return {?}
+             */
+            set: function (fn) {
+                if (typeof fn !== 'function') {
+                    throw new Error("compareWith must be a function, but received " + JSON.stringify(fn));
+                }
+                this._compareWith = fn;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * @param {?} value
          * @return {?}
@@ -1303,7 +1343,7 @@
         SelectControlValueAccessor.prototype._getOptionId = function (value) {
             for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
                 var id = _a[_i];
-                if (looseIdentical(this._optionMap.get(id), value))
+                if (this._compareWith(this._optionMap.get(id), value))
                     return id;
             }
             return null;
@@ -1329,6 +1369,9 @@
             { type: _angular_core.Renderer, },
             { type: _angular_core.ElementRef, },
         ]; };
+        SelectControlValueAccessor.propDecorators = {
+            'compareWith': [{ type: _angular_core.Input },],
+        };
         return SelectControlValueAccessor;
     }());
     /**
@@ -1443,6 +1486,31 @@
     /**
      * The accessor for writing a value and listening to changes on a select element.
      *
+     *  ### Caveat: Options selection
+     *
+     * Angular uses object identity to select options. It's possible for the identities of items
+     * to change while the data does not. This can happen, for example, if the items are produced
+     * from an RPC to the server, and that RPC is re-run. Even if the data hasn't changed, the
+     * second response will produce objects with different identities.
+     *
+     * To customize the default option comparison algorithm, `<select multiple>` supports `compareWith`
+     * input. `compareWith` takes a **function** which has two arguments: `option1` and `option2`.
+     * If `compareWith` is given, Angular selects options by the return value of the function.
+     *
+     * #### Syntax
+     *
+     * ```
+     * <select multiple [compareWith]="compareFn"  [(ngModel)]="selectedCountries">
+     *     <option *ngFor="let country of countries" [ngValue]="country">
+     *         {{country.name}}
+     *     </option>
+     * </select>
+     *
+     * compareFn(c1: Country, c2: Country): boolean {
+     *     return c1 && c2 ? c1.id === c2.id : c1 === c2;
+     * }
+     * ```
+     *
      * \@stable
      */
     var SelectMultipleControlValueAccessor = (function () {
@@ -1459,7 +1527,22 @@
             this._idCounter = 0;
             this.onChange = function (_) { };
             this.onTouched = function () { };
+            this._compareWith = looseIdentical;
         }
+        Object.defineProperty(SelectMultipleControlValueAccessor.prototype, "compareWith", {
+            /**
+             * @param {?} fn
+             * @return {?}
+             */
+            set: function (fn) {
+                if (typeof fn !== 'function') {
+                    throw new Error("compareWith must be a function, but received " + JSON.stringify(fn));
+                }
+                this._compareWith = fn;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * @param {?} value
          * @return {?}
@@ -1538,7 +1621,7 @@
         SelectMultipleControlValueAccessor.prototype._getOptionId = function (value) {
             for (var _i = 0, _a = Array.from(this._optionMap.keys()); _i < _a.length; _i++) {
                 var id = _a[_i];
-                if (looseIdentical(this._optionMap.get(id)._value, value))
+                if (this._compareWith(this._optionMap.get(id)._value, value))
                     return id;
             }
             return null;
@@ -1564,6 +1647,9 @@
             { type: _angular_core.Renderer, },
             { type: _angular_core.ElementRef, },
         ]; };
+        SelectMultipleControlValueAccessor.propDecorators = {
+            'compareWith': [{ type: _angular_core.Input },],
+        };
         return SelectMultipleControlValueAccessor;
     }());
     /**
@@ -2659,6 +2745,7 @@
             this._setInitialStatus();
             this._updateValue();
             if (this.enabled) {
+                this._cancelExistingSubscription();
                 this._errors = this._runValidator();
                 this._status = this._calculateStatus();
                 if (this._status === VALID || this._status === PENDING) {
@@ -2701,8 +2788,10 @@
             var _this = this;
             if (this.asyncValidator) {
                 this._status = PENDING;
-                this._cancelExistingSubscription();
                 var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
+                if (!(obs instanceof rxjs_Observable.Observable)) {
+                    throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
+                }
                 this._asyncValidationSubscription =
                     obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
             }
@@ -3497,8 +3586,8 @@
         return FormGroup;
     }(AbstractControl));
     /**
-     * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl}
-     * instances.
+     * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl},
+     * {\@link FormGroup} or {\@link FormArray} instances.
      *
      * A `FormArray` aggregates the values of each child {\@link FormControl} into an array.
      * It calculates its status by reducing the statuses of its children. For example, if one of
