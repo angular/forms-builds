@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "4.0.0-beta.5-8270bec",
+  "version": "4.0.0-beta.5-e0e5e78",
   "description": "Angular - directives and services for creating forms",
   "main": "bundles/forms.umd.js",
   "module": "index.js",
@@ -8,8 +8,8 @@
   "author": "angular",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "4.0.0-beta.5-8270bec",
-    "@angular/common": "4.0.0-beta.5-8270bec"
+    "@angular/core": "4.0.0-beta.5-e0e5e78",
+    "@angular/common": "4.0.0-beta.5-e0e5e78"
   },
   "repository": {
     "type": "git",
