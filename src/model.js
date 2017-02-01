@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { composeAsyncValidators, composeValidators } from './directives/shared';
-import { EventEmitter } from './facade/async';
+import { EventEmitter, Observable } from './facade/async';
 import { isPromise } from './private_import_core';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
@@ -471,6 +471,7 @@ export var AbstractControl = (function () {
         this._setInitialStatus();
         this._updateValue();
         if (this.enabled) {
+            this._cancelExistingSubscription();
             this._errors = this._runValidator();
             this._status = this._calculateStatus();
             if (this._status === VALID || this._status === PENDING) {
@@ -513,8 +514,10 @@ export var AbstractControl = (function () {
         var _this = this;
         if (this.asyncValidator) {
             this._status = PENDING;
-            this._cancelExistingSubscription();
             var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
+            if (!(obs instanceof Observable)) {
+                throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
+            }
             this._asyncValidationSubscription =
                 obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
         }
@@ -1357,8 +1360,8 @@ function FormGroup_tsickle_Closure_declarations() {
     FormGroup.prototype.controls;
 }
 /**
- * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl}
- * instances.
+ * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl},
+ * {\@link FormGroup} or {\@link FormArray} instances.
  *
  * A `FormArray` aggregates the values of each child {\@link FormControl} into an array.
  * It calculates its status by reducing the statuses of its children. For example, if one of
