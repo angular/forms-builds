@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-beta.5-bc20e8a
+ * @license Angular v4.0.0-beta.5-69a4bb0
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -373,6 +373,7 @@
     }());
 
     var /** @type {?} */ isPromise = _angular_core.__core_private__.isPromise;
+    var /** @type {?} */ isObservable = _angular_core.__core_private__.isObservable;
 
     /**
      * @param {?} value
@@ -2789,7 +2790,7 @@
             if (this.asyncValidator) {
                 this._status = PENDING;
                 var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
-                if (!(obs instanceof rxjs_Observable.Observable)) {
+                if (!(isObservable(obs))) {
                     throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
                 }
                 this._asyncValidationSubscription =
@@ -5964,7 +5965,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.5-bc20e8a');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.5-69a4bb0');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {

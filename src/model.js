@@ -12,8 +12,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { composeAsyncValidators, composeValidators } from './directives/shared';
-import { EventEmitter, Observable } from './facade/async';
-import { isPromise } from './private_import_core';
+import { EventEmitter } from './facade/async';
+import { isObservable, isPromise } from './private_import_core';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
  */
@@ -515,7 +515,7 @@ export var AbstractControl = (function () {
         if (this.asyncValidator) {
             this._status = PENDING;
             var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
-            if (!(obs instanceof Observable)) {
+            if (!(isObservable(obs))) {
                 throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
             }
             this._asyncValidationSubscription =
