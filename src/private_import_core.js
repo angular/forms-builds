@@ -7,4 +7,5 @@
  */
 import { __core_private__ as r } from '@angular/core/index';
 export const /** @type {?} */ isPromise = r.isPromise;
+export const /** @type {?} */ isObservable = r.isObservable;
 //# sourceMappingURL=private_import_core.js.map

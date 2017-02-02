@@ -373,6 +373,7 @@
     }());
 
     var /** @type {?} */ isPromise = _angular_core.__core_private__.isPromise;
+    var /** @type {?} */ isObservable = _angular_core.__core_private__.isObservable;
 
     /**
      * @param {?} value
@@ -2789,7 +2790,7 @@
             if (this.asyncValidator) {
                 this._status = PENDING;
                 var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
-                if (!(obs instanceof rxjs_Observable.Observable)) {
+                if (!(isObservable(obs))) {
                     throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
                 }
                 this._asyncValidationSubscription =
