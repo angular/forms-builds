@@ -1,6 +1,6 @@
 /**
- * @license Angular v2.4.5-7ed39eb
- * (c) 2010-2016 Google, Inc. https://angular.io/
+ * @license Angular v2.4.6-343ee8a
+ * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
 (function (global, factory) {
@@ -373,6 +373,7 @@
     }());
 
     var /** @type {?} */ isPromise = _angular_core.__core_private__.isPromise;
+    var /** @type {?} */ isObservable = _angular_core.__core_private__.isObservable;
 
     /**
      * @param {?} value
@@ -1224,7 +1225,11 @@
          */
         SelectControlValueAccessor.prototype.writeValue = function (value) {
             this.value = value;
-            var /** @type {?} */ valueString = _buildValueString(this._getOptionId(value), value);
+            var /** @type {?} */ id = this._getOptionId(value);
+            if (id == null) {
+                this._renderer.setElementProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
+            }
+            var /** @type {?} */ valueString = _buildValueString(id, value);
             this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', valueString);
         };
         /**
@@ -2663,6 +2668,9 @@
                 this._status = PENDING;
                 this._cancelExistingSubscription();
                 var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
+                if (!(isObservable(obs))) {
+                    throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
+                }
                 this._asyncValidationSubscription =
                     obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
             }
@@ -3457,8 +3465,8 @@
         return FormGroup;
     }(AbstractControl));
     /**
-     * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl}
-     * instances.
+     * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl},
+     * {\@link FormGroup} or {\@link FormArray} instances.
      *
      * A `FormArray` aggregates the values of each child {\@link FormControl} into an array.
      * It calculates its status by reducing the statuses of its children. For example, if one of
@@ -5758,7 +5766,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.5-7ed39eb');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.6-343ee8a');
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
         NgSelectOption,

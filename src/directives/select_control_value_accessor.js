@@ -91,7 +91,11 @@ export var SelectControlValueAccessor = (function () {
      */
     SelectControlValueAccessor.prototype.writeValue = function (value) {
         this.value = value;
-        var /** @type {?} */ valueString = _buildValueString(this._getOptionId(value), value);
+        var /** @type {?} */ id = this._getOptionId(value);
+        if (id == null) {
+            this._renderer.setElementProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
+        }
+        var /** @type {?} */ valueString = _buildValueString(id, value);
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', valueString);
     };
     /**
