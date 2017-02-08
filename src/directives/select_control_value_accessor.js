@@ -95,7 +95,7 @@ function _extractId(valueString) {
  *
  * \@stable
  */
-export var SelectControlValueAccessor = (function () {
+var SelectControlValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -188,23 +188,24 @@ export var SelectControlValueAccessor = (function () {
         var /** @type {?} */ id = _extractId(valueString);
         return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
     };
-    SelectControlValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
-                    host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
-                    providers: [SELECT_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    SelectControlValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
-    SelectControlValueAccessor.propDecorators = {
-        'compareWith': [{ type: Input },],
-    };
     return SelectControlValueAccessor;
 }());
+export { SelectControlValueAccessor };
+SelectControlValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
+                host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                providers: [SELECT_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+SelectControlValueAccessor.ctorParameters = function () { return [
+    { type: Renderer, },
+    { type: ElementRef, },
+]; };
+SelectControlValueAccessor.propDecorators = {
+    'compareWith': [{ type: Input },],
+};
 function SelectControlValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     SelectControlValueAccessor.decorators;
@@ -247,7 +248,7 @@ function SelectControlValueAccessor_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var NgSelectOption = (function () {
+var NgSelectOption = (function () {
     /**
      * @param {?} _element
      * @param {?} _renderer
@@ -305,21 +306,22 @@ export var NgSelectOption = (function () {
             this._select.writeValue(this._select.value);
         }
     };
-    NgSelectOption.decorators = [
-        { type: Directive, args: [{ selector: 'option' },] },
-    ];
-    /** @nocollapse */
-    NgSelectOption.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: SelectControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
-    ]; };
-    NgSelectOption.propDecorators = {
-        'ngValue': [{ type: Input, args: ['ngValue',] },],
-        'value': [{ type: Input, args: ['value',] },],
-    };
     return NgSelectOption;
 }());
+export { NgSelectOption };
+NgSelectOption.decorators = [
+    { type: Directive, args: [{ selector: 'option' },] },
+];
+/** @nocollapse */
+NgSelectOption.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Renderer, },
+    { type: SelectControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
+]; };
+NgSelectOption.propDecorators = {
+    'ngValue': [{ type: Input, args: ['ngValue',] },],
+    'value': [{ type: Input, args: ['value',] },],
+};
 function NgSelectOption_tsickle_Closure_declarations() {
     /** @type {?} */
     NgSelectOption.decorators;

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { FormErrorExamples as Examples } from './error_examples';
-export var TemplateDrivenErrors = (function () {
+var TemplateDrivenErrors = (function () {
     function TemplateDrivenErrors() {
     }
     /**
@@ -35,4 +35,5 @@ export var TemplateDrivenErrors = (function () {
     };
     return TemplateDrivenErrors;
 }());
+export { TemplateDrivenErrors };
 //# sourceMappingURL=template_driven_errors.js.map

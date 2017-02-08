@@ -17,10 +17,10 @@ import { composeAsyncValidators, composeValidators, controlPath } from './shared
  *
  * \@stable
  */
-export var AbstractFormGroupDirective = (function (_super) {
+var AbstractFormGroupDirective = (function (_super) {
     __extends(AbstractFormGroupDirective, _super);
     function AbstractFormGroupDirective() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     /**
      * @return {?}
@@ -87,6 +87,7 @@ export var AbstractFormGroupDirective = (function (_super) {
     AbstractFormGroupDirective.prototype._checkParentType = function () { };
     return AbstractFormGroupDirective;
 }(ControlContainer));
+export { AbstractFormGroupDirective };
 function AbstractFormGroupDirective_tsickle_Closure_declarations() {
     /**
      * \@internal

@@ -21,7 +21,7 @@ export var /** @type {?} */ RANGE_VALUE_ACCESSOR = {
  *  <input type="range" [(ngModel)]="age" >
  *  ```
  */
-export var RangeValueAccessor = (function () {
+var RangeValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -58,24 +58,25 @@ export var RangeValueAccessor = (function () {
     RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     };
-    RangeValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
-                    host: {
-                        '(change)': 'onChange($event.target.value)',
-                        '(input)': 'onChange($event.target.value)',
-                        '(blur)': 'onTouched()'
-                    },
-                    providers: [RANGE_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    RangeValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
     return RangeValueAccessor;
 }());
+export { RangeValueAccessor };
+RangeValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
+                host: {
+                    '(change)': 'onChange($event.target.value)',
+                    '(input)': 'onChange($event.target.value)',
+                    '(blur)': 'onTouched()'
+                },
+                providers: [RANGE_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+RangeValueAccessor.ctorParameters = function () { return [
+    { type: Renderer, },
+    { type: ElementRef, },
+]; };
 function RangeValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     RangeValueAccessor.decorators;

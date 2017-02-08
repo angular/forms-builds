@@ -3,6 +3,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 import { Directive, Input, forwardRef } from '@angular/core';
 import { NG_VALIDATORS, Validators } from '../validators';
 export var /** @type {?} */ REQUIRED_VALIDATOR = {
@@ -27,7 +34,7 @@ export var /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
  *
  * \@stable
  */
-export var RequiredValidator = (function () {
+var RequiredValidator = (function () {
     function RequiredValidator() {
     }
     Object.defineProperty(RequiredValidator.prototype, "required", {
@@ -59,20 +66,21 @@ export var RequiredValidator = (function () {
      * @return {?}
      */
     RequiredValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
-    RequiredValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
-                    providers: [REQUIRED_VALIDATOR],
-                    host: { '[attr.required]': 'required ? "" : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    RequiredValidator.ctorParameters = function () { return []; };
-    RequiredValidator.propDecorators = {
-        'required': [{ type: Input },],
-    };
     return RequiredValidator;
 }());
+export { RequiredValidator };
+RequiredValidator.decorators = [
+    { type: Directive, args: [{
+                selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
+                providers: [REQUIRED_VALIDATOR],
+                host: { '[attr.required]': 'required ? "" : null' }
+            },] },
+];
+/** @nocollapse */
+RequiredValidator.ctorParameters = function () { return []; };
+RequiredValidator.propDecorators = {
+    'required': [{ type: Input },],
+};
 function RequiredValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     RequiredValidator.decorators;
@@ -100,10 +108,10 @@ function RequiredValidator_tsickle_Closure_declarations() {
  *
  * \@experimental
  */
-export var CheckboxRequiredValidator = (function (_super) {
+var CheckboxRequiredValidator = (function (_super) {
     __extends(CheckboxRequiredValidator, _super);
     function CheckboxRequiredValidator() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     /**
      * @param {?} c
@@ -112,17 +120,18 @@ export var CheckboxRequiredValidator = (function (_super) {
     CheckboxRequiredValidator.prototype.validate = function (c) {
         return this.required ? Validators.requiredTrue(c) : null;
     };
-    CheckboxRequiredValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
-                    providers: [CHECKBOX_REQUIRED_VALIDATOR],
-                    host: { '[attr.required]': 'required ? "" : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    CheckboxRequiredValidator.ctorParameters = function () { return []; };
     return CheckboxRequiredValidator;
 }(RequiredValidator));
+export { CheckboxRequiredValidator };
+CheckboxRequiredValidator.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
+                providers: [CHECKBOX_REQUIRED_VALIDATOR],
+                host: { '[attr.required]': 'required ? "" : null' }
+            },] },
+];
+/** @nocollapse */
+CheckboxRequiredValidator.ctorParameters = function () { return []; };
 function CheckboxRequiredValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     CheckboxRequiredValidator.decorators;
@@ -154,7 +163,7 @@ export var /** @type {?} */ EMAIL_VALIDATOR = {
  *
  * \@experimental
  */
-export var EmailValidator = (function () {
+var EmailValidator = (function () {
     function EmailValidator() {
     }
     Object.defineProperty(EmailValidator.prototype, "email", {
@@ -182,19 +191,20 @@ export var EmailValidator = (function () {
      * @return {?}
      */
     EmailValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
-    EmailValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: '[email][formControlName],[email][formControl],[email][ngModel]',
-                    providers: [EMAIL_VALIDATOR]
-                },] },
-    ];
-    /** @nocollapse */
-    EmailValidator.ctorParameters = function () { return []; };
-    EmailValidator.propDecorators = {
-        'email': [{ type: Input },],
-    };
     return EmailValidator;
 }());
+export { EmailValidator };
+EmailValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[email][formControlName],[email][formControl],[email][ngModel]',
+                providers: [EMAIL_VALIDATOR]
+            },] },
+];
+/** @nocollapse */
+EmailValidator.ctorParameters = function () { return []; };
+EmailValidator.propDecorators = {
+    'email': [{ type: Input },],
+};
 function EmailValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     EmailValidator.decorators;
@@ -228,7 +238,7 @@ export var /** @type {?} */ MIN_LENGTH_VALIDATOR = {
  *
  * \@stable
  */
-export var MinLengthValidator = (function () {
+var MinLengthValidator = (function () {
     function MinLengthValidator() {
     }
     /**
@@ -260,20 +270,21 @@ export var MinLengthValidator = (function () {
     MinLengthValidator.prototype._createValidator = function () {
         this._validator = Validators.minLength(parseInt(this.minlength, 10));
     };
-    MinLengthValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
-                    providers: [MIN_LENGTH_VALIDATOR],
-                    host: { '[attr.minlength]': 'minlength ? minlength : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    MinLengthValidator.ctorParameters = function () { return []; };
-    MinLengthValidator.propDecorators = {
-        'minlength': [{ type: Input },],
-    };
     return MinLengthValidator;
 }());
+export { MinLengthValidator };
+MinLengthValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
+                providers: [MIN_LENGTH_VALIDATOR],
+                host: { '[attr.minlength]': 'minlength ? minlength : null' }
+            },] },
+];
+/** @nocollapse */
+MinLengthValidator.ctorParameters = function () { return []; };
+MinLengthValidator.propDecorators = {
+    'minlength': [{ type: Input },],
+};
 function MinLengthValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     MinLengthValidator.decorators;
@@ -310,7 +321,7 @@ export var /** @type {?} */ MAX_LENGTH_VALIDATOR = {
  *
  * \@stable
  */
-export var MaxLengthValidator = (function () {
+var MaxLengthValidator = (function () {
     function MaxLengthValidator() {
     }
     /**
@@ -342,20 +353,21 @@ export var MaxLengthValidator = (function () {
     MaxLengthValidator.prototype._createValidator = function () {
         this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
     };
-    MaxLengthValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
-                    providers: [MAX_LENGTH_VALIDATOR],
-                    host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    MaxLengthValidator.ctorParameters = function () { return []; };
-    MaxLengthValidator.propDecorators = {
-        'maxlength': [{ type: Input },],
-    };
     return MaxLengthValidator;
 }());
+export { MaxLengthValidator };
+MaxLengthValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
+                providers: [MAX_LENGTH_VALIDATOR],
+                host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
+            },] },
+];
+/** @nocollapse */
+MaxLengthValidator.ctorParameters = function () { return []; };
+MaxLengthValidator.propDecorators = {
+    'maxlength': [{ type: Input },],
+};
 function MaxLengthValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     MaxLengthValidator.decorators;
@@ -391,7 +403,7 @@ export var /** @type {?} */ PATTERN_VALIDATOR = {
  * ```
  * \@stable
  */
-export var PatternValidator = (function () {
+var PatternValidator = (function () {
     function PatternValidator() {
     }
     /**
@@ -419,20 +431,21 @@ export var PatternValidator = (function () {
      * @return {?}
      */
     PatternValidator.prototype._createValidator = function () { this._validator = Validators.pattern(this.pattern); };
-    PatternValidator.decorators = [
-        { type: Directive, args: [{
-                    selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
-                    providers: [PATTERN_VALIDATOR],
-                    host: { '[attr.pattern]': 'pattern ? pattern : null' }
-                },] },
-    ];
-    /** @nocollapse */
-    PatternValidator.ctorParameters = function () { return []; };
-    PatternValidator.propDecorators = {
-        'pattern': [{ type: Input },],
-    };
     return PatternValidator;
 }());
+export { PatternValidator };
+PatternValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
+                providers: [PATTERN_VALIDATOR],
+                host: { '[attr.pattern]': 'pattern ? pattern : null' }
+            },] },
+];
+/** @nocollapse */
+PatternValidator.ctorParameters = function () { return []; };
+PatternValidator.propDecorators = {
+    'pattern': [{ type: Input },],
+};
 function PatternValidator_tsickle_Closure_declarations() {
     /** @type {?} */
     PatternValidator.decorators;

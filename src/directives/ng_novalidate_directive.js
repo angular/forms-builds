@@ -6,19 +6,20 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { Directive } from '@angular/core';
-export var NgNovalidate = (function () {
+var NgNovalidate = (function () {
     function NgNovalidate() {
     }
-    NgNovalidate.decorators = [
-        { type: Directive, args: [{
-                    selector: 'form:not([ngNoForm])',
-                    host: { 'novalidate': '' },
-                },] },
-    ];
-    /** @nocollapse */
-    NgNovalidate.ctorParameters = function () { return []; };
     return NgNovalidate;
 }());
+export { NgNovalidate };
+NgNovalidate.decorators = [
+    { type: Directive, args: [{
+                selector: 'form:not([ngNoForm])',
+                host: { 'novalidate': '' },
+            },] },
+];
+/** @nocollapse */
+NgNovalidate.ctorParameters = function () { return []; };
 function NgNovalidate_tsickle_Closure_declarations() {
     /** @type {?} */
     NgNovalidate.decorators;

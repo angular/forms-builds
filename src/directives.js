@@ -64,19 +64,20 @@ export var /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, 
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
-export var InternalFormsSharedModule = (function () {
+var InternalFormsSharedModule = (function () {
     function InternalFormsSharedModule() {
     }
-    InternalFormsSharedModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: SHARED_FORM_DIRECTIVES,
-                    exports: SHARED_FORM_DIRECTIVES,
-                },] },
-    ];
-    /** @nocollapse */
-    InternalFormsSharedModule.ctorParameters = function () { return []; };
     return InternalFormsSharedModule;
 }());
+export { InternalFormsSharedModule };
+InternalFormsSharedModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: SHARED_FORM_DIRECTIVES,
+                exports: SHARED_FORM_DIRECTIVES,
+            },] },
+];
+/** @nocollapse */
+InternalFormsSharedModule.ctorParameters = function () { return []; };
 function InternalFormsSharedModule_tsickle_Closure_declarations() {
     /** @type {?} */
     InternalFormsSharedModule.decorators;

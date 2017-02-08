@@ -102,7 +102,7 @@ var /** @type {?} */ resolvedPromise = Promise.resolve(null);
  *
  *  \@stable
  */
-export var NgModel = (function (_super) {
+var NgModel = (function (_super) {
     __extends(NgModel, _super);
     /**
      * @param {?} parent
@@ -111,17 +111,18 @@ export var NgModel = (function (_super) {
      * @param {?} valueAccessors
      */
     function NgModel(parent, validators, asyncValidators, valueAccessors) {
-        _super.call(this);
+        var _this = _super.call(this) || this;
         /** @internal */
-        this._control = new FormControl();
+        _this._control = new FormControl();
         /** @internal */
-        this._registered = false;
-        this._composing = false;
-        this.update = new EventEmitter();
-        this._parent = parent;
-        this._rawValidators = validators || [];
-        this._rawAsyncValidators = asyncValidators || [];
-        this.valueAccessor = selectValueAccessor(this, valueAccessors);
+        _this._registered = false;
+        _this._composing = false;
+        _this.update = new EventEmitter();
+        _this._parent = parent;
+        _this._rawValidators = validators || [];
+        _this._rawAsyncValidators = asyncValidators || [];
+        _this.valueAccessor = selectValueAccessor(_this, valueAccessors);
+        return _this;
     }
     /**
      * @return {?}
@@ -283,31 +284,32 @@ export var NgModel = (function (_super) {
             }
         });
     };
-    NgModel.decorators = [
-        { type: Directive, args: [{
-                    selector: '[ngModel]:not([formControlName]):not([formControl])',
-                    providers: [formControlBinding],
-                    exportAs: 'ngModel'
-                },] },
-    ];
-    /** @nocollapse */
-    NgModel.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
-    ]; };
-    NgModel.propDecorators = {
-        'name': [{ type: Input },],
-        'isDisabled': [{ type: Input, args: ['disabled',] },],
-        'model': [{ type: Input, args: ['ngModel',] },],
-        'options': [{ type: Input, args: ['ngModelOptions',] },],
-        'update': [{ type: Output, args: ['ngModelChange',] },],
-        'compositionStart': [{ type: HostListener, args: ['compositionstart',] },],
-        'compositionEnd': [{ type: HostListener, args: ['compositionend',] },],
-    };
     return NgModel;
 }(NgControl));
+export { NgModel };
+NgModel.decorators = [
+    { type: Directive, args: [{
+                selector: '[ngModel]:not([formControlName]):not([formControl])',
+                providers: [formControlBinding],
+                exportAs: 'ngModel'
+            },] },
+];
+/** @nocollapse */
+NgModel.ctorParameters = function () { return [
+    { type: ControlContainer, decorators: [{ type: Optional }, { type: Host },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
+]; };
+NgModel.propDecorators = {
+    'name': [{ type: Input },],
+    'isDisabled': [{ type: Input, args: ['disabled',] },],
+    'model': [{ type: Input, args: ['ngModel',] },],
+    'options': [{ type: Input, args: ['ngModelOptions',] },],
+    'update': [{ type: Output, args: ['ngModelChange',] },],
+    'compositionStart': [{ type: HostListener, args: ['compositionstart',] },],
+    'compositionEnd': [{ type: HostListener, args: ['compositionend',] },],
+};
 function NgModel_tsickle_Closure_declarations() {
     /** @type {?} */
     NgModel.decorators;

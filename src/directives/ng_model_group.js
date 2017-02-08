@@ -45,7 +45,7 @@ export var /** @type {?} */ modelGroupProvider = {
  *
  * \@stable
  */
-export var NgModelGroup = (function (_super) {
+var NgModelGroup = (function (_super) {
     __extends(NgModelGroup, _super);
     /**
      * @param {?} parent
@@ -53,10 +53,11 @@ export var NgModelGroup = (function (_super) {
      * @param {?} asyncValidators
      */
     function NgModelGroup(parent, validators, asyncValidators) {
-        _super.call(this);
-        this._parent = parent;
-        this._validators = validators;
-        this._asyncValidators = asyncValidators;
+        var _this = _super.call(this) || this;
+        _this._parent = parent;
+        _this._validators = validators;
+        _this._asyncValidators = asyncValidators;
+        return _this;
     }
     /**
      * \@internal
@@ -67,20 +68,21 @@ export var NgModelGroup = (function (_super) {
             TemplateDrivenErrors.modelGroupParentException();
         }
     };
-    NgModelGroup.decorators = [
-        { type: Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] },
-    ];
-    /** @nocollapse */
-    NgModelGroup.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ]; };
-    NgModelGroup.propDecorators = {
-        'name': [{ type: Input, args: ['ngModelGroup',] },],
-    };
     return NgModelGroup;
 }(AbstractFormGroupDirective));
+export { NgModelGroup };
+NgModelGroup.decorators = [
+    { type: Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] },
+];
+/** @nocollapse */
+NgModelGroup.ctorParameters = function () { return [
+    { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+]; };
+NgModelGroup.propDecorators = {
+    'name': [{ type: Input, args: ['ngModelGroup',] },],
+};
 function NgModelGroup_tsickle_Closure_declarations() {
     /** @type {?} */
     NgModelGroup.decorators;

@@ -55,7 +55,7 @@ var /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A
  *
  * \@stable
  */
-export var Validators = (function () {
+var Validators = (function () {
     function Validators() {
     }
     /**
@@ -66,7 +66,7 @@ export var Validators = (function () {
     Validators.equalsTo = function () {
         var fieldPaths = [];
         for (var _i = 0; _i < arguments.length; _i++) {
-            fieldPaths[_i - 0] = arguments[_i];
+            fieldPaths[_i] = arguments[_i];
         }
         return function (control) {
             if (fieldPaths.length < 1) {
@@ -204,6 +204,7 @@ export var Validators = (function () {
     };
     return Validators;
 }());
+export { Validators };
 /**
  * @param {?} obj
  * @return {?}

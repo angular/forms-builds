@@ -13,20 +13,21 @@ import { FormBuilder } from './form_builder';
  * The ng module for forms.
  * \@stable
  */
-export var FormsModule = (function () {
+var FormsModule = (function () {
     function FormsModule() {
     }
-    FormsModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: TEMPLATE_DRIVEN_DIRECTIVES,
-                    providers: [RadioControlRegistry],
-                    exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
-                },] },
-    ];
-    /** @nocollapse */
-    FormsModule.ctorParameters = function () { return []; };
     return FormsModule;
 }());
+export { FormsModule };
+FormsModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: TEMPLATE_DRIVEN_DIRECTIVES,
+                providers: [RadioControlRegistry],
+                exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
+            },] },
+];
+/** @nocollapse */
+FormsModule.ctorParameters = function () { return []; };
 function FormsModule_tsickle_Closure_declarations() {
     /** @type {?} */
     FormsModule.decorators;
@@ -40,20 +41,21 @@ function FormsModule_tsickle_Closure_declarations() {
  * The ng module for reactive forms.
  * \@stable
  */
-export var ReactiveFormsModule = (function () {
+var ReactiveFormsModule = (function () {
     function ReactiveFormsModule() {
     }
-    ReactiveFormsModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [REACTIVE_DRIVEN_DIRECTIVES],
-                    providers: [FormBuilder, RadioControlRegistry],
-                    exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
-                },] },
-    ];
-    /** @nocollapse */
-    ReactiveFormsModule.ctorParameters = function () { return []; };
     return ReactiveFormsModule;
 }());
+export { ReactiveFormsModule };
+ReactiveFormsModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [REACTIVE_DRIVEN_DIRECTIVES],
+                providers: [FormBuilder, RadioControlRegistry],
+                exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
+            },] },
+];
+/** @nocollapse */
+ReactiveFormsModule.ctorParameters = function () { return []; };
 function ReactiveFormsModule_tsickle_Closure_declarations() {
     /** @type {?} */
     ReactiveFormsModule.decorators;

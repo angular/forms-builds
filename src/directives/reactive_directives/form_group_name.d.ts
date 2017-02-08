@@ -113,10 +113,10 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
     ngOnInit(): void;
     ngOnDestroy(): void;
-    control: FormArray;
-    formDirective: FormGroupDirective;
-    path: string[];
-    validator: ValidatorFn;
-    asyncValidator: AsyncValidatorFn;
+    readonly control: FormArray;
+    readonly formDirective: FormGroupDirective;
+    readonly path: string[];
+    readonly validator: ValidatorFn;
+    readonly asyncValidator: AsyncValidatorFn;
     private _checkParentType();
 }

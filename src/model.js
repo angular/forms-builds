@@ -89,7 +89,7 @@ function coerceToAsyncValidator(asyncValidator) {
  * \@stable
  * @abstract
  */
-export var AbstractControl = (function () {
+var AbstractControl = (function () {
     /**
      * @param {?} validator
      * @param {?} asyncValidator
@@ -744,6 +744,7 @@ export var AbstractControl = (function () {
     AbstractControl.prototype._registerOnCollectionChange = function (fn) { this._onCollectionChange = fn; };
     return AbstractControl;
 }());
+export { AbstractControl };
 function AbstractControl_tsickle_Closure_declarations() {
     /**
      * \@internal
@@ -824,7 +825,7 @@ function AbstractControl_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var FormControl = (function (_super) {
+var FormControl = (function (_super) {
     __extends(FormControl, _super);
     /**
      * @param {?=} formState
@@ -835,12 +836,13 @@ export var FormControl = (function (_super) {
         if (formState === void 0) { formState = null; }
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
-        _super.call(this, coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
+        var _this = _super.call(this, coerceToValidator(validator), coerceToAsyncValidator(asyncValidator)) || this;
         /** @internal */
-        this._onChange = [];
-        this._applyFormState(formState);
-        this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
-        this._initObservables();
+        _this._onChange = [];
+        _this._applyFormState(formState);
+        _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+        _this._initObservables();
+        return _this;
     }
     /**
      * Set the value of the form control to `value`.
@@ -985,6 +987,7 @@ export var FormControl = (function (_super) {
     };
     return FormControl;
 }(AbstractControl));
+export { FormControl };
 function FormControl_tsickle_Closure_declarations() {
     /**
      * \@internal
@@ -1044,7 +1047,7 @@ function FormControl_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var FormGroup = (function (_super) {
+var FormGroup = (function (_super) {
     __extends(FormGroup, _super);
     /**
      * @param {?} controls
@@ -1054,11 +1057,12 @@ export var FormGroup = (function (_super) {
     function FormGroup(controls, validator, asyncValidator) {
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
-        _super.call(this, validator, asyncValidator);
-        this.controls = controls;
-        this._initObservables();
-        this._setUpControls();
-        this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+        var _this = _super.call(this, validator, asyncValidator) || this;
+        _this.controls = controls;
+        _this._initObservables();
+        _this._setUpControls();
+        _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+        return _this;
     }
     /**
      * Registers a control with the group's list of controls.
@@ -1355,6 +1359,7 @@ export var FormGroup = (function (_super) {
     };
     return FormGroup;
 }(AbstractControl));
+export { FormGroup };
 function FormGroup_tsickle_Closure_declarations() {
     /** @type {?} */
     FormGroup.prototype.controls;
@@ -1403,7 +1408,7 @@ function FormGroup_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var FormArray = (function (_super) {
+var FormArray = (function (_super) {
     __extends(FormArray, _super);
     /**
      * @param {?} controls
@@ -1413,11 +1418,12 @@ export var FormArray = (function (_super) {
     function FormArray(controls, validator, asyncValidator) {
         if (validator === void 0) { validator = null; }
         if (asyncValidator === void 0) { asyncValidator = null; }
-        _super.call(this, validator, asyncValidator);
-        this.controls = controls;
-        this._initObservables();
-        this._setUpControls();
-        this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+        var _this = _super.call(this, validator, asyncValidator) || this;
+        _this.controls = controls;
+        _this._initObservables();
+        _this._setUpControls();
+        _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+        return _this;
     }
     /**
      * Get the {\@link AbstractControl} at the given `index` in the array.
@@ -1685,6 +1691,7 @@ export var FormArray = (function (_super) {
     };
     return FormArray;
 }(AbstractControl));
+export { FormArray };
 function FormArray_tsickle_Closure_declarations() {
     /** @type {?} */
     FormArray.prototype.controls;

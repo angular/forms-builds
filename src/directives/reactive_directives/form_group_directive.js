@@ -56,20 +56,21 @@ export var /** @type {?} */ formDirectiveProvider = {
  *
  *  \@stable
  */
-export var FormGroupDirective = (function (_super) {
+var FormGroupDirective = (function (_super) {
     __extends(FormGroupDirective, _super);
     /**
      * @param {?} _validators
      * @param {?} _asyncValidators
      */
     function FormGroupDirective(_validators, _asyncValidators) {
-        _super.call(this);
-        this._validators = _validators;
-        this._asyncValidators = _asyncValidators;
-        this._submitted = false;
-        this.directives = [];
-        this.form = null;
-        this.ngSubmit = new EventEmitter();
+        var _this = _super.call(this) || this;
+        _this._validators = _validators;
+        _this._asyncValidators = _asyncValidators;
+        _this._submitted = false;
+        _this.directives = [];
+        _this.form = null;
+        _this.ngSubmit = new EventEmitter();
+        return _this;
     }
     /**
      * @param {?} changes
@@ -249,25 +250,26 @@ export var FormGroupDirective = (function (_super) {
             ReactiveErrors.missingFormException();
         }
     };
-    FormGroupDirective.decorators = [
-        { type: Directive, args: [{
-                    selector: '[formGroup]',
-                    providers: [formDirectiveProvider],
-                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-                    exportAs: 'ngForm'
-                },] },
-    ];
-    /** @nocollapse */
-    FormGroupDirective.ctorParameters = function () { return [
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ]; };
-    FormGroupDirective.propDecorators = {
-        'form': [{ type: Input, args: ['formGroup',] },],
-        'ngSubmit': [{ type: Output },],
-    };
     return FormGroupDirective;
 }(ControlContainer));
+export { FormGroupDirective };
+FormGroupDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[formGroup]',
+                providers: [formDirectiveProvider],
+                host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                exportAs: 'ngForm'
+            },] },
+];
+/** @nocollapse */
+FormGroupDirective.ctorParameters = function () { return [
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+]; };
+FormGroupDirective.propDecorators = {
+    'form': [{ type: Input, args: ['formGroup',] },],
+    'ngSubmit': [{ type: Output },],
+};
 function FormGroupDirective_tsickle_Closure_declarations() {
     /** @type {?} */
     FormGroupDirective.decorators;

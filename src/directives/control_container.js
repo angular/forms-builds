@@ -18,10 +18,10 @@ import { AbstractControlDirective } from './abstract_control_directive';
  *
  * \@stable
  */
-export var ControlContainer = (function (_super) {
+var ControlContainer = (function (_super) {
     __extends(ControlContainer, _super);
     function ControlContainer() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(ControlContainer.prototype, "formDirective", {
         /**
@@ -43,6 +43,7 @@ export var ControlContainer = (function (_super) {
     });
     return ControlContainer;
 }(AbstractControlDirective));
+export { ControlContainer };
 function ControlContainer_tsickle_Closure_declarations() {
     /** @type {?} */
     ControlContainer.prototype.name;

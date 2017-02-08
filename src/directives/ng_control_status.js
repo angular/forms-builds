@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 import { Directive, Self } from '@angular/core';
 import { ControlContainer } from './control_container';
 import { NgControl } from './ng_control';
-export var AbstractControlStatus = (function () {
+var AbstractControlStatus = (function () {
     /**
      * @param {?} cd
      */
@@ -78,6 +78,7 @@ export var AbstractControlStatus = (function () {
     });
     return AbstractControlStatus;
 }());
+export { AbstractControlStatus };
 function AbstractControlStatus_tsickle_Closure_declarations() {
     /** @type {?} */
     AbstractControlStatus.prototype._cd;
@@ -97,23 +98,24 @@ export var /** @type {?} */ ngControlStatusHost = {
  *
  * \@stable
  */
-export var NgControlStatus = (function (_super) {
+var NgControlStatus = (function (_super) {
     __extends(NgControlStatus, _super);
     /**
      * @param {?} cd
      */
     function NgControlStatus(cd) {
-        _super.call(this, cd);
+        return _super.call(this, cd) || this;
     }
-    NgControlStatus.decorators = [
-        { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] },
-    ];
-    /** @nocollapse */
-    NgControlStatus.ctorParameters = function () { return [
-        { type: NgControl, decorators: [{ type: Self },] },
-    ]; };
     return NgControlStatus;
 }(AbstractControlStatus));
+export { NgControlStatus };
+NgControlStatus.decorators = [
+    { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] },
+];
+/** @nocollapse */
+NgControlStatus.ctorParameters = function () { return [
+    { type: NgControl, decorators: [{ type: Self },] },
+]; };
 function NgControlStatus_tsickle_Closure_declarations() {
     /** @type {?} */
     NgControlStatus.decorators;
@@ -129,26 +131,27 @@ function NgControlStatus_tsickle_Closure_declarations() {
  *
  * \@stable
  */
-export var NgControlStatusGroup = (function (_super) {
+var NgControlStatusGroup = (function (_super) {
     __extends(NgControlStatusGroup, _super);
     /**
      * @param {?} cd
      */
     function NgControlStatusGroup(cd) {
-        _super.call(this, cd);
+        return _super.call(this, cd) || this;
     }
-    NgControlStatusGroup.decorators = [
-        { type: Directive, args: [{
-                    selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-                    host: ngControlStatusHost
-                },] },
-    ];
-    /** @nocollapse */
-    NgControlStatusGroup.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Self },] },
-    ]; };
     return NgControlStatusGroup;
 }(AbstractControlStatus));
+export { NgControlStatusGroup };
+NgControlStatusGroup.decorators = [
+    { type: Directive, args: [{
+                selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
+                host: ngControlStatusHost
+            },] },
+];
+/** @nocollapse */
+NgControlStatusGroup.ctorParameters = function () { return [
+    { type: ControlContainer, decorators: [{ type: Self },] },
+]; };
 function NgControlStatusGroup_tsickle_Closure_declarations() {
     /** @type {?} */
     NgControlStatusGroup.decorators;

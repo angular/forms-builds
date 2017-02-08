@@ -21,7 +21,7 @@ export var /** @type {?} */ NUMBER_VALUE_ACCESSOR = {
  *  <input type="number" [(ngModel)]="age">
  *  ```
  */
-export var NumberValueAccessor = (function () {
+var NumberValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -60,24 +60,25 @@ export var NumberValueAccessor = (function () {
     NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     };
-    NumberValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-                    host: {
-                        '(change)': 'onChange($event.target.value)',
-                        '(input)': 'onChange($event.target.value)',
-                        '(blur)': 'onTouched()'
-                    },
-                    providers: [NUMBER_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    NumberValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
     return NumberValueAccessor;
 }());
+export { NumberValueAccessor };
+NumberValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
+                host: {
+                    '(change)': 'onChange($event.target.value)',
+                    '(input)': 'onChange($event.target.value)',
+                    '(blur)': 'onTouched()'
+                },
+                providers: [NUMBER_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+NumberValueAccessor.ctorParameters = function () { return [
+    { type: Renderer, },
+    { type: ElementRef, },
+]; };
 function NumberValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     NumberValueAccessor.decorators;

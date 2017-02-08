@@ -65,7 +65,7 @@ export var /** @type {?} */ formGroupNameProvider = {
  *
  * \@stable
  */
-export var FormGroupName = (function (_super) {
+var FormGroupName = (function (_super) {
     __extends(FormGroupName, _super);
     /**
      * @param {?} parent
@@ -73,10 +73,11 @@ export var FormGroupName = (function (_super) {
      * @param {?} asyncValidators
      */
     function FormGroupName(parent, validators, asyncValidators) {
-        _super.call(this);
-        this._parent = parent;
-        this._validators = validators;
-        this._asyncValidators = asyncValidators;
+        var _this = _super.call(this) || this;
+        _this._parent = parent;
+        _this._validators = validators;
+        _this._asyncValidators = asyncValidators;
+        return _this;
     }
     /**
      * \@internal
@@ -87,20 +88,21 @@ export var FormGroupName = (function (_super) {
             ReactiveErrors.groupParentException();
         }
     };
-    FormGroupName.decorators = [
-        { type: Directive, args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] },] },
-    ];
-    /** @nocollapse */
-    FormGroupName.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ]; };
-    FormGroupName.propDecorators = {
-        'name': [{ type: Input, args: ['formGroupName',] },],
-    };
     return FormGroupName;
 }(AbstractFormGroupDirective));
+export { FormGroupName };
+FormGroupName.decorators = [
+    { type: Directive, args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] },] },
+];
+/** @nocollapse */
+FormGroupName.ctorParameters = function () { return [
+    { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+]; };
+FormGroupName.propDecorators = {
+    'name': [{ type: Input, args: ['formGroupName',] },],
+};
 function FormGroupName_tsickle_Closure_declarations() {
     /** @type {?} */
     FormGroupName.decorators;
@@ -165,7 +167,7 @@ export var /** @type {?} */ formArrayNameProvider = {
  *
  * \@stable
  */
-export var FormArrayName = (function (_super) {
+var FormArrayName = (function (_super) {
     __extends(FormArrayName, _super);
     /**
      * @param {?} parent
@@ -173,10 +175,11 @@ export var FormArrayName = (function (_super) {
      * @param {?} asyncValidators
      */
     function FormArrayName(parent, validators, asyncValidators) {
-        _super.call(this);
-        this._parent = parent;
-        this._validators = validators;
-        this._asyncValidators = asyncValidators;
+        var _this = _super.call(this) || this;
+        _this._parent = parent;
+        _this._validators = validators;
+        _this._asyncValidators = asyncValidators;
+        return _this;
     }
     /**
      * @return {?}
@@ -243,20 +246,21 @@ export var FormArrayName = (function (_super) {
             ReactiveErrors.arrayParentException();
         }
     };
-    FormArrayName.decorators = [
-        { type: Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] },
-    ];
-    /** @nocollapse */
-    FormArrayName.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ]; };
-    FormArrayName.propDecorators = {
-        'name': [{ type: Input, args: ['formArrayName',] },],
-    };
     return FormArrayName;
 }(ControlContainer));
+export { FormArrayName };
+FormArrayName.decorators = [
+    { type: Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] },
+];
+/** @nocollapse */
+FormArrayName.ctorParameters = function () { return [
+    { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+]; };
+FormArrayName.propDecorators = {
+    'name': [{ type: Input, args: ['formArrayName',] },],
+};
 function FormArrayName_tsickle_Closure_declarations() {
     /** @type {?} */
     FormArrayName.decorators;

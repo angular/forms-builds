@@ -28,7 +28,7 @@ import { FormArray, FormControl, FormGroup } from './model';
  *
  * \@stable
  */
-export var FormBuilder = (function () {
+var FormBuilder = (function () {
     function FormBuilder() {
     }
     /**
@@ -112,13 +112,14 @@ export var FormBuilder = (function () {
             return this.control(controlConfig);
         }
     };
-    FormBuilder.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    FormBuilder.ctorParameters = function () { return []; };
     return FormBuilder;
 }());
+export { FormBuilder };
+FormBuilder.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+FormBuilder.ctorParameters = function () { return []; };
 function FormBuilder_tsickle_Closure_declarations() {
     /** @type {?} */
     FormBuilder.decorators;

@@ -13,7 +13,7 @@
  * \@stable
  * @abstract
  */
-export var AbstractControlDirective = (function () {
+var AbstractControlDirective = (function () {
     function AbstractControlDirective() {
     }
     Object.defineProperty(AbstractControlDirective.prototype, "control", {
@@ -165,4 +165,5 @@ export var AbstractControlDirective = (function () {
     };
     return AbstractControlDirective;
 }());
+export { AbstractControlDirective };
 //# sourceMappingURL=abstract_control_directive.js.map

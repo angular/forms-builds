@@ -16,7 +16,7 @@ export var /** @type {?} */ RADIO_VALUE_ACCESSOR = {
 /**
  * Internal class used by Angular to uncheck radio buttons with the matching name.
  */
-export var RadioControlRegistry = (function () {
+var RadioControlRegistry = (function () {
     function RadioControlRegistry() {
         this._accessors = [];
     }
@@ -63,13 +63,14 @@ export var RadioControlRegistry = (function () {
         return controlPair[0]._parent === accessor._control._parent &&
             controlPair[1].name === accessor.name;
     };
-    RadioControlRegistry.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    RadioControlRegistry.ctorParameters = function () { return []; };
     return RadioControlRegistry;
 }());
+export { RadioControlRegistry };
+RadioControlRegistry.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+RadioControlRegistry.ctorParameters = function () { return []; };
 function RadioControlRegistry_tsickle_Closure_declarations() {
     /** @type {?} */
     RadioControlRegistry.decorators;
@@ -110,7 +111,7 @@ function RadioControlRegistry_tsickle_Closure_declarations() {
  *
  *  \@stable
  */
-export var RadioControlValueAccessor = (function () {
+var RadioControlValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -190,27 +191,28 @@ export var RadioControlValueAccessor = (function () {
     RadioControlValueAccessor.prototype._throwNameError = function () {
         throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
     };
-    RadioControlValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
-                    host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
-                    providers: [RADIO_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    RadioControlValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-        { type: RadioControlRegistry, },
-        { type: Injector, },
-    ]; };
-    RadioControlValueAccessor.propDecorators = {
-        'name': [{ type: Input },],
-        'formControlName': [{ type: Input },],
-        'value': [{ type: Input },],
-    };
     return RadioControlValueAccessor;
 }());
+export { RadioControlValueAccessor };
+RadioControlValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
+                host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
+                providers: [RADIO_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+RadioControlValueAccessor.ctorParameters = function () { return [
+    { type: Renderer, },
+    { type: ElementRef, },
+    { type: RadioControlRegistry, },
+    { type: Injector, },
+]; };
+RadioControlValueAccessor.propDecorators = {
+    'name': [{ type: Input },],
+    'formControlName': [{ type: Input },],
+    'value': [{ type: Input },],
+};
 function RadioControlValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     RadioControlValueAccessor.decorators;

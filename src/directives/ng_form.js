@@ -52,18 +52,19 @@ var /** @type {?} */ resolvedPromise = Promise.resolve(null);
  *
  *  \@stable
  */
-export var NgForm = (function (_super) {
+var NgForm = (function (_super) {
     __extends(NgForm, _super);
     /**
      * @param {?} validators
      * @param {?} asyncValidators
      */
     function NgForm(validators, asyncValidators) {
-        _super.call(this);
-        this._submitted = false;
-        this.ngSubmit = new EventEmitter();
-        this.form =
+        var _this = _super.call(this) || this;
+        _this._submitted = false;
+        _this.ngSubmit = new EventEmitter();
+        _this.form =
             new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
+        return _this;
     }
     Object.defineProperty(NgForm.prototype, "submitted", {
         /**
@@ -216,22 +217,23 @@ export var NgForm = (function (_super) {
         path.pop();
         return path.length ? (this.form.get(path)) : this.form;
     };
-    NgForm.decorators = [
-        { type: Directive, args: [{
-                    selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
-                    providers: [formDirectiveProvider],
-                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-                    outputs: ['ngSubmit'],
-                    exportAs: 'ngForm'
-                },] },
-    ];
-    /** @nocollapse */
-    NgForm.ctorParameters = function () { return [
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
-        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
-    ]; };
     return NgForm;
 }(ControlContainer));
+export { NgForm };
+NgForm.decorators = [
+    { type: Directive, args: [{
+                selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
+                providers: [formDirectiveProvider],
+                host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                outputs: ['ngSubmit'],
+                exportAs: 'ngForm'
+            },] },
+];
+/** @nocollapse */
+NgForm.ctorParameters = function () { return [
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
+]; };
 function NgForm_tsickle_Closure_declarations() {
     /** @type {?} */
     NgForm.decorators;

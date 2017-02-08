@@ -26,18 +26,19 @@ function unimplemented() {
  * \@stable
  * @abstract
  */
-export var NgControl = (function (_super) {
+var NgControl = (function (_super) {
     __extends(NgControl, _super);
     function NgControl() {
-        _super.apply(this, arguments);
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         /** @internal */
-        this._parent = null;
-        this.name = null;
-        this.valueAccessor = null;
+        _this._parent = null;
+        _this.name = null;
+        _this.valueAccessor = null;
         /** @internal */
-        this._rawValidators = [];
+        _this._rawValidators = [];
         /** @internal */
-        this._rawAsyncValidators = [];
+        _this._rawAsyncValidators = [];
+        return _this;
     }
     Object.defineProperty(NgControl.prototype, "validator", {
         /**
@@ -63,6 +64,7 @@ export var NgControl = (function (_super) {
     NgControl.prototype.viewToModelUpdate = function (newValue) { };
     return NgControl;
 }(AbstractControlDirective));
+export { NgControl };
 function NgControl_tsickle_Closure_declarations() {
     /**
      * \@internal

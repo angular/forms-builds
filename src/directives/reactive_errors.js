@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { FormErrorExamples as Examples } from './error_examples';
-export var ReactiveErrors = (function () {
+var ReactiveErrors = (function () {
     function ReactiveErrors() {
     }
     /**
@@ -47,4 +47,5 @@ export var ReactiveErrors = (function () {
     };
     return ReactiveErrors;
 }());
+export { ReactiveErrors };
 //# sourceMappingURL=reactive_errors.js.map

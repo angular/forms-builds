@@ -22,7 +22,7 @@ export var /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
  *
  *  \@stable
  */
-export var CheckboxControlValueAccessor = (function () {
+var CheckboxControlValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
@@ -57,20 +57,21 @@ export var CheckboxControlValueAccessor = (function () {
     CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     };
-    CheckboxControlValueAccessor.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
-                    host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
-                    providers: [CHECKBOX_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    CheckboxControlValueAccessor.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
     return CheckboxControlValueAccessor;
 }());
+export { CheckboxControlValueAccessor };
+CheckboxControlValueAccessor.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
+                host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
+                providers: [CHECKBOX_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+CheckboxControlValueAccessor.ctorParameters = function () { return [
+    { type: Renderer, },
+    { type: ElementRef, },
+]; };
 function CheckboxControlValueAccessor_tsickle_Closure_declarations() {
     /** @type {?} */
     CheckboxControlValueAccessor.decorators;
