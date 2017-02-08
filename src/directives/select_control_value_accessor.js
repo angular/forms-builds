@@ -167,7 +167,7 @@ export class SelectControlValueAccessor {
      * @return {?}
      */
     _getOptionId(value) {
-        for (const id of Array.from(this._optionMap.keys())) {
+        for (const /** @type {?} */ id of Array.from(this._optionMap.keys())) {
             if (this._compareWith(this._optionMap.get(id), value))
                 return id;
         }

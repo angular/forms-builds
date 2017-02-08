@@ -180,7 +180,7 @@ export class SelectMultipleControlValueAccessor {
      * @return {?}
      */
     _getOptionId(value) {
-        for (const id of Array.from(this._optionMap.keys())) {
+        for (const /** @type {?} */ id of Array.from(this._optionMap.keys())) {
             if (this._compareWith(this._optionMap.get(id)._value, value))
                 return id;
         }

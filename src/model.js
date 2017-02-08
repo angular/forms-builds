@@ -1228,7 +1228,7 @@ export class FormGroup extends AbstractControl {
      * @return {?}
      */
     _allControlsDisabled() {
-        for (const controlName of Object.keys(this.controls)) {
+        for (const /** @type {?} */ controlName of Object.keys(this.controls)) {
             if (this.controls[controlName].enabled) {
                 return false;
             }
@@ -1549,7 +1549,7 @@ export class FormArray extends AbstractControl {
      * @return {?}
      */
     _allControlsDisabled() {
-        for (const control of this.controls) {
+        for (const /** @type {?} */ control of this.controls) {
             if (control.enabled)
                 return false;
         }

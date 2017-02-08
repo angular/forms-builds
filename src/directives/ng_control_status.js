@@ -12,9 +12,7 @@ export class AbstractControlStatus {
     /**
      * @param {?} cd
      */
-    constructor(cd) {
-        this._cd = cd;
-    }
+    constructor(cd) { this._cd = cd; }
     /**
      * @return {?}
      */
@@ -67,9 +65,7 @@ export class NgControlStatus extends AbstractControlStatus {
     /**
      * @param {?} cd
      */
-    constructor(cd) {
-        super(cd);
-    }
+    constructor(cd) { super(cd); }
 }
 NgControlStatus.decorators = [
     { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] },
@@ -97,9 +93,7 @@ export class NgControlStatusGroup extends AbstractControlStatus {
     /**
      * @param {?} cd
      */
-    constructor(cd) {
-        super(cd);
-    }
+    constructor(cd) { super(cd); }
 }
 NgControlStatusGroup.decorators = [
     { type: Directive, args: [{

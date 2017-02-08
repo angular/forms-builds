@@ -66,7 +66,7 @@ export class Validators {
             if (fieldPaths.length < 1) {
                 throw new Error('You must compare to at least 1 other field');
             }
-            for (let fieldName of fieldPaths) {
+            for (let /** @type {?} */ fieldName of fieldPaths) {
                 let /** @type {?} */ field = ((control.parent)).get(fieldName);
                 if (!field) {
                     throw new Error(`Field: ${fieldName} undefined, are you sure that ${fieldName} exists in the group`);

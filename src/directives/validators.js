@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 import { Directive, Input, forwardRef } from '@angular/core/index';
 import { NG_VALIDATORS, Validators } from '../validators';
 export const /** @type {?} */ REQUIRED_VALIDATOR = {

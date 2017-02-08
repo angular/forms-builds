@@ -3,21 +3,21 @@ import { Observable } from './facade/async';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
  */
-export declare const VALID: string;
+export declare const VALID = "VALID";
 /**
  * Indicates that a FormControl is invalid, i.e. that an error exists in the input value.
  */
-export declare const INVALID: string;
+export declare const INVALID = "INVALID";
 /**
  * Indicates that a FormControl is pending, i.e. that async validation is occurring and
  * errors are not yet available for the input value.
  */
-export declare const PENDING: string;
+export declare const PENDING = "PENDING";
 /**
  * Indicates that a FormControl is disabled, i.e. that the control is exempt from ancestor
  * calculations of validity or value.
  */
-export declare const DISABLED: string;
+export declare const DISABLED = "DISABLED";
 /**
  * @whatItDoes This is the base class for {@link FormControl}, {@link FormGroup}, and
  * {@link FormArray}.
