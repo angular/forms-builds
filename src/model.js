@@ -1253,7 +1253,7 @@ var FormGroup = (function (_super) {
      */
     FormGroup.prototype.getRawValue = function () {
         return this._reduceChildren({}, function (acc, control, name) {
-            acc[name] = control.value;
+            acc[name] = control instanceof FormControl ? control.value : ((control)).getRawValue();
             return acc;
         });
     };
@@ -1610,7 +1610,11 @@ var FormArray = (function (_super) {
      * Otherwise, the `value` property is the best way to get the value of the array.
      * @return {?}
      */
-    FormArray.prototype.getRawValue = function () { return this.controls.map(function (control) { return control.value; }); };
+    FormArray.prototype.getRawValue = function () {
+        return this.controls.map(function (control) {
+            return control instanceof FormControl ? control.value : ((control)).getRawValue();
+        });
+    };
     /**
      * \@internal
      * @param {?} index

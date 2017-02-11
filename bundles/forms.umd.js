@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-beta.7-b988733
+ * @license Angular v4.0.0-beta.7-5279d06
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3484,7 +3484,7 @@
          */
         FormGroup.prototype.getRawValue = function () {
             return this._reduceChildren({}, function (acc, control, name) {
-                acc[name] = control.value;
+                acc[name] = control instanceof FormControl ? control.value : ((control)).getRawValue();
                 return acc;
             });
         };
@@ -3836,7 +3836,11 @@
          * Otherwise, the `value` property is the best way to get the value of the array.
          * @return {?}
          */
-        FormArray.prototype.getRawValue = function () { return this.controls.map(function (control) { return control.value; }); };
+        FormArray.prototype.getRawValue = function () {
+            return this.controls.map(function (control) {
+                return control instanceof FormControl ? control.value : ((control)).getRawValue();
+            });
+        };
         /**
          * \@internal
          * @param {?} index
@@ -5984,7 +5988,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.7-b988733');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.7-5279d06');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {
