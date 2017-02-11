@@ -1145,7 +1145,7 @@ export class FormGroup extends AbstractControl {
      */
     getRawValue() {
         return this._reduceChildren({}, (acc, control, name) => {
-            acc[name] = control.value;
+            acc[name] = control instanceof FormControl ? control.value : ((control)).getRawValue();
             return acc;
         });
     }
@@ -1484,7 +1484,11 @@ export class FormArray extends AbstractControl {
      * Otherwise, the `value` property is the best way to get the value of the array.
      * @return {?}
      */
-    getRawValue() { return this.controls.map((control) => control.value); }
+    getRawValue() {
+        return this.controls.map((control) => {
+            return control instanceof FormControl ? control.value : ((control)).getRawValue();
+        });
+    }
     /**
      * \@internal
      * @param {?} index
