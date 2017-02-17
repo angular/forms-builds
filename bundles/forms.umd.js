@@ -1,5 +1,5 @@
 /**
- * @license Angular v2.4.7-7c87c52
+ * @license Angular v2.4.7-612950b
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3358,7 +3358,7 @@
          */
         FormGroup.prototype.getRawValue = function () {
             return this._reduceChildren({}, function (acc, control, name) {
-                acc[name] = control.value;
+                acc[name] = control instanceof FormControl ? control.value : ((control)).getRawValue();
                 return acc;
             });
         };
@@ -3709,7 +3709,11 @@
          * Otherwise, the `value` property is the best way to get the value of the array.
          * @return {?}
          */
-        FormArray.prototype.getRawValue = function () { return this.controls.map(function (control) { return control.value; }); };
+        FormArray.prototype.getRawValue = function () {
+            return this.controls.map(function (control) {
+                return control instanceof FormControl ? control.value : ((control)).getRawValue();
+            });
+        };
         /**
          * \@internal
          * @param {?} index
@@ -5766,7 +5770,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.7-7c87c52');
+    var /** @type {?} */ VERSION = new _angular_core.Version('2.4.7-612950b');
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
         NgSelectOption,
