@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-beta.8-551fe50
+ * @license Angular v4.0.0-beta.8-8742432
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5995,24 +5995,37 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.8-551fe50');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.8-8742432');
 
-    var NgNovalidate = (function () {
-        function NgNovalidate() {
+    /**
+     * \@whatItDoes Adds `novalidate` attribute to all forms by default.
+     *
+     * `novalidate` is used to disable browser's native form validation.
+     *
+     * If you want to use native validation with Angular forms, just add `ngNativeValidate` attribute:
+     *
+     * ```
+     * <form ngNativeValidate></form>
+     * ```
+     *
+     * \@experimental
+     */
+    var NgNoValidate = (function () {
+        function NgNoValidate() {
         }
-        return NgNovalidate;
+        return NgNoValidate;
     }());
-    NgNovalidate.decorators = [
+    NgNoValidate.decorators = [
         { type: _angular_core.Directive, args: [{
-                    selector: 'form:not([ngNoForm])',
+                    selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
                     host: { 'novalidate': '' },
                 },] },
     ];
     /** @nocollapse */
-    NgNovalidate.ctorParameters = function () { return []; };
+    NgNoValidate.ctorParameters = function () { return []; };
 
     var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
-        NgNovalidate,
+        NgNoValidate,
         NgSelectOption,
         NgSelectMultipleOption,
         DefaultValueAccessor,
@@ -6136,7 +6149,7 @@
     exports.ɵe = formDirectiveProvider;
     exports.ɵf = formControlBinding;
     exports.ɵg = modelGroupProvider;
-    exports.ɵba = NgNovalidate;
+    exports.ɵba = NgNoValidate;
     exports.ɵbc = NUMBER_VALUE_ACCESSOR;
     exports.ɵbb = NumberValueAccessor;
     exports.ɵh = RADIO_VALUE_ACCESSOR;
