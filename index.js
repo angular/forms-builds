@@ -9,7 +9,7 @@ export { AbstractControlStatus as ɵc, ngControlStatusHost as ɵd } from './src/
 export { formDirectiveProvider as ɵe } from './src/directives/ng_form';
 export { formControlBinding as ɵf } from './src/directives/ng_model';
 export { modelGroupProvider as ɵg } from './src/directives/ng_model_group';
-export { NgNovalidate as ɵba } from './src/directives/ng_novalidate_directive';
+export { NgNoValidate as ɵba } from './src/directives/ng_no_validate_directive';
 export { NUMBER_VALUE_ACCESSOR as ɵbc, NumberValueAccessor as ɵbb } from './src/directives/number_value_accessor';
 export { RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi } from './src/directives/radio_control_value_accessor';
 export { RANGE_VALUE_ACCESSOR as ɵbe, RangeValueAccessor as ɵbd } from './src/directives/range_value_accessor';
