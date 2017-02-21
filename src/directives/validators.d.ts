@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { OnChanges, Provider, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { AbstractControl } from '../model';
 /**
  * An interface that can be implemented by classes that can act as validators.
@@ -31,6 +32,14 @@ export interface Validator {
         [key: string]: any;
     };
     registerOnValidatorChange?(fn: () => void): void;
+}
+/** @experimental */
+export interface AsyncValidator extends Validator {
+    validate(c: AbstractControl): Promise<{
+        [key: string]: any;
+    }> | Observable<{
+        [key: string]: any;
+    }>;
 }
 export declare const REQUIRED_VALIDATOR: Provider;
 export declare const CHECKBOX_REQUIRED_VALIDATOR: Provider;
