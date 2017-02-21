@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-beta.8-d6a58f9
+ * @license Angular v4.0.0-beta.8-551fe50
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5512,6 +5512,13 @@
         'isDisabled': [{ type: _angular_core.Input, args: ['disabled',] },],
     };
 
+    /**
+     * @license
+     * Copyright Google Inc. All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
     var __extends$13 = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         function __() { this.constructor = d; }
@@ -5988,7 +5995,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.8-d6a58f9');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-beta.8-551fe50');
 
     var NgNovalidate = (function () {
         function NgNovalidate() {
