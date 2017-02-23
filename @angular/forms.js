@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-beta.8-88755b0
+ * @license Angular v4.0.0-beta.8-88bc143
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5408,7 +5408,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * @stable
  */
-const /** @type {?} */ VERSION = new Version('4.0.0-beta.8-88755b0');
+const /** @type {?} */ VERSION = new Version('4.0.0-beta.8-88bc143');
 
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.
