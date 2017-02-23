@@ -13,7 +13,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * @license Angular v4.0.0-beta.8-801b090
+ * @license Angular v4.0.0-beta.8-175dbce
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7262,7 +7262,7 @@ FormBuilder.ctorParameters = function () {
 /**
  * @stable
  */
-var /** @type {?} */VERSION = new Version('4.0.0-beta.8-801b090');
+var /** @type {?} */VERSION = new Version('4.0.0-beta.8-175dbce');
 
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.
