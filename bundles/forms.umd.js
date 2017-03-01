@@ -5320,7 +5320,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */VERSION = new _core.Version('4.0.0-rc.1-a6996a9');
+    var /** @type {?} */VERSION = new _core.Version('4.0.0-rc.1-dd49901');
 
     /**
      * \@whatItDoes Adds `novalidate` attribute to all forms by default.
