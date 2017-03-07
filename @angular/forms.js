@@ -1,12 +1,10 @@
 /**
- * @license Angular v4.0.0-rc.2-207298c
+ * @license Angular v4.0.0-rc.2-b7e76cc
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
-import { InjectionToken, ɵisPromise, forwardRef, Directive, ElementRef, Renderer, Injectable, Injector, Input, Host, Optional, Self, Inject, ɵisObservable, HostListener, Output, SkipSelf, Version, NgModule } from '@angular/core';
+import { ɵlooseIdentical, InjectionToken, ɵisPromise, ɵmerge, forwardRef, Directive, ElementRef, Renderer, Injectable, Injector, Input, Host, Optional, Self, EventEmitter, Inject, ɵisObservable, HostListener, Output, SkipSelf, Version, NgModule } from '@angular/core';
 import { toPromise } from 'rxjs/operator/toPromise';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
 /**
@@ -129,148 +127,6 @@ class ControlContainer extends AbstractControlDirective {
      * @return {?}
      */
     get path() { return null; }
-}
-
-/**
- * @param {?} obj
- * @return {?}
- */
-function isPresent(obj) {
-    return obj != null;
-}
-/**
- * @param {?} obj
- * @return {?}
- */
-function isBlank(obj) {
-    return obj == null;
-}
-/**
- * @param {?} a
- * @param {?} b
- * @return {?}
- */
-function looseIdentical(a, b) {
-    return a === b || typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b);
-}
-/**
- * @param {?} o
- * @return {?}
- */
-function isJsObject(o) {
-    return o !== null && (typeof o === 'function' || typeof o === 'object');
-}
-/**
- * @param {?} obj
- * @return {?}
- */
-function isPrimitive(obj) {
-    return !isJsObject(obj);
-}
-
-/**
- * Wraps Javascript Objects
- */
-class StringMapWrapper {
-    /**
-     * @param {?} m1
-     * @param {?} m2
-     * @return {?}
-     */
-    static merge(m1, m2) {
-        const /** @type {?} */ m = {};
-        for (const /** @type {?} */ k of Object.keys(m1)) {
-            m[k] = m1[k];
-        }
-        for (const /** @type {?} */ k of Object.keys(m2)) {
-            m[k] = m2[k];
-        }
-        return m;
-    }
-    /**
-     * @param {?} m1
-     * @param {?} m2
-     * @return {?}
-     */
-    static equals(m1, m2) {
-        const /** @type {?} */ k1 = Object.keys(m1);
-        const /** @type {?} */ k2 = Object.keys(m2);
-        if (k1.length != k2.length) {
-            return false;
-        }
-        for (let /** @type {?} */ i = 0; i < k1.length; i++) {
-            const /** @type {?} */ key = k1[i];
-            if (m1[key] !== m2[key]) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-class ListWrapper {
-    /**
-     * @param {?} arr
-     * @param {?} condition
-     * @return {?}
-     */
-    static findLast(arr, condition) {
-        for (let /** @type {?} */ i = arr.length - 1; i >= 0; i--) {
-            if (condition(arr[i])) {
-                return arr[i];
-            }
-        }
-        return null;
-    }
-    /**
-     * @param {?} list
-     * @param {?} items
-     * @return {?}
-     */
-    static removeAll(list, items) {
-        for (let /** @type {?} */ i = 0; i < items.length; ++i) {
-            const /** @type {?} */ index = list.indexOf(items[i]);
-            if (index > -1) {
-                list.splice(index, 1);
-            }
-        }
-    }
-    /**
-     * @param {?} list
-     * @param {?} el
-     * @return {?}
-     */
-    static remove(list, el) {
-        const /** @type {?} */ index = list.indexOf(el);
-        if (index > -1) {
-            list.splice(index, 1);
-            return true;
-        }
-        return false;
-    }
-    /**
-     * @param {?} a
-     * @param {?} b
-     * @return {?}
-     */
-    static equals(a, b) {
-        if (a.length != b.length)
-            return false;
-        for (let /** @type {?} */ i = 0; i < a.length; ++i) {
-            if (a[i] !== b[i])
-                return false;
-        }
-        return true;
-    }
-    /**
-     * @param {?} list
-     * @return {?}
-     */
-    static flatten(list) {
-        return list.reduce((flat, item) => {
-            const /** @type {?} */ flatItem = Array.isArray(item) ? ListWrapper.flatten(item) : item;
-            return ((flat)).concat(flatItem);
-        }, []);
-    }
 }
 
 /**
@@ -460,6 +316,13 @@ class Validators {
     }
 }
 /**
+ * @param {?} o
+ * @return {?}
+ */
+function isPresent(o) {
+    return o != null;
+}
+/**
  * @param {?} obj
  * @return {?}
  */
@@ -488,7 +351,7 @@ function _executeAsyncValidators(control, validators) {
  */
 function _mergeErrors(arrayOfErrors) {
     const /** @type {?} */ res = arrayOfErrors.reduce((res, errors) => {
-        return isPresent(errors) ? StringMapWrapper.merge(res, errors) : res;
+        return errors != null ? ɵmerge(res, errors) : res;
     }, {});
     return Object.keys(res).length === 0 ? null : res;
 }
@@ -1054,7 +917,7 @@ const /** @type {?} */ SELECT_VALUE_ACCESSOR = {
 function _buildValueString(id, value) {
     if (id == null)
         return `${value}`;
-    if (!isPrimitive(value))
+    if (value && typeof value === 'object')
         value = 'Object';
     return `${id}: ${value}`.slice(0, 50);
 }
@@ -1142,7 +1005,7 @@ class SelectControlValueAccessor {
         this._idCounter = 0;
         this.onChange = (_) => { };
         this.onTouched = () => { };
-        this._compareWith = looseIdentical;
+        this._compareWith = ɵlooseIdentical;
     }
     /**
      * @param {?} fn
@@ -1320,7 +1183,7 @@ function _buildValueString$1(id, value) {
         return `${value}`;
     if (typeof value === 'string')
         value = `'${value}'`;
-    if (!isPrimitive(value))
+    if (value && typeof value === 'object')
         value = 'Object';
     return `${id}: ${value}`.slice(0, 50);
 }
@@ -1375,7 +1238,7 @@ class SelectMultipleControlValueAccessor {
         this._idCounter = 0;
         this.onChange = (_) => { };
         this.onTouched = () => { };
-        this._compareWith = looseIdentical;
+        this._compareWith = ɵlooseIdentical;
     }
     /**
      * @param {?} fn
@@ -1658,7 +1521,7 @@ function cleanUpControl(control, dir) {
  * @return {?}
  */
 function setUpFormContainer(control, dir) {
-    if (isBlank(control))
+    if (control == null)
         _throwError(dir, 'Cannot find control with');
     control.validator = Validators.compose([control.validator, dir.validator]);
     control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
@@ -1693,14 +1556,14 @@ function _throwError(dir, message) {
  * @return {?}
  */
 function composeValidators(validators) {
-    return isPresent(validators) ? Validators.compose(validators.map(normalizeValidator)) : null;
+    return validators != null ? Validators.compose(validators.map(normalizeValidator)) : null;
 }
 /**
  * @param {?} validators
  * @return {?}
  */
 function composeAsyncValidators(validators) {
-    return isPresent(validators) ? Validators.composeAsync(validators.map(normalizeAsyncValidator)) :
+    return validators != null ? Validators.composeAsync(validators.map(normalizeAsyncValidator)) :
         null;
 }
 /**
@@ -1714,7 +1577,7 @@ function isPropertyUpdated(changes, viewModel) {
     const /** @type {?} */ change = changes['model'];
     if (change.isFirstChange())
         return true;
-    return !looseIdentical(viewModel, change.currentValue);
+    return !ɵlooseIdentical(viewModel, change.currentValue);
 }
 const /** @type {?} */ BUILTIN_ACCESSORS = [
     CheckboxControlValueAccessor,
@@ -1902,107 +1765,6 @@ NgControlStatusGroup.decorators = [
 NgControlStatusGroup.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Self },] },
 ];
-
-/**
- * Use by directives and components to emit custom Events.
- *
- * ### Examples
- *
- * In the following example, `Zippy` alternatively emits `open` and `close` events when its
- * title gets clicked:
- *
- * ```
- * \@Component({
- *   selector: 'zippy',
- *   template: `
- *   <div class="zippy">
- *     <div (click)="toggle()">Toggle</div>
- *     <div [hidden]="!visible">
- *       <ng-content></ng-content>
- *     </div>
- *  </div>`})
- * export class Zippy {
- *   visible: boolean = true;
- *   \@Output() open: EventEmitter<any> = new EventEmitter();
- *   \@Output() close: EventEmitter<any> = new EventEmitter();
- *
- *   toggle() {
- *     this.visible = !this.visible;
- *     if (this.visible) {
- *       this.open.emit(null);
- *     } else {
- *       this.close.emit(null);
- *     }
- *   }
- * }
- * ```
- *
- * The events payload can be accessed by the parameter `$event` on the components output event
- * handler:
- *
- * ```
- * <zippy (open)="onOpen($event)" (close)="onClose($event)"></zippy>
- * ```
- *
- * Uses Rx.Observable but provides an adapter to make it work as specified here:
- * https://github.com/jhusain/observable-spec
- *
- * Once a reference implementation of the spec is available, switch to it.
- * \@stable
- */
-class EventEmitter extends Subject {
-    /**
-     * Creates an instance of [EventEmitter], which depending on [isAsync],
-     * delivers events synchronously or asynchronously.
-     * @param {?=} isAsync
-     */
-    constructor(isAsync = false) {
-        super();
-        this.__isAsync = isAsync;
-    }
-    /**
-     * @param {?=} value
-     * @return {?}
-     */
-    emit(value) { super.next(value); }
-    /**
-     * @param {?=} generatorOrNext
-     * @param {?=} error
-     * @param {?=} complete
-     * @return {?}
-     */
-    subscribe(generatorOrNext, error, complete) {
-        let /** @type {?} */ schedulerFn;
-        let /** @type {?} */ errorFn = (err) => null;
-        let /** @type {?} */ completeFn = () => null;
-        if (generatorOrNext && typeof generatorOrNext === 'object') {
-            schedulerFn = this.__isAsync ? (value) => {
-                setTimeout(() => generatorOrNext.next(value));
-            } : (value) => { generatorOrNext.next(value); };
-            if (generatorOrNext.error) {
-                errorFn = this.__isAsync ? (err) => { setTimeout(() => generatorOrNext.error(err)); } :
-                    (err) => { generatorOrNext.error(err); };
-            }
-            if (generatorOrNext.complete) {
-                completeFn = this.__isAsync ? () => { setTimeout(() => generatorOrNext.complete()); } :
-                    () => { generatorOrNext.complete(); };
-            }
-        }
-        else {
-            schedulerFn = this.__isAsync ? (value) => { setTimeout(() => generatorOrNext(value)); } :
-                (value) => { generatorOrNext(value); };
-            if (error) {
-                errorFn =
-                    this.__isAsync ? (err) => { setTimeout(() => error(err)); } : (err) => { error(err); };
-            }
-            if (complete) {
-                completeFn =
-                    this.__isAsync ? () => { setTimeout(() => complete()); } : () => { complete(); };
-            }
-        }
-        return super.subscribe(schedulerFn, errorFn, completeFn);
-    }
-}
 
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
@@ -4465,7 +4227,7 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir
      * @return {?}
      */
-    removeControl(dir) { ListWrapper.remove(this.directives, dir); }
+    removeControl(dir) { remove(this.directives, dir); }
     /**
      * @param {?} dir
      * @return {?}
@@ -4594,6 +4356,17 @@ FormGroupDirective.propDecorators = {
     'form': [{ type: Input, args: ['formGroup',] },],
     'ngSubmit': [{ type: Output },],
 };
+/**
+ * @param {?} list
+ * @param {?} el
+ * @return {?}
+ */
+function remove(list, el) {
+    const /** @type {?} */ index = list.indexOf(el);
+    if (index > -1) {
+        list.splice(index, 1);
+    }
+}
 
 const /** @type {?} */ formGroupNameProvider = {
     provide: ControlContainer,
@@ -5335,8 +5108,8 @@ class FormBuilder {
      */
     group(controlsConfig, extra = null) {
         const /** @type {?} */ controls = this._reduceControls(controlsConfig);
-        const /** @type {?} */ validator = isPresent(extra) ? extra['validator'] : null;
-        const /** @type {?} */ asyncValidator = isPresent(extra) ? extra['asyncValidator'] : null;
+        const /** @type {?} */ validator = extra != null ? extra['validator'] : null;
+        const /** @type {?} */ asyncValidator = extra != null ? extra['asyncValidator'] : null;
         return new FormGroup(controls, validator, asyncValidator);
     }
     /**
@@ -5408,7 +5181,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * @stable
  */
-const /** @type {?} */ VERSION = new Version('4.0.0-rc.2-207298c');
+const /** @type {?} */ VERSION = new Version('4.0.0-rc.2-b7e76cc');
 
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.

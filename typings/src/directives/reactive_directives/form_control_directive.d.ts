@@ -5,8 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { OnChanges, SimpleChanges } from '@angular/core';
-import { EventEmitter } from '../../facade/async';
+import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '../../model';
 import { ControlValueAccessor } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
