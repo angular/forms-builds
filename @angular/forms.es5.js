@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.0.0-rc.3-13686bb
+ * @license Angular v4.0.0-rc.3-ff60c04
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5533,7 +5533,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * @stable
  */
-var /** @type {?} */ VERSION = new Version('4.0.0-rc.3-13686bb');
+var /** @type {?} */ VERSION = new Version('4.0.0-rc.3-ff60c04');
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.
  *
