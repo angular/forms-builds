@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-rc.3-423bfb0
+ * @license Angular v4.0.0-rc.3-ec548ad
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -261,33 +261,6 @@
     var Validators = (function () {
         function Validators() {
         }
-        /**
-         * Validator that compares the value of the given FormControls
-         * @param {...?} fieldPaths
-         * @return {?}
-         */
-        Validators.equalsTo = function () {
-            var fieldPaths = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                fieldPaths[_i] = arguments[_i];
-            }
-            return function (control) {
-                if (fieldPaths.length < 1) {
-                    throw new Error('You must compare to at least 1 other field');
-                }
-                for (var _i = 0, fieldPaths_1 = fieldPaths; _i < fieldPaths_1.length; _i++) {
-                    var fieldName = fieldPaths_1[_i];
-                    var /** @type {?} */ field = ((control.parent)).get(fieldName);
-                    if (!field) {
-                        throw new Error("Field: " + fieldName + " undefined, are you sure that " + fieldName + " exists in the group");
-                    }
-                    if (field.value !== control.value) {
-                        return { 'equalsTo': { 'unequalField': fieldName } };
-                    }
-                }
-                return null;
-            };
-        };
         /**
          * Validator that requires controls to have a non-empty value.
          * @param {?} control
@@ -5563,7 +5536,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-rc.3-423bfb0');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-rc.3-ec548ad');
     /**
      * \@whatItDoes Adds `novalidate` attribute to all forms by default.
      *
