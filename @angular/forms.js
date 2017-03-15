@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-rc.3-4f7d62a
+ * @license Angular v4.0.0-rc.3-5c0ea20
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -400,7 +400,9 @@ CheckboxControlValueAccessor.decorators = [
                 providers: [CHECKBOX_VALUE_ACCESSOR]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 CheckboxControlValueAccessor.ctorParameters = () => [
     { type: Renderer, },
     { type: ElementRef, },
@@ -469,7 +471,9 @@ DefaultValueAccessor.decorators = [
                 providers: [DEFAULT_VALUE_ACCESSOR]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 DefaultValueAccessor.ctorParameters = () => [
     { type: Renderer, },
     { type: ElementRef, },
@@ -572,7 +576,9 @@ NumberValueAccessor.decorators = [
                 providers: [NUMBER_VALUE_ACCESSOR]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NumberValueAccessor.ctorParameters = () => [
     { type: Renderer, },
     { type: ElementRef, },
@@ -596,13 +602,19 @@ function unimplemented() {
 class NgControl extends AbstractControlDirective {
     constructor() {
         super(...arguments);
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._parent = null;
         this.name = null;
         this.valueAccessor = null;
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._rawValidators = [];
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._rawAsyncValidators = [];
     }
     /**
@@ -679,7 +691,9 @@ class RadioControlRegistry {
 RadioControlRegistry.decorators = [
     { type: Injectable },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 RadioControlRegistry.ctorParameters = () => [];
 /**
  * \@whatItDoes Writes radio control values and listens to radio control changes.
@@ -800,7 +814,9 @@ RadioControlValueAccessor.decorators = [
                 providers: [RADIO_VALUE_ACCESSOR]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 RadioControlValueAccessor.ctorParameters = () => [
     { type: Renderer, },
     { type: ElementRef, },
@@ -876,7 +892,9 @@ RangeValueAccessor.decorators = [
                 providers: [RANGE_VALUE_ACCESSOR]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 RangeValueAccessor.ctorParameters = () => [
     { type: Renderer, },
     { type: ElementRef, },
@@ -977,9 +995,13 @@ class SelectControlValueAccessor {
     constructor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._optionMap = new Map();
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._idCounter = 0;
         this.onChange = (_) => { };
         this.onTouched = () => { };
@@ -1064,7 +1086,9 @@ SelectControlValueAccessor.decorators = [
                 providers: [SELECT_VALUE_ACCESSOR]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 SelectControlValueAccessor.ctorParameters = () => [
     { type: Renderer, },
     { type: ElementRef, },
@@ -1135,7 +1159,9 @@ class NgSelectOption {
 NgSelectOption.decorators = [
     { type: Directive, args: [{ selector: 'option' },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NgSelectOption.ctorParameters = () => [
     { type: ElementRef, },
     { type: Renderer, },
@@ -1210,9 +1236,13 @@ class SelectMultipleControlValueAccessor {
     constructor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._optionMap = new Map();
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._idCounter = 0;
         this.onChange = (_) => { };
         this.onTouched = () => { };
@@ -1325,7 +1355,9 @@ SelectMultipleControlValueAccessor.decorators = [
                 providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 SelectMultipleControlValueAccessor.ctorParameters = () => [
     { type: Renderer, },
     { type: ElementRef, },
@@ -1412,7 +1444,9 @@ class NgSelectMultipleOption {
 NgSelectMultipleOption.decorators = [
     { type: Directive, args: [{ selector: 'option' },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NgSelectMultipleOption.ctorParameters = () => [
     { type: ElementRef, },
     { type: Renderer, },
@@ -1717,7 +1751,9 @@ class NgControlStatus extends AbstractControlStatus {
 NgControlStatus.decorators = [
     { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NgControlStatus.ctorParameters = () => [
     { type: NgControl, decorators: [{ type: Self },] },
 ];
@@ -1739,7 +1775,9 @@ NgControlStatusGroup.decorators = [
                 host: ngControlStatusHost
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NgControlStatusGroup.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Self },] },
 ];
@@ -1827,11 +1865,15 @@ class AbstractControl {
     constructor(validator, asyncValidator) {
         this.validator = validator;
         this.asyncValidator = asyncValidator;
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._onCollectionChange = () => { };
         this._pristine = true;
         this._touched = false;
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._onDisabledChange = [];
     }
     /**
@@ -2445,7 +2487,9 @@ class FormControl extends AbstractControl {
      */
     constructor(formState = null, validator = null, asyncValidator = null) {
         super(coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._onChange = [];
         this._applyFormState(formState);
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -3439,7 +3483,9 @@ NgForm.decorators = [
                 exportAs: 'ngForm'
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NgForm.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
@@ -3623,7 +3669,9 @@ class NgModelGroup extends AbstractFormGroupDirective {
 NgModelGroup.decorators = [
     { type: Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NgModelGroup.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
@@ -3722,9 +3770,13 @@ class NgModel extends NgControl {
      */
     constructor(parent, validators, asyncValidators, valueAccessors) {
         super();
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._control = new FormControl();
-        /** @internal */
+        /**
+         * \@internal
+         */
         this._registered = false;
         this._composing = false;
         this.update = new EventEmitter();
@@ -3879,7 +3931,9 @@ NgModel.decorators = [
                 exportAs: 'ngModel'
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NgModel.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Optional }, { type: Host },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
@@ -4091,7 +4145,9 @@ class FormControlDirective extends NgControl {
 FormControlDirective.decorators = [
     { type: Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 FormControlDirective.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
@@ -4325,7 +4381,9 @@ FormGroupDirective.decorators = [
                 exportAs: 'ngForm'
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 FormGroupDirective.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
@@ -4419,7 +4477,9 @@ class FormGroupName extends AbstractFormGroupDirective {
 FormGroupName.decorators = [
     { type: Directive, args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 FormGroupName.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
@@ -4540,7 +4600,9 @@ class FormArrayName extends ControlContainer {
 FormArrayName.decorators = [
     { type: Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 FormArrayName.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
@@ -4712,7 +4774,9 @@ class FormControlName extends NgControl {
 FormControlName.decorators = [
     { type: Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 FormControlName.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
@@ -4782,7 +4846,9 @@ RequiredValidator.decorators = [
                 host: { '[attr.required]': 'required ? "" : null' }
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 RequiredValidator.ctorParameters = () => [];
 RequiredValidator.propDecorators = {
     'required': [{ type: Input },],
@@ -4815,7 +4881,9 @@ CheckboxRequiredValidator.decorators = [
                 host: { '[attr.required]': 'required ? "" : null' }
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 CheckboxRequiredValidator.ctorParameters = () => [];
 /**
  * Provider which adds {@link EmailValidator} to {@link NG_VALIDATORS}.
@@ -4868,7 +4936,9 @@ EmailValidator.decorators = [
                 providers: [EMAIL_VALIDATOR]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 EmailValidator.ctorParameters = () => [];
 EmailValidator.propDecorators = {
     'email': [{ type: Input },],
@@ -4929,7 +4999,9 @@ MinLengthValidator.decorators = [
                 host: { '[attr.minlength]': 'minlength ? minlength : null' }
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 MinLengthValidator.ctorParameters = () => [];
 MinLengthValidator.propDecorators = {
     'minlength': [{ type: Input },],
@@ -4991,7 +5063,9 @@ MaxLengthValidator.decorators = [
                 host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 MaxLengthValidator.ctorParameters = () => [];
 MaxLengthValidator.propDecorators = {
     'maxlength': [{ type: Input },],
@@ -5048,7 +5122,9 @@ PatternValidator.decorators = [
                 host: { '[attr.pattern]': 'pattern ? pattern : null' }
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 PatternValidator.ctorParameters = () => [];
 PatternValidator.propDecorators = {
     'pattern': [{ type: Input },],
@@ -5153,13 +5229,15 @@ class FormBuilder {
 FormBuilder.decorators = [
     { type: Injectable },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 FormBuilder.ctorParameters = () => [];
 
 /**
  * @stable
  */
-const /** @type {?} */ VERSION = new Version('4.0.0-rc.3-4f7d62a');
+const /** @type {?} */ VERSION = new Version('4.0.0-rc.3-5c0ea20');
 
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.
@@ -5182,7 +5260,9 @@ NgNoValidate.decorators = [
                 host: { 'novalidate': '' },
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 NgNoValidate.ctorParameters = () => [];
 
 const /** @type {?} */ SHARED_FORM_DIRECTIVES = [
@@ -5218,7 +5298,9 @@ InternalFormsSharedModule.decorators = [
                 exports: SHARED_FORM_DIRECTIVES,
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 InternalFormsSharedModule.ctorParameters = () => [];
 
 /**
@@ -5234,7 +5316,9 @@ FormsModule.decorators = [
                 exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 FormsModule.ctorParameters = () => [];
 /**
  * The ng module for reactive forms.
@@ -5249,7 +5333,9 @@ ReactiveFormsModule.decorators = [
                 exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/** @nocollapse */
+/**
+ * @nocollapse
+ */
 ReactiveFormsModule.ctorParameters = () => [];
 
 export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
