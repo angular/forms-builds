@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-rc.3-992aa17
+ * @license Angular v4.0.0-rc.3-492153a
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -222,27 +222,27 @@
         return value == null || value.length === 0;
     }
     /**
-     * Providers for validators to be used for {@link FormControl}s in a form.
+     * Providers for validators to be used for {\@link FormControl}s in a form.
      *
      * Provide this using `multi: true` to add validators.
      *
      * ### Example
      *
-     * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
-     * @stable
+     * {\@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
+     * \@stable
      */
-    var /** @type {?} */ NG_VALIDATORS = new _angular_core.InjectionToken('NgValidators');
+    var NG_VALIDATORS = new _angular_core.InjectionToken('NgValidators');
     /**
-     * Providers for asynchronous validators to be used for {@link FormControl}s
+     * Providers for asynchronous validators to be used for {\@link FormControl}s
      * in a form.
      *
      * Provide this using `multi: true` to add validators.
      *
-     * See {@link NG_VALIDATORS} for more details.
+     * See {\@link NG_VALIDATORS} for more details.
      *
-     * @stable
+     * \@stable
      */
-    var /** @type {?} */ NG_ASYNC_VALIDATORS = new _angular_core.InjectionToken('NgAsyncValidators');
+    var NG_ASYNC_VALIDATORS = new _angular_core.InjectionToken('NgAsyncValidators');
     var /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
     /**
      * Provides a set of validators used by form controls.
@@ -425,12 +425,12 @@
         return Object.keys(res).length === 0 ? null : res;
     }
     /**
-     * Used to provide a {@link ControlValueAccessor} for form controls.
+     * Used to provide a {\@link ControlValueAccessor} for form controls.
      *
-     * See {@link DefaultValueAccessor} for how to implement one.
-     * @stable
+     * See {\@link DefaultValueAccessor} for how to implement one.
+     * \@stable
      */
-    var /** @type {?} */ NG_VALUE_ACCESSOR = new _angular_core.InjectionToken('NgValueAccessor');
+    var NG_VALUE_ACCESSOR = new _angular_core.InjectionToken('NgValueAccessor');
     var /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
         provide: NG_VALUE_ACCESSOR,
         useExisting: _angular_core.forwardRef(function () { return CheckboxControlValueAccessor; }),
@@ -3824,13 +3824,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    /**
-     * @license
-     * Copyright Google Inc. All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */ var /** @type {?} */ Examples = {
+    var Examples = {
         formControlName: "\n    <div [formGroup]=\"myGroup\">\n      <input formControlName=\"firstName\">\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       firstName: new FormControl()\n    });",
         formGroupName: "\n    <div [formGroup]=\"myGroup\">\n       <div formGroupName=\"person\">\n          <input formControlName=\"firstName\">\n       </div>\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       person: new FormGroup({ firstName: new FormControl() })\n    });",
         formArrayName: "\n    <div [formGroup]=\"myGroup\">\n      <div formArrayName=\"cities\">\n        <div *ngFor=\"let city of cityArray.controls; let i=index\">\n          <input [formControlName]=\"i\">\n        </div>\n      </div>\n    </div>\n\n    In your class:\n\n    this.cityArray = new FormArray([new FormControl('SF')]);\n    this.myGroup = new FormGroup({\n      cities: this.cityArray\n    });",
@@ -4678,6 +4672,7 @@
         'ngSubmit': [{ type: _angular_core.Output },],
     };
     /**
+     * @template T
      * @param {?} list
      * @param {?} el
      * @return {?}
@@ -5606,9 +5601,9 @@
      */
     FormBuilder.ctorParameters = function () { return []; };
     /**
-     * @stable
+     * \@stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-rc.3-992aa17');
+    var VERSION = new _angular_core.Version('4.0.0-rc.3-492153a');
     /**
      * \@whatItDoes Adds `novalidate` attribute to all forms by default.
      *

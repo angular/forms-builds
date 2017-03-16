@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-rc.3-992aa17
+ * @license Angular v4.0.0-rc.3-492153a
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -139,27 +139,27 @@ function isEmptyInputValue(value) {
     return value == null || value.length === 0;
 }
 /**
- * Providers for validators to be used for {@link FormControl}s in a form.
+ * Providers for validators to be used for {\@link FormControl}s in a form.
  *
  * Provide this using `multi: true` to add validators.
  *
  * ### Example
  *
- * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
- * @stable
+ * {\@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
+ * \@stable
  */
-const /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators');
+const NG_VALIDATORS = new InjectionToken('NgValidators');
 /**
- * Providers for asynchronous validators to be used for {@link FormControl}s
+ * Providers for asynchronous validators to be used for {\@link FormControl}s
  * in a form.
  *
  * Provide this using `multi: true` to add validators.
  *
- * See {@link NG_VALIDATORS} for more details.
+ * See {\@link NG_VALIDATORS} for more details.
  *
- * @stable
+ * \@stable
  */
-const /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
+const NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
 const /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 /**
  * Provides a set of validators used by form controls.
@@ -340,12 +340,12 @@ function _mergeErrors(arrayOfErrors) {
 }
 
 /**
- * Used to provide a {@link ControlValueAccessor} for form controls.
+ * Used to provide a {\@link ControlValueAccessor} for form controls.
  *
- * See {@link DefaultValueAccessor} for how to implement one.
- * @stable
+ * See {\@link DefaultValueAccessor} for how to implement one.
+ * \@stable
  */
-const /** @type {?} */ NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
+const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
 const /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -3493,13 +3493,7 @@ NgForm.ctorParameters = () => [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */ const /** @type {?} */ Examples = {
+const Examples = {
     formControlName: `
     <div [formGroup]="myGroup">
       <input formControlName="firstName">
@@ -4388,6 +4382,7 @@ FormGroupDirective.propDecorators = {
     'ngSubmit': [{ type: Output },],
 };
 /**
+ * @template T
  * @param {?} list
  * @param {?} el
  * @return {?}
@@ -5230,9 +5225,9 @@ FormBuilder.decorators = [
 FormBuilder.ctorParameters = () => [];
 
 /**
- * @stable
+ * \@stable
  */
-const /** @type {?} */ VERSION = new Version('4.0.0-rc.3-992aa17');
+const VERSION = new Version('4.0.0-rc.3-492153a');
 
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.
