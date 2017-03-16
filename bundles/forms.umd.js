@@ -1,13 +1,13 @@
 /**
- * @license Angular v4.0.0-rc.3-41f61b0
+ * @license Angular v4.0.0-rc.3-26d4ce2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/operator/toPromise'), require('rxjs/observable/fromPromise')) :
-    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/operator/toPromise', 'rxjs/observable/fromPromise'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable.prototype,global.Rx.Observable));
-}(this, function (exports,_angular_core,rxjs_operator_toPromise,rxjs_observable_fromPromise) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/observable/forkJoin'), require('rxjs/observable/fromPromise'), require('rxjs/operator/map')) :
+    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/observable/forkJoin', 'rxjs/observable/fromPromise', 'rxjs/operator/map'], factory) :
+    (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable.prototype));
+}(this, function (exports,_angular_core,rxjs_observable_forkJoin,rxjs_observable_fromPromise,rxjs_operator_map) { 'use strict';
 
     var __extends = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -374,8 +374,8 @@
             if (presentValidators.length == 0)
                 return null;
             return function (control) {
-                var /** @type {?} */ promises = _executeAsyncValidators(control, presentValidators).map(_convertToPromise);
-                return Promise.all(promises).then(_mergeErrors);
+                var /** @type {?} */ observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
+                return rxjs_operator_map.map.call(rxjs_observable_forkJoin.forkJoin(observables), _mergeErrors);
             };
         };
         return Validators;
@@ -388,11 +388,15 @@
         return o != null;
     }
     /**
-     * @param {?} obj
+     * @param {?} r
      * @return {?}
      */
-    function _convertToPromise(obj) {
-        return _angular_core.ɵisPromise(obj) ? obj : rxjs_operator_toPromise.toPromise.call(obj);
+    function toObservable(r) {
+        var /** @type {?} */ obs = _angular_core.ɵisPromise(r) ? rxjs_observable_fromPromise.fromPromise(r) : r;
+        if (!(_angular_core.ɵisObservable(obs))) {
+            throw new Error("Expected validator to return Promise or Observable.");
+        }
+        return obs;
     }
     /**
      * @param {?} control
@@ -2011,13 +2015,6 @@
         }, control);
     }
     /**
-     * @param {?} r
-     * @return {?}
-     */
-    function toObservable(r) {
-        return _angular_core.ɵisPromise(r) ? rxjs_observable_fromPromise.fromPromise(r) : r;
-    }
-    /**
      * @param {?} validator
      * @return {?}
      */
@@ -2473,11 +2470,8 @@
             if (this.asyncValidator) {
                 this._status = PENDING;
                 var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
-                if (!(_angular_core.ɵisObservable(obs))) {
-                    throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
-                }
                 this._asyncValidationSubscription =
-                    obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
+                    obs.subscribe(function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); });
             }
         };
         /**
@@ -5614,7 +5608,7 @@
     /**
      * @stable
      */
-    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-rc.3-41f61b0');
+    var /** @type {?} */ VERSION = new _angular_core.Version('4.0.0-rc.3-26d4ce2');
     /**
      * \@whatItDoes Adds `novalidate` attribute to all forms by default.
      *

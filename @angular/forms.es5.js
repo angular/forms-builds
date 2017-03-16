@@ -4,13 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.0.0-rc.3-41f61b0
+ * @license Angular v4.0.0-rc.3-26d4ce2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
-import { ɵlooseIdentical, InjectionToken, ɵisPromise, ɵmerge, forwardRef, Directive, ElementRef, Renderer, Injectable, Injector, Input, Host, Optional, Self, EventEmitter, Inject, ɵisObservable, HostListener, Output, SkipSelf, Version, NgModule } from '@angular/core';
-import { toPromise } from 'rxjs/operator/toPromise';
+import { ɵlooseIdentical, InjectionToken, ɵisObservable, ɵisPromise, ɵmerge, forwardRef, Directive, ElementRef, Renderer, Injectable, Injector, Input, Host, Optional, Self, EventEmitter, Inject, HostListener, Output, SkipSelf, Version, NgModule } from '@angular/core';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { map } from 'rxjs/operator/map';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -371,8 +372,8 @@ var Validators = (function () {
         if (presentValidators.length == 0)
             return null;
         return function (control) {
-            var /** @type {?} */ promises = _executeAsyncValidators(control, presentValidators).map(_convertToPromise);
-            return Promise.all(promises).then(_mergeErrors);
+            var /** @type {?} */ observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
+            return map.call(forkJoin(observables), _mergeErrors);
         };
     };
     return Validators;
@@ -385,11 +386,15 @@ function isPresent(o) {
     return o != null;
 }
 /**
- * @param {?} obj
+ * @param {?} r
  * @return {?}
  */
-function _convertToPromise(obj) {
-    return ɵisPromise(obj) ? obj : toPromise.call(obj);
+function toObservable(r) {
+    var /** @type {?} */ obs = ɵisPromise(r) ? fromPromise(r) : r;
+    if (!(ɵisObservable(obs))) {
+        throw new Error("Expected validator to return Promise or Observable.");
+    }
+    return obs;
 }
 /**
  * @param {?} control
@@ -2008,13 +2013,6 @@ function _find(control, path, delimiter) {
     }, control);
 }
 /**
- * @param {?} r
- * @return {?}
- */
-function toObservable(r) {
-    return ɵisPromise(r) ? fromPromise(r) : r;
-}
-/**
  * @param {?} validator
  * @return {?}
  */
@@ -2470,11 +2468,8 @@ var AbstractControl = (function () {
         if (this.asyncValidator) {
             this._status = PENDING;
             var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
-            if (!(ɵisObservable(obs))) {
-                throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
-            }
             this._asyncValidationSubscription =
-                obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
+                obs.subscribe(function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); });
         }
     };
     /**
@@ -5611,7 +5606,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * @stable
  */
-var /** @type {?} */ VERSION = new Version('4.0.0-rc.3-41f61b0');
+var /** @type {?} */ VERSION = new Version('4.0.0-rc.3-26d4ce2');
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.
  *
