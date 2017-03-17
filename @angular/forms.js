@@ -1,9 +1,9 @@
 /**
- * @license Angular v4.0.0-rc.5-5c5c2ae
+ * @license Angular v4.0.0-rc.5-bcc29ff
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
-import { ɵlooseIdentical, InjectionToken, ɵisObservable, ɵisPromise, ɵmerge, forwardRef, Directive, ElementRef, Renderer, Injectable, Injector, Input, Host, Optional, Self, EventEmitter, Inject, HostListener, Output, SkipSelf, Version, NgModule } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Host, HostListener, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer, Self, SkipSelf, Version, forwardRef, ɵisObservable, ɵisPromise, ɵlooseIdentical, ɵmerge } from '@angular/core';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map } from 'rxjs/operator/map';
@@ -111,6 +111,13 @@ class AbstractControlDirective {
 }
 
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * A directive that contains multiple {\@link NgControl}s.
  *
  * Only used by the forms module.
@@ -130,6 +137,13 @@ class ControlContainer extends AbstractControlDirective {
     get path() { return null; }
 }
 
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 /**
  * @param {?} value
  * @return {?}
@@ -160,7 +174,7 @@ const NG_VALIDATORS = new InjectionToken('NgValidators');
  * \@stable
  */
 const NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
-const /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
+const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 /**
  * Provides a set of validators used by form controls.
  *
@@ -340,6 +354,13 @@ function _mergeErrors(arrayOfErrors) {
 }
 
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * Used to provide a {\@link ControlValueAccessor} for form controls.
  *
  * See {\@link DefaultValueAccessor} for how to implement one.
@@ -347,7 +368,14 @@ function _mergeErrors(arrayOfErrors) {
  */
 const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
-const /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => CheckboxControlValueAccessor),
     multi: true,
@@ -413,7 +441,14 @@ CheckboxControlValueAccessor.ctorParameters = () => [
     { type: ElementRef, },
 ];
 
-const /** @type {?} */ DEFAULT_VALUE_ACCESSOR = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const DEFAULT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => DefaultValueAccessor),
     multi: true
@@ -516,7 +551,14 @@ function normalizeAsyncValidator(validator) {
     }
 }
 
-const /** @type {?} */ NUMBER_VALUE_ACCESSOR = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const NUMBER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NumberValueAccessor),
     multi: true
@@ -590,6 +632,13 @@ NumberValueAccessor.ctorParameters = () => [
 ];
 
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * @return {?}
  */
 function unimplemented() {
@@ -638,7 +687,14 @@ class NgControl extends AbstractControlDirective {
     viewToModelUpdate(newValue) { }
 }
 
-const /** @type {?} */ RADIO_VALUE_ACCESSOR = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => RadioControlValueAccessor),
     multi: true
@@ -834,7 +890,14 @@ RadioControlValueAccessor.propDecorators = {
     'value': [{ type: Input },],
 };
 
-const /** @type {?} */ RANGE_VALUE_ACCESSOR = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const RANGE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => RangeValueAccessor),
     multi: true
@@ -905,7 +968,14 @@ RangeValueAccessor.ctorParameters = () => [
     { type: ElementRef, },
 ];
 
-const /** @type {?} */ SELECT_VALUE_ACCESSOR = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SelectControlValueAccessor),
     multi: true
@@ -1177,7 +1247,14 @@ NgSelectOption.propDecorators = {
     'value': [{ type: Input, args: ['value',] },],
 };
 
-const /** @type {?} */ SELECT_MULTIPLE_VALUE_ACCESSOR = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const SELECT_MULTIPLE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SelectMultipleControlValueAccessor),
     multi: true
@@ -1463,6 +1540,13 @@ NgSelectMultipleOption.propDecorators = {
 };
 
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * @param {?} name
  * @param {?} parent
  * @return {?}
@@ -1596,7 +1680,7 @@ function isPropertyUpdated(changes, viewModel) {
         return true;
     return !ɵlooseIdentical(viewModel, change.currentValue);
 }
-const /** @type {?} */ BUILTIN_ACCESSORS = [
+const BUILTIN_ACCESSORS = [
     CheckboxControlValueAccessor,
     RangeValueAccessor,
     NumberValueAccessor,
@@ -1648,6 +1732,13 @@ function selectValueAccessor(dir, valueAccessors) {
 }
 
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * This is a base class for code shared between {\@link NgModelGroup} and {\@link FormGroupName}.
  *
  * \@stable
@@ -1698,6 +1789,13 @@ class AbstractFormGroupDirective extends ControlContainer {
     _checkParentType() { }
 }
 
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 class AbstractControlStatus {
     /**
      * @param {?} cd
@@ -1732,7 +1830,7 @@ class AbstractControlStatus {
      */
     get ngClassPending() { return this._cd.control ? this._cd.control.pending : false; }
 }
-const /** @type {?} */ ngControlStatusHost = {
+const ngControlStatusHost = {
     '[class.ng-untouched]': 'ngClassUntouched',
     '[class.ng-touched]': 'ngClassTouched',
     '[class.ng-pristine]': 'ngClassPristine',
@@ -1788,23 +1886,30 @@ NgControlStatusGroup.ctorParameters = () => [
 ];
 
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
  */
-const /** @type {?} */ VALID = 'VALID';
+const VALID = 'VALID';
 /**
  * Indicates that a FormControl is invalid, i.e. that an error exists in the input value.
  */
-const /** @type {?} */ INVALID = 'INVALID';
+const INVALID = 'INVALID';
 /**
  * Indicates that a FormControl is pending, i.e. that async validation is occurring and
  * errors are not yet available for the input value.
  */
-const /** @type {?} */ PENDING = 'PENDING';
+const PENDING = 'PENDING';
 /**
  * Indicates that a FormControl is disabled, i.e. that the control is exempt from ancestor
  * calculations of validity or value.
  */
-const /** @type {?} */ DISABLED = 'DISABLED';
+const DISABLED = 'DISABLED';
 /**
  * @param {?} control
  * @param {?} path
@@ -3295,11 +3400,18 @@ class FormArray extends AbstractControl {
     }
 }
 
-const /** @type {?} */ formDirectiveProvider = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const formDirectiveProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => NgForm)
 };
-const /** @type {?} */ resolvedPromise = Promise.resolve(null);
+const resolvedPromise = Promise.resolve(null);
 /**
  * \@whatItDoes Creates a top-level {\@link FormGroup} instance and binds it to a form
  * to track aggregate form value and validation status.
@@ -3493,7 +3605,7 @@ NgForm.ctorParameters = () => [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const Examples = {
+const FormErrorExamples = {
     formControlName: `
     <div [formGroup]="myGroup">
       <input formControlName="firstName">
@@ -3545,6 +3657,13 @@ const Examples = {
   `
 };
 
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 class TemplateDrivenErrors {
     /**
      * @return {?}
@@ -3554,13 +3673,13 @@ class TemplateDrivenErrors {
       ngModel cannot be used to register form controls with a parent formGroup directive.  Try using
       formGroup's partner directive "formControlName" instead.  Example:
 
-      ${Examples.formControlName}
+      ${FormErrorExamples.formControlName}
 
       Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:
 
       Example:
 
-      ${Examples.ngModelWithFormGroup}`);
+      ${FormErrorExamples.ngModelWithFormGroup}`);
     }
     /**
      * @return {?}
@@ -3571,11 +3690,11 @@ class TemplateDrivenErrors {
 
       Option 1: Use formControlName instead of ngModel (reactive strategy):
 
-      ${Examples.formGroupName}
+      ${FormErrorExamples.formGroupName}
 
       Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):
 
-      ${Examples.ngModelGroup}`);
+      ${FormErrorExamples.ngModelGroup}`);
     }
     /**
      * @return {?}
@@ -3596,15 +3715,22 @@ class TemplateDrivenErrors {
 
       Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):
 
-      ${Examples.formGroupName}
+      ${FormErrorExamples.formGroupName}
 
       Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):
 
-      ${Examples.ngModelGroup}`);
+      ${FormErrorExamples.ngModelGroup}`);
     }
 }
 
-const /** @type {?} */ modelGroupProvider = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const modelGroupProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => NgModelGroup)
 };
@@ -3670,7 +3796,14 @@ NgModelGroup.propDecorators = {
     'name': [{ type: Input, args: ['ngModelGroup',] },],
 };
 
-const /** @type {?} */ formControlBinding = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const formControlBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => NgModel)
 };
@@ -3691,7 +3824,7 @@ const /** @type {?} */ formControlBinding = {
  * - this is just one extra run no matter how many `ngModel` have been changed.
  * - this is a general problem when using `exportAs` for directives!
  */
-const /** @type {?} */ resolvedPromise$1 = Promise.resolve(null);
+const resolvedPromise$1 = Promise.resolve(null);
 /**
  * \@whatItDoes Creates a {\@link FormControl} instance from a domain model and binds it
  * to a form control element.
@@ -3939,6 +4072,13 @@ NgModel.propDecorators = {
     'compositionEnd': [{ type: HostListener, args: ['compositionend',] },],
 };
 
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 class ReactiveErrors {
     /**
      * @return {?}
@@ -3949,7 +4089,7 @@ class ReactiveErrors {
 
       Example:
 
-      ${Examples.formControlName}`);
+      ${FormErrorExamples.formControlName}`);
     }
     /**
      * @return {?}
@@ -3960,11 +4100,11 @@ class ReactiveErrors {
 
        Option 1:  Update the parent to be formGroupName (reactive form strategy)
 
-        ${Examples.formGroupName}
+        ${FormErrorExamples.formGroupName}
 
         Option 2: Use ngModel instead of formControlName (template-driven strategy)
 
-        ${Examples.ngModelGroup}`);
+        ${FormErrorExamples.ngModelGroup}`);
     }
     /**
      * @return {?}
@@ -3974,7 +4114,7 @@ class ReactiveErrors {
 
        Example:
 
-       ${Examples.formControlName}`);
+       ${FormErrorExamples.formControlName}`);
     }
     /**
      * @return {?}
@@ -3985,7 +4125,7 @@ class ReactiveErrors {
 
       Example:
 
-      ${Examples.formGroupName}`);
+      ${FormErrorExamples.formGroupName}`);
     }
     /**
      * @return {?}
@@ -3996,7 +4136,7 @@ class ReactiveErrors {
 
         Example:
 
-        ${Examples.formArrayName}`);
+        ${FormErrorExamples.formArrayName}`);
     }
     /**
      * @return {?}
@@ -4016,7 +4156,14 @@ class ReactiveErrors {
     }
 }
 
-const /** @type {?} */ formControlBinding$1 = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const formControlBinding$1 = {
     provide: NgControl,
     useExisting: forwardRef(() => FormControlDirective)
 };
@@ -4149,7 +4296,14 @@ FormControlDirective.propDecorators = {
     'isDisabled': [{ type: Input, args: ['disabled',] },],
 };
 
-const /** @type {?} */ formDirectiveProvider$1 = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const formDirectiveProvider$1 = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormGroupDirective)
 };
@@ -4394,7 +4548,14 @@ function remove(list, el) {
     }
 }
 
-const /** @type {?} */ formGroupNameProvider = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const formGroupNameProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormGroupName)
 };
@@ -4478,7 +4639,7 @@ FormGroupName.ctorParameters = () => [
 FormGroupName.propDecorators = {
     'name': [{ type: Input, args: ['formGroupName',] },],
 };
-const /** @type {?} */ formArrayNameProvider = {
+const formArrayNameProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormArrayName)
 };
@@ -4610,7 +4771,14 @@ function _hasInvalidParent(parent) {
         !(parent instanceof FormArrayName);
 }
 
-const /** @type {?} */ controlNameBinding = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const controlNameBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => FormControlName)
 };
@@ -4780,12 +4948,19 @@ FormControlName.propDecorators = {
     'isDisabled': [{ type: Input, args: ['disabled',] },],
 };
 
-const /** @type {?} */ REQUIRED_VALIDATOR = {
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => RequiredValidator),
     multi: true
 };
-const /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
+const CHECKBOX_REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => CheckboxRequiredValidator),
     multi: true
@@ -4878,7 +5053,7 @@ CheckboxRequiredValidator.ctorParameters = () => [];
 /**
  * Provider which adds {@link EmailValidator} to {@link NG_VALIDATORS}.
  */
-const /** @type {?} */ EMAIL_VALIDATOR = {
+const EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => EmailValidator),
     multi: true
@@ -4940,7 +5115,7 @@ EmailValidator.propDecorators = {
  *
  * {@example common/forms/ts/validators/validators.ts region='min'}
  */
-const /** @type {?} */ MIN_LENGTH_VALIDATOR = {
+const MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => MinLengthValidator),
     multi: true
@@ -5003,7 +5178,7 @@ MinLengthValidator.propDecorators = {
  *
  * {@example common/forms/ts/validators/validators.ts region='max'}
  */
-const /** @type {?} */ MAX_LENGTH_VALIDATOR = {
+const MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => MaxLengthValidator),
     multi: true
@@ -5060,7 +5235,7 @@ MaxLengthValidator.ctorParameters = () => [];
 MaxLengthValidator.propDecorators = {
     'maxlength': [{ type: Input },],
 };
-const /** @type {?} */ PATTERN_VALIDATOR = {
+const PATTERN_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => PatternValidator),
     multi: true
@@ -5120,6 +5295,13 @@ PatternValidator.propDecorators = {
     'pattern': [{ type: Input },],
 };
 
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 /**
  * \@whatItDoes Creates an {\@link AbstractControl} from a user-specified configuration.
  *
@@ -5225,10 +5407,29 @@ FormBuilder.decorators = [
 FormBuilder.ctorParameters = () => [];
 
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * @module
+ * @description
+ * Entry point for all public APIs of the common package.
+ */
+/**
  * \@stable
  */
-const VERSION = new Version('4.0.0-rc.5-5c5c2ae');
+const VERSION = new Version('4.0.0-rc.5-bcc29ff');
 
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.
  *
@@ -5255,7 +5456,14 @@ NgNoValidate.decorators = [
  */
 NgNoValidate.ctorParameters = () => [];
 
-const /** @type {?} */ SHARED_FORM_DIRECTIVES = [
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+const SHARED_FORM_DIRECTIVES = [
     NgNoValidate,
     NgSelectOption,
     NgSelectMultipleOption,
@@ -5275,8 +5483,8 @@ const /** @type {?} */ SHARED_FORM_DIRECTIVES = [
     CheckboxRequiredValidator,
     EmailValidator,
 ];
-const /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
-const /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
+const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
@@ -5293,6 +5501,13 @@ InternalFormsSharedModule.decorators = [
  */
 InternalFormsSharedModule.ctorParameters = () => [];
 
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 /**
  * The ng module for forms.
  * \@stable
@@ -5327,6 +5542,43 @@ ReactiveFormsModule.decorators = [
  * @nocollapse
  */
 ReactiveFormsModule.ctorParameters = () => [];
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * @module
+ * @description
+ * This module is used for handling user input, by defining and building a {@link FormGroup} that
+ * consists of {@link FormControl} objects, and mapping them onto the DOM. {@link FormControl}
+ * objects can then be used to read information from the form DOM elements.
+ *
+ * Forms providers are not included in default providers; you must import these providers
+ * explicitly.
+ */
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * @module
+ * @description
+ * Entry point for all public APIs of the forms package.
+ */
+
+// This file only reexports content of the `src` folder. Keep it that way.
+
+/**
+ * Generated bundle index. Do not edit.
+ */
 
 export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
 //# sourceMappingURL=forms.js.map
