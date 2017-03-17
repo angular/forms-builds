@@ -8,6 +8,10 @@
 import { OnChanges, Provider, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AbstractControl } from '../model';
+/** @experimental */
+export declare type ValidationErrors = {
+    [key: string]: any;
+};
 /**
  * An interface that can be implemented by classes that can act as validators.
  *
@@ -28,18 +32,12 @@ import { AbstractControl } from '../model';
  * @stable
  */
 export interface Validator {
-    validate(c: AbstractControl): {
-        [key: string]: any;
-    };
+    validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange?(fn: () => void): void;
 }
 /** @experimental */
 export interface AsyncValidator extends Validator {
-    validate(c: AbstractControl): Promise<{
-        [key: string]: any;
-    }> | Observable<{
-        [key: string]: any;
-    }>;
+    validate(c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
 }
 export declare const REQUIRED_VALIDATOR: Provider;
 export declare const CHECKBOX_REQUIRED_VALIDATOR: Provider;
@@ -58,10 +56,8 @@ export declare const CHECKBOX_REQUIRED_VALIDATOR: Provider;
 export declare class RequiredValidator implements Validator {
     private _required;
     private _onChange;
-    required: boolean;
-    validate(c: AbstractControl): {
-        [key: string]: any;
-    };
+    required: boolean | string;
+    validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
 }
 /**
@@ -77,9 +73,7 @@ export declare class RequiredValidator implements Validator {
  * @experimental
  */
 export declare class CheckboxRequiredValidator extends RequiredValidator {
-    validate(c: AbstractControl): {
-        [key: string]: any;
-    };
+    validate(c: AbstractControl): ValidationErrors | null;
 }
 /**
  * Provider which adds {@link EmailValidator} to {@link NG_VALIDATORS}.
@@ -103,28 +97,20 @@ export declare class EmailValidator implements Validator {
     private _enabled;
     private _onChange;
     email: boolean | string;
-    validate(c: AbstractControl): {
-        [key: string]: any;
-    };
+    validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
 }
 /**
  * @stable
  */
 export interface ValidatorFn {
-    (c: AbstractControl): {
-        [key: string]: any;
-    };
+    (c: AbstractControl): ValidationErrors | null;
 }
 /**
  * @stable
  */
 export interface AsyncValidatorFn {
-    (c: AbstractControl): Promise<{
-        [key: string]: any;
-    }> | Observable<{
-        [key: string]: any;
-    }>;
+    (c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
 }
 /**
  * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
@@ -145,9 +131,7 @@ export declare class MinLengthValidator implements Validator, OnChanges {
     private _onChange;
     minlength: string;
     ngOnChanges(changes: SimpleChanges): void;
-    validate(c: AbstractControl): {
-        [key: string]: any;
-    };
+    validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator();
 }
@@ -171,9 +155,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
     private _onChange;
     maxlength: string;
     ngOnChanges(changes: SimpleChanges): void;
-    validate(c: AbstractControl): {
-        [key: string]: any;
-    };
+    validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator();
 }
@@ -194,11 +176,9 @@ export declare const PATTERN_VALIDATOR: any;
 export declare class PatternValidator implements Validator, OnChanges {
     private _validator;
     private _onChange;
-    pattern: string;
+    pattern: string | RegExp;
     ngOnChanges(changes: SimpleChanges): void;
-    validate(c: AbstractControl): {
-        [key: string]: any;
-    };
+    validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator();
 }

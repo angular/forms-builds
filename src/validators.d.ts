@@ -7,7 +7,7 @@
  */
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AsyncValidatorFn, Validator, ValidatorFn } from './directives/validators';
+import { AsyncValidatorFn, ValidationErrors, Validator, ValidatorFn } from './directives/validators';
 import { AbstractControl } from './model';
 /**
  * Providers for validators to be used for {@link FormControl}s in a form.
@@ -49,21 +49,15 @@ export declare class Validators {
     /**
      * Validator that requires controls to have a non-empty value.
      */
-    static required(control: AbstractControl): {
-        [key: string]: boolean;
-    };
+    static required(control: AbstractControl): ValidationErrors | null;
     /**
      * Validator that requires control value to be true.
      */
-    static requiredTrue(control: AbstractControl): {
-        [key: string]: boolean;
-    };
+    static requiredTrue(control: AbstractControl): ValidationErrors | null;
     /**
      * Validator that performs email validation.
      */
-    static email(control: AbstractControl): {
-        [key: string]: boolean;
-    };
+    static email(control: AbstractControl): ValidationErrors | null;
     /**
      * Validator that requires controls to have a value of a minimum length.
      */
@@ -79,9 +73,7 @@ export declare class Validators {
     /**
      * No-op validator.
      */
-    static nullValidator(c: AbstractControl): {
-        [key: string]: boolean;
-    };
+    static nullValidator(c: AbstractControl): ValidationErrors | null;
     /**
      * Compose multiple validators into a single function that returns the union
      * of the individual error maps.

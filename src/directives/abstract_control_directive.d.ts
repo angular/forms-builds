@@ -7,6 +7,7 @@
  */
 import { Observable } from 'rxjs/Observable';
 import { AbstractControl } from '../model';
+import { ValidationErrors } from './validators';
 /**
  * Base class for control directives.
  *
@@ -20,9 +21,7 @@ export declare abstract class AbstractControlDirective {
     readonly valid: boolean;
     readonly invalid: boolean;
     readonly pending: boolean;
-    readonly errors: {
-        [key: string]: any;
-    };
+    readonly errors: ValidationErrors | null;
     readonly pristine: boolean;
     readonly dirty: boolean;
     readonly touched: boolean;
