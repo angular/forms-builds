@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-rc.5-f925910
+ * @license Angular v4.0.0-rc.5-6e9264a
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5603,7 +5603,7 @@
     /**
      * \@stable
      */
-    var VERSION = new _angular_core.Version('4.0.0-rc.5-f925910');
+    var VERSION = new _angular_core.Version('4.0.0-rc.5-6e9264a');
     /**
      * \@whatItDoes Adds `novalidate` attribute to all forms by default.
      *
