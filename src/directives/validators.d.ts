@@ -120,7 +120,11 @@ export interface ValidatorFn {
  * @stable
  */
 export interface AsyncValidatorFn {
-    (c: AbstractControl): any;
+    (c: AbstractControl): Promise<{
+        [key: string]: any;
+    }> | Observable<{
+        [key: string]: any;
+    }>;
 }
 /**
  * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.

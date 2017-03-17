@@ -4,13 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.0.0-rc.3-480a407
+ * @license Angular v4.0.0-rc.4-fcaca45
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
-import { ɵlooseIdentical, InjectionToken, ɵisPromise, ɵmerge, forwardRef, Directive, ElementRef, Renderer, Injectable, Injector, Input, Host, Optional, Self, EventEmitter, Inject, ɵisObservable, HostListener, Output, SkipSelf, Version, NgModule } from '@angular/core';
-import { toPromise } from 'rxjs/operator/toPromise';
+import { ɵlooseIdentical, InjectionToken, ɵisObservable, ɵisPromise, ɵmerge, forwardRef, Directive, ElementRef, Renderer, Injectable, Injector, Input, Host, Optional, Self, EventEmitter, Inject, HostListener, Output, SkipSelf, Version, NgModule } from '@angular/core';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { map } from 'rxjs/operator/map';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -219,27 +220,27 @@ function isEmptyInputValue(value) {
     return value == null || value.length === 0;
 }
 /**
- * Providers for validators to be used for {@link FormControl}s in a form.
+ * Providers for validators to be used for {\@link FormControl}s in a form.
  *
  * Provide this using `multi: true` to add validators.
  *
  * ### Example
  *
- * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
- * @stable
+ * {\@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
+ * \@stable
  */
-var /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators');
+var NG_VALIDATORS = new InjectionToken('NgValidators');
 /**
- * Providers for asynchronous validators to be used for {@link FormControl}s
+ * Providers for asynchronous validators to be used for {\@link FormControl}s
  * in a form.
  *
  * Provide this using `multi: true` to add validators.
  *
- * See {@link NG_VALIDATORS} for more details.
+ * See {\@link NG_VALIDATORS} for more details.
  *
- * @stable
+ * \@stable
  */
-var /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
+var NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
 var /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 /**
  * Provides a set of validators used by form controls.
@@ -371,8 +372,8 @@ var Validators = (function () {
         if (presentValidators.length == 0)
             return null;
         return function (control) {
-            var /** @type {?} */ promises = _executeAsyncValidators(control, presentValidators).map(_convertToPromise);
-            return Promise.all(promises).then(_mergeErrors);
+            var /** @type {?} */ observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
+            return map.call(forkJoin(observables), _mergeErrors);
         };
     };
     return Validators;
@@ -385,11 +386,15 @@ function isPresent(o) {
     return o != null;
 }
 /**
- * @param {?} obj
+ * @param {?} r
  * @return {?}
  */
-function _convertToPromise(obj) {
-    return ɵisPromise(obj) ? obj : toPromise.call(obj);
+function toObservable(r) {
+    var /** @type {?} */ obs = ɵisPromise(r) ? fromPromise(r) : r;
+    if (!(ɵisObservable(obs))) {
+        throw new Error("Expected validator to return Promise or Observable.");
+    }
+    return obs;
 }
 /**
  * @param {?} control
@@ -418,12 +423,12 @@ function _mergeErrors(arrayOfErrors) {
     return Object.keys(res).length === 0 ? null : res;
 }
 /**
- * Used to provide a {@link ControlValueAccessor} for form controls.
+ * Used to provide a {\@link ControlValueAccessor} for form controls.
  *
- * See {@link DefaultValueAccessor} for how to implement one.
- * @stable
+ * See {\@link DefaultValueAccessor} for how to implement one.
+ * \@stable
  */
-var /** @type {?} */ NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
+var NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 var /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return CheckboxControlValueAccessor; }),
@@ -2008,13 +2013,6 @@ function _find(control, path, delimiter) {
     }, control);
 }
 /**
- * @param {?} r
- * @return {?}
- */
-function toObservable(r) {
-    return ɵisPromise(r) ? fromPromise(r) : r;
-}
-/**
  * @param {?} validator
  * @return {?}
  */
@@ -2470,11 +2468,8 @@ var AbstractControl = (function () {
         if (this.asyncValidator) {
             this._status = PENDING;
             var /** @type {?} */ obs = toObservable(this.asyncValidator(this));
-            if (!(ɵisObservable(obs))) {
-                throw new Error("expected the following validator to return Promise or Observable: " + this.asyncValidator + ". If you are using FormBuilder; did you forget to brace your validators in an array?");
-            }
             this._asyncValidationSubscription =
-                obs.subscribe({ next: function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); } });
+                obs.subscribe(function (res) { return _this.setErrors(res, { emitEvent: emitEvent }); });
         }
     };
     /**
@@ -3827,13 +3822,7 @@ NgForm.ctorParameters = function () { return [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */ var /** @type {?} */ Examples = {
+var Examples = {
     formControlName: "\n    <div [formGroup]=\"myGroup\">\n      <input formControlName=\"firstName\">\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       firstName: new FormControl()\n    });",
     formGroupName: "\n    <div [formGroup]=\"myGroup\">\n       <div formGroupName=\"person\">\n          <input formControlName=\"firstName\">\n       </div>\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       person: new FormGroup({ firstName: new FormControl() })\n    });",
     formArrayName: "\n    <div [formGroup]=\"myGroup\">\n      <div formArrayName=\"cities\">\n        <div *ngFor=\"let city of cityArray.controls; let i=index\">\n          <input [formControlName]=\"i\">\n        </div>\n      </div>\n    </div>\n\n    In your class:\n\n    this.cityArray = new FormArray([new FormControl('SF')]);\n    this.myGroup = new FormGroup({\n      cities: this.cityArray\n    });",
@@ -4681,6 +4670,7 @@ FormGroupDirective.propDecorators = {
     'ngSubmit': [{ type: Output },],
 };
 /**
+ * @template T
  * @param {?} list
  * @param {?} el
  * @return {?}
@@ -5609,9 +5599,9 @@ FormBuilder.decorators = [
  */
 FormBuilder.ctorParameters = function () { return []; };
 /**
- * @stable
+ * \@stable
  */
-var /** @type {?} */ VERSION = new Version('4.0.0-rc.3-480a407');
+var VERSION = new Version('4.0.0-rc.4-fcaca45');
 /**
  * \@whatItDoes Adds `novalidate` attribute to all forms by default.
  *
@@ -5721,3 +5711,4 @@ ReactiveFormsModule.decorators = [
  */
 ReactiveFormsModule.ctorParameters = function () { return []; };
 export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
+//# sourceMappingURL=forms.es5.js.map

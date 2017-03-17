@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { InjectionToken } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { AsyncValidatorFn, Validator, ValidatorFn } from './directives/validators';
 import { AbstractControl } from './model';
 /**
@@ -88,3 +89,4 @@ export declare class Validators {
     static compose(validators: ValidatorFn[]): ValidatorFn;
     static composeAsync(validators: AsyncValidatorFn[]): AsyncValidatorFn;
 }
+export declare function toObservable(r: any): Observable<any>;
