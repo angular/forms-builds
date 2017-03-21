@@ -1,13 +1,13 @@
 /**
- * @license Angular v4.0.0-rc.5-e59e5e2
+ * @license Angular v4.0.0-rc.5-5efc860
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/observable/forkJoin'), require('rxjs/observable/fromPromise'), require('rxjs/operator/map')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/observable/forkJoin', 'rxjs/observable/fromPromise', 'rxjs/operator/map'], factory) :
-	(factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable.prototype));
-}(this, (function (exports,_angular_core,rxjs_observable_forkJoin,rxjs_observable_fromPromise,rxjs_operator_map) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/observable/forkJoin'), require('rxjs/observable/fromPromise'), require('rxjs/operator/map'), require('@angular/platform-browser')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/observable/forkJoin', 'rxjs/observable/fromPromise', 'rxjs/operator/map', '@angular/platform-browser'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable.prototype,global.ng.platformBrowser));
+}(this, (function (exports,_angular_core,rxjs_observable_forkJoin,rxjs_observable_fromPromise,rxjs_operator_map,_angular_platformBrowser) { 'use strict';
 
 var __extends = (undefined && undefined.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15,7 +15,7 @@ var __extends = (undefined && undefined.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.0.0-rc.5-e59e5e2
+ * @license Angular v4.0.0-rc.5-5efc860
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -543,6 +543,20 @@ var DEFAULT_VALUE_ACCESSOR = {
     multi: true
 };
 /**
+ * We must check whether the agent is Android because composition events
+ * behave differently between iOS and Android.
+ * @return {?}
+ */
+function _isAndroid() {
+    var /** @type {?} */ userAgent = _angular_platformBrowser.ɵgetDOM() ? _angular_platformBrowser.ɵgetDOM().getUserAgent() : '';
+    return /android (\d+)/.test(userAgent.toLowerCase());
+}
+/**
+ * Turn this mode on if you want form directives to buffer IME input until compositionend
+ * \@experimental
+ */
+var COMPOSITION_BUFFER_MODE = new _angular_core.InjectionToken('CompositionEventMode');
+/**
  * The default accessor for writing a value and listening to changes that is used by the
  * {\@link NgModel}, {\@link FormControlDirective}, and {\@link FormControlName} directives.
  *
@@ -557,12 +571,18 @@ var DefaultValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
+     * @param {?} _compositionMode
      */
-    function DefaultValueAccessor(_renderer, _elementRef) {
+    function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
+        this._compositionMode = _compositionMode;
         this.onChange = function (_) { };
         this.onTouched = function () { };
+        this._composing = false;
+        if (this._compositionMode == null) {
+            this._compositionMode = !_isAndroid();
+        }
     }
     /**
      * @param {?} value
@@ -589,6 +609,27 @@ var DefaultValueAccessor = (function () {
     DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    DefaultValueAccessor.prototype._handleInput = function (value) {
+        if (!this._compositionMode || (this._compositionMode && !this._composing)) {
+            this.onChange(value);
+        }
+    };
+    /**
+     * @return {?}
+     */
+    DefaultValueAccessor.prototype._compositionStart = function () { this._composing = true; };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    DefaultValueAccessor.prototype._compositionEnd = function (value) {
+        this._composing = false;
+        this._compositionMode && this.onChange(value);
+    };
     return DefaultValueAccessor;
 }());
 DefaultValueAccessor.decorators = [
@@ -596,8 +637,13 @@ DefaultValueAccessor.decorators = [
                 selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
                 // TODO: vsavkin replace the above selector with the one below it once
                 // https://github.com/angular/angular/issues/3011 is implemented
-                // selector: '[ngControl],[ngModel],[ngFormControl]',
-                host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                // selector: '[ngModel],[formControl],[formControlName]',
+                host: {
+                    '(input)': '_handleInput($event.target.value)',
+                    '(blur)': 'onTouched()',
+                    '(compositionstart)': '_compositionStart()',
+                    '(compositionend)': '_compositionEnd($event.target.value)'
+                },
                 providers: [DEFAULT_VALUE_ACCESSOR]
             },] },
 ];
@@ -607,6 +653,7 @@ DefaultValueAccessor.decorators = [
 DefaultValueAccessor.ctorParameters = function () { return [
     { type: _angular_core.Renderer, },
     { type: _angular_core.ElementRef, },
+    { type: undefined, decorators: [{ type: _angular_core.Optional }, { type: _angular_core.Inject, args: [COMPOSITION_BUFFER_MODE,] },] },
 ]; };
 /**
  * @license
@@ -4164,7 +4211,6 @@ var NgModel = (function (_super) {
          * \@internal
          */
         _this._registered = false;
-        _this._composing = false;
         _this.update = new _angular_core.EventEmitter();
         _this._parent = parent;
         _this._rawValidators = validators || [];
@@ -4172,17 +4218,6 @@ var NgModel = (function (_super) {
         _this.valueAccessor = selectValueAccessor(_this, valueAccessors);
         return _this;
     }
-    /**
-     * @return {?}
-     */
-    NgModel.prototype.compositionStart = function () { this._composing = true; };
-    /**
-     * @return {?}
-     */
-    NgModel.prototype.compositionEnd = function () {
-        this._composing = false;
-        this.update.emit(this.viewModel);
-    };
     /**
      * @param {?} changes
      * @return {?}
@@ -4253,7 +4288,7 @@ var NgModel = (function (_super) {
      */
     NgModel.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
-        !this._composing && this.update.emit(newValue);
+        this.update.emit(newValue);
     };
     /**
      * @return {?}
@@ -4356,8 +4391,6 @@ NgModel.propDecorators = {
     'model': [{ type: _angular_core.Input, args: ['ngModel',] },],
     'options': [{ type: _angular_core.Input, args: ['ngModelOptions',] },],
     'update': [{ type: _angular_core.Output, args: ['ngModelChange',] },],
-    'compositionStart': [{ type: _angular_core.HostListener, args: ['compositionstart',] },],
-    'compositionEnd': [{ type: _angular_core.HostListener, args: ['compositionend',] },],
 };
 /**
  * @license
@@ -5802,7 +5835,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.0.0-rc.5-e59e5e2');
+var VERSION = new _angular_core.Version('4.0.0-rc.5-5efc860');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5938,6 +5971,7 @@ exports.AbstractFormGroupDirective = AbstractFormGroupDirective;
 exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
 exports.ControlContainer = ControlContainer;
 exports.NG_VALUE_ACCESSOR = NG_VALUE_ACCESSOR;
+exports.COMPOSITION_BUFFER_MODE = COMPOSITION_BUFFER_MODE;
 exports.DefaultValueAccessor = DefaultValueAccessor;
 exports.NgControl = NgControl;
 exports.NgControlStatus = NgControlStatus;

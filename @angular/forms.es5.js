@@ -4,14 +4,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.0.0-rc.5-e59e5e2
+ * @license Angular v4.0.0-rc.5-5efc860
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
-import { Directive, ElementRef, EventEmitter, Host, HostListener, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer, Self, SkipSelf, Version, forwardRef, ɵisObservable, ɵisPromise, ɵlooseIdentical, ɵmerge } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Host, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer, Self, SkipSelf, Version, forwardRef, ɵisObservable, ɵisPromise, ɵlooseIdentical, ɵmerge } from '@angular/core';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map } from 'rxjs/operator/map';
+import { ɵgetDOM } from '@angular/platform-browser';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -536,6 +537,20 @@ var DEFAULT_VALUE_ACCESSOR = {
     multi: true
 };
 /**
+ * We must check whether the agent is Android because composition events
+ * behave differently between iOS and Android.
+ * @return {?}
+ */
+function _isAndroid() {
+    var /** @type {?} */ userAgent = ɵgetDOM() ? ɵgetDOM().getUserAgent() : '';
+    return /android (\d+)/.test(userAgent.toLowerCase());
+}
+/**
+ * Turn this mode on if you want form directives to buffer IME input until compositionend
+ * \@experimental
+ */
+var COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
+/**
  * The default accessor for writing a value and listening to changes that is used by the
  * {\@link NgModel}, {\@link FormControlDirective}, and {\@link FormControlName} directives.
  *
@@ -550,12 +565,18 @@ var DefaultValueAccessor = (function () {
     /**
      * @param {?} _renderer
      * @param {?} _elementRef
+     * @param {?} _compositionMode
      */
-    function DefaultValueAccessor(_renderer, _elementRef) {
+    function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
+        this._compositionMode = _compositionMode;
         this.onChange = function (_) { };
         this.onTouched = function () { };
+        this._composing = false;
+        if (this._compositionMode == null) {
+            this._compositionMode = !_isAndroid();
+        }
     }
     /**
      * @param {?} value
@@ -582,6 +603,27 @@ var DefaultValueAccessor = (function () {
     DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    DefaultValueAccessor.prototype._handleInput = function (value) {
+        if (!this._compositionMode || (this._compositionMode && !this._composing)) {
+            this.onChange(value);
+        }
+    };
+    /**
+     * @return {?}
+     */
+    DefaultValueAccessor.prototype._compositionStart = function () { this._composing = true; };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    DefaultValueAccessor.prototype._compositionEnd = function (value) {
+        this._composing = false;
+        this._compositionMode && this.onChange(value);
+    };
     return DefaultValueAccessor;
 }());
 DefaultValueAccessor.decorators = [
@@ -589,8 +631,13 @@ DefaultValueAccessor.decorators = [
                 selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
                 // TODO: vsavkin replace the above selector with the one below it once
                 // https://github.com/angular/angular/issues/3011 is implemented
-                // selector: '[ngControl],[ngModel],[ngFormControl]',
-                host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                // selector: '[ngModel],[formControl],[formControlName]',
+                host: {
+                    '(input)': '_handleInput($event.target.value)',
+                    '(blur)': 'onTouched()',
+                    '(compositionstart)': '_compositionStart()',
+                    '(compositionend)': '_compositionEnd($event.target.value)'
+                },
                 providers: [DEFAULT_VALUE_ACCESSOR]
             },] },
 ];
@@ -600,6 +647,7 @@ DefaultValueAccessor.decorators = [
 DefaultValueAccessor.ctorParameters = function () { return [
     { type: Renderer, },
     { type: ElementRef, },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [COMPOSITION_BUFFER_MODE,] },] },
 ]; };
 /**
  * @license
@@ -4157,7 +4205,6 @@ var NgModel = (function (_super) {
          * \@internal
          */
         _this._registered = false;
-        _this._composing = false;
         _this.update = new EventEmitter();
         _this._parent = parent;
         _this._rawValidators = validators || [];
@@ -4165,17 +4212,6 @@ var NgModel = (function (_super) {
         _this.valueAccessor = selectValueAccessor(_this, valueAccessors);
         return _this;
     }
-    /**
-     * @return {?}
-     */
-    NgModel.prototype.compositionStart = function () { this._composing = true; };
-    /**
-     * @return {?}
-     */
-    NgModel.prototype.compositionEnd = function () {
-        this._composing = false;
-        this.update.emit(this.viewModel);
-    };
     /**
      * @param {?} changes
      * @return {?}
@@ -4246,7 +4282,7 @@ var NgModel = (function (_super) {
      */
     NgModel.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
-        !this._composing && this.update.emit(newValue);
+        this.update.emit(newValue);
     };
     /**
      * @return {?}
@@ -4349,8 +4385,6 @@ NgModel.propDecorators = {
     'model': [{ type: Input, args: ['ngModel',] },],
     'options': [{ type: Input, args: ['ngModelOptions',] },],
     'update': [{ type: Output, args: ['ngModelChange',] },],
-    'compositionStart': [{ type: HostListener, args: ['compositionstart',] },],
-    'compositionEnd': [{ type: HostListener, args: ['compositionend',] },],
 };
 /**
  * @license
@@ -5795,7 +5829,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('4.0.0-rc.5-e59e5e2');
+var VERSION = new Version('4.0.0-rc.5-5efc860');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5958,5 +5992,5 @@ ReactiveFormsModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
+export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
 //# sourceMappingURL=forms.es5.js.map
