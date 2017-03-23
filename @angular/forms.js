@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0-rc.5-98cb974
+ * @license Angular v4.0.0-rc.5-08d8675
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3679,7 +3679,7 @@ const FormErrorExamples = {
     formArrayName: `
     <div [formGroup]="myGroup">
       <div formArrayName="cities">
-        <div *ngFor="let city of cityArray.controls; let i=index">
+        <div *ngFor="let city of cityArray.controls; index as i">
           <input [formControlName]="i">
         </div>
       </div>
@@ -5455,7 +5455,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.0.0-rc.5-98cb974');
+const VERSION = new Version('4.0.0-rc.5-08d8675');
 
 /**
  * @license
