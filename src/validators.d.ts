@@ -78,7 +78,8 @@ export declare class Validators {
      * Compose multiple validators into a single function that returns the union
      * of the individual error maps.
      */
-    static compose(validators: ValidatorFn[]): ValidatorFn;
-    static composeAsync(validators: AsyncValidatorFn[]): AsyncValidatorFn;
+    static compose(validators: null): null;
+    static compose(validators: (ValidatorFn | null | undefined)[]): ValidatorFn | null;
+    static composeAsync(validators: (AsyncValidatorFn | null)[]): AsyncValidatorFn | null;
 }
 export declare function toObservable(r: any): Observable<any>;

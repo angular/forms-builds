@@ -30,8 +30,8 @@ export declare const DISABLED = "DISABLED";
  * @stable
  */
 export declare abstract class AbstractControl {
-    validator: ValidatorFn;
-    asyncValidator: AsyncValidatorFn;
+    validator: ValidatorFn | null;
+    asyncValidator: AsyncValidatorFn | null;
     private _valueChanges;
     private _statusChanges;
     private _status;
@@ -40,7 +40,7 @@ export declare abstract class AbstractControl {
     private _touched;
     private _parent;
     private _asyncValidationSubscription;
-    constructor(validator: ValidatorFn, asyncValidator: AsyncValidatorFn);
+    constructor(validator: ValidatorFn | null, asyncValidator: AsyncValidatorFn | null);
     /**
      * The value of the control.
      */
@@ -143,7 +143,7 @@ export declare abstract class AbstractControl {
      * Sets the synchronous validators that are active on this control.  Calling
      * this will overwrite any existing sync validators.
      */
-    setValidators(newValidator: ValidatorFn | ValidatorFn[]): void;
+    setValidators(newValidator: ValidatorFn | ValidatorFn[] | null): void;
     /**
      * Sets the async validators that are active on this control. Calling this
      * will overwrite any existing async validators.
@@ -247,7 +247,7 @@ export declare abstract class AbstractControl {
     }): void;
     private _setInitialStatus();
     private _runValidator();
-    private _runAsyncValidator(emitEvent);
+    private _runAsyncValidator(emitEvent?);
     private _cancelExistingSubscription();
     /**
      * Sets errors on a form control.
@@ -288,7 +288,7 @@ export declare abstract class AbstractControl {
      *
      * * `this.form.get(['person', 'name']);`
      */
-    get(path: Array<string | number> | string): AbstractControl;
+    get(path: Array<string | number> | string): AbstractControl | null;
     /**
      * Returns true if the control with the given path has the error specified. Otherwise
      * returns null or undefined.
@@ -353,7 +353,7 @@ export declare abstract class AbstractControl {
  * @stable
  */
 export declare class FormControl extends AbstractControl {
-    constructor(formState?: any, validator?: ValidatorFn | ValidatorFn[], asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[]);
+    constructor(formState?: any, validator?: ValidatorFn | ValidatorFn[] | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Set the value of the form control to `value`.
      *
@@ -490,7 +490,7 @@ export declare class FormGroup extends AbstractControl {
     };
     constructor(controls: {
         [key: string]: AbstractControl;
-    }, validator?: ValidatorFn, asyncValidator?: AsyncValidatorFn);
+    }, validator?: ValidatorFn | null, asyncValidator?: AsyncValidatorFn | null);
     /**
      * Registers a control with the group's list of controls.
      *
@@ -662,7 +662,7 @@ export declare class FormGroup extends AbstractControl {
  */
 export declare class FormArray extends AbstractControl {
     controls: AbstractControl[];
-    constructor(controls: AbstractControl[], validator?: ValidatorFn, asyncValidator?: AsyncValidatorFn);
+    constructor(controls: AbstractControl[], validator?: ValidatorFn | null, asyncValidator?: AsyncValidatorFn | null);
     /**
      * Get the {@link AbstractControl} at the given `index` in the array.
      */
