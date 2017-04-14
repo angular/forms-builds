@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.1.0-beta.1-6a2e08d
+ * @license Angular v4.1.0-beta.1-2e47a0d
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -26,10 +26,9 @@ import { ɵgetDOM } from '@angular/platform-browser';
  */
 class AbstractControlDirective {
     /**
-     * @abstract
      * @return {?}
      */
-    control() { }
+    get control() { throw new Error('unimplemented'); }
     /**
      * @return {?}
      */
@@ -77,15 +76,11 @@ class AbstractControlDirective {
     /**
      * @return {?}
      */
-    get statusChanges() {
-        return this.control ? this.control.statusChanges : null;
-    }
+    get statusChanges() { return this.control ? this.control.statusChanges : null; }
     /**
      * @return {?}
      */
-    get valueChanges() {
-        return this.control ? this.control.valueChanges : null;
-    }
+    get valueChanges() { return this.control ? this.control.valueChanges : null; }
     /**
      * @return {?}
      */
@@ -103,7 +98,7 @@ class AbstractControlDirective {
      * @param {?=} path
      * @return {?}
      */
-    hasError(errorCode, path) {
+    hasError(errorCode, path = null) {
         return this.control ? this.control.hasError(errorCode, path) : false;
     }
     /**
@@ -111,7 +106,7 @@ class AbstractControlDirective {
      * @param {?=} path
      * @return {?}
      */
-    getError(errorCode, path) {
+    getError(errorCode, path = null) {
         return this.control ? this.control.getError(errorCode, path) : null;
     }
 }
@@ -129,7 +124,6 @@ class AbstractControlDirective {
  * Only used by the forms module.
  *
  * \@stable
- * @abstract
  */
 class ControlContainer extends AbstractControlDirective {
     /**
@@ -292,13 +286,15 @@ class Validators {
      */
     static nullValidator(c) { return null; }
     /**
+     * Compose multiple validators into a single function that returns the union
+     * of the individual error maps.
      * @param {?} validators
      * @return {?}
      */
     static compose(validators) {
         if (!validators)
             return null;
-        const /** @type {?} */ presentValidators = (validators.filter(isPresent));
+        const /** @type {?} */ presentValidators = validators.filter(isPresent);
         if (presentValidators.length == 0)
             return null;
         return function (control) {
@@ -312,7 +308,7 @@ class Validators {
     static composeAsync(validators) {
         if (!validators)
             return null;
-        const /** @type {?} */ presentValidators = (validators.filter(isPresent));
+        const /** @type {?} */ presentValidators = validators.filter(isPresent);
         if (presentValidators.length == 0)
             return null;
         return function (control) {
@@ -361,7 +357,7 @@ function _executeAsyncValidators(control, validators) {
  */
 function _mergeErrors(arrayOfErrors) {
     const /** @type {?} */ res = arrayOfErrors.reduce((res, errors) => {
-        return errors != null ? __assign({}, /** @type {?} */ ((res)), errors) : ((res));
+        return errors != null ? __assign({}, res, errors) : res;
     }, {});
     return Object.keys(res).length === 0 ? null : res;
 }
@@ -1475,7 +1471,7 @@ class SelectMultipleControlValueAccessor {
      */
     _getOptionId(value) {
         for (const /** @type {?} */ id of Array.from(this._optionMap.keys())) {
-            if (this._compareWith(/** @type {?} */ ((this._optionMap.get(id)))._value, value))
+            if (this._compareWith(this._optionMap.get(id)._value, value))
                 return id;
         }
         return null;
@@ -1487,7 +1483,7 @@ class SelectMultipleControlValueAccessor {
      */
     _getOptionValue(valueString) {
         const /** @type {?} */ id = _extractId$1(valueString);
-        return this._optionMap.has(id) ? ((this._optionMap.get(id)))._value : valueString;
+        return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
     }
 }
 SelectMultipleControlValueAccessor.decorators = [
@@ -1612,7 +1608,7 @@ NgSelectMultipleOption.propDecorators = {
  * @return {?}
  */
 function controlPath(name, parent) {
-    return [...((parent.path)), name];
+    return [...parent.path, name];
 }
 /**
  * @param {?} control
@@ -1624,38 +1620,35 @@ function setUpControl(control, dir) {
         _throwError(dir, 'Cannot find control with');
     if (!dir.valueAccessor)
         _throwError(dir, 'No value accessor for form control with');
-    control.validator = Validators.compose([/** @type {?} */ ((control.validator)), dir.validator]);
-    control.asyncValidator = Validators.composeAsync([/** @type {?} */ ((control.asyncValidator)), dir.asyncValidator]); /** @type {?} */
-    ((dir.valueAccessor)).writeValue(control.value); /** @type {?} */
-    ((
+    control.validator = Validators.compose([control.validator, dir.validator]);
+    control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
+    dir.valueAccessor.writeValue(control.value);
     // view -> model
-    dir.valueAccessor)).registerOnChange((newValue) => {
+    dir.valueAccessor.registerOnChange((newValue) => {
         dir.viewToModelUpdate(newValue);
         control.markAsDirty();
         control.setValue(newValue, { emitModelToViewChange: false });
-    }); /** @type {?} */
-    ((
+    });
     // touched
-    dir.valueAccessor)).registerOnTouched(() => control.markAsTouched());
+    dir.valueAccessor.registerOnTouched(() => control.markAsTouched());
     control.registerOnChange((newValue, emitModelEvent) => {
-        ((
         // control -> view
-        dir.valueAccessor)).writeValue(newValue);
+        dir.valueAccessor.writeValue(newValue);
         // control -> ngModel
         if (emitModelEvent)
             dir.viewToModelUpdate(newValue);
     });
-    if (((dir.valueAccessor)).setDisabledState) {
-        control.registerOnDisabledChange((isDisabled) => { /** @type {?} */ ((((dir.valueAccessor)).setDisabledState))(isDisabled); });
+    if (dir.valueAccessor.setDisabledState) {
+        control.registerOnDisabledChange((isDisabled) => { dir.valueAccessor.setDisabledState(isDisabled); });
     }
     // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
     dir._rawValidators.forEach((validator) => {
         if (((validator)).registerOnValidatorChange)
-            ((((validator)).registerOnValidatorChange))(() => control.updateValueAndValidity());
+            ((validator)).registerOnValidatorChange(() => control.updateValueAndValidity());
     });
     dir._rawAsyncValidators.forEach((validator) => {
         if (((validator)).registerOnValidatorChange)
-            ((((validator)).registerOnValidatorChange))(() => control.updateValueAndValidity());
+            ((validator)).registerOnValidatorChange(() => control.updateValueAndValidity());
     });
 }
 /**
@@ -1664,8 +1657,8 @@ function setUpControl(control, dir) {
  * @return {?}
  */
 function cleanUpControl(control, dir) {
-    ((dir.valueAccessor)).registerOnChange(() => _noControlError(dir)); /** @type {?} */
-    ((dir.valueAccessor)).registerOnTouched(() => _noControlError(dir));
+    dir.valueAccessor.registerOnChange(() => _noControlError(dir));
+    dir.valueAccessor.registerOnTouched(() => _noControlError(dir));
     dir._rawValidators.forEach((validator) => {
         if (validator.registerOnValidatorChange) {
             validator.registerOnValidatorChange(null);
@@ -1704,10 +1697,10 @@ function _noControlError(dir) {
  */
 function _throwError(dir, message) {
     let /** @type {?} */ messageEnd;
-    if (((dir.path)).length > 1) {
-        messageEnd = `path: '${ /** @type {?} */((dir.path)).join(' -> ')}'`;
+    if (dir.path.length > 1) {
+        messageEnd = `path: '${dir.path.join(' -> ')}'`;
     }
-    else if (((dir.path))[0]) {
+    else if (dir.path[0]) {
         messageEnd = `name: '${dir.path}'`;
     }
     else {
@@ -1766,9 +1759,9 @@ function isBuiltInAccessor(valueAccessor) {
 function selectValueAccessor(dir, valueAccessors) {
     if (!valueAccessors)
         return null;
-    let /** @type {?} */ defaultAccessor = undefined;
-    let /** @type {?} */ builtinAccessor = undefined;
-    let /** @type {?} */ customAccessor = undefined;
+    let /** @type {?} */ defaultAccessor;
+    let /** @type {?} */ builtinAccessor;
+    let /** @type {?} */ customAccessor;
     valueAccessors.forEach((v) => {
         if (v.constructor === DefaultValueAccessor) {
             defaultAccessor = v;
@@ -1811,8 +1804,8 @@ class AbstractFormGroupDirective extends ControlContainer {
      * @return {?}
      */
     ngOnInit() {
-        this._checkParentType(); /** @type {?} */
-        ((this.formDirective)).addFormGroup(this);
+        this._checkParentType();
+        this.formDirective.addFormGroup(this);
     }
     /**
      * @return {?}
@@ -1826,7 +1819,7 @@ class AbstractFormGroupDirective extends ControlContainer {
      * Get the {\@link FormGroup} backing this binding.
      * @return {?}
      */
-    get control() { return ((this.formDirective)).getFormGroup(this); }
+    get control() { return this.formDirective.getFormGroup(this); }
     /**
      * Get the path to this control group.
      * @return {?}
@@ -1844,9 +1837,7 @@ class AbstractFormGroupDirective extends ControlContainer {
     /**
      * @return {?}
      */
-    get asyncValidator() {
-        return composeAsyncValidators(this._asyncValidators);
-    }
+    get asyncValidator() { return composeAsyncValidators(this._asyncValidators); }
     /**
      * \@internal
      * @return {?}
@@ -2000,19 +1991,18 @@ function _find(control, path, delimiter) {
     }, control);
 }
 /**
- * @param {?=} validator
+ * @param {?} validator
  * @return {?}
  */
 function coerceToValidator(validator) {
-    return Array.isArray(validator) ? composeValidators(validator) : validator || null;
+    return Array.isArray(validator) ? composeValidators(validator) : validator;
 }
 /**
- * @param {?=} asyncValidator
+ * @param {?} asyncValidator
  * @return {?}
  */
 function coerceToAsyncValidator(asyncValidator) {
-    return Array.isArray(asyncValidator) ? composeAsyncValidators(asyncValidator) :
-        asyncValidator || null;
+    return Array.isArray(asyncValidator) ? composeAsyncValidators(asyncValidator) : asyncValidator;
 }
 /**
  * \@whatItDoes This is the base class for {\@link FormControl}, {\@link FormGroup}, and
@@ -2274,7 +2264,7 @@ class AbstractControl {
             this._valueChanges.emit(this._value);
             this._statusChanges.emit(this._status);
         }
-        this._updateAncestors(!!onlySelf);
+        this._updateAncestors(onlySelf);
         this._onDisabledChange.forEach((changeFn) => changeFn(true));
     }
     /**
@@ -2290,7 +2280,7 @@ class AbstractControl {
         this._status = VALID;
         this._forEachChild((control) => { control.enable({ onlySelf: true }); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent });
-        this._updateAncestors(!!onlySelf);
+        this._updateAncestors(onlySelf);
         this._onDisabledChange.forEach((changeFn) => changeFn(false));
     }
     /**
@@ -2379,7 +2369,7 @@ class AbstractControl {
         return this.validator ? this.validator(this) : null;
     }
     /**
-     * @param {?=} emitEvent
+     * @param {?} emitEvent
      * @return {?}
      */
     _runAsyncValidator(emitEvent) {
@@ -2453,7 +2443,7 @@ class AbstractControl {
      * @param {?=} path
      * @return {?}
      */
-    getError(errorCode, path) {
+    getError(errorCode, path = null) {
         const /** @type {?} */ control = path ? this.get(path) : this;
         return control && control._errors ? control._errors[errorCode] : null;
     }
@@ -2466,7 +2456,9 @@ class AbstractControl {
      * @param {?=} path
      * @return {?}
      */
-    hasError(errorCode, path) { return !!this.getError(errorCode, path); }
+    hasError(errorCode, path = null) {
+        return !!this.getError(errorCode, path);
+    }
     /**
      * Retrieves the top-level ancestor of this control.
      * @return {?}
@@ -2649,7 +2641,7 @@ class FormControl extends AbstractControl {
      * @param {?=} validator
      * @param {?=} asyncValidator
      */
-    constructor(formState = null, validator, asyncValidator) {
+    constructor(formState = null, validator = null, asyncValidator = null) {
         super(coerceToValidator(validator), coerceToAsyncValidator(asyncValidator));
         /**
          * \@internal
@@ -2854,8 +2846,8 @@ class FormGroup extends AbstractControl {
      * @param {?=} validator
      * @param {?=} asyncValidator
      */
-    constructor(controls, validator, asyncValidator) {
-        super(validator || null, asyncValidator || null);
+    constructor(controls, validator = null, asyncValidator = null) {
+        super(validator, asyncValidator);
         this.controls = controls;
         this._initObservables();
         this._setUpControls();
@@ -3197,8 +3189,8 @@ class FormArray extends AbstractControl {
      * @param {?=} validator
      * @param {?=} asyncValidator
      */
-    constructor(controls, validator, asyncValidator) {
-        super(validator || null, asyncValidator || null);
+    constructor(controls, validator = null, asyncValidator = null) {
+        super(validator, asyncValidator);
         this.controls = controls;
         this._initObservables();
         this._setUpControls();
@@ -3605,7 +3597,7 @@ class NgForm extends ControlContainer {
      */
     updateModel(dir, value) {
         resolvedPromise.then(() => {
-            const /** @type {?} */ ctrl = (this.form.get(/** @type {?} */ ((dir.path))));
+            const /** @type {?} */ ctrl = (this.form.get(dir.path));
             ctrl.setValue(value);
         });
     }
@@ -4034,7 +4026,7 @@ class NgModel extends NgControl {
      * @return {?}
      */
     _isStandalone() {
-        return !this._parent || !!(this.options && this.options.standalone);
+        return !this._parent || (this.options && this.options.standalone);
     }
     /**
      * @return {?}
@@ -4284,8 +4276,8 @@ class FormControlDirective extends NgControl {
     ngOnChanges(changes) {
         if (this._isControlChanged(changes)) {
             setUpControl(this.form, this);
-            if (this.control.disabled && ((this.valueAccessor)).setDisabledState) {
-                ((((this.valueAccessor)).setDisabledState))(true);
+            if (this.control.disabled && this.valueAccessor.setDisabledState) {
+                this.valueAccessor.setDisabledState(true);
             }
             this.form.updateValueAndValidity({ emitEvent: false });
         }
@@ -4403,7 +4395,7 @@ class FormGroupDirective extends ControlContainer {
         this._asyncValidators = _asyncValidators;
         this._submitted = false;
         this.directives = [];
-        this.form = ((null));
+        this.form = null;
         this.ngSubmit = new EventEmitter();
     }
     /**
@@ -4553,9 +4545,9 @@ class FormGroupDirective extends ControlContainer {
      */
     _updateValidators() {
         const /** @type {?} */ sync = composeValidators(this._validators);
-        this.form.validator = Validators.compose([/** @type {?} */ ((this.form.validator)), /** @type {?} */ ((sync))]);
+        this.form.validator = Validators.compose([this.form.validator, sync]);
         const /** @type {?} */ async = composeAsyncValidators(this._asyncValidators);
-        this.form.asyncValidator = Validators.composeAsync([/** @type {?} */ ((this.form.asyncValidator)), /** @type {?} */ ((async))]);
+        this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
     }
     /**
      * @return {?}
@@ -4756,8 +4748,8 @@ class FormArrayName extends ControlContainer {
      * @return {?}
      */
     ngOnInit() {
-        this._checkParentType(); /** @type {?} */
-        ((this.formDirective)).addFormArray(this);
+        this._checkParentType();
+        this.formDirective.addFormArray(this);
     }
     /**
      * @return {?}
@@ -4770,7 +4762,7 @@ class FormArrayName extends ControlContainer {
     /**
      * @return {?}
      */
-    get control() { return ((this.formDirective)).getFormArray(this); }
+    get control() { return this.formDirective.getFormArray(this); }
     /**
      * @return {?}
      */
@@ -4788,9 +4780,7 @@ class FormArrayName extends ControlContainer {
     /**
      * @return {?}
      */
-    get asyncValidator() {
-        return composeAsyncValidators(this._asyncValidators);
-    }
+    get asyncValidator() { return composeAsyncValidators(this._asyncValidators); }
     /**
      * @return {?}
      */
@@ -4937,7 +4927,7 @@ class FormControlName extends NgControl {
     /**
      * @return {?}
      */
-    get path() { return controlPath(this.name, /** @type {?} */ ((this._parent))); }
+    get path() { return controlPath(this.name, this._parent); }
     /**
      * @return {?}
      */
@@ -4950,7 +4940,7 @@ class FormControlName extends NgControl {
      * @return {?}
      */
     get asyncValidator() {
-        return ((composeAsyncValidators(this._rawAsyncValidators)));
+        return composeAsyncValidators(this._rawAsyncValidators);
     }
     /**
      * @return {?}
@@ -4975,8 +4965,8 @@ class FormControlName extends NgControl {
     _setUpControl() {
         this._checkParentType();
         this._control = this.formDirective.addControl(this);
-        if (this.control.disabled && ((this.valueAccessor)).setDisabledState) {
-            ((((this.valueAccessor)).setDisabledState))(true);
+        if (this.control.disabled && this.valueAccessor.setDisabledState) {
+            this.valueAccessor.setDisabledState(true);
         }
         this._added = true;
     }
@@ -5402,7 +5392,7 @@ class FormBuilder {
      * @param {?=} asyncValidator
      * @return {?}
      */
-    control(formState, validator, asyncValidator) {
+    control(formState, validator = null, asyncValidator = null) {
         return new FormControl(formState, validator, asyncValidator);
     }
     /**
@@ -5413,7 +5403,7 @@ class FormBuilder {
      * @param {?=} asyncValidator
      * @return {?}
      */
-    array(controlsConfig, validator, asyncValidator) {
+    array(controlsConfig, validator = null, asyncValidator = null) {
         const /** @type {?} */ controls = controlsConfig.map(c => this._createControl(c));
         return new FormArray(controls, validator, asyncValidator);
     }
@@ -5473,7 +5463,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.1.0-beta.1-6a2e08d');
+const VERSION = new Version('4.1.0-beta.1-2e47a0d');
 
 /**
  * @license

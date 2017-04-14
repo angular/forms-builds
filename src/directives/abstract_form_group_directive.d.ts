@@ -29,7 +29,7 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
     /**
      * Get the {@link Form} to which this group belongs.
      */
-    readonly formDirective: Form | null;
-    readonly validator: ValidatorFn | null;
-    readonly asyncValidator: AsyncValidatorFn | null;
+    readonly formDirective: Form;
+    readonly validator: ValidatorFn;
+    readonly asyncValidator: AsyncValidatorFn;
 }
