@@ -16,21 +16,21 @@ import { ValidationErrors } from './validators';
  * @stable
  */
 export declare abstract class AbstractControlDirective {
-    readonly control: AbstractControl;
+    readonly abstract control: AbstractControl | null;
     readonly value: any;
-    readonly valid: boolean;
-    readonly invalid: boolean;
-    readonly pending: boolean;
+    readonly valid: boolean | null;
+    readonly invalid: boolean | null;
+    readonly pending: boolean | null;
     readonly errors: ValidationErrors | null;
-    readonly pristine: boolean;
-    readonly dirty: boolean;
-    readonly touched: boolean;
-    readonly untouched: boolean;
-    readonly disabled: boolean;
-    readonly enabled: boolean;
-    readonly statusChanges: Observable<any>;
-    readonly valueChanges: Observable<any>;
-    readonly path: string[];
+    readonly pristine: boolean | null;
+    readonly dirty: boolean | null;
+    readonly touched: boolean | null;
+    readonly untouched: boolean | null;
+    readonly disabled: boolean | null;
+    readonly enabled: boolean | null;
+    readonly statusChanges: Observable<any> | null;
+    readonly valueChanges: Observable<any> | null;
+    readonly path: string[] | null;
     reset(value?: any): void;
     hasError(errorCode: string, path?: string[]): boolean;
     getError(errorCode: string, path?: string[]): any;
