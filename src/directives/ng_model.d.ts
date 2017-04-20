@@ -86,8 +86,8 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     readonly control: FormControl;
     readonly path: string[];
     readonly formDirective: any;
-    readonly validator: ValidatorFn;
-    readonly asyncValidator: AsyncValidatorFn;
+    readonly validator: ValidatorFn | null;
+    readonly asyncValidator: AsyncValidatorFn | null;
     viewToModelUpdate(newValue: any): void;
     private _setUpControl();
     private _isStandalone();
