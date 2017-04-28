@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.1.0-3f46645
+ * @license Angular v4.1.0-8c50457
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -283,6 +283,34 @@ var EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.
 var Validators = (function () {
     function Validators() {
     }
+    /**
+     * Validator that requires controls to have a value greater than a number.
+     * @param {?} min
+     * @return {?}
+     */
+    Validators.min = function (min) {
+        return function (control) {
+            if (isEmptyInputValue(control.value)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            var /** @type {?} */ value = parseFloat(control.value);
+            return isNaN(value) || value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
+        };
+    };
+    /**
+     * Validator that requires controls to have a value less than a number.
+     * @param {?} max
+     * @return {?}
+     */
+    Validators.max = function (max) {
+        return function (control) {
+            if (isEmptyInputValue(control.value)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            var /** @type {?} */ value = parseFloat(control.value);
+            return isNaN(value) || value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
+        };
+    };
     /**
      * Validator that requires controls to have a non-empty value.
      * @param {?} control
@@ -2935,17 +2963,17 @@ var FormControl = (function (_super) {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    FormControl.prototype.setValue = function (value, _a) {
+    FormControl.prototype.setValue = function (value, options) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange, emitViewToModelChange = _b.emitViewToModelChange;
+        if (options === void 0) { options = {}; }
         this._value = value;
-        if (this._onChange.length && emitModelToViewChange !== false) {
-            this._onChange.forEach(function (changeFn) { return changeFn(_this._value, emitViewToModelChange !== false); });
+        if (this._onChange.length && options.emitModelToViewChange !== false) {
+            this._onChange.forEach(function (changeFn) { return changeFn(_this._value, options.emitViewToModelChange !== false); });
         }
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity(options);
     };
     /**
      * Patches the value of a control.
@@ -2989,16 +3017,16 @@ var FormControl = (function (_super) {
      * console.log(this.control.status);  // 'DISABLED'
      * ```
      * @param {?=} formState
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    FormControl.prototype.reset = function (formState, _a) {
+    FormControl.prototype.reset = function (formState, options) {
         if (formState === void 0) { formState = null; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        if (options === void 0) { options = {}; }
         this._applyFormState(formState);
-        this.markAsPristine({ onlySelf: onlySelf });
-        this.markAsUntouched({ onlySelf: onlySelf });
-        this.setValue(this._value, { onlySelf: onlySelf, emitEvent: emitEvent });
+        this.markAsPristine(options);
+        this.markAsUntouched(options);
+        this.setValue(this._value, options);
     };
     /**
      * \@internal
@@ -3216,18 +3244,18 @@ var FormGroup = (function (_super) {
      *
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    FormGroup.prototype.setValue = function (value, _a) {
+    FormGroup.prototype.setValue = function (value, options) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        if (options === void 0) { options = {}; }
         this._checkAllValuesPresent(value);
         Object.keys(value).forEach(function (name) {
             _this._throwIfControlMissing(name);
-            _this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: emitEvent });
+            _this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity(options);
     };
     /**
      *  Patches the value of the {\@link FormGroup}. It accepts an object with control
@@ -3250,18 +3278,18 @@ var FormGroup = (function (_super) {
      *
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    FormGroup.prototype.patchValue = function (value, _a) {
+    FormGroup.prototype.patchValue = function (value, options) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        if (options === void 0) { options = {}; }
         Object.keys(value).forEach(function (name) {
             if (_this.controls[name]) {
-                _this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: emitEvent });
+                _this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity(options);
     };
     /**
      * Resets the {\@link FormGroup}. This means by default:
@@ -3295,18 +3323,18 @@ var FormGroup = (function (_super) {
      * console.log(this.form.get('first').status);  // 'DISABLED'
      * ```
      * @param {?=} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    FormGroup.prototype.reset = function (value, _a) {
+    FormGroup.prototype.reset = function (value, options) {
         if (value === void 0) { value = {}; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        if (options === void 0) { options = {}; }
         this._forEachChild(function (control, name) {
-            control.reset(value[name], { onlySelf: true, emitEvent: emitEvent });
+            control.reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-        this._updatePristine({ onlySelf: onlySelf });
-        this._updateTouched({ onlySelf: onlySelf });
+        this.updateValueAndValidity(options);
+        this._updatePristine(options);
+        this._updateTouched(options);
     };
     /**
      * The aggregate value of the {\@link FormGroup}, including any disabled controls.
@@ -3570,18 +3598,18 @@ var FormArray = (function (_super) {
      *  console.log(arr.value);   // ['Nancy', 'Drew']
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    FormArray.prototype.setValue = function (value, _a) {
+    FormArray.prototype.setValue = function (value, options) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        if (options === void 0) { options = {}; }
         this._checkAllValuesPresent(value);
         value.forEach(function (newValue, index) {
             _this._throwIfControlMissing(index);
-            _this.at(index).setValue(newValue, { onlySelf: true, emitEvent: emitEvent });
+            _this.at(index).setValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity(options);
     };
     /**
      *  Patches the value of the {\@link FormArray}. It accepts an array that matches the
@@ -3603,18 +3631,18 @@ var FormArray = (function (_super) {
      *  console.log(arr.value);   // ['Nancy', null]
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    FormArray.prototype.patchValue = function (value, _a) {
+    FormArray.prototype.patchValue = function (value, options) {
         var _this = this;
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        if (options === void 0) { options = {}; }
         value.forEach(function (newValue, index) {
             if (_this.at(index)) {
-                _this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: emitEvent });
+                _this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
+        this.updateValueAndValidity(options);
     };
     /**
      * Resets the {\@link FormArray}. This means by default:
@@ -3647,18 +3675,18 @@ var FormArray = (function (_super) {
      * console.log(this.arr.get(0).status);  // 'DISABLED'
      * ```
      * @param {?=} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    FormArray.prototype.reset = function (value, _a) {
+    FormArray.prototype.reset = function (value, options) {
         if (value === void 0) { value = []; }
-        var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent;
+        if (options === void 0) { options = {}; }
         this._forEachChild(function (control, index) {
-            control.reset(value[index], { onlySelf: true, emitEvent: emitEvent });
+            control.reset(value[index], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf: onlySelf, emitEvent: emitEvent });
-        this._updatePristine({ onlySelf: onlySelf });
-        this._updateTouched({ onlySelf: onlySelf });
+        this.updateValueAndValidity(options);
+        this._updatePristine(options);
+        this._updateTouched(options);
     };
     /**
      * The aggregate value of the array, including any disabled controls.
@@ -5402,6 +5430,116 @@ RequiredValidator.ctorParameters = function () { return []; };
 RequiredValidator.propDecorators = {
     'required': [{ type: Input },],
 };
+var MIN_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(function () { return MinValidator; }),
+    multi: true
+};
+/**
+ * A directive which installs the {\@link MinValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * \@experimental
+ */
+var MinValidator = (function () {
+    function MinValidator() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    MinValidator.prototype.ngOnChanges = function (changes) {
+        if ('min' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
+        }
+    };
+    /**
+     * @param {?} c
+     * @return {?}
+     */
+    MinValidator.prototype.validate = function (c) { return this._validator(c); };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    MinValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+    /**
+     * @return {?}
+     */
+    MinValidator.prototype._createValidator = function () { this._validator = Validators.min(parseInt(this.min, 10)); };
+    return MinValidator;
+}());
+MinValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[min][formControlName],[min][formControl],[min][ngModel]',
+                providers: [MIN_VALIDATOR],
+                host: { '[attr.min]': 'min ? min : null' }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+MinValidator.ctorParameters = function () { return []; };
+MinValidator.propDecorators = {
+    'min': [{ type: Input },],
+};
+var MAX_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(function () { return MaxValidator; }),
+    multi: true
+};
+/**
+ * A directive which installs the {\@link MaxValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * \@experimental
+ */
+var MaxValidator = (function () {
+    function MaxValidator() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    MaxValidator.prototype.ngOnChanges = function (changes) {
+        if ('max' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
+        }
+    };
+    /**
+     * @param {?} c
+     * @return {?}
+     */
+    MaxValidator.prototype.validate = function (c) { return this._validator(c); };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    MaxValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+    /**
+     * @return {?}
+     */
+    MaxValidator.prototype._createValidator = function () { this._validator = Validators.max(parseInt(this.max, 10)); };
+    return MaxValidator;
+}());
+MaxValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[max][formControlName],[max][formControl],[max][ngModel]',
+                providers: [MAX_VALIDATOR],
+                host: { '[attr.max]': 'max ? max : null' }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+MaxValidator.ctorParameters = function () { return []; };
+MaxValidator.propDecorators = {
+    'max': [{ type: Input },],
+};
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute, via the {\@link NG_VALIDATORS} binding.
@@ -5830,7 +5968,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('4.1.0-3f46645');
+var VERSION = new Version('4.1.0-8c50457');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5887,7 +6025,9 @@ var SHARED_FORM_DIRECTIVES = [
     NgControlStatus,
     NgControlStatusGroup,
     RequiredValidator,
+    MinValidator,
     MinLengthValidator,
+    MaxValidator,
     MaxLengthValidator,
     PatternValidator,
     CheckboxRequiredValidator,
@@ -5993,5 +6133,5 @@ ReactiveFormsModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
+export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵbc, REACTIVE_DRIVEN_DIRECTIVES as ɵbb, SHARED_FORM_DIRECTIVES as ɵz, TEMPLATE_DRIVEN_DIRECTIVES as ɵba, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbh, NUMBER_VALUE_ACCESSOR as ɵbd, NumberValueAccessor as ɵbe, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbf, RangeValueAccessor as ɵbg, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵv, MAX_LENGTH_VALIDATOR as ɵx, MAX_VALIDATOR as ɵu, MIN_LENGTH_VALIDATOR as ɵw, MIN_VALIDATOR as ɵt, PATTERN_VALIDATOR as ɵy, REQUIRED_VALIDATOR as ɵr };
 //# sourceMappingURL=forms.es5.js.map

@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.1.0-3f46645
+ * @license Angular v4.1.0-8c50457
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -205,6 +205,34 @@ const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(
  * \@stable
  */
 class Validators {
+    /**
+     * Validator that requires controls to have a value greater than a number.
+     * @param {?} min
+     * @return {?}
+     */
+    static min(min) {
+        return (control) => {
+            if (isEmptyInputValue(control.value)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            const /** @type {?} */ value = parseFloat(control.value);
+            return isNaN(value) || value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
+        };
+    }
+    /**
+     * Validator that requires controls to have a value less than a number.
+     * @param {?} max
+     * @return {?}
+     */
+    static max(max) {
+        return (control) => {
+            if (isEmptyInputValue(control.value)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            const /** @type {?} */ value = parseFloat(control.value);
+            return isNaN(value) || value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
+        };
+    }
     /**
      * Validator that requires controls to have a non-empty value.
      * @param {?} control
@@ -2676,15 +2704,15 @@ class FormControl extends AbstractControl {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange } = {}) {
+    setValue(value, options = {}) {
         this._value = value;
-        if (this._onChange.length && emitModelToViewChange !== false) {
-            this._onChange.forEach((changeFn) => changeFn(this._value, emitViewToModelChange !== false));
+        if (this._onChange.length && options.emitModelToViewChange !== false) {
+            this._onChange.forEach((changeFn) => changeFn(this._value, options.emitViewToModelChange !== false));
         }
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Patches the value of a control.
@@ -2727,14 +2755,14 @@ class FormControl extends AbstractControl {
      * console.log(this.control.status);  // 'DISABLED'
      * ```
      * @param {?=} formState
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(formState = null, { onlySelf, emitEvent } = {}) {
+    reset(formState = null, options = {}) {
         this._applyFormState(formState);
-        this.markAsPristine({ onlySelf });
-        this.markAsUntouched({ onlySelf });
-        this.setValue(this._value, { onlySelf, emitEvent });
+        this.markAsPristine(options);
+        this.markAsUntouched(options);
+        this.setValue(this._value, options);
     }
     /**
      * \@internal
@@ -2949,16 +2977,16 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent } = {}) {
+    setValue(value, options = {}) {
         this._checkAllValuesPresent(value);
         Object.keys(value).forEach(name => {
             this._throwIfControlMissing(name);
-            this.controls[name].setValue(value[name], { onlySelf: true, emitEvent });
+            this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      *  Patches the value of the {\@link FormGroup}. It accepts an object with control
@@ -2981,16 +3009,16 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    patchValue(value, { onlySelf, emitEvent } = {}) {
+    patchValue(value, options = {}) {
         Object.keys(value).forEach(name => {
             if (this.controls[name]) {
-                this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent });
+                this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Resets the {\@link FormGroup}. This means by default:
@@ -3024,16 +3052,16 @@ class FormGroup extends AbstractControl {
      * console.log(this.form.get('first').status);  // 'DISABLED'
      * ```
      * @param {?=} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(value = {}, { onlySelf, emitEvent } = {}) {
+    reset(value = {}, options = {}) {
         this._forEachChild((control, name) => {
-            control.reset(value[name], { onlySelf: true, emitEvent });
+            control.reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
-        this._updatePristine({ onlySelf });
-        this._updateTouched({ onlySelf });
+        this.updateValueAndValidity(options);
+        this._updatePristine(options);
+        this._updateTouched(options);
     }
     /**
      * The aggregate value of the {\@link FormGroup}, including any disabled controls.
@@ -3288,16 +3316,16 @@ class FormArray extends AbstractControl {
      *  console.log(arr.value);   // ['Nancy', 'Drew']
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent } = {}) {
+    setValue(value, options = {}) {
         this._checkAllValuesPresent(value);
         value.forEach((newValue, index) => {
             this._throwIfControlMissing(index);
-            this.at(index).setValue(newValue, { onlySelf: true, emitEvent });
+            this.at(index).setValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      *  Patches the value of the {\@link FormArray}. It accepts an array that matches the
@@ -3319,16 +3347,16 @@ class FormArray extends AbstractControl {
      *  console.log(arr.value);   // ['Nancy', null]
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    patchValue(value, { onlySelf, emitEvent } = {}) {
+    patchValue(value, options = {}) {
         value.forEach((newValue, index) => {
             if (this.at(index)) {
-                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent });
+                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Resets the {\@link FormArray}. This means by default:
@@ -3361,16 +3389,16 @@ class FormArray extends AbstractControl {
      * console.log(this.arr.get(0).status);  // 'DISABLED'
      * ```
      * @param {?=} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(value = [], { onlySelf, emitEvent } = {}) {
+    reset(value = [], options = {}) {
         this._forEachChild((control, index) => {
-            control.reset(value[index], { onlySelf: true, emitEvent });
+            control.reset(value[index], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
-        this._updatePristine({ onlySelf });
-        this._updateTouched({ onlySelf });
+        this.updateValueAndValidity(options);
+        this._updatePristine(options);
+        this._updateTouched(options);
     }
     /**
      * The aggregate value of the array, including any disabled controls.
@@ -5070,6 +5098,110 @@ RequiredValidator.ctorParameters = () => [];
 RequiredValidator.propDecorators = {
     'required': [{ type: Input },],
 };
+const MIN_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(() => MinValidator),
+    multi: true
+};
+/**
+ * A directive which installs the {\@link MinValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * \@experimental
+ */
+class MinValidator {
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        if ('min' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
+        }
+    }
+    /**
+     * @param {?} c
+     * @return {?}
+     */
+    validate(c) { return this._validator(c); }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnValidatorChange(fn) { this._onChange = fn; }
+    /**
+     * @return {?}
+     */
+    _createValidator() { this._validator = Validators.min(parseInt(this.min, 10)); }
+}
+MinValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[min][formControlName],[min][formControl],[min][ngModel]',
+                providers: [MIN_VALIDATOR],
+                host: { '[attr.min]': 'min ? min : null' }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+MinValidator.ctorParameters = () => [];
+MinValidator.propDecorators = {
+    'min': [{ type: Input },],
+};
+const MAX_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(() => MaxValidator),
+    multi: true
+};
+/**
+ * A directive which installs the {\@link MaxValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * \@experimental
+ */
+class MaxValidator {
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        if ('max' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
+        }
+    }
+    /**
+     * @param {?} c
+     * @return {?}
+     */
+    validate(c) { return this._validator(c); }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnValidatorChange(fn) { this._onChange = fn; }
+    /**
+     * @return {?}
+     */
+    _createValidator() { this._validator = Validators.max(parseInt(this.max, 10)); }
+}
+MaxValidator.decorators = [
+    { type: Directive, args: [{
+                selector: '[max][formControlName],[max][formControl],[max][ngModel]',
+                providers: [MAX_VALIDATOR],
+                host: { '[attr.max]': 'max ? max : null' }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+MaxValidator.ctorParameters = () => [];
+MaxValidator.propDecorators = {
+    'max': [{ type: Input },],
+};
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute, via the {\@link NG_VALIDATORS} binding.
@@ -5473,7 +5605,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.1.0-3f46645');
+const VERSION = new Version('4.1.0-8c50457');
 
 /**
  * @license
@@ -5529,7 +5661,9 @@ const SHARED_FORM_DIRECTIVES = [
     NgControlStatus,
     NgControlStatusGroup,
     RequiredValidator,
+    MinValidator,
     MinLengthValidator,
+    MaxValidator,
     MaxLengthValidator,
     PatternValidator,
     CheckboxRequiredValidator,
@@ -5632,5 +5766,5 @@ ReactiveFormsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
+export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵbc, REACTIVE_DRIVEN_DIRECTIVES as ɵbb, SHARED_FORM_DIRECTIVES as ɵz, TEMPLATE_DRIVEN_DIRECTIVES as ɵba, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbh, NUMBER_VALUE_ACCESSOR as ɵbd, NumberValueAccessor as ɵbe, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbf, RangeValueAccessor as ɵbg, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵv, MAX_LENGTH_VALIDATOR as ɵx, MAX_VALIDATOR as ɵu, MIN_LENGTH_VALIDATOR as ɵw, MIN_VALIDATOR as ɵt, PATTERN_VALIDATOR as ɵy, REQUIRED_VALIDATOR as ɵr };
 //# sourceMappingURL=forms.js.map
