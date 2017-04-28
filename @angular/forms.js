@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.1.0-ed4eaf3
+ * @license Angular v4.1.0-a619991
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2704,15 +2704,15 @@ class FormControl extends AbstractControl {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange } = {}) {
+    setValue(value, options = {}) {
         this._value = value;
-        if (this._onChange.length && emitModelToViewChange !== false) {
-            this._onChange.forEach((changeFn) => changeFn(this._value, emitViewToModelChange !== false));
+        if (this._onChange.length && options.emitModelToViewChange !== false) {
+            this._onChange.forEach((changeFn) => changeFn(this._value, options.emitViewToModelChange !== false));
         }
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Patches the value of a control.
@@ -2755,14 +2755,14 @@ class FormControl extends AbstractControl {
      * console.log(this.control.status);  // 'DISABLED'
      * ```
      * @param {?=} formState
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(formState = null, { onlySelf, emitEvent } = {}) {
+    reset(formState = null, options = {}) {
         this._applyFormState(formState);
-        this.markAsPristine({ onlySelf });
-        this.markAsUntouched({ onlySelf });
-        this.setValue(this._value, { onlySelf, emitEvent });
+        this.markAsPristine(options);
+        this.markAsUntouched(options);
+        this.setValue(this._value, options);
     }
     /**
      * \@internal
@@ -2977,16 +2977,16 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent } = {}) {
+    setValue(value, options = {}) {
         this._checkAllValuesPresent(value);
         Object.keys(value).forEach(name => {
             this._throwIfControlMissing(name);
-            this.controls[name].setValue(value[name], { onlySelf: true, emitEvent });
+            this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      *  Patches the value of the {\@link FormGroup}. It accepts an object with control
@@ -3009,16 +3009,16 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    patchValue(value, { onlySelf, emitEvent } = {}) {
+    patchValue(value, options = {}) {
         Object.keys(value).forEach(name => {
             if (this.controls[name]) {
-                this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent });
+                this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Resets the {\@link FormGroup}. This means by default:
@@ -3052,16 +3052,16 @@ class FormGroup extends AbstractControl {
      * console.log(this.form.get('first').status);  // 'DISABLED'
      * ```
      * @param {?=} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(value = {}, { onlySelf, emitEvent } = {}) {
+    reset(value = {}, options = {}) {
         this._forEachChild((control, name) => {
-            control.reset(value[name], { onlySelf: true, emitEvent });
+            control.reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
-        this._updatePristine({ onlySelf });
-        this._updateTouched({ onlySelf });
+        this.updateValueAndValidity(options);
+        this._updatePristine(options);
+        this._updateTouched(options);
     }
     /**
      * The aggregate value of the {\@link FormGroup}, including any disabled controls.
@@ -3316,16 +3316,16 @@ class FormArray extends AbstractControl {
      *  console.log(arr.value);   // ['Nancy', 'Drew']
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent } = {}) {
+    setValue(value, options = {}) {
         this._checkAllValuesPresent(value);
         value.forEach((newValue, index) => {
             this._throwIfControlMissing(index);
-            this.at(index).setValue(newValue, { onlySelf: true, emitEvent });
+            this.at(index).setValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      *  Patches the value of the {\@link FormArray}. It accepts an array that matches the
@@ -3347,16 +3347,16 @@ class FormArray extends AbstractControl {
      *  console.log(arr.value);   // ['Nancy', null]
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    patchValue(value, { onlySelf, emitEvent } = {}) {
+    patchValue(value, options = {}) {
         value.forEach((newValue, index) => {
             if (this.at(index)) {
-                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent });
+                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Resets the {\@link FormArray}. This means by default:
@@ -3389,16 +3389,16 @@ class FormArray extends AbstractControl {
      * console.log(this.arr.get(0).status);  // 'DISABLED'
      * ```
      * @param {?=} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(value = [], { onlySelf, emitEvent } = {}) {
+    reset(value = [], options = {}) {
         this._forEachChild((control, index) => {
-            control.reset(value[index], { onlySelf: true, emitEvent });
+            control.reset(value[index], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
-        this._updatePristine({ onlySelf });
-        this._updateTouched({ onlySelf });
+        this.updateValueAndValidity(options);
+        this._updatePristine(options);
+        this._updateTouched(options);
     }
     /**
      * The aggregate value of the array, including any disabled controls.
@@ -5605,7 +5605,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.1.0-ed4eaf3');
+const VERSION = new Version('4.1.0-a619991');
 
 /**
  * @license
