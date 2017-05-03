@@ -14,9 +14,6 @@ import { AbstractControl } from './model';
  *
  * Provide this using `multi: true` to add validators.
  *
- * ### Example
- *
- * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
  * @stable
  */
 export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
