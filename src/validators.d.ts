@@ -14,9 +14,6 @@ import { AbstractControl } from './model';
  *
  * Provide this using `multi: true` to add validators.
  *
- * ### Example
- *
- * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
  * @stable
  */
 export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
@@ -46,6 +43,14 @@ export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[
  * @stable
  */
 export declare class Validators {
+    /**
+     * Validator that requires controls to have a value greater than a number.
+     */
+    static min(min: number): ValidatorFn;
+    /**
+     * Validator that requires controls to have a value less than a number.
+     */
+    static max(max: number): ValidatorFn;
     /**
      * Validator that requires controls to have a non-empty value.
      */
