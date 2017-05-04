@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.1.0-b9723f9
+ * @license Angular v4.1.1-5f6d0f2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -172,9 +172,6 @@ function isEmptyInputValue(value) {
  *
  * Provide this using `multi: true` to add validators.
  *
- * ### Example
- *
- * {\@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
  * \@stable
  */
 const NG_VALIDATORS = new InjectionToken('NgValidators');
@@ -2676,15 +2673,15 @@ class FormControl extends AbstractControl {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange } = {}) {
+    setValue(value, options = {}) {
         this._value = value;
-        if (this._onChange.length && emitModelToViewChange !== false) {
-            this._onChange.forEach((changeFn) => changeFn(this._value, emitViewToModelChange !== false));
+        if (this._onChange.length && options.emitModelToViewChange !== false) {
+            this._onChange.forEach((changeFn) => changeFn(this._value, options.emitViewToModelChange !== false));
         }
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Patches the value of a control.
@@ -2727,14 +2724,14 @@ class FormControl extends AbstractControl {
      * console.log(this.control.status);  // 'DISABLED'
      * ```
      * @param {?=} formState
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(formState = null, { onlySelf, emitEvent } = {}) {
+    reset(formState = null, options = {}) {
         this._applyFormState(formState);
-        this.markAsPristine({ onlySelf });
-        this.markAsUntouched({ onlySelf });
-        this.setValue(this._value, { onlySelf, emitEvent });
+        this.markAsPristine(options);
+        this.markAsUntouched(options);
+        this.setValue(this._value, options);
     }
     /**
      * \@internal
@@ -2920,7 +2917,7 @@ class FormGroup extends AbstractControl {
      * Check whether there is an enabled control with the given name in the group.
      *
      * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {\@link AbstractControl.get} instead.
+     * existence in the group only, use {\@link AbstractControl#get} instead.
      * @param {?} controlName
      * @return {?}
      */
@@ -2949,16 +2946,16 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent } = {}) {
+    setValue(value, options = {}) {
         this._checkAllValuesPresent(value);
         Object.keys(value).forEach(name => {
             this._throwIfControlMissing(name);
-            this.controls[name].setValue(value[name], { onlySelf: true, emitEvent });
+            this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      *  Patches the value of the {\@link FormGroup}. It accepts an object with control
@@ -2981,16 +2978,16 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    patchValue(value, { onlySelf, emitEvent } = {}) {
+    patchValue(value, options = {}) {
         Object.keys(value).forEach(name => {
             if (this.controls[name]) {
-                this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent });
+                this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Resets the {\@link FormGroup}. This means by default:
@@ -3024,16 +3021,16 @@ class FormGroup extends AbstractControl {
      * console.log(this.form.get('first').status);  // 'DISABLED'
      * ```
      * @param {?=} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(value = {}, { onlySelf, emitEvent } = {}) {
+    reset(value = {}, options = {}) {
         this._forEachChild((control, name) => {
-            control.reset(value[name], { onlySelf: true, emitEvent });
+            control.reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
-        this._updatePristine({ onlySelf });
-        this._updateTouched({ onlySelf });
+        this.updateValueAndValidity(options);
+        this._updatePristine(options);
+        this._updateTouched(options);
     }
     /**
      * The aggregate value of the {\@link FormGroup}, including any disabled controls.
@@ -3288,16 +3285,16 @@ class FormArray extends AbstractControl {
      *  console.log(arr.value);   // ['Nancy', 'Drew']
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent } = {}) {
+    setValue(value, options = {}) {
         this._checkAllValuesPresent(value);
         value.forEach((newValue, index) => {
             this._throwIfControlMissing(index);
-            this.at(index).setValue(newValue, { onlySelf: true, emitEvent });
+            this.at(index).setValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      *  Patches the value of the {\@link FormArray}. It accepts an array that matches the
@@ -3319,16 +3316,16 @@ class FormArray extends AbstractControl {
      *  console.log(arr.value);   // ['Nancy', null]
      *  ```
      * @param {?} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    patchValue(value, { onlySelf, emitEvent } = {}) {
+    patchValue(value, options = {}) {
         value.forEach((newValue, index) => {
             if (this.at(index)) {
-                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent });
+                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
             }
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
+        this.updateValueAndValidity(options);
     }
     /**
      * Resets the {\@link FormArray}. This means by default:
@@ -3361,16 +3358,16 @@ class FormArray extends AbstractControl {
      * console.log(this.arr.get(0).status);  // 'DISABLED'
      * ```
      * @param {?=} value
-     * @param {?=} __1
+     * @param {?=} options
      * @return {?}
      */
-    reset(value = [], { onlySelf, emitEvent } = {}) {
+    reset(value = [], options = {}) {
         this._forEachChild((control, index) => {
-            control.reset(value[index], { onlySelf: true, emitEvent });
+            control.reset(value[index], { onlySelf: true, emitEvent: options.emitEvent });
         });
-        this.updateValueAndValidity({ onlySelf, emitEvent });
-        this._updatePristine({ onlySelf });
-        this._updateTouched({ onlySelf });
+        this.updateValueAndValidity(options);
+        this._updatePristine(options);
+        this._updateTouched(options);
     }
     /**
      * The aggregate value of the array, including any disabled controls.
@@ -3903,7 +3900,7 @@ const resolvedPromise$1 = Promise.resolve(null);
  * This directive can be used by itself or as part of a larger form. All you need is the
  * `ngModel` selector to activate it.
  *
- * It accepts a domain model as an optional {\@link \@Input}. If you have a one-way binding
+ * It accepts a domain model as an optional {\@link Input}. If you have a one-way binding
  * to `ngModel` with `[]` syntax, changing the value of the domain model in the component
  * class will set the value in the view. If you have a two-way binding with `[()]` syntax
  * (also known as 'banana-box syntax'), the value in the UI will always be synced back to
@@ -4241,12 +4238,12 @@ const formControlBinding$1 = {
  * {\@link AbstractControl}.
  *
  * **Set the value**: You can pass in an initial value when instantiating the {\@link FormControl},
- * or you can set it programmatically later using {\@link AbstractControl.setValue} or
- * {\@link AbstractControl.patchValue}.
+ * or you can set it programmatically later using {\@link AbstractControl#setValue} or
+ * {\@link AbstractControl#patchValue}.
  *
  * **Listen to value**: If you want to listen to changes in the value of the control, you can
- * subscribe to the {\@link AbstractControl.valueChanges} event.  You can also listen to
- * {\@link AbstractControl.statusChanges} to be notified when the validation status is
+ * subscribe to the {\@link AbstractControl#valueChanges} event.  You can also listen to
+ * {\@link AbstractControl#statusChanges} to be notified when the validation status is
  * re-calculated.
  *
  * ### Example
@@ -4369,11 +4366,11 @@ const formDirectiveProvider$1 = {
  *
  * **Set value**: You can set the form's initial value when instantiating the
  * {\@link FormGroup}, or you can set it programmatically later using the {\@link FormGroup}'s
- * {\@link AbstractControl.setValue} or {\@link AbstractControl.patchValue} methods.
+ * {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue} methods.
  *
  * **Listen to value**: If you want to listen to changes in the value of the form, you can subscribe
- * to the {\@link FormGroup}'s {\@link AbstractControl.valueChanges} event.  You can also listen to
- * its {\@link AbstractControl.statusChanges} event to be notified when the validation status is
+ * to the {\@link FormGroup}'s {\@link AbstractControl#valueChanges} event.  You can also listen to
+ * its {\@link AbstractControl#statusChanges} event to be notified when the validation status is
  * re-calculated.
  *
  * Furthermore, you can listen to the directive's `ngSubmit` event to be notified when the user has
@@ -4626,7 +4623,7 @@ const formGroupNameProvider = {
  * controls into their own nested object.
  *
  * **Access the group**: You can access the associated {\@link FormGroup} using the
- * {\@link AbstractControl.get} method. Ex: `this.form.get('name')`.
+ * {\@link AbstractControl#get} method. Ex: `this.form.get('name')`.
  *
  * You can also access individual controls within the group using dot syntax.
  * Ex: `this.form.get('name.first')`
@@ -4636,11 +4633,11 @@ const formGroupNameProvider = {
  *
  * **Set the value**: You can set an initial value for each child control when instantiating
  * the {\@link FormGroup}, or you can set it programmatically later using
- * {\@link AbstractControl.setValue} or {\@link AbstractControl.patchValue}.
+ * {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue}.
  *
  * **Listen to value**: If you want to listen to changes in the value of the group, you can
- * subscribe to the {\@link AbstractControl.valueChanges} event.  You can also listen to
- * {\@link AbstractControl.statusChanges} to be notified when the validation status is
+ * subscribe to the {\@link AbstractControl#valueChanges} event.  You can also listen to
+ * {\@link AbstractControl#statusChanges} to be notified when the validation status is
  * re-calculated.
  *
  * ### Example
@@ -4710,7 +4707,7 @@ const formArrayNameProvider = {
  * form controls dynamically.
  *
  * **Access the array**: You can access the associated {\@link FormArray} using the
- * {\@link AbstractControl.get} method on the parent {\@link FormGroup}.
+ * {\@link AbstractControl#get} method on the parent {\@link FormGroup}.
  * Ex: `this.form.get('cities')`.
  *
  * **Get the value**: the `value` property is always synced and available on the
@@ -4718,12 +4715,12 @@ const formArrayNameProvider = {
  *
  * **Set the value**: You can set an initial value for each child control when instantiating
  * the {\@link FormArray}, or you can set the value programmatically later using the
- * {\@link FormArray}'s {\@link AbstractControl.setValue} or {\@link AbstractControl.patchValue}
+ * {\@link FormArray}'s {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue}
  * methods.
  *
  * **Listen to value**: If you want to listen to changes in the value of the array, you can
- * subscribe to the {\@link FormArray}'s {\@link AbstractControl.valueChanges} event.  You can also
- * listen to its {\@link AbstractControl.statusChanges} event to be notified when the validation
+ * subscribe to the {\@link FormArray}'s {\@link AbstractControl#valueChanges} event.  You can also
+ * listen to its {\@link AbstractControl#statusChanges} event to be notified when the validation
  * status is re-calculated.
  *
  * **Add new controls**: You can add new controls to the {\@link FormArray} dynamically by
@@ -4853,7 +4850,7 @@ const controlNameBinding = {
  * closest {\@link FormGroup} or {\@link FormArray} above it.
  *
  * **Access the control**: You can access the {\@link FormControl} associated with
- * this directive by using the {\@link AbstractControl.get} method.
+ * this directive by using the {\@link AbstractControl#get} method.
  * Ex: `this.form.get('first');`
  *
  * **Get value**: the `value` property is always synced and available on the {\@link FormControl}.
@@ -4861,11 +4858,11 @@ const controlNameBinding = {
  *
  *  **Set value**: You can set an initial value for the control when instantiating the
  *  {\@link FormControl}, or you can set it programmatically later using
- *  {\@link AbstractControl.setValue} or {\@link AbstractControl.patchValue}.
+ *  {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue}.
  *
  * **Listen to value**: If you want to listen to changes in the value of the control, you can
- * subscribe to the {\@link AbstractControl.valueChanges} event.  You can also listen to
- * {\@link AbstractControl.statusChanges} to be notified when the validation status is
+ * subscribe to the {\@link AbstractControl#valueChanges} event.  You can also listen to
+ * {\@link AbstractControl#statusChanges} to be notified when the validation status is
  * re-calculated.
  *
  * ### Example
@@ -5473,7 +5470,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.1.0-b9723f9');
+const VERSION = new Version('4.1.1-5f6d0f2');
 
 /**
  * @license

@@ -371,7 +371,7 @@ export declare class FormControl extends AbstractControl {
      * If `emitViewToModelChange` is `true`, an ngModelChange event will be fired to update the
      * model.  This is the default behavior if `emitViewToModelChange` is not specified.
      */
-    setValue(value: any, {onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange}?: {
+    setValue(value: any, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;
@@ -418,7 +418,7 @@ export declare class FormControl extends AbstractControl {
      * console.log(this.control.status);  // 'DISABLED'
      * ```
      */
-    reset(formState?: any, {onlySelf, emitEvent}?: {
+    reset(formState?: any, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -514,7 +514,7 @@ export declare class FormGroup extends AbstractControl {
      * Check whether there is an enabled control with the given name in the group.
      *
      * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {@link AbstractControl.get} instead.
+     * existence in the group only, use {@link AbstractControl#get} instead.
      */
     contains(controlName: string): boolean;
     /**
@@ -541,7 +541,7 @@ export declare class FormGroup extends AbstractControl {
      */
     setValue(value: {
         [key: string]: any;
-    }, {onlySelf, emitEvent}?: {
+    }, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -568,7 +568,7 @@ export declare class FormGroup extends AbstractControl {
      */
     patchValue(value: {
         [key: string]: any;
-    }, {onlySelf, emitEvent}?: {
+    }, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -604,7 +604,7 @@ export declare class FormGroup extends AbstractControl {
      * console.log(this.form.get('first').status);  // 'DISABLED'
      * ```
      */
-    reset(value?: any, {onlySelf, emitEvent}?: {
+    reset(value?: any, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -708,7 +708,7 @@ export declare class FormArray extends AbstractControl {
      *  console.log(arr.value);   // ['Nancy', 'Drew']
      *  ```
      */
-    setValue(value: any[], {onlySelf, emitEvent}?: {
+    setValue(value: any[], options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -732,7 +732,7 @@ export declare class FormArray extends AbstractControl {
      *  console.log(arr.value);   // ['Nancy', null]
      *  ```
      */
-    patchValue(value: any[], {onlySelf, emitEvent}?: {
+    patchValue(value: any[], options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -767,7 +767,7 @@ export declare class FormArray extends AbstractControl {
      * console.log(this.arr.get(0).status);  // 'DISABLED'
      * ```
      */
-    reset(value?: any, {onlySelf, emitEvent}?: {
+    reset(value?: any, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
