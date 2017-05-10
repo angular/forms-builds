@@ -95,7 +95,7 @@ export declare const formArrayNameProvider: any;
  * status is re-calculated.
  *
  * **Add new controls**: You can add new controls to the {@link FormArray} dynamically by
- * calling its {@link FormArray.push} method.
+ * calling its {@link FormArray#push} method.
  *  Ex: `this.form.get('cities').push(new FormControl());`
  *
  * ### Example

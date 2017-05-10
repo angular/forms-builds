@@ -380,8 +380,8 @@ export declare class FormControl extends AbstractControl {
     /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {@link FormControl.setValue} at this level.
-     * It exists for symmetry with {@link FormGroup.patchValue} on `FormGroups` and `FormArrays`,
+     * This function is functionally the same as {@link FormControl#setValue} at this level.
+     * It exists for symmetry with {@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
      * where it does behave differently.
      */
     patchValue(value: any, options?: {
@@ -495,7 +495,7 @@ export declare class FormGroup extends AbstractControl {
      * Registers a control with the group's list of controls.
      *
      * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {@link FormGroup.addControl} instead.
+     * most cases you'll want to use {@link FormGroup#addControl} instead.
      */
     registerControl(name: string, control: AbstractControl): AbstractControl;
     /**

@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.1.1-5f6d0f2
+ * @license Angular v4.1.1-e46a65f
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -15,7 +15,7 @@ var __extends = (undefined && undefined.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.1.1-5f6d0f2
+ * @license Angular v4.1.1-e46a65f
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2953,8 +2953,8 @@ var FormControl = (function (_super) {
     /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {\@link FormControl.setValue} at this level.
-     * It exists for symmetry with {\@link FormGroup.patchValue} on `FormGroups` and `FormArrays`,
+     * This function is functionally the same as {\@link FormControl#setValue} at this level.
+     * It exists for symmetry with {\@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
      * where it does behave differently.
      * @param {?} value
      * @param {?=} options
@@ -3135,7 +3135,7 @@ var FormGroup = (function (_super) {
      * Registers a control with the group's list of controls.
      *
      * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {\@link FormGroup.addControl} instead.
+     * most cases you'll want to use {\@link FormGroup#addControl} instead.
      * @param {?} name
      * @param {?} control
      * @return {?}
@@ -5007,7 +5007,7 @@ var formArrayNameProvider = {
  * status is re-calculated.
  *
  * **Add new controls**: You can add new controls to the {\@link FormArray} dynamically by
- * calling its {\@link FormArray.push} method.
+ * calling its {\@link FormArray#push} method.
  *  Ex: `this.form.get('cities').push(new FormControl());`
  *
  * ### Example
@@ -5833,7 +5833,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.1.1-5f6d0f2');
+var VERSION = new _angular_core.Version('4.1.1-e46a65f');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
