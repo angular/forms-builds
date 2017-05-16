@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.2.0-beta.1-af99cf2
+ * @license Angular v4.2.0-beta.1-9a7f5d5
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -151,14 +151,6 @@ class ControlContainer extends AbstractControlDirective {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 /**
  * @param {?} value
  * @return {?}
@@ -386,7 +378,7 @@ function _executeAsyncValidators(control, validators) {
  */
 function _mergeErrors(arrayOfErrors) {
     const /** @type {?} */ res = arrayOfErrors.reduce((res, errors) => {
-        return errors != null ? __assign({}, /** @type {?} */ ((res)), errors) : ((res));
+        return errors != null ? Object.assign({}, /** @type {?} */ ((res)), errors) : ((res));
     }, {});
     return Object.keys(res).length === 0 ? null : res;
 }
@@ -528,6 +520,9 @@ class DefaultValueAccessor {
         this._compositionMode = _compositionMode;
         this.onChange = (_) => { };
         this.onTouched = () => { };
+        /**
+         * Whether the user is creating a composition string (IME events).
+         */
         this._composing = false;
         if (this._compositionMode == null) {
             this._compositionMode = !_isAndroid();
@@ -5232,7 +5227,7 @@ CheckboxRequiredValidator.decorators = [
  */
 CheckboxRequiredValidator.ctorParameters = () => [];
 /**
- * Provider which adds {@link EmailValidator} to {@link NG_VALIDATORS}.
+ * Provider which adds {\@link EmailValidator} to {\@link NG_VALIDATORS}.
  */
 const EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -5290,11 +5285,11 @@ EmailValidator.propDecorators = {
     'email': [{ type: Input },],
 };
 /**
- * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
+ * Provider which adds {\@link MinLengthValidator} to {\@link NG_VALIDATORS}.
  *
  * ## Example:
  *
- * {@example common/forms/ts/validators/validators.ts region='min'}
+ * {\@example common/forms/ts/validators/validators.ts region='min'}
  */
 const MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -5353,11 +5348,11 @@ MinLengthValidator.propDecorators = {
     'minlength': [{ type: Input },],
 };
 /**
- * Provider which adds {@link MaxLengthValidator} to {@link NG_VALIDATORS}.
+ * Provider which adds {\@link MaxLengthValidator} to {\@link NG_VALIDATORS}.
  *
  * ## Example:
  *
- * {@example common/forms/ts/validators/validators.ts region='max'}
+ * {\@example common/forms/ts/validators/validators.ts region='max'}
  */
 const MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -5602,7 +5597,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.2.0-beta.1-af99cf2');
+const VERSION = new Version('4.2.0-beta.1-9a7f5d5');
 
 /**
  * @license
