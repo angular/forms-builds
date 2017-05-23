@@ -1,15 +1,6 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
- * @license Angular v4.2.0-rc.0-1651a8f
+ * @license Angular v4.2.0-rc.0-fa809ec
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -200,7 +191,7 @@ var AbstractControlDirective = (function () {
  * @abstract
  */
 var ControlContainer = (function (_super) {
-    __extends(ControlContainer, _super);
+    tslib_1.__extends(ControlContainer, _super);
     function ControlContainer() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -814,7 +805,7 @@ function unimplemented() {
  * @abstract
  */
 var NgControl = (function (_super) {
-    __extends(NgControl, _super);
+    tslib_1.__extends(NgControl, _super);
     function NgControl() {
         var _this = _super.apply(this, arguments) || this;
         /**
@@ -1947,7 +1938,7 @@ function selectValueAccessor(dir, valueAccessors) {
  * \@stable
  */
 var AbstractFormGroupDirective = (function (_super) {
-    __extends(AbstractFormGroupDirective, _super);
+    tslib_1.__extends(AbstractFormGroupDirective, _super);
     function AbstractFormGroupDirective() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -2106,7 +2097,7 @@ var ngControlStatusHost = {
  * \@stable
  */
 var NgControlStatus = (function (_super) {
-    __extends(NgControlStatus, _super);
+    tslib_1.__extends(NgControlStatus, _super);
     /**
      * @param {?} cd
      */
@@ -2131,7 +2122,7 @@ NgControlStatus.ctorParameters = function () { return [
  * \@stable
  */
 var NgControlStatusGroup = (function (_super) {
-    __extends(NgControlStatusGroup, _super);
+    tslib_1.__extends(NgControlStatusGroup, _super);
     /**
      * @param {?} cd
      */
@@ -2924,7 +2915,7 @@ var AbstractControl = (function () {
  * \@stable
  */
 var FormControl = (function (_super) {
-    __extends(FormControl, _super);
+    tslib_1.__extends(FormControl, _super);
     /**
      * @param {?=} formState
      * @param {?=} validator
@@ -3138,7 +3129,7 @@ var FormControl = (function (_super) {
  * \@stable
  */
 var FormGroup = (function (_super) {
-    __extends(FormGroup, _super);
+    tslib_1.__extends(FormGroup, _super);
     /**
      * @param {?} controls
      * @param {?=} validator
@@ -3492,7 +3483,7 @@ var FormGroup = (function (_super) {
  * \@stable
  */
 var FormArray = (function (_super) {
-    __extends(FormArray, _super);
+    tslib_1.__extends(FormArray, _super);
     /**
      * @param {?} controls
      * @param {?=} validator
@@ -3820,7 +3811,7 @@ var resolvedPromise = Promise.resolve(null);
  *  \@stable
  */
 var NgForm = (function (_super) {
-    __extends(NgForm, _super);
+    tslib_1.__extends(NgForm, _super);
     /**
      * @param {?} validators
      * @param {?} asyncValidators
@@ -4089,7 +4080,7 @@ var modelGroupProvider = {
  * \@stable
  */
 var NgModelGroup = (function (_super) {
-    __extends(NgModelGroup, _super);
+    tslib_1.__extends(NgModelGroup, _super);
     /**
      * @param {?} parent
      * @param {?} validators
@@ -4215,7 +4206,7 @@ var resolvedPromise$1 = Promise.resolve(null);
  *  \@stable
  */
 var NgModel = (function (_super) {
-    __extends(NgModel, _super);
+    tslib_1.__extends(NgModel, _super);
     /**
      * @param {?} parent
      * @param {?} validators
@@ -4515,7 +4506,7 @@ var formControlBinding$1 = {
  *  \@stable
  */
 var FormControlDirective = (function (_super) {
-    __extends(FormControlDirective, _super);
+    tslib_1.__extends(FormControlDirective, _super);
     /**
      * @param {?} validators
      * @param {?} asyncValidators
@@ -4670,7 +4661,7 @@ var formDirectiveProvider$1 = {
  *  \@stable
  */
 var FormGroupDirective = (function (_super) {
-    __extends(FormGroupDirective, _super);
+    tslib_1.__extends(FormGroupDirective, _super);
     /**
      * @param {?} _validators
      * @param {?} _asyncValidators
@@ -4952,7 +4943,7 @@ var formGroupNameProvider = {
  * \@stable
  */
 var FormGroupName = (function (_super) {
-    __extends(FormGroupName, _super);
+    tslib_1.__extends(FormGroupName, _super);
     /**
      * @param {?} parent
      * @param {?} validators
@@ -5042,7 +5033,7 @@ var formArrayNameProvider = {
  * \@stable
  */
 var FormArrayName = (function (_super) {
-    __extends(FormArrayName, _super);
+    tslib_1.__extends(FormArrayName, _super);
     /**
      * @param {?} parent
      * @param {?} validators
@@ -5209,7 +5200,7 @@ var controlNameBinding = {
  *  \@stable
  */
 var FormControlName = (function (_super) {
-    __extends(FormControlName, _super);
+    tslib_1.__extends(FormControlName, _super);
     /**
      * @param {?} parent
      * @param {?} validators
@@ -5549,7 +5540,7 @@ MaxValidator.propDecorators = {
  * \@experimental
  */
 var CheckboxRequiredValidator = (function (_super) {
-    __extends(CheckboxRequiredValidator, _super);
+    tslib_1.__extends(CheckboxRequiredValidator, _super);
     function CheckboxRequiredValidator() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -5964,7 +5955,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('4.2.0-rc.0-1651a8f');
+var VERSION = new Version('4.2.0-rc.0-fa809ec');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
