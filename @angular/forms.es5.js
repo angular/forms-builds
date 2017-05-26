@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 /**
- * @license Angular v4.2.0-rc.0-b37a048
+ * @license Angular v4.2.0-rc.0-4c5e28e
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5955,7 +5955,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('4.2.0-rc.0-b37a048');
+var VERSION = new Version('4.2.0-rc.0-4c5e28e');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
