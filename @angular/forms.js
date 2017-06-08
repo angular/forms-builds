@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.2.0-rc.2-6a46cab
+ * @license Angular v4.2.0-rc.2-f370fd3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -201,11 +201,13 @@ class Validators {
      */
     static min(min) {
         return (control) => {
-            if (isEmptyInputValue(control.value)) {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
                 return null; // don't validate empty values to allow optional controls
             }
             const /** @type {?} */ value = parseFloat(control.value);
-            return isNaN(value) || value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
+            // Controls with NaN values after parsing should be treated as not having a
+            // minimum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-min
+            return !isNaN(value) && value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
         };
     }
     /**
@@ -215,11 +217,13 @@ class Validators {
      */
     static max(max) {
         return (control) => {
-            if (isEmptyInputValue(control.value)) {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(max)) {
                 return null; // don't validate empty values to allow optional controls
             }
             const /** @type {?} */ value = parseFloat(control.value);
-            return isNaN(value) || value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
+            // Controls with NaN values after parsing should be treated as not having a
+            // maximum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-max
+            return !isNaN(value) && value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
         };
     }
     /**
@@ -5597,7 +5601,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.2.0-rc.2-6a46cab');
+const VERSION = new Version('4.2.0-rc.2-f370fd3');
 
 /**
  * @license
