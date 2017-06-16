@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.2.2-956a7e9
+ * @license Angular v4.2.2-232bd93
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -36,7 +36,7 @@ function __extends(d, b) {
 }
 
 /**
- * @license Angular v4.2.2-956a7e9
+ * @license Angular v4.2.2-232bd93
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5990,7 +5990,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.2.2-956a7e9');
+var VERSION = new _angular_core.Version('4.2.2-232bd93');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -6047,9 +6047,7 @@ var SHARED_FORM_DIRECTIVES = [
     NgControlStatus,
     NgControlStatusGroup,
     RequiredValidator,
-    MinValidator,
     MinLengthValidator,
-    MaxValidator,
     MaxLengthValidator,
     PatternValidator,
     CheckboxRequiredValidator,
@@ -6148,9 +6146,7 @@ exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
 exports.CheckboxRequiredValidator = CheckboxRequiredValidator;
 exports.EmailValidator = EmailValidator;
 exports.MaxLengthValidator = MaxLengthValidator;
-exports.MaxValidator = MaxValidator;
 exports.MinLengthValidator = MinLengthValidator;
-exports.MinValidator = MinValidator;
 exports.PatternValidator = PatternValidator;
 exports.RequiredValidator = RequiredValidator;
 exports.FormBuilder = FormBuilder;
@@ -6164,10 +6160,10 @@ exports.Validators = Validators;
 exports.VERSION = VERSION;
 exports.FormsModule = FormsModule;
 exports.ReactiveFormsModule = ReactiveFormsModule;
-exports.ɵbc = InternalFormsSharedModule;
-exports.ɵbb = REACTIVE_DRIVEN_DIRECTIVES;
-exports.ɵz = SHARED_FORM_DIRECTIVES;
-exports.ɵba = TEMPLATE_DRIVEN_DIRECTIVES;
+exports.ɵba = InternalFormsSharedModule;
+exports.ɵz = REACTIVE_DRIVEN_DIRECTIVES;
+exports.ɵx = SHARED_FORM_DIRECTIVES;
+exports.ɵy = TEMPLATE_DRIVEN_DIRECTIVES;
 exports.ɵa = CHECKBOX_VALUE_ACCESSOR;
 exports.ɵb = DEFAULT_VALUE_ACCESSOR;
 exports.ɵc = AbstractControlStatus;
@@ -6175,13 +6171,13 @@ exports.ɵd = ngControlStatusHost;
 exports.ɵe = formDirectiveProvider;
 exports.ɵf = formControlBinding;
 exports.ɵg = modelGroupProvider;
-exports.ɵbh = NgNoValidate;
-exports.ɵbd = NUMBER_VALUE_ACCESSOR;
-exports.ɵbe = NumberValueAccessor;
+exports.ɵbf = NgNoValidate;
+exports.ɵbb = NUMBER_VALUE_ACCESSOR;
+exports.ɵbc = NumberValueAccessor;
 exports.ɵh = RADIO_VALUE_ACCESSOR;
 exports.ɵi = RadioControlRegistry;
-exports.ɵbf = RANGE_VALUE_ACCESSOR;
-exports.ɵbg = RangeValueAccessor;
+exports.ɵbd = RANGE_VALUE_ACCESSOR;
+exports.ɵbe = RangeValueAccessor;
 exports.ɵj = formControlBinding$1;
 exports.ɵk = controlNameBinding;
 exports.ɵl = formDirectiveProvider$1;
@@ -6191,12 +6187,10 @@ exports.ɵo = SELECT_VALUE_ACCESSOR;
 exports.ɵq = NgSelectMultipleOption;
 exports.ɵp = SELECT_MULTIPLE_VALUE_ACCESSOR;
 exports.ɵs = CHECKBOX_REQUIRED_VALIDATOR;
-exports.ɵv = EMAIL_VALIDATOR;
-exports.ɵx = MAX_LENGTH_VALIDATOR;
-exports.ɵu = MAX_VALIDATOR;
-exports.ɵw = MIN_LENGTH_VALIDATOR;
-exports.ɵt = MIN_VALIDATOR;
-exports.ɵy = PATTERN_VALIDATOR;
+exports.ɵt = EMAIL_VALIDATOR;
+exports.ɵv = MAX_LENGTH_VALIDATOR;
+exports.ɵu = MIN_LENGTH_VALIDATOR;
+exports.ɵw = PATTERN_VALIDATOR;
 exports.ɵr = REQUIRED_VALIDATOR;
 
 Object.defineProperty(exports, '__esModule', { value: true });
