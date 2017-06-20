@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.2.2-1c6a252
+ * @license Angular v4.2.2-3e685f9
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5094,110 +5094,6 @@ RequiredValidator.ctorParameters = () => [];
 RequiredValidator.propDecorators = {
     'required': [{ type: Input },],
 };
-const MIN_VALIDATOR = {
-    provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => MinValidator),
-    multi: true
-};
-/**
- * A directive which installs the {\@link MinValidator} for any `formControlName`,
- * `formControl`, or control with `ngModel` that also has a `min` attribute.
- *
- * \@experimental
- */
-class MinValidator {
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) {
-        if ('min' in changes) {
-            this._createValidator();
-            if (this._onChange)
-                this._onChange();
-        }
-    }
-    /**
-     * @param {?} c
-     * @return {?}
-     */
-    validate(c) { return this._validator(c); }
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    registerOnValidatorChange(fn) { this._onChange = fn; }
-    /**
-     * @return {?}
-     */
-    _createValidator() { this._validator = Validators.min(parseInt(this.min, 10)); }
-}
-MinValidator.decorators = [
-    { type: Directive, args: [{
-                selector: '[min][formControlName],[min][formControl],[min][ngModel]',
-                providers: [MIN_VALIDATOR],
-                host: { '[attr.min]': 'min ? min : null' }
-            },] },
-];
-/**
- * @nocollapse
- */
-MinValidator.ctorParameters = () => [];
-MinValidator.propDecorators = {
-    'min': [{ type: Input },],
-};
-const MAX_VALIDATOR = {
-    provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => MaxValidator),
-    multi: true
-};
-/**
- * A directive which installs the {\@link MaxValidator} for any `formControlName`,
- * `formControl`, or control with `ngModel` that also has a `min` attribute.
- *
- * \@experimental
- */
-class MaxValidator {
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) {
-        if ('max' in changes) {
-            this._createValidator();
-            if (this._onChange)
-                this._onChange();
-        }
-    }
-    /**
-     * @param {?} c
-     * @return {?}
-     */
-    validate(c) { return this._validator(c); }
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    registerOnValidatorChange(fn) { this._onChange = fn; }
-    /**
-     * @return {?}
-     */
-    _createValidator() { this._validator = Validators.max(parseInt(this.max, 10)); }
-}
-MaxValidator.decorators = [
-    { type: Directive, args: [{
-                selector: '[max][formControlName],[max][formControl],[max][ngModel]',
-                providers: [MAX_VALIDATOR],
-                host: { '[attr.max]': 'max ? max : null' }
-            },] },
-];
-/**
- * @nocollapse
- */
-MaxValidator.ctorParameters = () => [];
-MaxValidator.propDecorators = {
-    'max': [{ type: Input },],
-};
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute, via the {\@link NG_VALIDATORS} binding.
@@ -5601,7 +5497,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.2.2-1c6a252');
+const VERSION = new Version('4.2.2-3e685f9');
 
 /**
  * @license
