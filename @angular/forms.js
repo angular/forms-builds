@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.2.2-009651e
+ * @license Angular v4.2.2-00874c2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2215,13 +2215,13 @@ class AbstractControl {
      *
      * This will also mark all direct ancestors as `touched` to maintain
      * the model.
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    markAsTouched({ onlySelf } = {}) {
+    markAsTouched(opts = {}) {
         this._touched = true;
-        if (this._parent && !onlySelf) {
-            this._parent.markAsTouched({ onlySelf });
+        if (this._parent && !opts.onlySelf) {
+            this._parent.markAsTouched(opts);
         }
     }
     /**
@@ -2230,14 +2230,14 @@ class AbstractControl {
      * If the control has any children, it will also mark all children as `untouched`
      * to maintain the model, and re-calculate the `touched` status of all parent
      * controls.
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    markAsUntouched({ onlySelf } = {}) {
+    markAsUntouched(opts = {}) {
         this._touched = false;
         this._forEachChild((control) => { control.markAsUntouched({ onlySelf: true }); });
-        if (this._parent && !onlySelf) {
-            this._parent._updateTouched({ onlySelf });
+        if (this._parent && !opts.onlySelf) {
+            this._parent._updateTouched(opts);
         }
     }
     /**
@@ -2245,13 +2245,13 @@ class AbstractControl {
      *
      * This will also mark all direct ancestors as `dirty` to maintain
      * the model.
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    markAsDirty({ onlySelf } = {}) {
+    markAsDirty(opts = {}) {
         this._pristine = false;
-        if (this._parent && !onlySelf) {
-            this._parent.markAsDirty({ onlySelf });
+        if (this._parent && !opts.onlySelf) {
+            this._parent.markAsDirty(opts);
         }
     }
     /**
@@ -2260,25 +2260,25 @@ class AbstractControl {
      * If the control has any children, it will also mark all children as `pristine`
      * to maintain the model, and re-calculate the `pristine` status of all parent
      * controls.
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    markAsPristine({ onlySelf } = {}) {
+    markAsPristine(opts = {}) {
         this._pristine = true;
         this._forEachChild((control) => { control.markAsPristine({ onlySelf: true }); });
-        if (this._parent && !onlySelf) {
-            this._parent._updatePristine({ onlySelf });
+        if (this._parent && !opts.onlySelf) {
+            this._parent._updatePristine(opts);
         }
     }
     /**
      * Marks the control as `pending`.
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    markAsPending({ onlySelf } = {}) {
+    markAsPending(opts = {}) {
         this._status = PENDING;
-        if (this._parent && !onlySelf) {
-            this._parent.markAsPending({ onlySelf });
+        if (this._parent && !opts.onlySelf) {
+            this._parent.markAsPending(opts);
         }
     }
     /**
@@ -2286,19 +2286,19 @@ class AbstractControl {
      * excluded from the aggregate value of any parent. Its status is `DISABLED`.
      *
      * If the control has children, all children will be disabled to maintain the model.
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    disable({ onlySelf, emitEvent } = {}) {
+    disable(opts = {}) {
         this._status = DISABLED;
         this._errors = null;
         this._forEachChild((control) => { control.disable({ onlySelf: true }); });
         this._updateValue();
-        if (emitEvent !== false) {
+        if (opts.emitEvent !== false) {
             this._valueChanges.emit(this._value);
             this._statusChanges.emit(this._status);
         }
-        this._updateAncestors(!!onlySelf);
+        this._updateAncestors(!!opts.onlySelf);
         this._onDisabledChange.forEach((changeFn) => changeFn(true));
     }
     /**
@@ -2307,14 +2307,14 @@ class AbstractControl {
      * its validators.
      *
      * If the control has children, all children will be enabled.
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    enable({ onlySelf, emitEvent } = {}) {
+    enable(opts = {}) {
         this._status = VALID;
         this._forEachChild((control) => { control.enable({ onlySelf: true }); });
-        this.updateValueAndValidity({ onlySelf: true, emitEvent });
-        this._updateAncestors(!!onlySelf);
+        this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
+        this._updateAncestors(!!opts.onlySelf);
         this._onDisabledChange.forEach((changeFn) => changeFn(false));
     }
     /**
@@ -2361,10 +2361,10 @@ class AbstractControl {
      * Re-calculates the value and validation status of the control.
      *
      * By default, it will also update the value and validity of its ancestors.
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    updateValueAndValidity({ onlySelf, emitEvent } = {}) {
+    updateValueAndValidity(opts = {}) {
         this._setInitialStatus();
         this._updateValue();
         if (this.enabled) {
@@ -2372,25 +2372,25 @@ class AbstractControl {
             this._errors = this._runValidator();
             this._status = this._calculateStatus();
             if (this._status === VALID || this._status === PENDING) {
-                this._runAsyncValidator(emitEvent);
+                this._runAsyncValidator(opts.emitEvent);
             }
         }
-        if (emitEvent !== false) {
+        if (opts.emitEvent !== false) {
             this._valueChanges.emit(this._value);
             this._statusChanges.emit(this._status);
         }
-        if (this._parent && !onlySelf) {
-            this._parent.updateValueAndValidity({ onlySelf, emitEvent });
+        if (this._parent && !opts.onlySelf) {
+            this._parent.updateValueAndValidity(opts);
         }
     }
     /**
      * \@internal
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    _updateTreeValidity({ emitEvent } = { emitEvent: true }) {
-        this._forEachChild((ctrl) => ctrl._updateTreeValidity({ emitEvent }));
-        this.updateValueAndValidity({ onlySelf: true, emitEvent });
+    _updateTreeValidity(opts = { emitEvent: true }) {
+        this._forEachChild((ctrl) => ctrl._updateTreeValidity(opts));
+        this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
     }
     /**
      * @return {?}
@@ -2445,12 +2445,12 @@ class AbstractControl {
      * expect(login.valid).toEqual(true);
      * ```
      * @param {?} errors
-     * @param {?=} __1
+     * @param {?=} opts
      * @return {?}
      */
-    setErrors(errors, { emitEvent } = {}) {
+    setErrors(errors, opts = {}) {
         this._errors = errors;
-        this._updateControlsErrors(emitEvent !== false);
+        this._updateControlsErrors(opts.emitEvent !== false);
     }
     /**
      * Retrieves a child control given the control's name or path.
@@ -2588,24 +2588,24 @@ class AbstractControl {
     }
     /**
      * \@internal
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    _updatePristine({ onlySelf } = {}) {
+    _updatePristine(opts = {}) {
         this._pristine = !this._anyControlsDirty();
-        if (this._parent && !onlySelf) {
-            this._parent._updatePristine({ onlySelf });
+        if (this._parent && !opts.onlySelf) {
+            this._parent._updatePristine(opts);
         }
     }
     /**
      * \@internal
-     * @param {?=} __0
+     * @param {?=} opts
      * @return {?}
      */
-    _updateTouched({ onlySelf } = {}) {
+    _updateTouched(opts = {}) {
         this._touched = this._anyControlsTouched();
-        if (this._parent && !onlySelf) {
-            this._parent._updateTouched({ onlySelf });
+        if (this._parent && !opts.onlySelf) {
+            this._parent._updateTouched(opts);
         }
     }
     /**
@@ -5497,7 +5497,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.2.2-009651e');
+const VERSION = new Version('4.2.2-00874c2');
 
 /**
  * @license
