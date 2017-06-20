@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 /**
- * @license Angular v4.2.3-2e8efda
+ * @license Angular v4.2.3-4ab7353
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5421,116 +5421,6 @@ RequiredValidator.ctorParameters = function () { return []; };
 RequiredValidator.propDecorators = {
     'required': [{ type: Input },],
 };
-var MIN_VALIDATOR = {
-    provide: NG_VALIDATORS,
-    useExisting: forwardRef(function () { return MinValidator; }),
-    multi: true
-};
-/**
- * A directive which installs the {\@link MinValidator} for any `formControlName`,
- * `formControl`, or control with `ngModel` that also has a `min` attribute.
- *
- * \@experimental
- */
-var MinValidator = (function () {
-    function MinValidator() {
-    }
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    MinValidator.prototype.ngOnChanges = function (changes) {
-        if ('min' in changes) {
-            this._createValidator();
-            if (this._onChange)
-                this._onChange();
-        }
-    };
-    /**
-     * @param {?} c
-     * @return {?}
-     */
-    MinValidator.prototype.validate = function (c) { return this._validator(c); };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    MinValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
-    /**
-     * @return {?}
-     */
-    MinValidator.prototype._createValidator = function () { this._validator = Validators.min(parseInt(this.min, 10)); };
-    return MinValidator;
-}());
-MinValidator.decorators = [
-    { type: Directive, args: [{
-                selector: '[min][formControlName],[min][formControl],[min][ngModel]',
-                providers: [MIN_VALIDATOR],
-                host: { '[attr.min]': 'min ? min : null' }
-            },] },
-];
-/**
- * @nocollapse
- */
-MinValidator.ctorParameters = function () { return []; };
-MinValidator.propDecorators = {
-    'min': [{ type: Input },],
-};
-var MAX_VALIDATOR = {
-    provide: NG_VALIDATORS,
-    useExisting: forwardRef(function () { return MaxValidator; }),
-    multi: true
-};
-/**
- * A directive which installs the {\@link MaxValidator} for any `formControlName`,
- * `formControl`, or control with `ngModel` that also has a `min` attribute.
- *
- * \@experimental
- */
-var MaxValidator = (function () {
-    function MaxValidator() {
-    }
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    MaxValidator.prototype.ngOnChanges = function (changes) {
-        if ('max' in changes) {
-            this._createValidator();
-            if (this._onChange)
-                this._onChange();
-        }
-    };
-    /**
-     * @param {?} c
-     * @return {?}
-     */
-    MaxValidator.prototype.validate = function (c) { return this._validator(c); };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    MaxValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
-    /**
-     * @return {?}
-     */
-    MaxValidator.prototype._createValidator = function () { this._validator = Validators.max(parseInt(this.max, 10)); };
-    return MaxValidator;
-}());
-MaxValidator.decorators = [
-    { type: Directive, args: [{
-                selector: '[max][formControlName],[max][formControl],[max][ngModel]',
-                providers: [MAX_VALIDATOR],
-                host: { '[attr.max]': 'max ? max : null' }
-            },] },
-];
-/**
- * @nocollapse
- */
-MaxValidator.ctorParameters = function () { return []; };
-MaxValidator.propDecorators = {
-    'max': [{ type: Input },],
-};
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute, via the {\@link NG_VALIDATORS} binding.
@@ -5959,7 +5849,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('4.2.3-2e8efda');
+var VERSION = new Version('4.2.3-4ab7353');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
