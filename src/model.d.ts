@@ -163,7 +163,7 @@ export declare abstract class AbstractControl {
      * This will also mark all direct ancestors as `touched` to maintain
      * the model.
      */
-    markAsTouched(opts?: {
+    markAsTouched({onlySelf}?: {
         onlySelf?: boolean;
     }): void;
     /**
@@ -173,7 +173,7 @@ export declare abstract class AbstractControl {
      * to maintain the model, and re-calculate the `touched` status of all parent
      * controls.
      */
-    markAsUntouched(opts?: {
+    markAsUntouched({onlySelf}?: {
         onlySelf?: boolean;
     }): void;
     /**
@@ -182,7 +182,7 @@ export declare abstract class AbstractControl {
      * This will also mark all direct ancestors as `dirty` to maintain
      * the model.
      */
-    markAsDirty(opts?: {
+    markAsDirty({onlySelf}?: {
         onlySelf?: boolean;
     }): void;
     /**
@@ -192,13 +192,13 @@ export declare abstract class AbstractControl {
      * to maintain the model, and re-calculate the `pristine` status of all parent
      * controls.
      */
-    markAsPristine(opts?: {
+    markAsPristine({onlySelf}?: {
         onlySelf?: boolean;
     }): void;
     /**
      * Marks the control as `pending`.
      */
-    markAsPending(opts?: {
+    markAsPending({onlySelf}?: {
         onlySelf?: boolean;
     }): void;
     /**
@@ -207,7 +207,7 @@ export declare abstract class AbstractControl {
      *
      * If the control has children, all children will be disabled to maintain the model.
      */
-    disable(opts?: {
+    disable({onlySelf, emitEvent}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -218,7 +218,7 @@ export declare abstract class AbstractControl {
      *
      * If the control has children, all children will be enabled.
      */
-    enable(opts?: {
+    enable({onlySelf, emitEvent}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -241,7 +241,7 @@ export declare abstract class AbstractControl {
      *
      * By default, it will also update the value and validity of its ancestors.
      */
-    updateValueAndValidity(opts?: {
+    updateValueAndValidity({onlySelf, emitEvent}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -272,7 +272,7 @@ export declare abstract class AbstractControl {
      * expect(login.valid).toEqual(true);
      * ```
      */
-    setErrors(errors: ValidationErrors | null, opts?: {
+    setErrors(errors: ValidationErrors | null, {emitEvent}?: {
         emitEvent?: boolean;
     }): void;
     /**
