@@ -1,9 +1,9 @@
 /**
- * @license Angular v4.3.0-beta.0-3165fd3
+ * @license Angular v4.3.0-beta.0-3097083
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
-import { Directive, ElementRef, EventEmitter, Host, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer, Self, SkipSelf, Version, forwardRef, ɵisObservable, ɵisPromise, ɵlooseIdentical } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Host, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer2, Self, SkipSelf, Version, forwardRef, ɵisObservable, ɵisPromise, ɵlooseIdentical } from '@angular/core';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map } from 'rxjs/operator/map';
@@ -440,7 +440,7 @@ class CheckboxControlValueAccessor {
      * @return {?}
      */
     writeValue(value) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', value);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
     }
     /**
      * @param {?} fn
@@ -457,7 +457,7 @@ class CheckboxControlValueAccessor {
      * @return {?}
      */
     setDisabledState(isDisabled) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
 }
 CheckboxControlValueAccessor.decorators = [
@@ -471,7 +471,7 @@ CheckboxControlValueAccessor.decorators = [
  * @nocollapse
  */
 CheckboxControlValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: ElementRef, },
 ];
 
@@ -538,7 +538,7 @@ class DefaultValueAccessor {
      */
     writeValue(value) {
         const /** @type {?} */ normalizedValue = value == null ? '' : value;
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
     }
     /**
      * @param {?} fn
@@ -555,7 +555,7 @@ class DefaultValueAccessor {
      * @return {?}
      */
     setDisabledState(isDisabled) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
     /**
      * @param {?} value
@@ -598,7 +598,7 @@ DefaultValueAccessor.decorators = [
  * @nocollapse
  */
 DefaultValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: ElementRef, },
     { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [COMPOSITION_BUFFER_MODE,] },] },
 ];
@@ -674,7 +674,7 @@ class NumberValueAccessor {
     writeValue(value) {
         // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
         const /** @type {?} */ normalizedValue = value == null ? '' : value;
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
     }
     /**
      * @param {?} fn
@@ -693,7 +693,7 @@ class NumberValueAccessor {
      * @return {?}
      */
     setDisabledState(isDisabled) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
 }
 NumberValueAccessor.decorators = [
@@ -711,7 +711,7 @@ NumberValueAccessor.decorators = [
  * @nocollapse
  */
 NumberValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: ElementRef, },
 ];
 
@@ -902,7 +902,7 @@ class RadioControlValueAccessor {
      */
     writeValue(value) {
         this._state = value === this.value;
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'checked', this._state);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'checked', this._state);
     }
     /**
      * @param {?} fn
@@ -930,7 +930,7 @@ class RadioControlValueAccessor {
      * @return {?}
      */
     setDisabledState(isDisabled) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
     /**
      * @return {?}
@@ -963,7 +963,7 @@ RadioControlValueAccessor.decorators = [
  * @nocollapse
  */
 RadioControlValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: ElementRef, },
     { type: RadioControlRegistry, },
     { type: Injector, },
@@ -1011,7 +1011,7 @@ class RangeValueAccessor {
      * @return {?}
      */
     writeValue(value) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
     }
     /**
      * @param {?} fn
@@ -1030,7 +1030,7 @@ class RangeValueAccessor {
      * @return {?}
      */
     setDisabledState(isDisabled) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
 }
 RangeValueAccessor.decorators = [
@@ -1048,7 +1048,7 @@ RangeValueAccessor.decorators = [
  * @nocollapse
  */
 RangeValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: ElementRef, },
 ];
 
@@ -1184,10 +1184,10 @@ class SelectControlValueAccessor {
         this.value = value;
         const /** @type {?} */ id = this._getOptionId(value);
         if (id == null) {
-            this._renderer.setElementProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
+            this._renderer.setProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
         }
         const /** @type {?} */ valueString = _buildValueString(id, value);
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', valueString);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', valueString);
     }
     /**
      * @param {?} fn
@@ -1209,7 +1209,7 @@ class SelectControlValueAccessor {
      * @return {?}
      */
     setDisabledState(isDisabled) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
     /**
      * \@internal
@@ -1249,7 +1249,7 @@ SelectControlValueAccessor.decorators = [
  * @nocollapse
  */
 SelectControlValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: ElementRef, },
 ];
 SelectControlValueAccessor.propDecorators = {
@@ -1303,7 +1303,7 @@ class NgSelectOption {
      * @return {?}
      */
     _setElementValue(value) {
-        this._renderer.setElementProperty(this._element.nativeElement, 'value', value);
+        this._renderer.setProperty(this._element.nativeElement, 'value', value);
     }
     /**
      * @return {?}
@@ -1323,7 +1323,7 @@ NgSelectOption.decorators = [
  */
 NgSelectOption.ctorParameters = () => [
     { type: ElementRef, },
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: SelectControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
 ];
 NgSelectOption.propDecorators = {
@@ -1480,7 +1480,7 @@ class SelectMultipleControlValueAccessor {
      * @return {?}
      */
     setDisabledState(isDisabled) {
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
     /**
      * \@internal
@@ -1525,7 +1525,7 @@ SelectMultipleControlValueAccessor.decorators = [
  * @nocollapse
  */
 SelectMultipleControlValueAccessor.ctorParameters = () => [
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: ElementRef, },
 ];
 SelectMultipleControlValueAccessor.propDecorators = {
@@ -1587,7 +1587,7 @@ class NgSelectMultipleOption {
      * @return {?}
      */
     _setElementValue(value) {
-        this._renderer.setElementProperty(this._element.nativeElement, 'value', value);
+        this._renderer.setProperty(this._element.nativeElement, 'value', value);
     }
     /**
      * \@internal
@@ -1595,7 +1595,7 @@ class NgSelectMultipleOption {
      * @return {?}
      */
     _setSelected(selected) {
-        this._renderer.setElementProperty(this._element.nativeElement, 'selected', selected);
+        this._renderer.setProperty(this._element.nativeElement, 'selected', selected);
     }
     /**
      * @return {?}
@@ -1615,7 +1615,7 @@ NgSelectMultipleOption.decorators = [
  */
 NgSelectMultipleOption.ctorParameters = () => [
     { type: ElementRef, },
-    { type: Renderer, },
+    { type: Renderer2, },
     { type: SelectMultipleControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
 ];
 NgSelectMultipleOption.propDecorators = {
@@ -5497,7 +5497,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.3.0-beta.0-3165fd3');
+const VERSION = new Version('4.3.0-beta.0-3097083');
 
 /**
  * @license
