@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.0-abee785
+ * @license Angular v5.0.0-beta.0-b7a6f52
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -10,11 +10,8 @@ import { map } from 'rxjs/operator/map';
 import { ɵgetDOM } from '@angular/platform-browser';
 
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
  */
 /**
  * Base class for control directives.
@@ -25,11 +22,6 @@ import { ɵgetDOM } from '@angular/platform-browser';
  * @abstract
  */
 class AbstractControlDirective {
-    /**
-     * @abstract
-     * @return {?}
-     */
-    control() { }
     /**
      * @return {?}
      */
@@ -117,6 +109,10 @@ class AbstractControlDirective {
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @license
  * Copyright Google Inc. All Rights Reserved.
  *
@@ -144,6 +140,10 @@ class ControlContainer extends AbstractControlDirective {
     get path() { return null; }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -388,12 +388,28 @@ function _mergeErrors(arrayOfErrors) {
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @license
  * Copyright Google Inc. All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+/**
+ * A bridge between a control and a native element.
+ *
+ * A `ControlValueAccessor` abstracts the operations of writing a new value to a
+ * DOM element representing an input control.
+ *
+ * Please see {\@link DefaultValueAccessor} for more information.
+ *
+ * \@stable
+ * @record
+ */
+function ControlValueAccessor() { }
 /**
  * Used to provide a {\@link ControlValueAccessor} for form controls.
  *
@@ -402,6 +418,10 @@ function _mergeErrors(arrayOfErrors) {
  */
 const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -467,14 +487,16 @@ CheckboxControlValueAccessor.decorators = [
                 providers: [CHECKBOX_VALUE_ACCESSOR]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 CheckboxControlValueAccessor.ctorParameters = () => [
     { type: Renderer2, },
     { type: ElementRef, },
 ];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -594,9 +616,7 @@ DefaultValueAccessor.decorators = [
                 providers: [DEFAULT_VALUE_ACCESSOR]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 DefaultValueAccessor.ctorParameters = () => [
     { type: Renderer2, },
     { type: ElementRef, },
@@ -604,11 +624,8 @@ DefaultValueAccessor.ctorParameters = () => [
 ];
 
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
  */
 /**
  * @param {?} validator
@@ -635,6 +652,10 @@ function normalizeAsyncValidator(validator) {
     }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -707,14 +728,16 @@ NumberValueAccessor.decorators = [
                 providers: [NUMBER_VALUE_ACCESSOR]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NumberValueAccessor.ctorParameters = () => [
     { type: Renderer2, },
     { type: ElementRef, },
 ];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -763,14 +786,12 @@ class NgControl extends AbstractControlDirective {
      * @return {?}
      */
     get asyncValidator() { return (unimplemented()); }
-    /**
-     * @abstract
-     * @param {?} newValue
-     * @return {?}
-     */
-    viewToModelUpdate(newValue) { }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -836,9 +857,7 @@ class RadioControlRegistry {
 RadioControlRegistry.decorators = [
     { type: Injectable },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 RadioControlRegistry.ctorParameters = () => [];
 /**
  * \@whatItDoes Writes radio control values and listens to radio control changes.
@@ -959,9 +978,7 @@ RadioControlValueAccessor.decorators = [
                 providers: [RADIO_VALUE_ACCESSOR]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 RadioControlValueAccessor.ctorParameters = () => [
     { type: Renderer2, },
     { type: ElementRef, },
@@ -969,11 +986,15 @@ RadioControlValueAccessor.ctorParameters = () => [
     { type: Injector, },
 ];
 RadioControlValueAccessor.propDecorators = {
-    'name': [{ type: Input },],
-    'formControlName': [{ type: Input },],
-    'value': [{ type: Input },],
+    "name": [{ type: Input },],
+    "formControlName": [{ type: Input },],
+    "value": [{ type: Input },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1044,14 +1065,16 @@ RangeValueAccessor.decorators = [
                 providers: [RANGE_VALUE_ACCESSOR]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 RangeValueAccessor.ctorParameters = () => [
     { type: Renderer2, },
     { type: ElementRef, },
 ];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1245,15 +1268,13 @@ SelectControlValueAccessor.decorators = [
                 providers: [SELECT_VALUE_ACCESSOR]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 SelectControlValueAccessor.ctorParameters = () => [
     { type: Renderer2, },
     { type: ElementRef, },
 ];
 SelectControlValueAccessor.propDecorators = {
-    'compareWith': [{ type: Input },],
+    "compareWith": [{ type: Input },],
 };
 /**
  * \@whatItDoes Marks `<option>` as dynamic, so Angular can be notified when options change.
@@ -1318,19 +1339,21 @@ class NgSelectOption {
 NgSelectOption.decorators = [
     { type: Directive, args: [{ selector: 'option' },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NgSelectOption.ctorParameters = () => [
     { type: ElementRef, },
     { type: Renderer2, },
     { type: SelectControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
 ];
 NgSelectOption.propDecorators = {
-    'ngValue': [{ type: Input, args: ['ngValue',] },],
-    'value': [{ type: Input, args: ['value',] },],
+    "ngValue": [{ type: Input, args: ['ngValue',] },],
+    "value": [{ type: Input, args: ['value',] },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1521,15 +1544,13 @@ SelectMultipleControlValueAccessor.decorators = [
                 providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 SelectMultipleControlValueAccessor.ctorParameters = () => [
     { type: Renderer2, },
     { type: ElementRef, },
 ];
 SelectMultipleControlValueAccessor.propDecorators = {
-    'compareWith': [{ type: Input },],
+    "compareWith": [{ type: Input },],
 };
 /**
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
@@ -1610,19 +1631,21 @@ class NgSelectMultipleOption {
 NgSelectMultipleOption.decorators = [
     { type: Directive, args: [{ selector: 'option' },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NgSelectMultipleOption.ctorParameters = () => [
     { type: ElementRef, },
     { type: Renderer2, },
     { type: SelectMultipleControlValueAccessor, decorators: [{ type: Optional }, { type: Host },] },
 ];
 NgSelectMultipleOption.propDecorators = {
-    'ngValue': [{ type: Input, args: ['ngValue',] },],
-    'value': [{ type: Input, args: ['value',] },],
+    "ngValue": [{ type: Input, args: ['ngValue',] },],
+    "value": [{ type: Input, args: ['value',] },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1729,7 +1752,7 @@ function _noControlError(dir) {
 function _throwError(dir, message) {
     let /** @type {?} */ messageEnd;
     if (((dir.path)).length > 1) {
-        messageEnd = `path: '${ /** @type {?} */((dir.path)).join(' -> ')}'`;
+        messageEnd = `path: '${(((dir.path))).join(' -> ')}'`;
     }
     else if (((dir.path))[0]) {
         messageEnd = `name: '${dir.path}'`;
@@ -1819,11 +1842,8 @@ function selectValueAccessor(dir, valueAccessors) {
 }
 
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
  */
 /**
  * This is a base class for code shared between {\@link NgModelGroup} and {\@link FormGroupName}.
@@ -1878,6 +1898,24 @@ class AbstractFormGroupDirective extends ControlContainer {
     _checkParentType() { }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * An interface that {\@link FormGroupDirective} and {\@link NgForm} implement.
+ *
+ * Only used by the forms module.
+ *
+ * \@stable
+ * @record
+ */
+function Form() { }
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1943,9 +1981,7 @@ class NgControlStatus extends AbstractControlStatus {
 NgControlStatus.decorators = [
     { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NgControlStatus.ctorParameters = () => [
     { type: NgControl, decorators: [{ type: Self },] },
 ];
@@ -1967,13 +2003,15 @@ NgControlStatusGroup.decorators = [
                 host: ngControlStatusHost
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NgControlStatusGroup.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Self },] },
 ];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -2334,30 +2372,6 @@ class AbstractControl {
      */
     setParent(parent) { this._parent = parent; }
     /**
-     * Sets the value of the control. Abstract method (implemented in sub-classes).
-     * @abstract
-     * @param {?} value
-     * @param {?=} options
-     * @return {?}
-     */
-    setValue(value, options) { }
-    /**
-     * Patches the value of the control. Abstract method (implemented in sub-classes).
-     * @abstract
-     * @param {?} value
-     * @param {?=} options
-     * @return {?}
-     */
-    patchValue(value, options) { }
-    /**
-     * Resets the control. Abstract method (implemented in sub-classes).
-     * @abstract
-     * @param {?=} value
-     * @param {?=} options
-     * @return {?}
-     */
-    reset(value, options) { }
-    /**
      * Re-calculates the value and validation status of the control.
      *
      * By default, it will also update the value and validity of its ancestors.
@@ -2538,32 +2552,6 @@ class AbstractControl {
             return INVALID;
         return VALID;
     }
-    /**
-     * \@internal
-     * @abstract
-     * @return {?}
-     */
-    _updateValue() { }
-    /**
-     * \@internal
-     * @abstract
-     * @param {?} cb
-     * @return {?}
-     */
-    _forEachChild(cb) { }
-    /**
-     * \@internal
-     * @abstract
-     * @param {?} condition
-     * @return {?}
-     */
-    _anyControls(condition) { }
-    /**
-     * \@internal
-     * @abstract
-     * @return {?}
-     */
-    _allControlsDisabled() { }
     /**
      * \@internal
      * @param {?} status
@@ -3489,6 +3477,10 @@ class FormArray extends AbstractControl {
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @license
  * Copyright Google Inc. All Rights Reserved.
  *
@@ -3678,14 +3670,16 @@ NgForm.decorators = [
                 exportAs: 'ngForm'
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NgForm.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
 ];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -3693,7 +3687,10 @@ NgForm.ctorParameters = () => [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const FormErrorExamples = {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */ const FormErrorExamples = {
     formControlName: `
     <div [formGroup]="myGroup">
       <input formControlName="firstName">
@@ -3745,6 +3742,10 @@ const FormErrorExamples = {
   `
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -3812,6 +3813,10 @@ class TemplateDrivenErrors {
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @license
  * Copyright Google Inc. All Rights Reserved.
  *
@@ -3872,18 +3877,20 @@ class NgModelGroup extends AbstractFormGroupDirective {
 NgModelGroup.decorators = [
     { type: Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NgModelGroup.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
 ];
 NgModelGroup.propDecorators = {
-    'name': [{ type: Input, args: ['ngModelGroup',] },],
+    "name": [{ type: Input, args: ['ngModelGroup',] },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -4129,9 +4136,7 @@ NgModel.decorators = [
                 exportAs: 'ngModel'
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NgModel.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Optional }, { type: Host },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
@@ -4139,13 +4144,17 @@ NgModel.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
 ];
 NgModel.propDecorators = {
-    'name': [{ type: Input },],
-    'isDisabled': [{ type: Input, args: ['disabled',] },],
-    'model': [{ type: Input, args: ['ngModel',] },],
-    'options': [{ type: Input, args: ['ngModelOptions',] },],
-    'update': [{ type: Output, args: ['ngModelChange',] },],
+    "name": [{ type: Input },],
+    "isDisabled": [{ type: Input, args: ['disabled',] },],
+    "model": [{ type: Input, args: ['ngModel',] },],
+    "options": [{ type: Input, args: ['ngModelOptions',] },],
+    "update": [{ type: Output, args: ['ngModelChange',] },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -4230,6 +4239,10 @@ class ReactiveErrors {
     }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -4355,21 +4368,23 @@ class FormControlDirective extends NgControl {
 FormControlDirective.decorators = [
     { type: Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 FormControlDirective.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
 ];
 FormControlDirective.propDecorators = {
-    'form': [{ type: Input, args: ['formControl',] },],
-    'model': [{ type: Input, args: ['ngModel',] },],
-    'update': [{ type: Output, args: ['ngModelChange',] },],
-    'isDisabled': [{ type: Input, args: ['disabled',] },],
+    "form": [{ type: Input, args: ['formControl',] },],
+    "model": [{ type: Input, args: ['ngModel',] },],
+    "update": [{ type: Output, args: ['ngModelChange',] },],
+    "isDisabled": [{ type: Input, args: ['disabled',] },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -4598,16 +4613,14 @@ FormGroupDirective.decorators = [
                 exportAs: 'ngForm'
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 FormGroupDirective.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
 ];
 FormGroupDirective.propDecorators = {
-    'form': [{ type: Input, args: ['formGroup',] },],
-    'ngSubmit': [{ type: Output },],
+    "form": [{ type: Input, args: ['formGroup',] },],
+    "ngSubmit": [{ type: Output },],
 };
 /**
  * @template T
@@ -4622,6 +4635,10 @@ function remove(list, el) {
     }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -4702,16 +4719,14 @@ class FormGroupName extends AbstractFormGroupDirective {
 FormGroupName.decorators = [
     { type: Directive, args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 FormGroupName.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
 ];
 FormGroupName.propDecorators = {
-    'name': [{ type: Input, args: ['formGroupName',] },],
+    "name": [{ type: Input, args: ['formGroupName',] },],
 };
 const formArrayNameProvider = {
     provide: ControlContainer,
@@ -4827,16 +4842,14 @@ class FormArrayName extends ControlContainer {
 FormArrayName.decorators = [
     { type: Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 FormArrayName.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
 ];
 FormArrayName.propDecorators = {
-    'name': [{ type: Input, args: ['formArrayName',] },],
+    "name": [{ type: Input, args: ['formArrayName',] },],
 };
 /**
  * @param {?} parent
@@ -4847,6 +4860,10 @@ function _hasInvalidParent(parent) {
         !(parent instanceof FormArrayName);
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5008,9 +5025,7 @@ class FormControlName extends NgControl {
 FormControlName.decorators = [
     { type: Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 FormControlName.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
@@ -5018,12 +5033,16 @@ FormControlName.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
 ];
 FormControlName.propDecorators = {
-    'name': [{ type: Input, args: ['formControlName',] },],
-    'model': [{ type: Input, args: ['ngModel',] },],
-    'update': [{ type: Output, args: ['ngModelChange',] },],
-    'isDisabled': [{ type: Input, args: ['disabled',] },],
+    "name": [{ type: Input, args: ['formControlName',] },],
+    "model": [{ type: Input, args: ['ngModel',] },],
+    "update": [{ type: Output, args: ['ngModelChange',] },],
+    "isDisabled": [{ type: Input, args: ['disabled',] },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5031,6 +5050,32 @@ FormControlName.propDecorators = {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+/**
+ * An interface that can be implemented by classes that can act as validators.
+ *
+ * ## Usage
+ *
+ * ```typescript
+ * \@Directive({
+ *   selector: '[custom-validator]',
+ *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ * })
+ * class CustomValidatorDirective implements Validator {
+ *   validate(c: Control): {[key: string]: any} {
+ *     return {"custom": true};
+ *   }
+ * }
+ * ```
+ *
+ * \@stable
+ * @record
+ */
+function Validator() { }
+/**
+ * \@experimental
+ * @record
+ */
+function AsyncValidator() { }
 const REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => RequiredValidator),
@@ -5087,12 +5132,10 @@ RequiredValidator.decorators = [
                 host: { '[attr.required]': 'required ? "" : null' }
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 RequiredValidator.ctorParameters = () => [];
 RequiredValidator.propDecorators = {
-    'required': [{ type: Input },],
+    "required": [{ type: Input },],
 };
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
@@ -5122,9 +5165,7 @@ CheckboxRequiredValidator.decorators = [
                 host: { '[attr.required]': 'required ? "" : null' }
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 CheckboxRequiredValidator.ctorParameters = () => [];
 /**
  * Provider which adds {\@link EmailValidator} to {\@link NG_VALIDATORS}.
@@ -5177,13 +5218,21 @@ EmailValidator.decorators = [
                 providers: [EMAIL_VALIDATOR]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 EmailValidator.ctorParameters = () => [];
 EmailValidator.propDecorators = {
-    'email': [{ type: Input },],
+    "email": [{ type: Input },],
 };
+/**
+ * \@stable
+ * @record
+ */
+function ValidatorFn() { }
+/**
+ * \@stable
+ * @record
+ */
+function AsyncValidatorFn() { }
 /**
  * Provider which adds {\@link MinLengthValidator} to {\@link NG_VALIDATORS}.
  *
@@ -5240,12 +5289,10 @@ MinLengthValidator.decorators = [
                 host: { '[attr.minlength]': 'minlength ? minlength : null' }
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 MinLengthValidator.ctorParameters = () => [];
 MinLengthValidator.propDecorators = {
-    'minlength': [{ type: Input },],
+    "minlength": [{ type: Input },],
 };
 /**
  * Provider which adds {\@link MaxLengthValidator} to {\@link NG_VALIDATORS}.
@@ -5304,12 +5351,10 @@ MaxLengthValidator.decorators = [
                 host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 MaxLengthValidator.ctorParameters = () => [];
 MaxLengthValidator.propDecorators = {
-    'maxlength': [{ type: Input },],
+    "maxlength": [{ type: Input },],
 };
 const PATTERN_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -5363,14 +5408,16 @@ PatternValidator.decorators = [
                 host: { '[attr.pattern]': 'pattern ? pattern : null' }
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 PatternValidator.ctorParameters = () => [];
 PatternValidator.propDecorators = {
-    'pattern': [{ type: Input },],
+    "pattern": [{ type: Input },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5477,11 +5524,13 @@ class FormBuilder {
 FormBuilder.decorators = [
     { type: Injectable },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 FormBuilder.ctorParameters = () => [];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5497,8 +5546,12 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.0-abee785');
+const VERSION = new Version('5.0.0-beta.0-b7a6f52');
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5527,11 +5580,13 @@ NgNoValidate.decorators = [
                 host: { 'novalidate': '' },
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 NgNoValidate.ctorParameters = () => [];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5572,11 +5627,13 @@ InternalFormsSharedModule.decorators = [
                 exports: SHARED_FORM_DIRECTIVES,
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 InternalFormsSharedModule.ctorParameters = () => [];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5597,9 +5654,7 @@ FormsModule.decorators = [
                 exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 FormsModule.ctorParameters = () => [];
 /**
  * The ng module for reactive forms.
@@ -5614,11 +5669,13 @@ ReactiveFormsModule.decorators = [
                 exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/**
- * @nocollapse
- */
+/** @nocollapse */
 ReactiveFormsModule.ctorParameters = () => [];
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5638,6 +5695,10 @@ ReactiveFormsModule.ctorParameters = () => [];
  */
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * @license
  * Copyright Google Inc. All Rights Reserved.
  *
@@ -5653,8 +5714,12 @@ ReactiveFormsModule.ctorParameters = () => [];
 // This file only reexports content of the `src` folder. Keep it that way.
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * Generated bundle index. Do not edit.
  */
 
-export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
+export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, Form, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, AsyncValidator, AsyncValidatorFn, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, Validator, ValidatorFn, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
 //# sourceMappingURL=forms.js.map
