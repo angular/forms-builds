@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.1-e64b54b
+ * @license Angular v5.0.0-beta.1-9479a10
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -580,6 +580,7 @@ class DefaultValueAccessor {
         this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
     /**
+     * \@internal
      * @param {?} value
      * @return {?}
      */
@@ -589,10 +590,12 @@ class DefaultValueAccessor {
         }
     }
     /**
+     * \@internal
      * @return {?}
      */
     _compositionStart() { this._composing = true; }
     /**
+     * \@internal
      * @param {?} value
      * @return {?}
      */
@@ -5595,7 +5598,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.1-e64b54b');
+const VERSION = new Version('5.0.0-beta.1-9479a10');
 
 /**
  * @fileoverview added by tsickle
