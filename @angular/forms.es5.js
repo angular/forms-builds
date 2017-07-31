@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 /**
- * @license Angular v5.0.0-beta.1-d71ae27
+ * @license Angular v5.0.0-beta.1-ebef5e6
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2234,19 +2234,35 @@ function _find(control, path, delimiter) {
     }, control);
 }
 /**
- * @param {?=} validator
+ * @param {?=} validatorOrOpts
  * @return {?}
  */
-function coerceToValidator(validator) {
+function coerceToValidator(validatorOrOpts) {
+    var /** @type {?} */ validator = ((isOptionsObj(validatorOrOpts) ? ((validatorOrOpts)).validators :
+        validatorOrOpts));
     return Array.isArray(validator) ? composeValidators(validator) : validator || null;
 }
 /**
  * @param {?=} asyncValidator
+ * @param {?=} validatorOrOpts
  * @return {?}
  */
-function coerceToAsyncValidator(asyncValidator) {
-    return Array.isArray(asyncValidator) ? composeAsyncValidators(asyncValidator) :
-        asyncValidator || null;
+function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
+    var /** @type {?} */ origAsyncValidator = ((isOptionsObj(validatorOrOpts) ? ((validatorOrOpts)).asyncValidators :
+        asyncValidator));
+    return Array.isArray(origAsyncValidator) ? composeAsyncValidators(origAsyncValidator) :
+        origAsyncValidator || null;
+}
+/**
+ * @record
+ */
+/**
+ * @param {?=} validatorOrOpts
+ * @return {?}
+ */
+function isOptionsObj(validatorOrOpts) {
+    return validatorOrOpts != null && !Array.isArray(validatorOrOpts) &&
+        typeof validatorOrOpts === 'object';
 }
 /**
  * \@whatItDoes This is the base class for {\@link FormControl}, {\@link FormGroup}, and
@@ -2889,14 +2905,26 @@ var AbstractControl = (function () {
  * console.log(ctrl.status);   // 'DISABLED'
  * ```
  *
- * To include a sync validator (or an array of sync validators) with the control,
- * pass it in as the second argument. Async validators are also supported, but
- * have to be passed in separately as the third arg.
+ * The second {\@link FormControl} argument can accept one of three things:
+ * * a sync validator function
+ * * an array of sync validator functions
+ * * an options object containing validator and/or async validator functions
+ *
+ * Example of a single sync validator function:
  *
  * ```ts
  * const ctrl = new FormControl('', Validators.required);
  * console.log(ctrl.value);     // ''
  * console.log(ctrl.status);   // 'INVALID'
+ * ```
+ *
+ * Example using options object:
+ *
+ * ```ts
+ * const ctrl = new FormControl('', {
+ *    validators: Validators.required,
+ *    asyncValidators: myAsyncValidator
+ * });
  * ```
  *
  * See its superclass, {\@link AbstractControl}, for more properties and methods.
@@ -2909,12 +2937,12 @@ var FormControl = (function (_super) {
     tslib_1.__extends(FormControl, _super);
     /**
      * @param {?=} formState
-     * @param {?=} validator
+     * @param {?=} validatorOrOpts
      * @param {?=} asyncValidator
      */
-    function FormControl(formState, validator, asyncValidator) {
+    function FormControl(formState, validatorOrOpts, asyncValidator) {
         if (formState === void 0) { formState = null; }
-        var _this = _super.call(this, coerceToValidator(validator), coerceToAsyncValidator(asyncValidator)) || this;
+        var _this = _super.call(this, coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts)) || this;
         /**
          * \@internal
          */
@@ -3115,6 +3143,16 @@ var FormControl = (function (_super) {
  * }
  * ```
  *
+ * Like {\@link FormControl} instances, you can alternatively choose to pass in
+ * validators and async validators as part of an options object.
+ *
+ * ```
+ * const form = new FormGroup({
+ *   password: new FormControl('')
+ *   passwordConfirm: new FormControl('')
+ * }, {validators: passwordMatchValidator, asyncValidators: otherValidator});
+ * ```
+ *
  * * **npm package**: `\@angular/forms`
  *
  * \@stable
@@ -3123,11 +3161,11 @@ var FormGroup = (function (_super) {
     tslib_1.__extends(FormGroup, _super);
     /**
      * @param {?} controls
-     * @param {?=} validator
+     * @param {?=} validatorOrOpts
      * @param {?=} asyncValidator
      */
-    function FormGroup(controls, validator, asyncValidator) {
-        var _this = _super.call(this, validator || null, asyncValidator || null) || this;
+    function FormGroup(controls, validatorOrOpts, asyncValidator) {
+        var _this = _super.call(this, coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts)) || this;
         _this.controls = controls;
         _this._initObservables();
         _this._setUpControls();
@@ -3457,9 +3495,19 @@ var FormGroup = (function (_super) {
  * console.log(arr.status);  // 'VALID'
  * ```
  *
- * You can also include array-level validators as the second arg, or array-level async
- * validators as the third arg. These come in handy when you want to perform validation
- * that considers the value of more than one child control.
+ * You can also include array-level validators and async validators. These come in handy
+ * when you want to perform validation that considers the value of more than one child
+ * control.
+ *
+ * The two types of validators can be passed in separately as the second and third arg
+ * respectively, or together as part of an options object.
+ *
+ * ```
+ * const arr = new FormArray([
+ *   new FormControl('Nancy'),
+ *   new FormControl('Drew')
+ * ], {validators: myValidator, asyncValidators: myAsyncValidator});
+ * ```
  *
  * ### Adding or removing controls
  *
@@ -3477,11 +3525,11 @@ var FormArray = (function (_super) {
     tslib_1.__extends(FormArray, _super);
     /**
      * @param {?} controls
-     * @param {?=} validator
+     * @param {?=} validatorOrOpts
      * @param {?=} asyncValidator
      */
-    function FormArray(controls, validator, asyncValidator) {
-        var _this = _super.call(this, validator || null, asyncValidator || null) || this;
+    function FormArray(controls, validatorOrOpts, asyncValidator) {
+        var _this = _super.call(this, coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts)) || this;
         _this.controls = controls;
         _this._initObservables();
         _this._setUpControls();
@@ -5897,7 +5945,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.0-beta.1-d71ae27');
+var VERSION = new Version('5.0.0-beta.1-ebef5e6');
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc

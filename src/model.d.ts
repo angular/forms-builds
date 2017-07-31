@@ -18,6 +18,10 @@ export declare const PENDING = "PENDING";
  * calculations of validity or value.
  */
 export declare const DISABLED = "DISABLED";
+export interface AbstractControlOptions {
+    validators?: ValidatorFn | ValidatorFn[] | null;
+    asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[] | null;
+}
 /**
  * @whatItDoes This is the base class for {@link FormControl}, {@link FormGroup}, and
  * {@link FormArray}.
@@ -336,14 +340,26 @@ export declare abstract class AbstractControl {
  * console.log(ctrl.status);   // 'DISABLED'
  * ```
  *
- * To include a sync validator (or an array of sync validators) with the control,
- * pass it in as the second argument. Async validators are also supported, but
- * have to be passed in separately as the third arg.
+ * The second {@link FormControl} argument can accept one of three things:
+ * * a sync validator function
+ * * an array of sync validator functions
+ * * an options object containing validator and/or async validator functions
+ *
+ * Example of a single sync validator function:
  *
  * ```ts
  * const ctrl = new FormControl('', Validators.required);
  * console.log(ctrl.value);     // ''
  * console.log(ctrl.status);   // 'INVALID'
+ * ```
+ *
+ * Example using options object:
+ *
+ * ```ts
+ * const ctrl = new FormControl('', {
+ *    validators: Validators.required,
+ *    asyncValidators: myAsyncValidator
+ * });
  * ```
  *
  * See its superclass, {@link AbstractControl}, for more properties and methods.
@@ -353,7 +369,7 @@ export declare abstract class AbstractControl {
  * @stable
  */
 export declare class FormControl extends AbstractControl {
-    constructor(formState?: any, validator?: ValidatorFn | ValidatorFn[] | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
+    constructor(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Set the value of the form control to `value`.
      *
@@ -480,6 +496,16 @@ export declare class FormControl extends AbstractControl {
  * }
  * ```
  *
+ * Like {@link FormControl} instances, you can alternatively choose to pass in
+ * validators and async validators as part of an options object.
+ *
+ * ```
+ * const form = new FormGroup({
+ *   password: new FormControl('')
+ *   passwordConfirm: new FormControl('')
+ * }, {validators: passwordMatchValidator, asyncValidators: otherValidator});
+ * ```
+ *
  * * **npm package**: `@angular/forms`
  *
  * @stable
@@ -490,7 +516,7 @@ export declare class FormGroup extends AbstractControl {
     };
     constructor(controls: {
         [key: string]: AbstractControl;
-    }, validator?: ValidatorFn | null, asyncValidator?: AsyncValidatorFn | null);
+    }, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Registers a control with the group's list of controls.
      *
@@ -644,9 +670,19 @@ export declare class FormGroup extends AbstractControl {
  * console.log(arr.status);  // 'VALID'
  * ```
  *
- * You can also include array-level validators as the second arg, or array-level async
- * validators as the third arg. These come in handy when you want to perform validation
- * that considers the value of more than one child control.
+ * You can also include array-level validators and async validators. These come in handy
+ * when you want to perform validation that considers the value of more than one child
+ * control.
+ *
+ * The two types of validators can be passed in separately as the second and third arg
+ * respectively, or together as part of an options object.
+ *
+ * ```
+ * const arr = new FormArray([
+ *   new FormControl('Nancy'),
+ *   new FormControl('Drew')
+ * ], {validators: myValidator, asyncValidators: myAsyncValidator});
+ * ```
  *
  * ### Adding or removing controls
  *
@@ -662,7 +698,7 @@ export declare class FormGroup extends AbstractControl {
  */
 export declare class FormArray extends AbstractControl {
     controls: AbstractControl[];
-    constructor(controls: AbstractControl[], validator?: ValidatorFn | null, asyncValidator?: AsyncValidatorFn | null);
+    constructor(controls: AbstractControl[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Get the {@link AbstractControl} at the given `index` in the array.
      */
