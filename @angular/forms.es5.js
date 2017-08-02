@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 /**
- * @license Angular v4.3.3-24db1ed
+ * @license Angular v4.3.3-baf4ce0
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -630,6 +630,7 @@ var DefaultValueAccessor = (function () {
         this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     };
     /**
+     * \@internal
      * @param {?} value
      * @return {?}
      */
@@ -639,10 +640,12 @@ var DefaultValueAccessor = (function () {
         }
     };
     /**
+     * \@internal
      * @return {?}
      */
     DefaultValueAccessor.prototype._compositionStart = function () { this._composing = true; };
     /**
+     * \@internal
      * @param {?} value
      * @return {?}
      */
@@ -5849,7 +5852,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('4.3.3-24db1ed');
+var VERSION = new Version('4.3.3-baf4ce0');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
