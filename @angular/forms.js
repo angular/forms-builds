@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.2-5651e4a
+ * @license Angular v5.0.0-beta.2-9b015a9
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2003,7 +2003,16 @@ const ngControlStatusHost = {
 };
 /**
  * Directive automatically applied to Angular form controls that sets CSS classes
- * based on control status (valid/invalid/dirty/etc).
+ * based on control status. The following classes are applied as the properties
+ * become true:
+ *
+ * * ng-valid
+ * * ng-invalid
+ * * ng-pending
+ * * ng-pristine
+ * * ng-dirty
+ * * ng-untouched
+ * * ng-touched
  *
  * \@stable
  */
@@ -5654,7 +5663,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.2-5651e4a');
+const VERSION = new Version('5.0.0-beta.2-9b015a9');
 
 /**
  * @fileoverview added by tsickle
