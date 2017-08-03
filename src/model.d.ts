@@ -18,9 +18,11 @@ export declare const PENDING = "PENDING";
  * calculations of validity or value.
  */
 export declare const DISABLED = "DISABLED";
+export declare type FormHooks = 'change' | 'blur';
 export interface AbstractControlOptions {
     validators?: ValidatorFn | ValidatorFn[] | null;
     asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[] | null;
+    updateOn?: FormHooks;
 }
 /**
  * @whatItDoes This is the base class for {@link FormControl}, {@link FormGroup}, and
@@ -362,6 +364,15 @@ export declare abstract class AbstractControl {
  * });
  * ```
  *
+ * The options object can also be used to define when the control should update.
+ * By default, the value and validity of a control updates whenever the value
+ * changes. You can configure it to update on the blur event instead by setting
+ * the `updateOn` option to `'blur'`.
+ *
+ * ```ts
+ * const c = new FormControl('', { updateOn: 'blur' });
+ * ```
+ *
  * See its superclass, {@link AbstractControl}, for more properties and methods.
  *
  * * **npm package**: `@angular/forms`
@@ -447,6 +458,7 @@ export declare class FormControl extends AbstractControl {
      */
     registerOnDisabledChange(fn: (isDisabled: boolean) => void): void;
     private _applyFormState(formState);
+    private _setUpdateStrategy(opts?);
 }
 /**
  * @whatItDoes Tracks the value and validity state of a group of {@link FormControl}

@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 /**
- * @license Angular v5.0.0-beta.2-3a227a1
+ * @license Angular v5.0.0-beta.2-333a708
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1788,25 +1788,10 @@ function setUpControl(control, dir) {
         _throwError(dir, 'No value accessor for form control with');
     control.validator = Validators.compose([/** @type {?} */ ((control.validator)), dir.validator]);
     control.asyncValidator = Validators.composeAsync([/** @type {?} */ ((control.asyncValidator)), dir.asyncValidator]); /** @type {?} */
-    ((dir.valueAccessor)).writeValue(control.value); /** @type {?} */
-    ((
-    // view -> model
-    dir.valueAccessor)).registerOnChange(function (newValue) {
-        dir.viewToModelUpdate(newValue);
-        control.markAsDirty();
-        control.setValue(newValue, { emitModelToViewChange: false });
-    }); /** @type {?} */
-    ((
-    // touched
-    dir.valueAccessor)).registerOnTouched(function () { return control.markAsTouched(); });
-    control.registerOnChange(function (newValue, emitModelEvent) {
-        ((
-        // control -> view
-        dir.valueAccessor)).writeValue(newValue);
-        // control -> ngModel
-        if (emitModelEvent)
-            dir.viewToModelUpdate(newValue);
-    });
+    ((dir.valueAccessor)).writeValue(control.value);
+    setUpViewChangePipeline(control, dir);
+    setUpModelChangePipeline(control, dir);
+    setUpBlurPipeline(control, dir);
     if (((dir.valueAccessor)).setDisabledState) {
         control.registerOnDisabledChange(function (isDisabled) { /** @type {?} */ ((((dir.valueAccessor)).setDisabledState))(isDisabled); });
     }
@@ -1840,6 +1825,53 @@ function cleanUpControl(control, dir) {
     });
     if (control)
         control._clearChangeFns();
+}
+/**
+ * @param {?} control
+ * @param {?} dir
+ * @return {?}
+ */
+function setUpViewChangePipeline(control, dir) {
+    ((dir.valueAccessor)).registerOnChange(function (newValue) {
+        control._pendingValue = newValue;
+        control._pendingDirty = true;
+        if (control._updateOn === 'change') {
+            dir.viewToModelUpdate(newValue);
+            control.markAsDirty();
+            control.setValue(newValue, { emitModelToViewChange: false });
+        }
+    });
+}
+/**
+ * @param {?} control
+ * @param {?} dir
+ * @return {?}
+ */
+function setUpBlurPipeline(control, dir) {
+    ((dir.valueAccessor)).registerOnTouched(function () {
+        if (control._updateOn === 'blur') {
+            dir.viewToModelUpdate(control._pendingValue);
+            if (control._pendingDirty)
+                control.markAsDirty();
+            control.setValue(control._pendingValue, { emitModelToViewChange: false });
+        }
+        control.markAsTouched();
+    });
+}
+/**
+ * @param {?} control
+ * @param {?} dir
+ * @return {?}
+ */
+function setUpModelChangePipeline(control, dir) {
+    control.registerOnChange(function (newValue, emitModelEvent) {
+        ((
+        // control -> view
+        dir.valueAccessor)).writeValue(newValue);
+        // control -> ngModel
+        if (emitModelEvent)
+            dir.viewToModelUpdate(newValue);
+    });
 }
 /**
  * @param {?} control
@@ -2930,6 +2962,15 @@ var AbstractControl = (function () {
  * });
  * ```
  *
+ * The options object can also be used to define when the control should update.
+ * By default, the value and validity of a control updates whenever the value
+ * changes. You can configure it to update on the blur event instead by setting
+ * the `updateOn` option to `'blur'`.
+ *
+ * ```ts
+ * const c = new FormControl('', { updateOn: 'blur' });
+ * ```
+ *
  * See its superclass, {\@link AbstractControl}, for more properties and methods.
  *
  * * **npm package**: `\@angular/forms`
@@ -2950,7 +2991,12 @@ var FormControl = (function (_super) {
          * \@internal
          */
         _this._onChange = [];
+        /**
+         * \@internal
+         */
+        _this._updateOn = 'change';
         _this._applyFormState(formState);
+        _this._setUpdateStrategy(validatorOrOpts);
         _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         _this._initObservables();
         return _this;
@@ -2978,7 +3024,7 @@ var FormControl = (function (_super) {
     FormControl.prototype.setValue = function (value, options) {
         var _this = this;
         if (options === void 0) { options = {}; }
-        this._value = value;
+        this._value = this._pendingValue = value;
         if (this._onChange.length && options.emitModelToViewChange !== false) {
             this._onChange.forEach(function (changeFn) { return changeFn(_this._value, options.emitViewToModelChange !== false); });
         }
@@ -3034,6 +3080,7 @@ var FormControl = (function (_super) {
         if (options === void 0) { options = {}; }
         this._applyFormState(formState);
         this.markAsPristine(options);
+        this._pendingDirty = false;
         this.markAsUntouched(options);
         this.setValue(this._value, options);
     };
@@ -3088,12 +3135,21 @@ var FormControl = (function (_super) {
      */
     FormControl.prototype._applyFormState = function (formState) {
         if (this._isBoxedValue(formState)) {
-            this._value = formState.value;
+            this._value = this._pendingValue = formState.value;
             formState.disabled ? this.disable({ onlySelf: true, emitEvent: false }) :
                 this.enable({ onlySelf: true, emitEvent: false });
         }
         else {
-            this._value = formState;
+            this._value = this._pendingValue = formState;
+        }
+    };
+    /**
+     * @param {?=} opts
+     * @return {?}
+     */
+    FormControl.prototype._setUpdateStrategy = function (opts) {
+        if (isOptionsObj(opts) && ((opts)).updateOn != null) {
+            this._updateOn = ((((opts)).updateOn));
         }
     };
     return FormControl;
@@ -5948,7 +6004,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.0-beta.2-3a227a1');
+var VERSION = new Version('5.0.0-beta.2-333a708');
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
