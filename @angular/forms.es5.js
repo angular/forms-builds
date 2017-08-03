@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 /**
- * @license Angular v4.3.3-e7e7622
+ * @license Angular v4.3.3-c7b72aa
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2099,7 +2099,16 @@ var ngControlStatusHost = {
 };
 /**
  * Directive automatically applied to Angular form controls that sets CSS classes
- * based on control status (valid/invalid/dirty/etc).
+ * based on control status. The following classes are applied as the properties
+ * become true:
+ *
+ * * ng-valid
+ * * ng-invalid
+ * * ng-pending
+ * * ng-pristine
+ * * ng-dirty
+ * * ng-untouched
+ * * ng-touched
  *
  * \@stable
  */
@@ -5852,7 +5861,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('4.3.3-e7e7622');
+var VERSION = new Version('4.3.3-c7b72aa');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
