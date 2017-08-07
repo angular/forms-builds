@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.2-685cc26
+ * @license Angular v5.0.0-beta.2-fcadbf4
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -36,7 +36,7 @@ function __extends(d, b) {
 }
 
 /**
- * @license Angular v5.0.0-beta.2-685cc26
+ * @license Angular v5.0.0-beta.2-fcadbf4
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1866,11 +1866,8 @@ function setUpViewChangePipeline(control, dir) {
     ((dir.valueAccessor)).registerOnChange(function (newValue) {
         control._pendingValue = newValue;
         control._pendingDirty = true;
-        if (control._updateOn === 'change') {
-            dir.viewToModelUpdate(newValue);
-            control.markAsDirty();
-            control.setValue(newValue, { emitModelToViewChange: false });
-        }
+        if (control._updateOn === 'change')
+            updateControl(control, dir);
     });
 }
 /**
@@ -1880,14 +1877,23 @@ function setUpViewChangePipeline(control, dir) {
  */
 function setUpBlurPipeline(control, dir) {
     ((dir.valueAccessor)).registerOnTouched(function () {
-        if (control._updateOn === 'blur') {
-            dir.viewToModelUpdate(control._pendingValue);
-            if (control._pendingDirty)
-                control.markAsDirty();
-            control.setValue(control._pendingValue, { emitModelToViewChange: false });
-        }
-        control.markAsTouched();
+        control._pendingTouched = true;
+        if (control._updateOn === 'blur')
+            updateControl(control, dir);
+        if (control._updateOn !== 'submit')
+            control.markAsTouched();
     });
+}
+/**
+ * @param {?} control
+ * @param {?} dir
+ * @return {?}
+ */
+function updateControl(control, dir) {
+    dir.viewToModelUpdate(control._pendingValue);
+    if (control._pendingDirty)
+        control.markAsDirty();
+    control.setValue(control._pendingValue, { emitModelToViewChange: false });
 }
 /**
  * @param {?} control
@@ -2598,6 +2604,7 @@ var AbstractControl = (function () {
     AbstractControl.prototype.markAsUntouched = function (opts) {
         if (opts === void 0) { opts = {}; }
         this._touched = false;
+        this._pendingTouched = false;
         this._forEachChild(function (control) { control.markAsUntouched({ onlySelf: true }); });
         if (this._parent && !opts.onlySelf) {
             this._parent._updateTouched(opts);
@@ -2630,6 +2637,7 @@ var AbstractControl = (function () {
     AbstractControl.prototype.markAsPristine = function (opts) {
         if (opts === void 0) { opts = {}; }
         this._pristine = true;
+        this._pendingDirty = false;
         this._forEachChild(function (control) { control.markAsPristine({ onlySelf: true }); });
         if (this._parent && !opts.onlySelf) {
             this._parent._updatePristine(opts);
@@ -3011,6 +3019,9 @@ var AbstractControl = (function () {
  * const c = new FormControl('', { updateOn: 'blur' });
  * ```
  *
+ * You can also set `updateOn` to `'submit'`, which will delay value and validity
+ * updates until the parent form of the control fires a submit event.
+ *
  * See its superclass, {\@link AbstractControl}, for more properties and methods.
  *
  * * **npm package**: `\@angular/forms`
@@ -3120,7 +3131,6 @@ var FormControl = (function (_super) {
         if (options === void 0) { options = {}; }
         this._applyFormState(formState);
         this.markAsPristine(options);
-        this._pendingDirty = false;
         this.markAsUntouched(options);
         this.setValue(this._value, options);
     };
@@ -3169,6 +3179,21 @@ var FormControl = (function (_super) {
      * @return {?}
      */
     FormControl.prototype._forEachChild = function (cb) { };
+    /**
+     * \@internal
+     * @return {?}
+     */
+    FormControl.prototype._syncPendingControls = function () {
+        if (this._updateOn === 'submit') {
+            this.setValue(this._pendingValue, { onlySelf: true, emitModelToViewChange: false });
+            if (this._pendingDirty)
+                this.markAsDirty();
+            if (this._pendingTouched)
+                this.markAsTouched();
+            return true;
+        }
+        return false;
+    };
     /**
      * @param {?} formState
      * @return {?}
@@ -3463,6 +3488,18 @@ var FormGroup = (function (_super) {
             acc[name] = control instanceof FormControl ? control.value : ((control)).getRawValue();
             return acc;
         });
+    };
+    /**
+     * \@internal
+     * @return {?}
+     */
+    FormGroup.prototype._syncPendingControls = function () {
+        var /** @type {?} */ subtreeUpdated = this._reduceChildren(false, function (updated, child) {
+            return child._syncPendingControls() ? true : updated;
+        });
+        if (subtreeUpdated)
+            this.updateValueAndValidity({ onlySelf: true });
+        return subtreeUpdated;
     };
     /**
      * \@internal
@@ -3824,6 +3861,18 @@ var FormArray = (function (_super) {
         return this.controls.map(function (control) {
             return control instanceof FormControl ? control.value : ((control)).getRawValue();
         });
+    };
+    /**
+     * \@internal
+     * @return {?}
+     */
+    FormArray.prototype._syncPendingControls = function () {
+        var /** @type {?} */ subtreeUpdated = this.controls.reduce(function (updated, child) {
+            return child._syncPendingControls() ? true : updated;
+        }, false);
+        if (subtreeUpdated)
+            this.updateValueAndValidity({ onlySelf: true });
+        return subtreeUpdated;
     };
     /**
      * \@internal
@@ -4959,6 +5008,7 @@ var FormGroupDirective = (function (_super) {
      */
     FormGroupDirective.prototype.onSubmit = function ($event) {
         this._submitted = true;
+        this._syncPendingControls();
         this.ngSubmit.emit($event);
         return false;
     };
@@ -4974,6 +5024,18 @@ var FormGroupDirective = (function (_super) {
         if (value === void 0) { value = undefined; }
         this.form.reset(value);
         this._submitted = false;
+    };
+    /**
+     * \@internal
+     * @return {?}
+     */
+    FormGroupDirective.prototype._syncPendingControls = function () {
+        this.form._syncPendingControls();
+        this.directives.forEach(function (dir) {
+            if (dir.control._updateOn === 'submit') {
+                dir.viewToModelUpdate(dir.control._pendingValue);
+            }
+        });
     };
     /**
      * \@internal
@@ -6044,7 +6106,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.0.0-beta.2-685cc26');
+var VERSION = new _angular_core.Version('5.0.0-beta.2-fcadbf4');
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc

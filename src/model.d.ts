@@ -18,7 +18,7 @@ export declare const PENDING = "PENDING";
  * calculations of validity or value.
  */
 export declare const DISABLED = "DISABLED";
-export declare type FormHooks = 'change' | 'blur';
+export declare type FormHooks = 'change' | 'blur' | 'submit';
 export interface AbstractControlOptions {
     validators?: ValidatorFn | ValidatorFn[] | null;
     asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[] | null;
@@ -372,6 +372,9 @@ export declare abstract class AbstractControl {
  * ```ts
  * const c = new FormControl('', { updateOn: 'blur' });
  * ```
+ *
+ * You can also set `updateOn` to `'submit'`, which will delay value and validity
+ * updates until the parent form of the control fires a submit event.
  *
  * See its superclass, {@link AbstractControl}, for more properties and methods.
  *

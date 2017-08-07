@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.2-685cc26
+ * @license Angular v5.0.0-beta.2-fcadbf4
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1723,11 +1723,8 @@ function setUpViewChangePipeline(control, dir) {
     ((dir.valueAccessor)).registerOnChange((newValue) => {
         control._pendingValue = newValue;
         control._pendingDirty = true;
-        if (control._updateOn === 'change') {
-            dir.viewToModelUpdate(newValue);
-            control.markAsDirty();
-            control.setValue(newValue, { emitModelToViewChange: false });
-        }
+        if (control._updateOn === 'change')
+            updateControl(control, dir);
     });
 }
 /**
@@ -1737,14 +1734,23 @@ function setUpViewChangePipeline(control, dir) {
  */
 function setUpBlurPipeline(control, dir) {
     ((dir.valueAccessor)).registerOnTouched(() => {
-        if (control._updateOn === 'blur') {
-            dir.viewToModelUpdate(control._pendingValue);
-            if (control._pendingDirty)
-                control.markAsDirty();
-            control.setValue(control._pendingValue, { emitModelToViewChange: false });
-        }
-        control.markAsTouched();
+        control._pendingTouched = true;
+        if (control._updateOn === 'blur')
+            updateControl(control, dir);
+        if (control._updateOn !== 'submit')
+            control.markAsTouched();
     });
+}
+/**
+ * @param {?} control
+ * @param {?} dir
+ * @return {?}
+ */
+function updateControl(control, dir) {
+    dir.viewToModelUpdate(control._pendingValue);
+    if (control._pendingDirty)
+        control.markAsDirty();
+    control.setValue(control._pendingValue, { emitModelToViewChange: false });
 }
 /**
  * @param {?} control
@@ -2334,6 +2340,7 @@ class AbstractControl {
      */
     markAsUntouched(opts = {}) {
         this._touched = false;
+        this._pendingTouched = false;
         this._forEachChild((control) => { control.markAsUntouched({ onlySelf: true }); });
         if (this._parent && !opts.onlySelf) {
             this._parent._updateTouched(opts);
@@ -2364,6 +2371,7 @@ class AbstractControl {
      */
     markAsPristine(opts = {}) {
         this._pristine = true;
+        this._pendingDirty = false;
         this._forEachChild((control) => { control.markAsPristine({ onlySelf: true }); });
         if (this._parent && !opts.onlySelf) {
             this._parent._updatePristine(opts);
@@ -2731,6 +2739,9 @@ class AbstractControl {
  * const c = new FormControl('', { updateOn: 'blur' });
  * ```
  *
+ * You can also set `updateOn` to `'submit'`, which will delay value and validity
+ * updates until the parent form of the control fires a submit event.
+ *
  * See its superclass, {\@link AbstractControl}, for more properties and methods.
  *
  * * **npm package**: `\@angular/forms`
@@ -2832,7 +2843,6 @@ class FormControl extends AbstractControl {
     reset(formState = null, options = {}) {
         this._applyFormState(formState);
         this.markAsPristine(options);
-        this._pendingDirty = false;
         this.markAsUntouched(options);
         this.setValue(this._value, options);
     }
@@ -2881,6 +2891,21 @@ class FormControl extends AbstractControl {
      * @return {?}
      */
     _forEachChild(cb) { }
+    /**
+     * \@internal
+     * @return {?}
+     */
+    _syncPendingControls() {
+        if (this._updateOn === 'submit') {
+            this.setValue(this._pendingValue, { onlySelf: true, emitModelToViewChange: false });
+            if (this._pendingDirty)
+                this.markAsDirty();
+            if (this._pendingTouched)
+                this.markAsTouched();
+            return true;
+        }
+        return false;
+    }
     /**
      * @param {?} formState
      * @return {?}
@@ -3166,6 +3191,18 @@ class FormGroup extends AbstractControl {
             acc[name] = control instanceof FormControl ? control.value : ((control)).getRawValue();
             return acc;
         });
+    }
+    /**
+     * \@internal
+     * @return {?}
+     */
+    _syncPendingControls() {
+        let /** @type {?} */ subtreeUpdated = this._reduceChildren(false, (updated, child) => {
+            return child._syncPendingControls() ? true : updated;
+        });
+        if (subtreeUpdated)
+            this.updateValueAndValidity({ onlySelf: true });
+        return subtreeUpdated;
     }
     /**
      * \@internal
@@ -3512,6 +3549,18 @@ class FormArray extends AbstractControl {
         return this.controls.map((control) => {
             return control instanceof FormControl ? control.value : ((control)).getRawValue();
         });
+    }
+    /**
+     * \@internal
+     * @return {?}
+     */
+    _syncPendingControls() {
+        let /** @type {?} */ subtreeUpdated = this.controls.reduce((updated, child) => {
+            return child._syncPendingControls() ? true : updated;
+        }, false);
+        if (subtreeUpdated)
+            this.updateValueAndValidity({ onlySelf: true });
+        return subtreeUpdated;
     }
     /**
      * \@internal
@@ -4664,6 +4713,7 @@ class FormGroupDirective extends ControlContainer {
      */
     onSubmit($event) {
         this._submitted = true;
+        this._syncPendingControls();
         this.ngSubmit.emit($event);
         return false;
     }
@@ -4678,6 +4728,18 @@ class FormGroupDirective extends ControlContainer {
     resetForm(value = undefined) {
         this.form.reset(value);
         this._submitted = false;
+    }
+    /**
+     * \@internal
+     * @return {?}
+     */
+    _syncPendingControls() {
+        this.form._syncPendingControls();
+        this.directives.forEach(dir => {
+            if (dir.control._updateOn === 'submit') {
+                dir.viewToModelUpdate(dir.control._pendingValue);
+            }
+        });
     }
     /**
      * \@internal
@@ -5663,7 +5725,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.2-685cc26');
+const VERSION = new Version('5.0.0-beta.2-fcadbf4');
 
 /**
  * @fileoverview added by tsickle
