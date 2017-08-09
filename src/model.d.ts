@@ -146,6 +146,12 @@ export declare abstract class AbstractControl {
      */
     readonly statusChanges: Observable<any>;
     /**
+     * Returns the update strategy of the `AbstractControl` (i.e.
+     * the event on which the control will update itself).
+     * Possible values: `'change'` (default) | `'blur'` | `'submit'`
+     */
+    readonly updateOn: FormHooks;
+    /**
      * Sets the synchronous validators that are active on this control.  Calling
      * this will overwrite any existing sync validators.
      */
@@ -461,7 +467,6 @@ export declare class FormControl extends AbstractControl {
      */
     registerOnDisabledChange(fn: (isDisabled: boolean) => void): void;
     private _applyFormState(formState);
-    private _setUpdateStrategy(opts?);
 }
 /**
  * @whatItDoes Tracks the value and validity state of a group of {@link FormControl}
@@ -519,6 +524,17 @@ export declare class FormControl extends AbstractControl {
  *   password: new FormControl('')
  *   passwordConfirm: new FormControl('')
  * }, {validators: passwordMatchValidator, asyncValidators: otherValidator});
+ * ```
+ *
+ * The options object can also be used to set a default value for each child
+ * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
+ * group level, all child controls will default to 'blur', unless the child
+ * has explicitly specified a different `updateOn` value.
+ *
+ * ```ts
+ * const c = new FormGroup({
+ *    one: new FormControl()
+ * }, {updateOn: 'blur'});
  * ```
  *
  * * **npm package**: `@angular/forms`
@@ -697,6 +713,17 @@ export declare class FormGroup extends AbstractControl {
  *   new FormControl('Nancy'),
  *   new FormControl('Drew')
  * ], {validators: myValidator, asyncValidators: myAsyncValidator});
+ * ```
+ *
+ * The options object can also be used to set a default value for each child
+ * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
+ * array level, all child controls will default to 'blur', unless the child
+ * has explicitly specified a different `updateOn` value.
+ *
+ * ```ts
+ * const c = new FormArray([
+ *    new FormControl()
+ * ], {updateOn: 'blur'});
  * ```
  *
  * ### Adding or removing controls

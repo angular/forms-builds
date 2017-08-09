@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.2-dca50de
+ * @license Angular v5.0.0-beta.2-ff5c58b
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1723,7 +1723,7 @@ function setUpViewChangePipeline(control, dir) {
     ((dir.valueAccessor)).registerOnChange((newValue) => {
         control._pendingValue = newValue;
         control._pendingDirty = true;
-        if (control._updateOn === 'change')
+        if (control.updateOn === 'change')
             updateControl(control, dir);
     });
 }
@@ -1735,9 +1735,9 @@ function setUpViewChangePipeline(control, dir) {
 function setUpBlurPipeline(control, dir) {
     ((dir.valueAccessor)).registerOnTouched(() => {
         control._pendingTouched = true;
-        if (control._updateOn === 'blur')
+        if (control.updateOn === 'blur')
             updateControl(control, dir);
-        if (control._updateOn !== 'submit')
+        if (control.updateOn !== 'submit')
             control.markAsTouched();
     });
 }
@@ -2288,6 +2288,15 @@ class AbstractControl {
      */
     get statusChanges() { return this._statusChanges; }
     /**
+     * Returns the update strategy of the `AbstractControl` (i.e.
+     * the event on which the control will update itself).
+     * Possible values: `'change'` (default) | `'blur'` | `'submit'`
+     * @return {?}
+     */
+    get updateOn() {
+        return this._updateOn ? this._updateOn : (this.parent ? this.parent.updateOn : 'change');
+    }
+    /**
      * Sets the synchronous validators that are active on this control.  Calling
      * this will overwrite any existing sync validators.
      * @param {?} newValidator
@@ -2680,6 +2689,16 @@ class AbstractControl {
      * @return {?}
      */
     _registerOnCollectionChange(fn) { this._onCollectionChange = fn; }
+    /**
+     * \@internal
+     * @param {?=} opts
+     * @return {?}
+     */
+    _setUpdateStrategy(opts) {
+        if (isOptionsObj(opts) && ((opts)).updateOn != null) {
+            this._updateOn = ((((opts)).updateOn));
+        }
+    }
 }
 /**
  * \@whatItDoes Tracks the value and validation status of an individual form control.
@@ -2760,10 +2779,6 @@ class FormControl extends AbstractControl {
          * \@internal
          */
         this._onChange = [];
-        /**
-         * \@internal
-         */
-        this._updateOn = 'change';
         this._applyFormState(formState);
         this._setUpdateStrategy(validatorOrOpts);
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
@@ -2896,7 +2911,7 @@ class FormControl extends AbstractControl {
      * @return {?}
      */
     _syncPendingControls() {
-        if (this._updateOn === 'submit') {
+        if (this.updateOn === 'submit') {
             this.setValue(this._pendingValue, { onlySelf: true, emitModelToViewChange: false });
             if (this._pendingDirty)
                 this.markAsDirty();
@@ -2918,15 +2933,6 @@ class FormControl extends AbstractControl {
         }
         else {
             this._value = this._pendingValue = formState;
-        }
-    }
-    /**
-     * @param {?=} opts
-     * @return {?}
-     */
-    _setUpdateStrategy(opts) {
-        if (isOptionsObj(opts) && ((opts)).updateOn != null) {
-            this._updateOn = ((((opts)).updateOn));
         }
     }
 }
@@ -2988,6 +2994,17 @@ class FormControl extends AbstractControl {
  * }, {validators: passwordMatchValidator, asyncValidators: otherValidator});
  * ```
  *
+ * The options object can also be used to set a default value for each child
+ * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
+ * group level, all child controls will default to 'blur', unless the child
+ * has explicitly specified a different `updateOn` value.
+ *
+ * ```ts
+ * const c = new FormGroup({
+ *    one: new FormControl()
+ * }, {updateOn: 'blur'});
+ * ```
+ *
  * * **npm package**: `\@angular/forms`
  *
  * \@stable
@@ -3002,6 +3019,7 @@ class FormGroup extends AbstractControl {
         super(coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts));
         this.controls = controls;
         this._initObservables();
+        this._setUpdateStrategy(validatorOrOpts);
         this._setUpControls();
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     }
@@ -3345,6 +3363,17 @@ class FormGroup extends AbstractControl {
  * ], {validators: myValidator, asyncValidators: myAsyncValidator});
  * ```
  *
+ * The options object can also be used to set a default value for each child
+ * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
+ * array level, all child controls will default to 'blur', unless the child
+ * has explicitly specified a different `updateOn` value.
+ *
+ * ```ts
+ * const c = new FormArray([
+ *    new FormControl()
+ * ], {updateOn: 'blur'});
+ * ```
+ *
  * ### Adding or removing controls
  *
  * To change the controls in the array, use the `push`, `insert`, or `removeAt` methods
@@ -3367,6 +3396,7 @@ class FormArray extends AbstractControl {
         super(coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts));
         this.controls = controls;
         this._initObservables();
+        this._setUpdateStrategy(validatorOrOpts);
         this._setUpControls();
         this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     }
@@ -4736,7 +4766,7 @@ class FormGroupDirective extends ControlContainer {
     _syncPendingControls() {
         this.form._syncPendingControls();
         this.directives.forEach(dir => {
-            if (dir.control._updateOn === 'submit') {
+            if (dir.control.updateOn === 'submit') {
                 dir.viewToModelUpdate(dir.control._pendingValue);
             }
         });
@@ -5725,7 +5755,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.2-dca50de');
+const VERSION = new Version('5.0.0-beta.2-ff5c58b');
 
 /**
  * @fileoverview added by tsickle
