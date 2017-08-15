@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.3-9320f34
+ * @license Angular v5.0.0-beta.3-233ef93
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -54,6 +54,10 @@ class AbstractControlDirective {
      * @return {?}
      */
     get touched() { return this.control ? this.control.touched : null; }
+    /**
+     * @return {?}
+     */
+    get status() { return this.control ? this.control.status : null; }
     /**
      * @return {?}
      */
@@ -5755,7 +5759,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.3-9320f34');
+const VERSION = new Version('5.0.0-beta.3-233ef93');
 
 /**
  * @fileoverview added by tsickle

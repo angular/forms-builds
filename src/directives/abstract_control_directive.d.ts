@@ -25,6 +25,7 @@ export declare abstract class AbstractControlDirective {
     readonly pristine: boolean | null;
     readonly dirty: boolean | null;
     readonly touched: boolean | null;
+    readonly status: string | null;
     readonly untouched: boolean | null;
     readonly disabled: boolean | null;
     readonly enabled: boolean | null;

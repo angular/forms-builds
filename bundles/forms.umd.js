@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.3-9320f34
+ * @license Angular v5.0.0-beta.3-233ef93
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -36,7 +36,7 @@ function __extends(d, b) {
 }
 
 /**
- * @license Angular v5.0.0-beta.3-9320f34
+ * @license Angular v5.0.0-beta.3-233ef93
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -116,6 +116,14 @@ var AbstractControlDirective = (function () {
          * @return {?}
          */
         get: function () { return this.control ? this.control.touched : null; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlDirective.prototype, "status", {
+        /**
+         * @return {?}
+         */
+        get: function () { return this.control ? this.control.status : null; },
         enumerable: true,
         configurable: true
     });
@@ -6140,7 +6148,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.0.0-beta.3-9320f34');
+var VERSION = new _angular_core.Version('5.0.0-beta.3-233ef93');
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
