@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 /**
- * @license Angular v5.0.0-beta.3-cce2ab2
+ * @license Angular v5.0.0-beta.3-77747e1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2027,6 +2027,20 @@ function isBuiltInAccessor(valueAccessor) {
     return BUILTIN_ACCESSORS.some(function (a) { return valueAccessor.constructor === a; });
 }
 /**
+ * @param {?} form
+ * @param {?} directives
+ * @return {?}
+ */
+function syncPendingControls(form, directives) {
+    form._syncPendingControls();
+    directives.forEach(function (dir) {
+        var /** @type {?} */ control = (dir.control);
+        if (control.updateOn === 'submit') {
+            dir.viewToModelUpdate(control._pendingValue);
+        }
+    });
+}
+/**
  * @param {?} dir
  * @param {?} valueAccessors
  * @return {?}
@@ -2060,6 +2074,17 @@ function selectValueAccessor(dir, valueAccessors) {
         return defaultAccessor;
     _throwError(dir, 'No valid value accessor for form control with');
     return null;
+}
+/**
+ * @template T
+ * @param {?} list
+ * @param {?} el
+ * @return {?}
+ */
+function removeDir(list, el) {
+    var /** @type {?} */ index = list.indexOf(el);
+    if (index > -1)
+        list.splice(index, 1);
 }
 /**
  * @fileoverview added by tsickle
@@ -4081,6 +4106,7 @@ var NgForm = (function (_super) {
     function NgForm(validators, asyncValidators) {
         var _this = _super.call(this) || this;
         _this._submitted = false;
+        _this._directives = [];
         _this.ngSubmit = new EventEmitter();
         _this.form =
             new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
@@ -4137,6 +4163,7 @@ var NgForm = (function (_super) {
             dir._control = (container.registerControl(dir.name, dir.control));
             setUpControl(dir.control, dir);
             dir.control.updateValueAndValidity({ emitEvent: false });
+            _this._directives.push(dir);
         });
     };
     /**
@@ -4155,6 +4182,7 @@ var NgForm = (function (_super) {
             if (container) {
                 container.removeControl(dir.name);
             }
+            removeDir(_this._directives, dir);
         });
     };
     /**
@@ -4212,6 +4240,7 @@ var NgForm = (function (_super) {
      */
     NgForm.prototype.onSubmit = function ($event) {
         this._submitted = true;
+        syncPendingControls(this.form, this._directives);
         this.ngSubmit.emit($event);
         return false;
     };
@@ -4583,9 +4612,18 @@ var NgModel = (function (_super) {
      * @return {?}
      */
     NgModel.prototype._setUpControl = function () {
+        this._setUpdateStrategy();
         this._isStandalone() ? this._setUpStandalone() :
             this.formDirective.addControl(this);
         this._registered = true;
+    };
+    /**
+     * @return {?}
+     */
+    NgModel.prototype._setUpdateStrategy = function () {
+        if (this.options && this.options.updateOn != null) {
+            this._control._updateOn = this.options.updateOn;
+        }
     };
     /**
      * @return {?}
@@ -5025,7 +5063,7 @@ var FormGroupDirective = (function (_super) {
      * @param {?} dir
      * @return {?}
      */
-    FormGroupDirective.prototype.removeControl = function (dir) { remove(this.directives, dir); };
+    FormGroupDirective.prototype.removeControl = function (dir) { removeDir(this.directives, dir); };
     /**
      * @param {?} dir
      * @return {?}
@@ -5079,7 +5117,7 @@ var FormGroupDirective = (function (_super) {
      */
     FormGroupDirective.prototype.onSubmit = function ($event) {
         this._submitted = true;
-        this._syncPendingControls();
+        syncPendingControls(this.form, this.directives);
         this.ngSubmit.emit($event);
         return false;
     };
@@ -5095,18 +5133,6 @@ var FormGroupDirective = (function (_super) {
         if (value === void 0) { value = undefined; }
         this.form.reset(value);
         this._submitted = false;
-    };
-    /**
-     * \@internal
-     * @return {?}
-     */
-    FormGroupDirective.prototype._syncPendingControls = function () {
-        this.form._syncPendingControls();
-        this.directives.forEach(function (dir) {
-            if (dir.control.updateOn === 'submit') {
-                dir.viewToModelUpdate(dir.control._pendingValue);
-            }
-        });
     };
     /**
      * \@internal
@@ -5171,18 +5197,6 @@ FormGroupDirective.propDecorators = {
     "form": [{ type: Input, args: ['formGroup',] },],
     "ngSubmit": [{ type: Output },],
 };
-/**
- * @template T
- * @param {?} list
- * @param {?} el
- * @return {?}
- */
-function remove(list, el) {
-    var /** @type {?} */ index = list.indexOf(el);
-    if (index > -1) {
-        list.splice(index, 1);
-    }
-}
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
@@ -6177,7 +6191,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.0-beta.3-cce2ab2');
+var VERSION = new Version('5.0.0-beta.3-77747e1');
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc

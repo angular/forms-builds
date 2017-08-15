@@ -46,6 +46,7 @@ export declare const formDirectiveProvider: any;
  */
 export declare class NgForm extends ControlContainer implements Form {
     private _submitted;
+    private _directives;
     form: FormGroup;
     ngSubmit: EventEmitter<{}>;
     constructor(validators: any[], asyncValidators: any[]);

@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.3-cce2ab2
+ * @license Angular v5.0.0-beta.3-77747e1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1911,6 +1911,20 @@ function isBuiltInAccessor(valueAccessor) {
     return BUILTIN_ACCESSORS.some(a => valueAccessor.constructor === a);
 }
 /**
+ * @param {?} form
+ * @param {?} directives
+ * @return {?}
+ */
+function syncPendingControls(form, directives) {
+    form._syncPendingControls();
+    directives.forEach(dir => {
+        const /** @type {?} */ control = (dir.control);
+        if (control.updateOn === 'submit') {
+            dir.viewToModelUpdate(control._pendingValue);
+        }
+    });
+}
+/**
  * @param {?} dir
  * @param {?} valueAccessors
  * @return {?}
@@ -1944,6 +1958,17 @@ function selectValueAccessor(dir, valueAccessors) {
         return defaultAccessor;
     _throwError(dir, 'No valid value accessor for form control with');
     return null;
+}
+/**
+ * @template T
+ * @param {?} list
+ * @param {?} el
+ * @return {?}
+ */
+function removeDir(list, el) {
+    const /** @type {?} */ index = list.indexOf(el);
+    if (index > -1)
+        list.splice(index, 1);
 }
 
 /**
@@ -3791,6 +3816,7 @@ class NgForm extends ControlContainer {
     constructor(validators, asyncValidators) {
         super();
         this._submitted = false;
+        this._directives = [];
         this.ngSubmit = new EventEmitter();
         this.form =
             new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
@@ -3825,6 +3851,7 @@ class NgForm extends ControlContainer {
             dir._control = (container.registerControl(dir.name, dir.control));
             setUpControl(dir.control, dir);
             dir.control.updateValueAndValidity({ emitEvent: false });
+            this._directives.push(dir);
         });
     }
     /**
@@ -3842,6 +3869,7 @@ class NgForm extends ControlContainer {
             if (container) {
                 container.removeControl(dir.name);
             }
+            removeDir(this._directives, dir);
         });
     }
     /**
@@ -3896,6 +3924,7 @@ class NgForm extends ControlContainer {
      */
     onSubmit($event) {
         this._submitted = true;
+        syncPendingControls(this.form, this._directives);
         this.ngSubmit.emit($event);
         return false;
     }
@@ -4317,9 +4346,18 @@ class NgModel extends NgControl {
      * @return {?}
      */
     _setUpControl() {
+        this._setUpdateStrategy();
         this._isStandalone() ? this._setUpStandalone() :
             this.formDirective.addControl(this);
         this._registered = true;
+    }
+    /**
+     * @return {?}
+     */
+    _setUpdateStrategy() {
+        if (this.options && this.options.updateOn != null) {
+            this._control._updateOn = this.options.updateOn;
+        }
     }
     /**
      * @return {?}
@@ -4753,7 +4791,7 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir
      * @return {?}
      */
-    removeControl(dir) { remove(this.directives, dir); }
+    removeControl(dir) { removeDir(this.directives, dir); }
     /**
      * @param {?} dir
      * @return {?}
@@ -4807,7 +4845,7 @@ class FormGroupDirective extends ControlContainer {
      */
     onSubmit($event) {
         this._submitted = true;
-        this._syncPendingControls();
+        syncPendingControls(this.form, this.directives);
         this.ngSubmit.emit($event);
         return false;
     }
@@ -4822,18 +4860,6 @@ class FormGroupDirective extends ControlContainer {
     resetForm(value = undefined) {
         this.form.reset(value);
         this._submitted = false;
-    }
-    /**
-     * \@internal
-     * @return {?}
-     */
-    _syncPendingControls() {
-        this.form._syncPendingControls();
-        this.directives.forEach(dir => {
-            if (dir.control.updateOn === 'submit') {
-                dir.viewToModelUpdate(dir.control._pendingValue);
-            }
-        });
     }
     /**
      * \@internal
@@ -4895,18 +4921,6 @@ FormGroupDirective.propDecorators = {
     "form": [{ type: Input, args: ['formGroup',] },],
     "ngSubmit": [{ type: Output },],
 };
-/**
- * @template T
- * @param {?} list
- * @param {?} el
- * @return {?}
- */
-function remove(list, el) {
-    const /** @type {?} */ index = list.indexOf(el);
-    if (index > -1) {
-        list.splice(index, 1);
-    }
-}
 
 /**
  * @fileoverview added by tsickle
@@ -5819,7 +5833,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.3-cce2ab2');
+const VERSION = new Version('5.0.0-beta.3-77747e1');
 
 /**
  * @fileoverview added by tsickle
