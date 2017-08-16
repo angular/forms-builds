@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 /**
- * @license Angular v5.0.0-beta.4-43226cb
+ * @license Angular v5.0.0-beta.4-0d45828
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -4112,6 +4112,10 @@ var NgForm = (function (_super) {
             new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
         return _this;
     }
+    /**
+     * @return {?}
+     */
+    NgForm.prototype.ngAfterViewInit = function () { this._setUpdateStrategy(); };
     Object.defineProperty(NgForm.prototype, "submitted", {
         /**
          * @return {?}
@@ -4258,6 +4262,14 @@ var NgForm = (function (_super) {
         this._submitted = false;
     };
     /**
+     * @return {?}
+     */
+    NgForm.prototype._setUpdateStrategy = function () {
+        if (this.options && this.options.updateOn != null) {
+            this.form._updateOn = this.options.updateOn;
+        }
+    };
+    /**
      * \@internal
      * @param {?} path
      * @return {?}
@@ -4282,6 +4294,9 @@ NgForm.ctorParameters = function () { return [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
 ]; };
+NgForm.propDecorators = {
+    "options": [{ type: Input, args: ['ngFormOptions',] },],
+};
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
@@ -6191,7 +6206,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.0-beta.4-43226cb');
+var VERSION = new Version('5.0.0-beta.4-0d45828');
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc

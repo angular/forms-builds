@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.4-43226cb
+ * @license Angular v5.0.0-beta.4-0d45828
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3824,6 +3824,10 @@ class NgForm extends ControlContainer {
     /**
      * @return {?}
      */
+    ngAfterViewInit() { this._setUpdateStrategy(); }
+    /**
+     * @return {?}
+     */
     get submitted() { return this._submitted; }
     /**
      * @return {?}
@@ -3941,6 +3945,14 @@ class NgForm extends ControlContainer {
         this._submitted = false;
     }
     /**
+     * @return {?}
+     */
+    _setUpdateStrategy() {
+        if (this.options && this.options.updateOn != null) {
+            this.form._updateOn = this.options.updateOn;
+        }
+    }
+    /**
      * \@internal
      * @param {?} path
      * @return {?}
@@ -3964,6 +3976,9 @@ NgForm.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
 ];
+NgForm.propDecorators = {
+    "options": [{ type: Input, args: ['ngFormOptions',] },],
+};
 
 /**
  * @fileoverview added by tsickle
@@ -5833,7 +5848,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.4-43226cb');
+const VERSION = new Version('5.0.0-beta.4-0d45828');
 
 /**
  * @fileoverview added by tsickle
