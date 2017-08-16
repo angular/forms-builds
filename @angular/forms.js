@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.3-c65f18a
+ * @license Angular v5.0.0-beta.3-32ff21c
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1285,8 +1285,8 @@ class SelectControlValueAccessor {
      */
     registerOnChange(fn) {
         this.onChange = (valueString) => {
-            this.value = valueString;
-            fn(this._getOptionValue(valueString));
+            this.value = this._getOptionValue(valueString);
+            fn(this.value);
         };
     }
     /**
@@ -5833,7 +5833,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.3-c65f18a');
+const VERSION = new Version('5.0.0-beta.3-32ff21c');
 
 /**
  * @fileoverview added by tsickle
