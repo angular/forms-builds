@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.3.4-b2f4d53
+ * @license Angular v4.3.4-a1624f2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -36,7 +36,7 @@ function __extends(d, b) {
 }
 
 /**
- * @license Angular v4.3.4-b2f4d53
+ * @license Angular v4.3.4-a1624f2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1378,8 +1378,8 @@ var SelectControlValueAccessor = (function () {
     SelectControlValueAccessor.prototype.registerOnChange = function (fn) {
         var _this = this;
         this.onChange = function (valueString) {
-            _this.value = valueString;
-            fn(_this._getOptionValue(valueString));
+            _this.value = _this._getOptionValue(valueString);
+            fn(_this.value);
         };
     };
     /**
@@ -5955,7 +5955,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.3.4-b2f4d53');
+var VERSION = new _angular_core.Version('4.3.4-a1624f2');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
