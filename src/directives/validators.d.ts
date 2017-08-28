@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { OnChanges, Provider, SimpleChanges } from '@angular/core';
+import { OnChanges, SimpleChanges, StaticProvider } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AbstractControl } from '../model';
 /** @experimental */
@@ -39,8 +39,8 @@ export interface Validator {
 export interface AsyncValidator extends Validator {
     validate(c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
 }
-export declare const REQUIRED_VALIDATOR: Provider;
-export declare const CHECKBOX_REQUIRED_VALIDATOR: Provider;
+export declare const REQUIRED_VALIDATOR: StaticProvider;
+export declare const CHECKBOX_REQUIRED_VALIDATOR: StaticProvider;
 /**
  * A Directive that adds the `required` validator to any controls marked with the
  * `required` attribute, via the {@link NG_VALIDATORS} binding.
@@ -59,38 +59,6 @@ export declare class RequiredValidator implements Validator {
     required: boolean | string;
     validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
-}
-export declare const MIN_VALIDATOR: Provider;
-/**
- * A directive which installs the {@link MinValidator} for any `formControlName`,
- * `formControl`, or control with `ngModel` that also has a `min` attribute.
- *
- * @experimental
- */
-export declare class MinValidator implements Validator, OnChanges {
-    private _validator;
-    private _onChange;
-    min: string;
-    ngOnChanges(changes: SimpleChanges): void;
-    validate(c: AbstractControl): ValidationErrors | null;
-    registerOnValidatorChange(fn: () => void): void;
-    private _createValidator();
-}
-export declare const MAX_VALIDATOR: Provider;
-/**
- * A directive which installs the {@link MaxValidator} for any `formControlName`,
- * `formControl`, or control with `ngModel` that also has a `min` attribute.
- *
- * @experimental
- */
-export declare class MaxValidator implements Validator, OnChanges {
-    private _validator;
-    private _onChange;
-    max: string;
-    ngOnChanges(changes: SimpleChanges): void;
-    validate(c: AbstractControl): ValidationErrors | null;
-    registerOnValidatorChange(fn: () => void): void;
-    private _createValidator();
 }
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
