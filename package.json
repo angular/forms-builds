@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "4.3.6-1cc3fe2",
+  "version": "4.3.6-b8b551c",
   "description": "Angular - directives and services for creating forms",
   "main": "./bundles/forms.umd.js",
   "module": "./@angular/forms.es5.js",
@@ -12,9 +12,9 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@angular/core": "4.3.6-1cc3fe2",
-    "@angular/common": "4.3.6-1cc3fe2",
-    "@angular/platform-browser": "4.3.6-1cc3fe2"
+    "@angular/core": "4.3.6-b8b551c",
+    "@angular/common": "4.3.6-b8b551c",
+    "@angular/platform-browser": "4.3.6-b8b551c"
   },
   "repository": {
     "type": "git",
