@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.6-fa6b802
+ * @license Angular v5.0.0-beta.6-66f0ab0
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -463,12 +463,11 @@ function _mergeErrors(arrayOfErrors) {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * A bridge between a control and a native element.
+ * A `ControlValueAccessor` acts as a bridge between the Angular forms API and a
+ * native element in the DOM.
  *
- * A `ControlValueAccessor` abstracts the operations of writing a new value to a
- * DOM element representing an input control.
- *
- * Please see {\@link DefaultValueAccessor} for more information.
+ * Implement this interface if you want to create a custom form control directive
+ * that integrates with Angular forms.
  *
  * \@stable
  * @record
@@ -5848,7 +5847,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-beta.6-fa6b802');
+const VERSION = new Version('5.0.0-beta.6-66f0ab0');
 
 /**
  * @fileoverview added by tsickle
