@@ -35,12 +35,12 @@ export declare const formControlBinding: any;
  * {@link AbstractControl}.
  *
  * **Set the value**: You can pass in an initial value when instantiating the {@link FormControl},
- * or you can set it programmatically later using {@link AbstractControl.setValue} or
- * {@link AbstractControl.patchValue}.
+ * or you can set it programmatically later using {@link AbstractControl#setValue} or
+ * {@link AbstractControl#patchValue}.
  *
  * **Listen to value**: If you want to listen to changes in the value of the control, you can
- * subscribe to the {@link AbstractControl.valueChanges} event.  You can also listen to
- * {@link AbstractControl.statusChanges} to be notified when the validation status is
+ * subscribe to the {@link AbstractControl#valueChanges} event.  You can also listen to
+ * {@link AbstractControl#statusChanges} to be notified when the validation status is
  * re-calculated.
  *
  * ### Example
@@ -62,8 +62,8 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
     readonly path: string[];
-    readonly validator: ValidatorFn;
-    readonly asyncValidator: AsyncValidatorFn;
+    readonly validator: ValidatorFn | null;
+    readonly asyncValidator: AsyncValidatorFn | null;
     readonly control: FormControl;
     viewToModelUpdate(newValue: any): void;
     private _isControlChanged(changes);
