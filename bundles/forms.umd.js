@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-beta.6-a69172f
+ * @license Angular v5.0.0-beta.6-8f79150
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v5.0.0-beta.6-a69172f
+ * @license Angular v5.0.0-beta.6-8f79150
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6275,7 +6275,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.0.0-beta.6-a69172f');
+var VERSION = new _angular_core.Version('5.0.0-beta.6-8f79150');
 
 /**
  * @fileoverview added by tsickle
