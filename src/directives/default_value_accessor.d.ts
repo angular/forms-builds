@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { ElementRef, InjectionToken, Renderer } from '@angular/core';
+import { ElementRef, InjectionToken, Renderer2 } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
 export declare const DEFAULT_VALUE_ACCESSOR: any;
 /**
@@ -32,12 +32,9 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
     onTouched: () => void;
     /** Whether the user is creating a composition string (IME events). */
     private _composing;
-    constructor(_renderer: Renderer, _elementRef: ElementRef, _compositionMode: boolean);
+    constructor(_renderer: Renderer2, _elementRef: ElementRef, _compositionMode: boolean);
     writeValue(value: any): void;
     registerOnChange(fn: (_: any) => void): void;
     registerOnTouched(fn: () => void): void;
     setDisabledState(isDisabled: boolean): void;
-    _handleInput(value: any): void;
-    _compositionStart(): void;
-    _compositionEnd(value: any): void;
 }
