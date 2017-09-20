@@ -38,19 +38,10 @@ export interface AbstractControlOptions {
 export declare abstract class AbstractControl {
     validator: ValidatorFn | null;
     asyncValidator: AsyncValidatorFn | null;
-    private _valueChanges;
-    private _statusChanges;
-    private _status;
-    private _errors;
-    private _pristine;
-    private _touched;
     private _parent;
     private _asyncValidationSubscription;
-    constructor(validator: ValidatorFn | null, asyncValidator: AsyncValidatorFn | null);
-    /**
-     * The value of the control.
-     */
     readonly value: any;
+    constructor(validator: ValidatorFn | null, asyncValidator: AsyncValidatorFn | null);
     /**
      * The parent control.
      */

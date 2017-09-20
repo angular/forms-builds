@@ -45,7 +45,7 @@ export declare const formDirectiveProvider: any;
  *  @stable
  */
 export declare class NgForm extends ControlContainer implements Form, AfterViewInit {
-    private _submitted;
+    readonly submitted: boolean;
     private _directives;
     form: FormGroup;
     ngSubmit: EventEmitter<{}>;
@@ -68,7 +68,6 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     };
     constructor(validators: any[], asyncValidators: any[]);
     ngAfterViewInit(): void;
-    readonly submitted: boolean;
     readonly formDirective: Form;
     readonly control: FormGroup;
     readonly path: string[];
