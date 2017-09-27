@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.4.3-bc81fbd
+ * @license Angular v4.4.3-55a7443
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5573,7 +5573,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('4.4.3-bc81fbd');
+const VERSION = new Version('4.4.3-55a7443');
 
 /**
  * @license
