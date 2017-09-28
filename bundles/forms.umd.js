@@ -1,11 +1,11 @@
 /**
- * @license Angular v5.0.0-beta.7-5406a49
+ * @license Angular v5.0.0-beta.7-82e4923
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/observable/forkJoin'), require('rxjs/observable/fromPromise'), require('rxjs/operator/map'), require('@angular/platform-browser')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/observable/forkJoin', 'rxjs/observable/fromPromise', 'rxjs/operator/map', '@angular/platform-browser'], factory) :
+	typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', 'rxjs/observable/forkJoin', 'rxjs/observable/fromPromise', 'rxjs/operator/map', '@angular/platform-browser'], factory) :
 	(factory((global.ng = global.ng || {}, global.ng.forms = {}),global.ng.core,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable.prototype,global.ng.platformBrowser));
 }(this, (function (exports,_angular_core,rxjs_observable_forkJoin,rxjs_observable_fromPromise,rxjs_operator_map,_angular_platformBrowser) { 'use strict';
 
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v5.0.0-beta.7-5406a49
+ * @license Angular v5.0.0-beta.7-82e4923
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7974,7 +7974,7 @@ var FormBuilder = (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.0.0-beta.7-5406a49');
+var VERSION = new _angular_core.Version('5.0.0-beta.7-82e4923');
 
 /**
  * @fileoverview added by tsickle
