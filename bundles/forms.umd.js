@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.4.4-8f66880
+ * @license Angular v4.4.4-ccc25ee
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -36,7 +36,7 @@ function __extends(d, b) {
 }
 
 /**
- * @license Angular v4.4.4-8f66880
+ * @license Angular v4.4.4-ccc25ee
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5956,7 +5956,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.4.4-8f66880');
+var VERSION = new _angular_core.Version('4.4.4-ccc25ee');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
