@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-rc.5-7bfeac7
+ * @license Angular v5.0.0-rc.5-56b18ff
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5781,7 +5781,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.0.0-rc.5-7bfeac7');
+const VERSION = new Version('5.0.0-rc.5-56b18ff');
 
 /**
  * @fileoverview added by tsickle
