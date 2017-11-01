@@ -407,9 +407,9 @@ export declare class FormControl extends AbstractControl {
     /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {@link FormControl#setValue} at this level.
-     * It exists for symmetry with {@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
-     * where it does behave differently.
+     * This function is functionally the same as {@link FormControl#setValue setValue} at this level.
+     * It exists for symmetry with {@link FormGroup#patchValue patchValue} on `FormGroups` and
+     * `FormArrays`, where it does behave differently.
      */
     patchValue(value: any, options?: {
         onlySelf?: boolean;
@@ -542,8 +542,8 @@ export declare class FormGroup extends AbstractControl {
     /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {@link FormGroup#addControl} instead.
+     * This method does not update the value or validity of the control, so for most cases you'll want
+     * to use {@link FormGroup#addControl addControl} instead.
      */
     registerControl(name: string, control: AbstractControl): AbstractControl;
     /**
@@ -561,8 +561,8 @@ export declare class FormGroup extends AbstractControl {
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {@link AbstractControl#get} instead.
+     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * only, use {@link AbstractControl#get get} instead.
      */
     contains(controlName: string): boolean;
     /**

@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.0-rc.9-3a86654
+ * @license Angular v5.0.0-171ae15
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v5.0.0-rc.9-3a86654
+ * @license Angular v5.0.0-171ae15
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3958,16 +3958,16 @@ var FormControl = (function (_super) {
     /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {@link FormControl#setValue} at this level.
-     * It exists for symmetry with {@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
-     * where it does behave differently.
+     * This function is functionally the same as {@link FormControl#setValue setValue} at this level.
+     * It exists for symmetry with {@link FormGroup#patchValue patchValue} on `FormGroups` and
+     * `FormArrays`, where it does behave differently.
      */
     /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {\@link FormControl#setValue} at this level.
-     * It exists for symmetry with {\@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
-     * where it does behave differently.
+     * This function is functionally the same as {\@link FormControl#setValue setValue} at this level.
+     * It exists for symmetry with {\@link FormGroup#patchValue patchValue} on `FormGroups` and
+     * `FormArrays`, where it does behave differently.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -3975,9 +3975,9 @@ var FormControl = (function (_super) {
     FormControl.prototype.patchValue = /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {\@link FormControl#setValue} at this level.
-     * It exists for symmetry with {\@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
-     * where it does behave differently.
+     * This function is functionally the same as {\@link FormControl#setValue setValue} at this level.
+     * It exists for symmetry with {\@link FormGroup#patchValue patchValue} on `FormGroups` and
+     * `FormArrays`, where it does behave differently.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -4309,14 +4309,14 @@ var FormGroup = (function (_super) {
     /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {@link FormGroup#addControl} instead.
+     * This method does not update the value or validity of the control, so for most cases you'll want
+     * to use {@link FormGroup#addControl addControl} instead.
      */
     /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {\@link FormGroup#addControl} instead.
+     * This method does not update the value or validity of the control, so for most cases you'll want
+     * to use {\@link FormGroup#addControl addControl} instead.
      * @param {?} name
      * @param {?} control
      * @return {?}
@@ -4324,8 +4324,8 @@ var FormGroup = (function (_super) {
     FormGroup.prototype.registerControl = /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {\@link FormGroup#addControl} instead.
+     * This method does not update the value or validity of the control, so for most cases you'll want
+     * to use {\@link FormGroup#addControl addControl} instead.
      * @param {?} name
      * @param {?} control
      * @return {?}
@@ -4405,22 +4405,22 @@ var FormGroup = (function (_super) {
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {@link AbstractControl#get} instead.
+     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * only, use {@link AbstractControl#get get} instead.
      */
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {\@link AbstractControl#get} instead.
+     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * only, use {\@link AbstractControl#get get} instead.
      * @param {?} controlName
      * @return {?}
      */
     FormGroup.prototype.contains = /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {\@link AbstractControl#get} instead.
+     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * only, use {\@link AbstractControl#get get} instead.
      * @param {?} controlName
      * @return {?}
      */
@@ -6884,7 +6884,7 @@ var formGroupNameProvider = {
  * controls into their own nested object.
  *
  * **Access the group**: You can access the associated {\@link FormGroup} using the
- * {\@link AbstractControl#get} method. Ex: `this.form.get('name')`.
+ * {\@link AbstractControl#get get} method. Ex: `this.form.get('name')`.
  *
  * You can also access individual controls within the group using dot syntax.
  * Ex: `this.form.get('name.first')`
@@ -6969,7 +6969,7 @@ var formArrayNameProvider = {
  * form controls dynamically.
  *
  * **Access the array**: You can access the associated {\@link FormArray} using the
- * {\@link AbstractControl#get} method on the parent {\@link FormGroup}.
+ * {\@link AbstractControl#get get} method on the parent {\@link FormGroup}.
  * Ex: `this.form.get('cities')`.
  *
  * **Get the value**: the `value` property is always synced and available on the
@@ -6977,17 +6977,17 @@ var formArrayNameProvider = {
  *
  * **Set the value**: You can set an initial value for each child control when instantiating
  * the {\@link FormArray}, or you can set the value programmatically later using the
- * {\@link FormArray}'s {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue}
- * methods.
+ * {\@link FormArray}'s {\@link AbstractControl#setValue setValue} or
+ * {\@link AbstractControl#patchValue patchValue} methods.
  *
  * **Listen to value**: If you want to listen to changes in the value of the array, you can
- * subscribe to the {\@link FormArray}'s {\@link AbstractControl#valueChanges} event.  You can also
- * listen to its {\@link AbstractControl#statusChanges} event to be notified when the validation
- * status is re-calculated.
+ * subscribe to the {\@link FormArray}'s {\@link AbstractControl#valueChanges valueChanges} event.
+ * You can also listen to its {\@link AbstractControl#statusChanges statusChanges} event to be
+ * notified when the validation status is re-calculated.
  *
- * **Add new controls**: You can add new controls to the {\@link FormArray} dynamically by
- * calling its {\@link FormArray#push} method.
- *  Ex: `this.form.get('cities').push(new FormControl());`
+ * **Add new controls**: You can add new controls to the {\@link FormArray} dynamically by calling
+ * its {\@link FormArray#push push} method.
+ * Ex: `this.form.get('cities').push(new FormControl());`
  *
  * ### Example
  *
@@ -7981,7 +7981,7 @@ var FormBuilder = (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.0.0-rc.9-3a86654');
+var VERSION = new _angular_core.Version('5.0.0-171ae15');
 
 /**
  * @fileoverview added by tsickle
