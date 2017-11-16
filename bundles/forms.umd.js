@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.1.0-beta.0-f8658cd
+ * @license Angular v5.1.0-beta.0-336041a
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -44,13 +44,20 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v5.1.0-beta.0-f8658cd
+ * @license Angular v5.1.0-beta.0-336041a
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
  */
 /**
  * Base class for control directives.
@@ -60,7 +67,7 @@ var __assign = Object.assign || function __assign(t) {
  * \@stable
  * @abstract
  */
-var AbstractControlDirective = (function () {
+var AbstractControlDirective = /** @class */ (function () {
     function AbstractControlDirective() {
     }
     Object.defineProperty(AbstractControlDirective.prototype, "value", {
@@ -415,7 +422,7 @@ var AbstractControlDirective = (function () {
  * \@stable
  * @abstract
  */
-var ControlContainer = (function (_super) {
+var ControlContainer = /** @class */ (function (_super) {
     __extends(ControlContainer, _super);
     function ControlContainer() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -500,7 +507,7 @@ var EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.
  *
  * \@stable
  */
-var Validators = (function () {
+var Validators = /** @class */ (function () {
     function Validators() {
     }
     /**
@@ -833,7 +840,7 @@ var CHECKBOX_VALUE_ACCESSOR = {
  *
  *  \@stable
  */
-var CheckboxControlValueAccessor = (function () {
+var CheckboxControlValueAccessor = /** @class */ (function () {
     function CheckboxControlValueAccessor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
@@ -936,7 +943,7 @@ var COMPOSITION_BUFFER_MODE = new _angular_core.InjectionToken('CompositionEvent
  *
  *  \@stable
  */
-var DefaultValueAccessor = (function () {
+var DefaultValueAccessor = /** @class */ (function () {
     function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
@@ -1062,6 +1069,13 @@ var DefaultValueAccessor = (function () {
  * @suppress {checkTypes} checked by tsc
  */
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * @param {?} validator
  * @return {?}
  */
@@ -1111,7 +1125,7 @@ var NUMBER_VALUE_ACCESSOR = {
  *  <input type="number" [(ngModel)]="age">
  *  ```
  */
-var NumberValueAccessor = (function () {
+var NumberValueAccessor = /** @class */ (function () {
     function NumberValueAccessor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
@@ -1207,7 +1221,7 @@ function unimplemented() {
  * \@stable
  * @abstract
  */
-var NgControl = (function (_super) {
+var NgControl = /** @class */ (function (_super) {
     __extends(NgControl, _super);
     function NgControl() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -1265,7 +1279,7 @@ var RADIO_VALUE_ACCESSOR = {
 /**
  * Internal class used by Angular to uncheck radio buttons with the matching name.
  */
-var RadioControlRegistry = (function () {
+var RadioControlRegistry = /** @class */ (function () {
     function RadioControlRegistry() {
         this._accessors = [];
     }
@@ -1366,7 +1380,7 @@ var RadioControlRegistry = (function () {
  *
  *  \@stable
  */
-var RadioControlValueAccessor = (function () {
+var RadioControlValueAccessor = /** @class */ (function () {
     function RadioControlValueAccessor(_renderer, _elementRef, _registry, _injector) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
@@ -1519,7 +1533,7 @@ var RANGE_VALUE_ACCESSOR = {
  *  <input type="range" [(ngModel)]="age" >
  *  ```
  */
-var RangeValueAccessor = (function () {
+var RangeValueAccessor = /** @class */ (function () {
     function RangeValueAccessor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
@@ -1685,7 +1699,7 @@ function _extractId(valueString) {
  *
  * \@stable
  */
-var SelectControlValueAccessor = (function () {
+var SelectControlValueAccessor = /** @class */ (function () {
     function SelectControlValueAccessor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
@@ -1837,7 +1851,7 @@ var SelectControlValueAccessor = (function () {
  *
  * \@stable
  */
-var NgSelectOption = (function () {
+var NgSelectOption = /** @class */ (function () {
     function NgSelectOption(_element, _renderer, _select) {
         this._element = _element;
         this._renderer = _renderer;
@@ -1982,7 +1996,7 @@ function _extractId$1(valueString) {
  *
  * \@stable
  */
-var SelectMultipleControlValueAccessor = (function () {
+var SelectMultipleControlValueAccessor = /** @class */ (function () {
     function SelectMultipleControlValueAccessor(_renderer, _elementRef) {
         this._renderer = _renderer;
         this._elementRef = _elementRef;
@@ -2166,7 +2180,7 @@ var SelectMultipleControlValueAccessor = (function () {
  * </select>
  * ```
  */
-var NgSelectMultipleOption = (function () {
+var NgSelectMultipleOption = /** @class */ (function () {
     function NgSelectMultipleOption(_element, _renderer, _select) {
         this._element = _element;
         this._renderer = _renderer;
@@ -2531,11 +2545,18 @@ function removeDir(list, el) {
  * @suppress {checkTypes} checked by tsc
  */
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * This is a base class for code shared between {\@link NgModelGroup} and {\@link FormGroupName}.
  *
  * \@stable
  */
-var AbstractFormGroupDirective = (function (_super) {
+var AbstractFormGroupDirective = /** @class */ (function (_super) {
     __extends(AbstractFormGroupDirective, _super);
     function AbstractFormGroupDirective() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -2639,7 +2660,7 @@ var AbstractFormGroupDirective = (function (_super) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var AbstractControlStatus = (function () {
+var AbstractControlStatus = /** @class */ (function () {
     function AbstractControlStatus(cd) {
         this._cd = cd;
     }
@@ -2725,7 +2746,7 @@ var ngControlStatusHost = {
  *
  * \@stable
  */
-var NgControlStatus = (function (_super) {
+var NgControlStatus = /** @class */ (function (_super) {
     __extends(NgControlStatus, _super);
     function NgControlStatus(cd) {
         return _super.call(this, cd) || this;
@@ -2745,7 +2766,7 @@ var NgControlStatus = (function (_super) {
  *
  * \@stable
  */
-var NgControlStatusGroup = (function (_super) {
+var NgControlStatusGroup = /** @class */ (function (_super) {
     __extends(NgControlStatusGroup, _super);
     function NgControlStatusGroup(cd) {
         return _super.call(this, cd) || this;
@@ -2860,7 +2881,7 @@ function isOptionsObj(validatorOrOpts) {
  * \@stable
  * @abstract
  */
-var AbstractControl = (function () {
+var AbstractControl = /** @class */ (function () {
     function AbstractControl(validator, asyncValidator) {
         this.validator = validator;
         this.asyncValidator = asyncValidator;
@@ -3874,7 +3895,7 @@ var AbstractControl = (function () {
  *
  * \@stable
  */
-var FormControl = (function (_super) {
+var FormControl = /** @class */ (function (_super) {
     __extends(FormControl, _super);
     function FormControl(formState, validatorOrOpts, asyncValidator) {
         if (formState === void 0) { formState = null; }
@@ -4295,7 +4316,7 @@ var FormControl = (function (_super) {
  *
  * \@stable
  */
-var FormGroup = (function (_super) {
+var FormGroup = /** @class */ (function (_super) {
     __extends(FormGroup, _super);
     function FormGroup(controls, validatorOrOpts, asyncValidator) {
         var _this = _super.call(this, coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts)) || this;
@@ -4961,7 +4982,7 @@ var FormGroup = (function (_super) {
  *
  * \@stable
  */
-var FormArray = (function (_super) {
+var FormArray = /** @class */ (function (_super) {
     __extends(FormArray, _super);
     function FormArray(controls, validatorOrOpts, asyncValidator) {
         var _this = _super.call(this, coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts)) || this;
@@ -5569,7 +5590,7 @@ var resolvedPromise = Promise.resolve(null);
  *
  *  \@stable
  */
-var NgForm = (function (_super) {
+var NgForm = /** @class */ (function (_super) {
     __extends(NgForm, _super);
     function NgForm(validators, asyncValidators) {
         var _this = _super.call(this) || this;
@@ -5844,7 +5865,7 @@ var FormErrorExamples = {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var TemplateDrivenErrors = (function () {
+var TemplateDrivenErrors = /** @class */ (function () {
     function TemplateDrivenErrors() {
     }
     /**
@@ -5926,7 +5947,7 @@ var modelGroupProvider = {
  *
  * \@stable
  */
-var NgModelGroup = (function (_super) {
+var NgModelGroup = /** @class */ (function (_super) {
     __extends(NgModelGroup, _super);
     function NgModelGroup(parent, validators, asyncValidators) {
         var _this = _super.call(this) || this;
@@ -6055,7 +6076,7 @@ var resolvedPromise$1 = Promise.resolve(null);
  *
  *  \@stable
  */
-var NgModel = (function (_super) {
+var NgModel = /** @class */ (function (_super) {
     __extends(NgModel, _super);
     function NgModel(parent, validators, asyncValidators, valueAccessors) {
         var _this = _super.call(this) || this;
@@ -6296,7 +6317,7 @@ var NgModel = (function (_super) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var ReactiveErrors = (function () {
+var ReactiveErrors = /** @class */ (function () {
     function ReactiveErrors() {
     }
     /**
@@ -6413,7 +6434,7 @@ var formControlBinding$1 = {
  *
  *  \@stable
  */
-var FormControlDirective = (function (_super) {
+var FormControlDirective = /** @class */ (function (_super) {
     __extends(FormControlDirective, _super);
     function FormControlDirective(validators, asyncValidators, valueAccessors) {
         var _this = _super.call(this) || this;
@@ -6579,7 +6600,7 @@ var formDirectiveProvider$1 = {
  *
  *  \@stable
  */
-var FormGroupDirective = (function (_super) {
+var FormGroupDirective = /** @class */ (function (_super) {
     __extends(FormGroupDirective, _super);
     function FormGroupDirective(_validators, _asyncValidators) {
         var _this = _super.call(this) || this;
@@ -6911,7 +6932,7 @@ var formGroupNameProvider = {
  *
  * \@stable
  */
-var FormGroupName = (function (_super) {
+var FormGroupName = /** @class */ (function (_super) {
     __extends(FormGroupName, _super);
     function FormGroupName(parent, validators, asyncValidators) {
         var _this = _super.call(this) || this;
@@ -6999,7 +7020,7 @@ var formArrayNameProvider = {
  *
  * \@stable
  */
-var FormArrayName = (function (_super) {
+var FormArrayName = /** @class */ (function (_super) {
     __extends(FormArrayName, _super);
     function FormArrayName(parent, validators, asyncValidators) {
         var _this = _super.call(this) || this;
@@ -7173,7 +7194,7 @@ var controlNameBinding = {
  *
  *  \@stable
  */
-var FormControlName = (function (_super) {
+var FormControlName = /** @class */ (function (_super) {
     __extends(FormControlName, _super);
     function FormControlName(parent, validators, asyncValidators, valueAccessors) {
         var _this = _super.call(this) || this;
@@ -7375,7 +7396,7 @@ var CHECKBOX_REQUIRED_VALIDATOR = {
  *
  * \@stable
  */
-var RequiredValidator = (function () {
+var RequiredValidator = /** @class */ (function () {
     function RequiredValidator() {
     }
     Object.defineProperty(RequiredValidator.prototype, "required", {
@@ -7441,7 +7462,7 @@ var RequiredValidator = (function () {
  *
  * \@experimental
  */
-var CheckboxRequiredValidator = (function (_super) {
+var CheckboxRequiredValidator = /** @class */ (function (_super) {
     __extends(CheckboxRequiredValidator, _super);
     function CheckboxRequiredValidator() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -7490,7 +7511,7 @@ var EMAIL_VALIDATOR = {
  *
  * \@experimental
  */
-var EmailValidator = (function () {
+var EmailValidator = /** @class */ (function () {
     function EmailValidator() {
     }
     Object.defineProperty(EmailValidator.prototype, "email", {
@@ -7567,7 +7588,7 @@ var MIN_LENGTH_VALIDATOR = {
  *
  * \@stable
  */
-var MinLengthValidator = (function () {
+var MinLengthValidator = /** @class */ (function () {
     function MinLengthValidator() {
     }
     /**
@@ -7647,7 +7668,7 @@ var MAX_LENGTH_VALIDATOR = {
  *
  * \@stable
  */
-var MaxLengthValidator = (function () {
+var MaxLengthValidator = /** @class */ (function () {
     function MaxLengthValidator() {
     }
     /**
@@ -7726,7 +7747,7 @@ var PATTERN_VALIDATOR = {
  * ```
  * \@stable
  */
-var PatternValidator = (function () {
+var PatternValidator = /** @class */ (function () {
     function PatternValidator() {
     }
     /**
@@ -7815,7 +7836,7 @@ var PatternValidator = (function () {
  *
  * \@stable
  */
-var FormBuilder = (function () {
+var FormBuilder = /** @class */ (function () {
     function FormBuilder() {
     }
     /**
@@ -7981,7 +8002,7 @@ var FormBuilder = (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.1.0-beta.0-f8658cd');
+var VERSION = new _angular_core.Version('5.1.0-beta.0-336041a');
 
 /**
  * @fileoverview added by tsickle
@@ -8007,7 +8028,7 @@ var VERSION = new _angular_core.Version('5.1.0-beta.0-f8658cd');
  *
  * \@experimental
  */
-var NgNoValidate = (function () {
+var NgNoValidate = /** @class */ (function () {
     function NgNoValidate() {
     }
     NgNoValidate.decorators = [
@@ -8057,7 +8078,7 @@ var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, Form
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
-var InternalFormsSharedModule = (function () {
+var InternalFormsSharedModule = /** @class */ (function () {
     function InternalFormsSharedModule() {
     }
     InternalFormsSharedModule.decorators = [
@@ -8086,7 +8107,7 @@ var InternalFormsSharedModule = (function () {
  * The ng module for forms.
  * \@stable
  */
-var FormsModule = (function () {
+var FormsModule = /** @class */ (function () {
     function FormsModule() {
     }
     FormsModule.decorators = [
@@ -8104,7 +8125,7 @@ var FormsModule = (function () {
  * The ng module for reactive forms.
  * \@stable
  */
-var ReactiveFormsModule = (function () {
+var ReactiveFormsModule = /** @class */ (function () {
     function ReactiveFormsModule() {
     }
     ReactiveFormsModule.decorators = [

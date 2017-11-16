@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.1.0-beta.0-f8658cd
+ * @license Angular v5.1.0-beta.0-336041a
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -12,6 +12,13 @@ import { ɵgetDOM } from '@angular/platform-browser';
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
  */
 /**
  * Base class for control directives.
@@ -692,6 +699,13 @@ DefaultValueAccessor.ctorParameters = () => [
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
  */
 /**
  * @param {?} validator
@@ -1973,6 +1987,13 @@ function removeDir(list, el) {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
  */
 /**
  * This is a base class for code shared between {\@link NgModelGroup} and {\@link FormGroupName}.
@@ -5781,7 +5802,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.1.0-beta.0-f8658cd');
+const VERSION = new Version('5.1.0-beta.0-336041a');
 
 /**
  * @fileoverview added by tsickle
