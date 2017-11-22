@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.0.2-b53ead4
+ * @license Angular v5.0.2-efce396
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v5.0.2-b53ead4
+ * @license Angular v5.0.2-efce396
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2341,6 +2341,7 @@ function cleanUpControl(control, dir) {
 function setUpViewChangePipeline(control, dir) {
     /** @type {?} */ ((dir.valueAccessor)).registerOnChange(function (newValue) {
         control._pendingValue = newValue;
+        control._pendingChange = true;
         control._pendingDirty = true;
         if (control.updateOn === 'change')
             updateControl(control, dir);
@@ -2354,7 +2355,7 @@ function setUpViewChangePipeline(control, dir) {
 function setUpBlurPipeline(control, dir) {
     /** @type {?} */ ((dir.valueAccessor)).registerOnTouched(function () {
         control._pendingTouched = true;
-        if (control.updateOn === 'blur')
+        if (control.updateOn === 'blur' && control._pendingChange)
             updateControl(control, dir);
         if (control.updateOn !== 'submit')
             control.markAsTouched();
@@ -2370,6 +2371,7 @@ function updateControl(control, dir) {
     if (control._pendingDirty)
         control.markAsDirty();
     control.setValue(control._pendingValue, { emitModelToViewChange: false });
+    control._pendingChange = false;
 }
 /**
  * @param {?} control
@@ -2474,8 +2476,9 @@ function syncPendingControls(form, directives) {
     form._syncPendingControls();
     directives.forEach(function (dir) {
         var /** @type {?} */ control = /** @type {?} */ (dir.control);
-        if (control.updateOn === 'submit') {
+        if (control.updateOn === 'submit' && control._pendingChange) {
             dir.viewToModelUpdate(control._pendingValue);
+            control._pendingChange = false;
         }
     });
 }
@@ -4083,6 +4086,7 @@ var FormControl = (function (_super) {
         this.markAsPristine(options);
         this.markAsUntouched(options);
         this.setValue(this.value, options);
+        this._pendingChange = false;
     };
     /**
      * @internal
@@ -4193,12 +4197,14 @@ var FormControl = (function (_super) {
      */
     function () {
         if (this.updateOn === 'submit') {
-            this.setValue(this._pendingValue, { onlySelf: true, emitModelToViewChange: false });
             if (this._pendingDirty)
                 this.markAsDirty();
             if (this._pendingTouched)
                 this.markAsTouched();
-            return true;
+            if (this._pendingChange) {
+                this.setValue(this._pendingValue, { onlySelf: true, emitModelToViewChange: false });
+                return true;
+            }
         }
         return false;
     };
@@ -7981,7 +7987,7 @@ var FormBuilder = (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.0.2-b53ead4');
+var VERSION = new _angular_core.Version('5.0.2-efce396');
 
 /**
  * @fileoverview added by tsickle
