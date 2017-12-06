@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.1.0-rc.1-6911a25
+ * @license Angular v5.1.0-rc.1-be99449
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -439,6 +439,20 @@ function isEmptyInputValue(value) {
  * Providers for validators to be used for {\@link FormControl}s in a form.
  *
  * Provide this using `multi: true` to add validators.
+ *
+ * ### Example
+ *
+ * ```typescript
+ * \@Directive({
+ *   selector: '[custom-validator]',
+ *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ * })
+ * class CustomValidatorDirective implements Validator {
+ *   validate(control: AbstractControl): ValidationErrors | null {
+ *     return {"custom": true};
+ *   }
+ * }
+ * ```
  *
  * \@stable
  */
@@ -7970,7 +7984,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('5.1.0-rc.1-6911a25');
+var VERSION = new Version('5.1.0-rc.1-be99449');
 
 /**
  * @fileoverview added by tsickle
