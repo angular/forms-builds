@@ -151,7 +151,7 @@ export declare abstract class AbstractControl {
      * Sets the async validators that are active on this control. Calling this
      * will overwrite any existing async validators.
      */
-    setAsyncValidators(newValidator: AsyncValidatorFn | AsyncValidatorFn[]): void;
+    setAsyncValidators(newValidator: AsyncValidatorFn | AsyncValidatorFn[] | null): void;
     /**
      * Empties out the sync validator list.
      */
