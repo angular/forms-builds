@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.2.0-beta.0-2e7e935
+ * @license Angular v5.2.0-beta.0-05ff6c0
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -695,10 +695,10 @@ DefaultValueAccessor.decorators = [
                 // https://github.com/angular/angular/issues/3011 is implemented
                 // selector: '[ngModel],[formControl],[formControlName]',
                 host: {
-                    '(input)': '_handleInput($event.target.value)',
+                    '(input)': '$any(this)._handleInput($event.target.value)',
                     '(blur)': 'onTouched()',
-                    '(compositionstart)': '_compositionStart()',
-                    '(compositionend)': '_compositionEnd($event.target.value)'
+                    '(compositionstart)': '$any(this)._compositionStart()',
+                    '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
                 },
                 providers: [DEFAULT_VALUE_ACCESSOR]
             },] },
@@ -5822,7 +5822,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.2.0-beta.0-2e7e935');
+const VERSION = new Version('5.2.0-beta.0-05ff6c0');
 
 /**
  * @fileoverview added by tsickle
