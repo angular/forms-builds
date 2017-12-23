@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.1.2-d787b55
+ * @license Angular v5.1.2-5de91fe
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -281,6 +281,8 @@ const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(
 class Validators {
     /**
      * Validator that requires controls to have a value greater than a number.
+     * `min()` exists only as a function, not as a directive. For example,
+     * `control = new FormControl('', Validators.min(3));`.
      * @param {?} min
      * @return {?}
      */
@@ -297,6 +299,8 @@ class Validators {
     }
     /**
      * Validator that requires controls to have a value less than a number.
+     * `max()` exists only as a function, not as a directive. For example,
+     * `control = new FormControl('', Validators.max(15));`.
      * @param {?} max
      * @return {?}
      */
@@ -5822,7 +5826,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.1.2-d787b55');
+const VERSION = new Version('5.1.2-5de91fe');
 
 /**
  * @fileoverview added by tsickle
