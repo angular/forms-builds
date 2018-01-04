@@ -1,6 +1,6 @@
 /**
- * @license Angular v5.1.3-5efb751
- * (c) 2010-2017 Google, Inc. https://angular.io/
+ * @license Angular v5.1.3-d3c0425
+ * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 (function (global, factory) {
@@ -44,8 +44,8 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v5.1.3-5efb751
- * (c) 2010-2017 Google, Inc. https://angular.io/
+ * @license Angular v5.1.3-d3c0425
+ * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 /**
@@ -8034,7 +8034,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.1.3-5efb751');
+var VERSION = new _angular_core.Version('5.1.3-d3c0425');
 
 /**
  * @fileoverview added by tsickle
