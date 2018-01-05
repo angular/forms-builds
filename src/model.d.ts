@@ -18,6 +18,12 @@ export declare const PENDING = "PENDING";
  * calculations of validity or value.
  */
 export declare const DISABLED = "DISABLED";
+export declare type FormHooks = 'change' | 'blur' | 'submit';
+export interface AbstractControlOptions {
+    validators?: ValidatorFn | ValidatorFn[] | null;
+    asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[] | null;
+    updateOn?: FormHooks;
+}
 /**
  * @whatItDoes This is the base class for {@link FormControl}, {@link FormGroup}, and
  * {@link FormArray}.
@@ -32,19 +38,10 @@ export declare const DISABLED = "DISABLED";
 export declare abstract class AbstractControl {
     validator: ValidatorFn | null;
     asyncValidator: AsyncValidatorFn | null;
-    private _valueChanges;
-    private _statusChanges;
-    private _status;
-    private _errors;
-    private _pristine;
-    private _touched;
     private _parent;
     private _asyncValidationSubscription;
-    constructor(validator: ValidatorFn | null, asyncValidator: AsyncValidatorFn | null);
-    /**
-     * The value of the control.
-     */
     readonly value: any;
+    constructor(validator: ValidatorFn | null, asyncValidator: AsyncValidatorFn | null);
     /**
      * The parent control.
      */
@@ -140,6 +137,12 @@ export declare abstract class AbstractControl {
      */
     readonly statusChanges: Observable<any>;
     /**
+     * Returns the update strategy of the `AbstractControl` (i.e.
+     * the event on which the control will update itself).
+     * Possible values: `'change'` (default) | `'blur'` | `'submit'`
+     */
+    readonly updateOn: FormHooks;
+    /**
      * Sets the synchronous validators that are active on this control.  Calling
      * this will overwrite any existing sync validators.
      */
@@ -148,7 +151,7 @@ export declare abstract class AbstractControl {
      * Sets the async validators that are active on this control. Calling this
      * will overwrite any existing async validators.
      */
-    setAsyncValidators(newValidator: AsyncValidatorFn | AsyncValidatorFn[]): void;
+    setAsyncValidators(newValidator: AsyncValidatorFn | AsyncValidatorFn[] | null): void;
     /**
      * Empties out the sync validator list.
      */
@@ -163,7 +166,7 @@ export declare abstract class AbstractControl {
      * This will also mark all direct ancestors as `touched` to maintain
      * the model.
      */
-    markAsTouched({onlySelf}?: {
+    markAsTouched(opts?: {
         onlySelf?: boolean;
     }): void;
     /**
@@ -173,7 +176,7 @@ export declare abstract class AbstractControl {
      * to maintain the model, and re-calculate the `touched` status of all parent
      * controls.
      */
-    markAsUntouched({onlySelf}?: {
+    markAsUntouched(opts?: {
         onlySelf?: boolean;
     }): void;
     /**
@@ -182,7 +185,7 @@ export declare abstract class AbstractControl {
      * This will also mark all direct ancestors as `dirty` to maintain
      * the model.
      */
-    markAsDirty({onlySelf}?: {
+    markAsDirty(opts?: {
         onlySelf?: boolean;
     }): void;
     /**
@@ -192,13 +195,13 @@ export declare abstract class AbstractControl {
      * to maintain the model, and re-calculate the `pristine` status of all parent
      * controls.
      */
-    markAsPristine({onlySelf}?: {
+    markAsPristine(opts?: {
         onlySelf?: boolean;
     }): void;
     /**
      * Marks the control as `pending`.
      */
-    markAsPending({onlySelf}?: {
+    markAsPending(opts?: {
         onlySelf?: boolean;
     }): void;
     /**
@@ -207,7 +210,7 @@ export declare abstract class AbstractControl {
      *
      * If the control has children, all children will be disabled to maintain the model.
      */
-    disable({onlySelf, emitEvent}?: {
+    disable(opts?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -218,7 +221,7 @@ export declare abstract class AbstractControl {
      *
      * If the control has children, all children will be enabled.
      */
-    enable({onlySelf, emitEvent}?: {
+    enable(opts?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -241,7 +244,7 @@ export declare abstract class AbstractControl {
      *
      * By default, it will also update the value and validity of its ancestors.
      */
-    updateValueAndValidity({onlySelf, emitEvent}?: {
+    updateValueAndValidity(opts?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -272,7 +275,7 @@ export declare abstract class AbstractControl {
      * expect(login.valid).toEqual(true);
      * ```
      */
-    setErrors(errors: ValidationErrors | null, {emitEvent}?: {
+    setErrors(errors: ValidationErrors | null, opts?: {
         emitEvent?: boolean;
     }): void;
     /**
@@ -290,7 +293,7 @@ export declare abstract class AbstractControl {
      */
     get(path: Array<string | number> | string): AbstractControl | null;
     /**
-     * Returns true if the control with the given path has the error specified. Otherwise
+     * Returns error data if the control with the given path has the error specified. Otherwise
      * returns null or undefined.
      *
      * If no path is given, it checks for the error on the present control.
@@ -336,15 +339,39 @@ export declare abstract class AbstractControl {
  * console.log(ctrl.status);   // 'DISABLED'
  * ```
  *
- * To include a sync validator (or an array of sync validators) with the control,
- * pass it in as the second argument. Async validators are also supported, but
- * have to be passed in separately as the third arg.
+ * The second {@link FormControl} argument can accept one of three things:
+ * * a sync validator function
+ * * an array of sync validator functions
+ * * an options object containing validator and/or async validator functions
+ *
+ * Example of a single sync validator function:
  *
  * ```ts
  * const ctrl = new FormControl('', Validators.required);
  * console.log(ctrl.value);     // ''
  * console.log(ctrl.status);   // 'INVALID'
  * ```
+ *
+ * Example using options object:
+ *
+ * ```ts
+ * const ctrl = new FormControl('', {
+ *    validators: Validators.required,
+ *    asyncValidators: myAsyncValidator
+ * });
+ * ```
+ *
+ * The options object can also be used to define when the control should update.
+ * By default, the value and validity of a control updates whenever the value
+ * changes. You can configure it to update on the blur event instead by setting
+ * the `updateOn` option to `'blur'`.
+ *
+ * ```ts
+ * const c = new FormControl('', { updateOn: 'blur' });
+ * ```
+ *
+ * You can also set `updateOn` to `'submit'`, which will delay value and validity
+ * updates until the parent form of the control fires a submit event.
  *
  * See its superclass, {@link AbstractControl}, for more properties and methods.
  *
@@ -353,7 +380,7 @@ export declare abstract class AbstractControl {
  * @stable
  */
 export declare class FormControl extends AbstractControl {
-    constructor(formState?: any, validator?: ValidatorFn | ValidatorFn[] | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
+    constructor(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Set the value of the form control to `value`.
      *
@@ -380,9 +407,9 @@ export declare class FormControl extends AbstractControl {
     /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {@link FormControl#setValue} at this level.
-     * It exists for symmetry with {@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
-     * where it does behave differently.
+     * This function is functionally the same as {@link FormControl#setValue setValue} at this level.
+     * It exists for symmetry with {@link FormGroup#patchValue patchValue} on `FormGroups` and
+     * `FormArrays`, where it does behave differently.
      */
     patchValue(value: any, options?: {
         onlySelf?: boolean;
@@ -480,6 +507,27 @@ export declare class FormControl extends AbstractControl {
  * }
  * ```
  *
+ * Like {@link FormControl} instances, you can alternatively choose to pass in
+ * validators and async validators as part of an options object.
+ *
+ * ```
+ * const form = new FormGroup({
+ *   password: new FormControl('')
+ *   passwordConfirm: new FormControl('')
+ * }, {validators: passwordMatchValidator, asyncValidators: otherValidator});
+ * ```
+ *
+ * The options object can also be used to set a default value for each child
+ * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
+ * group level, all child controls will default to 'blur', unless the child
+ * has explicitly specified a different `updateOn` value.
+ *
+ * ```ts
+ * const c = new FormGroup({
+ *    one: new FormControl()
+ * }, {updateOn: 'blur'});
+ * ```
+ *
  * * **npm package**: `@angular/forms`
  *
  * @stable
@@ -490,12 +538,12 @@ export declare class FormGroup extends AbstractControl {
     };
     constructor(controls: {
         [key: string]: AbstractControl;
-    }, validator?: ValidatorFn | null, asyncValidator?: AsyncValidatorFn | null);
+    }, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {@link FormGroup#addControl} instead.
+     * This method does not update the value or validity of the control, so for most cases you'll want
+     * to use {@link FormGroup#addControl addControl} instead.
      */
     registerControl(name: string, control: AbstractControl): AbstractControl;
     /**
@@ -513,8 +561,8 @@ export declare class FormGroup extends AbstractControl {
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {@link AbstractControl#get} instead.
+     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * only, use {@link AbstractControl#get get} instead.
      */
     contains(controlName: string): boolean;
     /**
@@ -644,9 +692,30 @@ export declare class FormGroup extends AbstractControl {
  * console.log(arr.status);  // 'VALID'
  * ```
  *
- * You can also include array-level validators as the second arg, or array-level async
- * validators as the third arg. These come in handy when you want to perform validation
- * that considers the value of more than one child control.
+ * You can also include array-level validators and async validators. These come in handy
+ * when you want to perform validation that considers the value of more than one child
+ * control.
+ *
+ * The two types of validators can be passed in separately as the second and third arg
+ * respectively, or together as part of an options object.
+ *
+ * ```
+ * const arr = new FormArray([
+ *   new FormControl('Nancy'),
+ *   new FormControl('Drew')
+ * ], {validators: myValidator, asyncValidators: myAsyncValidator});
+ * ```
+ *
+ * The options object can also be used to set a default value for each child
+ * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
+ * array level, all child controls will default to 'blur', unless the child
+ * has explicitly specified a different `updateOn` value.
+ *
+ * ```ts
+ * const c = new FormArray([
+ *    new FormControl()
+ * ], {updateOn: 'blur'});
+ * ```
  *
  * ### Adding or removing controls
  *
@@ -662,7 +731,7 @@ export declare class FormGroup extends AbstractControl {
  */
 export declare class FormArray extends AbstractControl {
     controls: AbstractControl[];
-    constructor(controls: AbstractControl[], validator?: ValidatorFn | null, asyncValidator?: AsyncValidatorFn | null);
+    constructor(controls: AbstractControl[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Get the {@link AbstractControl} at the given `index` in the array.
      */
