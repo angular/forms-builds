@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.2.0-54bf179
+ * @license Angular v5.2.0-d6ba9f9
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -379,12 +379,7 @@ class Validators {
         let /** @type {?} */ regex;
         let /** @type {?} */ regexStr;
         if (typeof pattern === 'string') {
-            regexStr = '';
-            if (pattern.charAt(0) !== '^')
-                regexStr += '^';
-            regexStr += pattern;
-            if (pattern.charAt(pattern.length - 1) !== '$')
-                regexStr += '$';
+            regexStr = `^${pattern}$`;
             regex = new RegExp(regexStr);
         }
         else {
@@ -5826,7 +5821,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.2.0-54bf179');
+const VERSION = new Version('5.2.0-d6ba9f9');
 
 /**
  * @fileoverview added by tsickle
