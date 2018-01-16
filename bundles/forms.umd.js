@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.2.0-a771ee5
+ * @license Angular v5.2.0-75f8522
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v5.2.0-a771ee5
+ * @license Angular v5.2.0-75f8522
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -696,7 +696,12 @@ var Validators = /** @class */ (function () {
         var /** @type {?} */ regex;
         var /** @type {?} */ regexStr;
         if (typeof pattern === 'string') {
-            regexStr = "^" + pattern + "$";
+            regexStr = '';
+            if (pattern.charAt(0) !== '^')
+                regexStr += '^';
+            regexStr += pattern;
+            if (pattern.charAt(pattern.length - 1) !== '$')
+                regexStr += '$';
             regex = new RegExp(regexStr);
         }
         else {
@@ -8029,7 +8034,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.2.0-a771ee5');
+var VERSION = new _angular_core.Version('5.2.0-75f8522');
 
 /**
  * @fileoverview added by tsickle
