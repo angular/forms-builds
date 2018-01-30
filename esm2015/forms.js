@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.2.2-3f5ead3
+ * @license Angular v5.2.2-fad99cc
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3512,7 +3512,6 @@ class FormArray extends AbstractControl {
         this.controls.splice(index, 0, control);
         this._registerControl(control);
         this.updateValueAndValidity();
-        this._onCollectionChange();
     }
     /**
      * Remove the control at the given `index` in the array.
@@ -3524,7 +3523,6 @@ class FormArray extends AbstractControl {
             this.controls[index]._registerOnCollectionChange(() => { });
         this.controls.splice(index, 1);
         this.updateValueAndValidity();
-        this._onCollectionChange();
     }
     /**
      * Replace an existing control.
@@ -5826,7 +5824,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.2.2-3f5ead3');
+const VERSION = new Version('5.2.2-fad99cc');
 
 /**
  * @fileoverview added by tsickle

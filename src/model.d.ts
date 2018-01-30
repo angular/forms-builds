@@ -740,13 +740,9 @@ export declare class FormArray extends AbstractControl {
      * Insert a new {@link AbstractControl} at the end of the array.
      */
     push(control: AbstractControl): void;
-    /**
-     * Insert a new {@link AbstractControl} at the given `index` in the array.
-     */
+    /** Insert a new {@link AbstractControl} at the given `index` in the array. */
     insert(index: number, control: AbstractControl): void;
-    /**
-     * Remove the control at the given `index` in the array.
-     */
+    /** Remove the control at the given `index` in the array. */
     removeAt(index: number): void;
     /**
      * Replace an existing control.
