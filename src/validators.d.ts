@@ -16,7 +16,18 @@ import { AbstractControl } from './model';
  *
  * ### Example
  *
- * {@example core/forms/ts/ng_validators/ng_validators.ts region='ng_validators'}
+ * ```typescript
+ * @Directive({
+ *   selector: '[custom-validator]',
+ *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ * })
+ * class CustomValidatorDirective implements Validator {
+ *   validate(control: AbstractControl): ValidationErrors | null {
+ *     return {"custom": true};
+ *   }
+ * }
+ * ```
+ *
  * @stable
  */
 export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
@@ -46,6 +57,18 @@ export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[
  * @stable
  */
 export declare class Validators {
+    /**
+     * Validator that requires controls to have a value greater than a number.
+     *`min()` exists only as a function, not as a directive. For example,
+     * `control = new FormControl('', Validators.min(3));`.
+     */
+    static min(min: number): ValidatorFn;
+    /**
+     * Validator that requires controls to have a value less than a number.
+     * `max()` exists only as a function, not as a directive. For example,
+     * `control = new FormControl('', Validators.max(15));`.
+     */
+    static max(max: number): ValidatorFn;
     /**
      * Validator that requires controls to have a non-empty value.
      */
@@ -78,7 +101,8 @@ export declare class Validators {
      * Compose multiple validators into a single function that returns the union
      * of the individual error maps.
      */
-    static compose(validators: ValidatorFn[]): ValidatorFn;
-    static composeAsync(validators: AsyncValidatorFn[]): AsyncValidatorFn;
+    static compose(validators: null): null;
+    static compose(validators: (ValidatorFn | null | undefined)[]): ValidatorFn | null;
+    static composeAsync(validators: (AsyncValidatorFn | null)[]): AsyncValidatorFn | null;
 }
 export declare function toObservable(r: any): Observable<any>;
