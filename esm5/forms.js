@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-beta.2-7e51e52
+ * @license Angular v6.0.0-beta.2-2707012
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2854,6 +2854,9 @@ function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
         origAsyncValidator || null;
 }
 /**
+ * \@whatItDoes Interface for options provided to an {\@link AbstractControl}.
+ *
+ * \@experimental
  * @record
  */
 
@@ -7990,7 +7993,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('6.0.0-beta.2-7e51e52');
+var VERSION = new Version('6.0.0-beta.2-2707012');
 
 /**
  * @fileoverview added by tsickle
