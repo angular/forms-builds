@@ -19,24 +19,10 @@ export declare const PENDING = "PENDING";
  */
 export declare const DISABLED = "DISABLED";
 export declare type FormHooks = 'change' | 'blur' | 'submit';
-/**
- * @whatItDoes Interface for options provided to an {@link AbstractControl}.
- *
- * @experimental
- */
 export interface AbstractControlOptions {
-    /**
-     * List of validators applied to control.
-     */
     validators?: ValidatorFn | ValidatorFn[] | null;
-    /**
-     * List of async validators applied to control.
-     */
     asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[] | null;
-    /**
-     * The event name for control to update upon.
-     */
-    updateOn?: 'change' | 'blur' | 'submit';
+    updateOn?: FormHooks;
 }
 /**
  * @whatItDoes This is the base class for {@link FormControl}, {@link FormGroup}, and
