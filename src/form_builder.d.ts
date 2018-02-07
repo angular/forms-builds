@@ -45,5 +45,5 @@ export declare class FormBuilder {
      * Construct a {@link FormArray} from the given `controlsConfig` array of
      * configuration, with the given optional `validator` and `asyncValidator`.
      */
-    array(controlsConfig: any[], validator?: ValidatorFn | null, asyncValidator?: AsyncValidatorFn | null): FormArray;
+    array(controlsConfig: any[], validator?: ValidatorFn | ValidatorFn[] | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray;
 }
