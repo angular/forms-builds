@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-beta.3-941e88f
+ * @license Angular v6.0.0-beta.3-140e7c0
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -337,6 +337,9 @@ class Validators {
      * @return {?}
      */
     static email(control) {
+        if (isEmptyInputValue(control.value)) {
+            return null; // don't validate empty values to allow optional controls
+        }
         return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
     }
     /**
@@ -5827,7 +5830,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('6.0.0-beta.3-941e88f');
+const VERSION = new Version('6.0.0-beta.3-140e7c0');
 
 /**
  * @fileoverview added by tsickle
