@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-beta.3-0bcfae7
+ * @license Angular v6.0.0-beta.3-9744a1c
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1851,10 +1851,10 @@ function setUpBlurPipeline(control, dir) {
  * @return {?}
  */
 function updateControl(control, dir) {
-    dir.viewToModelUpdate(control._pendingValue);
     if (control._pendingDirty)
         control.markAsDirty();
     control.setValue(control._pendingValue, { emitModelToViewChange: false });
+    dir.viewToModelUpdate(control._pendingValue);
     control._pendingChange = false;
 }
 /**
@@ -5830,7 +5830,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('6.0.0-beta.3-0bcfae7');
+const VERSION = new Version('6.0.0-beta.3-9744a1c');
 
 /**
  * @fileoverview added by tsickle
