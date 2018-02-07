@@ -225,7 +225,7 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
-    private _updateAncestors(onlySelf);
+    private _updateAncestors(opts);
     setParent(parent: FormGroup | FormArray): void;
     /**
      * Sets the value of the control. Abstract method (implemented in sub-classes).

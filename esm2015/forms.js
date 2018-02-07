@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.2.4-103727a
+ * @license Angular v5.2.4-56b9591
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2488,13 +2488,13 @@ class AbstractControl {
     disable(opts = {}) {
         (/** @type {?} */ (this)).status = DISABLED;
         (/** @type {?} */ (this)).errors = null;
-        this._forEachChild((control) => { control.disable({ onlySelf: true }); });
+        this._forEachChild((control) => { control.disable(Object.assign({}, opts, { onlySelf: true })); });
         this._updateValue();
         if (opts.emitEvent !== false) {
             (/** @type {?} */ (this.valueChanges)).emit(this.value);
             (/** @type {?} */ (this.statusChanges)).emit(this.status);
         }
-        this._updateAncestors(!!opts.onlySelf);
+        this._updateAncestors(opts);
         this._onDisabledChange.forEach((changeFn) => changeFn(true));
     }
     /**
@@ -2508,18 +2508,18 @@ class AbstractControl {
      */
     enable(opts = {}) {
         (/** @type {?} */ (this)).status = VALID;
-        this._forEachChild((control) => { control.enable({ onlySelf: true }); });
+        this._forEachChild((control) => { control.enable(Object.assign({}, opts, { onlySelf: true })); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-        this._updateAncestors(!!opts.onlySelf);
+        this._updateAncestors(opts);
         this._onDisabledChange.forEach((changeFn) => changeFn(false));
     }
     /**
-     * @param {?} onlySelf
+     * @param {?} opts
      * @return {?}
      */
-    _updateAncestors(onlySelf) {
-        if (this._parent && !onlySelf) {
-            this._parent.updateValueAndValidity();
+    _updateAncestors(opts) {
+        if (this._parent && !opts.onlySelf) {
+            this._parent.updateValueAndValidity(opts);
             this._parent._updatePristine();
             this._parent._updateTouched();
         }
@@ -5824,7 +5824,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.2.4-103727a');
+const VERSION = new Version('5.2.4-56b9591');
 
 /**
  * @fileoverview added by tsickle
