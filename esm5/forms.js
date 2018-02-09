@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-beta.3-bc1e229
+ * @license Angular v6.0.0-beta.3-aa456ed
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2880,10 +2880,19 @@ function isOptionsObj(validatorOrOpts) {
  * that are shared between all sub-classes, like `value`, `valid`, and `dirty`. It shouldn't be
  * instantiated directly.
  *
+ * @see [Forms Guide](/guide/forms)
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * @see [Dynamic Forms Guide](/guide/dynamic-form)
  * \@stable
  * @abstract
  */
 var AbstractControl = /** @class */ (function () {
+    /**
+     * Initialize the AbstractControl instance.
+     * @param validator The function that will determine the synchronous validity of this control.
+     * @param asyncValidator The function that will determine the asynchronous validity of this
+     * control.
+     */
     function AbstractControl(validator, asyncValidator) {
         this.validator = validator;
         this.asyncValidator = asyncValidator;
@@ -4457,10 +4466,6 @@ var FormGroup = /** @class */ (function (_super) {
      *  Sets the value of the {@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -4474,15 +4479,14 @@ var FormGroup = /** @class */ (function (_super) {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      */
     /**
      *  Sets the value of the {\@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -4496,6 +4500,9 @@ var FormGroup = /** @class */ (function (_super) {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -4504,10 +4511,6 @@ var FormGroup = /** @class */ (function (_super) {
      *  Sets the value of the {\@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -4521,6 +4524,9 @@ var FormGroup = /** @class */ (function (_super) {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -7996,7 +8002,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('6.0.0-beta.3-bc1e229');
+var VERSION = new Version('6.0.0-beta.3-aa456ed');
 
 /**
  * @fileoverview added by tsickle
