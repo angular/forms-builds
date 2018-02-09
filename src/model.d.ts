@@ -47,6 +47,9 @@ export interface AbstractControlOptions {
  * that are shared between all sub-classes, like `value`, `valid`, and `dirty`. It shouldn't be
  * instantiated directly.
  *
+ * @see [Forms Guide](/guide/forms)
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * @see [Dynamic Forms Guide](/guide/dynamic-form)
  * @stable
  */
 export declare abstract class AbstractControl {
@@ -55,6 +58,12 @@ export declare abstract class AbstractControl {
     private _parent;
     private _asyncValidationSubscription;
     readonly value: any;
+    /**
+     * Initialize the AbstractControl instance.
+     * @param validator The function that will determine the synchronous validity of this control.
+     * @param asyncValidator The function that will determine the asynchronous validity of this
+     * control.
+     */
     constructor(validator: ValidatorFn | null, asyncValidator: AsyncValidatorFn | null);
     /**
      * The parent control.
@@ -583,10 +592,6 @@ export declare class FormGroup extends AbstractControl {
      *  Sets the value of the {@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -600,6 +605,9 @@ export declare class FormGroup extends AbstractControl {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      */
     setValue(value: {
         [key: string]: any;
