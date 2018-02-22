@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-beta.5-90e9c59
+ * @license Angular v6.0.0-beta.5-e86b64b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v6.0.0-beta.5-90e9c59
+ * @license Angular v6.0.0-beta.5-e86b64b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3302,20 +3302,35 @@ var AbstractControl = /** @class */ (function () {
     };
     /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      */
     /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      * @param {?=} opts
      * @return {?}
      */
     AbstractControl.prototype.markAsPending = /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      * @param {?=} opts
      * @return {?}
      */
     function (opts) {
         if (opts === void 0) { opts = {}; }
         (/** @type {?} */ (this)).status = PENDING;
+        if (opts.emitEvent !== false) {
+            (/** @type {?} */ (this.statusChanges)).emit(this.status);
+        }
         if (this._parent && !opts.onlySelf) {
             this._parent.markAsPending(opts);
         }
@@ -8040,7 +8055,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('6.0.0-beta.5-90e9c59');
+var VERSION = new _angular_core.Version('6.0.0-beta.5-e86b64b');
 
 /**
  * @fileoverview added by tsickle

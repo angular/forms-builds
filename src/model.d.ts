@@ -223,9 +223,14 @@ export declare abstract class AbstractControl {
     }): void;
     /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      */
     markAsPending(opts?: {
         onlySelf?: boolean;
+        emitEvent?: boolean;
     }): void;
     /**
      * Disables the control. This means the control will be exempt from validation checks and
