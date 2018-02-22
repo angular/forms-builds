@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-beta.4-a7ebf5a
+ * @license Angular v6.0.0-beta.4-3e6a86f
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v6.0.0-beta.4-a7ebf5a
+ * @license Angular v6.0.0-beta.4-3e6a86f
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2415,10 +2415,10 @@ function setUpBlurPipeline(control, dir) {
  * @return {?}
  */
 function updateControl(control, dir) {
-    dir.viewToModelUpdate(control._pendingValue);
     if (control._pendingDirty)
         control.markAsDirty();
     control.setValue(control._pendingValue, { emitModelToViewChange: false });
+    dir.viewToModelUpdate(control._pendingValue);
     control._pendingChange = false;
 }
 /**
@@ -8040,7 +8040,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('6.0.0-beta.4-a7ebf5a');
+var VERSION = new _angular_core.Version('6.0.0-beta.4-3e6a86f');
 
 /**
  * @fileoverview added by tsickle
