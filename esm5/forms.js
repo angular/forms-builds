@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-beta.5-4bd3e5f
+ * @license Angular v6.0.0-beta.5-79656e7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -8017,7 +8017,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('6.0.0-beta.5-4bd3e5f');
+var VERSION = new Version('6.0.0-beta.5-79656e7');
 
 /**
  * @fileoverview added by tsickle
