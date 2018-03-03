@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.2.0-2717a3e
+ * @license Angular v6.0.0-beta.6-371ec91
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -592,6 +592,9 @@ var Validators = /** @class */ (function () {
      * @return {?}
      */
     function (control) {
+        if (isEmptyInputValue(control.value)) {
+            return null; // don't validate empty values to allow optional controls
+        }
         return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
     };
     /**
@@ -2374,10 +2377,10 @@ function setUpBlurPipeline(control, dir) {
  * @return {?}
  */
 function updateControl(control, dir) {
-    dir.viewToModelUpdate(control._pendingValue);
     if (control._pendingDirty)
         control.markAsDirty();
     control.setValue(control._pendingValue, { emitModelToViewChange: false });
+    dir.viewToModelUpdate(control._pendingValue);
     control._pendingChange = false;
 }
 /**
@@ -2854,6 +2857,9 @@ function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
         origAsyncValidator || null;
 }
 /**
+ * \@whatItDoes Interface for options provided to an {\@link AbstractControl}.
+ *
+ * \@experimental
  * @record
  */
 
@@ -2874,10 +2880,19 @@ function isOptionsObj(validatorOrOpts) {
  * that are shared between all sub-classes, like `value`, `valid`, and `dirty`. It shouldn't be
  * instantiated directly.
  *
+ * @see [Forms Guide](/guide/forms)
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * @see [Dynamic Forms Guide](/guide/dynamic-form)
  * \@stable
  * @abstract
  */
 var AbstractControl = /** @class */ (function () {
+    /**
+     * Initialize the AbstractControl instance.
+     * @param validator The function that will determine the synchronous validity of this control.
+     * @param asyncValidator The function that will determine the asynchronous validity of this
+     * control.
+     */
     function AbstractControl(validator, asyncValidator) {
         this.validator = validator;
         this.asyncValidator = asyncValidator;
@@ -3249,20 +3264,35 @@ var AbstractControl = /** @class */ (function () {
     };
     /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      */
     /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      * @param {?=} opts
      * @return {?}
      */
     AbstractControl.prototype.markAsPending = /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      * @param {?=} opts
      * @return {?}
      */
     function (opts) {
         if (opts === void 0) { opts = {}; }
         (/** @type {?} */ (this)).status = PENDING;
+        if (opts.emitEvent !== false) {
+            (/** @type {?} */ (this.statusChanges)).emit(this.status);
+        }
         if (this._parent && !opts.onlySelf) {
             this._parent.markAsPending(opts);
         }
@@ -3293,13 +3323,13 @@ var AbstractControl = /** @class */ (function () {
         if (opts === void 0) { opts = {}; }
         (/** @type {?} */ (this)).status = DISABLED;
         (/** @type {?} */ (this)).errors = null;
-        this._forEachChild(function (control) { control.disable({ onlySelf: true }); });
+        this._forEachChild(function (control) { control.disable(__assign({}, opts, { onlySelf: true })); });
         this._updateValue();
         if (opts.emitEvent !== false) {
             (/** @type {?} */ (this.valueChanges)).emit(this.value);
             (/** @type {?} */ (this.statusChanges)).emit(this.status);
         }
-        this._updateAncestors(!!opts.onlySelf);
+        this._updateAncestors(opts);
         this._onDisabledChange.forEach(function (changeFn) { return changeFn(true); });
     };
     /**
@@ -3330,22 +3360,22 @@ var AbstractControl = /** @class */ (function () {
     function (opts) {
         if (opts === void 0) { opts = {}; }
         (/** @type {?} */ (this)).status = VALID;
-        this._forEachChild(function (control) { control.enable({ onlySelf: true }); });
+        this._forEachChild(function (control) { control.enable(__assign({}, opts, { onlySelf: true })); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-        this._updateAncestors(!!opts.onlySelf);
+        this._updateAncestors(opts);
         this._onDisabledChange.forEach(function (changeFn) { return changeFn(false); });
     };
     /**
-     * @param {?} onlySelf
+     * @param {?} opts
      * @return {?}
      */
     AbstractControl.prototype._updateAncestors = /**
-     * @param {?} onlySelf
+     * @param {?} opts
      * @return {?}
      */
-    function (onlySelf) {
-        if (this._parent && !onlySelf) {
-            this._parent.updateValueAndValidity();
+    function (opts) {
+        if (this._parent && !opts.onlySelf) {
+            this._parent.updateValueAndValidity(opts);
             this._parent._updatePristine();
             this._parent._updateTouched();
         }
@@ -4451,10 +4481,6 @@ var FormGroup = /** @class */ (function (_super) {
      *  Sets the value of the {@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -4468,15 +4494,14 @@ var FormGroup = /** @class */ (function (_super) {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      */
     /**
      *  Sets the value of the {\@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -4490,6 +4515,9 @@ var FormGroup = /** @class */ (function (_super) {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -4498,10 +4526,6 @@ var FormGroup = /** @class */ (function (_super) {
      *  Sets the value of the {\@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -4515,6 +4539,9 @@ var FormGroup = /** @class */ (function (_super) {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -5025,9 +5052,7 @@ var FormArray = /** @class */ (function (_super) {
         this.updateValueAndValidity();
         this._onCollectionChange();
     };
-    /**
-     * Insert a new {@link AbstractControl} at the given `index` in the array.
-     */
+    /** Insert a new {@link AbstractControl} at the given `index` in the array. */
     /**
      * Insert a new {\@link AbstractControl} at the given `index` in the array.
      * @param {?} index
@@ -5044,11 +5069,8 @@ var FormArray = /** @class */ (function (_super) {
         this.controls.splice(index, 0, control);
         this._registerControl(control);
         this.updateValueAndValidity();
-        this._onCollectionChange();
     };
-    /**
-     * Remove the control at the given `index` in the array.
-     */
+    /** Remove the control at the given `index` in the array. */
     /**
      * Remove the control at the given `index` in the array.
      * @param {?} index
@@ -5064,7 +5086,6 @@ var FormArray = /** @class */ (function (_super) {
             this.controls[index]._registerOnCollectionChange(function () { });
         this.controls.splice(index, 1);
         this.updateValueAndValidity();
-        this._onCollectionChange();
     };
     /**
      * Replace an existing control.
@@ -7996,7 +8017,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('5.2.0-2717a3e');
+var VERSION = new Version('6.0.0-beta.6-371ec91');
 
 /**
  * @fileoverview added by tsickle

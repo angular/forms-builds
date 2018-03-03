@@ -19,10 +19,24 @@ export declare const PENDING = "PENDING";
  */
 export declare const DISABLED = "DISABLED";
 export declare type FormHooks = 'change' | 'blur' | 'submit';
+/**
+ * @whatItDoes Interface for options provided to an {@link AbstractControl}.
+ *
+ * @experimental
+ */
 export interface AbstractControlOptions {
+    /**
+     * List of validators applied to control.
+     */
     validators?: ValidatorFn | ValidatorFn[] | null;
+    /**
+     * List of async validators applied to control.
+     */
     asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[] | null;
-    updateOn?: FormHooks;
+    /**
+     * The event name for control to update upon.
+     */
+    updateOn?: 'change' | 'blur' | 'submit';
 }
 /**
  * @whatItDoes This is the base class for {@link FormControl}, {@link FormGroup}, and
@@ -33,6 +47,9 @@ export interface AbstractControlOptions {
  * that are shared between all sub-classes, like `value`, `valid`, and `dirty`. It shouldn't be
  * instantiated directly.
  *
+ * @see [Forms Guide](/guide/forms)
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * @see [Dynamic Forms Guide](/guide/dynamic-form)
  * @stable
  */
 export declare abstract class AbstractControl {
@@ -41,6 +58,12 @@ export declare abstract class AbstractControl {
     private _parent;
     private _asyncValidationSubscription;
     readonly value: any;
+    /**
+     * Initialize the AbstractControl instance.
+     * @param validator The function that will determine the synchronous validity of this control.
+     * @param asyncValidator The function that will determine the asynchronous validity of this
+     * control.
+     */
     constructor(validator: ValidatorFn | null, asyncValidator: AsyncValidatorFn | null);
     /**
      * The parent control.
@@ -200,9 +223,14 @@ export declare abstract class AbstractControl {
     }): void;
     /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      */
     markAsPending(opts?: {
         onlySelf?: boolean;
+        emitEvent?: boolean;
     }): void;
     /**
      * Disables the control. This means the control will be exempt from validation checks and
@@ -225,7 +253,7 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
-    private _updateAncestors(onlySelf);
+    private _updateAncestors(opts);
     setParent(parent: FormGroup | FormArray): void;
     /**
      * Sets the value of the control. Abstract method (implemented in sub-classes).
@@ -569,10 +597,6 @@ export declare class FormGroup extends AbstractControl {
      *  Sets the value of the {@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -586,6 +610,9 @@ export declare class FormGroup extends AbstractControl {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      */
     setValue(value: {
         [key: string]: any;
@@ -740,13 +767,9 @@ export declare class FormArray extends AbstractControl {
      * Insert a new {@link AbstractControl} at the end of the array.
      */
     push(control: AbstractControl): void;
-    /**
-     * Insert a new {@link AbstractControl} at the given `index` in the array.
-     */
+    /** Insert a new {@link AbstractControl} at the given `index` in the array. */
     insert(index: number, control: AbstractControl): void;
-    /**
-     * Remove the control at the given `index` in the array.
-     */
+    /** Remove the control at the given `index` in the array. */
     removeAt(index: number): void;
     /**
      * Replace an existing control.

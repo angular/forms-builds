@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "5.2.0-2717a3e",
+  "version": "6.0.0-beta.6-371ec91",
   "description": "Angular - directives and services for creating forms",
   "main": "./bundles/forms.umd.js",
   "module": "./esm5/forms.js",
@@ -13,12 +13,15 @@
   },
   "peerDependencies": {
     "rxjs": "^5.5.0",
-    "@angular/core": "5.2.0-2717a3e",
-    "@angular/common": "5.2.0-2717a3e",
-    "@angular/platform-browser": "5.2.0-2717a3e"
+    "@angular/core": "6.0.0-beta.6-371ec91",
+    "@angular/common": "6.0.0-beta.6-371ec91",
+    "@angular/platform-browser": "6.0.0-beta.6-371ec91"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/angular/angular.git"
+  },
+  "ng-update": {
+    "packageGroup": ["/core", "/compiler", "/common", "/animations", "/platform-browser", "/platform-browser-dynamic", "/forms", "/http", "/platform-server", "/platform-webworker", "/platform-webworker-dynamic", "/upgrade", "/router", "/compiler-cli", "/language-service", "/benchpress", "/service-worker"]
   }
 }

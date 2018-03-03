@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.2.0-2717a3e
+ * @license Angular v6.0.0-beta.6-371ec91
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -337,6 +337,9 @@ class Validators {
      * @return {?}
      */
     static email(control) {
+        if (isEmptyInputValue(control.value)) {
+            return null; // don't validate empty values to allow optional controls
+        }
         return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
     }
     /**
@@ -1848,10 +1851,10 @@ function setUpBlurPipeline(control, dir) {
  * @return {?}
  */
 function updateControl(control, dir) {
-    dir.viewToModelUpdate(control._pendingValue);
     if (control._pendingDirty)
         control.markAsDirty();
     control.setValue(control._pendingValue, { emitModelToViewChange: false });
+    dir.viewToModelUpdate(control._pendingValue);
     control._pendingChange = false;
 }
 /**
@@ -2253,6 +2256,9 @@ function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
         origAsyncValidator || null;
 }
 /**
+ * \@whatItDoes Interface for options provided to an {\@link AbstractControl}.
+ *
+ * \@experimental
  * @record
  */
 
@@ -2273,13 +2279,18 @@ function isOptionsObj(validatorOrOpts) {
  * that are shared between all sub-classes, like `value`, `valid`, and `dirty`. It shouldn't be
  * instantiated directly.
  *
+ * @see [Forms Guide](/guide/forms)
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * @see [Dynamic Forms Guide](/guide/dynamic-form)
  * \@stable
  * @abstract
  */
 class AbstractControl {
     /**
-     * @param {?} validator
-     * @param {?} asyncValidator
+     * Initialize the AbstractControl instance.
+     * @param {?} validator The function that will determine the synchronous validity of this control.
+     * @param {?} asyncValidator The function that will determine the asynchronous validity of this
+     * control.
      */
     constructor(validator, asyncValidator) {
         this.validator = validator;
@@ -2468,11 +2479,18 @@ class AbstractControl {
     }
     /**
      * Marks the control as `pending`.
+     *
+     * An event will be emitted by `statusChanges` by default.
+     *
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
      * @param {?=} opts
      * @return {?}
      */
     markAsPending(opts = {}) {
         (/** @type {?} */ (this)).status = PENDING;
+        if (opts.emitEvent !== false) {
+            (/** @type {?} */ (this.statusChanges)).emit(this.status);
+        }
         if (this._parent && !opts.onlySelf) {
             this._parent.markAsPending(opts);
         }
@@ -2488,13 +2506,13 @@ class AbstractControl {
     disable(opts = {}) {
         (/** @type {?} */ (this)).status = DISABLED;
         (/** @type {?} */ (this)).errors = null;
-        this._forEachChild((control) => { control.disable({ onlySelf: true }); });
+        this._forEachChild((control) => { control.disable(Object.assign({}, opts, { onlySelf: true })); });
         this._updateValue();
         if (opts.emitEvent !== false) {
             (/** @type {?} */ (this.valueChanges)).emit(this.value);
             (/** @type {?} */ (this.statusChanges)).emit(this.status);
         }
-        this._updateAncestors(!!opts.onlySelf);
+        this._updateAncestors(opts);
         this._onDisabledChange.forEach((changeFn) => changeFn(true));
     }
     /**
@@ -2508,18 +2526,18 @@ class AbstractControl {
      */
     enable(opts = {}) {
         (/** @type {?} */ (this)).status = VALID;
-        this._forEachChild((control) => { control.enable({ onlySelf: true }); });
+        this._forEachChild((control) => { control.enable(Object.assign({}, opts, { onlySelf: true })); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-        this._updateAncestors(!!opts.onlySelf);
+        this._updateAncestors(opts);
         this._onDisabledChange.forEach((changeFn) => changeFn(false));
     }
     /**
-     * @param {?} onlySelf
+     * @param {?} opts
      * @return {?}
      */
-    _updateAncestors(onlySelf) {
-        if (this._parent && !onlySelf) {
-            this._parent.updateValueAndValidity();
+    _updateAncestors(opts) {
+        if (this._parent && !opts.onlySelf) {
+            this._parent.updateValueAndValidity(opts);
             this._parent._updatePristine();
             this._parent._updateTouched();
         }
@@ -3178,10 +3196,6 @@ class FormGroup extends AbstractControl {
      *  Sets the value of the {\@link FormGroup}. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
-     * This method performs strict checks, so it will throw an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
      *  ### Example
      *
      *  ```
@@ -3195,6 +3209,9 @@ class FormGroup extends AbstractControl {
      *  console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
      *
      *  ```
+     * @throws This method performs strict checks, so it will throw an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -3512,7 +3529,6 @@ class FormArray extends AbstractControl {
         this.controls.splice(index, 0, control);
         this._registerControl(control);
         this.updateValueAndValidity();
-        this._onCollectionChange();
     }
     /**
      * Remove the control at the given `index` in the array.
@@ -3524,7 +3540,6 @@ class FormArray extends AbstractControl {
             this.controls[index]._registerOnCollectionChange(() => { });
         this.controls.splice(index, 1);
         this.updateValueAndValidity();
-        this._onCollectionChange();
     }
     /**
      * Replace an existing control.
@@ -5826,7 +5841,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('5.2.0-2717a3e');
+const VERSION = new Version('6.0.0-beta.6-371ec91');
 
 /**
  * @fileoverview added by tsickle
