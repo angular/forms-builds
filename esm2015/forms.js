@@ -1,9 +1,9 @@
 /**
- * @license Angular v6.0.0-beta.7-6d1367d
+ * @license Angular v6.0.0-beta.7-8fb34bc
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
-import { Directive, ElementRef, EventEmitter, Host, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer2, Self, SkipSelf, Version, forwardRef, ɵisObservable, ɵisPromise, ɵlooseIdentical } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Host, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer2, Self, SkipSelf, Version, forwardRef, isDevMode, ɵisObservable, ɵisPromise, ɵlooseIdentical } from '@angular/core';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map } from 'rxjs/operator/map';
@@ -1188,6 +1188,173 @@ RangeValueAccessor.ctorParameters = () => [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+const FormErrorExamples = {
+    formControlName: `
+    <div [formGroup]="myGroup">
+      <input formControlName="firstName">
+    </div>
+
+    In your class:
+
+    this.myGroup = new FormGroup({
+       firstName: new FormControl()
+    });`,
+    formGroupName: `
+    <div [formGroup]="myGroup">
+       <div formGroupName="person">
+          <input formControlName="firstName">
+       </div>
+    </div>
+
+    In your class:
+
+    this.myGroup = new FormGroup({
+       person: new FormGroup({ firstName: new FormControl() })
+    });`,
+    formArrayName: `
+    <div [formGroup]="myGroup">
+      <div formArrayName="cities">
+        <div *ngFor="let city of cityArray.controls; index as i">
+          <input [formControlName]="i">
+        </div>
+      </div>
+    </div>
+
+    In your class:
+
+    this.cityArray = new FormArray([new FormControl('SF')]);
+    this.myGroup = new FormGroup({
+      cities: this.cityArray
+    });`,
+    ngModelGroup: `
+    <form>
+       <div ngModelGroup="person">
+          <input [(ngModel)]="person.name" name="firstName">
+       </div>
+    </form>`,
+    ngModelWithFormGroup: `
+    <div [formGroup]="myGroup">
+       <input formControlName="firstName">
+       <input [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+    </div>
+  `
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+class ReactiveErrors {
+    /**
+     * @return {?}
+     */
+    static controlParentException() {
+        throw new Error(`formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup
+       directive and pass it an existing FormGroup instance (you can create one in your class).
+
+      Example:
+
+      ${FormErrorExamples.formControlName}`);
+    }
+    /**
+     * @return {?}
+     */
+    static ngModelGroupException() {
+        throw new Error(`formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents
+       that also have a "form" prefix: formGroupName, formArrayName, or formGroup.
+
+       Option 1:  Update the parent to be formGroupName (reactive form strategy)
+
+        ${FormErrorExamples.formGroupName}
+
+        Option 2: Use ngModel instead of formControlName (template-driven strategy)
+
+        ${FormErrorExamples.ngModelGroup}`);
+    }
+    /**
+     * @return {?}
+     */
+    static missingFormException() {
+        throw new Error(`formGroup expects a FormGroup instance. Please pass one in.
+
+       Example:
+
+       ${FormErrorExamples.formControlName}`);
+    }
+    /**
+     * @return {?}
+     */
+    static groupParentException() {
+        throw new Error(`formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup
+      directive and pass it an existing FormGroup instance (you can create one in your class).
+
+      Example:
+
+      ${FormErrorExamples.formGroupName}`);
+    }
+    /**
+     * @return {?}
+     */
+    static arrayParentException() {
+        throw new Error(`formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup
+       directive and pass it an existing FormGroup instance (you can create one in your class).
+
+        Example:
+
+        ${FormErrorExamples.formArrayName}`);
+    }
+    /**
+     * @return {?}
+     */
+    static disabledAttrWarning() {
+        console.warn(`
+      It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
+      when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
+      you. We recommend using this approach to avoid 'changed after checked' errors.
+       
+      Example: 
+      form = new FormGroup({
+        first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
+        last: new FormControl('Drew', Validators.required)
+      });
+    `);
+    }
+    /**
+     * @param {?} directiveName
+     * @return {?}
+     */
+    static ngModelWarning(directiveName) {
+        console.warn(`
+    It looks like you're using ngModel on the same form field as ${directiveName}. 
+    Support for using the ngModel input property and ngModelChange event with 
+    reactive form directives has been deprecated in Angular v6 and will be removed 
+    in Angular v7.
+    
+    For more information on this, see our API docs here:
+    https://angular.io/api/forms/${directiveName === 'formControl' ? 'FormControlDirective'
+            : 'FormControlName'}#use-with-ngmodel
+    `);
+    }
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 const SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SelectControlValueAccessor),
@@ -2011,6 +2178,23 @@ function removeDir(list, el) {
     const /** @type {?} */ index = list.indexOf(el);
     if (index > -1)
         list.splice(index, 1);
+}
+/**
+ * @param {?} name
+ * @param {?} type
+ * @param {?} instance
+ * @param {?} warningConfig
+ * @return {?}
+ */
+function _ngModelWarning(name, type, instance, warningConfig) {
+    if (!isDevMode() || warningConfig === 'never')
+        return;
+    if (((warningConfig === null || warningConfig === 'once') && !type._ngModelWarningSentOnce) ||
+        (warningConfig === 'always' && !instance._ngModelWarningSent)) {
+        ReactiveErrors.ngModelWarning(name);
+        type._ngModelWarningSentOnce = true;
+        instance._ngModelWarningSent = true;
+    }
 }
 
 /**
@@ -4006,69 +4190,6 @@ NgForm.propDecorators = {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const FormErrorExamples = {
-    formControlName: `
-    <div [formGroup]="myGroup">
-      <input formControlName="firstName">
-    </div>
-
-    In your class:
-
-    this.myGroup = new FormGroup({
-       firstName: new FormControl()
-    });`,
-    formGroupName: `
-    <div [formGroup]="myGroup">
-       <div formGroupName="person">
-          <input formControlName="firstName">
-       </div>
-    </div>
-
-    In your class:
-
-    this.myGroup = new FormGroup({
-       person: new FormGroup({ firstName: new FormControl() })
-    });`,
-    formArrayName: `
-    <div [formGroup]="myGroup">
-      <div formArrayName="cities">
-        <div *ngFor="let city of cityArray.controls; index as i">
-          <input [formControlName]="i">
-        </div>
-      </div>
-    </div>
-
-    In your class:
-
-    this.cityArray = new FormArray([new FormControl('SF')]);
-    this.myGroup = new FormGroup({
-      cities: this.cityArray
-    });`,
-    ngModelGroup: `
-    <form>
-       <div ngModelGroup="person">
-          <input [(ngModel)]="person.name" name="firstName">
-       </div>
-    </form>`,
-    ngModelWithFormGroup: `
-    <div [formGroup]="myGroup">
-       <input formControlName="firstName">
-       <input [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
-    </div>
-  `
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 class TemplateDrivenErrors {
     /**
      * @return {?}
@@ -4480,94 +4601,10 @@ NgModel.propDecorators = {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-class ReactiveErrors {
-    /**
-     * @return {?}
-     */
-    static controlParentException() {
-        throw new Error(`formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup
-       directive and pass it an existing FormGroup instance (you can create one in your class).
-
-      Example:
-
-      ${FormErrorExamples.formControlName}`);
-    }
-    /**
-     * @return {?}
-     */
-    static ngModelGroupException() {
-        throw new Error(`formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents
-       that also have a "form" prefix: formGroupName, formArrayName, or formGroup.
-
-       Option 1:  Update the parent to be formGroupName (reactive form strategy)
-
-        ${FormErrorExamples.formGroupName}
-
-        Option 2: Use ngModel instead of formControlName (template-driven strategy)
-
-        ${FormErrorExamples.ngModelGroup}`);
-    }
-    /**
-     * @return {?}
-     */
-    static missingFormException() {
-        throw new Error(`formGroup expects a FormGroup instance. Please pass one in.
-
-       Example:
-
-       ${FormErrorExamples.formControlName}`);
-    }
-    /**
-     * @return {?}
-     */
-    static groupParentException() {
-        throw new Error(`formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup
-      directive and pass it an existing FormGroup instance (you can create one in your class).
-
-      Example:
-
-      ${FormErrorExamples.formGroupName}`);
-    }
-    /**
-     * @return {?}
-     */
-    static arrayParentException() {
-        throw new Error(`formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup
-       directive and pass it an existing FormGroup instance (you can create one in your class).
-
-        Example:
-
-        ${FormErrorExamples.formArrayName}`);
-    }
-    /**
-     * @return {?}
-     */
-    static disabledAttrWarning() {
-        console.warn(`
-      It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
-      when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
-      you. We recommend using this approach to avoid 'changed after checked' errors.
-       
-      Example: 
-      form = new FormGroup({
-        first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
-        last: new FormControl('Drew', Validators.required)
-      });
-    `);
-    }
-}
-
 /**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
+const NG_MODEL_WITH_FORM_CONTROL_WARNING = new InjectionToken('NgModelWithFormControlWarning');
 const formControlBinding$1 = {
     provide: NgControl,
     useExisting: forwardRef(() => FormControlDirective)
@@ -4612,6 +4649,72 @@ const formControlBinding$1 = {
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
+ * ### Use with ngModel
+ *
+ * Support for using the `ngModel` input property and `ngModelChange` event with reactive
+ * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+ *
+ * Now deprecated:
+ * ```html
+ * <input [formControl]="control" [(ngModel)]="value">
+ * ```
+ *
+ * ```ts
+ * this.value = 'some value';
+ * ```
+ *
+ * This has been deprecated for a few reasons. First, developers have found this pattern
+ * confusing. It seems like the actual `ngModel` directive is being used, but in fact it's
+ * an input/output property named `ngModel` on the reactive form directive that simply
+ * approximates (some of) its behavior. Specifically, it allows getting/setting the value
+ * and intercepting value events. However, some of `ngModel`'s other features - like
+ * delaying updates with`ngModelOptions` or exporting the directive - simply don't work,
+ * which has understandably caused some confusion.
+ *
+ * In addition, this pattern mixes template-driven and reactive forms strategies, which
+ * we generally don't recommend because it doesn't take advantage of the full benefits of
+ * either strategy. Setting the value in the template violates the template-agnostic
+ * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
+ * the class removes the convenience of defining forms in the template.
+ *
+ * To update your code before v7, you'll want to decide whether to stick with reactive form
+ * directives (and get/set values using reactive forms patterns) or switch over to
+ * template-driven directives.
+ *
+ * After (choice 1 - use reactive forms):
+ *
+ * ```html
+ * <input [formControl]="control">
+ * ```
+ *
+ * ```ts
+ * this.control.setValue('some value');
+ * ```
+ *
+ * After (choice 2 - use template-driven forms):
+ *
+ * ```html
+ * <input [(ngModel)]="value">
+ * ```
+ *
+ * ```ts
+ * this.value = 'some value';
+ * ```
+ *
+ * By default, when you use this pattern, you will see a deprecation warning once in dev
+ * mode. You can choose to silence this warning by providing a config for
+ * `ReactiveFormsModule` at import time:
+ *
+ * ```ts
+ * imports: [
+ *   ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'});
+ * ]
+ * ```
+ *
+ * Alternatively, you can choose to surface a separate warning for each instance of this
+ * pattern with a config value of `"always"`. This may help to track down where in the code
+ * the pattern is being used as the code is being updated.
+ *
  *  \@stable
  */
 class FormControlDirective extends NgControl {
@@ -4619,10 +4722,22 @@ class FormControlDirective extends NgControl {
      * @param {?} validators
      * @param {?} asyncValidators
      * @param {?} valueAccessors
+     * @param {?} _ngModelWarningConfig
      */
-    constructor(validators, asyncValidators, valueAccessors) {
+    constructor(validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
         super();
+        this._ngModelWarningConfig = _ngModelWarningConfig;
+        /**
+         * @deprecated as of v6
+         */
         this.update = new EventEmitter();
+        /**
+         * Instance property used to track whether an ngModel warning has been sent out for this
+         * particular FormControlDirective instance. Used to support warning config of "always".
+         *
+         * \@internal
+         */
+        this._ngModelWarningSent = false;
         this._rawValidators = validators || [];
         this._rawAsyncValidators = asyncValidators || [];
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
@@ -4645,6 +4760,7 @@ class FormControlDirective extends NgControl {
             this.form.updateValueAndValidity({ emitEvent: false });
         }
         if (isPropertyUpdated(changes, this.viewModel)) {
+            _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
             this.form.setValue(this.model);
             this.viewModel = this.model;
         }
@@ -4683,6 +4799,13 @@ class FormControlDirective extends NgControl {
         return changes.hasOwnProperty('form');
     }
 }
+/**
+ * Static property used to track whether any ngModel warnings have been sent across
+ * all instances of FormControlDirective. Used to support warning config of "once".
+ *
+ * \@internal
+ */
+FormControlDirective._ngModelWarningSentOnce = false;
 FormControlDirective.decorators = [
     { type: Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] },
 ];
@@ -4691,12 +4814,13 @@ FormControlDirective.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] },] },
 ];
 FormControlDirective.propDecorators = {
     "form": [{ type: Input, args: ['formControl',] },],
+    "isDisabled": [{ type: Input, args: ['disabled',] },],
     "model": [{ type: Input, args: ['ngModel',] },],
     "update": [{ type: Output, args: ['ngModelChange',] },],
-    "isDisabled": [{ type: Input, args: ['disabled',] },],
 };
 
 /**
@@ -5228,6 +5352,76 @@ const controlNameBinding = {
  *
  * **NgModule**: {\@link ReactiveFormsModule}
  *
+ * ### Use with ngModel
+ *
+ * Support for using the `ngModel` input property and `ngModelChange` event with reactive
+ * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+ *
+ * Now deprecated:
+ * ```html
+ * <form [formGroup]="form">
+ *   <input formControlName="first" [(ngModel)]="value">
+ * </form>
+ * ```
+ *
+ * ```ts
+ * this.value = 'some value';
+ * ```
+ *
+ * This has been deprecated for a few reasons. First, developers have found this pattern
+ * confusing. It seems like the actual `ngModel` directive is being used, but in fact it's
+ * an input/output property named `ngModel` on the reactive form directive that simply
+ * approximates (some of) its behavior. Specifically, it allows getting/setting the value
+ * and intercepting value events. However, some of `ngModel`'s other features - like
+ * delaying updates with`ngModelOptions` or exporting the directive - simply don't work,
+ * which has understandably caused some confusion.
+ *
+ * In addition, this pattern mixes template-driven and reactive forms strategies, which
+ * we generally don't recommend because it doesn't take advantage of the full benefits of
+ * either strategy. Setting the value in the template violates the template-agnostic
+ * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
+ * the class removes the convenience of defining forms in the template.
+ *
+ * To update your code before v7, you'll want to decide whether to stick with reactive form
+ * directives (and get/set values using reactive forms patterns) or switch over to
+ * template-driven directives.
+ *
+ * After (choice 1 - use reactive forms):
+ *
+ * ```html
+ * <form [formGroup]="form">
+ *   <input formControlName="first">
+ * </form>
+ * ```
+ *
+ * ```ts
+ * this.form.get('first').setValue('some value');
+ * ```
+ *
+ * After (choice 2 - use template-driven forms):
+ *
+ * ```html
+ * <input [(ngModel)]="value">
+ * ```
+ *
+ * ```ts
+ * this.value = 'some value';
+ * ```
+ *
+ * By default, when you use this pattern, you will see a deprecation warning once in dev
+ * mode. You can choose to silence this warning by providing a config for
+ * `ReactiveFormsModule` at import time:
+ *
+ * ```ts
+ * imports: [
+ *   ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'});
+ * ]
+ * ```
+ *
+ * Alternatively, you can choose to surface a separate warning for each instance of this
+ * pattern with a config value of `"always"`. This may help to track down where in the code
+ * the pattern is being used as the code is being updated.
+ *
  *  \@stable
  */
 class FormControlName extends NgControl {
@@ -5236,11 +5430,23 @@ class FormControlName extends NgControl {
      * @param {?} validators
      * @param {?} asyncValidators
      * @param {?} valueAccessors
+     * @param {?} _ngModelWarningConfig
      */
-    constructor(parent, validators, asyncValidators, valueAccessors) {
+    constructor(parent, validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
         super();
+        this._ngModelWarningConfig = _ngModelWarningConfig;
         this._added = false;
+        /**
+         * @deprecated as of v6
+         */
         this.update = new EventEmitter();
+        /**
+         * Instance property used to track whether an ngModel warning has been sent out for this
+         * particular FormControlName instance. Used to support warning config of "always".
+         *
+         * \@internal
+         */
+        this._ngModelWarningSent = false;
         this._parent = parent;
         this._rawValidators = validators || [];
         this._rawAsyncValidators = asyncValidators || [];
@@ -5259,6 +5465,7 @@ class FormControlName extends NgControl {
         if (!this._added)
             this._setUpControl();
         if (isPropertyUpdated(changes, this.viewModel)) {
+            _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
             this.viewModel = this.model;
             this.formDirective.updateModel(this, this.model);
         }
@@ -5322,6 +5529,13 @@ class FormControlName extends NgControl {
         this._added = true;
     }
 }
+/**
+ * Static property used to track whether any ngModel warnings have been sent across
+ * all instances of FormControlName. Used to support warning config of "once".
+ *
+ * \@internal
+ */
+FormControlName._ngModelWarningSentOnce = false;
 FormControlName.decorators = [
     { type: Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] },
 ];
@@ -5331,12 +5545,13 @@ FormControlName.ctorParameters = () => [
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] },] },
     { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] },] },
 ];
 FormControlName.propDecorators = {
     "name": [{ type: Input, args: ['formControlName',] },],
+    "isDisabled": [{ type: Input, args: ['disabled',] },],
     "model": [{ type: Input, args: ['ngModel',] },],
     "update": [{ type: Output, args: ['ngModelChange',] },],
-    "isDisabled": [{ type: Input, args: ['disabled',] },],
 };
 
 /**
@@ -5841,7 +6056,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('6.0.0-beta.7-6d1367d');
+const VERSION = new Version('6.0.0-beta.7-8fb34bc');
 
 /**
  * @fileoverview added by tsickle
@@ -5956,6 +6171,19 @@ FormsModule.ctorParameters = () => [];
  * \@stable
  */
 class ReactiveFormsModule {
+    /**
+     * @param {?} opts
+     * @return {?}
+     */
+    static withConfig(opts) {
+        return {
+            ngModule: ReactiveFormsModule,
+            providers: [{
+                    provide: NG_MODEL_WITH_FORM_CONTROL_WARNING,
+                    useValue: opts.warnOnNgModelWithFormControl
+                }]
+        };
+    }
 }
 ReactiveFormsModule.decorators = [
     { type: NgModule, args: [{
@@ -6006,5 +6234,5 @@ ReactiveFormsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵba, REACTIVE_DRIVEN_DIRECTIVES as ɵz, SHARED_FORM_DIRECTIVES as ɵx, TEMPLATE_DRIVEN_DIRECTIVES as ɵy, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbf, NUMBER_VALUE_ACCESSOR as ɵbb, NumberValueAccessor as ɵbc, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbd, RangeValueAccessor as ɵbe, formControlBinding$1 as ɵj, controlNameBinding as ɵk, formDirectiveProvider$1 as ɵl, formArrayNameProvider as ɵn, formGroupNameProvider as ɵm, SELECT_VALUE_ACCESSOR as ɵo, NgSelectMultipleOption as ɵq, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵp, CHECKBOX_REQUIRED_VALIDATOR as ɵs, EMAIL_VALIDATOR as ɵt, MAX_LENGTH_VALIDATOR as ɵv, MIN_LENGTH_VALIDATOR as ɵu, PATTERN_VALIDATOR as ɵw, REQUIRED_VALIDATOR as ɵr };
+export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule, InternalFormsSharedModule as ɵbb, REACTIVE_DRIVEN_DIRECTIVES as ɵba, SHARED_FORM_DIRECTIVES as ɵy, TEMPLATE_DRIVEN_DIRECTIVES as ɵz, CHECKBOX_VALUE_ACCESSOR as ɵa, DEFAULT_VALUE_ACCESSOR as ɵb, AbstractControlStatus as ɵc, ngControlStatusHost as ɵd, formDirectiveProvider as ɵe, formControlBinding as ɵf, modelGroupProvider as ɵg, NgNoValidate as ɵbg, NUMBER_VALUE_ACCESSOR as ɵbc, NumberValueAccessor as ɵbd, RADIO_VALUE_ACCESSOR as ɵh, RadioControlRegistry as ɵi, RANGE_VALUE_ACCESSOR as ɵbe, RangeValueAccessor as ɵbf, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵj, formControlBinding$1 as ɵk, controlNameBinding as ɵl, formDirectiveProvider$1 as ɵm, formArrayNameProvider as ɵo, formGroupNameProvider as ɵn, SELECT_VALUE_ACCESSOR as ɵp, NgSelectMultipleOption as ɵr, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵq, CHECKBOX_REQUIRED_VALIDATOR as ɵt, EMAIL_VALIDATOR as ɵu, MAX_LENGTH_VALIDATOR as ɵw, MIN_LENGTH_VALIDATOR as ɵv, PATTERN_VALIDATOR as ɵx, REQUIRED_VALIDATOR as ɵs };
 //# sourceMappingURL=forms.js.map
