@@ -5,4 +5,5 @@ export declare class ReactiveErrors {
     static groupParentException(): void;
     static arrayParentException(): void;
     static disabledAttrWarning(): void;
+    static ngModelWarning(directiveName: string): void;
 }

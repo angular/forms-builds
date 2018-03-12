@@ -71,6 +71,7 @@ export declare const formControlBinding: any;
  *  @stable
  */
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
+    readonly control: FormControl;
     viewModel: any;
     name: string;
     isDisabled: boolean;
@@ -121,7 +122,6 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
-    readonly control: FormControl;
     readonly path: string[];
     readonly formDirective: any;
     readonly validator: ValidatorFn | null;
