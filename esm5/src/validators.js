@@ -11,9 +11,8 @@
  */
 import * as tslib_1 from "tslib";
 import { InjectionToken, ɵisObservable as isObservable, ɵisPromise as isPromise } from '@angular/core';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import { map } from 'rxjs/operator/map';
+import { forkJoin, from } from 'rxjs';
+import { map } from 'rxjs/operators';
 /**
  * @param {?} value
  * @return {?}
@@ -331,7 +330,7 @@ Validators = /** @class */ (function () {
             return null;
         return function (control) {
             var /** @type {?} */ observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
-            return map.call(forkJoin(observables), _mergeErrors);
+            return forkJoin(observables).pipe(map(_mergeErrors));
         };
     };
     return Validators;
@@ -363,7 +362,7 @@ function isPresent(o) {
  * @return {?}
  */
 export function toObservable(r) {
-    var /** @type {?} */ obs = isPromise(r) ? fromPromise(r) : r;
+    var /** @type {?} */ obs = isPromise(r) ? from(r) : r;
     if (!(isObservable(obs))) {
         throw new Error("Expected validator to return Promise or Observable.");
     }

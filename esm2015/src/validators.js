@@ -10,9 +10,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { InjectionToken, ɵisObservable as isObservable, ɵisPromise as isPromise } from '@angular/core';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import { map } from 'rxjs/operator/map';
+import { forkJoin, from } from 'rxjs';
+import { map } from 'rxjs/operators';
 /**
  * @param {?} value
  * @return {?}
@@ -226,7 +225,7 @@ export class Validators {
             return null;
         return function (control) {
             const /** @type {?} */ observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
-            return map.call(forkJoin(observables), _mergeErrors);
+            return forkJoin(observables).pipe(map(_mergeErrors));
         };
     }
 }
@@ -242,7 +241,7 @@ function isPresent(o) {
  * @return {?}
  */
 export function toObservable(r) {
-    const /** @type {?} */ obs = isPromise(r) ? fromPromise(r) : r;
+    const /** @type {?} */ obs = isPromise(r) ? from(r) : r;
     if (!(isObservable(obs))) {
         throw new Error(`Expected validator to return Promise or Observable.`);
     }

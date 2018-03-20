@@ -1,13 +1,13 @@
 /**
- * @license Angular v6.0.0-beta.7-2b3de63
+ * @license Angular v6.0.0-beta.7-4648597
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/observable/forkJoin'), require('rxjs/observable/fromPromise'), require('rxjs/operator/map'), require('@angular/platform-browser')) :
-	typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', 'rxjs/observable/forkJoin', 'rxjs/observable/fromPromise', 'rxjs/operator/map', '@angular/platform-browser'], factory) :
-	(factory((global.ng = global.ng || {}, global.ng.forms = {}),global.ng.core,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable.prototype,global.ng.platformBrowser));
-}(this, (function (exports,_angular_core,rxjs_observable_forkJoin,rxjs_observable_fromPromise,rxjs_operator_map,_angular_platformBrowser) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('rxjs/operators'), require('@angular/platform-browser')) :
+	typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', 'rxjs', 'rxjs/operators', '@angular/platform-browser'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.forms = {}),global.ng.core,global.rxjs,global.rxjs.operators,global.ng.platformBrowser));
+}(this, (function (exports,_angular_core,rxjs,rxjs_operators,_angular_platformBrowser) { 'use strict';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v6.0.0-beta.7-2b3de63
+ * @license Angular v6.0.0-beta.7-4648597
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -768,7 +768,7 @@ var Validators = /** @class */ (function () {
             return null;
         return function (control) {
             var /** @type {?} */ observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
-            return rxjs_operator_map.map.call(rxjs_observable_forkJoin.forkJoin(observables), _mergeErrors);
+            return rxjs.forkJoin(observables).pipe(rxjs_operators.map(_mergeErrors));
         };
     };
     return Validators;
@@ -785,7 +785,7 @@ function isPresent(o) {
  * @return {?}
  */
 function toObservable(r) {
-    var /** @type {?} */ obs = _angular_core.ɵisPromise(r) ? rxjs_observable_fromPromise.fromPromise(r) : r;
+    var /** @type {?} */ obs = _angular_core.ɵisPromise(r) ? rxjs.from(r) : r;
     if (!(_angular_core.ɵisObservable(obs))) {
         throw new Error("Expected validator to return Promise or Observable.");
     }
@@ -8264,7 +8264,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('6.0.0-beta.7-2b3de63');
+var VERSION = new _angular_core.Version('6.0.0-beta.7-4648597');
 
 /**
  * @fileoverview added by tsickle

@@ -1,12 +1,11 @@
 /**
- * @license Angular v6.0.0-beta.7-2b3de63
+ * @license Angular v6.0.0-beta.7-4648597
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 import { Directive, ElementRef, EventEmitter, Host, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer2, Self, SkipSelf, Version, forwardRef, isDevMode, ɵisObservable, ɵisPromise, ɵlooseIdentical } from '@angular/core';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import { map } from 'rxjs/operator/map';
+import { forkJoin, from } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
 
 /**
@@ -435,7 +434,7 @@ class Validators {
             return null;
         return function (control) {
             const /** @type {?} */ observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
-            return map.call(forkJoin(observables), _mergeErrors);
+            return forkJoin(observables).pipe(map(_mergeErrors));
         };
     }
 }
@@ -451,7 +450,7 @@ function isPresent(o) {
  * @return {?}
  */
 function toObservable(r) {
-    const /** @type {?} */ obs = ɵisPromise(r) ? fromPromise(r) : r;
+    const /** @type {?} */ obs = ɵisPromise(r) ? from(r) : r;
     if (!(ɵisObservable(obs))) {
         throw new Error(`Expected validator to return Promise or Observable.`);
     }
@@ -6056,7 +6055,7 @@ FormBuilder.ctorParameters = () => [];
 /**
  * \@stable
  */
-const VERSION = new Version('6.0.0-beta.7-2b3de63');
+const VERSION = new Version('6.0.0-beta.7-4648597');
 
 /**
  * @fileoverview added by tsickle
