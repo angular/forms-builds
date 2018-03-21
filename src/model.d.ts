@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AsyncValidatorFn, ValidationErrors, ValidatorFn } from './directives/validators';
 /**
  * Indicates that a FormControl is valid, i.e. that no errors exist in the input value.
