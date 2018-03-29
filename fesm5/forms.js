@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-rc.0-0049743
+ * @license Angular v6.0.0-rc.0-28058b7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -8225,7 +8225,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('6.0.0-rc.0-0049743');
+var VERSION = new Version('6.0.0-rc.0-28058b7');
 
 /**
  * @fileoverview added by tsickle
