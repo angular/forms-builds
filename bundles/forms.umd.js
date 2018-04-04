@@ -1,5 +1,5 @@
 /**
- * @license Angular v5.2.9-ae76eec
+ * @license Angular v5.2.9-dd61595
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -44,7 +44,7 @@ var __assign = Object.assign || function __assign(t) {
 };
 
 /**
- * @license Angular v5.2.9-ae76eec
+ * @license Angular v5.2.9-dd61595
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2535,6 +2535,8 @@ function syncPendingControls(form, directives) {
 function selectValueAccessor(dir, valueAccessors) {
     if (!valueAccessors)
         return null;
+    if (!Array.isArray(valueAccessors))
+        _throwError(dir, 'Value accessor was not provided as an array for form control with');
     var /** @type {?} */ defaultAccessor = undefined;
     var /** @type {?} */ builtinAccessor = undefined;
     var /** @type {?} */ customAccessor = undefined;
@@ -8028,7 +8030,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('5.2.9-ae76eec');
+var VERSION = new _angular_core.Version('5.2.9-dd61595');
 
 /**
  * @fileoverview added by tsickle
