@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-rc.1-550433a
+ * @license Angular v6.0.0-rc.1-23cc3ef
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2601,6 +2601,8 @@ function syncPendingControls(form, directives) {
 function selectValueAccessor(dir, valueAccessors) {
     if (!valueAccessors)
         return null;
+    if (!Array.isArray(valueAccessors))
+        _throwError(dir, 'Value accessor was not provided as an array for form control with');
     var /** @type {?} */ defaultAccessor = undefined;
     var /** @type {?} */ builtinAccessor = undefined;
     var /** @type {?} */ customAccessor = undefined;
@@ -8225,7 +8227,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('6.0.0-rc.1-550433a');
+var VERSION = new Version('6.0.0-rc.1-23cc3ef');
 
 /**
  * @fileoverview added by tsickle

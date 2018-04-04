@@ -235,6 +235,8 @@ export function syncPendingControls(form, directives) {
 export function selectValueAccessor(dir, valueAccessors) {
     if (!valueAccessors)
         return null;
+    if (!Array.isArray(valueAccessors))
+        _throwError(dir, 'Value accessor was not provided as an array for form control with');
     let /** @type {?} */ defaultAccessor = undefined;
     let /** @type {?} */ builtinAccessor = undefined;
     let /** @type {?} */ customAccessor = undefined;
