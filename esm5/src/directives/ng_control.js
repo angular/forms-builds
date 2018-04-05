@@ -19,7 +19,7 @@ function unimplemented() {
 }
 /**
  * A base class that all control directive extend.
- * It binds a {\@link FormControl} object to a DOM element.
+ * It binds a `FormControl` object to a DOM element.
  *
  * Used internally by Angular forms.
  *
@@ -28,7 +28,7 @@ function unimplemented() {
  */
 var /**
  * A base class that all control directive extend.
- * It binds a {\@link FormControl} object to a DOM element.
+ * It binds a `FormControl` object to a DOM element.
  *
  * Used internally by Angular forms.
  *
@@ -75,7 +75,7 @@ NgControl = /** @class */ (function (_super) {
 }(AbstractControlDirective));
 /**
  * A base class that all control directive extend.
- * It binds a {\@link FormControl} object to a DOM element.
+ * It binds a `FormControl` object to a DOM element.
  *
  * Used internally by Angular forms.
  *

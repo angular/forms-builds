@@ -15,7 +15,7 @@ export declare const DEFAULT_VALUE_ACCESSOR: any;
 export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
 /**
  * The default accessor for writing a value and listening to changes that is used by the
- * {@link NgModel}, {@link FormControlDirective}, and {@link FormControlName} directives.
+ * `NgModel`, `FormControlDirective`, and `FormControlName` directives.
  *
  *  ### Example
  *  ```

@@ -11,7 +11,7 @@
  */
 import { AbstractControlDirective } from './abstract_control_directive';
 /**
- * A directive that contains multiple {\@link NgControl}s.
+ * A directive that contains multiple `NgControl`s.
  *
  * Only used by the forms module.
  *

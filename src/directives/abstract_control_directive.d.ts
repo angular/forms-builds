@@ -17,7 +17,7 @@ import { ValidationErrors } from './validators';
  */
 export declare abstract class AbstractControlDirective {
     /**
-     * The {@link FormControl}, {@link FormGroup}, or {@link FormArray}
+     * The `FormControl`, `FormGroup`, or `FormArray`
      * that backs this directive. Most properties fall through to that
      * instance.
      */
@@ -115,7 +115,7 @@ export declare abstract class AbstractControlDirective {
      * * it is marked as `untouched`
      * * value is set to null
      *
-     * For more information, see {@link AbstractControl}.
+     * For more information, see `AbstractControl`.
      */
     reset(value?: any): void;
     /**

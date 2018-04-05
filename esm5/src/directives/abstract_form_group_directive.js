@@ -13,12 +13,12 @@ import * as tslib_1 from "tslib";
 import { ControlContainer } from './control_container';
 import { composeAsyncValidators, composeValidators, controlPath } from './shared';
 /**
- * This is a base class for code shared between {\@link NgModelGroup} and {\@link FormGroupName}.
+ * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
  * \@stable
  */
 var /**
- * This is a base class for code shared between {\@link NgModelGroup} and {\@link FormGroupName}.
+ * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
  * \@stable
  */
@@ -50,10 +50,10 @@ AbstractFormGroupDirective = /** @class */ (function (_super) {
     };
     Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
         /**
-         * Get the {@link FormGroup} backing this binding.
+         * Get the `FormGroup` backing this binding.
          */
         get: /**
-         * Get the {\@link FormGroup} backing this binding.
+         * Get the `FormGroup` backing this binding.
          * @return {?}
          */
         function () { return /** @type {?} */ ((this.formDirective)).getFormGroup(this); },
@@ -74,10 +74,10 @@ AbstractFormGroupDirective = /** @class */ (function (_super) {
     });
     Object.defineProperty(AbstractFormGroupDirective.prototype, "formDirective", {
         /**
-         * Get the {@link Form} to which this group belongs.
+         * Get the `Form` to which this group belongs.
          */
         get: /**
-         * Get the {\@link Form} to which this group belongs.
+         * Get the `Form` to which this group belongs.
          * @return {?}
          */
         function () { return this._parent ? this._parent.formDirective : null; },
@@ -115,7 +115,7 @@ AbstractFormGroupDirective = /** @class */ (function (_super) {
     return AbstractFormGroupDirective;
 }(ControlContainer));
 /**
- * This is a base class for code shared between {\@link NgModelGroup} and {\@link FormGroupName}.
+ * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
  * \@stable
  */

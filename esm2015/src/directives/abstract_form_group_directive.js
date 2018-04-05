@@ -12,7 +12,7 @@
 import { ControlContainer } from './control_container';
 import { composeAsyncValidators, composeValidators, controlPath } from './shared';
 /**
- * This is a base class for code shared between {\@link NgModelGroup} and {\@link FormGroupName}.
+ * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
  * \@stable
  */
@@ -33,7 +33,7 @@ export class AbstractFormGroupDirective extends ControlContainer {
         }
     }
     /**
-     * Get the {\@link FormGroup} backing this binding.
+     * Get the `FormGroup` backing this binding.
      * @return {?}
      */
     get control() { return /** @type {?} */ ((this.formDirective)).getFormGroup(this); }
@@ -43,7 +43,7 @@ export class AbstractFormGroupDirective extends ControlContainer {
      */
     get path() { return controlPath(this.name, this._parent); }
     /**
-     * Get the {\@link Form} to which this group belongs.
+     * Get the `Form` to which this group belongs.
      * @return {?}
      */
     get formDirective() { return this._parent ? this._parent.formDirective : null; }

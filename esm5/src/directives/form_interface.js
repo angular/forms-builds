@@ -10,7 +10,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * An interface that {\@link FormGroupDirective} and {\@link NgForm} implement.
+ * An interface that `FormGroupDirective` and `NgForm` implement.
  *
  * Only used by the forms module.
  *
@@ -30,7 +30,7 @@ function Form_tsickle_Closure_declarations() {
      */
     Form.prototype.removeControl;
     /**
-     * Look up the {\@link FormControl} associated with a particular {\@link NgControl}.
+     * Look up the `FormControl` associated with a particular `NgControl`.
      * @type {?}
      */
     Form.prototype.getControl;
@@ -45,7 +45,7 @@ function Form_tsickle_Closure_declarations() {
      */
     Form.prototype.removeFormGroup;
     /**
-     * Look up the {\@link FormGroup} associated with a particular {\@link AbstractFormGroupDirective}.
+     * Look up the `FormGroup` associated with a particular `AbstractFormGroupDirective`.
      * @type {?}
      */
     Form.prototype.getFormGroup;

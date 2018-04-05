@@ -12,7 +12,7 @@
 import * as tslib_1 from "tslib";
 import { AbstractControlDirective } from './abstract_control_directive';
 /**
- * A directive that contains multiple {\@link NgControl}s.
+ * A directive that contains multiple `NgControl`s.
  *
  * Only used by the forms module.
  *
@@ -20,7 +20,7 @@ import { AbstractControlDirective } from './abstract_control_directive';
  * @abstract
  */
 var /**
- * A directive that contains multiple {\@link NgControl}s.
+ * A directive that contains multiple `NgControl`s.
  *
  * Only used by the forms module.
  *
@@ -59,7 +59,7 @@ ControlContainer = /** @class */ (function (_super) {
     return ControlContainer;
 }(AbstractControlDirective));
 /**
- * A directive that contains multiple {\@link NgControl}s.
+ * A directive that contains multiple `NgControl`s.
  *
  * Only used by the forms module.
  *

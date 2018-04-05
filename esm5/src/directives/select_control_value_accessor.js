@@ -36,14 +36,14 @@ function _extractId(valueString) {
     return valueString.split(':')[0];
 }
 /**
- * \@whatItDoes Writes values and listens to changes on a select element.
+ * \@description
  *
- * Used by {\@link NgModel}, {\@link FormControlDirective}, and {\@link FormControlName}
- * to keep the view synced with the {\@link FormControl} model.
+ * Writes values and listens to changes on a select element.
  *
- * \@howToUse
+ * Used by `NgModel`, `FormControlDirective`, and `FormControlName`
+ * to keep the view synced with the `FormControl` model.
  *
- * If you have imported the {\@link FormsModule} or the {\@link ReactiveFormsModule}, this
+ * If you have imported the `FormsModule` or the `ReactiveFormsModule`, this
  * value accessor will be active on any select control that has a form directive. You do
  * **not** need to add a special selector to activate it.
  *
@@ -276,11 +276,11 @@ function SelectControlValueAccessor_tsickle_Closure_declarations() {
     SelectControlValueAccessor.prototype._elementRef;
 }
 /**
- * \@whatItDoes Marks `<option>` as dynamic, so Angular can be notified when options change.
+ * \@description
  *
- * \@howToUse
+ * Marks `<option>` as dynamic, so Angular can be notified when options change.
  *
- * See docs for {\@link SelectControlValueAccessor} for usage examples.
+ * See docs for `SelectControlValueAccessor` for usage examples.
  *
  * \@stable
  */

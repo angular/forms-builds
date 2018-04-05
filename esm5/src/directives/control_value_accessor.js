@@ -114,9 +114,9 @@ function ControlValueAccessor_tsickle_Closure_declarations() {
     ControlValueAccessor.prototype.setDisabledState;
 }
 /**
- * Used to provide a {\@link ControlValueAccessor} for form controls.
+ * Used to provide a `ControlValueAccessor` for form controls.
  *
- * See {\@link DefaultValueAccessor} for how to implement one.
+ * See `DefaultValueAccessor` for how to implement one.
  * \@stable
  */
 export var /** @type {?} */ NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');

@@ -60,7 +60,7 @@ export var /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
 };
 /**
  * A Directive that adds the `required` validator to any controls marked with the
- * `required` attribute, via the {\@link NG_VALIDATORS} binding.
+ * `required` attribute, via the `NG_VALIDATORS` binding.
  *
  * ### Example
  *
@@ -142,7 +142,7 @@ function RequiredValidator_tsickle_Closure_declarations() {
 }
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
- * `required` attribute, via the {\@link NG_VALIDATORS} binding.
+ * `required` attribute, via the `NG_VALIDATORS` binding.
  *
  * ### Example
  *
@@ -190,7 +190,7 @@ function CheckboxRequiredValidator_tsickle_Closure_declarations() {
     CheckboxRequiredValidator.ctorParameters;
 }
 /**
- * Provider which adds {\@link EmailValidator} to {\@link NG_VALIDATORS}.
+ * Provider which adds `EmailValidator` to `NG_VALIDATORS`.
  */
 export var /** @type {?} */ EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -199,7 +199,7 @@ export var /** @type {?} */ EMAIL_VALIDATOR = {
 };
 /**
  * A Directive that adds the `email` validator to controls marked with the
- * `email` attribute, via the {\@link NG_VALIDATORS} binding.
+ * `email` attribute, via the `NG_VALIDATORS` binding.
  *
  * ### Example
  *
@@ -297,7 +297,7 @@ function AsyncValidatorFn_tsickle_Closure_declarations() {
     */
 }
 /**
- * Provider which adds {\@link MinLengthValidator} to {\@link NG_VALIDATORS}.
+ * Provider which adds `MinLengthValidator` to `NG_VALIDATORS`.
  *
  * ## Example:
  *
@@ -309,7 +309,7 @@ export var /** @type {?} */ MIN_LENGTH_VALIDATOR = {
     multi: true
 };
 /**
- * A directive which installs the {\@link MinLengthValidator} for any `formControlName`,
+ * A directive which installs the `MinLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
  *
  * \@stable
@@ -394,7 +394,7 @@ function MinLengthValidator_tsickle_Closure_declarations() {
     MinLengthValidator.prototype.minlength;
 }
 /**
- * Provider which adds {\@link MaxLengthValidator} to {\@link NG_VALIDATORS}.
+ * Provider which adds `MaxLengthValidator` to `NG_VALIDATORS`.
  *
  * ## Example:
  *
@@ -406,7 +406,7 @@ export var /** @type {?} */ MAX_LENGTH_VALIDATOR = {
     multi: true
 };
 /**
- * A directive which installs the {\@link MaxLengthValidator} for any `formControlName,
+ * A directive which installs the `MaxLengthValidator` for any `formControlName,
  * `formControl`,
  * or control with `ngModel` that also has a `maxlength` attribute.
  *
@@ -498,7 +498,7 @@ export var /** @type {?} */ PATTERN_VALIDATOR = {
 };
 /**
  * A Directive that adds the `pattern` validator to any controls marked with the
- * `pattern` attribute, via the {\@link NG_VALIDATORS} binding. Uses attribute value
+ * `pattern` attribute, via the `NG_VALIDATORS` binding. Uses attribute value
  * as the regex to validate Control value against.  Follows pattern attribute
  * semantics; i.e. regex must match entire Control value.
  *

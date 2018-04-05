@@ -12,13 +12,13 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from './model';
 /**
- * \@whatItDoes Creates an {\@link AbstractControl} from a user-specified configuration.
+ * \@description
  *
- * It is essentially syntactic sugar that shortens the `new FormGroup()`,
+ * Creates an `AbstractControl` from a user-specified configuration.
+ *
+ * This is essentially syntactic sugar that shortens the `new FormGroup()`,
  * `new FormControl()`, and `new FormArray()` boilerplate that can build up in larger
  * forms.
- *
- * \@howToUse
  *
  * To use, inject `FormBuilder` into your component class. You can then call its methods
  * directly.
@@ -27,7 +27,7 @@ import { FormArray, FormControl, FormGroup } from './model';
  *
  *  * **npm package**: `\@angular/forms`
  *
- *  * **NgModule**: {\@link ReactiveFormsModule}
+ *  * **NgModule**: `ReactiveFormsModule`
  *
  * \@stable
  */
@@ -35,25 +35,25 @@ var FormBuilder = /** @class */ (function () {
     function FormBuilder() {
     }
     /**
-     * Construct a new {@link FormGroup} with the given map of configuration.
+     * Construct a new `FormGroup` with the given map of configuration.
      * Valid keys for the `extra` parameter map are `validator` and `asyncValidator`.
      *
-     * See the {@link FormGroup} constructor for more details.
+     * See the `FormGroup` constructor for more details.
      */
     /**
-     * Construct a new {\@link FormGroup} with the given map of configuration.
+     * Construct a new `FormGroup` with the given map of configuration.
      * Valid keys for the `extra` parameter map are `validator` and `asyncValidator`.
      *
-     * See the {\@link FormGroup} constructor for more details.
+     * See the `FormGroup` constructor for more details.
      * @param {?} controlsConfig
      * @param {?=} extra
      * @return {?}
      */
     FormBuilder.prototype.group = /**
-     * Construct a new {\@link FormGroup} with the given map of configuration.
+     * Construct a new `FormGroup` with the given map of configuration.
      * Valid keys for the `extra` parameter map are `validator` and `asyncValidator`.
      *
-     * See the {\@link FormGroup} constructor for more details.
+     * See the `FormGroup` constructor for more details.
      * @param {?} controlsConfig
      * @param {?=} extra
      * @return {?}
@@ -66,7 +66,7 @@ var FormBuilder = /** @class */ (function () {
         return new FormGroup(controls, validator, asyncValidator);
     };
     /**
-     * Construct a new {@link FormControl} with the given `formState`,`validator`, and
+     * Construct a new `FormControl` with the given `formState`,`validator`, and
      * `asyncValidator`.
      *
      * `formState` can either be a standalone value for the form control or an object
@@ -74,7 +74,7 @@ var FormBuilder = /** @class */ (function () {
      *
      */
     /**
-     * Construct a new {\@link FormControl} with the given `formState`,`validator`, and
+     * Construct a new `FormControl` with the given `formState`,`validator`, and
      * `asyncValidator`.
      *
      * `formState` can either be a standalone value for the form control or an object
@@ -86,7 +86,7 @@ var FormBuilder = /** @class */ (function () {
      * @return {?}
      */
     FormBuilder.prototype.control = /**
-     * Construct a new {\@link FormControl} with the given `formState`,`validator`, and
+     * Construct a new `FormControl` with the given `formState`,`validator`, and
      * `asyncValidator`.
      *
      * `formState` can either be a standalone value for the form control or an object
@@ -101,11 +101,11 @@ var FormBuilder = /** @class */ (function () {
         return new FormControl(formState, validator, asyncValidator);
     };
     /**
-     * Construct a {@link FormArray} from the given `controlsConfig` array of
+     * Construct a `FormArray` from the given `controlsConfig` array of
      * configuration, with the given optional `validator` and `asyncValidator`.
      */
     /**
-     * Construct a {\@link FormArray} from the given `controlsConfig` array of
+     * Construct a `FormArray` from the given `controlsConfig` array of
      * configuration, with the given optional `validator` and `asyncValidator`.
      * @param {?} controlsConfig
      * @param {?=} validator
@@ -113,7 +113,7 @@ var FormBuilder = /** @class */ (function () {
      * @return {?}
      */
     FormBuilder.prototype.array = /**
-     * Construct a {\@link FormArray} from the given `controlsConfig` array of
+     * Construct a `FormArray` from the given `controlsConfig` array of
      * configuration, with the given optional `validator` and `asyncValidator`.
      * @param {?} controlsConfig
      * @param {?=} validator

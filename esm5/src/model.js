@@ -76,7 +76,9 @@ function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
         origAsyncValidator || null;
 }
 /**
- * \@whatItDoes Interface for options provided to an {\@link AbstractControl}.
+ * \@description
+ *
+ * Interface for options provided to an `AbstractControl`.
  *
  * \@experimental
  * @record
@@ -108,8 +110,9 @@ function isOptionsObj(validatorOrOpts) {
         typeof validatorOrOpts === 'object';
 }
 /**
- * \@whatItDoes This is the base class for {\@link FormControl}, {\@link FormGroup}, and
- * {\@link FormArray}.
+ * \@description
+ *
+ * This is the base class for `FormControl`, `FormGroup`, and `FormArray`.
  *
  * It provides some of the shared behavior that all controls and groups of controls have, like
  * running validators, calculating status, and resetting state. It also defines the properties
@@ -123,8 +126,9 @@ function isOptionsObj(validatorOrOpts) {
  * @abstract
  */
 var /**
- * \@whatItDoes This is the base class for {\@link FormControl}, {\@link FormGroup}, and
- * {\@link FormArray}.
+ * \@description
+ *
+ * This is the base class for `FormControl`, `FormGroup`, and `FormArray`.
  *
  * It provides some of the shared behavior that all controls and groups of controls have, like
  * running validators, calculating status, and resetting state. It also defines the properties
@@ -1106,8 +1110,9 @@ AbstractControl = /** @class */ (function () {
     return AbstractControl;
 }());
 /**
- * \@whatItDoes This is the base class for {\@link FormControl}, {\@link FormGroup}, and
- * {\@link FormArray}.
+ * \@description
+ *
+ * This is the base class for `FormControl`, `FormGroup`, and `FormArray`.
  *
  * It provides some of the shared behavior that all controls and groups of controls have, like
  * running validators, calculating status, and resetting state. It also defines the properties
@@ -1262,14 +1267,14 @@ function AbstractControl_tsickle_Closure_declarations() {
     AbstractControl.prototype._syncPendingControls = function () { };
 }
 /**
- * \@whatItDoes Tracks the value and validation status of an individual form control.
+ * \@description
  *
- * It is one of the three fundamental building blocks of Angular forms, along with
- * {\@link FormGroup} and {\@link FormArray}.
+ * Tracks the value and validation status of an individual form control.
  *
- * \@howToUse
+ * This is one of the three fundamental building blocks of Angular forms, along with
+ * `FormGroup` and `FormArray`.
  *
- * When instantiating a {\@link FormControl}, you can pass in an initial value as the
+ * When instantiating a `FormControl`, you can pass in an initial value as the
  * first argument. Example:
  *
  * ```ts
@@ -1288,7 +1293,7 @@ function AbstractControl_tsickle_Closure_declarations() {
  * console.log(ctrl.status);   // 'DISABLED'
  * ```
  *
- * The second {\@link FormControl} argument can accept one of three things:
+ * The second `FormControl` argument can accept one of three things:
  * * a sync validator function
  * * an array of sync validator functions
  * * an options object containing validator and/or async validator functions
@@ -1322,21 +1327,21 @@ function AbstractControl_tsickle_Closure_declarations() {
  * You can also set `updateOn` to `'submit'`, which will delay value and validity
  * updates until the parent form of the control fires a submit event.
  *
- * See its superclass, {\@link AbstractControl}, for more properties and methods.
+ * See its superclass, `AbstractControl`, for more properties and methods.
  *
  * * **npm package**: `\@angular/forms`
  *
  * \@stable
  */
 var /**
- * \@whatItDoes Tracks the value and validation status of an individual form control.
+ * \@description
  *
- * It is one of the three fundamental building blocks of Angular forms, along with
- * {\@link FormGroup} and {\@link FormArray}.
+ * Tracks the value and validation status of an individual form control.
  *
- * \@howToUse
+ * This is one of the three fundamental building blocks of Angular forms, along with
+ * `FormGroup` and `FormArray`.
  *
- * When instantiating a {\@link FormControl}, you can pass in an initial value as the
+ * When instantiating a `FormControl`, you can pass in an initial value as the
  * first argument. Example:
  *
  * ```ts
@@ -1355,7 +1360,7 @@ var /**
  * console.log(ctrl.status);   // 'DISABLED'
  * ```
  *
- * The second {\@link FormControl} argument can accept one of three things:
+ * The second `FormControl` argument can accept one of three things:
  * * a sync validator function
  * * an array of sync validator functions
  * * an options object containing validator and/or async validator functions
@@ -1389,7 +1394,7 @@ var /**
  * You can also set `updateOn` to `'submit'`, which will delay value and validity
  * updates until the parent form of the control fires a submit event.
  *
- * See its superclass, {\@link AbstractControl}, for more properties and methods.
+ * See its superclass, `AbstractControl`, for more properties and methods.
  *
  * * **npm package**: `\@angular/forms`
  *
@@ -1747,14 +1752,14 @@ FormControl = /** @class */ (function (_super) {
     return FormControl;
 }(AbstractControl));
 /**
- * \@whatItDoes Tracks the value and validation status of an individual form control.
+ * \@description
  *
- * It is one of the three fundamental building blocks of Angular forms, along with
- * {\@link FormGroup} and {\@link FormArray}.
+ * Tracks the value and validation status of an individual form control.
  *
- * \@howToUse
+ * This is one of the three fundamental building blocks of Angular forms, along with
+ * `FormGroup` and `FormArray`.
  *
- * When instantiating a {\@link FormControl}, you can pass in an initial value as the
+ * When instantiating a `FormControl`, you can pass in an initial value as the
  * first argument. Example:
  *
  * ```ts
@@ -1773,7 +1778,7 @@ FormControl = /** @class */ (function (_super) {
  * console.log(ctrl.status);   // 'DISABLED'
  * ```
  *
- * The second {\@link FormControl} argument can accept one of three things:
+ * The second `FormControl` argument can accept one of three things:
  * * a sync validator function
  * * an array of sync validator functions
  * * an options object containing validator and/or async validator functions
@@ -1807,7 +1812,7 @@ FormControl = /** @class */ (function (_super) {
  * You can also set `updateOn` to `'submit'`, which will delay value and validity
  * updates until the parent form of the control fires a submit event.
  *
- * See its superclass, {\@link AbstractControl}, for more properties and methods.
+ * See its superclass, `AbstractControl`, for more properties and methods.
  *
  * * **npm package**: `\@angular/forms`
  *
@@ -1832,20 +1837,19 @@ function FormControl_tsickle_Closure_declarations() {
     FormControl.prototype._pendingChange;
 }
 /**
- * \@whatItDoes Tracks the value and validity state of a group of {\@link FormControl}
- * instances.
+ * \@description
  *
- * A `FormGroup` aggregates the values of each child {\@link FormControl} into one object,
+ * Tracks the value and validity state of a group of `FormControl` instances.
+ *
+ * A `FormGroup` aggregates the values of each child `FormControl` into one object,
  * with each control name as the key.  It calculates its status by reducing the statuses
  * of its children. For example, if one of the controls in a group is invalid, the entire
  * group becomes invalid.
  *
  * `FormGroup` is one of the three fundamental building blocks used to define forms in Angular,
- * along with {\@link FormControl} and {\@link FormArray}.
+ * along with `FormControl` and `FormArray`.
  *
- * \@howToUse
- *
- * When instantiating a {\@link FormGroup}, pass in a collection of child controls as the first
+ * When instantiating a `FormGroup`, pass in a collection of child controls as the first
  * argument. The key for each child will be the name under which it is registered.
  *
  * ### Example
@@ -1879,7 +1883,7 @@ function FormControl_tsickle_Closure_declarations() {
  * }
  * ```
  *
- * Like {\@link FormControl} instances, you can alternatively choose to pass in
+ * Like `FormControl` instances, you can alternatively choose to pass in
  * validators and async validators as part of an options object.
  *
  * ```
@@ -1905,20 +1909,19 @@ function FormControl_tsickle_Closure_declarations() {
  * \@stable
  */
 var /**
- * \@whatItDoes Tracks the value and validity state of a group of {\@link FormControl}
- * instances.
+ * \@description
  *
- * A `FormGroup` aggregates the values of each child {\@link FormControl} into one object,
+ * Tracks the value and validity state of a group of `FormControl` instances.
+ *
+ * A `FormGroup` aggregates the values of each child `FormControl` into one object,
  * with each control name as the key.  It calculates its status by reducing the statuses
  * of its children. For example, if one of the controls in a group is invalid, the entire
  * group becomes invalid.
  *
  * `FormGroup` is one of the three fundamental building blocks used to define forms in Angular,
- * along with {\@link FormControl} and {\@link FormArray}.
+ * along with `FormControl` and `FormArray`.
  *
- * \@howToUse
- *
- * When instantiating a {\@link FormGroup}, pass in a collection of child controls as the first
+ * When instantiating a `FormGroup`, pass in a collection of child controls as the first
  * argument. The key for each child will be the name under which it is registered.
  *
  * ### Example
@@ -1952,7 +1955,7 @@ var /**
  * }
  * ```
  *
- * Like {\@link FormControl} instances, you can alternatively choose to pass in
+ * Like `FormControl` instances, you can alternatively choose to pass in
  * validators and async validators as part of an options object.
  *
  * ```
@@ -2110,7 +2113,7 @@ FormGroup = /** @class */ (function (_super) {
         return this.controls.hasOwnProperty(controlName) && this.controls[controlName].enabled;
     };
     /**
-     *  Sets the value of the {@link FormGroup}. It accepts an object that matches
+     *  Sets the value of the `FormGroup`. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
      *  ### Example
@@ -2131,7 +2134,7 @@ FormGroup = /** @class */ (function (_super) {
      * value of a control.
      */
     /**
-     *  Sets the value of the {\@link FormGroup}. It accepts an object that matches
+     *  Sets the value of the `FormGroup`. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
      *  ### Example
@@ -2155,7 +2158,7 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     FormGroup.prototype.setValue = /**
-     *  Sets the value of the {\@link FormGroup}. It accepts an object that matches
+     *  Sets the value of the `FormGroup`. It accepts an object that matches
      *  the structure of the group, with control names as keys.
      *
      *  ### Example
@@ -2189,7 +2192,7 @@ FormGroup = /** @class */ (function (_super) {
         this.updateValueAndValidity(options);
     };
     /**
-     *  Patches the value of the {@link FormGroup}. It accepts an object with control
+     *  Patches the value of the `FormGroup`. It accepts an object with control
      *  names as keys, and will do its best to match the values to the correct controls
      *  in the group.
      *
@@ -2210,7 +2213,7 @@ FormGroup = /** @class */ (function (_super) {
      *  ```
      */
     /**
-     *  Patches the value of the {\@link FormGroup}. It accepts an object with control
+     *  Patches the value of the `FormGroup`. It accepts an object with control
      *  names as keys, and will do its best to match the values to the correct controls
      *  in the group.
      *
@@ -2234,7 +2237,7 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     FormGroup.prototype.patchValue = /**
-     *  Patches the value of the {\@link FormGroup}. It accepts an object with control
+     *  Patches the value of the `FormGroup`. It accepts an object with control
      *  names as keys, and will do its best to match the values to the correct controls
      *  in the group.
      *
@@ -2268,7 +2271,7 @@ FormGroup = /** @class */ (function (_super) {
         this.updateValueAndValidity(options);
     };
     /**
-     * Resets the {@link FormGroup}. This means by default:
+     * Resets the `FormGroup`. This means by default:
      *
      * * The group and all descendants are marked `pristine`
      * * The group and all descendants are marked `untouched`
@@ -2300,7 +2303,7 @@ FormGroup = /** @class */ (function (_super) {
      * ```
      */
     /**
-     * Resets the {\@link FormGroup}. This means by default:
+     * Resets the `FormGroup`. This means by default:
      *
      * * The group and all descendants are marked `pristine`
      * * The group and all descendants are marked `untouched`
@@ -2335,7 +2338,7 @@ FormGroup = /** @class */ (function (_super) {
      * @return {?}
      */
     FormGroup.prototype.reset = /**
-     * Resets the {\@link FormGroup}. This means by default:
+     * Resets the `FormGroup`. This means by default:
      *
      * * The group and all descendants are marked `pristine`
      * * The group and all descendants are marked `untouched`
@@ -2380,20 +2383,20 @@ FormGroup = /** @class */ (function (_super) {
         this._updateTouched(options);
     };
     /**
-     * The aggregate value of the {@link FormGroup}, including any disabled controls.
+     * The aggregate value of the `FormGroup`, including any disabled controls.
      *
      * If you'd like to include all values regardless of disabled status, use this method.
      * Otherwise, the `value` property is the best way to get the value of the group.
      */
     /**
-     * The aggregate value of the {\@link FormGroup}, including any disabled controls.
+     * The aggregate value of the `FormGroup`, including any disabled controls.
      *
      * If you'd like to include all values regardless of disabled status, use this method.
      * Otherwise, the `value` property is the best way to get the value of the group.
      * @return {?}
      */
     FormGroup.prototype.getRawValue = /**
-     * The aggregate value of the {\@link FormGroup}, including any disabled controls.
+     * The aggregate value of the `FormGroup`, including any disabled controls.
      *
      * If you'd like to include all values regardless of disabled status, use this method.
      * Otherwise, the `value` property is the best way to get the value of the group.
@@ -2576,20 +2579,19 @@ FormGroup = /** @class */ (function (_super) {
     return FormGroup;
 }(AbstractControl));
 /**
- * \@whatItDoes Tracks the value and validity state of a group of {\@link FormControl}
- * instances.
+ * \@description
  *
- * A `FormGroup` aggregates the values of each child {\@link FormControl} into one object,
+ * Tracks the value and validity state of a group of `FormControl` instances.
+ *
+ * A `FormGroup` aggregates the values of each child `FormControl` into one object,
  * with each control name as the key.  It calculates its status by reducing the statuses
  * of its children. For example, if one of the controls in a group is invalid, the entire
  * group becomes invalid.
  *
  * `FormGroup` is one of the three fundamental building blocks used to define forms in Angular,
- * along with {\@link FormControl} and {\@link FormArray}.
+ * along with `FormControl` and `FormArray`.
  *
- * \@howToUse
- *
- * When instantiating a {\@link FormGroup}, pass in a collection of child controls as the first
+ * When instantiating a `FormGroup`, pass in a collection of child controls as the first
  * argument. The key for each child will be the name under which it is registered.
  *
  * ### Example
@@ -2623,7 +2625,7 @@ FormGroup = /** @class */ (function (_super) {
  * }
  * ```
  *
- * Like {\@link FormControl} instances, you can alternatively choose to pass in
+ * Like `FormControl` instances, you can alternatively choose to pass in
  * validators and async validators as part of an options object.
  *
  * ```
@@ -2654,19 +2656,19 @@ function FormGroup_tsickle_Closure_declarations() {
     FormGroup.prototype.controls;
 }
 /**
- * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl},
- * {\@link FormGroup} or {\@link FormArray} instances.
+ * \@description
  *
- * A `FormArray` aggregates the values of each child {\@link FormControl} into an array.
+ * Tracks the value and validity state of an array of `FormControl`,
+ * `FormGroup` or `FormArray` instances.
+ *
+ * A `FormArray` aggregates the values of each child `FormControl` into an array.
  * It calculates its status by reducing the statuses of its children. For example, if one of
  * the controls in a `FormArray` is invalid, the entire array becomes invalid.
  *
  * `FormArray` is one of the three fundamental building blocks used to define forms in Angular,
- * along with {\@link FormControl} and {\@link FormGroup}.
+ * along with `FormControl` and `FormGroup`.
  *
- * \@howToUse
- *
- * When instantiating a {\@link FormArray}, pass in an array of child controls as the first
+ * When instantiating a `FormArray`, pass in an array of child controls as the first
  * argument.
  *
  * ### Example
@@ -2719,19 +2721,19 @@ function FormGroup_tsickle_Closure_declarations() {
  * \@stable
  */
 var /**
- * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl},
- * {\@link FormGroup} or {\@link FormArray} instances.
+ * \@description
  *
- * A `FormArray` aggregates the values of each child {\@link FormControl} into an array.
+ * Tracks the value and validity state of an array of `FormControl`,
+ * `FormGroup` or `FormArray` instances.
+ *
+ * A `FormArray` aggregates the values of each child `FormControl` into an array.
  * It calculates its status by reducing the statuses of its children. For example, if one of
  * the controls in a `FormArray` is invalid, the entire array becomes invalid.
  *
  * `FormArray` is one of the three fundamental building blocks used to define forms in Angular,
- * along with {\@link FormControl} and {\@link FormGroup}.
+ * along with `FormControl` and `FormGroup`.
  *
- * \@howToUse
- *
- * When instantiating a {\@link FormArray}, pass in an array of child controls as the first
+ * When instantiating a `FormArray`, pass in an array of child controls as the first
  * argument.
  *
  * ### Example
@@ -2795,29 +2797,29 @@ FormArray = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * Get the {@link AbstractControl} at the given `index` in the array.
+     * Get the `AbstractControl` at the given `index` in the array.
      */
     /**
-     * Get the {\@link AbstractControl} at the given `index` in the array.
+     * Get the `AbstractControl` at the given `index` in the array.
      * @param {?} index
      * @return {?}
      */
     FormArray.prototype.at = /**
-     * Get the {\@link AbstractControl} at the given `index` in the array.
+     * Get the `AbstractControl` at the given `index` in the array.
      * @param {?} index
      * @return {?}
      */
     function (index) { return this.controls[index]; };
     /**
-     * Insert a new {@link AbstractControl} at the end of the array.
+     * Insert a new `AbstractControl` at the end of the array.
      */
     /**
-     * Insert a new {\@link AbstractControl} at the end of the array.
+     * Insert a new `AbstractControl` at the end of the array.
      * @param {?} control
      * @return {?}
      */
     FormArray.prototype.push = /**
-     * Insert a new {\@link AbstractControl} at the end of the array.
+     * Insert a new `AbstractControl` at the end of the array.
      * @param {?} control
      * @return {?}
      */
@@ -2827,15 +2829,15 @@ FormArray = /** @class */ (function (_super) {
         this.updateValueAndValidity();
         this._onCollectionChange();
     };
-    /** Insert a new {@link AbstractControl} at the given `index` in the array. */
+    /** Insert a new `AbstractControl` at the given `index` in the array. */
     /**
-     * Insert a new {\@link AbstractControl} at the given `index` in the array.
+     * Insert a new `AbstractControl` at the given `index` in the array.
      * @param {?} index
      * @param {?} control
      * @return {?}
      */
     FormArray.prototype.insert = /**
-     * Insert a new {\@link AbstractControl} at the given `index` in the array.
+     * Insert a new `AbstractControl` at the given `index` in the array.
      * @param {?} index
      * @param {?} control
      * @return {?}
@@ -2901,7 +2903,7 @@ FormArray = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     *  Sets the value of the {@link FormArray}. It accepts an array that matches
+     *  Sets the value of the `FormArray`. It accepts an array that matches
      *  the structure of the control.
      *
      * This method performs strict checks, so it will throw an error if you try
@@ -2922,7 +2924,7 @@ FormArray = /** @class */ (function (_super) {
      *  ```
      */
     /**
-     *  Sets the value of the {\@link FormArray}. It accepts an array that matches
+     *  Sets the value of the `FormArray`. It accepts an array that matches
      *  the structure of the control.
      *
      * This method performs strict checks, so it will throw an error if you try
@@ -2946,7 +2948,7 @@ FormArray = /** @class */ (function (_super) {
      * @return {?}
      */
     FormArray.prototype.setValue = /**
-     *  Sets the value of the {\@link FormArray}. It accepts an array that matches
+     *  Sets the value of the `FormArray`. It accepts an array that matches
      *  the structure of the control.
      *
      * This method performs strict checks, so it will throw an error if you try
@@ -2980,7 +2982,7 @@ FormArray = /** @class */ (function (_super) {
         this.updateValueAndValidity(options);
     };
     /**
-     *  Patches the value of the {@link FormArray}. It accepts an array that matches the
+     *  Patches the value of the `FormArray`. It accepts an array that matches the
      *  structure of the control, and will do its best to match the values to the correct
      *  controls in the group.
      *
@@ -3000,7 +3002,7 @@ FormArray = /** @class */ (function (_super) {
      *  ```
      */
     /**
-     *  Patches the value of the {\@link FormArray}. It accepts an array that matches the
+     *  Patches the value of the `FormArray`. It accepts an array that matches the
      *  structure of the control, and will do its best to match the values to the correct
      *  controls in the group.
      *
@@ -3023,7 +3025,7 @@ FormArray = /** @class */ (function (_super) {
      * @return {?}
      */
     FormArray.prototype.patchValue = /**
-     *  Patches the value of the {\@link FormArray}. It accepts an array that matches the
+     *  Patches the value of the `FormArray`. It accepts an array that matches the
      *  structure of the control, and will do its best to match the values to the correct
      *  controls in the group.
      *
@@ -3056,7 +3058,7 @@ FormArray = /** @class */ (function (_super) {
         this.updateValueAndValidity(options);
     };
     /**
-     * Resets the {@link FormArray}. This means by default:
+     * Resets the `FormArray`. This means by default:
      *
      * * The array and all descendants are marked `pristine`
      * * The array and all descendants are marked `untouched`
@@ -3087,7 +3089,7 @@ FormArray = /** @class */ (function (_super) {
      * ```
      */
     /**
-     * Resets the {\@link FormArray}. This means by default:
+     * Resets the `FormArray`. This means by default:
      *
      * * The array and all descendants are marked `pristine`
      * * The array and all descendants are marked `untouched`
@@ -3121,7 +3123,7 @@ FormArray = /** @class */ (function (_super) {
      * @return {?}
      */
     FormArray.prototype.reset = /**
-     * Resets the {\@link FormArray}. This means by default:
+     * Resets the `FormArray`. This means by default:
      *
      * * The array and all descendants are marked `pristine`
      * * The array and all descendants are marked `untouched`
@@ -3331,19 +3333,19 @@ FormArray = /** @class */ (function (_super) {
     return FormArray;
 }(AbstractControl));
 /**
- * \@whatItDoes Tracks the value and validity state of an array of {\@link FormControl},
- * {\@link FormGroup} or {\@link FormArray} instances.
+ * \@description
  *
- * A `FormArray` aggregates the values of each child {\@link FormControl} into an array.
+ * Tracks the value and validity state of an array of `FormControl`,
+ * `FormGroup` or `FormArray` instances.
+ *
+ * A `FormArray` aggregates the values of each child `FormControl` into an array.
  * It calculates its status by reducing the statuses of its children. For example, if one of
  * the controls in a `FormArray` is invalid, the entire array becomes invalid.
  *
  * `FormArray` is one of the three fundamental building blocks used to define forms in Angular,
- * along with {\@link FormControl} and {\@link FormGroup}.
+ * along with `FormControl` and `FormGroup`.
  *
- * \@howToUse
- *
- * When instantiating a {\@link FormArray}, pass in an array of child controls as the first
+ * When instantiating a `FormArray`, pass in an array of child controls as the first
  * argument.
  *
  * ### Example
