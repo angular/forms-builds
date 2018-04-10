@@ -104,9 +104,9 @@ export interface ControlValueAccessor {
     setDisabledState?(isDisabled: boolean): void;
 }
 /**
- * Used to provide a {@link ControlValueAccessor} for form controls.
+ * Used to provide a `ControlValueAccessor` for form controls.
  *
- * See {@link DefaultValueAccessor} for how to implement one.
+ * See `DefaultValueAccessor` for how to implement one.
  * @stable
  */
 export declare const NG_VALUE_ACCESSOR: InjectionToken<ControlValueAccessor>;
