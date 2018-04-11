@@ -68,7 +68,7 @@ export declare const formControlBinding: any;
  *
  * **NgModule**: `FormsModule`
  *
- *  @stable
+ *
  */
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     readonly control: FormControl;

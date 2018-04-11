@@ -72,7 +72,7 @@ export const /** @type {?} */ ngControlStatusHost = {
  * * ng-untouched
  * * ng-touched
  *
- * \@stable
+ *
  */
 export class NgControlStatus extends AbstractControlStatus {
     /**
@@ -100,7 +100,7 @@ function NgControlStatus_tsickle_Closure_declarations() {
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- * \@stable
+ *
  */
 export class NgControlStatusGroup extends AbstractControlStatus {
     /**

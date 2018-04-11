@@ -96,7 +96,7 @@ function _extractId(valueString) {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 export class SelectControlValueAccessor {
     /**
@@ -245,7 +245,7 @@ function SelectControlValueAccessor_tsickle_Closure_declarations() {
  *
  * See docs for `SelectControlValueAccessor` for usage examples.
  *
- * \@stable
+ *
  */
 export class NgSelectOption {
     /**

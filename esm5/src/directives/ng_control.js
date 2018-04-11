@@ -23,7 +23,7 @@ function unimplemented() {
  *
  * Used internally by Angular forms.
  *
- * \@stable
+ *
  * @abstract
  */
 var /**
@@ -32,7 +32,7 @@ var /**
  *
  * Used internally by Angular forms.
  *
- * \@stable
+ *
  * @abstract
  */
 NgControl = /** @class */ (function (_super) {
@@ -79,7 +79,7 @@ NgControl = /** @class */ (function (_super) {
  *
  * Used internally by Angular forms.
  *
- * \@stable
+ *
  * @abstract
  */
 export { NgControl };

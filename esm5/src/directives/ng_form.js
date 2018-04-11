@@ -56,7 +56,7 @@ var /** @type {?} */ resolvedPromise = Promise.resolve(null);
  *
  * * **NgModule**: `FormsModule`
  *
- *  \@stable
+ *
  */
 var NgForm = /** @class */ (function (_super) {
     tslib_1.__extends(NgForm, _super);

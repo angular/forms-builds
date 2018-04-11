@@ -29,7 +29,7 @@ import { NG_VALIDATORS, Validators } from '../validators';
  * }
  * ```
  *
- * \@stable
+ *
  * @record
  */
 export function Validator() { }
@@ -68,7 +68,7 @@ export var /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
  * <input name="fullName" ngModel required>
  * ```
  *
- * \@stable
+ *
  */
 var RequiredValidator = /** @class */ (function () {
     function RequiredValidator() {
@@ -277,7 +277,7 @@ function EmailValidator_tsickle_Closure_declarations() {
     EmailValidator.prototype._onChange;
 }
 /**
- * \@stable
+ *
  * @record
  */
 export function ValidatorFn() { }
@@ -287,7 +287,7 @@ function ValidatorFn_tsickle_Closure_declarations() {
     */
 }
 /**
- * \@stable
+ *
  * @record
  */
 export function AsyncValidatorFn() { }
@@ -312,7 +312,7 @@ export var /** @type {?} */ MIN_LENGTH_VALIDATOR = {
  * A directive which installs the `MinLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
  *
- * \@stable
+ *
  */
 var MinLengthValidator = /** @class */ (function () {
     function MinLengthValidator() {
@@ -410,7 +410,7 @@ export var /** @type {?} */ MAX_LENGTH_VALIDATOR = {
  * `formControl`,
  * or control with `ngModel` that also has a `maxlength` attribute.
  *
- * \@stable
+ *
  */
 var MaxLengthValidator = /** @class */ (function () {
     function MaxLengthValidator() {
@@ -507,7 +507,7 @@ export var /** @type {?} */ PATTERN_VALIDATOR = {
  * ```
  * <input [name]="fullName" pattern="[a-zA-Z ]*" ngModel>
  * ```
- * \@stable
+ *
  */
 var PatternValidator = /** @class */ (function () {
     function PatternValidator() {

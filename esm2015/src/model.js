@@ -121,7 +121,7 @@ function isOptionsObj(validatorOrOpts) {
  * @see [Forms Guide](/guide/forms)
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
- * \@stable
+ *
  * @abstract
  */
 export class AbstractControl {
@@ -844,7 +844,7 @@ function AbstractControl_tsickle_Closure_declarations() {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 export class FormControl extends AbstractControl {
     /**
@@ -1105,7 +1105,7 @@ function FormControl_tsickle_Closure_declarations() {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 export class FormGroup extends AbstractControl {
     /**
@@ -1485,7 +1485,7 @@ function FormGroup_tsickle_Closure_declarations() {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 export class FormArray extends AbstractControl {
     /**

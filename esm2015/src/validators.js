@@ -39,7 +39,7 @@ function isEmptyInputValue(value) {
  * }
  * ```
  *
- * \@stable
+ *
  */
 export const /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators');
 /**
@@ -50,7 +50,7 @@ export const /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators')
  *
  * See `NG_VALIDATORS` for more details.
  *
- * \@stable
+ *
  */
 export const /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
 const /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
@@ -66,7 +66,7 @@ const /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=
  * var loginControl = new FormControl("", Validators.required)
  * ```
  *
- * \@stable
+ *
  */
 export class Validators {
     /**

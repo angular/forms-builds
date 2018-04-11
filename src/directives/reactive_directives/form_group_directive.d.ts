@@ -46,7 +46,7 @@ export declare const formDirectiveProvider: any;
  *
  * **NgModule**: `ReactiveFormsModule`
  *
- *  @stable
+ *
  */
 export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges {
     private _validators;

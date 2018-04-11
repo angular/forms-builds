@@ -54,7 +54,7 @@ export declare const formGroupNameProvider: any;
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
- * @stable
+ *
  */
 export declare class FormGroupName extends AbstractFormGroupDirective implements OnInit, OnDestroy {
     name: string;
@@ -106,7 +106,7 @@ export declare const formArrayNameProvider: any;
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
- * @stable
+ *
  */
 export declare class FormArrayName extends ControlContainer implements OnInit, OnDestroy {
     name: string;

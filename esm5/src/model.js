@@ -122,7 +122,7 @@ function isOptionsObj(validatorOrOpts) {
  * @see [Forms Guide](/guide/forms)
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
- * \@stable
+ *
  * @abstract
  */
 var /**
@@ -138,7 +138,7 @@ var /**
  * @see [Forms Guide](/guide/forms)
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
- * \@stable
+ *
  * @abstract
  */
 AbstractControl = /** @class */ (function () {
@@ -1122,7 +1122,7 @@ AbstractControl = /** @class */ (function () {
  * @see [Forms Guide](/guide/forms)
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
- * \@stable
+ *
  * @abstract
  */
 export { AbstractControl };
@@ -1331,7 +1331,7 @@ function AbstractControl_tsickle_Closure_declarations() {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 var /**
  * \@description
@@ -1398,7 +1398,7 @@ var /**
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 FormControl = /** @class */ (function (_super) {
     tslib_1.__extends(FormControl, _super);
@@ -1816,7 +1816,7 @@ FormControl = /** @class */ (function (_super) {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 export { FormControl };
 function FormControl_tsickle_Closure_declarations() {
@@ -1906,7 +1906,7 @@ function FormControl_tsickle_Closure_declarations() {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 var /**
  * \@description
@@ -1978,7 +1978,7 @@ var /**
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 FormGroup = /** @class */ (function (_super) {
     tslib_1.__extends(FormGroup, _super);
@@ -2648,7 +2648,7 @@ FormGroup = /** @class */ (function (_super) {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 export { FormGroup };
 function FormGroup_tsickle_Closure_declarations() {
@@ -2718,7 +2718,7 @@ function FormGroup_tsickle_Closure_declarations() {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 var /**
  * \@description
@@ -2783,7 +2783,7 @@ var /**
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 FormArray = /** @class */ (function (_super) {
     tslib_1.__extends(FormArray, _super);
@@ -3395,7 +3395,7 @@ FormArray = /** @class */ (function (_super) {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 export { FormArray };
 function FormArray_tsickle_Closure_declarations() {

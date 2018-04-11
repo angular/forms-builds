@@ -46,7 +46,7 @@ export declare class RadioControlRegistry {
  *
  *  * **npm package**: `@angular/forms`
  *
- *  @stable
+ *
  */
 export declare class RadioControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
     private _renderer;

@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-rc.3-5992fe6
+ * @license Angular v6.0.0-rc.3-fb4513c
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -24,7 +24,7 @@ import { ɵgetDOM } from '@angular/platform-browser';
  *
  * Only used internally in the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 class AbstractControlDirective {
@@ -194,7 +194,7 @@ class AbstractControlDirective {
  *
  * Only used by the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 class ControlContainer extends AbstractControlDirective {
@@ -248,7 +248,7 @@ function isEmptyInputValue(value) {
  * }
  * ```
  *
- * \@stable
+ *
  */
 const NG_VALIDATORS = new InjectionToken('NgValidators');
 /**
@@ -259,7 +259,7 @@ const NG_VALIDATORS = new InjectionToken('NgValidators');
  *
  * See `NG_VALIDATORS` for more details.
  *
- * \@stable
+ *
  */
 const NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
@@ -275,7 +275,7 @@ const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(
  * var loginControl = new FormControl("", Validators.required)
  * ```
  *
- * \@stable
+ *
  */
 class Validators {
     /**
@@ -501,7 +501,7 @@ function _mergeErrors(arrayOfErrors) {
  * Implement this interface if you want to create a custom form control directive
  * that integrates with Angular forms.
  *
- * \@stable
+ *
  * @record
  */
 
@@ -509,7 +509,7 @@ function _mergeErrors(arrayOfErrors) {
  * Used to provide a `ControlValueAccessor` for form controls.
  *
  * See `DefaultValueAccessor` for how to implement one.
- * \@stable
+ *
  */
 const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
@@ -537,7 +537,7 @@ const CHECKBOX_VALUE_ACCESSOR = {
  *  <input type="checkbox" name="rememberLogin" ngModel>
  *  ```
  *
- *  \@stable
+ *
  */
 class CheckboxControlValueAccessor {
     /**
@@ -627,7 +627,7 @@ const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  *  <input type="text" name="searchQuery" ngModel>
  *  ```
  *
- *  \@stable
+ *
  */
 class DefaultValueAccessor {
     /**
@@ -862,7 +862,7 @@ function unimplemented() {
  *
  * Used internally by Angular forms.
  *
- * \@stable
+ *
  * @abstract
  */
 class NgControl extends AbstractControlDirective {
@@ -991,7 +991,7 @@ RadioControlRegistry.ctorParameters = () => [];
  *
  *  * **npm package**: `\@angular/forms`
  *
- *  \@stable
+ *
  */
 class RadioControlValueAccessor {
     /**
@@ -1439,7 +1439,7 @@ function _extractId(valueString) {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 class SelectControlValueAccessor {
     /**
@@ -1555,7 +1555,7 @@ SelectControlValueAccessor.propDecorators = {
  *
  * See docs for `SelectControlValueAccessor` for usage examples.
  *
- * \@stable
+ *
  */
 class NgSelectOption {
     /**
@@ -1687,7 +1687,7 @@ function _extractId$1(valueString) {
  * }
  * ```
  *
- * \@stable
+ *
  */
 class SelectMultipleControlValueAccessor {
     /**
@@ -2212,7 +2212,7 @@ function _ngModelWarning(name, type, instance, warningConfig) {
 /**
  * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
- * \@stable
+ *
  */
 class AbstractFormGroupDirective extends ControlContainer {
     /**
@@ -2329,7 +2329,7 @@ const ngControlStatusHost = {
  * * ng-untouched
  * * ng-touched
  *
- * \@stable
+ *
  */
 class NgControlStatus extends AbstractControlStatus {
     /**
@@ -2348,7 +2348,7 @@ NgControlStatus.ctorParameters = () => [
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- * \@stable
+ *
  */
 class NgControlStatusGroup extends AbstractControlStatus {
     /**
@@ -2470,7 +2470,7 @@ function isOptionsObj(validatorOrOpts) {
  * @see [Forms Guide](/guide/forms)
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
- * \@stable
+ *
  * @abstract
  */
 class AbstractControl {
@@ -3053,7 +3053,7 @@ class AbstractControl {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 class FormControl extends AbstractControl {
     /**
@@ -3297,7 +3297,7 @@ class FormControl extends AbstractControl {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 class FormGroup extends AbstractControl {
     /**
@@ -3673,7 +3673,7 @@ class FormGroup extends AbstractControl {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 class FormArray extends AbstractControl {
     /**
@@ -4012,7 +4012,7 @@ const resolvedPromise = Promise.resolve(null);
  *
  * * **NgModule**: `FormsModule`
  *
- *  \@stable
+ *
  */
 class NgForm extends ControlContainer {
     /**
@@ -4290,7 +4290,7 @@ const modelGroupProvider = {
  *
  * * **NgModule**: `FormsModule`
  *
- * \@stable
+ *
  */
 class NgModelGroup extends AbstractFormGroupDirective {
     /**
@@ -4416,7 +4416,7 @@ const resolvedPromise$1 = Promise.resolve(null);
  *
  * **NgModule**: `FormsModule`
  *
- *  \@stable
+ *
  */
 class NgModel extends NgControl {
     /**
@@ -4718,7 +4718,7 @@ const formControlBinding$1 = {
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *  \@stable
+ *
  */
 class FormControlDirective extends NgControl {
     /**
@@ -4875,7 +4875,7 @@ const formDirectiveProvider$1 = {
  *
  * **NgModule**: `ReactiveFormsModule`
  *
- *  \@stable
+ *
  */
 class FormGroupDirective extends ControlContainer {
     /**
@@ -5123,7 +5123,7 @@ const formGroupNameProvider = {
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
- * \@stable
+ *
  */
 class FormGroupName extends AbstractFormGroupDirective {
     /**
@@ -5208,7 +5208,7 @@ const formArrayNameProvider = {
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
- * \@stable
+ *
  */
 class FormArrayName extends ControlContainer {
     /**
@@ -5425,7 +5425,7 @@ const controlNameBinding = {
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *  \@stable
+ *
  */
 class FormControlName extends NgControl {
     /**
@@ -5585,7 +5585,7 @@ FormControlName.propDecorators = {
  * }
  * ```
  *
- * \@stable
+ *
  * @record
  */
 
@@ -5614,7 +5614,7 @@ const CHECKBOX_REQUIRED_VALIDATOR = {
  * <input name="fullName" ngModel required>
  * ```
  *
- * \@stable
+ *
  */
 class RequiredValidator {
     /**
@@ -5742,12 +5742,12 @@ EmailValidator.propDecorators = {
     "email": [{ type: Input },],
 };
 /**
- * \@stable
+ *
  * @record
  */
 
 /**
- * \@stable
+ *
  * @record
  */
 
@@ -5767,7 +5767,7 @@ const MIN_LENGTH_VALIDATOR = {
  * A directive which installs the `MinLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
  *
- * \@stable
+ *
  */
 class MinLengthValidator {
     /**
@@ -5829,7 +5829,7 @@ const MAX_LENGTH_VALIDATOR = {
  * `formControl`,
  * or control with `ngModel` that also has a `maxlength` attribute.
  *
- * \@stable
+ *
  */
 class MaxLengthValidator {
     /**
@@ -5890,7 +5890,7 @@ const PATTERN_VALIDATOR = {
  * ```
  * <input [name]="fullName" pattern="[a-zA-Z ]*" ngModel>
  * ```
- * \@stable
+ *
  */
 class PatternValidator {
     /**
@@ -5961,7 +5961,7 @@ PatternValidator.propDecorators = {
  *
  *  * **NgModule**: `ReactiveFormsModule`
  *
- * \@stable
+ *
  */
 class FormBuilder {
     /**
@@ -6057,9 +6057,9 @@ FormBuilder.ctorParameters = () => [];
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * \@stable
+ *
  */
-const VERSION = new Version('6.0.0-rc.3-5992fe6');
+const VERSION = new Version('6.0.0-rc.3-fb4513c');
 
 /**
  * @fileoverview added by tsickle
@@ -6158,7 +6158,7 @@ InternalFormsSharedModule.ctorParameters = () => [];
  */
 /**
  * The ng module for forms.
- * \@stable
+ *
  */
 class FormsModule {
 }
@@ -6173,7 +6173,7 @@ FormsModule.decorators = [
 FormsModule.ctorParameters = () => [];
 /**
  * The ng module for reactive forms.
- * \@stable
+ *
  */
 class ReactiveFormsModule {
     /**

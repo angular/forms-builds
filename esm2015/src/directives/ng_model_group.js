@@ -42,7 +42,7 @@ export const /** @type {?} */ modelGroupProvider = {
  *
  * * **NgModule**: `FormsModule`
  *
- * \@stable
+ *
  */
 export class NgModelGroup extends AbstractFormGroupDirective {
     /**

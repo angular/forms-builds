@@ -29,7 +29,7 @@ export declare type ValidationErrors = {
  * }
  * ```
  *
- * @stable
+ *
  */
 export interface Validator {
     validate(c: AbstractControl): ValidationErrors | null;
@@ -51,7 +51,7 @@ export declare const CHECKBOX_REQUIRED_VALIDATOR: StaticProvider;
  * <input name="fullName" ngModel required>
  * ```
  *
- * @stable
+ *
  */
 export declare class RequiredValidator implements Validator {
     private _required;
@@ -101,13 +101,13 @@ export declare class EmailValidator implements Validator {
     registerOnValidatorChange(fn: () => void): void;
 }
 /**
- * @stable
+ *
  */
 export interface ValidatorFn {
     (c: AbstractControl): ValidationErrors | null;
 }
 /**
- * @stable
+ *
  */
 export interface AsyncValidatorFn {
     (c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
@@ -124,7 +124,7 @@ export declare const MIN_LENGTH_VALIDATOR: any;
  * A directive which installs the `MinLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
  *
- * @stable
+ *
  */
 export declare class MinLengthValidator implements Validator, OnChanges {
     private _validator;
@@ -148,7 +148,7 @@ export declare const MAX_LENGTH_VALIDATOR: any;
  * `formControl`,
  * or control with `ngModel` that also has a `maxlength` attribute.
  *
- * @stable
+ *
  */
 export declare class MaxLengthValidator implements Validator, OnChanges {
     private _validator;
@@ -171,7 +171,7 @@ export declare const PATTERN_VALIDATOR: any;
  * ```
  * <input [name]="fullName" pattern="[a-zA-Z ]*" ngModel>
  * ```
- * @stable
+ *
  */
 export declare class PatternValidator implements Validator, OnChanges {
     private _validator;

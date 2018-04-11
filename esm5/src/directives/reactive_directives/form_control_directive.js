@@ -131,7 +131,7 @@ export var /** @type {?} */ formControlBinding = {
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *  \@stable
+ *
  */
 var FormControlDirective = /** @class */ (function (_super) {
     tslib_1.__extends(FormControlDirective, _super);

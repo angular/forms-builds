@@ -99,7 +99,7 @@ function HTMLCollection_tsickle_Closure_declarations() {
  * }
  * ```
  *
- * \@stable
+ *
  */
 var SelectMultipleControlValueAccessor = /** @class */ (function () {
     function SelectMultipleControlValueAccessor(_renderer, _elementRef) {

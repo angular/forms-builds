@@ -49,7 +49,7 @@ export declare const formDirectiveProvider: any;
  *
  * * **NgModule**: `FormsModule`
  *
- *  @stable
+ *
  */
 export declare class NgForm extends ControlContainer implements Form, AfterViewInit {
     readonly submitted: boolean;

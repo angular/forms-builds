@@ -99,7 +99,7 @@ var /** @type {?} */ resolvedPromise = Promise.resolve(null);
  *
  * **NgModule**: `FormsModule`
  *
- *  \@stable
+ *
  */
 var NgModel = /** @class */ (function (_super) {
     tslib_1.__extends(NgModel, _super);

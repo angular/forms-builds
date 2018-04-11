@@ -43,7 +43,7 @@ export var /** @type {?} */ modelGroupProvider = {
  *
  * * **NgModule**: `FormsModule`
  *
- * \@stable
+ *
  */
 var NgModelGroup = /** @class */ (function (_super) {
     tslib_1.__extends(NgModelGroup, _super);

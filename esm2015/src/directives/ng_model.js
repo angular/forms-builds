@@ -98,7 +98,7 @@ const /** @type {?} */ resolvedPromise = Promise.resolve(null);
  *
  * **NgModule**: `FormsModule`
  *
- *  \@stable
+ *
  */
 export class NgModel extends NgControl {
     /**

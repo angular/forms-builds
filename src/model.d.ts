@@ -53,7 +53,7 @@ export interface AbstractControlOptions {
  * @see [Forms Guide](/guide/forms)
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
- * @stable
+ *
  */
 export declare abstract class AbstractControl {
     validator: ValidatorFn | null;
@@ -408,7 +408,7 @@ export declare abstract class AbstractControl {
  *
  * * **npm package**: `@angular/forms`
  *
- * @stable
+ *
  */
 export declare class FormControl extends AbstractControl {
     constructor(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
@@ -560,7 +560,7 @@ export declare class FormControl extends AbstractControl {
  *
  * * **npm package**: `@angular/forms`
  *
- * @stable
+ *
  */
 export declare class FormGroup extends AbstractControl {
     controls: {
@@ -756,7 +756,7 @@ export declare class FormGroup extends AbstractControl {
  *
  * * **npm package**: `@angular/forms`
  *
- * @stable
+ *
  */
 export declare class FormArray extends AbstractControl {
     controls: AbstractControl[];

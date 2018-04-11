@@ -24,7 +24,7 @@ export const /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
  *  <input type="checkbox" name="rememberLogin" ngModel>
  *  ```
  *
- *  \@stable
+ *
  */
 export class CheckboxControlValueAccessor {
     /**
