@@ -14,7 +14,7 @@ import { AsyncValidatorFn, ValidatorFn } from './validators';
  *
  * Used internally by Angular forms.
  *
- * @stable
+ *
  */
 export declare abstract class NgControl extends AbstractControlDirective {
     name: string | null;

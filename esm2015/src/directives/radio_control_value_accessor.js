@@ -110,7 +110,7 @@ function RadioControlRegistry_tsickle_Closure_declarations() {
  *
  *  * **npm package**: `\@angular/forms`
  *
- *  \@stable
+ *
  */
 export class RadioControlValueAccessor {
     /**

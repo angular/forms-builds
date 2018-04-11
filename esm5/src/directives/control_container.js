@@ -16,7 +16,7 @@ import { AbstractControlDirective } from './abstract_control_directive';
  *
  * Only used by the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 var /**
@@ -24,7 +24,7 @@ var /**
  *
  * Only used by the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 ControlContainer = /** @class */ (function (_super) {
@@ -63,7 +63,7 @@ ControlContainer = /** @class */ (function (_super) {
  *
  * Only used by the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 export { ControlContainer };

@@ -32,7 +32,7 @@ export declare const modelGroupProvider: any;
  *
  * * **NgModule**: `FormsModule`
  *
- * @stable
+ *
  */
 export declare class NgModelGroup extends AbstractFormGroupDirective implements OnInit, OnDestroy {
     name: string;

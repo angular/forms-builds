@@ -14,7 +14,7 @@
  *
  * Only used internally in the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 var /**
@@ -22,7 +22,7 @@ var /**
  *
  * Only used internally in the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 AbstractControlDirective = /** @class */ (function () {
@@ -365,7 +365,7 @@ AbstractControlDirective = /** @class */ (function () {
  *
  * Only used internally in the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 export { AbstractControlDirective };

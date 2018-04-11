@@ -144,7 +144,7 @@ export var /** @type {?} */ controlNameBinding = {
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *  \@stable
+ *
  */
 var FormControlName = /** @class */ (function (_super) {
     tslib_1.__extends(FormControlName, _super);

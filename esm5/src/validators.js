@@ -40,7 +40,7 @@ function isEmptyInputValue(value) {
  * }
  * ```
  *
- * \@stable
+ *
  */
 export var /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators');
 /**
@@ -51,7 +51,7 @@ export var /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators');
  *
  * See `NG_VALIDATORS` for more details.
  *
- * \@stable
+ *
  */
 export var /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
 var /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
@@ -67,7 +67,7 @@ var /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A
  * var loginControl = new FormControl("", Validators.required)
  * ```
  *
- * \@stable
+ *
  */
 var /**
  * Provides a set of validators used by form controls.
@@ -81,7 +81,7 @@ var /**
  * var loginControl = new FormControl("", Validators.required)
  * ```
  *
- * \@stable
+ *
  */
 Validators = /** @class */ (function () {
     function Validators() {
@@ -347,7 +347,7 @@ Validators = /** @class */ (function () {
  * var loginControl = new FormControl("", Validators.required)
  * ```
  *
- * \@stable
+ *
  */
 export { Validators };
 /**

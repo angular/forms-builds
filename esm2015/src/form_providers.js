@@ -15,7 +15,7 @@ import { RadioControlRegistry } from './directives/radio_control_value_accessor'
 import { FormBuilder } from './form_builder';
 /**
  * The ng module for forms.
- * \@stable
+ *
  */
 export class FormsModule {
 }
@@ -39,7 +39,7 @@ function FormsModule_tsickle_Closure_declarations() {
 }
 /**
  * The ng module for reactive forms.
- * \@stable
+ *
  */
 export class ReactiveFormsModule {
     /**

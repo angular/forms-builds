@@ -131,7 +131,7 @@ export declare const controlNameBinding: any;
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *  @stable
+ *
  */
 export declare class FormControlName extends NgControl implements OnChanges, OnDestroy {
     private _ngModelWarningConfig;

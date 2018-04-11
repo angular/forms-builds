@@ -96,7 +96,7 @@ function _extractId(valueString) {
  *
  * * **npm package**: `\@angular/forms`
  *
- * \@stable
+ *
  */
 var SelectControlValueAccessor = /** @class */ (function () {
     function SelectControlValueAccessor(_renderer, _elementRef) {
@@ -282,7 +282,7 @@ function SelectControlValueAccessor_tsickle_Closure_declarations() {
  *
  * See docs for `SelectControlValueAccessor` for usage examples.
  *
- * \@stable
+ *
  */
 var NgSelectOption = /** @class */ (function () {
     function NgSelectOption(_element, _renderer, _select) {

@@ -14,7 +14,7 @@ import { composeAsyncValidators, composeValidators, controlPath } from './shared
 /**
  * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
- * \@stable
+ *
  */
 export class AbstractFormGroupDirective extends ControlContainer {
     /**

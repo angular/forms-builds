@@ -22,7 +22,7 @@ export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
  *  <input type="text" name="searchQuery" ngModel>
  *  ```
  *
- *  @stable
+ *
  */
 export declare class DefaultValueAccessor implements ControlValueAccessor {
     private _renderer;

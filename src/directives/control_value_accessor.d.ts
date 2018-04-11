@@ -13,7 +13,7 @@ import { InjectionToken } from '@angular/core';
  * Implement this interface if you want to create a custom form control directive
  * that integrates with Angular forms.
  *
- * @stable
+ *
  */
 export interface ControlValueAccessor {
     /**
@@ -107,6 +107,6 @@ export interface ControlValueAccessor {
  * Used to provide a `ControlValueAccessor` for form controls.
  *
  * See `DefaultValueAccessor` for how to implement one.
- * @stable
+ *
  */
 export declare const NG_VALUE_ACCESSOR: InjectionToken<ControlValueAccessor>;

@@ -102,7 +102,7 @@ export var /** @type {?} */ ngControlStatusHost = {
  * * ng-untouched
  * * ng-touched
  *
- * \@stable
+ *
  */
 var NgControlStatus = /** @class */ (function (_super) {
     tslib_1.__extends(NgControlStatus, _super);
@@ -132,7 +132,7 @@ function NgControlStatus_tsickle_Closure_declarations() {
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- * \@stable
+ *
  */
 var NgControlStatusGroup = /** @class */ (function (_super) {
     tslib_1.__extends(NgControlStatusGroup, _super);

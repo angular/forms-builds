@@ -63,7 +63,7 @@ export var /** @type {?} */ formGroupNameProvider = {
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
- * \@stable
+ *
  */
 var FormGroupName = /** @class */ (function (_super) {
     tslib_1.__extends(FormGroupName, _super);
@@ -165,7 +165,7 @@ export var /** @type {?} */ formArrayNameProvider = {
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
- * \@stable
+ *
  */
 var FormArrayName = /** @class */ (function (_super) {
     tslib_1.__extends(FormArrayName, _super);

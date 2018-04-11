@@ -17,7 +17,7 @@ import { InjectionToken } from '@angular/core';
  * Implement this interface if you want to create a custom form control directive
  * that integrates with Angular forms.
  *
- * \@stable
+ *
  * @record
  */
 export function ControlValueAccessor() { }
@@ -117,7 +117,7 @@ function ControlValueAccessor_tsickle_Closure_declarations() {
  * Used to provide a `ControlValueAccessor` for form controls.
  *
  * See `DefaultValueAccessor` for how to implement one.
- * \@stable
+ *
  */
 export var /** @type {?} */ NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 //# sourceMappingURL=control_value_accessor.js.map

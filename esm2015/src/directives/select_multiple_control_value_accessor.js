@@ -92,7 +92,7 @@ function HTMLCollection_tsickle_Closure_declarations() {
  * }
  * ```
  *
- * \@stable
+ *
  */
 export class SelectMultipleControlValueAccessor {
     /**

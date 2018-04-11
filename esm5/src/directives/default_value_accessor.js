@@ -40,7 +40,7 @@ export var /** @type {?} */ COMPOSITION_BUFFER_MODE = new InjectionToken('Compos
  *  <input type="text" name="searchQuery" ngModel>
  *  ```
  *
- *  \@stable
+ *
  */
 var DefaultValueAccessor = /** @class */ (function () {
     function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {

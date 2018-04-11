@@ -15,12 +15,12 @@ import { composeAsyncValidators, composeValidators, controlPath } from './shared
 /**
  * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
- * \@stable
+ *
  */
 var /**
  * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
- * \@stable
+ *
  */
 AbstractFormGroupDirective = /** @class */ (function (_super) {
     tslib_1.__extends(AbstractFormGroupDirective, _super);
@@ -117,7 +117,7 @@ AbstractFormGroupDirective = /** @class */ (function (_super) {
 /**
  * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
- * \@stable
+ *
  */
 export { AbstractFormGroupDirective };
 function AbstractFormGroupDirective_tsickle_Closure_declarations() {

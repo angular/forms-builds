@@ -62,7 +62,7 @@ export const /** @type {?} */ formGroupNameProvider = {
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
- * \@stable
+ *
  */
 export class FormGroupName extends AbstractFormGroupDirective {
     /**
@@ -160,7 +160,7 @@ export const /** @type {?} */ formArrayNameProvider = {
  *
  * * **NgModule**: `ReactiveFormsModule`
  *
- * \@stable
+ *
  */
 export class FormArrayName extends ControlContainer {
     /**

@@ -14,7 +14,7 @@
  *
  * Only used by the forms module.
  *
- * \@stable
+ *
  * @record
  */
 export function Form() { }

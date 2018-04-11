@@ -54,7 +54,7 @@ export var /** @type {?} */ formDirectiveProvider = {
  *
  * **NgModule**: `ReactiveFormsModule`
  *
- *  \@stable
+ *
  */
 var FormGroupDirective = /** @class */ (function (_super) {
     tslib_1.__extends(FormGroupDirective, _super);

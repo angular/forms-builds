@@ -53,7 +53,7 @@ export const /** @type {?} */ formDirectiveProvider = {
  *
  * **NgModule**: `ReactiveFormsModule`
  *
- *  \@stable
+ *
  */
 export class FormGroupDirective extends ControlContainer {
     /**

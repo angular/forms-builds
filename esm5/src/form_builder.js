@@ -29,7 +29,7 @@ import { FormArray, FormControl, FormGroup } from './model';
  *
  *  * **NgModule**: `ReactiveFormsModule`
  *
- * \@stable
+ *
  */
 var FormBuilder = /** @class */ (function () {
     function FormBuilder() {

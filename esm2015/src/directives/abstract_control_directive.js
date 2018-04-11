@@ -14,7 +14,7 @@
  *
  * Only used internally in the forms module.
  *
- * \@stable
+ *
  * @abstract
  */
 export class AbstractControlDirective {
