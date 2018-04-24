@@ -10,16 +10,16 @@ import { ControlValueAccessor } from './control_value_accessor';
 import { AsyncValidatorFn, ValidatorFn } from './validators';
 /**
  * A base class that all control directive extend.
- * It binds a {@link FormControl} object to a DOM element.
+ * It binds a `FormControl` object to a DOM element.
  *
  * Used internally by Angular forms.
  *
- * @stable
+ *
  */
 export declare abstract class NgControl extends AbstractControlDirective {
-    name: string;
-    valueAccessor: ControlValueAccessor;
-    readonly validator: ValidatorFn;
-    readonly asyncValidator: AsyncValidatorFn;
+    name: string | null;
+    valueAccessor: ControlValueAccessor | null;
+    readonly validator: ValidatorFn | null;
+    readonly asyncValidator: AsyncValidatorFn | null;
     abstract viewToModelUpdate(newValue: any): void;
 }

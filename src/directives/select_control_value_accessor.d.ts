@@ -5,18 +5,18 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { ElementRef, OnDestroy, Provider, Renderer } from '@angular/core';
+import { ElementRef, OnDestroy, Renderer2, StaticProvider } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
-export declare const SELECT_VALUE_ACCESSOR: Provider;
+export declare const SELECT_VALUE_ACCESSOR: StaticProvider;
 /**
- * @whatItDoes Writes values and listens to changes on a select element.
+ * @description
  *
- * Used by {@link NgModel}, {@link FormControlDirective}, and {@link FormControlName}
- * to keep the view synced with the {@link FormControl} model.
+ * Writes values and listens to changes on a select element.
  *
- * @howToUse
+ * Used by `NgModel`, `FormControlDirective`, and `FormControlName`
+ * to keep the view synced with the `FormControl` model.
  *
- * If you have imported the {@link FormsModule} or the {@link ReactiveFormsModule}, this
+ * If you have imported the `FormsModule` or the `ReactiveFormsModule`, this
  * value accessor will be active on any select control that has a form directive. You do
  * **not** need to add a special selector to activate it.
  *
@@ -69,7 +69,7 @@ export declare const SELECT_VALUE_ACCESSOR: Provider;
  *
  * * **npm package**: `@angular/forms`
  *
- * @stable
+ *
  */
 export declare class SelectControlValueAccessor implements ControlValueAccessor {
     private _renderer;
@@ -79,27 +79,27 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
     onTouched: () => void;
     compareWith: (o1: any, o2: any) => boolean;
     private _compareWith;
-    constructor(_renderer: Renderer, _elementRef: ElementRef);
+    constructor(_renderer: Renderer2, _elementRef: ElementRef);
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => any): void;
     registerOnTouched(fn: () => any): void;
     setDisabledState(isDisabled: boolean): void;
 }
 /**
- * @whatItDoes Marks `<option>` as dynamic, so Angular can be notified when options change.
+ * @description
  *
- * @howToUse
+ * Marks `<option>` as dynamic, so Angular can be notified when options change.
  *
- * See docs for {@link SelectControlValueAccessor} for usage examples.
+ * See docs for `SelectControlValueAccessor` for usage examples.
  *
- * @stable
+ *
  */
 export declare class NgSelectOption implements OnDestroy {
     private _element;
     private _renderer;
     private _select;
     id: string;
-    constructor(_element: ElementRef, _renderer: Renderer, _select: SelectControlValueAccessor);
+    constructor(_element: ElementRef, _renderer: Renderer2, _select: SelectControlValueAccessor);
     ngValue: any;
     value: any;
     ngOnDestroy(): void;

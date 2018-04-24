@@ -5,9 +5,9 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { ElementRef, OnDestroy, Provider, Renderer } from '@angular/core';
+import { ElementRef, OnDestroy, Renderer2, StaticProvider } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
-export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: Provider;
+export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
 /**
  * The accessor for writing a value and listening to changes on a select element.
  *
@@ -36,7 +36,7 @@ export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: Provider;
  * }
  * ```
  *
- * @stable
+ *
  */
 export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
     private _renderer;
@@ -46,7 +46,7 @@ export declare class SelectMultipleControlValueAccessor implements ControlValueA
     onTouched: () => void;
     compareWith: (o1: any, o2: any) => boolean;
     private _compareWith;
-    constructor(_renderer: Renderer, _elementRef: ElementRef);
+    constructor(_renderer: Renderer2, _elementRef: ElementRef);
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => any): void;
     registerOnTouched(fn: () => any): void;
@@ -68,7 +68,7 @@ export declare class NgSelectMultipleOption implements OnDestroy {
     private _renderer;
     private _select;
     id: string;
-    constructor(_element: ElementRef, _renderer: Renderer, _select: SelectMultipleControlValueAccessor);
+    constructor(_element: ElementRef, _renderer: Renderer2, _select: SelectMultipleControlValueAccessor);
     ngValue: any;
     value: any;
     ngOnDestroy(): void;

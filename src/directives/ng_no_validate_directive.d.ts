@@ -1,5 +1,7 @@
 /**
- * @whatItDoes Adds `novalidate` attribute to all forms by default.
+ * @description
+ *
+ * Adds `novalidate` attribute to all forms by default.
  *
  * `novalidate` is used to disable browser's native form validation.
  *

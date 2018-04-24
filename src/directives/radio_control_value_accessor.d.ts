@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { ElementRef, Injector, OnDestroy, OnInit, Renderer } from '@angular/core';
+import { ElementRef, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
 import { NgControl } from './ng_control';
 export declare const RADIO_VALUE_ACCESSOR: any;
@@ -20,14 +20,14 @@ export declare class RadioControlRegistry {
     private _isSameGroup(controlPair, accessor);
 }
 /**
- * @whatItDoes  Writes radio control values and listens to radio control changes.
+ * @description
  *
- * Used by {@link NgModel}, {@link FormControlDirective}, and {@link FormControlName}
- * to keep the view synced with the {@link FormControl} model.
+ * Writes radio control values and listens to radio control changes.
  *
- * @howToUse
+ * Used by `NgModel`, `FormControlDirective`, and `FormControlName`
+ * to keep the view synced with the `FormControl` model.
  *
- * If you have imported the {@link FormsModule} or the {@link ReactiveFormsModule}, this
+ * If you have imported the `FormsModule` or the `ReactiveFormsModule`, this
  * value accessor will be active on any radio control that has a form directive. You do
  * **not** need to add a special selector to activate it.
  *
@@ -46,7 +46,7 @@ export declare class RadioControlRegistry {
  *
  *  * **npm package**: `@angular/forms`
  *
- *  @stable
+ *
  */
 export declare class RadioControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
     private _renderer;
@@ -58,7 +58,7 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     name: string;
     formControlName: string;
     value: any;
-    constructor(_renderer: Renderer, _elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
+    constructor(_renderer: Renderer2, _elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
     ngOnInit(): void;
     ngOnDestroy(): void;
     writeValue(value: any): void;
