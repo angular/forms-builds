@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AbstractControl } from '../model';
 import { ValidationErrors } from './validators';
 /**
@@ -13,11 +13,11 @@ import { ValidationErrors } from './validators';
  *
  * Only used internally in the forms module.
  *
- * @stable
+ *
  */
 export declare abstract class AbstractControlDirective {
     /**
-     * The {@link FormControl}, {@link FormGroup}, or {@link FormArray}
+     * The `FormControl`, `FormGroup`, or `FormArray`
      * that backs this directive. Most properties fall through to that
      * instance.
      */
@@ -115,7 +115,7 @@ export declare abstract class AbstractControlDirective {
      * * it is marked as `untouched`
      * * value is set to null
      *
-     * For more information, see {@link AbstractControl}.
+     * For more information, see `AbstractControl`.
      */
     reset(value?: any): void;
     /**

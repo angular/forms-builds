@@ -11,15 +11,15 @@ import { ControlContainer } from './control_container';
 import { Form } from './form_interface';
 import { AsyncValidatorFn, ValidatorFn } from './validators';
 /**
- * This is a base class for code shared between {@link NgModelGroup} and {@link FormGroupName}.
+ * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
- * @stable
+ *
  */
 export declare class AbstractFormGroupDirective extends ControlContainer implements OnInit, OnDestroy {
     ngOnInit(): void;
     ngOnDestroy(): void;
     /**
-     * Get the {@link FormGroup} backing this binding.
+     * Get the `FormGroup` backing this binding.
      */
     readonly control: FormGroup;
     /**
@@ -27,7 +27,7 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      */
     readonly path: string[];
     /**
-     * Get the {@link Form} to which this group belongs.
+     * Get the `Form` to which this group belongs.
      */
     readonly formDirective: Form | null;
     readonly validator: ValidatorFn | null;
