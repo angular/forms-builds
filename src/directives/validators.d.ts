@@ -100,15 +100,9 @@ export declare class EmailValidator implements Validator {
     validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
 }
-/**
- *
- */
 export interface ValidatorFn {
     (c: AbstractControl): ValidationErrors | null;
 }
-/**
- *
- */
 export interface AsyncValidatorFn {
     (c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
 }

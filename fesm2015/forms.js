@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0+44.sha-ca6cb66
+ * @license Angular v6.0.0+46.sha-12dcb31
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5743,12 +5743,10 @@ EmailValidator.propDecorators = {
     "email": [{ type: Input },],
 };
 /**
- *
  * @record
  */
 
 /**
- *
  * @record
  */
 
@@ -6057,10 +6055,7 @@ FormBuilder.ctorParameters = () => [];
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
- *
- */
-const VERSION = new Version('6.0.0+44.sha-ca6cb66');
+const VERSION = new Version('6.0.0+46.sha-12dcb31');
 
 /**
  * @fileoverview added by tsickle
