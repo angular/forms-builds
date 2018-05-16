@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-rc.5+195.sha-20d7637
+ * @license Angular v6.0.0-rc.5+196.sha-88ab1d0
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6086,7 +6086,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.0.0-rc.5+195.sha-20d7637');
+var VERSION = new Version('6.0.0-rc.5+196.sha-88ab1d0');
 
 /**
  * @license
