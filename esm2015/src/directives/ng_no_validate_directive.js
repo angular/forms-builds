@@ -33,8 +33,6 @@ NgNoValidate.decorators = [
                 host: { 'novalidate': '' },
             },] }
 ];
-/** @nocollapse */
-NgNoValidate.ctorParameters = () => [];
 function NgNoValidate_tsickle_Closure_declarations() {
     /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
     NgNoValidate.decorators;

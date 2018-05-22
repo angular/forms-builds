@@ -76,8 +76,6 @@ InternalFormsSharedModule.decorators = [
                 exports: SHARED_FORM_DIRECTIVES,
             },] }
 ];
-/** @nocollapse */
-InternalFormsSharedModule.ctorParameters = () => [];
 function InternalFormsSharedModule_tsickle_Closure_declarations() {
     /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
     InternalFormsSharedModule.decorators;
