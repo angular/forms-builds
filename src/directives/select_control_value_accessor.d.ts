@@ -9,14 +9,14 @@ import { ElementRef, OnDestroy, Renderer2, StaticProvider } from '@angular/core'
 import { ControlValueAccessor } from './control_value_accessor';
 export declare const SELECT_VALUE_ACCESSOR: StaticProvider;
 /**
- * @whatItDoes Writes values and listens to changes on a select element.
+ * @description
  *
- * Used by {@link NgModel}, {@link FormControlDirective}, and {@link FormControlName}
- * to keep the view synced with the {@link FormControl} model.
+ * Writes values and listens to changes on a select element.
  *
- * @howToUse
+ * Used by `NgModel`, `FormControlDirective`, and `FormControlName`
+ * to keep the view synced with the `FormControl` model.
  *
- * If you have imported the {@link FormsModule} or the {@link ReactiveFormsModule}, this
+ * If you have imported the `FormsModule` or the `ReactiveFormsModule`, this
  * value accessor will be active on any select control that has a form directive. You do
  * **not** need to add a special selector to activate it.
  *
@@ -69,7 +69,7 @@ export declare const SELECT_VALUE_ACCESSOR: StaticProvider;
  *
  * * **npm package**: `@angular/forms`
  *
- * @stable
+ *
  */
 export declare class SelectControlValueAccessor implements ControlValueAccessor {
     private _renderer;
@@ -86,13 +86,13 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
     setDisabledState(isDisabled: boolean): void;
 }
 /**
- * @whatItDoes Marks `<option>` as dynamic, so Angular can be notified when options change.
+ * @description
  *
- * @howToUse
+ * Marks `<option>` as dynamic, so Angular can be notified when options change.
  *
- * See docs for {@link SelectControlValueAccessor} for usage examples.
+ * See docs for `SelectControlValueAccessor` for usage examples.
  *
- * @stable
+ *
  */
 export declare class NgSelectOption implements OnDestroy {
     private _element;

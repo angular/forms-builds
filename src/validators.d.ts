@@ -6,32 +6,46 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { InjectionToken } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AsyncValidatorFn, ValidationErrors, Validator, ValidatorFn } from './directives/validators';
 import { AbstractControl } from './model';
 /**
- * Providers for validators to be used for {@link FormControl}s in a form.
+ * Providers for validators to be used for `FormControl`s in a form.
  *
  * Provide this using `multi: true` to add validators.
  *
- * @stable
+ * ### Example
+ *
+ * ```typescript
+ * @Directive({
+ *   selector: '[custom-validator]',
+ *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ * })
+ * class CustomValidatorDirective implements Validator {
+ *   validate(control: AbstractControl): ValidationErrors | null {
+ *     return {"custom": true};
+ *   }
+ * }
+ * ```
+ *
+ *
  */
 export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
 /**
- * Providers for asynchronous validators to be used for {@link FormControl}s
+ * Providers for asynchronous validators to be used for `FormControl`s
  * in a form.
  *
  * Provide this using `multi: true` to add validators.
  *
- * See {@link NG_VALIDATORS} for more details.
+ * See `NG_VALIDATORS` for more details.
  *
- * @stable
+ *
  */
 export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[]>;
 /**
  * Provides a set of validators used by form controls.
  *
- * A validator is a function that processes a {@link FormControl} or collection of
+ * A validator is a function that processes a `FormControl` or collection of
  * controls and returns a map of errors. A null map means that validation has passed.
  *
  * ### Example
@@ -40,15 +54,19 @@ export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[
  * var loginControl = new FormControl("", Validators.required)
  * ```
  *
- * @stable
+ *
  */
 export declare class Validators {
     /**
      * Validator that requires controls to have a value greater than a number.
+     *`min()` exists only as a function, not as a directive. For example,
+     * `control = new FormControl('', Validators.min(3));`.
      */
     static min(min: number): ValidatorFn;
     /**
      * Validator that requires controls to have a value less than a number.
+     * `max()` exists only as a function, not as a directive. For example,
+     * `control = new FormControl('', Validators.max(15));`.
      */
     static max(max: number): ValidatorFn;
     /**
