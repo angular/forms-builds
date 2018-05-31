@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.3+36.sha-c9eb491
+ * @license Angular v6.0.3+42.sha-e2e7b49
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2671,7 +2671,7 @@ class AbstractControl {
      *
      * An event will be emitted by `statusChanges` by default.
      *
-     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not emit an event.
      * @param {?=} opts
      * @return {?}
      */
@@ -6055,7 +6055,7 @@ FormBuilder.ctorParameters = () => [];
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.0.3+36.sha-c9eb491');
+const VERSION = new Version('6.0.3+42.sha-e2e7b49');
 
 /**
  * @fileoverview added by tsickle

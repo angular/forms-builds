@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.3+36.sha-c9eb491
+ * @license Angular v6.0.3+42.sha-e2e7b49
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2485,21 +2485,21 @@ var AbstractControl = /** @class */ (function () {
      *
      * An event will be emitted by `statusChanges` by default.
      *
-     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not emit an event.
      */
     /**
        * Marks the control as `pending`.
        *
        * An event will be emitted by `statusChanges` by default.
        *
-       * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
+       * Passing `false` for `emitEvent` will cause `statusChanges` to not emit an event.
        */
     AbstractControl.prototype.markAsPending = /**
        * Marks the control as `pending`.
        *
        * An event will be emitted by `statusChanges` by default.
        *
-       * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
+       * Passing `false` for `emitEvent` will cause `statusChanges` to not emit an event.
        */
     function (opts) {
         if (opts === void 0) { opts = {}; }
@@ -6096,7 +6096,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.0.3+36.sha-c9eb491');
+var VERSION = new Version('6.0.3+42.sha-e2e7b49');
 
 /**
  * @license
