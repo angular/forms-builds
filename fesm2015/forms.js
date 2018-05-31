@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-rc.5+275.sha-b492b9e
+ * @license Angular v6.0.0-rc.5+282.sha-5d6074e
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2670,7 +2670,7 @@ class AbstractControl {
      *
      * An event will be emitted by `statusChanges` by default.
      *
-     * Passing `false` for `emitEvent` will cause `statusChanges` to not event an event.
+     * Passing `false` for `emitEvent` will cause `statusChanges` to not emit an event.
      * @param {?=} opts
      * @return {?}
      */
@@ -6045,7 +6045,7 @@ FormBuilder.decorators = [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.0.0-rc.5+275.sha-b492b9e');
+const VERSION = new Version('6.0.0-rc.5+282.sha-5d6074e');
 
 /**
  * @fileoverview added by tsickle
