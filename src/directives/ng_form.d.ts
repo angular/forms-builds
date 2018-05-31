@@ -14,22 +14,22 @@ import { NgModel } from './ng_model';
 import { NgModelGroup } from './ng_model_group';
 export declare const formDirectiveProvider: any;
 /**
- * @whatItDoes Creates a top-level {@link FormGroup} instance and binds it to a form
- * to track aggregate form value and validation status.
+ * @description
  *
- * @howToUse
+ * Creates a top-level `FormGroup` instance and binds it to a form
+ * to track aggregate form value and validation status.
  *
  * As soon as you import the `FormsModule`, this directive becomes active by default on
  * all `<form>` tags.  You don't need to add a special selector.
  *
  * You can export the directive into a local template variable using `ngForm` as the key
  * (ex: `#myForm="ngForm"`). This is optional, but useful.  Many properties from the underlying
- * {@link FormGroup} instance are duplicated on the directive itself, so a reference to it
+ * `FormGroup` instance are duplicated on the directive itself, so a reference to it
  * will give you access to the aggregate value and validity status of the form, as well as
  * user interaction properties like `dirty` and `touched`.
  *
- * To register child controls with the form, you'll want to use {@link NgModel} with a
- * `name` attribute.  You can also use {@link NgModelGroup} if you'd like to create
+ * To register child controls with the form, you'll want to use `NgModel` with a
+ * `name` attribute.  You can also use `NgModelGroup` if you'd like to create
  * sub-groups within the form.
  *
  * You can listen to the directive's `ngSubmit` event to be notified when the user has
@@ -49,7 +49,7 @@ export declare const formDirectiveProvider: any;
  *
  * * **NgModule**: `FormsModule`
  *
- *  @stable
+ *
  */
 export declare class NgForm extends ControlContainer implements Form, AfterViewInit {
     readonly submitted: boolean;
