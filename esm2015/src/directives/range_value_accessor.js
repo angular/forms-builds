@@ -76,17 +76,10 @@ RangeValueAccessor.decorators = [
 ];
 /** @nocollapse */
 RangeValueAccessor.ctorParameters = () => [
-    { type: Renderer2, },
-    { type: ElementRef, },
+    { type: Renderer2 },
+    { type: ElementRef }
 ];
 function RangeValueAccessor_tsickle_Closure_declarations() {
-    /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
-    RangeValueAccessor.decorators;
-    /**
-     * @nocollapse
-     * @type {function(): !Array<(null|{type: ?, decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>)})>}
-     */
-    RangeValueAccessor.ctorParameters;
     /** @type {?} */
     RangeValueAccessor.prototype.onChange;
     /** @type {?} */
