@@ -78,17 +78,10 @@ NumberValueAccessor.decorators = [
 ];
 /** @nocollapse */
 NumberValueAccessor.ctorParameters = () => [
-    { type: Renderer2, },
-    { type: ElementRef, },
+    { type: Renderer2 },
+    { type: ElementRef }
 ];
 function NumberValueAccessor_tsickle_Closure_declarations() {
-    /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
-    NumberValueAccessor.decorators;
-    /**
-     * @nocollapse
-     * @type {function(): !Array<(null|{type: ?, decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>)})>}
-     */
-    NumberValueAccessor.ctorParameters;
     /** @type {?} */
     NumberValueAccessor.prototype.onChange;
     /** @type {?} */
