@@ -71,17 +71,10 @@ CheckboxControlValueAccessor.decorators = [
 ];
 /** @nocollapse */
 CheckboxControlValueAccessor.ctorParameters = () => [
-    { type: Renderer2, },
-    { type: ElementRef, },
+    { type: Renderer2 },
+    { type: ElementRef }
 ];
 function CheckboxControlValueAccessor_tsickle_Closure_declarations() {
-    /** @type {!Array<{type: !Function, args: (undefined|!Array<?>)}>} */
-    CheckboxControlValueAccessor.decorators;
-    /**
-     * @nocollapse
-     * @type {function(): !Array<(null|{type: ?, decorators: (undefined|!Array<{type: !Function, args: (undefined|!Array<?>)}>)})>}
-     */
-    CheckboxControlValueAccessor.ctorParameters;
     /** @type {?} */
     CheckboxControlValueAccessor.prototype.onChange;
     /** @type {?} */
