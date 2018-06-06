@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-rc.5+319.sha-87b1671
+ * @license Angular v6.0.0-rc.5+320.sha-9367e91
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1889,7 +1889,7 @@ function _find(control, path, delimiter) {
         return null;
     return path.reduce(function (v, name) {
         if (v instanceof FormGroup) {
-            return v.controls[name] || null;
+            return v.controls.hasOwnProperty(name) ? v.controls[name] : null;
         }
         if (v instanceof FormArray) {
             return v.at(name) || null;
@@ -4954,7 +4954,7 @@ var FormBuilder = /** @class */ (function () {
  * @description
  * Entry point for all public APIs of the common package.
  */
-var VERSION = new Version('6.0.0-rc.5+319.sha-87b1671');
+var VERSION = new Version('6.0.0-rc.5+320.sha-9367e91');
 
 /**
  * @license
