@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.0-rc.5+318.sha-20c463e
+ * @license Angular v6.0.0-rc.5+322.sha-86b13cc
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2412,7 +2412,7 @@ function _find(control, path, delimiter) {
         return null;
     return (/** @type {?} */ (path)).reduce((v, name) => {
         if (v instanceof FormGroup) {
-            return v.controls[name] || null;
+            return v.controls.hasOwnProperty(/** @type {?} */ (name)) ? v.controls[name] : null;
         }
         if (v instanceof FormArray) {
             return v.at(/** @type {?} */ (name)) || null;
@@ -6040,7 +6040,7 @@ FormBuilder.decorators = [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.0.0-rc.5+318.sha-20c463e');
+const VERSION = new Version('6.0.0-rc.5+322.sha-86b13cc');
 
 /**
  * @fileoverview added by tsickle
