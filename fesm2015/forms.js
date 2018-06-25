@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.6+6.sha-3649958
+ * @license Angular v6.0.6+7.sha-a886659
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6238,7 +6238,7 @@ FormBuilder.decorators = [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.0.6+6.sha-3649958');
+const VERSION = new Version('6.0.6+7.sha-a886659');
 
 /**
  * @fileoverview added by tsickle
