@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.0.6+23.sha-aa75387
+ * @license Angular v6.0.6+24.sha-94433f3
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5232,7 +5232,7 @@ var FormBuilder = /** @class */ (function () {
  * @description
  * Entry point for all public APIs of the common package.
  */
-var VERSION = new Version('6.0.6+23.sha-aa75387');
+var VERSION = new Version('6.0.6+24.sha-94433f3');
 
 /**
  * @license
