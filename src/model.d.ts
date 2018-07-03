@@ -1,10 +1,3 @@
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 import { Observable } from 'rxjs';
 import { AsyncValidatorFn, ValidationErrors, ValidatorFn } from './directives/validators';
 /**
@@ -337,7 +330,7 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
-    private _updateAncestors;
+    private _updateAncestors(opts);
     /**
      * @param parent Sets the parent of the control
      */
@@ -372,10 +365,10 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
-    private _setInitialStatus;
-    private _runValidator;
-    private _runAsyncValidator;
-    private _cancelExistingSubscription;
+    private _setInitialStatus();
+    private _runValidator();
+    private _runAsyncValidator(emitEvent?);
+    private _cancelExistingSubscription();
     /**
      * Sets errors on a form control when running validations manually, rather than automatically.
      *
@@ -441,7 +434,7 @@ export declare abstract class AbstractControl {
      * Retrieves the top-level ancestor of this control.
      */
     readonly root: AbstractControl;
-    private _calculateStatus;
+    private _calculateStatus();
 }
 /**
  * Tracks the value and validation status of an individual form control.
@@ -633,7 +626,7 @@ export declare class FormControl extends AbstractControl {
      * @param fn The method that is called when the disabled status changes.
      */
     registerOnDisabledChange(fn: (isDisabled: boolean) => void): void;
-    private _applyFormState;
+    private _applyFormState(formState);
 }
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -1165,5 +1158,5 @@ export declare class FormArray extends AbstractControl {
      * For enabled controls only, the `value` property is the best way to get the value of the array.
      */
     getRawValue(): any[];
-    private _registerControl;
+    private _registerControl(control);
 }

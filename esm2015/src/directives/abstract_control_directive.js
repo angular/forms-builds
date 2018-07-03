@@ -1,6 +1,6 @@
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes} checked by tsc
  */
 /**
  * @license
@@ -167,7 +167,7 @@ export class AbstractControlDirective {
         return this.control ? this.control.getError(errorCode, path) : null;
     }
 }
-if (false) {
+function AbstractControlDirective_tsickle_Closure_declarations() {
     /**
      * The `FormControl`, `FormGroup`, or `FormArray`
      * that backs this directive. Most properties fall through to that

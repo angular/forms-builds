@@ -127,7 +127,7 @@ export declare class MinLengthValidator implements Validator, OnChanges {
     ngOnChanges(changes: SimpleChanges): void;
     validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
-    private _createValidator;
+    private _createValidator();
 }
 /**
  * Provider which adds `MaxLengthValidator` to `NG_VALIDATORS`.
@@ -151,7 +151,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
     ngOnChanges(changes: SimpleChanges): void;
     validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
-    private _createValidator;
+    private _createValidator();
 }
 export declare const PATTERN_VALIDATOR: any;
 /**
@@ -174,5 +174,5 @@ export declare class PatternValidator implements Validator, OnChanges {
     ngOnChanges(changes: SimpleChanges): void;
     validate(c: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
-    private _createValidator;
+    private _createValidator();
 }

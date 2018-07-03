@@ -1,6 +1,6 @@
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes} checked by tsc
  */
 /**
  * @license
@@ -63,7 +63,7 @@ export class AbstractFormGroupDirective extends ControlContainer {
      */
     _checkParentType() { }
 }
-if (false) {
+function AbstractFormGroupDirective_tsickle_Closure_declarations() {
     /**
      * \@internal
      * @type {?}

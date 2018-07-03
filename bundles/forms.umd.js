@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.0-beta.3+30.sha-e3064d5
+ * @license Angular v6.1.0-beta.3+29.sha-0c3738a
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1222,10 +1222,9 @@ var SelectControlValueAccessor = /** @class */ (function () {
     SelectControlValueAccessor.prototype._registerOption = function () { return (this._idCounter++).toString(); };
     /** @internal */
     SelectControlValueAccessor.prototype._getOptionId = function (value) {
-        var e_1, _a;
         try {
-            for (var _b = __values(Array.from(this._optionMap.keys())), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var id = _c.value;
+            for (var _a = __values(Array.from(this._optionMap.keys())), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var id = _b.value;
                 if (this._compareWith(this._optionMap.get(id), value))
                     return id;
             }
@@ -1233,11 +1232,12 @@ var SelectControlValueAccessor = /** @class */ (function () {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
             }
             finally { if (e_1) throw e_1.error; }
         }
         return null;
+        var e_1, _c;
     };
     /** @internal */
     SelectControlValueAccessor.prototype._getOptionValue = function (valueString) {
@@ -1453,10 +1453,9 @@ var SelectMultipleControlValueAccessor = /** @class */ (function () {
     };
     /** @internal */
     SelectMultipleControlValueAccessor.prototype._getOptionId = function (value) {
-        var e_1, _a;
         try {
-            for (var _b = __values(Array.from(this._optionMap.keys())), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var id = _c.value;
+            for (var _a = __values(Array.from(this._optionMap.keys())), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var id = _b.value;
                 if (this._compareWith(this._optionMap.get(id)._value, value))
                     return id;
             }
@@ -1464,11 +1463,12 @@ var SelectMultipleControlValueAccessor = /** @class */ (function () {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
             }
             finally { if (e_1) throw e_1.error; }
         }
         return null;
+        var e_1, _c;
     };
     /** @internal */
     SelectMultipleControlValueAccessor.prototype._getOptionValue = function (valueString) {
@@ -3203,10 +3203,9 @@ var FormGroup = /** @class */ (function (_super) {
     };
     /** @internal */
     FormGroup.prototype._allControlsDisabled = function () {
-        var e_1, _a;
         try {
-            for (var _b = __values(Object.keys(this.controls)), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var controlName = _c.value;
+            for (var _a = __values(Object.keys(this.controls)), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var controlName = _b.value;
                 if (this.controls[controlName].enabled) {
                     return false;
                 }
@@ -3215,11 +3214,12 @@ var FormGroup = /** @class */ (function (_super) {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
             }
             finally { if (e_1) throw e_1.error; }
         }
         return Object.keys(this.controls).length > 0 || this.disabled;
+        var e_1, _c;
     };
     /** @internal */
     FormGroup.prototype._checkAllValuesPresent = function (value) {
@@ -3584,10 +3584,9 @@ var FormArray = /** @class */ (function (_super) {
     };
     /** @internal */
     FormArray.prototype._allControlsDisabled = function () {
-        var e_2, _a;
         try {
-            for (var _b = __values(this.controls), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var control = _c.value;
+            for (var _a = __values(this.controls), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var control = _b.value;
                 if (control.enabled)
                     return false;
             }
@@ -3595,11 +3594,12 @@ var FormArray = /** @class */ (function (_super) {
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
         finally {
             try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
             }
             finally { if (e_2) throw e_2.error; }
         }
         return this.controls.length > 0 || this.disabled;
+        var e_2, _c;
     };
     FormArray.prototype._registerControl = function (control) {
         control.setParent(this);
@@ -5315,7 +5315,7 @@ var FormBuilder = /** @class */ (function () {
  * @description
  * Entry point for all public APIs of the common package.
  */
-var VERSION = new core.Version('6.1.0-beta.3+30.sha-e3064d5');
+var VERSION = new core.Version('6.1.0-beta.3+29.sha-0c3738a');
 
 /**
  * @license

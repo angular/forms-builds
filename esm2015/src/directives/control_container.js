@@ -1,6 +1,6 @@
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * @suppress {checkTypes} checked by tsc
  */
 /**
  * @license
@@ -30,7 +30,7 @@ export class ControlContainer extends AbstractControlDirective {
      */
     get path() { return null; }
 }
-if (false) {
+function ControlContainer_tsickle_Closure_declarations() {
     /** @type {?} */
     ControlContainer.prototype.name;
 }
