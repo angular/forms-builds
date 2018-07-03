@@ -127,13 +127,13 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     readonly validator: ValidatorFn | null;
     readonly asyncValidator: AsyncValidatorFn | null;
     viewToModelUpdate(newValue: any): void;
-    private _setUpControl();
-    private _setUpdateStrategy();
-    private _isStandalone();
-    private _setUpStandalone();
-    private _checkForErrors();
-    private _checkParentType();
-    private _checkName();
-    private _updateValue(value);
-    private _updateDisabled(changes);
+    private _setUpControl;
+    private _setUpdateStrategy;
+    private _isStandalone;
+    private _setUpStandalone;
+    private _checkForErrors;
+    private _checkParentType;
+    private _checkName;
+    private _updateValue;
+    private _updateDisabled;
 }
