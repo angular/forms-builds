@@ -94,5 +94,5 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     onSubmit($event: Event): boolean;
     onReset(): void;
     resetForm(value?: any): void;
-    private _setUpdateStrategy();
+    private _setUpdateStrategy;
 }

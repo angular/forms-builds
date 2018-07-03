@@ -139,5 +139,5 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     readonly asyncValidator: AsyncValidatorFn | null;
     readonly control: FormControl;
     viewToModelUpdate(newValue: any): void;
-    private _isControlChanged(changes);
+    private _isControlChanged;
 }

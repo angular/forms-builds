@@ -1,6 +1,6 @@
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -52,7 +52,7 @@ export class NgControl extends AbstractControlDirective {
      */
     get asyncValidator() { return /** @type {?} */ (unimplemented()); }
 }
-function NgControl_tsickle_Closure_declarations() {
+if (false) {
     /**
      * \@internal
      * @type {?}
