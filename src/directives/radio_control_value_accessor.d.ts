@@ -17,7 +17,7 @@ export declare class RadioControlRegistry {
     add(control: NgControl, accessor: RadioControlValueAccessor): void;
     remove(accessor: RadioControlValueAccessor): void;
     select(accessor: RadioControlValueAccessor): void;
-    private _isSameGroup(controlPair, accessor);
+    private _isSameGroup;
 }
 /**
  * @description
@@ -66,6 +66,6 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     fireUncheck(value: any): void;
     registerOnTouched(fn: () => {}): void;
     setDisabledState(isDisabled: boolean): void;
-    private _checkName();
-    private _throwNameError();
+    private _checkName;
+    private _throwNameError;
 }
