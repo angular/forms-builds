@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.0-beta.3+46.sha-f62876b
+ * @license Angular v6.1.0-beta.3+61.sha-3980640
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { Directive, ElementRef, EventEmitter, Host, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer2, Self, SkipSelf, Version, forwardRef, isDevMode, ɵisObservable, ɵisPromise, ɵlooseIdentical } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { __decorate, __metadata, __param } from 'tslib';
@@ -4880,12 +4880,7 @@ FormBuilder = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
- * @module
- * @description
- * Entry point for all public APIs of the common package.
- */
-const VERSION = new Version('6.1.0-beta.3+46.sha-f62876b');
+const VERSION = new Version('6.1.0-beta.3+61.sha-3980640');
 
 /**
  * @license
@@ -5010,16 +5005,6 @@ ReactiveFormsModule = ReactiveFormsModule_1 = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
- * @module
- * @description
- * This module is used for handling user input, by defining and building a `FormGroup` that
- * consists of `FormControl` objects, and mapping them onto the DOM. `FormControl`
- * objects can then be used to read information from the form DOM elements.
- *
- * Forms providers are not included in default providers; you must import these providers
- * explicitly.
- */
 
 /**
  * @license
@@ -5028,12 +5013,6 @@ ReactiveFormsModule = ReactiveFormsModule_1 = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
- * @module
- * @description
- * Entry point for all public APIs of this package.
- */
-
 // This file only reexports content of the `src` folder. Keep it that way.
 
 /**
@@ -5043,10 +5022,6 @@ ReactiveFormsModule = ReactiveFormsModule_1 = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-// This file is not used to build this module. It is only used during editing
-// by the TypeScript language service and during build for verification. `ngc`
-// replaces this file with production index.ts when it rewrites private symbol
-// names.
 
 export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
 //# sourceMappingURL=forms.js.map
