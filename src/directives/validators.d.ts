@@ -138,9 +138,8 @@ export declare class MinLengthValidator implements Validator, OnChanges {
  */
 export declare const MAX_LENGTH_VALIDATOR: any;
 /**
- * A directive which installs the `MaxLengthValidator` for any `formControlName,
- * `formControl`,
- * or control with `ngModel` that also has a `maxlength` attribute.
+ * A directive which installs the `MaxLengthValidator` for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `maxlength` attribute.
  *
  *
  */
