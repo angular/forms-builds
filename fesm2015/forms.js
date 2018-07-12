@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.0-beta.3+108.sha-80a74b4
+ * @license Angular v6.1.0-beta.3+107.sha-9a6f27c
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Version, Renderer2, forwardRef, EventEmitter, Injector, ɵlooseIdentical, isDevMode, defineInjectable, ɵdefineNgModule, defineInjector, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵInheritDefinitionFeature } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, EventEmitter, Renderer2, forwardRef, Injector, ɵlooseIdentical, Version, isDevMode, defineInjectable, ɵdefineNgModule, defineInjector, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵInheritDefinitionFeature } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -2315,8 +2315,9 @@ class FormControl extends AbstractControl {
     /**
     * Creates a new `FormControl` instance.
     *
-    * @param formState Initializes the control with an initial value,
-    * or an object that defines the initial value and disabled state.
+    * @param formState Initializes the control with an initial state value,
+    * or with an object that defines the initial value, status, and options
+    * for handling updates and validation.
     *
     * @param validatorOrOpts A synchronous validator function, or an array of
     * such functions, or an `AbstractControlOptions` object that contains validation functions
@@ -2380,8 +2381,9 @@ class FormControl extends AbstractControl {
      * Resets the form control, marking it `pristine` and `untouched`, and setting
      * the value to null.
      *
-     * @param formState Resets the control with an initial value,
-     * or an object that defines the initial value and disabled state.
+     * @param formState Initializes the control with an initial state value,
+     * or with an object that defines the initial value, status, and options
+     * for handling updates and validation.
      *
      * @param options Configuration options that determine how the control propagates changes
      * and emits events after the value changes.
@@ -2718,8 +2720,9 @@ class FormGroup extends AbstractControl {
      * is a standalone value or a form state object with both a value and a disabled
      * status.
      *
-     * @param formState Resets the control with an initial value,
-     * or an object that defines the initial value and disabled state.
+     * @param value Initializes the control with an initial state value,
+     * or with an object that defines the initial value, status,
+     * and options for handling updates and validation.
      *
      * @param options Configuration options that determine how the control propagates changes
      * and emits events when the group is reset.
@@ -4458,27 +4461,30 @@ PatternValidator.ngDirectiveDef = ɵdefineDirective({ type: PatternValidator, se
 
 /**
  * @description
+ *
  * Creates an `AbstractControl` from a user-specified configuration.
  *
- * The `FormBuilder` provides syntactic sugar that shortens creating instances of a `FormControl`,
- * `FormGroup`, or `FormArray`. It reduces the amount of boilerplate needed to build complex
+ * This is essentially syntactic sugar that shortens the `new FormGroup()`,
+ * `new FormControl()`, and `new FormArray()` boilerplate that can build up in larger
  * forms.
  *
- * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * To use, inject `FormBuilder` into your component class. You can then call its methods
+ * directly.
+ *
+ * {@example forms/ts/formBuilder/form_builder_example.ts region='Component'}
+ *
+ *  * **npm package**: `@angular/forms`
+ *
+ *  * **NgModule**: `ReactiveFormsModule`
+ *
  *
  */
 class FormBuilder {
     /**
-     * @description
-     * Construct a new `FormGroup` instance.
+     * Construct a new `FormGroup` with the given map of configuration.
+     * Valid keys for the `extra` parameter map are `validator` and `asyncValidator`.
      *
-     * @param controlsConfig A collection of child controls. The key for each child is the name
-     * under which it is registered.
-     *
-     * @param extra An object of configuration options for the `FormGroup`.
-     * * `validator`: A synchronous validator function, or an array of validator functions
-     * * `asyncValidator`: A single async validator or array of async validator functions
-     *
+     * See the `FormGroup` constructor for more details.
      */
     group(controlsConfig, extra = null) {
         const controls = this._reduceControls(controlsConfig);
@@ -4487,42 +4493,19 @@ class FormBuilder {
         return new FormGroup(controls, validator, asyncValidator);
     }
     /**
-     * @description
-     * Construct a new `FormControl` instance.
+     * Construct a new `FormControl` with the given `formState`,`validator`, and
+     * `asyncValidator`.
      *
-     * @param formState Initializes the control with an initial value,
-     * or an object that defines the initial value and disabled state.
-     *
-     * @param validator A synchronous validator function, or an array of synchronous validator
-     * functions.
-     *
-     * @param asyncValidator A single async validator or array of async validator functions
-     *
-     * @usageNotes
-     *
-     * ### Initialize a control as disabled
-     *
-     * The following example returns a control with an initial value in a disabled state.
-     *
-     * <code-example path="forms/ts/formBuilder/form_builder_example.ts"
-     *   linenums="false" region="disabled-control">
-     * </code-example>
+     * `formState` can either be a standalone value for the form control or an object
+     * that contains both a value and a disabled status.
      *
      */
     control(formState, validator, asyncValidator) {
         return new FormControl(formState, validator, asyncValidator);
     }
     /**
-     * @description
-     * Construct a new `FormArray` instance.
-     *
-     * @param controlsConfig An array of child controls. The key for each child control is its index
-     * in the array.
-     *
-     * @param validator A synchronous validator function, or an array of synchronous validator
-     * functions.
-     *
-     * @param asyncValidator A single async validator or array of async validator functions
+     * Construct a `FormArray` from the given `controlsConfig` array of
+     * configuration, with the given optional `validator` and `asyncValidator`.
      */
     array(controlsConfig, validator, asyncValidator) {
         const controls = controlsConfig.map(c => this._createControl(c));
@@ -4562,7 +4545,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.1.0-beta.3+108.sha-80a74b4');
+const VERSION = new Version('6.1.0-beta.3+107.sha-9a6f27c');
 
 /**
  * @description
