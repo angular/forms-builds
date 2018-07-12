@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.0.7+21.sha-0437598
+ * @license Angular v6.0.8+4.sha-48415ed
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { Directive, ElementRef, EventEmitter, Host, Inject, Injectable, InjectionToken, Injector, Input, NgModule, Optional, Output, Renderer2, Self, SkipSelf, Version, forwardRef, isDevMode, ɵisObservable, ɵisPromise, ɵlooseIdentical } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -184,13 +184,6 @@ class AbstractControlDirective {
  * @suppress {checkTypes} checked by tsc
  */
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
  * A directive that contains multiple `NgControl`s.
  *
  * Only used by the forms module.
@@ -216,13 +209,6 @@ class ControlContainer extends AbstractControlDirective {
  * @suppress {checkTypes} checked by tsc
  */
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
  * @param {?} value
  * @return {?}
  */
@@ -231,60 +217,71 @@ function isEmptyInputValue(value) {
     return value == null || value.length === 0;
 }
 /**
- * Providers for validators to be used for `FormControl`s in a form.
+ * \@description
+ * An `InjectionToken` for registering additional synchronous validators used with `AbstractControl`s.
  *
- * Provide this using `multi: true` to add validators.
+ * @see `NG_ASYNC_VALIDATORS`
  *
- * ### Example
+ * \@usageNotes
+ *
+ * ### Providing a custom validator
+ *
+ * The following example registers a custom validator directive. Adding the validator to the
+ * existing collection of validators requires the `multi: true` option.
  *
  * ```typescript
  * \@Directive({
- *   selector: '[custom-validator]',
+ *   selector: '[customValidator]',
  *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
  * })
  * class CustomValidatorDirective implements Validator {
  *   validate(control: AbstractControl): ValidationErrors | null {
- *     return {"custom": true};
+ *     return { 'custom': true };
  *   }
  * }
  * ```
  *
+ */
+const /** @type {?} */ NG_VALIDATORS = new InjectionToken('NgValidators');
+/**
+ * \@description
+ * An `InjectionToken` for registering additional asynchronous validators used with `AbstractControl`s.
+ *
+ * @see `NG_VALIDATORS`
  *
  */
-const NG_VALIDATORS = new InjectionToken('NgValidators');
+const /** @type {?} */ NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
+const /** @type {?} */ EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 /**
- * Providers for asynchronous validators to be used for `FormControl`s
- * in a form.
- *
- * Provide this using `multi: true` to add validators.
- *
- * See `NG_VALIDATORS` for more details.
- *
- *
- */
-const NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
-const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
-/**
- * Provides a set of validators used by form controls.
+ * \@description
+ * Provides a set of built-in validators that can be used by form controls.
  *
  * A validator is a function that processes a `FormControl` or collection of
- * controls and returns a map of errors. A null map means that validation has passed.
+ * controls and returns an error map or null. A null map means that validation has passed.
  *
- * ### Example
- *
- * ```typescript
- * var loginControl = new FormControl("", Validators.required)
- * ```
- *
+ * @see [Form Validation](/guide/form-validation)
  *
  */
 class Validators {
     /**
-     * Validator that requires controls to have a value greater than a number.
-     * `min()` exists only as a function, not as a directive. For example,
-     * `control = new FormControl('', Validators.min(3));`.
+     * \@description
+     * Validator that requires the control's value to be greater than or equal to the provided number.
+     * The validator exists only as a function and not as a directive.
+     *
+     * \@usageNotes
+     *
+     * ### Validate against a minimum of 3
+     *
+     * ```typescript
+     * const control = new FormControl(2, Validators.min(3));
+     *
+     * console.log(control.errors); // {min: {min: 3, actual: 2}}
+     * ```
+     *
      * @param {?} min
-     * @return {?}
+     * @return {?} A validator function that returns an error map with the
+     * `min` property if the validation check fails, otherwise `null`.
+     *
      */
     static min(min) {
         return (control) => {
@@ -298,11 +295,24 @@ class Validators {
         };
     }
     /**
-     * Validator that requires controls to have a value less than a number.
-     * `max()` exists only as a function, not as a directive. For example,
-     * `control = new FormControl('', Validators.max(15));`.
+     * \@description
+     * Validator that requires the control's value to be less than or equal to the provided number.
+     * The validator exists only as a function and not as a directive.
+     *
+     * \@usageNotes
+     *
+     * ### Validate against a maximum of 15
+     *
+     * ```typescript
+     * const control = new FormControl(16, Validators.max(15));
+     *
+     * console.log(control.errors); // {max: {max: 15, actual: 16}}
+     * ```
+     *
      * @param {?} max
-     * @return {?}
+     * @return {?} A validator function that returns an error map with the
+     * `max` property if the validation check fails, otherwise `null`.
+     *
      */
     static max(max) {
         return (control) => {
@@ -316,25 +326,67 @@ class Validators {
         };
     }
     /**
-     * Validator that requires controls to have a non-empty value.
+     * \@description
+     * Validator that requires the control have a non-empty value.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field is non-empty
+     *
+     * ```typescript
+     * const control = new FormControl('', Validators.required);
+     *
+     * console.log(control.errors); // {required: true}
+     * ```
+     *
      * @param {?} control
-     * @return {?}
+     * @return {?} An error map with the `required` property
+     * if the validation check fails, otherwise `null`.
+     *
      */
     static required(control) {
         return isEmptyInputValue(control.value) ? { 'required': true } : null;
     }
     /**
-     * Validator that requires control value to be true.
+     * \@description
+     * Validator that requires the control's value be true. This validator is commonly
+     * used for required checkboxes.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field value is true
+     *
+     * ```typescript
+     * const control = new FormControl('', Validators.requiredTrue);
+     *
+     * console.log(control.errors); // {required: true}
+     * ```
+     *
      * @param {?} control
-     * @return {?}
+     * @return {?} An error map that contains the `required` property
+     * set to `true` if the validation check fails, otherwise `null`.
      */
     static requiredTrue(control) {
         return control.value === true ? null : { 'required': true };
     }
     /**
-     * Validator that performs email validation.
+     * \@description
+     * Validator that requires the control's value pass an email validation test.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field matches a valid email pattern
+     *
+     * ```typescript
+     * const control = new FormControl('bad\@', Validators.email);
+     *
+     * console.log(control.errors); // {email: true}
+     * ```
+     *
      * @param {?} control
-     * @return {?}
+     * @return {?} An error map with the `email` property
+     * if the validation check fails, otherwise `null`.
+     *
      */
     static email(control) {
         if (isEmptyInputValue(control.value)) {
@@ -343,9 +395,28 @@ class Validators {
         return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
     }
     /**
-     * Validator that requires controls to have a value of a minimum length.
+     * \@description
+     * Validator that requires the length of the control's value to be greater than or equal
+     * to the provided minimum length. This validator is also provided by default if you use the
+     * the HTML5 `minlength` attribute.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field has a minimum of 3 characters
+     *
+     * ```typescript
+     * const control = new FormControl('ng', Validators.minLength(3));
+     *
+     * console.log(control.errors); // {minlength: {requiredLength: 3, actualLength: 2}}
+     * ```
+     *
+     * ```html
+     * <input minlength="5">
+     * ```
+     *
      * @param {?} minLength
-     * @return {?}
+     * @return {?} A validator function that returns an error map with the
+     * `minlength` if the validation check fails, otherwise `null`.
      */
     static minLength(minLength) {
         return (control) => {
@@ -359,9 +430,28 @@ class Validators {
         };
     }
     /**
-     * Validator that requires controls to have a value of a maximum length.
+     * \@description
+     * Validator that requires the length of the control's value to be less than or equal
+     * to the provided maximum length. This validator is also provided by default if you use the
+     * the HTML5 `maxlength` attribute.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field has maximum of 5 characters
+     *
+     * ```typescript
+     * const control = new FormControl('Angular', Validators.maxLength(5));
+     *
+     * console.log(control.errors); // {maxlength: {requiredLength: 5, actualLength: 7}}
+     * ```
+     *
+     * ```html
+     * <input maxlength="5">
+     * ```
+     *
      * @param {?} maxLength
-     * @return {?}
+     * @return {?} A validator function that returns an error map with the
+     * `maxlength` property if the validation check fails, otherwise `null`.
      */
     static maxLength(maxLength) {
         return (control) => {
@@ -372,9 +462,28 @@ class Validators {
         };
     }
     /**
-     * Validator that requires a control to match a regex to its value.
+     * \@description
+     * Validator that requires the control's value to match a regex pattern. This validator is also
+     * provided
+     * by default if you use the HTML5 `pattern` attribute.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field only contains letters or spaces
+     *
+     * ```typescript
+     * const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
+     *
+     * console.log(control.errors); // {pattern: {requiredPattern: '^[a-zA-Z ]*$', actualValue: '1'}}
+     * ```
+     *
+     * ```html
+     * <input pattern="[a-zA-Z ]*">
+     * ```
+     *
      * @param {?} pattern
-     * @return {?}
+     * @return {?} A validator function that returns an error map with the
+     * `pattern` property if the validation check fails, otherwise `null`.
      */
     static pattern(pattern) {
         if (!pattern)
@@ -404,7 +513,8 @@ class Validators {
         };
     }
     /**
-     * No-op validator.
+     * \@description
+     * Validator that performs no operation.
      * @param {?} c
      * @return {?}
      */
@@ -424,8 +534,13 @@ class Validators {
         };
     }
     /**
+     * \@description
+     * Compose multiple async validators into a single function that returns the union
+     * of the individual error objects for the provided control.
+     *
      * @param {?} validators
-     * @return {?}
+     * @return {?} A validator function that returns an error map with the
+     * merged error objects of the async validators if the validation check fails, otherwise `null`.
      */
     static composeAsync(validators) {
         if (!validators)
@@ -489,43 +604,18 @@ function _mergeErrors(arrayOfErrors) {
  * @suppress {checkTypes} checked by tsc
  */
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * A `ControlValueAccessor` acts as a bridge between the Angular forms API and a
- * native element in the DOM.
- *
- * Implement this interface if you want to create a custom form control directive
- * that integrates with Angular forms.
- *
- *
- * @record
- */
-
-/**
  * Used to provide a `ControlValueAccessor` for form controls.
  *
  * See `DefaultValueAccessor` for how to implement one.
  *
  */
-const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
+const /** @type {?} */ NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const CHECKBOX_VALUE_ACCESSOR = {
+const /** @type {?} */ CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => CheckboxControlValueAccessor),
     multi: true,
@@ -593,14 +683,7 @@ CheckboxControlValueAccessor.ctorParameters = () => [
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const DEFAULT_VALUE_ACCESSOR = {
+const /** @type {?} */ DEFAULT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => DefaultValueAccessor),
     multi: true
@@ -618,7 +701,7 @@ function _isAndroid() {
  * Turn this mode on if you want form directives to buffer IME input until compositionend
  * \@experimental
  */
-const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
+const /** @type {?} */ COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
 /**
  * The default accessor for writing a value and listening to changes that is used by the
  * `NgModel`, `FormControlDirective`, and `FormControlName` directives.
@@ -762,14 +845,7 @@ function normalizeAsyncValidator(validator) {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const NUMBER_VALUE_ACCESSOR = {
+const /** @type {?} */ NUMBER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NumberValueAccessor),
     multi: true
@@ -845,13 +921,6 @@ NumberValueAccessor.ctorParameters = () => [
  * @suppress {checkTypes} checked by tsc
  */
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
  * @return {?}
  */
 function unimplemented() {
@@ -898,14 +967,7 @@ class NgControl extends AbstractControlDirective {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const RADIO_VALUE_ACCESSOR = {
+const /** @type {?} */ RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => RadioControlValueAccessor),
     multi: true
@@ -1099,14 +1161,7 @@ RadioControlValueAccessor.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const RANGE_VALUE_ACCESSOR = {
+const /** @type {?} */ RANGE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => RangeValueAccessor),
     multi: true
@@ -1186,7 +1241,7 @@ RangeValueAccessor.ctorParameters = () => [
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const FormErrorExamples = {
+const /** @type {?} */ FormErrorExamples = {
     formControlName: `
     <div [formGroup]="myGroup">
       <input formControlName="firstName">
@@ -1241,13 +1296,6 @@ const FormErrorExamples = {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
- */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
  */
 class ReactiveErrors {
     /**
@@ -1346,14 +1394,7 @@ class ReactiveErrors {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const SELECT_VALUE_ACCESSOR = {
+const /** @type {?} */ SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SelectControlValueAccessor),
     multi: true
@@ -1625,14 +1666,7 @@ NgSelectOption.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const SELECT_MULTIPLE_VALUE_ACCESSOR = {
+const /** @type {?} */ SELECT_MULTIPLE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SelectMultipleControlValueAccessor),
     multi: true
@@ -1918,13 +1952,6 @@ NgSelectMultipleOption.propDecorators = {
  * @suppress {checkTypes} checked by tsc
  */
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
  * @param {?} name
  * @param {?} parent
  * @return {?}
@@ -2101,7 +2128,7 @@ function isPropertyUpdated(changes, viewModel) {
         return true;
     return !ɵlooseIdentical(viewModel, change.currentValue);
 }
-const BUILTIN_ACCESSORS = [
+const /** @type {?} */ BUILTIN_ACCESSORS = [
     CheckboxControlValueAccessor,
     RangeValueAccessor,
     NumberValueAccessor,
@@ -2202,13 +2229,6 @@ function _ngModelWarning(name, type, instance, warningConfig) {
  * @suppress {checkTypes} checked by tsc
  */
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
  * This is a base class for code shared between `NgModelGroup` and `FormGroupName`.
  *
  *
@@ -2265,13 +2285,6 @@ class AbstractFormGroupDirective extends ControlContainer {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 class AbstractControlStatus {
     /**
      * @param {?} cd
@@ -2306,7 +2319,7 @@ class AbstractControlStatus {
      */
     get ngClassPending() { return this._cd.control ? this._cd.control.pending : false; }
 }
-const ngControlStatusHost = {
+const /** @type {?} */ ngControlStatusHost = {
     '[class.ng-untouched]': 'ngClassUntouched',
     '[class.ng-touched]': 'ngClassTouched',
     '[class.ng-pristine]': 'ngClassPristine',
@@ -2371,24 +2384,17 @@ NgControlStatusGroup.ctorParameters = () => [
  * @suppress {checkTypes} checked by tsc
  */
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
  * Reports that a FormControl is valid, meaning that no errors exist in the input value.
  *
  * @see `status`
  */
-const VALID = 'VALID';
+const /** @type {?} */ VALID = 'VALID';
 /**
  * Reports that a FormControl is invalid, meaning that an error exists in the input value.
  *
  * @see `status`
  */
-const INVALID = 'INVALID';
+const /** @type {?} */ INVALID = 'INVALID';
 /**
  * Reports that a FormControl is pending, meaning that that async validation is occurring and
  * errors are not yet available for the input value.
@@ -2396,7 +2402,7 @@ const INVALID = 'INVALID';
  * @see `markAsPending`
  * @see `status`
  */
-const PENDING = 'PENDING';
+const /** @type {?} */ PENDING = 'PENDING';
 /**
  * Reports that a FormControl is disabled, meaning that the control is exempt from ancestor
  * calculations of validity or value.
@@ -2404,7 +2410,7 @@ const PENDING = 'PENDING';
  * @see `markAsDisabled`
  * @see `status`
  */
-const DISABLED = 'DISABLED';
+const /** @type {?} */ DISABLED = 'DISABLED';
 /**
  * @param {?} control
  * @param {?} path
@@ -2449,13 +2455,6 @@ function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
     return Array.isArray(origAsyncValidator) ? composeAsyncValidators(origAsyncValidator) :
         origAsyncValidator || null;
 }
-/**
- * Interface for options provided to an `AbstractControl`.
- *
- * \@experimental
- * @record
- */
-
 /**
  * @param {?=} validatorOrOpts
  * @return {?}
@@ -4162,18 +4161,11 @@ class FormArray extends AbstractControl {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const formDirectiveProvider = {
+const /** @type {?} */ formDirectiveProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => NgForm)
 };
-const resolvedPromise = Promise.resolve(null);
+const /** @type {?} */ resolvedPromise = Promise.resolve(null);
 /**
  * \@description
  *
@@ -4384,13 +4376,6 @@ NgForm.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 class TemplateDrivenErrors {
     /**
      * @return {?}
@@ -4454,14 +4439,7 @@ class TemplateDrivenErrors {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const modelGroupProvider = {
+const /** @type {?} */ modelGroupProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => NgModelGroup)
 };
@@ -4529,14 +4507,7 @@ NgModelGroup.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const formControlBinding = {
+const /** @type {?} */ formControlBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => NgModel)
 };
@@ -4557,7 +4528,7 @@ const formControlBinding = {
  * - this is just one extra run no matter how many `ngModel` have been changed.
  * - this is a general problem when using `exportAs` for directives!
  */
-const resolvedPromise$1 = Promise.resolve(null);
+const /** @type {?} */ resolvedPromise$1 = Promise.resolve(null);
 /**
  * \@description
  *
@@ -4796,17 +4767,10 @@ NgModel.propDecorators = {
  * @suppress {checkTypes} checked by tsc
  */
 /**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
-const NG_MODEL_WITH_FORM_CONTROL_WARNING = new InjectionToken('NgModelWithFormControlWarning');
-const formControlBinding$1 = {
+const /** @type {?} */ NG_MODEL_WITH_FORM_CONTROL_WARNING = new InjectionToken('NgModelWithFormControlWarning');
+const /** @type {?} */ formControlBinding$1 = {
     provide: NgControl,
     useExisting: forwardRef(() => FormControlDirective)
 };
@@ -5028,14 +4992,7 @@ FormControlDirective.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const formDirectiveProvider$1 = {
+const /** @type {?} */ formDirectiveProvider$1 = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormGroupDirective)
 };
@@ -5268,14 +5225,7 @@ FormGroupDirective.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const formGroupNameProvider = {
+const /** @type {?} */ formGroupNameProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormGroupName)
 };
@@ -5357,7 +5307,7 @@ FormGroupName.ctorParameters = () => [
 FormGroupName.propDecorators = {
     name: [{ type: Input, args: ['formGroupName',] }]
 };
-const formArrayNameProvider = {
+const /** @type {?} */ formArrayNameProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormArrayName)
 };
@@ -5493,14 +5443,7 @@ function _hasInvalidParent(parent) {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const controlNameBinding = {
+const /** @type {?} */ controlNameBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => FormControlName)
 };
@@ -5759,45 +5702,12 @@ FormControlName.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * An interface that can be implemented by classes that can act as validators.
- *
- * ## Usage
- *
- * ```typescript
- * \@Directive({
- *   selector: '[custom-validator]',
- *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
- * })
- * class CustomValidatorDirective implements Validator {
- *   validate(c: Control): {[key: string]: any} {
- *     return {"custom": true};
- *   }
- * }
- * ```
- *
- *
- * @record
- */
-
-/**
- * \@experimental
- * @record
- */
-
-const REQUIRED_VALIDATOR = {
+const /** @type {?} */ REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => RequiredValidator),
     multi: true
 };
-const CHECKBOX_REQUIRED_VALIDATOR = {
+const /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => CheckboxRequiredValidator),
     multi: true
@@ -5882,7 +5792,7 @@ CheckboxRequiredValidator.decorators = [
 /**
  * Provider which adds `EmailValidator` to `NG_VALIDATORS`.
  */
-const EMAIL_VALIDATOR = {
+const /** @type {?} */ EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => EmailValidator),
     multi: true
@@ -5934,21 +5844,13 @@ EmailValidator.propDecorators = {
     email: [{ type: Input }]
 };
 /**
- * @record
- */
-
-/**
- * @record
- */
-
-/**
  * Provider which adds `MinLengthValidator` to `NG_VALIDATORS`.
  *
  * ## Example:
  *
  * {\@example common/forms/ts/validators/validators.ts region='min'}
  */
-const MIN_LENGTH_VALIDATOR = {
+const /** @type {?} */ MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => MinLengthValidator),
     multi: true
@@ -6007,15 +5909,14 @@ MinLengthValidator.propDecorators = {
  *
  * {\@example common/forms/ts/validators/validators.ts region='max'}
  */
-const MAX_LENGTH_VALIDATOR = {
+const /** @type {?} */ MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => MaxLengthValidator),
     multi: true
 };
 /**
- * A directive which installs the `MaxLengthValidator` for any `formControlName,
- * `formControl`,
- * or control with `ngModel` that also has a `maxlength` attribute.
+ * A directive which installs the `MaxLengthValidator` for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `maxlength` attribute.
  *
  *
  */
@@ -6060,7 +5961,7 @@ MaxLengthValidator.decorators = [
 MaxLengthValidator.propDecorators = {
     maxlength: [{ type: Input }]
 };
-const PATTERN_VALIDATOR = {
+const /** @type {?} */ PATTERN_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => PatternValidator),
     multi: true
@@ -6119,13 +6020,6 @@ PatternValidator.propDecorators = {
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
- */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
  */
 /**
  * \@description
@@ -6231,25 +6125,11 @@ FormBuilder.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const VERSION = new Version('6.0.7+21.sha-0437598');
+const /** @type {?} */ VERSION = new Version('6.0.8+4.sha-48415ed');
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
- */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
  */
 /**
  * \@description
@@ -6279,14 +6159,7 @@ NgNoValidate.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-const SHARED_FORM_DIRECTIVES = [
+const /** @type {?} */ SHARED_FORM_DIRECTIVES = [
     NgNoValidate,
     NgSelectOption,
     NgSelectMultipleOption,
@@ -6306,8 +6179,8 @@ const SHARED_FORM_DIRECTIVES = [
     CheckboxRequiredValidator,
     EmailValidator,
 ];
-const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
-const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
+const /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+const /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
@@ -6323,13 +6196,6 @@ InternalFormsSharedModule.decorators = [
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
- */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
  */
 /**
  * The ng module for forms.
@@ -6375,48 +6241,17 @@ ReactiveFormsModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * @module
- * @description
- * Entry point for all public APIs of this package.
- */
-
 // This file only reexports content of the `src` folder. Keep it that way.
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-// This file is not used to build this module. It is only used during editing
-// by the TypeScript language service and during build for verification. `ngc`
-// replaces this file with production index.ts when it rewrites private symbol
-// names.
 
 /**
  * Generated bundle index. Do not edit.
