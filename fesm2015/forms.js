@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.0-rc.3+1.sha-2aab1c9
+ * @license Angular v6.1.0-rc.3+3.sha-270176b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, EventEmitter, Renderer2, forwardRef, Version, ɵlooseIdentical, Injector, isDevMode, defineInjectable, ɵdefineNgModule, defineInjector, ɵdefineDirective, ɵdirectiveInject, ɵInheritDefinitionFeature, ɵinjectElementRef } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, EventEmitter, Version, Renderer2, forwardRef, Injector, ɵlooseIdentical, isDevMode, defineInjectable, ɵdefineNgModule, defineInjector, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵInheritDefinitionFeature } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -4562,7 +4562,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.1.0-rc.3+1.sha-2aab1c9');
+const VERSION = new Version('6.1.0-rc.3+3.sha-270176b');
 
 /**
  * @description
