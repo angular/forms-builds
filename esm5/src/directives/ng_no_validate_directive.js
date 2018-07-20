@@ -25,7 +25,7 @@ import { Directive } from '@angular/core';
 var NgNoValidate = /** @class */ (function () {
     function NgNoValidate() {
     }
-    NgNoValidate.ngDirectiveDef = i0.ɵdefineDirective({ type: NgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function NgNoValidate_Factory() { return new NgNoValidate(); } });
+    NgNoValidate.ngDirectiveDef = i0.ɵdefineDirective({ type: NgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function NgNoValidate_Factory() { return new NgNoValidate(); }, attributes: ["novalidate", ""] });
     return NgNoValidate;
 }());
 export { NgNoValidate };

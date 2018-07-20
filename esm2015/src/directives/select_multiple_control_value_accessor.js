@@ -139,7 +139,7 @@ export class SelectMultipleControlValueAccessor {
         return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
     }
 }
-SelectMultipleControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], factory: function SelectMultipleControlValueAccessor_Factory() { return new SelectMultipleControlValueAccessor(i0.ɵdirectiveInject(Renderer2), i0.ɵinjectElementRef()); }, inputs: { compareWith: "compareWith" } });
+SelectMultipleControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], factory: function SelectMultipleControlValueAccessor_Factory() { return new SelectMultipleControlValueAccessor(i0.ɵdirectiveInject(Renderer2), i0.ɵinjectElementRef()); }, hostBindings: function SelectMultipleControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵL("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { const pd_b = (i0.ɵd(dirIndex).onChange($event.target) !== false); return pd_b; }); i0.ɵL("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler($event) { const pd_b = (i0.ɵd(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { compareWith: "compareWith" } });
 /**
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
  *
