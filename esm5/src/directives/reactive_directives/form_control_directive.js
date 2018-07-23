@@ -204,7 +204,7 @@ var FormControlDirective = /** @class */ (function (_super) {
      * @internal
      */
     FormControlDirective._ngModelWarningSentOnce = false;
-    FormControlDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlDirective, selectors: [["", "formControl", ""]], factory: function FormControlDirective_Factory() { return new FormControlDirective(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10), i0.ɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); }, inputs: { form: "formControl", isDisabled: "disabled", model: "ngModel" }, features: [i0.ɵInheritDefinitionFeature] });
+    FormControlDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlDirective, selectors: [["", "formControl", ""]], factory: function FormControlDirective_Factory() { return new FormControlDirective(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10), i0.ɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); }, inputs: { form: "formControl", isDisabled: "disabled", model: "ngModel" }, outputs: { update: "ngModelChange" }, features: [i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature] });
     return FormControlDirective;
 }(NgControl));
 export { FormControlDirective };

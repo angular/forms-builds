@@ -159,7 +159,7 @@ var FormGroupDirective = /** @class */ (function (_super) {
             ReactiveErrors.missingFormException();
         }
     };
-    FormGroupDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupDirective, selectors: [["", "formGroup", ""]], factory: function FormGroupDirective_Factory() { return new FormGroupDirective(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { form: "formGroup" }, features: [i0.ɵInheritDefinitionFeature] });
+    FormGroupDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupDirective, selectors: [["", "formGroup", ""]], factory: function FormGroupDirective_Factory() { return new FormGroupDirective(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function FormGroupDirective_HostBindings(dirIndex, elIndex) { i0.ɵL("submit", function FormGroupDirective_submit_HostBindingHandler($event) { var pd_b = (i0.ɵd(dirIndex).onSubmit($event) !== false); return pd_b; }); i0.ɵL("reset", function FormGroupDirective_reset_HostBindingHandler($event) { var pd_b = (i0.ɵd(dirIndex).onReset() !== false); return pd_b; }); }, inputs: { form: "formGroup" }, outputs: { ngSubmit: "ngSubmit" }, features: [i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature] });
     return FormGroupDirective;
 }(ControlContainer));
 export { FormGroupDirective };
