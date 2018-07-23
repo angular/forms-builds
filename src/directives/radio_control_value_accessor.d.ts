@@ -19,7 +19,7 @@ export declare class RadioControlRegistry {
     remove(accessor: RadioControlValueAccessor): void;
     select(accessor: RadioControlValueAccessor): void;
     private _isSameGroup;
-    static ngInjectableDef: i0.InjectableDef<RadioControlRegistry>;
+    static ngInjectableDef: i0.ɵInjectableDef<RadioControlRegistry>;
 }
 /**
  * @description

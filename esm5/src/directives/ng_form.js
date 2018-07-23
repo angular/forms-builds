@@ -159,7 +159,7 @@ var NgForm = /** @class */ (function (_super) {
         path.pop();
         return path.length ? this.form.get(path) : this.form;
     };
-    NgForm.ngDirectiveDef = i0.ɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ngForm"], ["", "ngForm", ""]], factory: function NgForm_Factory() { return new NgForm(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { options: "ngFormOptions" }, outputs: { ngSubmit: "ngSubmit" }, features: [i0.ɵInheritDefinitionFeature] });
+    NgForm.ngDirectiveDef = i0.ɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ngForm"], ["", "ngForm", ""]], factory: function NgForm_Factory() { return new NgForm(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function NgForm_HostBindings(dirIndex, elIndex) { i0.ɵL("submit", function NgForm_submit_HostBindingHandler($event) { var pd_b = (i0.ɵd(dirIndex).onSubmit($event) !== false); return pd_b; }); i0.ɵL("reset", function NgForm_reset_HostBindingHandler($event) { var pd_b = (i0.ɵd(dirIndex).onReset() !== false); return pd_b; }); }, inputs: { options: "ngFormOptions" }, outputs: { ngSubmit: "ngSubmit" }, features: [i0.ɵInheritDefinitionFeature] });
     return NgForm;
 }(ControlContainer));
 export { NgForm };

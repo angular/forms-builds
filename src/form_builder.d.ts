@@ -74,5 +74,5 @@ export declare class FormBuilder {
      * @param asyncValidator A single async validator or array of async validator functions
      */
     array(controlsConfig: any[], validator?: ValidatorFn | ValidatorFn[] | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray;
-    static ngInjectableDef: i0.InjectableDef<FormBuilder>;
+    static ngInjectableDef: i0.ɵInjectableDef<FormBuilder>;
 }

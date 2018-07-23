@@ -3,10 +3,9 @@ import * as i1 from './directives/reactive_directives/form_control_directive';
 import * as i2 from './directives/reactive_directives/form_group_directive';
 import * as i3 from './directives/reactive_directives/form_control_name';
 import * as i4 from './directives/reactive_directives/form_group_name';
-import * as i5 from './directives';
-import * as i6 from './directives/ng_model';
-import * as i7 from './directives/ng_model_group';
-import * as i8 from './directives/ng_form';
+import * as i5 from './directives/ng_model';
+import * as i6 from './directives/ng_model_group';
+import * as i7 from './directives/ng_form';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -20,7 +19,7 @@ import { ModuleWithProviders } from '@angular/core';
  *
  */
 export declare class FormsModule {
-    static ngModuleDef: i0.ɵNgModuleDef<FormsModule, [i6.NgModel,i7.NgModelGroup,i8.NgForm], [], [i5.InternalFormsSharedModule,i6.NgModel,i7.NgModelGroup,i8.NgForm]>;
+    static ngModuleDef: i0.ɵNgModuleDef<FormsModule, [typeof i5.NgModel,typeof i6.NgModelGroup,typeof i7.NgForm], never, [typeof InternalFormsSharedModule,typeof i5.NgModel,typeof i6.NgModelGroup,typeof i7.NgForm]>;
     static ngInjectorDef: i0.ɵInjectorDef<FormsModule>;
 }
 /**
@@ -30,7 +29,7 @@ export declare class FormsModule {
 export declare class ReactiveFormsModule {
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnNgModelWithFormControl: 'never' | 'once' | 'always';
-    }): ModuleWithProviders;
-    static ngModuleDef: i0.ɵNgModuleDef<ReactiveFormsModule, [i1.FormControlDirective,i2.FormGroupDirective,i3.FormControlName,i4.FormGroupName,i4.FormArrayName], [], [i5.InternalFormsSharedModule,i1.FormControlDirective,i2.FormGroupDirective,i3.FormControlName,i4.FormGroupName,i4.FormArrayName]>;
+    }): ModuleWithProviders<ReactiveFormsModule>;
+    static ngModuleDef: i0.ɵNgModuleDef<ReactiveFormsModule, [typeof i1.FormControlDirective,typeof i2.FormGroupDirective,typeof i3.FormControlName,typeof i4.FormGroupName,typeof i4.FormArrayName], never, [typeof InternalFormsSharedModule,typeof i1.FormControlDirective,typeof i2.FormGroupDirective,typeof i3.FormControlName,typeof i4.FormGroupName,typeof i4.FormArrayName]>;
     static ngInjectorDef: i0.ɵInjectorDef<ReactiveFormsModule>;
 }
