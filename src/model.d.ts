@@ -462,31 +462,31 @@ export declare abstract class AbstractControl {
  * Instantiate a `FormControl`, with an initial value.
  *
  * ```ts
- * const control = new FormControl('some value');
- * console.log(control.value);     // 'some value'
+ * const ctrl = new FormControl('some value');
+ * console.log(ctrl.value);     // 'some value'
  *```
  *
  * The following example initializes the control with a form state object. The `value`
  * and `disabled` keys are required in this case.
  *
  * ```ts
- * const control = new FormControl({ value: 'n/a', disabled: true });
- * console.log(control.value);     // 'n/a'
- * console.log(control.status);    // 'DISABLED'
+ * const ctrl = new FormControl({ value: 'n/a', disabled: true });
+ * console.log(ctrl.value);     // 'n/a'
+ * console.log(ctrl.status);    // 'DISABLED'
  * ```
  *
  * The following example initializes the control with a sync validator.
  *
  * ```ts
- * const control = new FormControl('', Validators.required);
- * console.log(control.value);      // ''
- * console.log(control.status);     // 'INVALID'
+ * const ctrl = new FormControl('', Validators.required);
+ * console.log(ctrl.value);      // ''
+ * console.log(ctrl.status);     // 'INVALID'
  * ```
  *
  * The following example initializes the control using an options object.
  *
  * ```ts
- * const control = new FormControl('', {
+ * const ctrl = new FormControl('', {
  *    validators: Validators.required,
  *    asyncValidators: myAsyncValidator
  * });
@@ -497,7 +497,7 @@ export declare abstract class AbstractControl {
  * Set the `updateOn` option to `'blur'` to update on the blur `event`.
  *
  * ```ts
- * const control = new FormControl('', { updateOn: 'blur' });
+ * const ctrl = new FormControl('', { updateOn: 'blur' });
  * ```
  *
  * ### Configure the control to update on a submit event
@@ -505,7 +505,7 @@ export declare abstract class AbstractControl {
  * Set the `updateOn` option to `'submit'` to update on a submit `event`.
  *
  * ```ts
- * const control = new FormControl('', { updateOn: 'submit' });
+ * const ctrl = new FormControl('', { updateOn: 'submit' });
  * ```
  *
  * ### Reset the control back to an initial value
@@ -515,7 +515,7 @@ export declare abstract class AbstractControl {
  * (these are the only two properties that cannot be calculated).
  *
  * ```ts
- * const control = new FormControl('Nancy');
+ * const ctrl = new FormControl('Nancy');
  *
  * console.log(control.value); // 'Nancy'
  *
@@ -527,15 +527,15 @@ export declare abstract class AbstractControl {
  * ### Reset the control back to an initial value and disabled
  *
  * ```
- * const control = new FormControl('Nancy');
+ * const ctrl = new FormControl('Nancy');
  *
  * console.log(control.value); // 'Nancy'
- * console.log(control.status); // 'VALID'
+ * console.log(this.control.status); // 'DISABLED'
  *
  * control.reset({ value: 'Drew', disabled: true });
  *
- * console.log(control.value); // 'Drew'
- * console.log(control.status); // 'DISABLED'
+ * console.log(this.control.value); // 'Drew'
+ * console.log(this.control.status); // 'DISABLED'
  *
 */
 export declare class FormControl extends AbstractControl {
