@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.0+44.sha-d5d034a
+ * @license Angular v6.1.0+45.sha-1ef2eae
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6223,7 +6223,7 @@ FormBuilder.decorators = [
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('6.1.0+44.sha-d5d034a');
+const VERSION = new Version('6.1.0+45.sha-1ef2eae');
 
 /**
  * @fileoverview added by tsickle
