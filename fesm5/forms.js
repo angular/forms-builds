@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.0+94.sha-e60737f
+ * @license Angular v6.1.0+96.sha-5982425
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { __extends, __decorate, __metadata, __param, __values, __assign, __spread } from 'tslib';
+import { __extends, __decorate, __param, __metadata, __values, __assign, __spread } from 'tslib';
 import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -5413,7 +5413,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.1.0+94.sha-e60737f');
+var VERSION = new Version('6.1.0+96.sha-5982425');
 
 /**
  * @license
