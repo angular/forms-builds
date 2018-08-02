@@ -11,6 +11,9 @@ import { ModuleWithProviders } from '@angular/core';
  *
  */
 export declare class FormsModule {
+    static withConfig(opts: {
+        /** @deprecated as of v6 */ warnOnDeprecatedNgFormSelector?: 'never' | 'once' | 'always';
+    }): ModuleWithProviders;
 }
 /**
  * The ng module for reactive forms.

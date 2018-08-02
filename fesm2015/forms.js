@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.0+96.sha-5982425
+ * @license Angular v6.1.0+97.sha-3ba5220
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3459,12 +3459,27 @@ const resolvedPromise = Promise.resolve(null);
  * unnecessary because the `<form>` tags are inert. In that case, you would
  * refrain from using the `formGroup` directive.
  *
+ * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
+ * in Angular v9.
+ *
+ * This has been deprecated to keep selectors consistent with other core Angular selectors,
+ * as element selectors are typically written in kebab-case.
+ *
+ * Now deprecated:
+ * ```html
+ * <ngForm #myForm="ngForm">
+ * ```
+ *
+ * After:
+ * ```html
+ * <ng-form #myForm="ngForm">
+ * ```
+ *
  * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
  * * **npm package**: `@angular/forms`
  *
  * * **NgModule**: `FormsModule`
- *
  *
  */
 let NgForm = class NgForm extends ControlContainer {
@@ -3554,7 +3569,7 @@ __decorate([
 ], NgForm.prototype, "options", void 0);
 NgForm = __decorate([
     Directive({
-        selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
+        selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]',
         providers: [formDirectiveProvider],
         host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
         outputs: ['ngSubmit'],
@@ -3617,7 +3632,63 @@ class TemplateDrivenErrors {
 
       ${FormErrorExamples.ngModelGroup}`);
     }
+    static ngFormWarning() {
+        console.warn(`
+    It looks like you're using 'ngForm'.
+
+    Support for using the 'ngForm' element selector has been deprecated in Angular v6 and will be removed
+    in Angular v9.
+
+    Use 'ng-form' instead.
+
+    Before:
+    <ngForm #myForm="ngForm">
+
+    After:
+    <ng-form #myForm="ngForm">
+    `);
+    }
 }
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var NgFormSelectorWarning_1;
+/**
+ * Token to provide to turn off the warning when using 'ngForm' deprecated selector.
+ */
+const NG_FORM_SELECTOR_WARNING = new InjectionToken('NgFormSelectorWarning');
+/**
+ * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
+ *
+ * @deprecated in Angular v6 and will be removed in Angular v9.
+ *
+ */
+let NgFormSelectorWarning = NgFormSelectorWarning_1 = class NgFormSelectorWarning {
+    constructor(ngFormWarning) {
+        if (((!ngFormWarning || ngFormWarning === 'once') && !NgFormSelectorWarning_1._ngFormWarning) ||
+            ngFormWarning === 'always') {
+            TemplateDrivenErrors.ngFormWarning();
+            NgFormSelectorWarning_1._ngFormWarning = true;
+        }
+    }
+};
+/**
+ * Static property used to track whether the deprecation warning for this selector has been sent.
+ * Used to support warning config of "once".
+ *
+ * @internal
+ */
+NgFormSelectorWarning._ngFormWarning = false;
+NgFormSelectorWarning = NgFormSelectorWarning_1 = __decorate([
+    Directive({ selector: 'ngForm' }),
+    __param(0, Optional()), __param(0, Inject(NG_FORM_SELECTOR_WARNING)),
+    __metadata("design:paramtypes", [Object])
+], NgFormSelectorWarning);
 
 /**
  * @license
@@ -5036,7 +5107,7 @@ FormBuilder = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.1.0+96.sha-5982425');
+const VERSION = new Version('6.1.0+97.sha-3ba5220');
 
 /**
  * @license
@@ -5096,7 +5167,7 @@ const SHARED_FORM_DIRECTIVES = [
     CheckboxRequiredValidator,
     EmailValidator,
 ];
-const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
 const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
@@ -5117,14 +5188,20 @@ InternalFormsSharedModule = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var ReactiveFormsModule_1;
+var FormsModule_1, ReactiveFormsModule_1;
 /**
  * The ng module for forms.
  *
  */
-let FormsModule = class FormsModule {
+let FormsModule = FormsModule_1 = class FormsModule {
+    static withConfig(opts) {
+        return {
+            ngModule: FormsModule_1,
+            providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
+        };
+    }
 };
-FormsModule = __decorate([
+FormsModule = FormsModule_1 = __decorate([
     NgModule({
         declarations: TEMPLATE_DRIVEN_DIRECTIVES,
         providers: [RadioControlRegistry],
@@ -5179,5 +5256,5 @@ ReactiveFormsModule = ReactiveFormsModule_1 = __decorate([
  * found in the LICENSE file at https://angular.io/license
  */
 
-export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
+export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
 //# sourceMappingURL=forms.js.map
