@@ -7,6 +7,7 @@ import * as i5 from './directives';
 import * as i6 from './directives/ng_model';
 import * as i7 from './directives/ng_model_group';
 import * as i8 from './directives/ng_form';
+import * as i9 from './directives/ng_form_selector_warning';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -20,7 +21,10 @@ import { ModuleWithProviders } from '@angular/core';
  *
  */
 export declare class FormsModule {
-    static ngModuleDef: i0.ɵNgModuleDef<FormsModule, [typeof i6.NgModel,typeof i7.NgModelGroup,typeof i8.NgForm], never, [typeof i5.InternalFormsSharedModule,typeof i6.NgModel,typeof i7.NgModelGroup,typeof i8.NgForm]>;
+    static withConfig(opts: {
+        /** @deprecated as of v6 */ warnOnDeprecatedNgFormSelector?: 'never' | 'once' | 'always';
+    }): ModuleWithProviders;
+    static ngModuleDef: i0.ɵNgModuleDef<FormsModule, [typeof i6.NgModel,typeof i7.NgModelGroup,typeof i8.NgForm,typeof i9.NgFormSelectorWarning], never, [typeof i5.InternalFormsSharedModule,typeof i6.NgModel,typeof i7.NgModelGroup,typeof i8.NgForm,typeof i9.NgFormSelectorWarning]>;
     static ngInjectorDef: i0.ɵInjectorDef<FormsModule>;
 }
 /**

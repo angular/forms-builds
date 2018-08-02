@@ -44,12 +44,27 @@ export declare const formDirectiveProvider: any;
  * unnecessary because the `<form>` tags are inert. In that case, you would
  * refrain from using the `formGroup` directive.
  *
+ * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
+ * in Angular v9.
+ *
+ * This has been deprecated to keep selectors consistent with other core Angular selectors,
+ * as element selectors are typically written in kebab-case.
+ *
+ * Now deprecated:
+ * ```html
+ * <ngForm #myForm="ngForm">
+ * ```
+ *
+ * After:
+ * ```html
+ * <ng-form #myForm="ngForm">
+ * ```
+ *
  * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
  * * **npm package**: `@angular/forms`
  *
  * * **NgModule**: `FormsModule`
- *
  *
  */
 export declare class NgForm extends ControlContainer implements Form, AfterViewInit {
@@ -96,5 +111,5 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     onReset(): void;
     resetForm(value?: any): void;
     private _setUpdateStrategy;
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgForm, 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDef<NgForm, 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]'>;
 }

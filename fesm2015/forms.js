@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.0+96.sha-5982425
+ * @license Angular v6.1.0+97.sha-3ba5220
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, EventEmitter, ɵlooseIdentical, Version, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵInheritDefinitionFeature, ɵp, ɵb, ɵNgOnChangesFeature, defineInjectable, INJECTOR, ɵdefineNgModule, defineInjector } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, EventEmitter, forwardRef, Renderer2, ɵlooseIdentical, Version, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵp, ɵb, ɵd, ɵInheritDefinitionFeature, ɵL, ɵinjectElementRef, ɵNgOnChangesFeature, defineInjectable, INJECTOR, ɵdefineNgModule, defineInjector } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -3251,12 +3251,27 @@ const resolvedPromise = Promise.resolve(null);
  * unnecessary because the `<form>` tags are inert. In that case, you would
  * refrain from using the `formGroup` directive.
  *
+ * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
+ * in Angular v9.
+ *
+ * This has been deprecated to keep selectors consistent with other core Angular selectors,
+ * as element selectors are typically written in kebab-case.
+ *
+ * Now deprecated:
+ * ```html
+ * <ngForm #myForm="ngForm">
+ * ```
+ *
+ * After:
+ * ```html
+ * <ng-form #myForm="ngForm">
+ * ```
+ *
  * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
  * * **npm package**: `@angular/forms`
  *
  * * **NgModule**: `FormsModule`
- *
  *
  */
 class NgForm extends ControlContainer {
@@ -3340,7 +3355,7 @@ class NgForm extends ControlContainer {
         return path.length ? this.form.get(path) : this.form;
     }
 }
-NgForm.ngDirectiveDef = ɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ngForm"], ["", "ngForm", ""]], factory: function NgForm_Factory() { return new NgForm(ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function NgForm_HostBindings(dirIndex, elIndex) { ɵL("submit", function NgForm_submit_HostBindingHandler($event) { const pd_b = (ɵd(dirIndex).onSubmit($event) !== false); return pd_b; }); ɵL("reset", function NgForm_reset_HostBindingHandler($event) { const pd_b = (ɵd(dirIndex).onReset() !== false); return pd_b; }); }, inputs: { options: "ngFormOptions" }, outputs: { ngSubmit: "ngSubmit" }, features: [ɵInheritDefinitionFeature] });
+NgForm.ngDirectiveDef = ɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ngForm"], ["ng-form"], ["", "ngForm", ""]], factory: function NgForm_Factory() { return new NgForm(ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function NgForm_HostBindings(dirIndex, elIndex) { ɵL("submit", function NgForm_submit_HostBindingHandler($event) { const pd_b = (ɵd(dirIndex).onSubmit($event) !== false); return pd_b; }); ɵL("reset", function NgForm_reset_HostBindingHandler($event) { const pd_b = (ɵd(dirIndex).onReset() !== false); return pd_b; }); }, inputs: { options: "ngFormOptions" }, outputs: { ngSubmit: "ngSubmit" }, features: [ɵInheritDefinitionFeature] });
 
 /**
  * @license
@@ -3394,7 +3409,51 @@ class TemplateDrivenErrors {
 
       ${FormErrorExamples.ngModelGroup}`);
     }
+    static ngFormWarning() {
+        console.warn(`
+    It looks like you're using 'ngForm'.
+
+    Support for using the 'ngForm' element selector has been deprecated in Angular v6 and will be removed
+    in Angular v9.
+
+    Use 'ng-form' instead.
+
+    Before:
+    <ngForm #myForm="ngForm">
+
+    After:
+    <ng-form #myForm="ngForm">
+    `);
+    }
 }
+
+/**
+ * Token to provide to turn off the warning when using 'ngForm' deprecated selector.
+ */
+const NG_FORM_SELECTOR_WARNING = new InjectionToken('NgFormSelectorWarning');
+/**
+ * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
+ *
+ * @deprecated in Angular v6 and will be removed in Angular v9.
+ *
+ */
+class NgFormSelectorWarning {
+    constructor(ngFormWarning) {
+        if (((!ngFormWarning || ngFormWarning === 'once') && !NgFormSelectorWarning._ngFormWarning) ||
+            ngFormWarning === 'always') {
+            TemplateDrivenErrors.ngFormWarning();
+            NgFormSelectorWarning._ngFormWarning = true;
+        }
+    }
+}
+/**
+ * Static property used to track whether the deprecation warning for this selector has been sent.
+ * Used to support warning config of "once".
+ *
+ * @internal
+ */
+NgFormSelectorWarning._ngFormWarning = false;
+NgFormSelectorWarning.ngDirectiveDef = ɵdefineDirective({ type: NgFormSelectorWarning, selectors: [["ngForm"]], factory: function NgFormSelectorWarning_Factory() { return new NgFormSelectorWarning(ɵdirectiveInject(NG_FORM_SELECTOR_WARNING, 8)); } });
 
 const modelGroupProvider = {
     provide: ControlContainer,
@@ -4562,7 +4621,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.1.0+96.sha-5982425');
+const VERSION = new Version('6.1.0+97.sha-3ba5220');
 
 /**
  * @description
@@ -4603,7 +4662,7 @@ const SHARED_FORM_DIRECTIVES = [
     CheckboxRequiredValidator,
     EmailValidator,
 ];
-const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
 const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
@@ -4652,8 +4711,14 @@ InternalFormsSharedModule.ngInjectorDef = defineInjector({ factory: function Int
  *
  */
 class FormsModule {
+    static withConfig(opts) {
+        return {
+            ngModule: FormsModule,
+            providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
+        };
+    }
 }
-FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule, bootstrap: [], declarations: [NgModel, NgModelGroup, NgForm], imports: [], exports: [InternalFormsSharedModule, NgModel, NgModelGroup, NgForm] });
+FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule, bootstrap: [], declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], imports: [], exports: [InternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
 FormsModule.ngInjectorDef = defineInjector({ factory: function FormsModule_Factory() { return new FormsModule(); }, providers: [RadioControlRegistry], imports: [[InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
 /**
  * The ng module for reactive forms.
@@ -4698,5 +4763,5 @@ ReactiveFormsModule.ngInjectorDef = defineInjector({ factory: function ReactiveF
  * found in the LICENSE file at https://angular.io/license
  */
 
-export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
+export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
 //# sourceMappingURL=forms.js.map
