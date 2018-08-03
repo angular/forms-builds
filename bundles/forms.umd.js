@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.0+8.sha-3169edd
+ * @license Angular v6.1.0+100.sha-183757d
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -228,9 +228,12 @@
     ***************************************************************************** */
     /* global Reflect, Promise */
 
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function(d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
 
     function __extends(d, b) {
         extendStatics(d, b);
@@ -238,12 +241,15 @@
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     }
 
-    var __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
+    var __assign = function() {
+        __assign = Object.assign || function __assign(t) {
+            for (var s, i = 1, n = arguments.length; i < n; i++) {
+                s = arguments[i];
+                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+            }
+            return t;
+        };
+        return __assign.apply(this, arguments);
     };
 
     function __decorate(decorators, target, key, desc) {
@@ -2696,31 +2702,31 @@
      * Instantiate a `FormControl`, with an initial value.
      *
      * ```ts
-     * const ctrl = new FormControl('some value');
-     * console.log(ctrl.value);     // 'some value'
+     * const control = new FormControl('some value');
+     * console.log(control.value);     // 'some value'
      *```
      *
      * The following example initializes the control with a form state object. The `value`
      * and `disabled` keys are required in this case.
      *
      * ```ts
-     * const ctrl = new FormControl({ value: 'n/a', disabled: true });
-     * console.log(ctrl.value);     // 'n/a'
-     * console.log(ctrl.status);    // 'DISABLED'
+     * const control = new FormControl({ value: 'n/a', disabled: true });
+     * console.log(control.value);     // 'n/a'
+     * console.log(control.status);    // 'DISABLED'
      * ```
      *
      * The following example initializes the control with a sync validator.
      *
      * ```ts
-     * const ctrl = new FormControl('', Validators.required);
-     * console.log(ctrl.value);      // ''
-     * console.log(ctrl.status);     // 'INVALID'
+     * const control = new FormControl('', Validators.required);
+     * console.log(control.value);      // ''
+     * console.log(control.status);     // 'INVALID'
      * ```
      *
      * The following example initializes the control using an options object.
      *
      * ```ts
-     * const ctrl = new FormControl('', {
+     * const control = new FormControl('', {
      *    validators: Validators.required,
      *    asyncValidators: myAsyncValidator
      * });
@@ -2731,7 +2737,7 @@
      * Set the `updateOn` option to `'blur'` to update on the blur `event`.
      *
      * ```ts
-     * const ctrl = new FormControl('', { updateOn: 'blur' });
+     * const control = new FormControl('', { updateOn: 'blur' });
      * ```
      *
      * ### Configure the control to update on a submit event
@@ -2739,7 +2745,7 @@
      * Set the `updateOn` option to `'submit'` to update on a submit `event`.
      *
      * ```ts
-     * const ctrl = new FormControl('', { updateOn: 'submit' });
+     * const control = new FormControl('', { updateOn: 'submit' });
      * ```
      *
      * ### Reset the control back to an initial value
@@ -2749,7 +2755,7 @@
      * (these are the only two properties that cannot be calculated).
      *
      * ```ts
-     * const ctrl = new FormControl('Nancy');
+     * const control = new FormControl('Nancy');
      *
      * console.log(control.value); // 'Nancy'
      *
@@ -2761,15 +2767,15 @@
      * ### Reset the control back to an initial value and disabled
      *
      * ```
-     * const ctrl = new FormControl('Nancy');
+     * const control = new FormControl('Nancy');
      *
      * console.log(control.value); // 'Nancy'
-     * console.log(this.control.status); // 'DISABLED'
+     * console.log(control.status); // 'VALID'
      *
      * control.reset({ value: 'Drew', disabled: true });
      *
-     * console.log(this.control.value); // 'Drew'
-     * console.log(this.control.status); // 'DISABLED'
+     * console.log(control.value); // 'Drew'
+     * console.log(control.status); // 'DISABLED'
      *
     */
     var FormControl = /** @class */ (function (_super) {
@@ -3772,12 +3778,27 @@
      * unnecessary because the `<form>` tags are inert. In that case, you would
      * refrain from using the `formGroup` directive.
      *
+     * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
+     * in Angular v9.
+     *
+     * This has been deprecated to keep selectors consistent with other core Angular selectors,
+     * as element selectors are typically written in kebab-case.
+     *
+     * Now deprecated:
+     * ```html
+     * <ngForm #myForm="ngForm">
+     * ```
+     *
+     * After:
+     * ```html
+     * <ng-form #myForm="ngForm">
+     * ```
+     *
      * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
      *
      * * **npm package**: `@angular/forms`
      *
      * * **NgModule**: `FormsModule`
-     *
      *
      */
     var NgForm = /** @class */ (function (_super) {
@@ -3890,7 +3911,7 @@
         ], NgForm.prototype, "options", void 0);
         NgForm = __decorate([
             core.Directive({
-                selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
+                selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]',
                 providers: [formDirectiveProvider],
                 host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                 outputs: ['ngSubmit'],
@@ -3925,7 +3946,52 @@
         TemplateDrivenErrors.modelGroupParentException = function () {
             throw new Error("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + FormErrorExamples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + FormErrorExamples.ngModelGroup);
         };
+        TemplateDrivenErrors.ngFormWarning = function () {
+            console.warn("\n    It looks like you're using 'ngForm'.\n\n    Support for using the 'ngForm' element selector has been deprecated in Angular v6 and will be removed\n    in Angular v9.\n\n    Use 'ng-form' instead.\n\n    Before:\n    <ngForm #myForm=\"ngForm\">\n\n    After:\n    <ng-form #myForm=\"ngForm\">\n    ");
+        };
         return TemplateDrivenErrors;
+    }());
+
+    /**
+     * @license
+     * Copyright Google Inc. All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    /**
+     * Token to provide to turn off the warning when using 'ngForm' deprecated selector.
+     */
+    var NG_FORM_SELECTOR_WARNING = new core.InjectionToken('NgFormSelectorWarning');
+    /**
+     * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
+     *
+     * @deprecated in Angular v6 and will be removed in Angular v9.
+     *
+     */
+    var NgFormSelectorWarning = /** @class */ (function () {
+        function NgFormSelectorWarning(ngFormWarning) {
+            if (((!ngFormWarning || ngFormWarning === 'once') && !NgFormSelectorWarning_1._ngFormWarning) ||
+                ngFormWarning === 'always') {
+                TemplateDrivenErrors.ngFormWarning();
+                NgFormSelectorWarning_1._ngFormWarning = true;
+            }
+        }
+        NgFormSelectorWarning_1 = NgFormSelectorWarning;
+        var NgFormSelectorWarning_1;
+        /**
+         * Static property used to track whether the deprecation warning for this selector has been sent.
+         * Used to support warning config of "once".
+         *
+         * @internal
+         */
+        NgFormSelectorWarning._ngFormWarning = false;
+        NgFormSelectorWarning = NgFormSelectorWarning_1 = __decorate([
+            core.Directive({ selector: 'ngForm' }),
+            __param(0, core.Optional()), __param(0, core.Inject(NG_FORM_SELECTOR_WARNING)),
+            __metadata("design:paramtypes", [Object])
+        ], NgFormSelectorWarning);
+        return NgFormSelectorWarning;
     }());
 
     /**
@@ -5496,7 +5562,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var VERSION = new core.Version('6.1.0+8.sha-3169edd');
+    var VERSION = new core.Version('6.1.0+100.sha-183757d');
 
     /**
      * @license
@@ -5559,7 +5625,7 @@
         CheckboxRequiredValidator,
         EmailValidator,
     ];
-    var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+    var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
     var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
     /**
      * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
@@ -5590,7 +5656,15 @@
     var FormsModule = /** @class */ (function () {
         function FormsModule() {
         }
-        FormsModule = __decorate([
+        FormsModule_1 = FormsModule;
+        FormsModule.withConfig = function (opts) {
+            return {
+                ngModule: FormsModule_1,
+                providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
+            };
+        };
+        var FormsModule_1;
+        FormsModule = FormsModule_1 = __decorate([
             core.NgModule({
                 declarations: TEMPLATE_DRIVEN_DIRECTIVES,
                 providers: [RadioControlRegistry],
@@ -5663,6 +5737,7 @@
     exports.NgControlStatus = NgControlStatus;
     exports.NgControlStatusGroup = NgControlStatusGroup;
     exports.NgForm = NgForm;
+    exports.NgFormSelectorWarning = NgFormSelectorWarning;
     exports.NgModel = NgModel;
     exports.NgModelGroup = NgModelGroup;
     exports.RadioControlValueAccessor = RadioControlValueAccessor;
