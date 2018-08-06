@@ -36,7 +36,7 @@ export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
  * }
  * ```
  *
- * @stable
+ *
  */
 export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
     private _renderer;

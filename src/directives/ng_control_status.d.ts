@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 import { AbstractControlDirective } from './abstract_control_directive';
 import { ControlContainer } from './control_container';
 import { NgControl } from './ng_control';
@@ -34,7 +41,7 @@ export declare const ngControlStatusHost: {
  * * ng-untouched
  * * ng-touched
  *
- * @stable
+ *
  */
 export declare class NgControlStatus extends AbstractControlStatus {
     constructor(cd: NgControl);
@@ -43,7 +50,7 @@ export declare class NgControlStatus extends AbstractControlStatus {
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- * @stable
+ *
  */
 export declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);
