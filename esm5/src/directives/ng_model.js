@@ -210,7 +210,7 @@ var NgModel = /** @class */ (function (_super) {
             }
         });
     };
-    NgModel.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModel, selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]], factory: function NgModel_Factory() { return new NgModel(i0.ɵdirectiveInject(ControlContainer, 9), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10)); }, inputs: { name: "name", isDisabled: "disabled", model: "ngModel", options: "ngModelOptions" }, outputs: { update: "ngModelChange" }, features: [i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature] });
+    NgModel.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModel, selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]], factory: function NgModel_Factory() { return new NgModel(i0.ɵdirectiveInject(ControlContainer, 9), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10)); }, inputs: { name: "name", isDisabled: "disabled", model: "ngModel", options: "ngModelOptions" }, outputs: { update: "ngModelChange" }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature] });
     return NgModel;
 }(NgControl));
 export { NgModel };

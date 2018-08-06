@@ -234,7 +234,7 @@ var FormControlName = /** @class */ (function (_super) {
      * @internal
      */
     FormControlName._ngModelWarningSentOnce = false;
-    FormControlName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlName, selectors: [["", "formControlName", ""]], factory: function FormControlName_Factory() { return new FormControlName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10), i0.ɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); }, inputs: { name: "formControlName", isDisabled: "disabled", model: "ngModel" }, outputs: { update: "ngModelChange" }, features: [i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature] });
+    FormControlName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlName, selectors: [["", "formControlName", ""]], factory: function FormControlName_Factory() { return new FormControlName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10), i0.ɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); }, inputs: { name: "formControlName", isDisabled: "disabled", model: "ngModel" }, outputs: { update: "ngModelChange" }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature] });
     return FormControlName;
 }(NgControl));
 export { FormControlName };

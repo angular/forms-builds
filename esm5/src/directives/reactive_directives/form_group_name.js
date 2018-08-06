@@ -77,7 +77,7 @@ var FormGroupName = /** @class */ (function (_super) {
             ReactiveErrors.groupParentException();
         }
     };
-    FormGroupName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupName, selectors: [["", "formGroupName", ""]], factory: function FormGroupName_Factory() { return new FormGroupName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: "formGroupName" }, features: [i0.ɵInheritDefinitionFeature] });
+    FormGroupName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupName, selectors: [["", "formGroupName", ""]], factory: function FormGroupName_Factory() { return new FormGroupName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: "formGroupName" }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
     return FormGroupName;
 }(AbstractFormGroupDirective));
 export { FormGroupName };
@@ -184,7 +184,7 @@ var FormArrayName = /** @class */ (function (_super) {
             ReactiveErrors.arrayParentException();
         }
     };
-    FormArrayName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormArrayName, selectors: [["", "formArrayName", ""]], factory: function FormArrayName_Factory() { return new FormArrayName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: "formArrayName" }, features: [i0.ɵInheritDefinitionFeature] });
+    FormArrayName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormArrayName, selectors: [["", "formArrayName", ""]], factory: function FormArrayName_Factory() { return new FormArrayName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: "formArrayName" }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
     return FormArrayName;
 }(ControlContainer));
 export { FormArrayName };
