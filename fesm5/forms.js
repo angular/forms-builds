@@ -1,11 +1,11 @@
 /**
- * @license Angular v7.0.0-beta.0+24.sha-4eb8ac6
+ * @license Angular v7.0.0-beta.0+26.sha-c67f1bb
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
 import { __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, Version, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵPublicFeature, ɵp, ɵb, ɵInheritDefinitionFeature, EventEmitter, ɵNgOnChangesFeature, defineInjectable, INJECTOR, ɵlooseIdentical, ɵdefineNgModule, defineInjector, isDevMode } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, Version, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵPublicFeature, ɵp, ɵb, ɵInheritDefinitionFeature, EventEmitter, defineInjectable, INJECTOR, ɵNgOnChangesFeature, ɵlooseIdentical, ɵdefineNgModule, defineInjector, isDevMode } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -4987,7 +4987,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('7.0.0-beta.0+24.sha-4eb8ac6');
+var VERSION = new Version('7.0.0-beta.0+26.sha-c67f1bb');
 
 /**
  * @description
