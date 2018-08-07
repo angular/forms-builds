@@ -75,7 +75,7 @@ export class FormGroupName extends AbstractFormGroupDirective {
         }
     }
 }
-FormGroupName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupName, selectors: [["", "formGroupName", ""]], factory: function FormGroupName_Factory() { return new FormGroupName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: "formGroupName" }, features: [i0.ɵInheritDefinitionFeature] });
+FormGroupName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupName, selectors: [["", "formGroupName", ""]], factory: function FormGroupName_Factory() { return new FormGroupName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: "formGroupName" }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
 export const formArrayNameProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormArrayName)
@@ -158,7 +158,7 @@ export class FormArrayName extends ControlContainer {
         }
     }
 }
-FormArrayName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormArrayName, selectors: [["", "formArrayName", ""]], factory: function FormArrayName_Factory() { return new FormArrayName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: "formArrayName" }, features: [i0.ɵInheritDefinitionFeature] });
+FormArrayName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormArrayName, selectors: [["", "formArrayName", ""]], factory: function FormArrayName_Factory() { return new FormArrayName(i0.ɵdirectiveInject(ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: "formArrayName" }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
 function _hasInvalidParent(parent) {
     return !(parent instanceof FormGroupName) && !(parent instanceof FormGroupDirective) &&
         !(parent instanceof FormArrayName);
