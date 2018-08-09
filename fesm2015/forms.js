@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.0+66.sha-26adee9
+ * @license Angular v7.0.0-beta.1+40.sha-99b2e7e
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3116,31 +3116,31 @@ class AbstractControl {
  * Instantiate a `FormControl`, with an initial value.
  *
  * ```ts
- * const ctrl = new FormControl('some value');
- * console.log(ctrl.value);     // 'some value'
+ * const control = new FormControl('some value');
+ * console.log(control.value);     // 'some value'
  * ```
  *
  * The following example initializes the control with a form state object. The `value`
  * and `disabled` keys are required in this case.
  *
  * ```ts
- * const ctrl = new FormControl({ value: 'n/a', disabled: true });
- * console.log(ctrl.value);     // 'n/a'
- * console.log(ctrl.status);    // 'DISABLED'
+ * const control = new FormControl({ value: 'n/a', disabled: true });
+ * console.log(control.value);     // 'n/a'
+ * console.log(control.status);    // 'DISABLED'
  * ```
  *
  * The following example initializes the control with a sync validator.
  *
  * ```ts
- * const ctrl = new FormControl('', Validators.required);
- * console.log(ctrl.value);      // ''
- * console.log(ctrl.status);     // 'INVALID'
+ * const control = new FormControl('', Validators.required);
+ * console.log(control.value);      // ''
+ * console.log(control.status);     // 'INVALID'
  * ```
  *
  * The following example initializes the control using an options object.
  *
  * ```ts
- * const ctrl = new FormControl('', {
+ * const control = new FormControl('', {
  *    validators: Validators.required,
  *    asyncValidators: myAsyncValidator
  * });
@@ -3151,7 +3151,7 @@ class AbstractControl {
  * Set the `updateOn` option to `'blur'` to update on the blur `event`.
  *
  * ```ts
- * const ctrl = new FormControl('', { updateOn: 'blur' });
+ * const control = new FormControl('', { updateOn: 'blur' });
  * ```
  *
  * ### Configure the control to update on a submit event
@@ -3159,7 +3159,7 @@ class AbstractControl {
  * Set the `updateOn` option to `'submit'` to update on a submit `event`.
  *
  * ```ts
- * const ctrl = new FormControl('', { updateOn: 'submit' });
+ * const control = new FormControl('', { updateOn: 'submit' });
  * ```
  *
  * ### Reset the control back to an initial value
@@ -3169,7 +3169,7 @@ class AbstractControl {
  * (these are the only two properties that cannot be calculated).
  *
  * ```ts
- * const ctrl = new FormControl('Nancy');
+ * const control = new FormControl('Nancy');
  *
  * console.log(control.value); // 'Nancy'
  *
@@ -3181,15 +3181,15 @@ class AbstractControl {
  * ### Reset the control back to an initial value and disabled
  *
  * ```
- * const ctrl = new FormControl('Nancy');
+ * const control = new FormControl('Nancy');
  *
  * console.log(control.value); // 'Nancy'
- * console.log(this.control.status); // 'DISABLED'
+ * console.log(control.status); // 'VALID'
  *
  * control.reset({ value: 'Drew', disabled: true });
  *
- * console.log(this.control.value); // 'Drew'
- * console.log(this.control.status); // 'DISABLED'
+ * console.log(control.value); // 'Drew'
+ * console.log(control.status); // 'DISABLED'
  *
  */
 class FormControl extends AbstractControl {
@@ -4248,12 +4248,27 @@ const resolvedPromise = Promise.resolve(null);
  * unnecessary because the `<form>` tags are inert. In that case, you would
  * refrain from using the `formGroup` directive.
  *
+ * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
+ * in Angular v9.
+ *
+ * This has been deprecated to keep selectors consistent with other core Angular selectors,
+ * as element selectors are typically written in kebab-case.
+ *
+ * Now deprecated:
+ * ```html
+ * <ngForm #myForm="ngForm">
+ * ```
+ *
+ * After:
+ * ```html
+ * <ng-form #myForm="ngForm">
+ * ```
+ *
  * {\@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
  * * **npm package**: `\@angular/forms`
  *
  * * **NgModule**: `FormsModule`
- *
  *
  */
 class NgForm extends ControlContainer {
@@ -4414,7 +4429,7 @@ class NgForm extends ControlContainer {
 }
 NgForm.decorators = [
     { type: Directive, args: [{
-                selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
+                selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]',
                 providers: [formDirectiveProvider],
                 host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                 outputs: ['ngSubmit'],
@@ -4491,7 +4506,67 @@ class TemplateDrivenErrors {
 
       ${FormErrorExamples.ngModelGroup}`);
     }
+    /**
+     * @return {?}
+     */
+    static ngFormWarning() {
+        console.warn(`
+    It looks like you're using 'ngForm'.
+
+    Support for using the 'ngForm' element selector has been deprecated in Angular v6 and will be removed
+    in Angular v9.
+
+    Use 'ng-form' instead.
+
+    Before:
+    <ngForm #myForm="ngForm">
+
+    After:
+    <ng-form #myForm="ngForm">
+    `);
+    }
 }
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ */
+/** *
+ * Token to provide to turn off the warning when using 'ngForm' deprecated selector.
+  @type {?} */
+const NG_FORM_SELECTOR_WARNING = new InjectionToken('NgFormSelectorWarning');
+/**
+ * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
+ *
+ * @deprecated in Angular v6 and will be removed in Angular v9.
+ *
+ */
+class NgFormSelectorWarning {
+    /**
+     * @param {?} ngFormWarning
+     */
+    constructor(ngFormWarning) {
+        if (((!ngFormWarning || ngFormWarning === 'once') && !NgFormSelectorWarning._ngFormWarning) ||
+            ngFormWarning === 'always') {
+            TemplateDrivenErrors.ngFormWarning();
+            NgFormSelectorWarning._ngFormWarning = true;
+        }
+    }
+}
+/**
+ * Static property used to track whether the deprecation warning for this selector has been sent.
+ * Used to support warning config of "once".
+ *
+ * \@internal
+ */
+NgFormSelectorWarning._ngFormWarning = false;
+NgFormSelectorWarning.decorators = [
+    { type: Directive, args: [{ selector: 'ngForm' },] }
+];
+/** @nocollapse */
+NgFormSelectorWarning.ctorParameters = () => [
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_FORM_SELECTOR_WARNING,] }] }
+];
 
 /**
  * @fileoverview added by tsickle
@@ -6223,7 +6298,7 @@ FormBuilder.decorators = [
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('6.1.0+66.sha-26adee9');
+const VERSION = new Version('7.0.0-beta.1+40.sha-99b2e7e');
 
 /**
  * @fileoverview added by tsickle
@@ -6279,7 +6354,7 @@ const SHARED_FORM_DIRECTIVES = [
     EmailValidator,
 ];
 /** @type {?} */
-const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
 /** @type {?} */
 const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
@@ -6303,6 +6378,16 @@ InternalFormsSharedModule.decorators = [
  *
  */
 class FormsModule {
+    /**
+     * @param {?} opts
+     * @return {?}
+     */
+    static withConfig(opts) {
+        return {
+            ngModule: FormsModule,
+            providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
+        };
+    }
 }
 FormsModule.decorators = [
     { type: NgModule, args: [{
@@ -6358,5 +6443,5 @@ ReactiveFormsModule.decorators = [
  * Generated bundle index. Do not edit.
  */
 
-export { InternalFormsSharedModule as ɵangular_packages_forms_forms_bb, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_ba, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_y, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_z, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_a, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_b, AbstractControlStatus as ɵangular_packages_forms_forms_c, ngControlStatusHost as ɵangular_packages_forms_forms_d, formDirectiveProvider as ɵangular_packages_forms_forms_e, formControlBinding as ɵangular_packages_forms_forms_f, modelGroupProvider as ɵangular_packages_forms_forms_g, NgNoValidate as ɵangular_packages_forms_forms_bg, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_bc, NumberValueAccessor as ɵangular_packages_forms_forms_bd, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_h, RadioControlRegistry as ɵangular_packages_forms_forms_i, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_be, RangeValueAccessor as ɵangular_packages_forms_forms_bf, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_j, formControlBinding$1 as ɵangular_packages_forms_forms_k, controlNameBinding as ɵangular_packages_forms_forms_l, formDirectiveProvider$1 as ɵangular_packages_forms_forms_m, formArrayNameProvider as ɵangular_packages_forms_forms_o, formGroupNameProvider as ɵangular_packages_forms_forms_n, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_p, NgSelectMultipleOption as ɵangular_packages_forms_forms_r, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_q, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_t, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_u, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_w, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_v, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_x, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_s, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
+export { InternalFormsSharedModule as ɵangular_packages_forms_forms_bc, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_bb, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_z, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_ba, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_a, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_b, AbstractControlStatus as ɵangular_packages_forms_forms_c, ngControlStatusHost as ɵangular_packages_forms_forms_d, formDirectiveProvider as ɵangular_packages_forms_forms_e, NG_FORM_SELECTOR_WARNING as ɵangular_packages_forms_forms_f, formControlBinding as ɵangular_packages_forms_forms_g, modelGroupProvider as ɵangular_packages_forms_forms_h, NgNoValidate as ɵangular_packages_forms_forms_bh, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_bd, NumberValueAccessor as ɵangular_packages_forms_forms_be, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_i, RadioControlRegistry as ɵangular_packages_forms_forms_j, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_bf, RangeValueAccessor as ɵangular_packages_forms_forms_bg, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_k, formControlBinding$1 as ɵangular_packages_forms_forms_l, controlNameBinding as ɵangular_packages_forms_forms_m, formDirectiveProvider$1 as ɵangular_packages_forms_forms_n, formArrayNameProvider as ɵangular_packages_forms_forms_p, formGroupNameProvider as ɵangular_packages_forms_forms_o, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_q, NgSelectMultipleOption as ɵangular_packages_forms_forms_s, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_r, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_u, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_v, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_x, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_w, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_y, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_t, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
 //# sourceMappingURL=forms.js.map

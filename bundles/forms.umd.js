@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.0+66.sha-26adee9
+ * @license Angular v7.0.0-beta.1+40.sha-99b2e7e
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2703,31 +2703,31 @@
      * Instantiate a `FormControl`, with an initial value.
      *
      * ```ts
-     * const ctrl = new FormControl('some value');
-     * console.log(ctrl.value);     // 'some value'
+     * const control = new FormControl('some value');
+     * console.log(control.value);     // 'some value'
      *```
      *
      * The following example initializes the control with a form state object. The `value`
      * and `disabled` keys are required in this case.
      *
      * ```ts
-     * const ctrl = new FormControl({ value: 'n/a', disabled: true });
-     * console.log(ctrl.value);     // 'n/a'
-     * console.log(ctrl.status);    // 'DISABLED'
+     * const control = new FormControl({ value: 'n/a', disabled: true });
+     * console.log(control.value);     // 'n/a'
+     * console.log(control.status);    // 'DISABLED'
      * ```
      *
      * The following example initializes the control with a sync validator.
      *
      * ```ts
-     * const ctrl = new FormControl('', Validators.required);
-     * console.log(ctrl.value);      // ''
-     * console.log(ctrl.status);     // 'INVALID'
+     * const control = new FormControl('', Validators.required);
+     * console.log(control.value);      // ''
+     * console.log(control.status);     // 'INVALID'
      * ```
      *
      * The following example initializes the control using an options object.
      *
      * ```ts
-     * const ctrl = new FormControl('', {
+     * const control = new FormControl('', {
      *    validators: Validators.required,
      *    asyncValidators: myAsyncValidator
      * });
@@ -2738,7 +2738,7 @@
      * Set the `updateOn` option to `'blur'` to update on the blur `event`.
      *
      * ```ts
-     * const ctrl = new FormControl('', { updateOn: 'blur' });
+     * const control = new FormControl('', { updateOn: 'blur' });
      * ```
      *
      * ### Configure the control to update on a submit event
@@ -2746,7 +2746,7 @@
      * Set the `updateOn` option to `'submit'` to update on a submit `event`.
      *
      * ```ts
-     * const ctrl = new FormControl('', { updateOn: 'submit' });
+     * const control = new FormControl('', { updateOn: 'submit' });
      * ```
      *
      * ### Reset the control back to an initial value
@@ -2756,7 +2756,7 @@
      * (these are the only two properties that cannot be calculated).
      *
      * ```ts
-     * const ctrl = new FormControl('Nancy');
+     * const control = new FormControl('Nancy');
      *
      * console.log(control.value); // 'Nancy'
      *
@@ -2768,15 +2768,15 @@
      * ### Reset the control back to an initial value and disabled
      *
      * ```
-     * const ctrl = new FormControl('Nancy');
+     * const control = new FormControl('Nancy');
      *
      * console.log(control.value); // 'Nancy'
-     * console.log(this.control.status); // 'DISABLED'
+     * console.log(control.status); // 'VALID'
      *
      * control.reset({ value: 'Drew', disabled: true });
      *
-     * console.log(this.control.value); // 'Drew'
-     * console.log(this.control.status); // 'DISABLED'
+     * console.log(control.value); // 'Drew'
+     * console.log(control.status); // 'DISABLED'
      *
     */
     var FormControl = /** @class */ (function (_super) {
@@ -3779,12 +3779,27 @@
      * unnecessary because the `<form>` tags are inert. In that case, you would
      * refrain from using the `formGroup` directive.
      *
+     * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
+     * in Angular v9.
+     *
+     * This has been deprecated to keep selectors consistent with other core Angular selectors,
+     * as element selectors are typically written in kebab-case.
+     *
+     * Now deprecated:
+     * ```html
+     * <ngForm #myForm="ngForm">
+     * ```
+     *
+     * After:
+     * ```html
+     * <ng-form #myForm="ngForm">
+     * ```
+     *
      * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
      *
      * * **npm package**: `@angular/forms`
      *
      * * **NgModule**: `FormsModule`
-     *
      *
      */
     var NgForm = /** @class */ (function (_super) {
@@ -3893,7 +3908,7 @@
         };
         NgForm.decorators = [
             { type: core.Directive, args: [{
-                        selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
+                        selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]',
                         providers: [formDirectiveProvider],
                         host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                         outputs: ['ngSubmit'],
@@ -3933,7 +3948,52 @@
         TemplateDrivenErrors.modelGroupParentException = function () {
             throw new Error("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + FormErrorExamples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + FormErrorExamples.ngModelGroup);
         };
+        TemplateDrivenErrors.ngFormWarning = function () {
+            console.warn("\n    It looks like you're using 'ngForm'.\n\n    Support for using the 'ngForm' element selector has been deprecated in Angular v6 and will be removed\n    in Angular v9.\n\n    Use 'ng-form' instead.\n\n    Before:\n    <ngForm #myForm=\"ngForm\">\n\n    After:\n    <ng-form #myForm=\"ngForm\">\n    ");
+        };
         return TemplateDrivenErrors;
+    }());
+
+    /**
+     * @license
+     * Copyright Google Inc. All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    /**
+     * Token to provide to turn off the warning when using 'ngForm' deprecated selector.
+     */
+    var NG_FORM_SELECTOR_WARNING = new core.InjectionToken('NgFormSelectorWarning');
+    /**
+     * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
+     *
+     * @deprecated in Angular v6 and will be removed in Angular v9.
+     *
+     */
+    var NgFormSelectorWarning = /** @class */ (function () {
+        function NgFormSelectorWarning(ngFormWarning) {
+            if (((!ngFormWarning || ngFormWarning === 'once') && !NgFormSelectorWarning._ngFormWarning) ||
+                ngFormWarning === 'always') {
+                TemplateDrivenErrors.ngFormWarning();
+                NgFormSelectorWarning._ngFormWarning = true;
+            }
+        }
+        /**
+         * Static property used to track whether the deprecation warning for this selector has been sent.
+         * Used to support warning config of "once".
+         *
+         * @internal
+         */
+        NgFormSelectorWarning._ngFormWarning = false;
+        NgFormSelectorWarning.decorators = [
+            { type: core.Directive, args: [{ selector: 'ngForm' },] }
+        ];
+        /** @nocollapse */
+        NgFormSelectorWarning.ctorParameters = function () { return [
+            { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [NG_FORM_SELECTOR_WARNING,] }] }
+        ]; };
+        return NgFormSelectorWarning;
     }());
 
     /**
@@ -5458,7 +5518,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var VERSION = new core.Version('6.1.0+66.sha-26adee9');
+    var VERSION = new core.Version('7.0.0-beta.1+40.sha-99b2e7e');
 
     /**
      * @license
@@ -5521,7 +5581,7 @@
         CheckboxRequiredValidator,
         EmailValidator,
     ];
-    var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
+    var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
     var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
     /**
      * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
@@ -5552,6 +5612,12 @@
     var FormsModule = /** @class */ (function () {
         function FormsModule() {
         }
+        FormsModule.withConfig = function (opts) {
+            return {
+                ngModule: FormsModule,
+                providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
+            };
+        };
         FormsModule.decorators = [
             { type: core.NgModule, args: [{
                         declarations: TEMPLATE_DRIVEN_DIRECTIVES,
@@ -5616,39 +5682,40 @@
      * Generated bundle index. Do not edit.
      */
 
-    exports.ɵangular_packages_forms_forms_bb = InternalFormsSharedModule;
-    exports.ɵangular_packages_forms_forms_ba = REACTIVE_DRIVEN_DIRECTIVES;
-    exports.ɵangular_packages_forms_forms_y = SHARED_FORM_DIRECTIVES;
-    exports.ɵangular_packages_forms_forms_z = TEMPLATE_DRIVEN_DIRECTIVES;
+    exports.ɵangular_packages_forms_forms_bc = InternalFormsSharedModule;
+    exports.ɵangular_packages_forms_forms_bb = REACTIVE_DRIVEN_DIRECTIVES;
+    exports.ɵangular_packages_forms_forms_z = SHARED_FORM_DIRECTIVES;
+    exports.ɵangular_packages_forms_forms_ba = TEMPLATE_DRIVEN_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_a = CHECKBOX_VALUE_ACCESSOR;
     exports.ɵangular_packages_forms_forms_b = DEFAULT_VALUE_ACCESSOR;
     exports.ɵangular_packages_forms_forms_c = AbstractControlStatus;
     exports.ɵangular_packages_forms_forms_d = ngControlStatusHost;
     exports.ɵangular_packages_forms_forms_e = formDirectiveProvider;
-    exports.ɵangular_packages_forms_forms_f = formControlBinding;
-    exports.ɵangular_packages_forms_forms_g = modelGroupProvider;
-    exports.ɵangular_packages_forms_forms_bg = NgNoValidate;
-    exports.ɵangular_packages_forms_forms_bc = NUMBER_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_bd = NumberValueAccessor;
-    exports.ɵangular_packages_forms_forms_h = RADIO_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_i = RadioControlRegistry;
-    exports.ɵangular_packages_forms_forms_be = RANGE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_bf = RangeValueAccessor;
-    exports.ɵangular_packages_forms_forms_j = NG_MODEL_WITH_FORM_CONTROL_WARNING;
-    exports.ɵangular_packages_forms_forms_k = formControlBinding$1;
-    exports.ɵangular_packages_forms_forms_l = controlNameBinding;
-    exports.ɵangular_packages_forms_forms_m = formDirectiveProvider$1;
-    exports.ɵangular_packages_forms_forms_o = formArrayNameProvider;
-    exports.ɵangular_packages_forms_forms_n = formGroupNameProvider;
-    exports.ɵangular_packages_forms_forms_p = SELECT_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_r = NgSelectMultipleOption;
-    exports.ɵangular_packages_forms_forms_q = SELECT_MULTIPLE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_t = CHECKBOX_REQUIRED_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_u = EMAIL_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_w = MAX_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_v = MIN_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_x = PATTERN_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_s = REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_f = NG_FORM_SELECTOR_WARNING;
+    exports.ɵangular_packages_forms_forms_g = formControlBinding;
+    exports.ɵangular_packages_forms_forms_h = modelGroupProvider;
+    exports.ɵangular_packages_forms_forms_bh = NgNoValidate;
+    exports.ɵangular_packages_forms_forms_bd = NUMBER_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_be = NumberValueAccessor;
+    exports.ɵangular_packages_forms_forms_i = RADIO_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_j = RadioControlRegistry;
+    exports.ɵangular_packages_forms_forms_bf = RANGE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_bg = RangeValueAccessor;
+    exports.ɵangular_packages_forms_forms_k = NG_MODEL_WITH_FORM_CONTROL_WARNING;
+    exports.ɵangular_packages_forms_forms_l = formControlBinding$1;
+    exports.ɵangular_packages_forms_forms_m = controlNameBinding;
+    exports.ɵangular_packages_forms_forms_n = formDirectiveProvider$1;
+    exports.ɵangular_packages_forms_forms_p = formArrayNameProvider;
+    exports.ɵangular_packages_forms_forms_o = formGroupNameProvider;
+    exports.ɵangular_packages_forms_forms_q = SELECT_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_s = NgSelectMultipleOption;
+    exports.ɵangular_packages_forms_forms_r = SELECT_MULTIPLE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_u = CHECKBOX_REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_v = EMAIL_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_x = MAX_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_w = MIN_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_y = PATTERN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_t = REQUIRED_VALIDATOR;
     exports.AbstractControlDirective = AbstractControlDirective;
     exports.AbstractFormGroupDirective = AbstractFormGroupDirective;
     exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
@@ -5660,6 +5727,7 @@
     exports.NgControlStatus = NgControlStatus;
     exports.NgControlStatusGroup = NgControlStatusGroup;
     exports.NgForm = NgForm;
+    exports.NgFormSelectorWarning = NgFormSelectorWarning;
     exports.NgModel = NgModel;
     exports.NgModelGroup = NgModelGroup;
     exports.RadioControlValueAccessor = RadioControlValueAccessor;
