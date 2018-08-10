@@ -74,7 +74,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     onSubmit($event: Event): boolean;
     onReset(): void;
     resetForm(value?: any): void;
-    private _updateRegistrations();
-    private _updateValidators();
-    private _checkFormPresent();
+    private _updateRegistrations;
+    private _updateValidators;
+    private _checkFormPresent;
 }

@@ -21,7 +21,7 @@ export declare abstract class AbstractControlDirective {
      * that backs this directive. Most properties fall through to that
      * instance.
      */
-    readonly abstract control: AbstractControl | null;
+    abstract readonly control: AbstractControl | null;
     /** The value of the control. */
     readonly value: any;
     /**
