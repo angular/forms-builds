@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.1+48.sha-b5f354f
+ * @license Angular v7.0.0-beta.1+47.sha-a0a29fd
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5107,7 +5107,7 @@ FormBuilder = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('7.0.0-beta.1+48.sha-b5f354f');
+const VERSION = new Version('7.0.0-beta.1+47.sha-a0a29fd');
 
 /**
  * @license
