@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.3+14.sha-a5cc9db
+ * @license Angular v6.1.3+13.sha-2b810a4
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -4562,7 +4562,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.1.3+14.sha-a5cc9db');
+const VERSION = new Version('6.1.3+13.sha-2b810a4');
 
 /**
  * @description
