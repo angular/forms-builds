@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.3+26.sha-27e2039
+ * @license Angular v7.0.0-beta.3+28.sha-eb1fe19
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -4839,6 +4839,7 @@
         CheckboxRequiredValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], factory: function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory((t || CheckboxRequiredValidator)); }, hostBindings: function CheckboxRequiredValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.required", i0.ɵbind((i0.ɵloadDirective(dirIndex).required ? "" : null))); }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
         return CheckboxRequiredValidator;
     }(RequiredValidator));
+    var ɵCheckboxRequiredValidator_BaseFactory = i0.ɵgetInheritedFactory(CheckboxRequiredValidator);
     /**
      * Provider which adds `EmailValidator` to `NG_VALIDATORS`.
      */
@@ -5110,7 +5111,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var VERSION = new i0.Version('7.0.0-beta.3+26.sha-27e2039');
+    var VERSION = new i0.Version('7.0.0-beta.3+28.sha-eb1fe19');
 
     /**
      * @license
