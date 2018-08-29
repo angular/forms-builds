@@ -151,6 +151,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     readonly formDirective: any;
     readonly validator: ValidatorFn | null;
     readonly asyncValidator: AsyncValidatorFn;
-    private _checkParentType();
-    private _setUpControl();
+    private _checkParentType;
+    private _setUpControl;
 }

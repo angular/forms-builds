@@ -118,5 +118,5 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
     readonly path: string[];
     readonly validator: ValidatorFn | null;
     readonly asyncValidator: AsyncValidatorFn | null;
-    private _checkParentType();
+    private _checkParentType;
 }
