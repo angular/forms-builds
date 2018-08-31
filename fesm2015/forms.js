@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.4+35.sha-abd29f5
+ * @license Angular v7.0.0-beta.4+32.sha-1e3460b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5107,7 +5107,7 @@ FormBuilder = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('7.0.0-beta.4+35.sha-abd29f5');
+const VERSION = new Version('7.0.0-beta.4+32.sha-1e3460b');
 
 /**
  * @license
@@ -5190,20 +5190,10 @@ InternalFormsSharedModule = __decorate([
  */
 var FormsModule_1, ReactiveFormsModule_1;
 /**
- * @description
- * An `NgModule` that registers the directives and providers for template-driven forms.
+ * The ng module for forms.
  *
- * @see [Forms Guide](/guide/forms)
  */
 let FormsModule = FormsModule_1 = class FormsModule {
-    /**
-     * @description
-     * Provides options for configuring the template-driven forms module.
-     *
-     * @param opts An object of configuration options
-     * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
-     * `ngForm` selector is used.
-     */
     static withConfig(opts) {
         return {
             ngModule: FormsModule_1,
@@ -5219,21 +5209,10 @@ FormsModule = FormsModule_1 = __decorate([
     })
 ], FormsModule);
 /**
- * @description
- * An `NgModule` that registers the directives and providers for reactive forms.
- *
- * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * The ng module for reactive forms.
  *
  */
 let ReactiveFormsModule = ReactiveFormsModule_1 = class ReactiveFormsModule {
-    /**
-     * @description
-     * Provides options for configuring the reactive forms module.
-     *
-     * @param opts An object of configuration options
-     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
-     * binding is used with reactive form directives.
-     */
     static withConfig(opts) {
         return {
             ngModule: ReactiveFormsModule_1,
