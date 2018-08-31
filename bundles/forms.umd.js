@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.4+35.sha-abd29f5
+ * @license Angular v7.0.0-beta.4+32.sha-1e3460b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5562,7 +5562,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var VERSION = new core.Version('7.0.0-beta.4+35.sha-abd29f5');
+    var VERSION = new core.Version('7.0.0-beta.4+32.sha-1e3460b');
 
     /**
      * @license
@@ -5650,23 +5650,13 @@
      * found in the LICENSE file at https://angular.io/license
      */
     /**
-     * @description
-     * An `NgModule` that registers the directives and providers for template-driven forms.
+     * The ng module for forms.
      *
-     * @see [Forms Guide](/guide/forms)
      */
     var FormsModule = /** @class */ (function () {
         function FormsModule() {
         }
         FormsModule_1 = FormsModule;
-        /**
-         * @description
-         * Provides options for configuring the template-driven forms module.
-         *
-         * @param opts An object of configuration options
-         * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
-         * `ngForm` selector is used.
-         */
         FormsModule.withConfig = function (opts) {
             return {
                 ngModule: FormsModule_1,
@@ -5684,24 +5674,13 @@
         return FormsModule;
     }());
     /**
-     * @description
-     * An `NgModule` that registers the directives and providers for reactive forms.
-     *
-     * @see [Reactive Forms Guide](/guide/reactive-forms)
+     * The ng module for reactive forms.
      *
      */
     var ReactiveFormsModule = /** @class */ (function () {
         function ReactiveFormsModule() {
         }
         ReactiveFormsModule_1 = ReactiveFormsModule;
-        /**
-         * @description
-         * Provides options for configuring the reactive forms module.
-         *
-         * @param opts An object of configuration options
-         * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
-         * binding is used with reactive form directives.
-         */
         ReactiveFormsModule.withConfig = function (opts) {
             return {
                 ngModule: ReactiveFormsModule_1,
