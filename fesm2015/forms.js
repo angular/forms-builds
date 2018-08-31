@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.6+8.sha-88f7ddb
+ * @license Angular v6.1.6+9.sha-a4405d7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5036,7 +5036,7 @@ FormBuilder = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.1.6+8.sha-88f7ddb');
+const VERSION = new Version('6.1.6+9.sha-a4405d7');
 
 /**
  * @license
@@ -5119,8 +5119,10 @@ InternalFormsSharedModule = __decorate([
  */
 var ReactiveFormsModule_1;
 /**
- * The ng module for forms.
+ * @description
+ * An `NgModule` that registers the directives and providers for template-driven forms.
  *
+ * @see [Forms Guide](/guide/forms)
  */
 let FormsModule = class FormsModule {
 };
@@ -5132,10 +5134,20 @@ FormsModule = __decorate([
     })
 ], FormsModule);
 /**
- * The ng module for reactive forms.
+ * @description
+ * An `NgModule` that registers the directives and providers for reactive forms.
+ *
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
  */
 let ReactiveFormsModule = ReactiveFormsModule_1 = class ReactiveFormsModule {
+    /**
+     * @description
+     * Provides options for configuring the reactive forms module.
+     *
+     * @param opts An object of configuration options `warnOnNgModelWithFormControl` Configures when
+     * to emit a warning when an `ngModel binding is used with reactive form directives.
+     */
     static withConfig(opts) {
         return {
             ngModule: ReactiveFormsModule_1,
