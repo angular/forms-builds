@@ -1,11 +1,11 @@
 /**
- * @license Angular v7.0.0-beta.4+31.sha-31349fd
+ * @license Angular v7.0.0-beta.4+35.sha-abd29f5
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
 import { __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, forwardRef, Version, ɵdefineDirective, ɵinjectRenderer2, ɵinjectElementRef, ɵlistener, ɵloadDirective, ɵPublicFeature, ɵdirectiveInject, EventEmitter, ɵInheritDefinitionFeature, ɵelementProperty, ɵbind, ɵNgOnChangesFeature, defineInjectable, INJECTOR, ɵlooseIdentical, ɵgetInheritedFactory, ɵdefineNgModule, defineInjector, isDevMode } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, forwardRef, Version, ɵdefineDirective, ɵinjectRenderer2, ɵinjectElementRef, ɵlistener, ɵloadDirective, ɵPublicFeature, ɵdirectiveInject, ɵelementProperty, ɵbind, ɵInheritDefinitionFeature, EventEmitter, ɵNgOnChangesFeature, defineInjectable, INJECTOR, ɵlooseIdentical, ɵgetInheritedFactory, ɵdefineNgModule, defineInjector, isDevMode } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -5037,7 +5037,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('7.0.0-beta.4+31.sha-31349fd');
+var VERSION = new Version('7.0.0-beta.4+35.sha-abd29f5');
 
 /**
  * @license
@@ -5150,12 +5150,22 @@ var InternalFormsSharedModule = /** @class */ (function () {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * The ng module for forms.
+ * @description
+ * An `NgModule` that registers the directives and providers for template-driven forms.
  *
+ * @see [Forms Guide](/guide/forms)
  */
 var FormsModule = /** @class */ (function () {
     function FormsModule() {
     }
+    /**
+     * @description
+     * Provides options for configuring the template-driven forms module.
+     *
+     * @param opts An object of configuration options
+     * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
+     * `ngForm` selector is used.
+     */
     FormsModule.withConfig = function (opts) {
         return {
             ngModule: FormsModule,
@@ -5167,12 +5177,23 @@ var FormsModule = /** @class */ (function () {
     return FormsModule;
 }());
 /**
- * The ng module for reactive forms.
+ * @description
+ * An `NgModule` that registers the directives and providers for reactive forms.
+ *
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
  */
 var ReactiveFormsModule = /** @class */ (function () {
     function ReactiveFormsModule() {
     }
+    /**
+     * @description
+     * Provides options for configuring the reactive forms module.
+     *
+     * @param opts An object of configuration options
+     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
+     * binding is used with reactive form directives.
+     */
     ReactiveFormsModule.withConfig = function (opts) {
         return {
             ngModule: ReactiveFormsModule,
