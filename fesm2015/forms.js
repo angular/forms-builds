@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.0.0-beta.4+35.sha-abd29f5
+ * @license Angular v7.0.0-beta.4+32.sha-1e3460b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Self, EventEmitter, Input, Host, Output, Injectable, Injector, SkipSelf, ɵlooseIdentical, Version, NgModule, isDevMode, ɵdefineDirective, ɵinjectRenderer2, ɵinjectElementRef, ɵlistener, ɵloadDirective, ɵPublicFeature, ɵdirectiveInject, ɵelementProperty, ɵbind, ɵInheritDefinitionFeature, ɵNgOnChangesFeature, defineInjectable, INJECTOR, ɵgetInheritedFactory, ɵdefineNgModule, defineInjector } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Self, EventEmitter, Input, Host, SkipSelf, Injectable, Injector, Output, ɵlooseIdentical, NgModule, Version, isDevMode, ɵdefineDirective, ɵinjectRenderer2, ɵinjectElementRef, ɵlistener, ɵloadDirective, ɵPublicFeature, ɵdirectiveInject, ɵelementProperty, ɵbind, ɵInheritDefinitionFeature, defineInjectable, INJECTOR, ɵNgOnChangesFeature, ɵgetInheritedFactory, ɵdefineNgModule, defineInjector } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -6442,7 +6442,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('7.0.0-beta.4+35.sha-abd29f5');
+const VERSION = new Version('7.0.0-beta.4+32.sha-1e3460b');
 
 /**
  * @fileoverview added by tsickle
@@ -6565,19 +6565,12 @@ InternalFormsSharedModule.ngInjectorDef = defineInjector({ factory: function Int
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * \@description
- * An `NgModule` that registers the directives and providers for template-driven forms.
+ * The ng module for forms.
  *
- * @see [Forms Guide](/guide/forms)
  */
 class FormsModule {
     /**
-     * \@description
-     * Provides options for configuring the template-driven forms module.
-     *
-     * @param {?} opts An object of configuration options
-     * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
-     * `ngForm` selector is used.
+     * @param {?} opts
      * @return {?}
      */
     static withConfig(opts) {
@@ -6597,20 +6590,12 @@ FormsModule.decorators = [
 FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule, bootstrap: [], declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], imports: [], exports: [InternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
 FormsModule.ngInjectorDef = defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [[InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
 /**
- * \@description
- * An `NgModule` that registers the directives and providers for reactive forms.
- *
- * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * The ng module for reactive forms.
  *
  */
 class ReactiveFormsModule {
     /**
-     * \@description
-     * Provides options for configuring the reactive forms module.
-     *
-     * @param {?} opts An object of configuration options
-     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
-     * binding is used with reactive form directives.
+     * @param {?} opts
      * @return {?}
      */
     static withConfig(opts) {
