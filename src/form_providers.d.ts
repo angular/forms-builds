@@ -17,10 +17,20 @@ import * as i9 from './directives/ng_form_selector_warning';
  */
 import { ModuleWithProviders } from '@angular/core';
 /**
- * The ng module for forms.
+ * @description
+ * An `NgModule` that registers the directives and providers for template-driven forms.
  *
+ * @see [Forms Guide](/guide/forms)
  */
 export declare class FormsModule {
+    /**
+     * @description
+     * Provides options for configuring the template-driven forms module.
+     *
+     * @param opts An object of configuration options
+     * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
+     * `ngForm` selector is used.
+     */
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnDeprecatedNgFormSelector?: 'never' | 'once' | 'always';
     }): ModuleWithProviders;
@@ -28,10 +38,21 @@ export declare class FormsModule {
     static ngInjectorDef: i0.ɵInjectorDef<FormsModule>;
 }
 /**
- * The ng module for reactive forms.
+ * @description
+ * An `NgModule` that registers the directives and providers for reactive forms.
+ *
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
  */
 export declare class ReactiveFormsModule {
+    /**
+     * @description
+     * Provides options for configuring the reactive forms module.
+     *
+     * @param opts An object of configuration options
+     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
+     * binding is used with reactive form directives.
+     */
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnNgModelWithFormControl: 'never' | 'once' | 'always';
     }): ModuleWithProviders<ReactiveFormsModule>;
