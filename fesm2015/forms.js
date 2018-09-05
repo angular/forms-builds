@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.4+51.sha-1e7a873
+ * @license Angular v7.0.0-beta.4+54.sha-2a672a9
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6442,7 +6442,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('7.0.0-beta.4+51.sha-1e7a873');
+const VERSION = new Version('7.0.0-beta.4+54.sha-2a672a9');
 
 /**
  * @fileoverview added by tsickle
