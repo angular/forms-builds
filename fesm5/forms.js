@@ -1,11 +1,11 @@
 /**
- * @license Angular v7.0.0-beta.4+59.sha-dcad054
+ * @license Angular v7.0.0-beta.5
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
 import { __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, forwardRef, Version, ɵdefineDirective, ɵinjectRenderer2, ɵinjectElementRef, ɵdirectiveInject, ɵlistener, ɵloadDirective, ɵPublicFeature, ɵelementProperty, ɵbind, ɵInheritDefinitionFeature, EventEmitter, ɵNgOnChangesFeature, defineInjectable, INJECTOR, ɵlooseIdentical, ɵgetInheritedFactory, ɵdefineNgModule, defineInjector, isDevMode } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, forwardRef, Version, ɵdefineDirective, ɵinjectRenderer2, ɵinjectElementRef, ɵlistener, ɵloadDirective, ɵPublicFeature, ɵdirectiveInject, ɵelementProperty, ɵbind, ɵInheritDefinitionFeature, EventEmitter, ɵNgOnChangesFeature, defineInjectable, INJECTOR, ɵlooseIdentical, ɵgetInheritedFactory, ɵdefineNgModule, defineInjector, isDevMode } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -5037,7 +5037,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('7.0.0-beta.4+59.sha-dcad054');
+var VERSION = new Version('7.0.0-beta.5');
 
 /**
  * @license
