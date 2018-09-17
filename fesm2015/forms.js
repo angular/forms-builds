@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.2+28.sha-21a1440
+ * @license Angular v7.0.0-beta.5+32.sha-47f4412
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6298,7 +6298,7 @@ FormBuilder.decorators = [
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('7.0.0-beta.2+28.sha-21a1440');
+const VERSION = new Version('7.0.0-beta.5+32.sha-47f4412');
 
 /**
  * @fileoverview added by tsickle
@@ -6374,12 +6374,19 @@ InternalFormsSharedModule.decorators = [
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
- * The ng module for forms.
+ * \@description
+ * An `NgModule` that registers the directives and providers for template-driven forms.
  *
+ * @see [Forms Guide](/guide/forms)
  */
 class FormsModule {
     /**
-     * @param {?} opts
+     * \@description
+     * Provides options for configuring the template-driven forms module.
+     *
+     * @param {?} opts An object of configuration options
+     * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
+     * `ngForm` selector is used.
      * @return {?}
      */
     static withConfig(opts) {
@@ -6397,12 +6404,20 @@ FormsModule.decorators = [
             },] }
 ];
 /**
- * The ng module for reactive forms.
+ * \@description
+ * An `NgModule` that registers the directives and providers for reactive forms.
+ *
+ * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
  */
 class ReactiveFormsModule {
     /**
-     * @param {?} opts
+     * \@description
+     * Provides options for configuring the reactive forms module.
+     *
+     * @param {?} opts An object of configuration options
+     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
+     * binding is used with reactive form directives.
      * @return {?}
      */
     static withConfig(opts) {
