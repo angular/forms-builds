@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.2+28.sha-21a1440
+ * @license Angular v7.0.0-beta.5+32.sha-47f4412
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -736,7 +736,7 @@
         CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         };
-        CheckboxControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: CheckboxControlValueAccessor, selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]], factory: function CheckboxControlValueAccessor_Factory(t) { return new (t || CheckboxControlValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵinjectElementRef()); }, hostBindings: function CheckboxControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function CheckboxControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.checked) !== false); return pd_b; }); i0.ɵlistener("blur", function CheckboxControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, features: [i0.ɵPublicFeature] });
+        CheckboxControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: CheckboxControlValueAccessor, selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]], factory: function CheckboxControlValueAccessor_Factory(t) { return new (t || CheckboxControlValueAccessor)(i0.ɵinjectRenderer2(), i0.ɵinjectElementRef()); }, hostBindings: function CheckboxControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function CheckboxControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.checked) !== false); return pd_b; }); i0.ɵlistener("blur", function CheckboxControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, features: [i0.ɵPublicFeature] });
         return CheckboxControlValueAccessor;
     }());
 
@@ -811,7 +811,7 @@
             this._composing = false;
             this._compositionMode && this.onChange(value);
         };
-        DefaultValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: DefaultValueAccessor, selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]], factory: function DefaultValueAccessor_Factory(t) { return new (t || DefaultValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵinjectElementRef(), i0.ɵdirectiveInject(COMPOSITION_BUFFER_MODE, 8)); }, hostBindings: function DefaultValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("input", function DefaultValueAccessor_input_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex)._handleInput($event.target.value) !== false); return pd_b; }); i0.ɵlistener("blur", function DefaultValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); i0.ɵlistener("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex)._compositionStart() !== false); return pd_b; }); i0.ɵlistener("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex)._compositionEnd($event.target.value) !== false); return pd_b; }); }, features: [i0.ɵPublicFeature] });
+        DefaultValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: DefaultValueAccessor, selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]], factory: function DefaultValueAccessor_Factory(t) { return new (t || DefaultValueAccessor)(i0.ɵinjectRenderer2(), i0.ɵinjectElementRef(), i0.ɵdirectiveInject(COMPOSITION_BUFFER_MODE, 8)); }, hostBindings: function DefaultValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("input", function DefaultValueAccessor_input_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex)._handleInput($event.target.value) !== false); return pd_b; }); i0.ɵlistener("blur", function DefaultValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); i0.ɵlistener("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex)._compositionStart() !== false); return pd_b; }); i0.ɵlistener("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex)._compositionEnd($event.target.value) !== false); return pd_b; }); }, features: [i0.ɵPublicFeature] });
         return DefaultValueAccessor;
     }());
 
@@ -879,7 +879,7 @@
         NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         };
-        NumberValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], factory: function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵinjectElementRef()); }, hostBindings: function NumberValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function NumberValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("blur", function NumberValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, features: [i0.ɵPublicFeature] });
+        NumberValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], factory: function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(i0.ɵinjectRenderer2(), i0.ɵinjectElementRef()); }, hostBindings: function NumberValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function NumberValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("blur", function NumberValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, features: [i0.ɵPublicFeature] });
         return NumberValueAccessor;
     }());
 
@@ -1046,7 +1046,7 @@
         RadioControlValueAccessor.prototype._throwNameError = function () {
             throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
         };
-        RadioControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], factory: function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵinjectElementRef(), i0.ɵdirectiveInject(RadioControlRegistry), i0.ɵdirectiveInject(i0.INJECTOR)); }, hostBindings: function RadioControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange() !== false); return pd_b; }); i0.ɵlistener("blur", function RadioControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [i0.ɵPublicFeature] });
+        RadioControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], factory: function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(i0.ɵinjectRenderer2(), i0.ɵinjectElementRef(), i0.ɵdirectiveInject(RadioControlRegistry), i0.ɵdirectiveInject(i0.INJECTOR)); }, hostBindings: function RadioControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange() !== false); return pd_b; }); i0.ɵlistener("blur", function RadioControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [i0.ɵPublicFeature] });
         return RadioControlValueAccessor;
     }());
 
@@ -1088,7 +1088,7 @@
         RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         };
-        RangeValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], factory: function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵinjectElementRef()); }, hostBindings: function RangeValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function RangeValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("input", function RangeValueAccessor_input_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("blur", function RangeValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, features: [i0.ɵPublicFeature] });
+        RangeValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], factory: function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(i0.ɵinjectRenderer2(), i0.ɵinjectElementRef()); }, hostBindings: function RangeValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function RangeValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("input", function RangeValueAccessor_input_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("blur", function RangeValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, features: [i0.ɵPublicFeature] });
         return RangeValueAccessor;
     }());
 
@@ -1288,7 +1288,7 @@
             var id = _extractId(valueString);
             return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
         };
-        SelectControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], factory: function SelectControlValueAccessor_Factory(t) { return new (t || SelectControlValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵinjectElementRef()); }, hostBindings: function SelectControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function SelectControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("blur", function SelectControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { compareWith: "compareWith" }, features: [i0.ɵPublicFeature] });
+        SelectControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], factory: function SelectControlValueAccessor_Factory(t) { return new (t || SelectControlValueAccessor)(i0.ɵinjectRenderer2(), i0.ɵinjectElementRef()); }, hostBindings: function SelectControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function SelectControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target.value) !== false); return pd_b; }); i0.ɵlistener("blur", function SelectControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { compareWith: "compareWith" }, features: [i0.ɵPublicFeature] });
         return SelectControlValueAccessor;
     }());
     /**
@@ -1338,7 +1338,7 @@
                 this._select.writeValue(this._select.value);
             }
         };
-        NgSelectOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], factory: function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(i0.ɵinjectElementRef(), i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(SelectControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" }, features: [i0.ɵPublicFeature] });
+        NgSelectOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], factory: function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(i0.ɵinjectElementRef(), i0.ɵinjectRenderer2(), i0.ɵdirectiveInject(SelectControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" }, features: [i0.ɵPublicFeature] });
         return NgSelectOption;
     }());
 
@@ -1486,7 +1486,7 @@
             var id = _extractId$1(valueString);
             return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
         };
-        SelectMultipleControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], factory: function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵinjectElementRef()); }, hostBindings: function SelectMultipleControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target) !== false); return pd_b; }); i0.ɵlistener("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { compareWith: "compareWith" }, features: [i0.ɵPublicFeature] });
+        SelectMultipleControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], factory: function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(i0.ɵinjectRenderer2(), i0.ɵinjectElementRef()); }, hostBindings: function SelectMultipleControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onChange($event.target) !== false); return pd_b; }); i0.ɵlistener("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵloadDirective(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { compareWith: "compareWith" }, features: [i0.ɵPublicFeature] });
         return SelectMultipleControlValueAccessor;
     }());
     /**
@@ -1548,7 +1548,7 @@
                 this._select.writeValue(this._select.value);
             }
         };
-        NgSelectMultipleOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(i0.ɵinjectElementRef(), i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" }, features: [i0.ɵPublicFeature] });
+        NgSelectMultipleOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(i0.ɵinjectElementRef(), i0.ɵinjectRenderer2(), i0.ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" }, features: [i0.ɵPublicFeature] });
         return NgSelectMultipleOption;
     }());
 
@@ -1872,7 +1872,7 @@
         function NgControlStatus(cd) {
             return _super.call(this, cd) || this;
         }
-        NgControlStatus.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ɵdirectiveInject(NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "class.ng-untouched", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassUntouched)); i0.ɵelementProperty(elIndex, "class.ng-touched", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassTouched)); i0.ɵelementProperty(elIndex, "class.ng-pristine", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassPristine)); i0.ɵelementProperty(elIndex, "class.ng-dirty", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassDirty)); i0.ɵelementProperty(elIndex, "class.ng-valid", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassValid)); i0.ɵelementProperty(elIndex, "class.ng-invalid", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassInvalid)); i0.ɵelementProperty(elIndex, "class.ng-pending", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassPending)); }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
+        NgControlStatus.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ɵdirectiveInject(NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "class.ng-untouched", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassUntouched)); i0.ɵelementProperty(elIndex, "class.ng-touched", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassTouched)); i0.ɵelementProperty(elIndex, "class.ng-pristine", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassPristine)); i0.ɵelementProperty(elIndex, "class.ng-dirty", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassDirty)); i0.ɵelementProperty(elIndex, "class.ng-valid", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassValid)); i0.ɵelementProperty(elIndex, "class.ng-invalid", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassInvalid)); i0.ɵelementProperty(elIndex, "class.ng-pending", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassPending)); }, hostVars: 7, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
         return NgControlStatus;
     }(AbstractControlStatus));
     /**
@@ -1886,7 +1886,7 @@
         function NgControlStatusGroup(cd) {
             return _super.call(this, cd) || this;
         }
-        NgControlStatusGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵdirectiveInject(ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "class.ng-untouched", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassUntouched)); i0.ɵelementProperty(elIndex, "class.ng-touched", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassTouched)); i0.ɵelementProperty(elIndex, "class.ng-pristine", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassPristine)); i0.ɵelementProperty(elIndex, "class.ng-dirty", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassDirty)); i0.ɵelementProperty(elIndex, "class.ng-valid", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassValid)); i0.ɵelementProperty(elIndex, "class.ng-invalid", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassInvalid)); i0.ɵelementProperty(elIndex, "class.ng-pending", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassPending)); }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
+        NgControlStatusGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵdirectiveInject(ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "class.ng-untouched", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassUntouched)); i0.ɵelementProperty(elIndex, "class.ng-touched", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassTouched)); i0.ɵelementProperty(elIndex, "class.ng-pristine", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassPristine)); i0.ɵelementProperty(elIndex, "class.ng-dirty", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassDirty)); i0.ɵelementProperty(elIndex, "class.ng-valid", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassValid)); i0.ɵelementProperty(elIndex, "class.ng-invalid", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassInvalid)); i0.ɵelementProperty(elIndex, "class.ng-pending", i0.ɵbind(i0.ɵloadDirective(dirIndex).ngClassPending)); }, hostVars: 7, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
         return NgControlStatusGroup;
     }(AbstractControlStatus));
 
@@ -4813,7 +4813,7 @@
             return this.required ? Validators.required(c) : null;
         };
         RequiredValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
-        RequiredValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: RequiredValidator, selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]], factory: function RequiredValidator_Factory(t) { return new (t || RequiredValidator)(); }, hostBindings: function RequiredValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.required", i0.ɵbind((i0.ɵloadDirective(dirIndex).required ? "" : null))); }, inputs: { required: "required" }, features: [i0.ɵPublicFeature] });
+        RequiredValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: RequiredValidator, selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]], factory: function RequiredValidator_Factory(t) { return new (t || RequiredValidator)(); }, hostBindings: function RequiredValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.required", i0.ɵbind((i0.ɵloadDirective(dirIndex).required ? "" : null))); }, hostVars: 1, inputs: { required: "required" }, features: [i0.ɵPublicFeature] });
         return RequiredValidator;
     }());
     /**
@@ -4836,9 +4836,10 @@
         CheckboxRequiredValidator.prototype.validate = function (c) {
             return this.required ? Validators.requiredTrue(c) : null;
         };
-        CheckboxRequiredValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], factory: function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory((t || CheckboxRequiredValidator)); }, hostBindings: function CheckboxRequiredValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.required", i0.ɵbind((i0.ɵloadDirective(dirIndex).required ? "" : null))); }, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
+        CheckboxRequiredValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], factory: function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory((t || CheckboxRequiredValidator)); }, hostBindings: function CheckboxRequiredValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.required", i0.ɵbind((i0.ɵloadDirective(dirIndex).required ? "" : null))); }, hostVars: 1, features: [i0.ɵPublicFeature, i0.ɵInheritDefinitionFeature] });
         return CheckboxRequiredValidator;
     }(RequiredValidator));
+    var ɵCheckboxRequiredValidator_BaseFactory = i0.ɵgetInheritedFactory(CheckboxRequiredValidator);
     /**
      * Provider which adds `EmailValidator` to `NG_VALIDATORS`.
      */
@@ -4915,7 +4916,7 @@
         MinLengthValidator.prototype._createValidator = function () {
             this._validator = Validators.minLength(parseInt(this.minlength, 10));
         };
-        MinLengthValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], factory: function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); }, hostBindings: function MinLengthValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.minlength", i0.ɵbind((i0.ɵloadDirective(dirIndex).minlength ? i0.ɵloadDirective(dirIndex).minlength : null))); }, inputs: { minlength: "minlength" }, features: [i0.ɵPublicFeature, i0.ɵNgOnChangesFeature] });
+        MinLengthValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], factory: function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); }, hostBindings: function MinLengthValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.minlength", i0.ɵbind((i0.ɵloadDirective(dirIndex).minlength ? i0.ɵloadDirective(dirIndex).minlength : null))); }, hostVars: 1, inputs: { minlength: "minlength" }, features: [i0.ɵPublicFeature, i0.ɵNgOnChangesFeature] });
         return MinLengthValidator;
     }());
     /**
@@ -4953,7 +4954,7 @@
         MaxLengthValidator.prototype._createValidator = function () {
             this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
         };
-        MaxLengthValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], factory: function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); }, hostBindings: function MaxLengthValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.maxlength", i0.ɵbind((i0.ɵloadDirective(dirIndex).maxlength ? i0.ɵloadDirective(dirIndex).maxlength : null))); }, inputs: { maxlength: "maxlength" }, features: [i0.ɵPublicFeature, i0.ɵNgOnChangesFeature] });
+        MaxLengthValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], factory: function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); }, hostBindings: function MaxLengthValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.maxlength", i0.ɵbind((i0.ɵloadDirective(dirIndex).maxlength ? i0.ɵloadDirective(dirIndex).maxlength : null))); }, hostVars: 1, inputs: { maxlength: "maxlength" }, features: [i0.ɵPublicFeature, i0.ɵNgOnChangesFeature] });
         return MaxLengthValidator;
     }());
     var PATTERN_VALIDATOR = {
@@ -4987,7 +4988,7 @@
         PatternValidator.prototype.validate = function (c) { return this._validator(c); };
         PatternValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         PatternValidator.prototype._createValidator = function () { this._validator = Validators.pattern(this.pattern); };
-        PatternValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], factory: function PatternValidator_Factory(t) { return new (t || PatternValidator)(); }, hostBindings: function PatternValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.pattern", i0.ɵbind((i0.ɵloadDirective(dirIndex).pattern ? i0.ɵloadDirective(dirIndex).pattern : null))); }, inputs: { pattern: "pattern" }, features: [i0.ɵPublicFeature, i0.ɵNgOnChangesFeature] });
+        PatternValidator.ngDirectiveDef = i0.ɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], factory: function PatternValidator_Factory(t) { return new (t || PatternValidator)(); }, hostBindings: function PatternValidator_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "attr.pattern", i0.ɵbind((i0.ɵloadDirective(dirIndex).pattern ? i0.ɵloadDirective(dirIndex).pattern : null))); }, hostVars: 1, inputs: { pattern: "pattern" }, features: [i0.ɵPublicFeature, i0.ɵNgOnChangesFeature] });
         return PatternValidator;
     }());
 
@@ -5110,7 +5111,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var VERSION = new i0.Version('7.0.0-beta.2+28.sha-21a1440');
+    var VERSION = new i0.Version('7.0.0-beta.5+32.sha-47f4412');
 
     /**
      * @license
@@ -5223,12 +5224,22 @@
      * found in the LICENSE file at https://angular.io/license
      */
     /**
-     * The ng module for forms.
+     * @description
+     * An `NgModule` that registers the directives and providers for template-driven forms.
      *
+     * @see [Forms Guide](/guide/forms)
      */
     var FormsModule = /** @class */ (function () {
         function FormsModule() {
         }
+        /**
+         * @description
+         * Provides options for configuring the template-driven forms module.
+         *
+         * @param opts An object of configuration options
+         * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
+         * `ngForm` selector is used.
+         */
         FormsModule.withConfig = function (opts) {
             return {
                 ngModule: FormsModule,
@@ -5240,12 +5251,23 @@
         return FormsModule;
     }());
     /**
-     * The ng module for reactive forms.
+     * @description
+     * An `NgModule` that registers the directives and providers for reactive forms.
+     *
+     * @see [Reactive Forms Guide](/guide/reactive-forms)
      *
      */
     var ReactiveFormsModule = /** @class */ (function () {
         function ReactiveFormsModule() {
         }
+        /**
+         * @description
+         * Provides options for configuring the reactive forms module.
+         *
+         * @param opts An object of configuration options
+         * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
+         * binding is used with reactive form directives.
+         */
         ReactiveFormsModule.withConfig = function (opts) {
             return {
                 ngModule: ReactiveFormsModule,
