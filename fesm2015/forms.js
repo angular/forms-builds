@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.7+18.sha-6c8791e
+ * @license Angular v6.1.7+17.sha-274dc1e
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, Version, EventEmitter, ɵlooseIdentical, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵInheritDefinitionFeature, ɵp, ɵb, defineInjectable, ɵdefineNgModule, defineInjector, ɵNgOnChangesFeature, INJECTOR } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, EventEmitter, ɵlooseIdentical, Version, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵInheritDefinitionFeature, ɵp, ɵb, defineInjectable, INJECTOR, ɵNgOnChangesFeature, ɵdefineNgModule, defineInjector } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -2689,10 +2689,10 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      *
-     * @param value The object that matches the structure of the group.
-     * @param options Configuration options that determine how the control propagates changes and
-     * emits events after the value is patched.
-     * * `onlySelf`: When true, each change only affects this control and not its parent. Default is
+     * @param value The object that matches the structure of the group
+     * @param options Configure options that determines how the control propagates changes and
+     * emits events after the value is patched
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
      * true.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges`
@@ -4562,7 +4562,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.1.7+18.sha-6c8791e');
+const VERSION = new Version('6.1.7+17.sha-274dc1e');
 
 /**
  * @description
