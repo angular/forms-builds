@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.7+18.sha-6c8791e
+ * @license Angular v6.1.7+17.sha-274dc1e
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3080,10 +3080,10 @@ var FormGroup = /** @class */ (function (_super) {
      *
      *  ```
      *
-     * @param value The object that matches the structure of the group.
-     * @param options Configuration options that determine how the control propagates changes and
-     * emits events after the value is patched.
-     * * `onlySelf`: When true, each change only affects this control and not its parent. Default is
+     * @param value The object that matches the structure of the group
+     * @param options Configure options that determines how the control propagates changes and
+     * emits events after the value is patched
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
      * true.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges`
@@ -5413,7 +5413,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.1.7+18.sha-6c8791e');
+var VERSION = new Version('6.1.7+17.sha-274dc1e');
 
 /**
  * @license
