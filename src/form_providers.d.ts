@@ -33,7 +33,7 @@ export declare class FormsModule {
      */
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnDeprecatedNgFormSelector?: 'never' | 'once' | 'always';
-    }): ModuleWithProviders;
+    }): ModuleWithProviders<FormsModule>;
     static ngModuleDef: i0.ɵNgModuleDef<FormsModule, [typeof i6.NgModel, typeof i7.NgModelGroup, typeof i8.NgForm, typeof i9.NgFormSelectorWarning], never, [typeof i5.InternalFormsSharedModule, typeof i6.NgModel, typeof i7.NgModelGroup, typeof i8.NgForm, typeof i9.NgFormSelectorWarning]>;
     static ngInjectorDef: i0.ɵInjectorDef<FormsModule>;
 }
