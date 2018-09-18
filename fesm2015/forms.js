@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.5+39.sha-f47f262
+ * @license Angular v7.0.0-beta.5+50.sha-96ee898
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2890,10 +2890,10 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      *
-     * @param value The object that matches the structure of the group
-     * @param options Configure options that determines how the control propagates changes and
-     * emits events after the value is patched
-     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+     * @param value The object that matches the structure of the group.
+     * @param options Configuration options that determine how the control propagates changes and
+     * emits events after the value is patched.
+     * * `onlySelf`: When true, each change only affects this control and not its parent. Default is
      * true.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges`
@@ -5107,7 +5107,7 @@ FormBuilder = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('7.0.0-beta.5+39.sha-f47f262');
+const VERSION = new Version('7.0.0-beta.5+50.sha-96ee898');
 
 /**
  * @license
