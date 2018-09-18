@@ -23,7 +23,7 @@ export declare class FormsModule {
      */
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnDeprecatedNgFormSelector?: 'never' | 'once' | 'always';
-    }): ModuleWithProviders;
+    }): ModuleWithProviders<FormsModule>;
 }
 /**
  * @description
