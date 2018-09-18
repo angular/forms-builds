@@ -1,11 +1,11 @@
 /**
- * @license Angular v7.0.0-beta.5+39.sha-f47f262
+ * @license Angular v7.0.0-beta.5+50.sha-96ee898
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
 import { __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, forwardRef, Version, ɵdefineDirective, ɵinjectRenderer2, ɵinjectElementRef, ɵlistener, ɵloadDirective, ɵPublicFeature, ɵdirectiveInject, ɵInheritDefinitionFeature, ɵelementProperty, ɵbind, defineInjectable, ɵdefineNgModule, defineInjector, EventEmitter, INJECTOR, ɵNgOnChangesFeature, ɵgetInheritedFactory, ɵlooseIdentical, isDevMode } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, forwardRef, Version, ɵdefineDirective, ɵinjectRenderer2, ɵinjectElementRef, ɵlistener, ɵloadDirective, ɵPublicFeature, ɵdirectiveInject, ɵInheritDefinitionFeature, ɵelementProperty, ɵbind, defineInjectable, ɵdefineNgModule, defineInjector, EventEmitter, INJECTOR, ɵNgOnChangesFeature, ɵlooseIdentical, ɵgetInheritedFactory, isDevMode } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -2918,10 +2918,10 @@ var FormGroup = /** @class */ (function (_super) {
      *
      *  ```
      *
-     * @param value The object that matches the structure of the group
-     * @param options Configure options that determines how the control propagates changes and
-     * emits events after the value is patched
-     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+     * @param value The object that matches the structure of the group.
+     * @param options Configuration options that determine how the control propagates changes and
+     * emits events after the value is patched.
+     * * `onlySelf`: When true, each change only affects this control and not its parent. Default is
      * true.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges`
@@ -5037,7 +5037,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('7.0.0-beta.5+39.sha-f47f262');
+var VERSION = new Version('7.0.0-beta.5+50.sha-96ee898');
 
 /**
  * @license
