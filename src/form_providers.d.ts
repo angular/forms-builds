@@ -15,9 +15,8 @@ import * as i7 from './directives/ng_form';
  */
 import { ModuleWithProviders } from '@angular/core';
 /**
- * Exports the required providers and directives for template-driven forms,
- * making them available for import by NgModules that import this module.
- * @see [Forms](guide/forms)
+ * @description
+ * An `NgModule` that registers the directives and providers for template-driven forms.
  *
  * @see [Forms Guide](/guide/forms)
  */
@@ -26,9 +25,8 @@ export declare class FormsModule {
     static ngInjectorDef: i0.ɵInjectorDef<FormsModule>;
 }
 /**
- * Exports the required infrastructure and directives for reactive forms,
- * making them available for import by NgModules that import this module.
- * @see [Forms](guide/reactive-forms)
+ * @description
+ * An `NgModule` that registers the directives and providers for reactive forms.
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *

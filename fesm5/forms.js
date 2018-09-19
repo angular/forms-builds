@@ -1,11 +1,11 @@
 /**
- * @license Angular v6.1.7+42.sha-5099b79
+ * @license Angular v6.1.7+38.sha-71628f1
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
 import { __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, Version, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵInheritDefinitionFeature, ɵdefineNgModule, defineInjector, ɵp, ɵb, defineInjectable, EventEmitter, INJECTOR, ɵNgOnChangesFeature, ɵlooseIdentical, isDevMode } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, Version, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵInheritDefinitionFeature, ɵp, ɵb, defineInjectable, EventEmitter, INJECTOR, ɵNgOnChangesFeature, ɵlooseIdentical, ɵdefineNgModule, defineInjector, isDevMode } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -4940,7 +4940,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.1.7+42.sha-5099b79');
+var VERSION = new Version('6.1.7+38.sha-71628f1');
 
 /**
  * @description
@@ -5032,9 +5032,8 @@ var InternalFormsSharedModule = /** @class */ (function () {
 }());
 
 /**
- * Exports the required providers and directives for template-driven forms,
- * making them available for import by NgModules that import this module.
- * @see [Forms](guide/forms)
+ * @description
+ * An `NgModule` that registers the directives and providers for template-driven forms.
  *
  * @see [Forms Guide](/guide/forms)
  */
@@ -5046,9 +5045,8 @@ var FormsModule = /** @class */ (function () {
     return FormsModule;
 }());
 /**
- * Exports the required infrastructure and directives for reactive forms,
- * making them available for import by NgModules that import this module.
- * @see [Forms](guide/reactive-forms)
+ * @description
+ * An `NgModule` that registers the directives and providers for reactive forms.
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
