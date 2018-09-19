@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.5+33.sha-aedebaf
+ * @license Angular v7.0.0-beta.5+59.sha-d0e710d
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2890,10 +2890,10 @@ class FormGroup extends AbstractControl {
      *
      *  ```
      *
-     * @param value The object that matches the structure of the group
-     * @param options Configure options that determines how the control propagates changes and
-     * emits events after the value is patched
-     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
+     * @param value The object that matches the structure of the group.
+     * @param options Configuration options that determine how the control propagates changes and
+     * emits events after the value is patched.
+     * * `onlySelf`: When true, each change only affects this control and not its parent. Default is
      * true.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges`
@@ -5107,7 +5107,7 @@ FormBuilder = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('7.0.0-beta.5+33.sha-aedebaf');
+const VERSION = new Version('7.0.0-beta.5+59.sha-d0e710d');
 
 /**
  * @license
@@ -5190,8 +5190,9 @@ InternalFormsSharedModule = __decorate([
  */
 var FormsModule_1, ReactiveFormsModule_1;
 /**
- * @description
- * An `NgModule` that registers the directives and providers for template-driven forms.
+ * Exports the required providers and directives for template-driven forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  */
@@ -5219,8 +5220,9 @@ FormsModule = FormsModule_1 = __decorate([
     })
 ], FormsModule);
 /**
- * @description
- * An `NgModule` that registers the directives and providers for reactive forms.
+ * Exports the required infrastructure and directives for reactive forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/reactive-forms)
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
