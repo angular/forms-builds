@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.7+37.sha-df878a6
+ * @license Angular v6.1.7+42.sha-5099b79
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6223,7 +6223,7 @@ FormBuilder.decorators = [
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('6.1.7+37.sha-df878a6');
+const VERSION = new Version('6.1.7+42.sha-5099b79');
 
 /**
  * @fileoverview added by tsickle
@@ -6299,8 +6299,9 @@ InternalFormsSharedModule.decorators = [
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
- * \@description
- * An `NgModule` that registers the directives and providers for template-driven forms.
+ * Exports the required providers and directives for template-driven forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  */
@@ -6314,8 +6315,9 @@ FormsModule.decorators = [
             },] }
 ];
 /**
- * \@description
- * An `NgModule` that registers the directives and providers for reactive forms.
+ * Exports the required infrastructure and directives for reactive forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/reactive-forms)
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *

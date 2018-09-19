@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.7+37.sha-df878a6
+ * @license Angular v6.1.7+42.sha-5099b79
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { __decorate, __metadata, __param, __extends, __values, __spread, __assign } from 'tslib';
+import { __decorate, __metadata, __param, __extends, __values, __assign, __spread } from 'tslib';
 import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -5413,7 +5413,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.1.7+37.sha-df878a6');
+var VERSION = new Version('6.1.7+42.sha-5099b79');
 
 /**
  * @license
@@ -5501,8 +5501,9 @@ var InternalFormsSharedModule = /** @class */ (function () {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * @description
- * An `NgModule` that registers the directives and providers for template-driven forms.
+ * Exports the required providers and directives for template-driven forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  */
@@ -5519,8 +5520,9 @@ var FormsModule = /** @class */ (function () {
     return FormsModule;
 }());
 /**
- * @description
- * An `NgModule` that registers the directives and providers for reactive forms.
+ * Exports the required infrastructure and directives for reactive forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/reactive-forms)
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
