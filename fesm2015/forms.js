@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.7+37.sha-df878a6
+ * @license Angular v6.1.7+42.sha-5099b79
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Version, Inject, Optional, Self, Host, Input, SkipSelf, Injectable, EventEmitter, Injector, Output, ɵlooseIdentical, isDevMode, NgModule, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵp, ɵb, ɵInheritDefinitionFeature, defineInjectable, INJECTOR, ɵNgOnChangesFeature, ɵdefineNgModule, defineInjector } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Self, Host, Input, SkipSelf, Version, Injectable, Injector, EventEmitter, Output, ɵlooseIdentical, isDevMode, NgModule, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵp, ɵb, ɵInheritDefinitionFeature, defineInjectable, INJECTOR, ɵdefineNgModule, defineInjector, ɵNgOnChangesFeature } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -6182,7 +6182,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('6.1.7+37.sha-df878a6');
+const VERSION = new Version('6.1.7+42.sha-5099b79');
 
 /**
  * \@description
@@ -6283,8 +6283,9 @@ InternalFormsSharedModule.ngModuleDef = ɵdefineNgModule({ type: InternalFormsSh
 InternalFormsSharedModule.ngInjectorDef = defineInjector({ factory: function InternalFormsSharedModule_Factory() { return new InternalFormsSharedModule(); }, providers: [], imports: [SHARED_FORM_DIRECTIVES] });
 
 /**
- * \@description
- * An `NgModule` that registers the directives and providers for template-driven forms.
+ * Exports the required providers and directives for template-driven forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  */
@@ -6300,8 +6301,9 @@ FormsModule.decorators = [
 FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule, bootstrap: [], declarations: [NgModel, NgModelGroup, NgForm], imports: [], exports: [InternalFormsSharedModule, NgModel, NgModelGroup, NgForm] });
 FormsModule.ngInjectorDef = defineInjector({ factory: function FormsModule_Factory() { return new FormsModule(); }, providers: [RadioControlRegistry], imports: [[InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
 /**
- * \@description
- * An `NgModule` that registers the directives and providers for reactive forms.
+ * Exports the required infrastructure and directives for reactive forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/reactive-forms)
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
