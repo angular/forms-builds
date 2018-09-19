@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.5+55.sha-f91b045
+ * @license Angular v7.0.0-beta.5+56.sha-dd5e35e
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6442,7 +6442,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('7.0.0-beta.5+55.sha-f91b045');
+const VERSION = new Version('7.0.0-beta.5+56.sha-dd5e35e');
 
 /**
  * @fileoverview added by tsickle
@@ -6565,8 +6565,9 @@ InternalFormsSharedModule.ngInjectorDef = defineInjector({ factory: function Int
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * \@description
- * An `NgModule` that registers the directives and providers for template-driven forms.
+ * Exports the required providers and directives for template-driven forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  */
@@ -6597,8 +6598,9 @@ FormsModule.decorators = [
 FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule, bootstrap: [], declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], imports: [], exports: [InternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
 FormsModule.ngInjectorDef = defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [[InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
 /**
- * \@description
- * An `NgModule` that registers the directives and providers for reactive forms.
+ * Exports the required infrastructure and directives for reactive forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/reactive-forms)
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *

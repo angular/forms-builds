@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.5+55.sha-f91b045
+ * @license Angular v7.0.0-beta.5+56.sha-dd5e35e
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5111,7 +5111,7 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var VERSION = new i0.Version('7.0.0-beta.5+55.sha-f91b045');
+    var VERSION = new i0.Version('7.0.0-beta.5+56.sha-dd5e35e');
 
     /**
      * @license
@@ -5224,8 +5224,9 @@
      * found in the LICENSE file at https://angular.io/license
      */
     /**
-     * @description
-     * An `NgModule` that registers the directives and providers for template-driven forms.
+     * Exports the required providers and directives for template-driven forms,
+     * making them available for import by NgModules that import this module.
+     * @see [Forms](guide/forms)
      *
      * @see [Forms Guide](/guide/forms)
      */
@@ -5251,8 +5252,9 @@
         return FormsModule;
     }());
     /**
-     * @description
-     * An `NgModule` that registers the directives and providers for reactive forms.
+     * Exports the required infrastructure and directives for reactive forms,
+     * making them available for import by NgModules that import this module.
+     * @see [Forms](guide/reactive-forms)
      *
      * @see [Reactive Forms Guide](/guide/reactive-forms)
      *
