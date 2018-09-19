@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.7+38.sha-71628f1
+ * @license Angular v6.1.7+39.sha-a41f331
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5413,7 +5413,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.1.7+38.sha-71628f1');
+var VERSION = new Version('6.1.7+39.sha-a41f331');
 
 /**
  * @license
@@ -5501,8 +5501,9 @@ var InternalFormsSharedModule = /** @class */ (function () {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * @description
- * An `NgModule` that registers the directives and providers for template-driven forms.
+ * Exports the required providers and directives for template-driven forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  */
@@ -5519,8 +5520,9 @@ var FormsModule = /** @class */ (function () {
     return FormsModule;
 }());
 /**
- * @description
- * An `NgModule` that registers the directives and providers for reactive forms.
+ * Exports the required infrastructure and directives for reactive forms,
+ * making them available for import by NgModules that import this module.
+ * @see [Forms](guide/reactive-forms)
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
