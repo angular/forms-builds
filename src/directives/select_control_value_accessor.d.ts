@@ -67,9 +67,8 @@ export declare const SELECT_VALUE_ACCESSOR: StaticProvider;
  * https://bugzilla.mozilla.org/show_bug.cgi?id=1024350
  * https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
  *
- * * **npm package**: `@angular/forms`
- *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class SelectControlValueAccessor implements ControlValueAccessor {
     private _renderer;
@@ -92,7 +91,8 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
  *
  * See docs for `SelectControlValueAccessor` for usage examples.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class NgSelectOption implements OnDestroy {
     private _element;
