@@ -14,7 +14,7 @@ export declare const NG_FORM_SELECTOR_WARNING: InjectionToken<{}>;
  * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
  *
  * @deprecated in Angular v6 and will be removed in Angular v9.
- *
+ * @ngModule FormsModule
  */
 export declare class NgFormSelectorWarning {
     constructor(ngFormWarning: string | null);
