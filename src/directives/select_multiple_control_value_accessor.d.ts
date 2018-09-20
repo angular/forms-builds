@@ -36,7 +36,8 @@ export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
  * }
  * ```
  *
- *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  */
 export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
     private _renderer;
@@ -62,6 +63,8 @@ export declare class SelectMultipleControlValueAccessor implements ControlValueA
  *   <option *ngFor="let c of cities" [value]="c"></option>
  * </select>
  * ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class NgSelectMultipleOption implements OnDestroy {
     private _element;
