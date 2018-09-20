@@ -16,6 +16,8 @@ export declare const RANGE_VALUE_ACCESSOR: StaticProvider;
  *  ```
  *  <input type="range" [(ngModel)]="age" >
  *  ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class RangeValueAccessor implements ControlValueAccessor {
     private _renderer;

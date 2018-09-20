@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.8+3.sha-c7a6adc
+ * @license Angular v6.1.8+8.sha-f0d7054
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -566,7 +566,8 @@ const CHECKBOX_VALUE_ACCESSOR = {
  *  <input type="checkbox" name="rememberLogin" ngModel>
  *  ```
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let CheckboxControlValueAccessor = class CheckboxControlValueAccessor {
     constructor(_renderer, _elementRef) {
@@ -627,7 +628,8 @@ const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  *  <input type="text" name="searchQuery" ngModel>
  *  ```
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let DefaultValueAccessor = class DefaultValueAccessor {
     constructor(_renderer, _elementRef, _compositionMode) {
@@ -727,6 +729,8 @@ const NUMBER_VALUE_ACCESSOR = {
  *  ```
  *  <input type="number" [(ngModel)]="age">
  *  ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let NumberValueAccessor = class NumberValueAccessor {
     constructor(_renderer, _elementRef) {
@@ -902,9 +906,8 @@ RadioControlRegistry = __decorate([
  *
  * {@example forms/ts/reactiveRadioButtons/reactive_radio_button_example.ts region='Reactive'}
  *
- *  * **npm package**: `@angular/forms`
- *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let RadioControlValueAccessor = class RadioControlValueAccessor {
     constructor(_renderer, _elementRef, _registry, _injector) {
@@ -993,6 +996,8 @@ const RANGE_VALUE_ACCESSOR = {
  *  ```
  *  <input type="range" [(ngModel)]="age" >
  *  ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let RangeValueAccessor = class RangeValueAccessor {
     constructor(_renderer, _elementRef) {
@@ -1243,9 +1248,8 @@ function _extractId(valueString) {
  * https://bugzilla.mozilla.org/show_bug.cgi?id=1024350
  * https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
  *
- * * **npm package**: `@angular/forms`
- *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let SelectControlValueAccessor = class SelectControlValueAccessor {
     constructor(_renderer, _elementRef) {
@@ -1320,7 +1324,8 @@ SelectControlValueAccessor = __decorate([
  *
  * See docs for `SelectControlValueAccessor` for usage examples.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let NgSelectOption = class NgSelectOption {
     constructor(_element, _renderer, _select) {
@@ -1422,7 +1427,8 @@ function _extractId$1(valueString) {
  * }
  * ```
  *
- *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  */
 let SelectMultipleControlValueAccessor = class SelectMultipleControlValueAccessor {
     constructor(_renderer, _elementRef) {
@@ -1528,6 +1534,8 @@ SelectMultipleControlValueAccessor = __decorate([
  *   <option *ngFor="let c of cities" [value]="c"></option>
  * </select>
  * ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let NgSelectMultipleOption = class NgSelectMultipleOption {
     constructor(_element, _renderer, _select) {
@@ -1881,7 +1889,8 @@ const ngControlStatusHost = {
  * * ng-untouched
  * * ng-touched
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let NgControlStatus = class NgControlStatus extends AbstractControlStatus {
     constructor(cd) { super(cd); }
@@ -1895,7 +1904,8 @@ NgControlStatus = __decorate([
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let NgControlStatusGroup = class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd) { super(cd); }
@@ -3515,11 +3525,9 @@ const resolvedPromise = Promise.resolve(null);
  *
  * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
+ * **npm package**: `@angular/forms`
  *
- * * **NgModule**: `FormsModule`
- *
- *
+ * @ngModule FormsModule
  */
 let NgForm = class NgForm extends ControlContainer {
     constructor(validators, asyncValidators) {
@@ -3704,11 +3712,7 @@ const modelGroupProvider = {
  *
  * {@example forms/ts/ngModelGroup/ng_model_group_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `FormsModule`
- *
- *
+ * @ngModule FormsModule
  */
 let NgModelGroup = NgModelGroup_1 = class NgModelGroup extends AbstractFormGroupDirective {
     constructor(parent, validators, asyncValidators) {
@@ -3817,11 +3821,7 @@ const resolvedPromise$1 = Promise.resolve(null);
  * * Radio buttons: `RadioControlValueAccessor`
  * * Selects: `SelectControlValueAccessor`
  *
- * **npm package**: `@angular/forms`
- *
- * **NgModule**: `FormsModule`
- *
- *
+ * @ngModule FormsModule
  */
 let NgModel = class NgModel extends NgControl {
     constructor(parent, validators, asyncValidators, valueAccessors) {
@@ -4003,10 +4003,6 @@ const formControlBinding$1 = {
  *
  * {@example forms/ts/simpleFormControl/simple_form_control_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `ReactiveFormsModule`
- *
  * ### Use with ngModel
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
@@ -4073,7 +4069,7 @@ const formControlBinding$1 = {
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *
+ * @ngModule ReactiveFormsModule
  */
 let FormControlDirective = FormControlDirective_1 = class FormControlDirective extends NgControl {
     constructor(validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
@@ -4196,11 +4192,7 @@ const formDirectiveProvider$1 = {
  *
  * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
  *
- * **npm package**: `@angular/forms`
- *
- * **NgModule**: `ReactiveFormsModule`
- *
- *
+ * @ngModule ReactiveFormsModule
  */
 let FormGroupDirective = class FormGroupDirective extends ControlContainer {
     constructor(_validators, _asyncValidators) {
@@ -4361,11 +4353,7 @@ const formGroupNameProvider = {
  *
  * {@example forms/ts/nestedFormGroup/nested_form_group_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `ReactiveFormsModule`
- *
- *
+ * @ngModule ReactiveFormsModule
  */
 let FormGroupName = class FormGroupName extends AbstractFormGroupDirective {
     constructor(parent, validators, asyncValidators) {
@@ -4437,11 +4425,7 @@ const formArrayNameProvider = {
  *
  * {@example forms/ts/nestedFormArray/nested_form_array_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `ReactiveFormsModule`
- *
- *
+ * @ngModule ReactiveFormsModule
  */
 let FormArrayName = class FormArrayName extends ControlContainer {
     constructor(parent, validators, asyncValidators) {
@@ -4547,10 +4531,6 @@ const controlNameBinding = {
  * * Radio buttons: `RadioControlValueAccessor`
  * * Selects: `SelectControlValueAccessor`
  *
- * **npm package**: `@angular/forms`
- *
- * **NgModule**: `ReactiveFormsModule`
- *
  * ### Use with ngModel
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
@@ -4621,7 +4601,7 @@ const controlNameBinding = {
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *
+ * @ngModule ReactiveFormsModule
  */
 let FormControlName = FormControlName_1 = class FormControlName extends NgControl {
     constructor(parent, validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
@@ -4749,7 +4729,8 @@ const CHECKBOX_REQUIRED_VALIDATOR = {
  * <input name="fullName" ngModel required>
  * ```
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let RequiredValidator = class RequiredValidator {
     get required() { return this._required; }
@@ -4786,6 +4767,8 @@ RequiredValidator = __decorate([
  * ```
  *
  * @experimental
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let CheckboxRequiredValidator = class CheckboxRequiredValidator extends RequiredValidator {
     validate(c) {
@@ -4820,6 +4803,8 @@ const EMAIL_VALIDATOR = {
  * ```
  *
  * @experimental
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let EmailValidator = class EmailValidator {
     set email(value) {
@@ -4859,7 +4844,8 @@ const MIN_LENGTH_VALIDATOR = {
  * A directive which installs the `MinLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let MinLengthValidator = class MinLengthValidator {
     ngOnChanges(changes) {
@@ -4904,7 +4890,8 @@ const MAX_LENGTH_VALIDATOR = {
  * A directive which installs the `MaxLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `maxlength` attribute.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let MaxLengthValidator = class MaxLengthValidator {
     ngOnChanges(changes) {
@@ -4950,6 +4937,8 @@ const PATTERN_VALIDATOR = {
  * <input [name]="fullName" pattern="[a-zA-Z ]*" ngModel>
  * ```
  *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 let PatternValidator = class PatternValidator {
     ngOnChanges(changes) {
@@ -5090,7 +5079,7 @@ FormBuilder = __decorate([
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-const VERSION = new Version('6.1.8+3.sha-c7a6adc');
+const VERSION = new Version('6.1.8+8.sha-f0d7054');
 
 /**
  * @license
@@ -5113,6 +5102,8 @@ const VERSION = new Version('6.1.8+3.sha-c7a6adc');
  * ```
  *
  * @experimental
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  */
 let NgNoValidate = class NgNoValidate {
 };

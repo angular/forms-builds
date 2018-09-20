@@ -111,7 +111,8 @@ export declare const CHECKBOX_REQUIRED_VALIDATOR: StaticProvider;
  * <input name="fullName" ngModel required>
  * ```
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class RequiredValidator implements Validator {
     private _required;
@@ -131,6 +132,8 @@ export declare class RequiredValidator implements Validator {
  * ```
  *
  * @experimental
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class CheckboxRequiredValidator extends RequiredValidator {
     validate(c: AbstractControl): ValidationErrors | null;
@@ -152,6 +155,8 @@ export declare const EMAIL_VALIDATOR: any;
  * ```
  *
  * @experimental
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class EmailValidator implements Validator {
     private _enabled;
@@ -178,7 +183,8 @@ export declare const MIN_LENGTH_VALIDATOR: any;
  * A directive which installs the `MinLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class MinLengthValidator implements Validator, OnChanges {
     private _validator;
@@ -201,7 +207,8 @@ export declare const MAX_LENGTH_VALIDATOR: any;
  * A directive which installs the `MaxLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `maxlength` attribute.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class MaxLengthValidator implements Validator, OnChanges {
     private _validator;
@@ -225,6 +232,8 @@ export declare const PATTERN_VALIDATOR: any;
  * <input [name]="fullName" pattern="[a-zA-Z ]*" ngModel>
  * ```
  *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class PatternValidator implements Validator, OnChanges {
     private _validator;
