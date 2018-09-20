@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.6+6.sha-d7e5bbf
+ * @license Angular v7.0.0-beta.6+12.sha-41ac58a
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -646,7 +646,8 @@ var CHECKBOX_VALUE_ACCESSOR = {
  *  <input type="checkbox" name="rememberLogin" ngModel>
  *  ```
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var CheckboxControlValueAccessor = /** @class */ (function () {
     function CheckboxControlValueAccessor(_renderer, _elementRef) {
@@ -701,7 +702,8 @@ var COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  *  <input type="text" name="searchQuery" ngModel>
  *  ```
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var DefaultValueAccessor = /** @class */ (function () {
     function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
@@ -786,6 +788,8 @@ var NUMBER_VALUE_ACCESSOR = {
  *  ```
  *  <input type="number" [(ngModel)]="age">
  *  ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var NumberValueAccessor = /** @class */ (function () {
     function NumberValueAccessor(_renderer, _elementRef) {
@@ -959,9 +963,8 @@ var RadioControlRegistry = /** @class */ (function () {
  *
  * {@example forms/ts/reactiveRadioButtons/reactive_radio_button_example.ts region='Reactive'}
  *
- *  * **npm package**: `@angular/forms`
- *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var RadioControlValueAccessor = /** @class */ (function () {
     function RadioControlValueAccessor(_renderer, _elementRef, _registry, _injector) {
@@ -1029,6 +1032,8 @@ var RANGE_VALUE_ACCESSOR = {
  *  ```
  *  <input type="range" [(ngModel)]="age" >
  *  ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var RangeValueAccessor = /** @class */ (function () {
     function RangeValueAccessor(_renderer, _elementRef) {
@@ -1175,9 +1180,8 @@ function _extractId(valueString) {
  * https://bugzilla.mozilla.org/show_bug.cgi?id=1024350
  * https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
  *
- * * **npm package**: `@angular/forms`
- *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var SelectControlValueAccessor = /** @class */ (function () {
     function SelectControlValueAccessor(_renderer, _elementRef) {
@@ -1257,7 +1261,8 @@ var SelectControlValueAccessor = /** @class */ (function () {
  *
  * See docs for `SelectControlValueAccessor` for usage examples.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var NgSelectOption = /** @class */ (function () {
     function NgSelectOption(_element, _renderer, _select) {
@@ -1346,7 +1351,8 @@ function _extractId$1(valueString) {
  * }
  * ```
  *
- *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  */
 var SelectMultipleControlValueAccessor = /** @class */ (function () {
     function SelectMultipleControlValueAccessor(_renderer, _elementRef) {
@@ -1458,6 +1464,8 @@ var SelectMultipleControlValueAccessor = /** @class */ (function () {
  *   <option *ngFor="let c of cities" [value]="c"></option>
  * </select>
  * ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var NgSelectMultipleOption = /** @class */ (function () {
     function NgSelectMultipleOption(_element, _renderer, _select) {
@@ -1845,7 +1853,8 @@ var AbstractControlStatus = /** @class */ (function () {
  * * ng-untouched
  * * ng-touched
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var NgControlStatus = /** @class */ (function (_super) {
     __extends(NgControlStatus, _super);
@@ -1859,7 +1868,8 @@ var NgControlStatus = /** @class */ (function (_super) {
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var NgControlStatusGroup = /** @class */ (function (_super) {
     __extends(NgControlStatusGroup, _super);
@@ -3592,10 +3602,7 @@ var resolvedPromise = Promise.resolve(null);
  *
  * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `FormsModule`
- *
+ * @ngModule FormsModule
  */
 var NgForm = /** @class */ (function (_super) {
     __extends(NgForm, _super);
@@ -3748,7 +3755,7 @@ var NG_FORM_SELECTOR_WARNING = new InjectionToken('NgFormSelectorWarning');
  * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
  *
  * @deprecated in Angular v6 and will be removed in Angular v9.
- *
+ * @ngModule FormsModule
  */
 var NgFormSelectorWarning = /** @class */ (function () {
     function NgFormSelectorWarning(ngFormWarning) {
@@ -3792,11 +3799,7 @@ var modelGroupProvider = {
  *
  * {@example forms/ts/ngModelGroup/ng_model_group_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `FormsModule`
- *
- *
+ * @ngModule FormsModule
  */
 var NgModelGroup = /** @class */ (function (_super) {
     __extends(NgModelGroup, _super);
@@ -3891,11 +3894,7 @@ var resolvedPromise$1 = Promise.resolve(null);
  * * Radio buttons: `RadioControlValueAccessor`
  * * Selects: `SelectControlValueAccessor`
  *
- * **npm package**: `@angular/forms`
- *
- * **NgModule**: `FormsModule`
- *
- *
+ * @ngModule FormsModule
  */
 var NgModel = /** @class */ (function (_super) {
     __extends(NgModel, _super);
@@ -4057,10 +4056,6 @@ var formControlBinding$1 = {
  *
  * {@example forms/ts/simpleFormControl/simple_form_control_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `ReactiveFormsModule`
- *
  * ### Use with ngModel
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
@@ -4127,7 +4122,7 @@ var formControlBinding$1 = {
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *
+ * @ngModule ReactiveFormsModule
  */
 var FormControlDirective = /** @class */ (function (_super) {
     __extends(FormControlDirective, _super);
@@ -4241,11 +4236,7 @@ var formDirectiveProvider$1 = {
  *
  * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
  *
- * **npm package**: `@angular/forms`
- *
- * **NgModule**: `ReactiveFormsModule`
- *
- *
+ * @ngModule ReactiveFormsModule
  */
 var FormGroupDirective = /** @class */ (function (_super) {
     __extends(FormGroupDirective, _super);
@@ -4399,11 +4390,7 @@ var formGroupNameProvider = {
  *
  * {@example forms/ts/nestedFormGroup/nested_form_group_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `ReactiveFormsModule`
- *
- *
+ * @ngModule ReactiveFormsModule
  */
 var FormGroupName = /** @class */ (function (_super) {
     __extends(FormGroupName, _super);
@@ -4468,11 +4455,7 @@ var formArrayNameProvider = {
  *
  * {@example forms/ts/nestedFormArray/nested_form_array_example.ts region='Component'}
  *
- * * **npm package**: `@angular/forms`
- *
- * * **NgModule**: `ReactiveFormsModule`
- *
- *
+ * @ngModule ReactiveFormsModule
  */
 var FormArrayName = /** @class */ (function (_super) {
     __extends(FormArrayName, _super);
@@ -4583,10 +4566,6 @@ var controlNameBinding = {
  * * Radio buttons: `RadioControlValueAccessor`
  * * Selects: `SelectControlValueAccessor`
  *
- * **npm package**: `@angular/forms`
- *
- * **NgModule**: `ReactiveFormsModule`
- *
  * ### Use with ngModel
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
@@ -4657,7 +4636,7 @@ var controlNameBinding = {
  * pattern with a config value of `"always"`. This may help to track down where in the code
  * the pattern is being used as the code is being updated.
  *
- *
+ * @ngModule ReactiveFormsModule
  */
 var FormControlName = /** @class */ (function (_super) {
     __extends(FormControlName, _super);
@@ -4774,7 +4753,8 @@ var CHECKBOX_REQUIRED_VALIDATOR = {
  * <input name="fullName" ngModel required>
  * ```
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var RequiredValidator = /** @class */ (function () {
     function RequiredValidator() {
@@ -4807,6 +4787,8 @@ var RequiredValidator = /** @class */ (function () {
  * ```
  *
  * @experimental
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var CheckboxRequiredValidator = /** @class */ (function (_super) {
     __extends(CheckboxRequiredValidator, _super);
@@ -4841,6 +4823,8 @@ var EMAIL_VALIDATOR = {
  * ```
  *
  * @experimental
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var EmailValidator = /** @class */ (function () {
     function EmailValidator() {
@@ -4877,7 +4861,8 @@ var MIN_LENGTH_VALIDATOR = {
  * A directive which installs the `MinLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var MinLengthValidator = /** @class */ (function () {
     function MinLengthValidator() {
@@ -4915,7 +4900,8 @@ var MAX_LENGTH_VALIDATOR = {
  * A directive which installs the `MaxLengthValidator` for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `maxlength` attribute.
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var MaxLengthValidator = /** @class */ (function () {
     function MaxLengthValidator() {
@@ -4954,6 +4940,8 @@ var PATTERN_VALIDATOR = {
  * <input [name]="fullName" pattern="[a-zA-Z ]*" ngModel>
  * ```
  *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 var PatternValidator = /** @class */ (function () {
     function PatternValidator() {
@@ -5091,7 +5079,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('7.0.0-beta.6+6.sha-d7e5bbf');
+var VERSION = new Version('7.0.0-beta.6+12.sha-41ac58a');
 
 /**
  * @license
@@ -5114,6 +5102,8 @@ var VERSION = new Version('7.0.0-beta.6+6.sha-d7e5bbf');
  * ```
  *
  * @experimental
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  */
 var NgNoValidate = /** @class */ (function () {
     function NgNoValidate() {

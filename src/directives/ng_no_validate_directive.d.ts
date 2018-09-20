@@ -20,6 +20,8 @@ import * as i0 from '@angular/core';
  * ```
  *
  * @experimental
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  */
 export declare class NgNoValidate {
     static ngDirectiveDef: i0.ɵDirectiveDef<NgNoValidate, 'form:not([ngNoForm]):not([ngNativeValidate])'>;
