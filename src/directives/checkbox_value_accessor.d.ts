@@ -16,7 +16,8 @@ export declare const CHECKBOX_VALUE_ACCESSOR: any;
  *  <input type="checkbox" name="rememberLogin" ngModel>
  *  ```
  *
- *
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class CheckboxControlValueAccessor implements ControlValueAccessor {
     private _renderer;
