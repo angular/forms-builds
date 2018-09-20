@@ -17,6 +17,8 @@ export declare const NUMBER_VALUE_ACCESSOR: any;
  *  ```
  *  <input type="number" [(ngModel)]="age">
  *  ```
+ * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  */
 export declare class NumberValueAccessor implements ControlValueAccessor {
     private _renderer;
