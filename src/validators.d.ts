@@ -113,7 +113,7 @@ export declare class Validators {
      * if the validation check fails, otherwise `null`.
      *
      */
-    static required(control: AbstractControl): ValidationErrors | null;
+    static required: ValidatorFn;
     /**
      * @description
      * Validator that requires the control's value be true. This validator is commonly
@@ -132,7 +132,7 @@ export declare class Validators {
      * @returns An error map that contains the `required` property
      * set to `true` if the validation check fails, otherwise `null`.
      */
-    static requiredTrue(control: AbstractControl): ValidationErrors | null;
+    static requiredTrue: ValidatorFn;
     /**
      * @description
      * Validator that requires the control's value pass an email validation test.
@@ -151,7 +151,7 @@ export declare class Validators {
      * if the validation check fails, otherwise `null`.
      *
      */
-    static email(control: AbstractControl): ValidationErrors | null;
+    static email: ValidatorFn;
     /**
      * @description
      * Validator that requires the length of the control's value to be greater than or equal
@@ -228,7 +228,7 @@ export declare class Validators {
      * @description
      * Validator that performs no operation.
      */
-    static nullValidator(c: AbstractControl): ValidationErrors | null;
+    static nullValidator: ValidatorFn;
     /**
      * @description
      * Compose multiple validators into a single function that returns the union
