@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.0.0-beta.6+52.sha-47eb212
+ * @license Angular v7.0.0-beta.6+54.sha-1e02cd9
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { __extends, __decorate, __metadata, __param, __values, __assign, __spread } from 'tslib';
+import { __decorate, __metadata, __extends, __param, __values, __assign, __spread } from 'tslib';
 import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -3421,7 +3421,7 @@ var FormArray = /** @class */ (function (_super) {
     * Creates a new `FormArray` instance.
     *
     * @param controls An array of child controls. Each child control is given an index
-    * wheh it is registered.
+    * where it is registered.
     *
     * @param validatorOrOpts A synchronous validator function, or an array of
     * such functions, or an `AbstractControlOptions` object that contains validation functions
@@ -5548,7 +5548,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('7.0.0-beta.6+52.sha-47eb212');
+var VERSION = new Version('7.0.0-beta.6+54.sha-1e02cd9');
 
 /**
  * @license
