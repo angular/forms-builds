@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.6+52.sha-47eb212
+ * @license Angular v7.0.0-beta.6+54.sha-1e02cd9
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3938,7 +3938,7 @@ class FormArray extends AbstractControl {
      * Creates a new `FormArray` instance.
      *
      * @param {?} controls An array of child controls. Each child control is given an index
-     * wheh it is registered.
+     * where it is registered.
      *
      * @param {?=} validatorOrOpts A synchronous validator function, or an array of
      * such functions, or an `AbstractControlOptions` object that contains validation functions
@@ -6351,7 +6351,7 @@ FormBuilder.decorators = [
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('7.0.0-beta.6+52.sha-47eb212');
+const VERSION = new Version('7.0.0-beta.6+54.sha-1e02cd9');
 
 /**
  * @fileoverview added by tsickle
