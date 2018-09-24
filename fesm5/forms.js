@@ -1,11 +1,11 @@
 /**
- * @license Angular v6.1.8+35.sha-77d2cbd
+ * @license Angular v6.1.8+38.sha-a169743
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
 import { __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, Version, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵInheritDefinitionFeature, ɵp, ɵb, defineInjectable, EventEmitter, INJECTOR, ɵdefineNgModule, defineInjector, ɵNgOnChangesFeature, ɵlooseIdentical, isDevMode } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Renderer2, forwardRef, Version, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵInheritDefinitionFeature, ɵdefineNgModule, defineInjector, ɵp, ɵb, defineInjectable, INJECTOR, EventEmitter, ɵNgOnChangesFeature, ɵlooseIdentical, isDevMode } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -3224,7 +3224,7 @@ var FormArray = /** @class */ (function (_super) {
     * Creates a new `FormArray` instance.
     *
     * @param controls An array of child controls. Each child control is given an index
-    * wheh it is registered.
+    * where it is registered.
     *
     * @param validatorOrOpts A synchronous validator function, or an array of
     * such functions, or an `AbstractControlOptions` object that contains validation functions
@@ -5016,7 +5016,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.1.8+35.sha-77d2cbd');
+var VERSION = new Version('6.1.8+38.sha-a169743');
 
 /**
  * @description

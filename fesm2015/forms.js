@@ -1,10 +1,10 @@
 /**
- * @license Angular v6.1.8+35.sha-77d2cbd
+ * @license Angular v6.1.8+38.sha-a169743
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Version, Inject, Optional, Self, Host, Input, SkipSelf, Injectable, EventEmitter, Injector, Output, ɵlooseIdentical, NgModule, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵp, ɵb, ɵInheritDefinitionFeature, defineInjectable, ɵdefineNgModule, defineInjector, INJECTOR, ɵNgOnChangesFeature } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Version, Directive, ElementRef, Inject, Optional, Renderer2, forwardRef, Self, Host, Input, SkipSelf, Injectable, EventEmitter, Injector, Output, ɵlooseIdentical, isDevMode, NgModule, ɵdefineDirective, ɵdirectiveInject, ɵinjectElementRef, ɵL, ɵd, ɵp, ɵb, ɵInheritDefinitionFeature, defineInjectable, ɵdefineNgModule, defineInjector, INJECTOR, ɵNgOnChangesFeature } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -3918,7 +3918,7 @@ class FormArray extends AbstractControl {
      * Creates a new `FormArray` instance.
      *
      * @param {?} controls An array of child controls. Each child control is given an index
-     * wheh it is registered.
+     * where it is registered.
      *
      * @param {?=} validatorOrOpts A synchronous validator function, or an array of
      * such functions, or an `AbstractControlOptions` object that contains validation functions
@@ -6236,7 +6236,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('6.1.8+35.sha-77d2cbd');
+const VERSION = new Version('6.1.8+38.sha-a169743');
 
 /**
  * \@description
