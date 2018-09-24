@@ -23,6 +23,7 @@ export declare const formDirectiveProvider: any;
  * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
  * and `FormArrayName` directives.
  *
+ * @usageNotes
  * **Set value**: You can set the form's initial value when instantiating the
  * `FormGroup`, or you can set it programmatically later using the `FormGroup`'s
  * {@link AbstractControl#setValue setValue} or {@link AbstractControl#patchValue patchValue}
