@@ -28,6 +28,7 @@ export declare const formGroupNameProvider: any;
  * form separately from the rest or when you'd like to group the values of certain
  * controls into their own nested object.
  *
+ * @usageNotes
  * **Access the group**: You can access the associated `FormGroup` using the
  * {@link AbstractControl#get get} method. Ex: `this.form.get('name')`.
  *
@@ -73,6 +74,7 @@ export declare const formArrayNameProvider: any;
  * you're not sure how many there will be. Form arrays allow you to create new
  * form controls dynamically.
  *
+ * @usageNotes
  * **Access the array**: You can access the associated `FormArray` using the
  * {@link AbstractControl#get get} method on the parent `FormGroup`.
  * Ex: `this.form.get('cities')`.
