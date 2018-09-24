@@ -1,5 +1,5 @@
 /**
- * @license Angular v6.1.8+37.sha-cea7fbe
+ * @license Angular v6.1.8+34.sha-a730fc7
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -3421,7 +3421,7 @@ var FormArray = /** @class */ (function (_super) {
     * Creates a new `FormArray` instance.
     *
     * @param controls An array of child controls. Each child control is given an index
-    * where it is registered.
+    * wheh it is registered.
     *
     * @param validatorOrOpts A synchronous validator function, or an array of
     * such functions, or an `AbstractControlOptions` object that contains validation functions
@@ -5489,7 +5489,7 @@ var FormBuilder = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var VERSION = new Version('6.1.8+37.sha-cea7fbe');
+var VERSION = new Version('6.1.8+34.sha-a730fc7');
 
 /**
  * @license
