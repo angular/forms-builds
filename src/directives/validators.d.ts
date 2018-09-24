@@ -35,7 +35,7 @@ export declare type ValidationErrors = {
  *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
  * })
  * class CustomValidatorDirective implements Validator {
- *   validate(c: AbstractControl): ValidationErrors|null {
+ *   validate(control: AbstractControl): ValidationErrors|null {
  *     return {'custom': true};
  *   }
  * }
@@ -51,7 +51,7 @@ export interface Validator {
      * @returns A map of validation errors if validation fails,
      * otherwise null.
      */
-    validate(c: AbstractControl): ValidationErrors | null;
+    validate(control: AbstractControl): ValidationErrors | null;
     /**
      * @description
      * Registers a callback function to call when the validator inputs change.
@@ -80,7 +80,7 @@ export interface Validator {
  * true}]
  * })
  * class CustomAsyncValidatorDirective implements AsyncValidator {
- *   validate(c: AbstractControl): Observable<ValidationErrors|null> {
+ *   validate(control: AbstractControl): Observable<ValidationErrors|null> {
  *     return observableOf({'custom': true});
  *   }
  * }
@@ -98,7 +98,7 @@ export interface AsyncValidator extends Validator {
      * @returns A promise or observable that resolves a map of validation errors
      * if validation fails, otherwise null.
      */
-    validate(c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
+    validate(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
 }
 export declare const REQUIRED_VALIDATOR: StaticProvider;
 export declare const CHECKBOX_REQUIRED_VALIDATOR: StaticProvider;
@@ -106,6 +106,7 @@ export declare const CHECKBOX_REQUIRED_VALIDATOR: StaticProvider;
  * A Directive that adds the `required` validator to any controls marked with the
  * `required` attribute, via the `NG_VALIDATORS` binding.
  *
+ * @usageNotes
  * ### Example
  *
  * ```
@@ -119,7 +120,7 @@ export declare class RequiredValidator implements Validator {
     private _required;
     private _onChange;
     required: boolean | string;
-    validate(c: AbstractControl): ValidationErrors | null;
+    validate(control: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
     static ngDirectiveDef: i0.ɵDirectiveDef<RequiredValidator, ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]'>;
 }
@@ -127,6 +128,7 @@ export declare class RequiredValidator implements Validator {
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute, via the `NG_VALIDATORS` binding.
  *
+ * @usageNotes
  * ### Example
  *
  * ```
@@ -138,7 +140,7 @@ export declare class RequiredValidator implements Validator {
  * @ngModule ReactiveFormsModule
  */
 export declare class CheckboxRequiredValidator extends RequiredValidator {
-    validate(c: AbstractControl): ValidationErrors | null;
+    validate(control: AbstractControl): ValidationErrors | null;
     static ngDirectiveDef: i0.ɵDirectiveDef<CheckboxRequiredValidator, 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]'>;
 }
 /**
@@ -149,6 +151,7 @@ export declare const EMAIL_VALIDATOR: any;
  * A Directive that adds the `email` validator to controls marked with the
  * `email` attribute, via the `NG_VALIDATORS` binding.
  *
+ * @usageNotes
  * ### Example
  *
  * ```
@@ -165,20 +168,21 @@ export declare class EmailValidator implements Validator {
     private _enabled;
     private _onChange;
     email: boolean | string;
-    validate(c: AbstractControl): ValidationErrors | null;
+    validate(control: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
     static ngDirectiveDef: i0.ɵDirectiveDef<EmailValidator, '[email][formControlName],[email][formControl],[email][ngModel]'>;
 }
 export interface ValidatorFn {
-    (c: AbstractControl): ValidationErrors | null;
+    (control: AbstractControl): ValidationErrors | null;
 }
 export interface AsyncValidatorFn {
-    (c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
+    (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
 }
 /**
  * Provider which adds `MinLengthValidator` to `NG_VALIDATORS`.
  *
- * ## Example:
+ * @usageNotes
+ * ### Example:
  *
  * {@example common/forms/ts/validators/validators.ts region='min'}
  */
@@ -195,7 +199,7 @@ export declare class MinLengthValidator implements Validator, OnChanges {
     private _onChange;
     minlength: string;
     ngOnChanges(changes: SimpleChanges): void;
-    validate(c: AbstractControl): ValidationErrors | null;
+    validate(control: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
     static ngDirectiveDef: i0.ɵDirectiveDef<MinLengthValidator, '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]'>;
@@ -203,7 +207,8 @@ export declare class MinLengthValidator implements Validator, OnChanges {
 /**
  * Provider which adds `MaxLengthValidator` to `NG_VALIDATORS`.
  *
- * ## Example:
+ * @usageNotes
+ * ### Example:
  *
  * {@example common/forms/ts/validators/validators.ts region='max'}
  */
@@ -220,7 +225,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
     private _onChange;
     maxlength: string;
     ngOnChanges(changes: SimpleChanges): void;
-    validate(c: AbstractControl): ValidationErrors | null;
+    validate(control: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
     static ngDirectiveDef: i0.ɵDirectiveDef<MaxLengthValidator, '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]'>;
@@ -232,6 +237,7 @@ export declare const PATTERN_VALIDATOR: any;
  * as the regex to validate Control value against.  Follows pattern attribute
  * semantics; i.e. regex must match entire Control value.
  *
+ * @usageNotes
  * ### Example
  *
  * ```
@@ -246,7 +252,7 @@ export declare class PatternValidator implements Validator, OnChanges {
     private _onChange;
     pattern: string | RegExp;
     ngOnChanges(changes: SimpleChanges): void;
-    validate(c: AbstractControl): ValidationErrors | null;
+    validate(control: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
     static ngDirectiveDef: i0.ɵDirectiveDef<PatternValidator, '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]'>;

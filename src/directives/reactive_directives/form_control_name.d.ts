@@ -24,6 +24,7 @@ export declare const controlNameBinding: any;
  * any values written to the DOM element through user input will be reflected in the
  * `FormControl` instance (view -> model).
  *
+ * @usageNotes
  * This directive is designed to be used with a parent `FormGroupDirective` (selector:
  * `[formGroup]`).
  *
@@ -64,6 +65,7 @@ export declare const controlNameBinding: any;
  * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
  *
  * Now deprecated:
+ *
  * ```html
  * <form [formGroup]="form">
  *   <input formControlName="first" [(ngModel)]="value">
