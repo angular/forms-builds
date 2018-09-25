@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0-beta.6+35.sha-82a14dc
+ * @license Angular v7.0.0-beta.6+58.sha-0c34471
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -520,10 +520,10 @@ class Validators {
     /**
      * \@description
      * Validator that performs no operation.
-     * @param {?} c
+     * @param {?} control
      * @return {?}
      */
-    static nullValidator(c) { return null; }
+    static nullValidator(control) { return null; }
     /**
      * @param {?} validators
      * @return {?}
@@ -634,10 +634,12 @@ const CHECKBOX_VALUE_ACCESSOR = {
 /**
  * The accessor for writing a value and listening to changes on a checkbox input element.
  *
- *  ### Example
- *  ```
- *  <input type="checkbox" name="rememberLogin" ngModel>
- *  ```
+ * \@usageNotes
+ * ### Example
+ *
+ * ```
+ * <input type="checkbox" name="rememberLogin" ngModel>
+ * ```
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
@@ -720,10 +722,12 @@ const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  * The default accessor for writing a value and listening to changes that is used by the
  * `NgModel`, `FormControlDirective`, and `FormControlName` directives.
  *
- *  ### Example
- *  ```
- *  <input type="text" name="searchQuery" ngModel>
- *  ```
+ * \@usageNotes
+ * ### Example
+ *
+ * ```
+ * <input type="text" name="searchQuery" ngModel>
+ * ```
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
@@ -871,10 +875,13 @@ const NUMBER_VALUE_ACCESSOR = {
  * The accessor for writing a number value and listening to changes that is used by the
  * `NgModel`, `FormControlDirective`, and `FormControlName` directives.
  *
- *  ### Example
- *  ```
- *  <input type="number" [(ngModel)]="age">
- *  ```
+ * \@usageNotes
+ * ### Example
+ *
+ * ```
+ * <input type="number" [(ngModel)]="age">
+ * ```
+ *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
  */
@@ -1079,6 +1086,7 @@ RadioControlRegistry.decorators = [
  * value accessor will be active on any radio control that has a form directive. You do
  * **not** need to add a special selector to activate it.
  *
+ * \@usageNotes
  * ### How to use radio buttons with form directives
  *
  * To use radio buttons in a template-driven form, you'll want to ensure that radio buttons
@@ -1212,10 +1220,13 @@ const RANGE_VALUE_ACCESSOR = {
  * The accessor for writing a range value and listening to changes that is used by the
  * `NgModel`, `FormControlDirective`, and `FormControlName` directives.
  *
- *  ### Example
- *  ```
- *  <input type="range" [(ngModel)]="age" >
- *  ```
+ * \@usageNotes
+ * ### Example
+ *
+ * ```
+ * <input type="range" [(ngModel)]="age" >
+ * ```
+ *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
  */
@@ -1476,6 +1487,7 @@ function _extractId(valueString) {
  * value accessor will be active on any select control that has a form directive. You do
  * **not** need to add a special selector to activate it.
  *
+ * \@usageNotes
  * ### How to use select controls with form directives
  *
  * To use a select in a template-driven form, simply add an `ngModel` and a `name`
@@ -1504,7 +1516,7 @@ function _extractId(valueString) {
  * `compareWith` takes a **function** which has two arguments: `option1` and `option2`.
  * If `compareWith` is given, Angular selects option by the return value of the function.
  *
- * #### Syntax
+ * ### Syntax
  *
  * ```
  * <select [compareWith]="compareFn"  [(ngModel)]="selectedCountries">
@@ -1745,7 +1757,8 @@ function _extractId$1(valueString) {
 /**
  * The accessor for writing a value and listening to changes on a select element.
  *
- *  ### Caveat: Options selection
+ * \@usageNotes
+ * ### Caveat: Options selection
  *
  * Angular uses object identity to select options. It's possible for the identities of items
  * to change while the data does not. This can happen, for example, if the items are produced
@@ -1756,7 +1769,7 @@ function _extractId$1(valueString) {
  * input. `compareWith` takes a **function** which has two arguments: `option1` and `option2`.
  * If `compareWith` is given, Angular selects options by the return value of the function.
  *
- * #### Syntax
+ * ### Syntax
  *
  * ```
  * <select multiple [compareWith]="compareFn"  [(ngModel)]="selectedCountries">
@@ -1922,6 +1935,7 @@ SelectMultipleControlValueAccessor.propDecorators = {
 /**
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```
@@ -2956,6 +2970,7 @@ class AbstractControl {
      *
      * Calling `setErrors` also updates the validity of the parent control.
      *
+     * \@usageNotes
      * ### Manually set the errors for a control
      *
      * ```
@@ -2982,9 +2997,7 @@ class AbstractControl {
     /**
      * Retrieves a child control given the control's name or path.
      *
-     * @param {?} path A dot-delimited string or array of string/number values that define the path to the
-     * control.
-     *
+     * \@usageNotes
      * ### Retrieve a nested control
      *
      * For example, to get a `name` control nested within a `person` sub-group:
@@ -2994,6 +3007,9 @@ class AbstractControl {
      * -OR-
      *
      * * `this.form.get(['person', 'name']);`
+     * @param {?} path A dot-delimited string or array of string/number values that define the path to the
+     * control.
+     *
      * @return {?}
      */
     get(path) { return _find(this, path, '.'); }
@@ -3579,6 +3595,7 @@ class FormGroup extends AbstractControl {
      * Sets the value of the `FormGroup`. It accepts an object that matches
      * the structure of the group, with control names as keys.
      *
+     * \@usageNotes
      * ### Set the complete value for the form group
      *
      * ```
@@ -3591,8 +3608,8 @@ class FormGroup extends AbstractControl {
      *
      * form.setValue({first: 'Nancy', last: 'Drew'});
      * console.log(form.value);   // {first: 'Nancy', last: 'Drew'}
-     *
      * ```
+     *
      * @throws When strict checks fail, such as setting the value of a control
      * that doesn't exist or if you excluding the value of a control.
      *
@@ -3625,19 +3642,19 @@ class FormGroup extends AbstractControl {
      *
      * It accepts both super-sets and sub-sets of the group without throwing an error.
      *
+     * \@usageNotes
      * ### Patch the value for a form group
      *
-     *  ```
-     *  const form = new FormGroup({
-     *     first: new FormControl(),
-     *     last: new FormControl()
-     *  });
-     *  console.log(form.value);   // {first: null, last: null}
+     * ```
+     * const form = new FormGroup({
+     *    first: new FormControl(),
+     *    last: new FormControl()
+     * });
+     * console.log(form.value);   // {first: null, last: null}
      *
-     *  form.patchValue({first: 'Nancy'});
-     *  console.log(form.value);   // {first: 'Nancy', last: null}
-     *
-     *  ```
+     * form.patchValue({first: 'Nancy'});
+     * console.log(form.value);   // {first: 'Nancy', last: null}
+     * ```
      *
      * @param {?} value The object that matches the structure of the group.
      * @param {?=} options Configuration options that determine how the control propagates changes and
@@ -3921,7 +3938,7 @@ class FormArray extends AbstractControl {
      * Creates a new `FormArray` instance.
      *
      * @param {?} controls An array of child controls. Each child control is given an index
-     * wheh it is registered.
+     * where it is registered.
      *
      * @param {?=} validatorOrOpts A synchronous validator function, or an array of
      * such functions, or an `AbstractControlOptions` object that contains validation functions
@@ -4012,6 +4029,7 @@ class FormArray extends AbstractControl {
      * to set the value of a control that doesn't exist or if you exclude the
      * value of a control.
      *
+     * \@usageNotes
      * ### Set the values for the controls in the form array
      *
      * ```
@@ -4054,6 +4072,7 @@ class FormArray extends AbstractControl {
      *
      * It accepts both super-sets and sub-sets of the array without throwing an error.
      *
+     * \@usageNotes
      * ### Patch the values for controls in a form array
      *
      * ```
@@ -4097,6 +4116,7 @@ class FormArray extends AbstractControl {
      * that matches the structure of the control. The state is a standalone value
      * or a form state object with both a value and a disabled status.
      *
+     * \@usageNotes
      * ### Reset the values in a form array
      *
      * ```ts
@@ -4953,6 +4973,7 @@ const formControlBinding$1 = {
  * any values written to the DOM element through user input will be reflected in the
  * `FormControl` instance (view -> model).
  *
+ * \@usageNotes
  * Use this directive if you'd like to create and manage a `FormControl` instance directly.
  * Simply create a `FormControl`, save it to your component class, and pass it into the
  * `FormControlDirective`.
@@ -4985,6 +5006,7 @@ const formControlBinding$1 = {
  * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
  *
  * Now deprecated:
+ *
  * ```html
  * <input [formControl]="control" [(ngModel)]="value">
  * ```
@@ -5172,6 +5194,7 @@ const formDirectiveProvider$1 = {
  * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
  * and `FormArrayName` directives.
  *
+ * \@usageNotes
  * **Set value**: You can set the form's initial value when instantiating the
  * `FormGroup`, or you can set it programmatically later using the `FormGroup`'s
  * {\@link AbstractControl#setValue setValue} or {\@link AbstractControl#patchValue patchValue}
@@ -5415,6 +5438,7 @@ const formGroupNameProvider = {
  * form separately from the rest or when you'd like to group the values of certain
  * controls into their own nested object.
  *
+ * \@usageNotes
  * **Access the group**: You can access the associated `FormGroup` using the
  * {\@link AbstractControl#get get} method. Ex: `this.form.get('name')`.
  *
@@ -5494,6 +5518,7 @@ const formArrayNameProvider = {
  * you're not sure how many there will be. Form arrays allow you to create new
  * form controls dynamically.
  *
+ * \@usageNotes
  * **Access the array**: You can access the associated `FormArray` using the
  * {\@link AbstractControl#get get} method on the parent `FormGroup`.
  * Ex: `this.form.get('cities')`.
@@ -5622,6 +5647,7 @@ const controlNameBinding = {
  * any values written to the DOM element through user input will be reflected in the
  * `FormControl` instance (view -> model).
  *
+ * \@usageNotes
  * This directive is designed to be used with a parent `FormGroupDirective` (selector:
  * `[formGroup]`).
  *
@@ -5662,6 +5688,7 @@ const controlNameBinding = {
  * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
  *
  * Now deprecated:
+ *
  * ```html
  * <form [formGroup]="form">
  *   <input formControlName="first" [(ngModel)]="value">
@@ -5878,6 +5905,7 @@ const CHECKBOX_REQUIRED_VALIDATOR = {
  * A Directive that adds the `required` validator to any controls marked with the
  * `required` attribute, via the `NG_VALIDATORS` binding.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```
@@ -5902,11 +5930,11 @@ class RequiredValidator {
             this._onChange();
     }
     /**
-     * @param {?} c
+     * @param {?} control
      * @return {?}
      */
-    validate(c) {
-        return this.required ? Validators.required(c) : null;
+    validate(control) {
+        return this.required ? Validators.required(control) : null;
     }
     /**
      * @param {?} fn
@@ -5928,6 +5956,7 @@ RequiredValidator.propDecorators = {
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute, via the `NG_VALIDATORS` binding.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```
@@ -5940,11 +5969,11 @@ RequiredValidator.propDecorators = {
  */
 class CheckboxRequiredValidator extends RequiredValidator {
     /**
-     * @param {?} c
+     * @param {?} control
      * @return {?}
      */
-    validate(c) {
-        return this.required ? Validators.requiredTrue(c) : null;
+    validate(control) {
+        return this.required ? Validators.requiredTrue(control) : null;
     }
 }
 CheckboxRequiredValidator.decorators = [
@@ -5966,6 +5995,7 @@ const EMAIL_VALIDATOR = {
  * A Directive that adds the `email` validator to controls marked with the
  * `email` attribute, via the `NG_VALIDATORS` binding.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```
@@ -5989,11 +6019,11 @@ class EmailValidator {
             this._onChange();
     }
     /**
-     * @param {?} c
+     * @param {?} control
      * @return {?}
      */
-    validate(c) {
-        return this._enabled ? Validators.email(c) : null;
+    validate(control) {
+        return this._enabled ? Validators.email(control) : null;
     }
     /**
      * @param {?} fn
@@ -6013,7 +6043,8 @@ EmailValidator.propDecorators = {
 /** *
  * Provider which adds `MinLengthValidator` to `NG_VALIDATORS`.
  *
- * ## Example:
+ * \@usageNotes
+ * ### Example:
  *
  * {\@example common/forms/ts/validators/validators.ts region='min'}
   @type {?} */
@@ -6042,11 +6073,11 @@ class MinLengthValidator {
         }
     }
     /**
-     * @param {?} c
+     * @param {?} control
      * @return {?}
      */
-    validate(c) {
-        return this.minlength == null ? null : this._validator(c);
+    validate(control) {
+        return this.minlength == null ? null : this._validator(control);
     }
     /**
      * @param {?} fn
@@ -6073,7 +6104,8 @@ MinLengthValidator.propDecorators = {
 /** *
  * Provider which adds `MaxLengthValidator` to `NG_VALIDATORS`.
  *
- * ## Example:
+ * \@usageNotes
+ * ### Example:
  *
  * {\@example common/forms/ts/validators/validators.ts region='max'}
   @type {?} */
@@ -6102,11 +6134,11 @@ class MaxLengthValidator {
         }
     }
     /**
-     * @param {?} c
+     * @param {?} control
      * @return {?}
      */
-    validate(c) {
-        return this.maxlength != null ? this._validator(c) : null;
+    validate(control) {
+        return this.maxlength != null ? this._validator(control) : null;
     }
     /**
      * @param {?} fn
@@ -6142,6 +6174,7 @@ const PATTERN_VALIDATOR = {
  * as the regex to validate Control value against.  Follows pattern attribute
  * semantics; i.e. regex must match entire Control value.
  *
+ * \@usageNotes
  * ### Example
  *
  * ```
@@ -6164,10 +6197,10 @@ class PatternValidator {
         }
     }
     /**
-     * @param {?} c
+     * @param {?} control
      * @return {?}
      */
-    validate(c) { return this._validator(c); }
+    validate(control) { return this._validator(control); }
     /**
      * @param {?} fn
      * @return {?}
@@ -6318,7 +6351,7 @@ FormBuilder.decorators = [
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** @type {?} */
-const VERSION = new Version('7.0.0-beta.6+35.sha-82a14dc');
+const VERSION = new Version('7.0.0-beta.6+58.sha-0c34471');
 
 /**
  * @fileoverview added by tsickle
