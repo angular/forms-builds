@@ -33,5 +33,5 @@ export declare class RangeValueAccessor implements ControlValueAccessor {
     registerOnChange(fn: (_: number | null) => void): void;
     registerOnTouched(fn: () => void): void;
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDef<RangeValueAccessor, 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<RangeValueAccessor, 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]', never, {}, {}, never>;
 }

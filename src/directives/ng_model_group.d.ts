@@ -34,5 +34,5 @@ export declare const modelGroupProvider: any;
 export declare class NgModelGroup extends AbstractFormGroupDirective implements OnInit, OnDestroy {
     name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgModelGroup, '[ngModelGroup]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgModelGroup, '[ngModelGroup]', 'ngModelGroup', {'name': 'ngModelGroup'}, {}, never>;
 }

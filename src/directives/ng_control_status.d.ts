@@ -47,7 +47,7 @@ export declare const ngControlStatusHost: {
  */
 export declare class NgControlStatus extends AbstractControlStatus {
     constructor(cd: NgControl);
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgControlStatus, '[formControlName],[ngModel],[formControl]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgControlStatus, '[formControlName],[ngModel],[formControl]', never, {}, {}, never>;
 }
 /**
  * Directive automatically applied to Angular form groups that sets CSS classes
@@ -58,5 +58,5 @@ export declare class NgControlStatus extends AbstractControlStatus {
  */
 export declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgControlStatusGroup, '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgControlStatusGroup, '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]', never, {}, {}, never>;
 }

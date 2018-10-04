@@ -32,5 +32,5 @@ export declare class CheckboxControlValueAccessor implements ControlValueAccesso
     registerOnChange(fn: (_: any) => {}): void;
     registerOnTouched(fn: () => {}): void;
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDef<CheckboxControlValueAccessor, 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<CheckboxControlValueAccessor, 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]', never, {}, {}, never>;
 }

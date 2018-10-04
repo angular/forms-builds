@@ -41,5 +41,5 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
     registerOnChange(fn: (_: any) => void): void;
     registerOnTouched(fn: () => void): void;
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDef<DefaultValueAccessor, 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<DefaultValueAccessor, 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]', never, {}, {}, never>;
 }
