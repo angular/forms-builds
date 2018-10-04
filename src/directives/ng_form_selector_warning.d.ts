@@ -19,5 +19,5 @@ export declare const NG_FORM_SELECTOR_WARNING: InjectionToken<{}>;
  */
 export declare class NgFormSelectorWarning {
     constructor(ngFormWarning: string | null);
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgFormSelectorWarning, 'ngForm'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgFormSelectorWarning, 'ngForm', never, {}, {}, never>;
 }

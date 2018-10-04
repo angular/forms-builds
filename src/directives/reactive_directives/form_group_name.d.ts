@@ -57,7 +57,7 @@ export declare const formGroupNameProvider: any;
 export declare class FormGroupName extends AbstractFormGroupDirective implements OnInit, OnDestroy {
     name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
-    static ngDirectiveDef: i0.ɵDirectiveDef<FormGroupName, '[formGroupName]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormGroupName, '[formGroupName]', never, {'name': 'formGroupName'}, {}, never>;
 }
 export declare const formArrayNameProvider: any;
 /**
@@ -115,5 +115,5 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
     readonly validator: ValidatorFn | null;
     readonly asyncValidator: AsyncValidatorFn | null;
     private _checkParentType;
-    static ngDirectiveDef: i0.ɵDirectiveDef<FormArrayName, '[formArrayName]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormArrayName, '[formArrayName]', never, {'name': 'formArrayName'}, {}, never>;
 }

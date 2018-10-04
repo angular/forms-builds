@@ -85,7 +85,7 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
     registerOnChange(fn: (value: any) => any): void;
     registerOnTouched(fn: () => any): void;
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDef<SelectControlValueAccessor, 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<SelectControlValueAccessor, 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]', never, {'compareWith': 'compareWith'}, {}, never>;
 }
 /**
  * @description
@@ -106,5 +106,5 @@ export declare class NgSelectOption implements OnDestroy {
     ngValue: any;
     value: any;
     ngOnDestroy(): void;
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgSelectOption, 'option'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgSelectOption, 'option', never, {'ngValue': 'ngValue', 'value': 'value'}, {}, never>;
 }

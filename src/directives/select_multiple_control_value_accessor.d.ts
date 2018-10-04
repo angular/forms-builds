@@ -54,7 +54,7 @@ export declare class SelectMultipleControlValueAccessor implements ControlValueA
     registerOnChange(fn: (value: any) => any): void;
     registerOnTouched(fn: () => any): void;
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDef<SelectMultipleControlValueAccessor, 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<SelectMultipleControlValueAccessor, 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]', never, {'compareWith': 'compareWith'}, {}, never>;
 }
 /**
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
@@ -79,5 +79,5 @@ export declare class NgSelectMultipleOption implements OnDestroy {
     ngValue: any;
     value: any;
     ngOnDestroy(): void;
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgSelectMultipleOption, 'option'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgSelectMultipleOption, 'option', never, {'ngValue': 'ngValue', 'value': 'value'}, {}, never>;
 }

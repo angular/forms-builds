@@ -133,5 +133,5 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _checkName;
     private _updateValue;
     private _updateDisabled;
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgModel, '[ngModel]:not([formControlName]):not([formControl])'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgModel, '[ngModel]:not([formControlName]):not([formControl])', 'ngModel', {'name': 'name', 'isDisabled': 'disabled', 'model': 'ngModel', 'options': 'ngModelOptions'}, {'update': 'ngModelChange'}, never>;
 }

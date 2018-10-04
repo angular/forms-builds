@@ -33,5 +33,5 @@ export declare class NumberValueAccessor implements ControlValueAccessor {
     registerOnChange(fn: (_: number | null) => void): void;
     registerOnTouched(fn: () => void): void;
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDef<NumberValueAccessor, 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NumberValueAccessor, 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]', never, {}, {}, never>;
 }

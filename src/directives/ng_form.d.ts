@@ -108,5 +108,5 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     onReset(): void;
     resetForm(value?: any): void;
     private _setUpdateStrategy;
-    static ngDirectiveDef: i0.ɵDirectiveDef<NgForm, 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgForm, 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]', 'ngForm', {'options': 'ngFormOptions'}, {'ngSubmit': 'ngSubmit'}, never>;
 }

@@ -139,5 +139,5 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     readonly control: FormControl;
     viewToModelUpdate(newValue: any): void;
     private _isControlChanged;
-    static ngDirectiveDef: i0.ɵDirectiveDef<FormControlDirective, '[formControl]'>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormControlDirective, '[formControl]', 'ngForm', {'form': 'formControl', 'isDisabled': 'disabled', 'model': 'ngModel'}, {'update': 'ngModelChange'}, never>;
 }
