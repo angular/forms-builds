@@ -14,6 +14,7 @@ import { ValidationErrors } from './validators';
  *
  * This class is only used internally in the `ReactiveFormsModule` and the `FormsModule`.
  *
+ * @publicApi
  */
 export declare abstract class AbstractControlDirective {
     /**

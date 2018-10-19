@@ -130,6 +130,7 @@ export declare const controlNameBinding: any;
  * the pattern is being used as the code is being updated.
  *
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class FormControlName extends NgControl implements OnChanges, OnDestroy {
     private _ngModelWarningConfig;

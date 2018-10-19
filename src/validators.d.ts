@@ -34,6 +34,7 @@ import { AbstractControl } from './model';
  * }
  * ```
  *
+ * @publicApi
  */
 export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
 /**
@@ -42,6 +43,7 @@ export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
  *
  * @see `NG_VALIDATORS`
  *
+ * @publicApi
  */
 export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[]>;
 /**
@@ -53,6 +55,7 @@ export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[
  *
  * @see [Form Validation](/guide/form-validation)
  *
+ * @publicApi
  */
 export declare class Validators {
     /**

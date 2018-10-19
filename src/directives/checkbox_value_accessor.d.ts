@@ -20,6 +20,7 @@ export declare const CHECKBOX_VALUE_ACCESSOR: any;
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class CheckboxControlValueAccessor implements ControlValueAccessor {
     private _renderer;

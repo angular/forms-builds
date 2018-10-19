@@ -120,6 +120,7 @@ export declare const formControlBinding: any;
  * the pattern is being used as the code is being updated.
  *
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class FormControlDirective extends NgControl implements OnChanges {
     private _ngModelWarningConfig;
