@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.0+32.sha-3f94759
+ * @license Angular v7.0.0+52.sha-778e1c2
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -26,6 +26,7 @@ import { ɵgetDOM } from '@angular/platform-browser';
  *
  * This class is only used internally in the `ReactiveFormsModule` and the `FormsModule`.
  *
+ * \@publicApi
  * @abstract
  */
 class AbstractControlDirective {
@@ -184,6 +185,8 @@ class AbstractControlDirective {
  * \@description
  * A base class for directives that contain multiple registered instances of `NgControl`.
  * Only used by the forms module.
+ *
+ * \@publicApi
  * @abstract
  */
 class ControlContainer extends AbstractControlDirective {
@@ -238,6 +241,7 @@ function isEmptyInputValue(value) {
  * }
  * ```
  *
+ * \@publicApi
   @type {?} */
 const NG_VALIDATORS = new InjectionToken('NgValidators');
 /** *
@@ -246,6 +250,7 @@ const NG_VALIDATORS = new InjectionToken('NgValidators');
  *
  * @see `NG_VALIDATORS`
  *
+ * \@publicApi
   @type {?} */
 const NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
 /** @type {?} */
@@ -259,6 +264,7 @@ const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(
  *
  * @see [Form Validation](/guide/form-validation)
  *
+ * \@publicApi
  */
 class Validators {
     /**
@@ -618,6 +624,7 @@ function _mergeErrors(arrayOfErrors) {
  *
  * See `DefaultValueAccessor` for how to implement one.
  *
+ * \@publicApi
   @type {?} */
 const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
@@ -650,6 +657,7 @@ const CHECKBOX_VALUE_ACCESSOR = {
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class CheckboxControlValueAccessor {
     /**
@@ -730,7 +738,7 @@ function _isAndroid() {
 }
 /** *
  * Turn this mode on if you want form directives to buffer IME input until compositionend
- * \@experimental
+ * \@publicApi
   @type {?} */
 const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
 /**
@@ -746,6 +754,7 @@ const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class DefaultValueAccessor {
     /**
@@ -980,6 +989,8 @@ function unimplemented() {
  * \@description
  * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
  * object to a DOM element.
+ *
+ * \@publicApi
  * @abstract
  */
 class NgControl extends AbstractControlDirective {
@@ -1134,6 +1145,7 @@ RadioControlRegistry.ngInjectableDef = defineInjectable({ token: RadioControlReg
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class RadioControlValueAccessor {
     /**
@@ -1585,6 +1597,7 @@ function _extractId(valueString) {
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class SelectControlValueAccessor {
     /**
@@ -1706,6 +1719,7 @@ SelectControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: SelectCont
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class NgSelectOption {
     /**
@@ -1842,6 +1856,7 @@ function _extractId$1(valueString) {
  *
  * \@ngModule ReactiveFormsModule
  * \@ngModule FormsModule
+ * \@publicApi
  */
 class SelectMultipleControlValueAccessor {
     /**
@@ -2377,6 +2392,7 @@ function _ngModelWarning(name, type, instance, warningConfig) {
  * \@description
  * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
  *
+ * \@publicApi
  */
 class AbstractFormGroupDirective extends ControlContainer {
     /**
@@ -2509,6 +2525,7 @@ const ngControlStatusHost = {
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class NgControlStatus extends AbstractControlStatus {
     /**
@@ -2530,6 +2547,7 @@ NgControlStatus.ngDirectiveDef = ɵdefineDirective({ type: NgControlStatus, sele
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class NgControlStatusGroup extends AbstractControlStatus {
     /**
@@ -2647,6 +2665,7 @@ function isOptionsObj(validatorOrOpts) {
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
  *
+ * \@publicApi
  * @abstract
  */
 class AbstractControl {
@@ -3317,6 +3336,7 @@ class AbstractControl {
  * console.log(control.value); // 'Drew'
  * console.log(control.status); // 'DISABLED'
  *
+ * \@publicApi
  */
 class FormControl extends AbstractControl {
     /**
@@ -3563,6 +3583,8 @@ class FormControl extends AbstractControl {
  *   one: new FormControl()
  * }, { updateOn: 'blur' });
  * ```
+ *
+ * \@publicApi
  */
 class FormGroup extends AbstractControl {
     /**
@@ -3999,7 +4021,7 @@ class FormGroup extends AbstractControl {
  * the `FormArray` directly, as that result in strange and unexpected behavior such
  * as broken change detection.
  *
- *
+ * \@publicApi
  */
 class FormArray extends AbstractControl {
     /**
@@ -4404,6 +4426,7 @@ const resolvedPromise = Promise.resolve(null);
  * {\@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
  * \@ngModule FormsModule
+ * \@publicApi
  */
 class NgForm extends ControlContainer {
     /**
@@ -4682,6 +4705,7 @@ const NG_FORM_SELECTOR_WARNING = new InjectionToken('NgFormSelectorWarning');
  *
  * @deprecated in Angular v6 and will be removed in Angular v9.
  * \@ngModule FormsModule
+ * \@publicApi
  */
 class NgFormSelectorWarning {
     /**
@@ -4747,6 +4771,7 @@ const modelGroupProvider = {
  * {\@example forms/ts/ngModelGroup/ng_model_group_example.ts region='Component'}
  *
  * \@ngModule FormsModule
+ * \@publicApi
  */
 class NgModelGroup extends AbstractFormGroupDirective {
     /**
@@ -4871,6 +4896,7 @@ const resolvedPromise$1 = Promise.resolve(null);
  * * Selects: `SelectControlValueAccessor`
  *
  * \@ngModule FormsModule
+ * \@publicApi
  */
 class NgModel extends NgControl {
     /**
@@ -5175,6 +5201,7 @@ const formControlBinding$1 = {
  * the pattern is being used as the code is being updated.
  *
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class FormControlDirective extends NgControl {
     /**
@@ -5331,6 +5358,7 @@ const formDirectiveProvider$1 = {
  * {\@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
  *
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class FormGroupDirective extends ControlContainer {
     /**
@@ -5585,6 +5613,7 @@ const formGroupNameProvider = {
  * {\@example forms/ts/nestedFormGroup/nested_form_group_example.ts region='Component'}
  *
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class FormGroupName extends AbstractFormGroupDirective {
     /**
@@ -5669,6 +5698,7 @@ const formArrayNameProvider = {
  * {\@example forms/ts/nestedFormArray/nested_form_array_example.ts region='Component'}
  *
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class FormArrayName extends ControlContainer {
     /**
@@ -5886,6 +5916,7 @@ const controlNameBinding = {
  * the pattern is being used as the code is being updated.
  *
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class FormControlName extends NgControl {
     /**
@@ -6043,6 +6074,7 @@ const CHECKBOX_REQUIRED_VALIDATOR = {
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class RequiredValidator {
     /**
@@ -6093,7 +6125,7 @@ RequiredValidator.ngDirectiveDef = ɵdefineDirective({ type: RequiredValidator, 
  * <input type="checkbox" name="active" ngModel required>
  * ```
  *
- * \@experimental
+ * \@publicApi
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
  */
@@ -6136,7 +6168,7 @@ const EMAIL_VALIDATOR = {
  * <input type="email" name="email" ngModel [email]="true">
  * ```
  *
- * \@experimental
+ * \@publicApi
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
  */
@@ -6192,6 +6224,7 @@ const MIN_LENGTH_VALIDATOR = {
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class MinLengthValidator {
     /**
@@ -6254,6 +6287,7 @@ const MAX_LENGTH_VALIDATOR = {
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class MaxLengthValidator {
     /**
@@ -6318,6 +6352,7 @@ const PATTERN_VALIDATOR = {
  *
  * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@publicApi
  */
 class PatternValidator {
     /**
@@ -6379,6 +6414,7 @@ PatternValidator.ngDirectiveDef = ɵdefineDirective({ type: PatternValidator, se
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
+ * \@publicApi
  */
 class FormBuilder {
     /**
@@ -6494,8 +6530,10 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/** @type {?} */
-const VERSION = new Version('7.0.0+32.sha-3f94759');
+/** *
+ * \@publicApi
+  @type {?} */
+const VERSION = new Version('7.0.0+52.sha-778e1c2');
 
 /**
  * @fileoverview added by tsickle
@@ -6521,7 +6559,7 @@ const VERSION = new Version('7.0.0+32.sha-3f94759');
  * <form ngNativeValidate></form>
  * ```
  *
- * \@experimental
+ * \@publicApi
  * \@ngModule ReactiveFormsModule
  * \@ngModule FormsModule
  */
@@ -6625,6 +6663,8 @@ InternalFormsSharedModule.ngInjectorDef = defineInjector({ factory: function Int
  * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
+ *
+ * \@publicApi
  */
 class FormsModule {
     /**
@@ -6659,6 +6699,7 @@ FormsModule.ngInjectorDef = defineInjector({ factory: function FormsModule_Facto
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
+ * \@publicApi
  */
 class ReactiveFormsModule {
     /**

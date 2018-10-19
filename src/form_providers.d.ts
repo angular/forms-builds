@@ -22,6 +22,8 @@ import { ModuleWithProviders } from '@angular/core';
  * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
+ *
+ * @publicApi
  */
 export declare class FormsModule {
     /**
@@ -45,6 +47,7 @@ export declare class FormsModule {
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
+ * @publicApi
  */
 export declare class ReactiveFormsModule {
     /**
