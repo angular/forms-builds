@@ -70,6 +70,7 @@ export declare const SELECT_VALUE_ACCESSOR: StaticProvider;
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class SelectControlValueAccessor implements ControlValueAccessor {
     private _renderer;
@@ -94,6 +95,7 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class NgSelectOption implements OnDestroy {
     private _element;

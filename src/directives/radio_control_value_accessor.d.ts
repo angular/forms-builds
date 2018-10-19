@@ -47,6 +47,7 @@ export declare class RadioControlRegistry {
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class RadioControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
     private _renderer;

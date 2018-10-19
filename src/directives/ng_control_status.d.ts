@@ -43,6 +43,7 @@ export declare const ngControlStatusHost: {
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class NgControlStatus extends AbstractControlStatus {
     constructor(cd: NgControl);
@@ -53,6 +54,7 @@ export declare class NgControlStatus extends AbstractControlStatus {
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);
