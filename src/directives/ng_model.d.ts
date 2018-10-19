@@ -65,6 +65,7 @@ export declare const formControlBinding: any;
  * * Selects: `SelectControlValueAccessor`
  *
  * @ngModule FormsModule
+ * @publicApi
  */
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     readonly control: FormControl;

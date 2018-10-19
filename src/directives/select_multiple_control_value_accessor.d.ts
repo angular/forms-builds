@@ -39,6 +39,7 @@ export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
+ * @publicApi
  */
 export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
     private _renderer;

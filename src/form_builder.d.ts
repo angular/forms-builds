@@ -17,6 +17,7 @@ import { FormArray, FormControl, FormGroup } from './model';
  *
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  *
+ * @publicApi
  */
 export declare class FormBuilder {
     /**

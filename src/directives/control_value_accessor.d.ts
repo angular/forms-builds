@@ -15,6 +15,8 @@ import { InjectionToken } from '@angular/core';
  * that integrates with Angular forms.
  *
  * @see DefaultValueAccessor
+ *
+ * @publicApi
  */
 export interface ControlValueAccessor {
     /**
@@ -128,5 +130,6 @@ export interface ControlValueAccessor {
  *
  * See `DefaultValueAccessor` for how to implement one.
  *
+ * @publicApi
  */
 export declare const NG_VALUE_ACCESSOR: InjectionToken<ControlValueAccessor>;
