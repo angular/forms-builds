@@ -12,6 +12,8 @@ import { AsyncValidatorFn, ValidatorFn } from './validators';
  * @description
  * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
  * object to a DOM element.
+ *
+ * @publicApi
  */
 export declare abstract class NgControl extends AbstractControlDirective {
     /**
