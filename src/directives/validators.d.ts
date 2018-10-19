@@ -12,7 +12,7 @@ import { AbstractControl } from '../model';
  * @description
  * Defines the map of errors returned from failed validation checks
  *
- * @experimental
+ * @publicApi
  */
 export declare type ValidationErrors = {
     [key: string]: any;
@@ -39,6 +39,8 @@ export declare type ValidationErrors = {
  *   }
  * }
  * ```
+ *
+ * @publicApi
  */
 export interface Validator {
     /**
@@ -85,7 +87,7 @@ export interface Validator {
  * }
  * ```
  *
- * @experimental
+ * @publicApi
  */
 export interface AsyncValidator extends Validator {
     /**
@@ -114,6 +116,7 @@ export declare const CHECKBOX_REQUIRED_VALIDATOR: StaticProvider;
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class RequiredValidator implements Validator {
     private _required;
@@ -133,7 +136,7 @@ export declare class RequiredValidator implements Validator {
  * <input type="checkbox" name="active" ngModel required>
  * ```
  *
- * @experimental
+ * @publicApi
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
  */
@@ -157,7 +160,7 @@ export declare const EMAIL_VALIDATOR: any;
  * <input type="email" name="email" ngModel [email]="true">
  * ```
  *
- * @experimental
+ * @publicApi
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
  */
@@ -168,9 +171,15 @@ export declare class EmailValidator implements Validator {
     validate(control: AbstractControl): ValidationErrors | null;
     registerOnValidatorChange(fn: () => void): void;
 }
+/**
+ * @publicApi
+ */
 export interface ValidatorFn {
     (control: AbstractControl): ValidationErrors | null;
 }
+/**
+ * @publicApi
+ */
 export interface AsyncValidatorFn {
     (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
 }
@@ -189,6 +198,7 @@ export declare const MIN_LENGTH_VALIDATOR: any;
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class MinLengthValidator implements Validator, OnChanges {
     private _validator;
@@ -214,6 +224,7 @@ export declare const MAX_LENGTH_VALIDATOR: any;
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class MaxLengthValidator implements Validator, OnChanges {
     private _validator;
@@ -240,6 +251,7 @@ export declare const PATTERN_VALIDATOR: any;
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class PatternValidator implements Validator, OnChanges {
     private _validator;

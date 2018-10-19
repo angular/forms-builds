@@ -10,7 +10,7 @@ import { ControlValueAccessor } from './control_value_accessor';
 export declare const DEFAULT_VALUE_ACCESSOR: any;
 /**
  * Turn this mode on if you want form directives to buffer IME input until compositionend
- * @experimental
+ * @publicApi
  */
 export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
 /**
@@ -26,6 +26,7 @@ export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
  *
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class DefaultValueAccessor implements ControlValueAccessor {
     private _renderer;

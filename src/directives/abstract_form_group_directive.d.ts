@@ -14,6 +14,7 @@ import { AsyncValidatorFn, ValidatorFn } from './validators';
  * @description
  * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
  *
+ * @publicApi
  */
 export declare class AbstractFormGroupDirective extends ControlContainer implements OnInit, OnDestroy {
     /**
