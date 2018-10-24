@@ -62,6 +62,7 @@ export declare const formDirectiveProvider: any;
  * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
  * @ngModule FormsModule
+ * @publicApi
  */
 export declare class NgForm extends ControlContainer implements Form, AfterViewInit {
     readonly submitted: boolean;
