@@ -19,7 +19,7 @@ import * as i0 from '@angular/core';
  * <form ngNativeValidate></form>
  * ```
  *
- * @experimental
+ * @publicApi
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
  */

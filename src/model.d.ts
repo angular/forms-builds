@@ -39,7 +39,7 @@ export declare type FormHooks = 'change' | 'blur' | 'submit';
 /**
  * Interface for options provided to an `AbstractControl`.
  *
- * @experimental
+ * @publicApi
  */
 export interface AbstractControlOptions {
     /**
@@ -67,6 +67,7 @@ export interface AbstractControlOptions {
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
  *
+ * @publicApi
  */
 export declare abstract class AbstractControl {
     validator: ValidatorFn | null;
@@ -539,7 +540,8 @@ export declare abstract class AbstractControl {
  * console.log(control.value); // 'Drew'
  * console.log(control.status); // 'DISABLED'
  *
-*/
+ * @publicApi
+ */
 export declare class FormControl extends AbstractControl {
     /**
     * Creates a new `FormControl` instance.
@@ -704,6 +706,8 @@ export declare class FormControl extends AbstractControl {
  *   one: new FormControl()
  * }, { updateOn: 'blur' });
  * ```
+ *
+ * @publicApi
  */
 export declare class FormGroup extends AbstractControl {
     controls: {
@@ -980,7 +984,7 @@ export declare class FormGroup extends AbstractControl {
  * the `FormArray` directly, as that result in strange and unexpected behavior such
  * as broken change detection.
  *
- *
+ * @publicApi
  */
 export declare class FormArray extends AbstractControl {
     controls: AbstractControl[];
