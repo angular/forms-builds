@@ -49,7 +49,7 @@ NgFormSelectorWarning.decorators = [
 NgFormSelectorWarning.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_FORM_SELECTOR_WARNING,] }] }
 ];
-NgFormSelectorWarning.ngDirectiveDef = i0.ɵdefineDirective({ type: NgFormSelectorWarning, selectors: [["ngForm"]], factory: function NgFormSelectorWarning_Factory(t) { return new (t || NgFormSelectorWarning)(i0.ɵdirectiveInject(NG_FORM_SELECTOR_WARNING, 8)); }, features: [i0.ɵPublicFeature] });
+NgFormSelectorWarning.ngDirectiveDef = i0.ɵdefineDirective({ type: NgFormSelectorWarning, selectors: [["ngForm"]], factory: function NgFormSelectorWarning_Factory(t) { return new (t || NgFormSelectorWarning)(i0.ɵdirectiveInject(NG_FORM_SELECTOR_WARNING, 8)); } });
 if (false) {
     /**
      * Static property used to track whether the deprecation warning for this selector has been sent.
