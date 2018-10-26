@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.0-beta.0+8.sha-b0476f3
+ * @license Angular v7.1.0-beta.0+18.sha-aefa06f
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1102,7 +1102,7 @@
         RadioControlValueAccessor.prototype._throwNameError = function () {
             throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
         };
-        RadioControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], factory: function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(i0.ElementRef), i0.ɵdirectiveInject(RadioControlRegistry), i0.ɵdirectiveInject(i0.INJECTOR)); }, hostBindings: function RadioControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵload(dirIndex).onChange() !== false); return pd_b; }); i0.ɵlistener("blur", function RadioControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵload(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [i0.ɵProvidersFeature([RADIO_VALUE_ACCESSOR])] });
+        RadioControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], factory: function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(i0.ElementRef), i0.ɵdirectiveInject(RadioControlRegistry), i0.ɵdirectiveInject(i0.Injector)); }, hostBindings: function RadioControlValueAccessor_HostBindings(dirIndex, elIndex) { i0.ɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler($event) { var pd_b = (i0.ɵload(dirIndex).onChange() !== false); return pd_b; }); i0.ɵlistener("blur", function RadioControlValueAccessor_blur_HostBindingHandler($event) { var pd_b = (i0.ɵload(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [i0.ɵProvidersFeature([RADIO_VALUE_ACCESSOR])] });
         return RadioControlValueAccessor;
     }());
 
@@ -5225,7 +5225,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('7.1.0-beta.0+8.sha-b0476f3');
+    var VERSION = new i0.Version('7.1.0-beta.0+18.sha-aefa06f');
 
     /**
      * @license

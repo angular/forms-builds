@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.1.0-beta.0+8.sha-b0476f3
+ * @license Angular v7.1.0-beta.0+18.sha-aefa06f
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, Self, Host, Input, SkipSelf, Injectable, NgModule, Injector, EventEmitter, Output, ɵlooseIdentical, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵload, ɵProvidersFeature, ɵelementProperty, ɵbind, ɵInheritDefinitionFeature, defineInjectable, ɵdefineNgModule, defineInjector, INJECTOR, ɵNgOnChangesFeature, ɵgetInheritedFactory } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, Self, Host, Input, SkipSelf, Injectable, NgModule, Injector, EventEmitter, Output, ɵlooseIdentical, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵload, ɵProvidersFeature, ɵelementProperty, ɵbind, ɵInheritDefinitionFeature, defineInjectable, ɵdefineNgModule, defineInjector, ɵNgOnChangesFeature, ɵgetInheritedFactory } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -1249,7 +1249,7 @@ RadioControlValueAccessor.propDecorators = {
     formControlName: [{ type: Input }],
     value: [{ type: Input }]
 };
-RadioControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], factory: function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(ɵdirectiveInject(Renderer2), ɵdirectiveInject(ElementRef), ɵdirectiveInject(RadioControlRegistry), ɵdirectiveInject(INJECTOR)); }, hostBindings: function RadioControlValueAccessor_HostBindings(dirIndex, elIndex) { ɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler($event) { const pd_b = (ɵload(dirIndex).onChange() !== false); return pd_b; }); ɵlistener("blur", function RadioControlValueAccessor_blur_HostBindingHandler($event) { const pd_b = (ɵload(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [ɵProvidersFeature([RADIO_VALUE_ACCESSOR])] });
+RadioControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], factory: function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(ɵdirectiveInject(Renderer2), ɵdirectiveInject(ElementRef), ɵdirectiveInject(RadioControlRegistry), ɵdirectiveInject(Injector)); }, hostBindings: function RadioControlValueAccessor_HostBindings(dirIndex, elIndex) { ɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler($event) { const pd_b = (ɵload(dirIndex).onChange() !== false); return pd_b; }); ɵlistener("blur", function RadioControlValueAccessor_blur_HostBindingHandler($event) { const pd_b = (ɵload(dirIndex).onTouched() !== false); return pd_b; }); }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [ɵProvidersFeature([RADIO_VALUE_ACCESSOR])] });
 
 /**
  * @fileoverview added by tsickle
@@ -6533,7 +6533,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
 /** *
  * \@publicApi
   @type {?} */
-const VERSION = new Version('7.1.0-beta.0+8.sha-b0476f3');
+const VERSION = new Version('7.1.0-beta.0+18.sha-aefa06f');
 
 /**
  * @fileoverview added by tsickle
