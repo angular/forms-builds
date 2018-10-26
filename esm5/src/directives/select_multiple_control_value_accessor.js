@@ -228,7 +228,7 @@ var NgSelectMultipleOption = /** @class */ (function () {
             this._select.writeValue(this._select.value);
         }
     };
-    NgSelectMultipleOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(i0.ɵdirectiveInject(ElementRef), i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
+    NgSelectMultipleOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(i0.ɵdirectiveInject(ElementRef), i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: ["ngValue", "ngValue"], value: ["value", "value"] } });
     return NgSelectMultipleOption;
 }());
 export { NgSelectMultipleOption };
