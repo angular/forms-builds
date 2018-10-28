@@ -44,6 +44,7 @@ export declare const formDirectiveProvider: any;
  * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
  *
  * @ngModule ReactiveFormsModule
+ * @publicApi
  */
 export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges {
     private _validators;

@@ -29,6 +29,7 @@ export declare const modelGroupProvider: any;
  * {@example forms/ts/ngModelGroup/ng_model_group_example.ts region='Component'}
  *
  * @ngModule FormsModule
+ * @publicApi
  */
 export declare class NgModelGroup extends AbstractFormGroupDirective implements OnInit, OnDestroy {
     name: string;
