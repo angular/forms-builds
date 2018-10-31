@@ -4,7 +4,7 @@
  * License: MIT
  */
 
-import { __decorate, __param, __metadata, __extends, __values, __assign, __spread } from 'tslib';
+import { __decorate, __metadata, __param, __extends, __values, __spread, __assign } from 'tslib';
 import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
