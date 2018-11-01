@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.0-beta.1+50.sha-aed95fd
+ * @license Angular v7.1.0-beta.1+51.sha-e9e804f
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6281,24 +6281,35 @@ class FormBuilder {
      * @param {?} controlsConfig A collection of child controls. The key for each child is the name
      * under which it is registered.
      *
-     * @param {?=} extra An object of configuration options for the `FormGroup`.
-     * * `validator`: A synchronous validator function, or an array of validator functions
-     * * `asyncValidator`: A single async validator or array of async validator functions
-     *
+     * @param {?=} legacyOrOpts
      * @return {?}
      */
-    group(controlsConfig, extra = null) {
+    group(controlsConfig, legacyOrOpts = null) {
         /** @type {?} */
         const controls = this._reduceControls(controlsConfig);
         /** @type {?} */
-        const validator = extra != null ? extra['validator'] : null;
+        let validators = null;
         /** @type {?} */
-        const asyncValidator = extra != null ? extra['asyncValidator'] : null;
-        return new FormGroup(controls, validator, asyncValidator);
+        let asyncValidators = null;
+        /** @type {?} */
+        let updateOn = undefined;
+        if (legacyOrOpts != null &&
+            (legacyOrOpts["asyncValidator"] !== undefined || legacyOrOpts["validator"] !== undefined)) {
+            // `legacyOrOpts` are legacy form group options
+            validators = legacyOrOpts["validator"] != null ? legacyOrOpts["validator"] : null;
+            asyncValidators = legacyOrOpts["asyncValidator"] != null ? legacyOrOpts["asyncValidator"] : null;
+        }
+        else if (legacyOrOpts != null) {
+            // `legacyOrOpts` are `AbstractControlOptions`
+            validators = legacyOrOpts["validators"] != null ? legacyOrOpts["validators"] : null;
+            asyncValidators = legacyOrOpts["asyncValidators"] != null ? legacyOrOpts["asyncValidators"] : null;
+            updateOn = legacyOrOpts["updateOn"] != null ? legacyOrOpts["updateOn"] : undefined;
+        }
+        return new FormGroup(controls, { asyncValidators, updateOn, validators });
     }
     /**
      * \@description
-     * Construct a new `FormControl` instance.
+     * Construct a new `FormControl` with the given state, validators and options.
      *
      * \@usageNotes
      *
@@ -6309,37 +6320,40 @@ class FormBuilder {
      * <code-example path="forms/ts/formBuilder/form_builder_example.ts"
      *   linenums="false" region="disabled-control">
      * </code-example>
+     * @param {?} formState Initializes the control with an initial state value, or
+     * with an object that contains both a value and a disabled status.
      *
-     * @param {?} formState Initializes the control with an initial value,
-     * or an object that defines the initial value and disabled state.
+     * @param {?=} validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains
+     * validation functions and a validation trigger.
      *
-     * @param {?=} validator A synchronous validator function, or an array of synchronous validator
+     * @param {?=} asyncValidator A single async validator or array of async validator
      * functions.
-     *
-     * @param {?=} asyncValidator A single async validator or array of async validator functions
      *
      * @return {?}
      */
-    control(formState, validator, asyncValidator) {
-        return new FormControl(formState, validator, asyncValidator);
+    control(formState, validatorOrOpts, asyncValidator) {
+        return new FormControl(formState, validatorOrOpts, asyncValidator);
     }
     /**
-     * \@description
-     * Construct a new `FormArray` instance.
+     * Constructs a new `FormArray` from the given array of configurations,
+     * validators and options.
      *
-     * @param {?} controlsConfig An array of child controls. The key for each child control is its index
-     * in the array.
+     * @param {?} controlsConfig An array of child controls or control configs. Each
+     * child control is given an index when it is registered.
      *
-     * @param {?=} validator A synchronous validator function, or an array of synchronous validator
+     * @param {?=} validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains
+     * validation functions and a validation trigger.
+     *
+     * @param {?=} asyncValidator A single async validator or array of async validator
      * functions.
-     *
-     * @param {?=} asyncValidator A single async validator or array of async validator functions
      * @return {?}
      */
-    array(controlsConfig, validator, asyncValidator) {
+    array(controlsConfig, validatorOrOpts, asyncValidator) {
         /** @type {?} */
         const controls = controlsConfig.map(c => this._createControl(c));
-        return new FormArray(controls, validator, asyncValidator);
+        return new FormArray(controls, validatorOrOpts, asyncValidator);
     }
     /**
      * \@internal
@@ -6389,7 +6403,7 @@ FormBuilder.decorators = [
 /** *
  * \@publicApi
   @type {?} */
-const VERSION = new Version('7.1.0-beta.1+50.sha-aed95fd');
+const VERSION = new Version('7.1.0-beta.1+51.sha-e9e804f');
 
 /**
  * @fileoverview added by tsickle
