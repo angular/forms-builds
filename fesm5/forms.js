@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.0-beta.1+73.sha-6744b19
+ * @license Angular v7.1.0-beta.1+74.sha-099d1a6
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -4403,38 +4403,17 @@ var formControlBinding$1 = {
 };
 /**
  * @description
+ * * Syncs a standalone `FormControl` instance to a form control element.
  *
- * Syncs a standalone `FormControl` instance to a form control element.
- *
- * This directive ensures that any values written to the `FormControl`
- * instance programmatically will be written to the DOM element (model -> view). Conversely,
- * any values written to the DOM element through user input will be reflected in the
- * `FormControl` instance (view -> model).
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see `FormControl`
+ * @see `AbstractControl`
  *
  * @usageNotes
- * Use this directive if you'd like to create and manage a `FormControl` instance directly.
- * Simply create a `FormControl`, save it to your component class, and pass it into the
- * `FormControlDirective`.
  *
- * This directive is designed to be used as a standalone control.  Unlike `FormControlName`,
- * it does not require that your `FormControl` instance be part of any parent
- * `FormGroup`, and it won't be registered to any `FormGroupDirective` that
- * exists above it.
+ * ### Registering a single form control
  *
- * **Get the value**: the `value` property is always synced and available on the
- * `FormControl` instance. See a full list of available properties in
- * `AbstractControl`.
- *
- * **Set the value**: You can pass in an initial value when instantiating the `FormControl`,
- * or you can set it programmatically later using {@link AbstractControl#setValue setValue} or
- * {@link AbstractControl#patchValue patchValue}.
- *
- * **Listen to value**: If you want to listen to changes in the value of the control, you can
- * subscribe to the {@link AbstractControl#valueChanges valueChanges} event.  You can also listen to
- * {@link AbstractControl#statusChanges statusChanges} to be notified when the validation status is
- * re-calculated.
- *
- * ### Example
+ * The following examples shows how to register a standalone control and set its value.
  *
  * {@example forms/ts/simpleFormControl/simple_form_control_example.ts region='Component'}
  *
@@ -4516,8 +4495,9 @@ var FormControlDirective = /** @class */ (function (_super) {
         /** @deprecated as of v6 */
         _this.update = new EventEmitter();
         /**
+         * @description
          * Instance property used to track whether an ngModel warning has been sent out for this
-         * particular FormControlDirective instance. Used to support warning config of "always".
+         * particular `FormControlDirective` instance. Used to support warning config of "always".
          *
          * @internal
          */
@@ -4528,10 +4508,21 @@ var FormControlDirective = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(FormControlDirective.prototype, "isDisabled", {
+        /**
+         * @description
+         * Triggers a warning that this input should not be used with reactive forms.
+         */
         set: function (isDisabled) { ReactiveErrors.disabledAttrWarning(); },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
     FormControlDirective.prototype.ngOnChanges = function (changes) {
         if (this._isControlChanged(changes)) {
             setUpControl(this.form, this);
@@ -4547,16 +4538,31 @@ var FormControlDirective = /** @class */ (function (_super) {
         }
     };
     Object.defineProperty(FormControlDirective.prototype, "path", {
+        /**
+         * @description
+         * Returns an array that represents the path from the top-level form to this control.
+         * Each index is the string name of the control on that level.
+         */
         get: function () { return []; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormControlDirective.prototype, "validator", {
+        /**
+         * @description
+         * Synchronous validator function composed of all the synchronous validators
+         * registered with this directive.
+         */
         get: function () { return composeValidators(this._rawValidators); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormControlDirective.prototype, "asyncValidator", {
+        /**
+         * @description
+         * Async validator function composed of all the async validators registered with this
+         * directive.
+         */
         get: function () {
             return composeAsyncValidators(this._rawAsyncValidators);
         },
@@ -4564,10 +4570,20 @@ var FormControlDirective = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(FormControlDirective.prototype, "control", {
+        /**
+         * @description
+         * The `FormControl` bound to this directive.
+         */
         get: function () { return this.form; },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @description
+     * Sets the new value for the view model and emits an `ngModelChange` event.
+     *
+     * @param newValue The new value for the view model.
+     */
     FormControlDirective.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
         this.update.emit(newValue);
@@ -4576,6 +4592,7 @@ var FormControlDirective = /** @class */ (function (_super) {
         return changes.hasOwnProperty('form');
     };
     /**
+     * @description
      * Static property used to track whether any ngModel warnings have been sent across
      * all instances of FormControlDirective. Used to support warning config of "once".
      *
@@ -4654,24 +4671,13 @@ var formDirectiveProvider$1 = {
  * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
  * and `FormArrayName` directives.
  *
- * @usageNotes
- * **Set value**: You can set the form's initial value when instantiating the
- * `FormGroup`, or you can set it programmatically later using the `FormGroup`'s
- * {@link AbstractControl#setValue setValue} or {@link AbstractControl#patchValue patchValue}
- * methods.
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see `AbstractControl`
  *
- * **Listen to value**: If you want to listen to changes in the value of the form, you can subscribe
- * to the `FormGroup`'s {@link AbstractControl#valueChanges valueChanges} event.  You can also
- * listen to its {@link AbstractControl#statusChanges statusChanges} event to be notified when the
- * validation status is re-calculated.
+ * ### Register Form Group
  *
- * Furthermore, you can listen to the directive's `ngSubmit` event to be notified when the user has
- * triggered a form submission. The `ngSubmit` event will be emitted with the original form
- * submission event.
- *
- * ### Example
- *
- * In this example, we create form controls for first name and last name.
+ * The following example registers a `FormGroup` with first name and last name controls,
+ * and listens for the *ngSubmit* event when the button is clicked.
  *
  * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
  *
@@ -4684,12 +4690,34 @@ var FormGroupDirective = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this._validators = _validators;
         _this._asyncValidators = _asyncValidators;
+        /**
+         * @description
+         * Reports whether the form submission has been triggered.
+         */
         _this.submitted = false;
+        /**
+         * @description
+         * Tracks the list of added `FormControlName` instances
+         */
         _this.directives = [];
+        /**
+         * @description
+         * Tracks the `FormGroup` bound to this directive.
+         */
         _this.form = null;
+        /**
+         * @description
+         * Emits an event when the form submission has been triggered.
+         */
         _this.ngSubmit = new EventEmitter();
         return _this;
     }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
     FormGroupDirective.prototype.ngOnChanges = function (changes) {
         this._checkFormPresent();
         if (changes.hasOwnProperty('form')) {
@@ -4699,20 +4727,40 @@ var FormGroupDirective = /** @class */ (function (_super) {
         }
     };
     Object.defineProperty(FormGroupDirective.prototype, "formDirective", {
+        /**
+         * @description
+         * Returns this directive's instance.
+         */
         get: function () { return this; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormGroupDirective.prototype, "control", {
+        /**
+         * @description
+         * Returns the `FormGroup` bound to this directive.
+         */
         get: function () { return this.form; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormGroupDirective.prototype, "path", {
+        /**
+         * @description
+         * Returns an array representing the path to this group. Because this directive
+         * always lives at the top level of a form, it always an empty array.
+         */
         get: function () { return []; },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @description
+     * Method that sets up the control directive in this group, re-calculates its value
+     * and validity, and adds the instance to the internal list of directives.
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
     FormGroupDirective.prototype.addControl = function (dir) {
         var ctrl = this.form.get(dir.path);
         setUpControl(ctrl, dir);
@@ -4720,33 +4768,100 @@ var FormGroupDirective = /** @class */ (function (_super) {
         this.directives.push(dir);
         return ctrl;
     };
+    /**
+     * @description
+     * Retrieves the `FormControl` instance from the provided `FormControlName` directive
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
     FormGroupDirective.prototype.getControl = function (dir) { return this.form.get(dir.path); };
+    /**
+     * @description
+     * Removes the `FormControlName` instance from the internal list of directives
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
     FormGroupDirective.prototype.removeControl = function (dir) { removeDir(this.directives, dir); };
+    /**
+     * Adds a new `FormGroupName` directive instance to the form.
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
     FormGroupDirective.prototype.addFormGroup = function (dir) {
         var ctrl = this.form.get(dir.path);
         setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
     };
+    /**
+     * No-op method to remove the form group.
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
     FormGroupDirective.prototype.removeFormGroup = function (dir) { };
+    /**
+     * @description
+     * Retrieves the `FormGroup` for a provided `FormGroupName` directive instance
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
     FormGroupDirective.prototype.getFormGroup = function (dir) { return this.form.get(dir.path); };
+    /**
+     * Adds a new `FormArrayName` directive instance to the form.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
     FormGroupDirective.prototype.addFormArray = function (dir) {
         var ctrl = this.form.get(dir.path);
         setUpFormContainer(ctrl, dir);
         ctrl.updateValueAndValidity({ emitEvent: false });
     };
+    /**
+     * No-op method to remove the form array.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
     FormGroupDirective.prototype.removeFormArray = function (dir) { };
+    /**
+     * @description
+     * Retrieves the `FormArray` for a provided `FormArrayName` directive instance.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
     FormGroupDirective.prototype.getFormArray = function (dir) { return this.form.get(dir.path); };
+    /**
+     * Sets the new value for the provided `FormControlName` directive.
+     *
+     * @param dir The `FormControlName` directive instance.
+     * @param value The new value for the directive's control.
+     */
     FormGroupDirective.prototype.updateModel = function (dir, value) {
         var ctrl = this.form.get(dir.path);
         ctrl.setValue(value);
     };
+    /**
+     * @description
+     * Method called with the "submit" event is triggered on the form.
+     * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
+     *
+     * @param $event The "submit" event object
+     */
     FormGroupDirective.prototype.onSubmit = function ($event) {
         this.submitted = true;
         syncPendingControls(this.form, this.directives);
         this.ngSubmit.emit($event);
         return false;
     };
+    /**
+     * @description
+     * Method called when the "reset" event is triggered on the form.
+     */
     FormGroupDirective.prototype.onReset = function () { this.resetForm(); };
+    /**
+     * @description
+     * Resets the form to an initial value and resets its submitted status.
+     *
+     * @param value The new value for the form.
+     */
     FormGroupDirective.prototype.resetForm = function (value) {
         if (value === void 0) { value = undefined; }
         this.form.reset(value);
@@ -4831,37 +4946,42 @@ var formGroupNameProvider = {
  *
  * Syncs a nested `FormGroup` to a DOM element.
  *
- * This directive can only be used with a parent `FormGroupDirective` (selector:
- * `[formGroup]`).
+ * This directive can only be used with a parent `FormGroupDirective`.
  *
- * It accepts the string name of the nested `FormGroup` you want to link, and
- * will look for a `FormGroup` registered with that name in the parent
+ * It accepts the string name of the nested `FormGroup` to link, and
+ * looks for a `FormGroup` registered with that name in the parent
  * `FormGroup` instance you passed into `FormGroupDirective`.
  *
- * Nested form groups can come in handy when you want to validate a sub-group of a
- * form separately from the rest or when you'd like to group the values of certain
+ * Use nested form groups to validate a sub-group of a
+ * form separately from the rest or to group the values of certain
  * controls into their own nested object.
  *
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ *
  * @usageNotes
- * **Access the group**: You can access the associated `FormGroup` using the
- * {@link AbstractControl#get get} method. Ex: `this.form.get('name')`.
  *
- * You can also access individual controls within the group using dot syntax.
- * Ex: `this.form.get('name.first')`
+ * ### Access the group by name
  *
- * **Get the value**: the `value` property is always synced and available on the
- * `FormGroup`. See a full list of available properties in `AbstractControl`.
+ * The following example uses the {@link AbstractControl#get get} method to access the
+ * associated `FormGroup`
  *
- * **Set the value**: You can set an initial value for each child control when instantiating
- * the `FormGroup`, or you can set it programmatically later using
- * {@link AbstractControl#setValue setValue} or {@link AbstractControl#patchValue patchValue}.
+ * ```ts
+ *   this.form.get('name');
+ * ```
  *
- * **Listen to value**: If you want to listen to changes in the value of the group, you can
- * subscribe to the {@link AbstractControl#valueChanges valueChanges} event.  You can also listen to
- * {@link AbstractControl#statusChanges statusChanges} to be notified when the validation status is
- * re-calculated.
+ * ### Access individual controls in the group
  *
- * ### Example
+ * The following example uses the {@link AbstractControl#get get} method to access
+ * individual controls within the group using dot syntax.
+ *
+ * ```ts
+ *   this.form.get('name.first');
+ * ```
+ *
+ * ### Register a nested `FormGroup`.
+ *
+ * The following example registers a nested *name* `FormGroup` within an existing `FormGroup`,
+ * and provides methods to retrieve the nested `FormGroup` and individual controls.
  *
  * {@example forms/ts/nestedFormGroup/nested_form_group_example.ts region='Component'}
  *
@@ -4938,31 +5058,10 @@ var formArrayNameProvider = {
  * will look for a `FormArray` registered with that name in the parent
  * `FormGroup` instance you passed into `FormGroupDirective`.
  *
- * Nested form arrays can come in handy when you have a group of form controls but
- * you're not sure how many there will be. Form arrays allow you to create new
- * form controls dynamically.
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see `AbstractControl`
  *
  * @usageNotes
- * **Access the array**: You can access the associated `FormArray` using the
- * {@link AbstractControl#get get} method on the parent `FormGroup`.
- * Ex: `this.form.get('cities')`.
- *
- * **Get the value**: the `value` property is always synced and available on the
- * `FormArray`. See a full list of available properties in `AbstractControl`.
- *
- * **Set the value**: You can set an initial value for each child control when instantiating
- * the `FormArray`, or you can set the value programmatically later using the
- * `FormArray`'s {@link AbstractControl#setValue setValue} or
- * {@link AbstractControl#patchValue patchValue} methods.
- *
- * **Listen to value**: If you want to listen to changes in the value of the array, you can
- * subscribe to the `FormArray`'s {@link AbstractControl#valueChanges valueChanges} event.
- * You can also listen to its {@link AbstractControl#statusChanges statusChanges} event to be
- * notified when the validation status is re-calculated.
- *
- * **Add new controls**: You can add new controls to the `FormArray` dynamically by calling
- * its {@link FormArray#push push} method.
- * Ex: `this.form.get('cities').push(new FormControl());`
  *
  * ### Example
  *
@@ -4980,21 +5079,39 @@ var FormArrayName = /** @class */ (function (_super) {
         _this._asyncValidators = asyncValidators;
         return _this;
     }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs are initialized. For internal use only.
+     *
+     * @throws If the directive does not have a valid parent.
+     */
     FormArrayName.prototype.ngOnInit = function () {
         this._checkParentType();
         this.formDirective.addFormArray(this);
     };
+    /**
+     * @description
+     * A lifecycle method called before the directive's instance is destroyed. For internal use only.
+     */
     FormArrayName.prototype.ngOnDestroy = function () {
         if (this.formDirective) {
             this.formDirective.removeFormArray(this);
         }
     };
     Object.defineProperty(FormArrayName.prototype, "control", {
+        /**
+         * @description
+         * The `FormArray` bound to this directive.
+         */
         get: function () { return this.formDirective.getFormArray(this); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormArrayName.prototype, "formDirective", {
+        /**
+         * @description
+         * The top-level directive for this group if present, otherwise null.
+         */
         get: function () {
             return this._parent ? this._parent.formDirective : null;
         },
@@ -5002,16 +5119,30 @@ var FormArrayName = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(FormArrayName.prototype, "path", {
+        /**
+         * @description
+         * Returns an array that represents the path from the top-level form to this control.
+         * Each index is the string name of the control on that level.
+         */
         get: function () { return controlPath(this.name, this._parent); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormArrayName.prototype, "validator", {
+        /**
+         * @description
+         * Synchronous validator function composed of all the synchronous validators registered with this
+         * directive.
+         */
         get: function () { return composeValidators(this._validators); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormArrayName.prototype, "asyncValidator", {
+        /**
+         * @description
+         * Async validator function composed of all the async validators registered with this directive.
+         */
         get: function () {
             return composeAsyncValidators(this._asyncValidators);
         },
@@ -5073,42 +5204,19 @@ var controlNameBinding = {
 };
 /**
  * @description
- *
  * Syncs a `FormControl` in an existing `FormGroup` to a form control
  * element by name.
  *
- * This directive ensures that any values written to the `FormControl`
- * instance programmatically will be written to the DOM element (model -> view). Conversely,
- * any values written to the DOM element through user input will be reflected in the
- * `FormControl` instance (view -> model).
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see `FormControl`
+ * @see `AbstractControl`
  *
  * @usageNotes
- * This directive is designed to be used with a parent `FormGroupDirective` (selector:
- * `[formGroup]`).
  *
- * It accepts the string name of the `FormControl` instance you want to
- * link, and will look for a `FormControl` registered with that name in the
- * closest `FormGroup` or `FormArray` above it.
+ * ### Register `FormControl` within a group
  *
- * **Access the control**: You can access the `FormControl` associated with
- * this directive by using the {@link AbstractControl#get get} method.
- * Ex: `this.form.get('first');`
- *
- * **Get value**: the `value` property is always synced and available on the `FormControl`.
- * See a full list of available properties in `AbstractControl`.
- *
- *  **Set value**: You can set an initial value for the control when instantiating the
- *  `FormControl`, or you can set it programmatically later using
- *  {@link AbstractControl#setValue setValue} or {@link AbstractControl#patchValue patchValue}.
- *
- * **Listen to value**: If you want to listen to changes in the value of the control, you can
- * subscribe to the {@link AbstractControl#valueChanges valueChanges} event.  You can also listen to
- * {@link AbstractControl#statusChanges statusChanges} to be notified when the validation status is
- * re-calculated.
- *
- * ### Example
- *
- * In this example, we create form controls for first name and last name.
+ * The following example shows how to register multiple form controls within a form group
+ * and set their value.
  *
  * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
  *
@@ -5200,6 +5308,7 @@ var FormControlName = /** @class */ (function (_super) {
         /** @deprecated as of v6 */
         _this.update = new EventEmitter();
         /**
+         * @description
          * Instance property used to track whether an ngModel warning has been sent out for this
          * particular FormControlName instance. Used to support warning config of "always".
          *
@@ -5213,10 +5322,20 @@ var FormControlName = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(FormControlName.prototype, "isDisabled", {
+        /**
+         * @description
+         * Triggers a warning that this input should not be used with reactive forms.
+         */
         set: function (isDisabled) { ReactiveErrors.disabledAttrWarning(); },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
     FormControlName.prototype.ngOnChanges = function (changes) {
         if (!this._added)
             this._setUpControl();
@@ -5226,31 +5345,62 @@ var FormControlName = /** @class */ (function (_super) {
             this.formDirective.updateModel(this, this.model);
         }
     };
+    /**
+     * @description
+     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
     FormControlName.prototype.ngOnDestroy = function () {
         if (this.formDirective) {
             this.formDirective.removeControl(this);
         }
     };
+    /**
+     * @description
+     * Sets the new value for the view model and emits an `ngModelChange` event.
+     *
+     * @param newValue The new value for the view model.
+     */
     FormControlName.prototype.viewToModelUpdate = function (newValue) {
         this.viewModel = newValue;
         this.update.emit(newValue);
     };
     Object.defineProperty(FormControlName.prototype, "path", {
+        /**
+         * @description
+         * Returns an array that represents the path from the top-level form to this control.
+         * Each index is the string name of the control on that level.
+         */
         get: function () { return controlPath(this.name, this._parent); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormControlName.prototype, "formDirective", {
+        /**
+         * @description
+         * The top-level directive for this group if present, otherwise null.
+         */
         get: function () { return this._parent ? this._parent.formDirective : null; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormControlName.prototype, "validator", {
+        /**
+         * @description
+         * Synchronous validator function composed of all the synchronous validators
+         * registered with this directive.
+         */
         get: function () { return composeValidators(this._rawValidators); },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(FormControlName.prototype, "asyncValidator", {
+        /**
+         * @description
+         * Async validator function composed of all the async validators registered with this
+         * directive.
+         */
         get: function () {
             return composeAsyncValidators(this._rawAsyncValidators);
         },
@@ -5276,6 +5426,7 @@ var FormControlName = /** @class */ (function (_super) {
         this._added = true;
     };
     /**
+     * @description
      * Static property used to track whether any ngModel warnings have been sent across
      * all instances of FormControlName. Used to support warning config of "once".
      *
@@ -5785,7 +5936,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.1.0-beta.1+73.sha-6744b19');
+var VERSION = new Version('7.1.0-beta.1+74.sha-099d1a6');
 
 /**
  * @license
