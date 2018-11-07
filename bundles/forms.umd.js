@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.0-beta.1+83.sha-53e4e0c
+ * @license Angular v7.1.0-beta.1+84.sha-a4398aa
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5731,7 +5731,16 @@
          * @param controlsConfig A collection of child controls. The key for each child is the name
          * under which it is registered.
          *
-         * @param extra An object of configuration options for the `FormGroup`.
+         * @param legacyOrOpts Configuration options object for the `FormGroup`. The object can
+         * have two shapes:
+         *
+         * 1) `AbstractControlOptions` object (preferred), which consists of:
+         * * `validators`: A synchronous validator function, or an array of validator functions
+         * * `asyncValidators`: A single async validator or array of async validator functions
+         * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur' |
+         * submit')
+         *
+         * 2) Legacy configuration object, which consists of:
          * * `validator`: A synchronous validator function, or an array of validator functions
          * * `asyncValidator`: A single async validator or array of async validator functions
          *
@@ -5843,7 +5852,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('7.1.0-beta.1+83.sha-53e4e0c');
+    var VERSION = new core.Version('7.1.0-beta.1+84.sha-a4398aa');
 
     /**
      * @license
