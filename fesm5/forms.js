@@ -1,11 +1,11 @@
 /**
- * @license Angular v7.1.0-beta.1+84.sha-a4398aa
+ * @license Angular v7.1.0-beta.1+85.sha-9e26216
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
 import { __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, NgModule, Injectable, Injector, Input, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, ɵelementProperty, ɵbind, ɵload, ɵInheritDefinitionFeature, Self, Host, SkipSelf, ɵdefineNgModule, defineInjector, EventEmitter, defineInjectable, ɵNgOnChangesFeature, Output, ɵlooseIdentical, ɵgetInheritedFactory, isDevMode } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, NgModule, Injectable, Injector, Input, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, ɵelementProperty, ɵbind, ɵload, ɵInheritDefinitionFeature, Self, Host, SkipSelf, ɵdefineNgModule, defineInjector, EventEmitter, defineInjectable, ɵNgOnChangesFeature, Output, ɵlooseIdentical, ɵelementAttribute, ɵgetInheritedFactory, isDevMode } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -5542,7 +5542,7 @@ var RequiredValidator = /** @class */ (function () {
         return this.required ? Validators.required(control) : null;
     };
     RequiredValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
-    RequiredValidator.ngDirectiveDef = ɵdefineDirective({ type: RequiredValidator, selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]], factory: function RequiredValidator_Factory(t) { return new (t || RequiredValidator)(); }, hostBindings: function RequiredValidator_HostBindings(dirIndex, elIndex) { ɵelementProperty(elIndex, "attr.required", ɵbind((ɵload(dirIndex).required ? "" : null))); }, hostVars: 1, inputs: { required: "required" }, features: [ɵProvidersFeature([REQUIRED_VALIDATOR])] });
+    RequiredValidator.ngDirectiveDef = ɵdefineDirective({ type: RequiredValidator, selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]], factory: function RequiredValidator_Factory(t) { return new (t || RequiredValidator)(); }, hostBindings: function RequiredValidator_HostBindings(dirIndex, elIndex) { ɵelementAttribute(elIndex, "required", ɵbind((ɵload(dirIndex).required ? "" : null))); }, hostVars: 1, inputs: { required: "required" }, features: [ɵProvidersFeature([REQUIRED_VALIDATOR])] });
     return RequiredValidator;
 }());
 /*@__PURE__*/ ɵsetClassMetadata(RequiredValidator, [{
@@ -5578,7 +5578,7 @@ var CheckboxRequiredValidator = /** @class */ (function (_super) {
     CheckboxRequiredValidator.prototype.validate = function (control) {
         return this.required ? Validators.requiredTrue(control) : null;
     };
-    CheckboxRequiredValidator.ngDirectiveDef = ɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], factory: function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory((t || CheckboxRequiredValidator)); }, hostBindings: function CheckboxRequiredValidator_HostBindings(dirIndex, elIndex) { ɵelementProperty(elIndex, "attr.required", ɵbind((ɵload(dirIndex).required ? "" : null))); }, hostVars: 1, features: [ɵProvidersFeature([CHECKBOX_REQUIRED_VALIDATOR]), ɵInheritDefinitionFeature] });
+    CheckboxRequiredValidator.ngDirectiveDef = ɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], factory: function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory((t || CheckboxRequiredValidator)); }, hostBindings: function CheckboxRequiredValidator_HostBindings(dirIndex, elIndex) { ɵelementAttribute(elIndex, "required", ɵbind((ɵload(dirIndex).required ? "" : null))); }, hostVars: 1, features: [ɵProvidersFeature([CHECKBOX_REQUIRED_VALIDATOR]), ɵInheritDefinitionFeature] });
     return CheckboxRequiredValidator;
 }(RequiredValidator));
 var ɵCheckboxRequiredValidator_BaseFactory = ɵgetInheritedFactory(CheckboxRequiredValidator);
@@ -5681,7 +5681,7 @@ var MinLengthValidator = /** @class */ (function () {
     MinLengthValidator.prototype._createValidator = function () {
         this._validator = Validators.minLength(parseInt(this.minlength, 10));
     };
-    MinLengthValidator.ngDirectiveDef = ɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], factory: function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); }, hostBindings: function MinLengthValidator_HostBindings(dirIndex, elIndex) { ɵelementProperty(elIndex, "attr.minlength", ɵbind((ɵload(dirIndex).minlength ? ɵload(dirIndex).minlength : null))); }, hostVars: 1, inputs: { minlength: "minlength" }, features: [ɵProvidersFeature([MIN_LENGTH_VALIDATOR]), ɵNgOnChangesFeature] });
+    MinLengthValidator.ngDirectiveDef = ɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], factory: function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); }, hostBindings: function MinLengthValidator_HostBindings(dirIndex, elIndex) { ɵelementAttribute(elIndex, "minlength", ɵbind((ɵload(dirIndex).minlength ? ɵload(dirIndex).minlength : null))); }, hostVars: 1, inputs: { minlength: "minlength" }, features: [ɵProvidersFeature([MIN_LENGTH_VALIDATOR]), ɵNgOnChangesFeature] });
     return MinLengthValidator;
 }());
 /*@__PURE__*/ ɵsetClassMetadata(MinLengthValidator, [{
@@ -5732,7 +5732,7 @@ var MaxLengthValidator = /** @class */ (function () {
     MaxLengthValidator.prototype._createValidator = function () {
         this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
     };
-    MaxLengthValidator.ngDirectiveDef = ɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], factory: function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); }, hostBindings: function MaxLengthValidator_HostBindings(dirIndex, elIndex) { ɵelementProperty(elIndex, "attr.maxlength", ɵbind((ɵload(dirIndex).maxlength ? ɵload(dirIndex).maxlength : null))); }, hostVars: 1, inputs: { maxlength: "maxlength" }, features: [ɵProvidersFeature([MAX_LENGTH_VALIDATOR]), ɵNgOnChangesFeature] });
+    MaxLengthValidator.ngDirectiveDef = ɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], factory: function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); }, hostBindings: function MaxLengthValidator_HostBindings(dirIndex, elIndex) { ɵelementAttribute(elIndex, "maxlength", ɵbind((ɵload(dirIndex).maxlength ? ɵload(dirIndex).maxlength : null))); }, hostVars: 1, inputs: { maxlength: "maxlength" }, features: [ɵProvidersFeature([MAX_LENGTH_VALIDATOR]), ɵNgOnChangesFeature] });
     return MaxLengthValidator;
 }());
 /*@__PURE__*/ ɵsetClassMetadata(MaxLengthValidator, [{
@@ -5780,7 +5780,7 @@ var PatternValidator = /** @class */ (function () {
     PatternValidator.prototype.validate = function (control) { return this._validator(control); };
     PatternValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     PatternValidator.prototype._createValidator = function () { this._validator = Validators.pattern(this.pattern); };
-    PatternValidator.ngDirectiveDef = ɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], factory: function PatternValidator_Factory(t) { return new (t || PatternValidator)(); }, hostBindings: function PatternValidator_HostBindings(dirIndex, elIndex) { ɵelementProperty(elIndex, "attr.pattern", ɵbind((ɵload(dirIndex).pattern ? ɵload(dirIndex).pattern : null))); }, hostVars: 1, inputs: { pattern: "pattern" }, features: [ɵProvidersFeature([PATTERN_VALIDATOR]), ɵNgOnChangesFeature] });
+    PatternValidator.ngDirectiveDef = ɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], factory: function PatternValidator_Factory(t) { return new (t || PatternValidator)(); }, hostBindings: function PatternValidator_HostBindings(dirIndex, elIndex) { ɵelementAttribute(elIndex, "pattern", ɵbind((ɵload(dirIndex).pattern ? ɵload(dirIndex).pattern : null))); }, hostVars: 1, inputs: { pattern: "pattern" }, features: [ɵProvidersFeature([PATTERN_VALIDATOR]), ɵNgOnChangesFeature] });
     return PatternValidator;
 }());
 /*@__PURE__*/ ɵsetClassMetadata(PatternValidator, [{
@@ -5945,7 +5945,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.1.0-beta.1+84.sha-a4398aa');
+var VERSION = new Version('7.1.0-beta.1+85.sha-9e26216');
 
 /**
  * @license
