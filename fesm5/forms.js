@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.0-beta.1+79.sha-297c54e
+ * @license Angular v7.1.0-beta.1+85.sha-9e26216
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5642,7 +5642,16 @@ var FormBuilder = /** @class */ (function () {
      * @param controlsConfig A collection of child controls. The key for each child is the name
      * under which it is registered.
      *
-     * @param extra An object of configuration options for the `FormGroup`.
+     * @param legacyOrOpts Configuration options object for the `FormGroup`. The object can
+     * have two shapes:
+     *
+     * 1) `AbstractControlOptions` object (preferred), which consists of:
+     * * `validators`: A synchronous validator function, or an array of validator functions
+     * * `asyncValidators`: A single async validator or array of async validator functions
+     * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur' |
+     * submit')
+     *
+     * 2) Legacy configuration object, which consists of:
      * * `validator`: A synchronous validator function, or an array of validator functions
      * * `asyncValidator`: A single async validator or array of async validator functions
      *
@@ -5754,7 +5763,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.1.0-beta.1+79.sha-297c54e');
+var VERSION = new Version('7.1.0-beta.1+85.sha-9e26216');
 
 /**
  * @license
