@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "7.1.0-beta.2+5.sha-0d972d9",
+  "version": "7.1.0-beta.2+7.sha-1529ecd",
   "description": "Angular - directives and services for creating forms",
   "main": "./bundles/forms.umd.js",
   "module": "./fesm5/forms.js",
@@ -17,9 +17,9 @@
   },
   "peerDependencies": {
     "rxjs": "^6.0.0",
-    "@angular/core": "7.1.0-beta.2+5.sha-0d972d9",
-    "@angular/common": "7.1.0-beta.2+5.sha-0d972d9",
-    "@angular/platform-browser": "7.1.0-beta.2+5.sha-0d972d9"
+    "@angular/core": "7.1.0-beta.2+7.sha-1529ecd",
+    "@angular/common": "7.1.0-beta.2+7.sha-1529ecd",
+    "@angular/platform-browser": "7.1.0-beta.2+7.sha-1529ecd"
   },
   "repository": {
     "type": "git",
