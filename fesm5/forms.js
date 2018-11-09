@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.1.0-beta.2+15.sha-4efb460
+ * @license Angular v7.1.0-beta.2+16.sha-83c9bff
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { __decorate, __metadata, __param, __extends, __values, __assign, __spread } from 'tslib';
+import { __decorate, __metadata, __param, __extends, __values, __spread, __assign } from 'tslib';
 import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -5763,7 +5763,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.1.0-beta.2+15.sha-4efb460');
+var VERSION = new Version('7.1.0-beta.2+16.sha-83c9bff');
 
 /**
  * @license
