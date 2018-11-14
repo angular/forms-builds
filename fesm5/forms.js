@@ -1,11 +1,11 @@
 /**
- * @license Angular v7.1.0-beta.2+47.sha-3da8233
+ * @license Angular v7.1.0-beta.2+51.sha-ce52424
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
 import { __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, NgModule, Injectable, Injector, Input, ɵdefineDirective, ɵdirectiveInject, ɵsetClassMetadata, ɵlistener, ɵProvidersFeature, ɵelementProperty, ɵbind, ɵload, ɵInheritDefinitionFeature, Self, Host, SkipSelf, ɵdefineNgModule, defineInjector, EventEmitter, defineInjectable, ɵNgOnChangesFeature, Output, ɵlooseIdentical, ɵelementAttribute, ɵgetInheritedFactory, isDevMode } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, NgModule, Injectable, Injector, Input, ɵdefineDirective, ɵdirectiveInject, ɵsetClassMetadata, ɵlistener, ɵProvidersFeature, ɵInheritDefinitionFeature, Host, SkipSelf, Self, ɵdefineNgModule, defineInjector, ɵelementProperty, ɵbind, ɵload, EventEmitter, defineInjectable, ɵNgOnChangesFeature, Output, ɵlooseIdentical, ɵelementAttribute, ɵgetInheritedFactory, isDevMode } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -6247,7 +6247,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.1.0-beta.2+47.sha-3da8233');
+var VERSION = new Version('7.1.0-beta.2+51.sha-ce52424');
 
 /**
  * @license
