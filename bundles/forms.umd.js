@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.0-rc.0+14.sha-4222b63
+ * @license Angular v7.1.0-rc.0+15.sha-20ea5b5
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2372,6 +2372,7 @@
         return AbstractFormGroupDirective;
     }(ControlContainer));
 
+    var _c0 = ["ng-untouched", "ng-touched", "ng-pristine", "ng-dirty", "ng-valid", "ng-invalid", "ng-pending"];
     var AbstractControlStatus = /** @class */ (function () {
         function AbstractControlStatus(cd) {
             this._cd = cd;
@@ -2444,7 +2445,7 @@
         function NgControlStatus(cd) {
             return _super.call(this, cd) || this;
         }
-        NgControlStatus.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ɵdirectiveInject(NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "class.ng-untouched", i0.ɵbind(i0.ɵload(dirIndex).ngClassUntouched)); i0.ɵelementProperty(elIndex, "class.ng-touched", i0.ɵbind(i0.ɵload(dirIndex).ngClassTouched)); i0.ɵelementProperty(elIndex, "class.ng-pristine", i0.ɵbind(i0.ɵload(dirIndex).ngClassPristine)); i0.ɵelementProperty(elIndex, "class.ng-dirty", i0.ɵbind(i0.ɵload(dirIndex).ngClassDirty)); i0.ɵelementProperty(elIndex, "class.ng-valid", i0.ɵbind(i0.ɵload(dirIndex).ngClassValid)); i0.ɵelementProperty(elIndex, "class.ng-invalid", i0.ɵbind(i0.ɵload(dirIndex).ngClassInvalid)); i0.ɵelementProperty(elIndex, "class.ng-pending", i0.ɵbind(i0.ɵload(dirIndex).ngClassPending)); }, hostVars: 7, features: [i0.ɵInheritDefinitionFeature] });
+        NgControlStatus.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ɵdirectiveInject(NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(dirIndex, elIndex) { i0.ɵelementStyling(_c0, null, null, dirIndex); i0.ɵelementClassProp(elIndex, 0, i0.ɵload(dirIndex).ngClassUntouched, dirIndex); i0.ɵelementClassProp(elIndex, 1, i0.ɵload(dirIndex).ngClassTouched, dirIndex); i0.ɵelementClassProp(elIndex, 2, i0.ɵload(dirIndex).ngClassPristine, dirIndex); i0.ɵelementClassProp(elIndex, 3, i0.ɵload(dirIndex).ngClassDirty, dirIndex); i0.ɵelementClassProp(elIndex, 4, i0.ɵload(dirIndex).ngClassValid, dirIndex); i0.ɵelementClassProp(elIndex, 5, i0.ɵload(dirIndex).ngClassInvalid, dirIndex); i0.ɵelementClassProp(elIndex, 6, i0.ɵload(dirIndex).ngClassPending, dirIndex); i0.ɵelementStylingApply(elIndex, dirIndex); }, hostVars: 7, features: [i0.ɵInheritDefinitionFeature] });
         return NgControlStatus;
     }(AbstractControlStatus));
     /*@__PURE__*/ i0.ɵsetClassMetadata(NgControlStatus, [{
@@ -2469,7 +2470,7 @@
         function NgControlStatusGroup(cd) {
             return _super.call(this, cd) || this;
         }
-        NgControlStatusGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵdirectiveInject(ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(dirIndex, elIndex) { i0.ɵelementProperty(elIndex, "class.ng-untouched", i0.ɵbind(i0.ɵload(dirIndex).ngClassUntouched)); i0.ɵelementProperty(elIndex, "class.ng-touched", i0.ɵbind(i0.ɵload(dirIndex).ngClassTouched)); i0.ɵelementProperty(elIndex, "class.ng-pristine", i0.ɵbind(i0.ɵload(dirIndex).ngClassPristine)); i0.ɵelementProperty(elIndex, "class.ng-dirty", i0.ɵbind(i0.ɵload(dirIndex).ngClassDirty)); i0.ɵelementProperty(elIndex, "class.ng-valid", i0.ɵbind(i0.ɵload(dirIndex).ngClassValid)); i0.ɵelementProperty(elIndex, "class.ng-invalid", i0.ɵbind(i0.ɵload(dirIndex).ngClassInvalid)); i0.ɵelementProperty(elIndex, "class.ng-pending", i0.ɵbind(i0.ɵload(dirIndex).ngClassPending)); }, hostVars: 7, features: [i0.ɵInheritDefinitionFeature] });
+        NgControlStatusGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵdirectiveInject(ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(dirIndex, elIndex) { i0.ɵelementStyling(_c0, null, null, dirIndex); i0.ɵelementClassProp(elIndex, 0, i0.ɵload(dirIndex).ngClassUntouched, dirIndex); i0.ɵelementClassProp(elIndex, 1, i0.ɵload(dirIndex).ngClassTouched, dirIndex); i0.ɵelementClassProp(elIndex, 2, i0.ɵload(dirIndex).ngClassPristine, dirIndex); i0.ɵelementClassProp(elIndex, 3, i0.ɵload(dirIndex).ngClassDirty, dirIndex); i0.ɵelementClassProp(elIndex, 4, i0.ɵload(dirIndex).ngClassValid, dirIndex); i0.ɵelementClassProp(elIndex, 5, i0.ɵload(dirIndex).ngClassInvalid, dirIndex); i0.ɵelementClassProp(elIndex, 6, i0.ɵload(dirIndex).ngClassPending, dirIndex); i0.ɵelementStylingApply(elIndex, dirIndex); }, hostVars: 7, features: [i0.ɵInheritDefinitionFeature] });
         return NgControlStatusGroup;
     }(AbstractControlStatus));
     /*@__PURE__*/ i0.ɵsetClassMetadata(NgControlStatusGroup, [{
@@ -6321,7 +6322,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('7.1.0-rc.0+14.sha-4222b63');
+    var VERSION = new i0.Version('7.1.0-rc.0+15.sha-20ea5b5');
 
     /**
      * @license
