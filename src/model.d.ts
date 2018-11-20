@@ -256,7 +256,7 @@ export declare abstract class AbstractControl {
     }): void;
     /**
      * Marks the control as `dirty`. A control becomes dirty when
-     * the control's value is changed through the UI; compare `markAsTouched`.
+     * the control's is changed through the UI; compare `markAsTouched`.
      *
      *  @param opts Configuration options that determine how the control propagates changes
      * and emits events after marking is applied.
@@ -539,7 +539,6 @@ export declare abstract class AbstractControl {
  *
  * console.log(control.value); // 'Drew'
  * console.log(control.status); // 'DISABLED'
- * ```
  *
  * @publicApi
  */
