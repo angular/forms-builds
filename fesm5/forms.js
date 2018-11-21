@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.0.4+4.sha-a02eda5
+ * @license Angular v7.0.4+11.sha-826afc9.with-local-changes
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2662,7 +2662,7 @@ var AbstractControl = /** @class */ (function () {
     };
     /**
      * Marks the control as `dirty`. A control becomes dirty when
-     * the control's is changed through the UI; compare `markAsTouched`.
+     * the control's value is changed through the UI; compare `markAsTouched`.
      *
      *  @param opts Configuration options that determine how the control propagates changes
      * and emits events after marking is applied.
@@ -3088,6 +3088,7 @@ var AbstractControl = /** @class */ (function () {
  *
  * console.log(control.value); // 'Drew'
  * console.log(control.status); // 'DISABLED'
+ * ```
  *
  * @publicApi
  */
@@ -6040,7 +6041,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.0.4+4.sha-a02eda5');
+var VERSION = new Version('7.0.4+11.sha-826afc9.with-local-changes');
 
 /**
  * @license
