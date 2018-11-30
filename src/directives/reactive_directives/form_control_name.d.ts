@@ -143,8 +143,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     /**
      * @description
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
      */
     ngOnDestroy(): void;
     /**

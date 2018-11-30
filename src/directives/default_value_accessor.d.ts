@@ -9,7 +9,9 @@ import { ElementRef, InjectionToken, Renderer2 } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
 export declare const DEFAULT_VALUE_ACCESSOR: any;
 /**
- * Turn this mode on if you want form directives to buffer IME input until compositionend
+ * @description
+ * Provide this token to control if form directives buffer IME input until
+ * the "compositionend" event occurs.
  * @publicApi
  */
 export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
