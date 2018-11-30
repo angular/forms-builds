@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.0+72.sha-32c5be9
+ * @license Angular v7.1.0+75.sha-1b84b11
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -632,12 +632,7 @@
                 regexStr += pattern;
                 if (pattern.charAt(pattern.length - 1) !== '$')
                     regexStr += '$';
-                if (RegExp.prototype.hasOwnProperty('unicode')) {
-                    regex = new RegExp(regexStr, 'u');
-                }
-                else {
-                    regex = new RegExp(regexStr);
-                }
+                regex = new RegExp(regexStr);
             }
             else {
                 regexStr = pattern.toString();
@@ -6168,11 +6163,6 @@
      * as the regex to validate Control value against.  Follows pattern attribute
      * semantics; i.e. regex must match entire Control value.
      *
-     * Note: if a string type attribute value is used, the regex will be applied with the
-     * unicode flag on supported browsers. If a unicode-regex is passed, it might break on
-     * unsupported browsers. In this case, the application developer should be responsible to handle the
-     * browser compatibility.
-     *
      * @usageNotes
      * ### Example
      *
@@ -6361,7 +6351,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('7.1.0+72.sha-32c5be9');
+    var VERSION = new core.Version('7.1.0+75.sha-1b84b11');
 
     /**
      * @license
