@@ -7,8 +7,7 @@
  */
 import { InjectionToken } from '@angular/core';
 /**
- * @description
- * `InjectionToken` to provide to turn off the warning when using 'ngForm' deprecated selector.
+ * Token to provide to turn off the warning when using 'ngForm' deprecated selector.
  */
 export declare const NG_FORM_SELECTOR_WARNING: InjectionToken<{}>;
 /**
