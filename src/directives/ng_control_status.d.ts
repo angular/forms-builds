@@ -30,15 +30,9 @@ export declare const ngControlStatusHost: {
     '[class.ng-pending]': string;
 };
 /**
- * @description
  * Directive automatically applied to Angular form controls that sets CSS classes
- * based on control status.
- *
- * @usageNotes
- *
- * ### CSS classes applied
- *
- * The following classes are applied as the properties become true:
+ * based on control status. The following classes are applied as the properties
+ * become true:
  *
  * * ng-valid
  * * ng-invalid
@@ -48,8 +42,8 @@ export declare const ngControlStatusHost: {
  * * ng-untouched
  * * ng-touched
  *
- * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  * @publicApi
  */
 export declare class NgControlStatus extends AbstractControlStatus {
@@ -57,14 +51,11 @@ export declare class NgControlStatus extends AbstractControlStatus {
     static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgControlStatus, '[formControlName],[ngModel],[formControl]', never, {}, {}, never>;
 }
 /**
- * @description
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- * @see `NgControlStatus`
- *
- * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
+ * @ngModule ReactiveFormsModule
  * @publicApi
  */
 export declare class NgControlStatusGroup extends AbstractControlStatus {
