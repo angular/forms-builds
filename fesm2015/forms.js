@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.1.0+45.sha-11a8bd8
+ * @license Angular v7.1.0+49.sha-e024f2f
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Self, Host, Input, SkipSelf, Version, NgModule, Injectable, Injector, EventEmitter, Output, ɵlooseIdentical, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵsetClassMetadata, ɵlistener, ɵProvidersFeature, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, ɵdefineNgModule, defineInjector, defineInjectable, ɵNgOnChangesFeature, ɵelementAttribute, ɵbind, ɵgetInheritedFactory } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, Self, Host, Input, SkipSelf, NgModule, Injectable, Injector, EventEmitter, Output, ɵlooseIdentical, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵsetClassMetadata, ɵlistener, ɵProvidersFeature, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, ɵdefineNgModule, defineInjector, defineInjectable, ɵNgOnChangesFeature, ɵelementAttribute, ɵbind, ɵgetInheritedFactory } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -507,7 +507,12 @@ class Validators {
             regexStr += pattern;
             if (pattern.charAt(pattern.length - 1) !== '$')
                 regexStr += '$';
-            regex = new RegExp(regexStr);
+            if (RegExp.prototype.hasOwnProperty('unicode')) {
+                regex = new RegExp(regexStr, 'u');
+            }
+            else {
+                regex = new RegExp(regexStr);
+            }
         }
         else {
             regexStr = pattern.toString();
@@ -7243,6 +7248,11 @@ const PATTERN_VALIDATOR = {
  * as the regex to validate Control value against.  Follows pattern attribute
  * semantics; i.e. regex must match entire Control value.
  *
+ * Note: if a string type attribute value is used, the regex will be applied with the
+ * unicode flag on supported browsers. If a unicode-regex is passed, it might break on
+ * unsupported browsers. In this case, the application developer should be responsible to handle the
+ * browser compatibility.
+ *
  * \@usageNotes
  * ### Example
  *
@@ -7474,7 +7484,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
 /** *
  * \@publicApi
   @type {?} */
-const VERSION = new Version('7.1.0+45.sha-11a8bd8');
+const VERSION = new Version('7.1.0+49.sha-e024f2f');
 
 /**
  * @fileoverview added by tsickle
