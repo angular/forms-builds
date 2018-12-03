@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.1.0+110.sha-2a39425
+ * @license Angular v7.1.0+112.sha-7ec05b4
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, Self, Host, Input, SkipSelf, NgModule, Injectable, Injector, EventEmitter, Output, ɵlooseIdentical, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵsetClassMetadata, ɵlistener, ɵProvidersFeature, ɵallocHostVars, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, ɵdefineNgModule, defineInjector, defineInjectable, ɵNgOnChangesFeature, ɵelementAttribute, ɵbind, ɵgetInheritedFactory } from '@angular/core';
+import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, Self, Host, Input, SkipSelf, NgModule, Injectable, Injector, EventEmitter, Output, ɵlooseIdentical, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵsetClassMetadata, ɵlistener, ɵProvidersFeature, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, ɵdefineNgModule, defineInjector, defineInjectable, ɵNgOnChangesFeature, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ɵgetDOM } from '@angular/platform-browser';
@@ -2929,7 +2929,6 @@ NgControlStatus.ctorParameters = () => [
     { type: NgControl, decorators: [{ type: Self }] }
 ];
 NgControlStatus.ngDirectiveDef = ɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(ɵdirectiveInject(NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-        ɵallocHostVars(7);
         ɵelementStyling(_c0, null, null, ctx);
     } if (rf & 2) {
         ɵelementClassProp(elIndex, 0, ctx.ngClassUntouched, ctx);
@@ -2978,7 +2977,6 @@ NgControlStatusGroup.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Self }] }
 ];
 NgControlStatusGroup.ngDirectiveDef = ɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(ɵdirectiveInject(ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-        ɵallocHostVars(7);
         ɵelementStyling(_c0, null, null, ctx);
     } if (rf & 2) {
         ɵelementClassProp(elIndex, 0, ctx.ngClassUntouched, ctx);
@@ -7624,7 +7622,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
 /** *
  * \@publicApi
   @type {?} */
-const VERSION = new Version('7.1.0+110.sha-2a39425');
+const VERSION = new Version('7.1.0+112.sha-7ec05b4');
 
 /**
  * @fileoverview added by tsickle
