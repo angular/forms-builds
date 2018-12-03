@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.0-rc.0+17.sha-e201a67.with-local-changes
+ * @license Angular v7.1.0+103.sha-4fd3402
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -749,7 +749,9 @@ function _isAndroid() {
     return /android (\d+)/.test(userAgent.toLowerCase());
 }
 /** *
- * Turn this mode on if you want form directives to buffer IME input until compositionend
+ * \@description
+ * Provide this token to control if form directives buffer IME input until
+ * the "compositionend" event occurs.
  * \@publicApi
   @type {?} */
 const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
@@ -2632,9 +2634,15 @@ const ngControlStatusHost = {
     '[class.ng-pending]': 'ngClassPending',
 };
 /**
+ * \@description
  * Directive automatically applied to Angular form controls that sets CSS classes
- * based on control status. The following classes are applied as the properties
- * become true:
+ * based on control status.
+ *
+ * \@usageNotes
+ *
+ * ### CSS classes applied
+ *
+ * The following classes are applied as the properties become true:
  *
  * * ng-valid
  * * ng-invalid
@@ -2644,8 +2652,8 @@ const ngControlStatusHost = {
  * * ng-untouched
  * * ng-touched
  *
- * \@ngModule FormsModule
  * \@ngModule ReactiveFormsModule
+ * \@ngModule FormsModule
  * \@publicApi
  */
 class NgControlStatus extends AbstractControlStatus {
@@ -2662,11 +2670,14 @@ NgControlStatus.ctorParameters = () => [
     { type: NgControl, decorators: [{ type: Self }] }
 ];
 /**
+ * \@description
  * Directive automatically applied to Angular form groups that sets CSS classes
  * based on control status (valid/invalid/dirty/etc).
  *
- * \@ngModule FormsModule
+ * @see `NgControlStatus`
+ *
  * \@ngModule ReactiveFormsModule
+ * \@ngModule FormsModule
  * \@publicApi
  */
 class NgControlStatusGroup extends AbstractControlStatus {
@@ -2968,7 +2979,7 @@ class AbstractControl {
     }
     /**
      * Marks the control as `dirty`. A control becomes dirty when
-     * the control's is changed through the UI; compare `markAsTouched`.
+     * the control's value is changed through the UI; compare `markAsTouched`.
      *
      * @param {?=} opts Configuration options that determine how the control propagates changes
      * and emits events after marking is applied.
@@ -3454,6 +3465,7 @@ class AbstractControl {
  *
  * console.log(control.value); // 'Drew'
  * console.log(control.status); // 'DISABLED'
+ * ```
  *
  * \@publicApi
  */
@@ -4491,33 +4503,35 @@ const formDirectiveProvider = {
 const resolvedPromise = Promise.resolve(null);
 /**
  * \@description
- *
  * Creates a top-level `FormGroup` instance and binds it to a form
  * to track aggregate form value and validation status.
  *
  * As soon as you import the `FormsModule`, this directive becomes active by default on
  * all `<form>` tags.  You don't need to add a special selector.
  *
- * You can export the directive into a local template variable using `ngForm` as the key
+ * You optionally export the directive into a local template variable using `ngForm` as the key
  * (ex: `#myForm="ngForm"`). This is optional, but useful.  Many properties from the underlying
  * `FormGroup` instance are duplicated on the directive itself, so a reference to it
- * will give you access to the aggregate value and validity status of the form, as well as
+ * gives you access to the aggregate value and validity status of the form, as well as
  * user interaction properties like `dirty` and `touched`.
  *
- * To register child controls with the form, you'll want to use `NgModel` with a
- * `name` attribute.  You can also use `NgModelGroup` if you'd like to create
- * sub-groups within the form.
+ * To register child controls with the form, use `NgModel` with a `name`
+ * attribute. You may use `NgModelGroup` to create sub-groups within the form.
  *
- * You can listen to the directive's `ngSubmit` event to be notified when the user has
- * triggered a form submission. The `ngSubmit` event will be emitted with the original form
+ * If necessary, listen to the directive's `ngSubmit` event to be notified when the user has
+ * triggered a form submission. The `ngSubmit` event emits the original form
  * submission event.
  *
  * In template driven forms, all `<form>` tags are automatically tagged as `NgForm`.
- * If you want to import the `FormsModule` but skip its usage in some forms,
- * for example, to use native HTML5 validation, you can add `ngNoForm` and the `<form>`
+ * To import the `FormsModule` but skip its usage in some forms,
+ * for example, to use native HTML5 validation, add the `ngNoForm` and the `<form>`
  * tags won't create an `NgForm` directive. In reactive forms, using `ngNoForm` is
  * unnecessary because the `<form>` tags are inert. In that case, you would
  * refrain from using the `formGroup` directive.
+ *
+ * \@usageNotes
+ *
+ * ### Migrating from deprecated ngForm selector
  *
  * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
  * in Angular v9.
@@ -4535,7 +4549,22 @@ const resolvedPromise = Promise.resolve(null);
  * <ng-form #myForm="ngForm">
  * ```
  *
+ * ### Listening for form submission
+ *
+ * The following example shows how to capture the form values from the "ngSubmit" event.
+ *
  * {\@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
+ *
+ * ### Setting the update options
+ *
+ * The following example shows you how to change the "updateOn" option from its default using
+ * ngFormOptions.
+ *
+ * ```html
+ * <form [ngFormOptions]="{updateOn: 'blur'}">
+ *    <input name="one" ngModel>  <!-- this ngModel will update on blur -->
+ * </form>
+ * ```
  *
  * \@ngModule FormsModule
  * \@publicApi
@@ -4547,34 +4576,57 @@ class NgForm extends ControlContainer {
      */
     constructor(validators, asyncValidators) {
         super();
+        /**
+         * \@description
+         * Returns whether the form submission has been triggered.
+         */
         this.submitted = false;
         this._directives = [];
+        /**
+         * \@description
+         * Event emitter for the "ngSubmit" event
+         */
         this.ngSubmit = new EventEmitter();
         this.form =
             new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
     }
     /**
+     * \@description
+     * Lifecycle method called after the view is initialized. For internal use only.
      * @return {?}
      */
     ngAfterViewInit() { this._setUpdateStrategy(); }
     /**
+     * \@description
+     * The directive instance.
      * @return {?}
      */
     get formDirective() { return this; }
     /**
+     * \@description
+     * The internal `FormGroup` instance.
      * @return {?}
      */
     get control() { return this.form; }
     /**
+     * \@description
+     * Returns an array representing the path to this group. Because this directive
+     * always lives at the top level of a form, it is always an empty array.
      * @return {?}
      */
     get path() { return []; }
     /**
+     * \@description
+     * Returns a map of the controls in this group.
      * @return {?}
      */
     get controls() { return this.form.controls; }
     /**
-     * @param {?} dir
+     * \@description
+     * Method that sets up the control directive in this group, re-calculates its value
+     * and validity, and adds the instance to the internal list of directives.
+     *
+     * @param {?} dir The `NgModel` directive instance.
      * @return {?}
      */
     addControl(dir) {
@@ -4588,12 +4640,18 @@ class NgForm extends ControlContainer {
         });
     }
     /**
-     * @param {?} dir
+     * \@description
+     * Retrieves the `FormControl` instance from the provided `NgModel` directive.
+     *
+     * @param {?} dir The `NgModel` directive instance.
      * @return {?}
      */
     getControl(dir) { return /** @type {?} */ (this.form.get(dir.path)); }
     /**
-     * @param {?} dir
+     * \@description
+     * Removes the `NgModel` instance from the internal list of directives
+     *
+     * @param {?} dir The `NgModel` directive instance.
      * @return {?}
      */
     removeControl(dir) {
@@ -4607,7 +4665,10 @@ class NgForm extends ControlContainer {
         });
     }
     /**
-     * @param {?} dir
+     * \@description
+     * Adds a new `NgModelGroup` directive instance to the form.
+     *
+     * @param {?} dir The `NgModelGroup` directive instance.
      * @return {?}
      */
     addFormGroup(dir) {
@@ -4622,7 +4683,10 @@ class NgForm extends ControlContainer {
         });
     }
     /**
-     * @param {?} dir
+     * \@description
+     * Removes the `NgModelGroup` directive instance from the form.
+     *
+     * @param {?} dir The `NgModelGroup` directive instance.
      * @return {?}
      */
     removeFormGroup(dir) {
@@ -4635,13 +4699,18 @@ class NgForm extends ControlContainer {
         });
     }
     /**
-     * @param {?} dir
+     * \@description
+     * Retrieves the `FormGroup` for a provided `NgModelGroup` directive instance
+     *
+     * @param {?} dir The `NgModelGroup` directive instance.
      * @return {?}
      */
     getFormGroup(dir) { return /** @type {?} */ (this.form.get(dir.path)); }
     /**
-     * @param {?} dir
-     * @param {?} value
+     * Sets the new value for the provided `NgControl` directive.
+     *
+     * @param {?} dir The `NgControl` directive instance.
+     * @param {?} value The new value for the directive's control.
      * @return {?}
      */
     updateModel(dir, value) {
@@ -4652,12 +4721,19 @@ class NgForm extends ControlContainer {
         });
     }
     /**
-     * @param {?} value
+     * \@description
+     * Sets the value for this `FormGroup`.
+     *
+     * @param {?} value The new value
      * @return {?}
      */
     setValue(value) { this.control.setValue(value); }
     /**
-     * @param {?} $event
+     * \@description
+     * Method called when the "submit" event is triggered on the form.
+     * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
+     *
+     * @param {?} $event The "submit" event object
      * @return {?}
      */
     onSubmit($event) {
@@ -4667,11 +4743,16 @@ class NgForm extends ControlContainer {
         return false;
     }
     /**
+     * \@description
+     * Method called when the "reset" event is triggered on the form.
      * @return {?}
      */
     onReset() { this.resetForm(); }
     /**
-     * @param {?=} value
+     * \@description
+     * Resets the form to an initial value and resets its submitted status.
+     *
+     * @param {?=} value The new value for the form.
      * @return {?}
      */
     resetForm(value = undefined) {
@@ -4801,7 +4882,8 @@ class TemplateDrivenErrors {
  * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /** *
- * Token to provide to turn off the warning when using 'ngForm' deprecated selector.
+ * \@description
+ * `InjectionToken` to provide to turn off the warning when using 'ngForm' deprecated selector.
   @type {?} */
 const NG_FORM_SELECTOR_WARNING = new InjectionToken('NgFormSelectorWarning');
 /**
@@ -4849,20 +4931,24 @@ const modelGroupProvider = {
 };
 /**
  * \@description
- *
  * Creates and binds a `FormGroup` instance to a DOM element.
  *
- * This directive can only be used as a child of `NgForm` (or in other words,
- * within `<form>` tags).
+ * This directive can only be used as a child of `NgForm` (within `<form>` tags).
  *
- * Use this directive if you'd like to create a sub-group within a form. This can
- * come in handy if you want to validate a sub-group of your form separately from
- * the rest of your form, or if some values in your domain model make more sense to
- * consume together in a nested object.
+ * Use this directive to validate a sub-group of your form separately from the
+ * rest of your form, or if some values in your domain model make more sense
+ * to consume together in a nested object.
  *
- * Pass in the name you'd like this sub-group to have and it will become the key
- * for the sub-group in the form's full value. You can also export the directive into
+ * Provide a name for the sub-group and it will become the key
+ * for the sub-group in the form's full value. If you need direct access, export the directive into
  * a local template variable using `ngModelGroup` (ex: `#myGroup="ngModelGroup"`).
+ *
+ * \@usageNotes
+ *
+ * ### Consuming controls in a grouping
+ *
+ * The following example shows you how to combine controls together in a sub-group
+ * of the form.
  *
  * {\@example forms/ts/ngModelGroup/ng_model_group_example.ts region='Component'}
  *
@@ -4933,55 +5019,83 @@ const formControlBinding = {
 const resolvedPromise$1 = Promise.resolve(null);
 /**
  * \@description
- *
  * Creates a `FormControl` instance from a domain model and binds it
  * to a form control element.
  *
- * The `FormControl` instance will track the value, user interaction, and
- * validation status of the control and keep the view synced with the model. If used
- * within a parent form, the directive will also register itself with the form as a child
+ * The `FormControl` instance tracks the value, user interaction, and
+ * validation status of the control and keeps the view synced with the model. If used
+ * within a parent form, the directive also registers itself with the form as a child
  * control.
  *
- * This directive can be used by itself or as part of a larger form. All you need is the
+ * This directive is used by itself or as part of a larger form. Use the
  * `ngModel` selector to activate it.
  *
  * It accepts a domain model as an optional `Input`. If you have a one-way binding
  * to `ngModel` with `[]` syntax, changing the value of the domain model in the component
- * class will set the value in the view. If you have a two-way binding with `[()]` syntax
- * (also known as 'banana-box syntax'), the value in the UI will always be synced back to
- * the domain model in your class as well.
+ * class sets the value in the view. If you have a two-way binding with `[()]` syntax
+ * (also known as 'banana-box syntax'), the value in the UI always syncs back to
+ * the domain model in your class.
  *
- * If you wish to inspect the properties of the associated `FormControl` (like
- * validity state), you can also export the directive into a local template variable using
- * `ngModel` as the key (ex: `#myVar="ngModel"`). You can then access the control using the
- * directive's `control` property, but most properties you'll need (like `valid` and `dirty`)
- * will fall through to the control anyway, so you can access them directly. You can see a
- * full list of properties directly available in `AbstractControlDirective`.
+ * To inspect the properties of the associated `FormControl` (like validity state),
+ * export the directive into a local template variable using `ngModel` as the key (ex: `#myVar="ngModel"`).
+ * You then access the control using the directive's `control` property,
+ * but most properties used (like `valid` and `dirty`) fall through to the control anyway for direct access.
+ * See a full list of properties directly available in `AbstractControlDirective`.
  *
- * The following is an example of a simple standalone control using `ngModel`:
+ * @see `RadioControlValueAccessor`
+ * @see `SelectControlValueAccessor`
+ *
+ * \@usageNotes
+ *
+ * ### Using ngModel on a standalone control
+ *
+ * The following examples show a simple standalone control using `ngModel`:
  *
  * {\@example forms/ts/simpleNgModel/simple_ng_model_example.ts region='Component'}
  *
  * When using the `ngModel` within `<form>` tags, you'll also need to supply a `name` attribute
  * so that the control can be registered with the parent form under that name.
  *
- * It's worth noting that in the context of a parent form, you often can skip one-way or
- * two-way binding because the parent form will sync the value for you. You can access
- * its properties by exporting it into a local template variable using `ngForm` (ex:
- * `#f="ngForm"`). Then you can pass it where it needs to go on submit.
+ * In the context of a parent form, it's often unnecessary to include one-way or two-way binding,
+ * as the parent form syncs the value for you. You access its properties by exporting it into a
+ * local template variable using `ngForm` such as (`#f="ngForm"`). Use the variable where
+ * needed on form submission.
  *
  * If you do need to populate initial values into your form, using a one-way binding for
  * `ngModel` tends to be sufficient as long as you use the exported form's value rather
  * than the domain model's value on submit.
  *
- * Take a look at an example of using `ngModel` within a form:
+ * ### Using ngModel within a form
+ *
+ * The following example shows controls using `ngModel` within a form:
  *
  * {\@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
  *
- * To see `ngModel` examples with different form control types, see:
+ * ### Using a standalone ngModel within a group
  *
- * * Radio buttons: `RadioControlValueAccessor`
- * * Selects: `SelectControlValueAccessor`
+ * The following example shows you how to use a standalone ngModel control
+ * within a form. This controls the display of the form, but doesn't contain form data.
+ *
+ * ```html
+ * <form>
+ *   <input name="login" ngModel placeholder="Login">
+ *   <input type="checkbox" ngModel [ngModelOptions]="{standalone: true}"> Show more options?
+ * </form>
+ * <!-- form value: {login: ''} -->
+ * ```
+ *
+ * ### Setting the ngModel name attribute through options
+ *
+ * The following example shows you an alternate way to set the name attribute. The name attribute is used
+ * within a custom form component, and the name `\@Input` property serves a different purpose.
+ *
+ * ```html
+ * <form>
+ *   <my-person-control name="Nancy" ngModel [ngModelOptions]="{name: 'user'}">
+ *   </my-person-control>
+ * </form>
+ * <!-- form value: {user: ''} -->
+ * ```
  *
  * \@ngModule FormsModule
  * \@publicApi
@@ -5000,6 +5114,11 @@ class NgModel extends NgControl {
          * \@internal
          */
         this._registered = false;
+        /**
+         * \@description
+         * Event emitter for producing the `ngModelChange` event after
+         * the view model updates.
+         */
         this.update = new EventEmitter();
         this._parent = parent;
         this._rawValidators = validators || [];
@@ -5007,7 +5126,11 @@ class NgModel extends NgControl {
         this.valueAccessor = selectValueAccessor(this, valueAccessors);
     }
     /**
-     * @param {?} changes
+     * \@description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param {?} changes A object of key/value pairs for the set of changed inputs.
      * @return {?}
      */
     ngOnChanges(changes) {
@@ -5023,31 +5146,48 @@ class NgModel extends NgControl {
         }
     }
     /**
+     * \@description
+     * Lifecycle method called before the directive's instance is destroyed. For internal
+     * use only.
      * @return {?}
      */
     ngOnDestroy() { this.formDirective && this.formDirective.removeControl(this); }
     /**
+     * \@description
+     * Returns an array that represents the path from the top-level form to this control.
+     * Each index is the string name of the control on that level.
      * @return {?}
      */
     get path() {
         return this._parent ? controlPath(this.name, this._parent) : [this.name];
     }
     /**
+     * \@description
+     * The top-level directive for this control if present, otherwise null.
      * @return {?}
      */
     get formDirective() { return this._parent ? this._parent.formDirective : null; }
     /**
+     * \@description
+     * Synchronous validator function composed of all the synchronous validators
+     * registered with this directive.
      * @return {?}
      */
     get validator() { return composeValidators(this._rawValidators); }
     /**
+     * \@description
+     * Async validator function composed of all the async validators registered with this
+     * directive.
      * @return {?}
      */
     get asyncValidator() {
         return composeAsyncValidators(this._rawAsyncValidators);
     }
     /**
-     * @param {?} newValue
+     * \@description
+     * Sets the new value for the view model and emits an `ngModelChange` event.
+     *
+     * @param {?} newValue The new value emitted by `ngModelChange`.
      * @return {?}
      */
     viewToModelUpdate(newValue) {
@@ -6058,7 +6198,6 @@ class FormControlName extends NgControl {
     /**
      * \@description
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     *
      * @return {?}
      */
     ngOnDestroy() {
@@ -6656,7 +6795,7 @@ FormBuilder.decorators = [
 /** *
  * \@publicApi
   @type {?} */
-const VERSION = new Version('7.1.0-rc.0+17.sha-e201a67.with-local-changes');
+const VERSION = new Version('7.1.0+103.sha-4fd3402');
 
 /**
  * @fileoverview added by tsickle
