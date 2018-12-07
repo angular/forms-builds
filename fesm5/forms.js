@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.2.0-beta.1+10.sha-055dc2d
+ * @license Angular v7.2.0-beta.1+13.sha-f034114
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { __decorate, __param, __metadata, __extends, __values, __spread, __assign } from 'tslib';
+import { __decorate, __param, __metadata, __extends, __values, __assign, __spread } from 'tslib';
 import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6119,6 +6119,11 @@ var PatternValidator = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+function isAbstractControlOptions(options) {
+    return options.asyncValidators !== undefined ||
+        options.validators !== undefined ||
+        options.updateOn !== undefined;
+}
 /**
  * @description
  * Creates an `AbstractControl` from a user-specified configuration.
@@ -6141,7 +6146,7 @@ var FormBuilder = /** @class */ (function () {
      * @param controlsConfig A collection of child controls. The key for each child is the name
      * under which it is registered.
      *
-     * @param legacyOrOpts Configuration options object for the `FormGroup`. The object can
+     * @param options Configuration options object for the `FormGroup`. The object can
      * have two shapes:
      *
      * 1) `AbstractControlOptions` object (preferred), which consists of:
@@ -6155,23 +6160,24 @@ var FormBuilder = /** @class */ (function () {
      * * `asyncValidator`: A single async validator or array of async validator functions
      *
      */
-    FormBuilder.prototype.group = function (controlsConfig, legacyOrOpts) {
-        if (legacyOrOpts === void 0) { legacyOrOpts = null; }
+    FormBuilder.prototype.group = function (controlsConfig, options) {
+        if (options === void 0) { options = null; }
         var controls = this._reduceControls(controlsConfig);
         var validators = null;
         var asyncValidators = null;
         var updateOn = undefined;
-        if (legacyOrOpts != null &&
-            (legacyOrOpts.asyncValidator !== undefined || legacyOrOpts.validator !== undefined)) {
-            // `legacyOrOpts` are legacy form group options
-            validators = legacyOrOpts.validator != null ? legacyOrOpts.validator : null;
-            asyncValidators = legacyOrOpts.asyncValidator != null ? legacyOrOpts.asyncValidator : null;
-        }
-        else if (legacyOrOpts != null) {
-            // `legacyOrOpts` are `AbstractControlOptions`
-            validators = legacyOrOpts.validators != null ? legacyOrOpts.validators : null;
-            asyncValidators = legacyOrOpts.asyncValidators != null ? legacyOrOpts.asyncValidators : null;
-            updateOn = legacyOrOpts.updateOn != null ? legacyOrOpts.updateOn : undefined;
+        if (options != null) {
+            if (isAbstractControlOptions(options)) {
+                // `options` are `AbstractControlOptions`
+                validators = options.validators != null ? options.validators : null;
+                asyncValidators = options.asyncValidators != null ? options.asyncValidators : null;
+                updateOn = options.updateOn != null ? options.updateOn : undefined;
+            }
+            else {
+                // `options` are legacy form group options
+                validators = options.validator != null ? options.validator : null;
+                asyncValidators = options.asyncValidator != null ? options.asyncValidator : null;
+            }
         }
         return new FormGroup(controls, { asyncValidators: asyncValidators, updateOn: updateOn, validators: validators });
     };
@@ -6262,7 +6268,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.0-beta.1+10.sha-055dc2d');
+var VERSION = new Version('7.2.0-beta.1+13.sha-f034114');
 
 /**
  * @license
