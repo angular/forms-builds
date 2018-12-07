@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.1.2
+ * @license Angular v7.1.2+3.sha-74346e9
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6262,7 +6262,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.1.2');
+var VERSION = new Version('7.1.2+3.sha-74346e9');
 
 /**
  * @license
