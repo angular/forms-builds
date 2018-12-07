@@ -27,7 +27,7 @@ export declare class FormBuilder {
      * @param controlsConfig A collection of child controls. The key for each child is the name
      * under which it is registered.
      *
-     * @param legacyOrOpts Configuration options object for the `FormGroup`. The object can
+     * @param options Configuration options object for the `FormGroup`. The object can
      * have two shapes:
      *
      * 1) `AbstractControlOptions` object (preferred), which consists of:
@@ -43,7 +43,7 @@ export declare class FormBuilder {
      */
     group(controlsConfig: {
         [key: string]: any;
-    }, legacyOrOpts?: {
+    }, options?: AbstractControlOptions | {
         [key: string]: any;
     } | null): FormGroup;
     /**
