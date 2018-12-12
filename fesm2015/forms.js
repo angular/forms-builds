@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-beta.2+8.sha-9c7fb0d
+ * @license Angular v7.2.0-beta.2+6.sha-28ceca0
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -11,7 +11,7 @@ import { ɵgetDOM } from '@angular/platform-browser';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -179,7 +179,7 @@ class AbstractControlDirective {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * \@description
@@ -206,7 +206,7 @@ class ControlContainer extends AbstractControlDirective {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @param {?} value
@@ -216,7 +216,7 @@ function isEmptyInputValue(value) {
     // we don't check for string here so it also works with arrays
     return value == null || value.length === 0;
 }
-/**
+/** *
  * \@description
  * An `InjectionToken` for registering additional synchronous validators used with `AbstractControl`s.
  *
@@ -242,18 +242,16 @@ function isEmptyInputValue(value) {
  * ```
  *
  * \@publicApi
- * @type {?}
- */
+  @type {?} */
 const NG_VALIDATORS = new InjectionToken('NgValidators');
-/**
+/** *
  * \@description
  * An `InjectionToken` for registering additional asynchronous validators used with `AbstractControl`s.
  *
  * @see `NG_VALIDATORS`
  *
  * \@publicApi
- * @type {?}
- */
+  @type {?} */
 const NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
 /** @type {?} */
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
@@ -540,7 +538,7 @@ class Validators {
         if (!validators)
             return null;
         /** @type {?} */
-        const presentValidators = (/** @type {?} */ (validators.filter(isPresent)));
+        const presentValidators = /** @type {?} */ (validators.filter(isPresent));
         if (presentValidators.length == 0)
             return null;
         return function (control) {
@@ -560,7 +558,7 @@ class Validators {
         if (!validators)
             return null;
         /** @type {?} */
-        const presentValidators = (/** @type {?} */ (validators.filter(isPresent)));
+        const presentValidators = /** @type {?} */ (validators.filter(isPresent));
         if (presentValidators.length == 0)
             return null;
         return function (control) {
@@ -612,28 +610,27 @@ function _executeAsyncValidators(control, validators) {
 function _mergeErrors(arrayOfErrors) {
     /** @type {?} */
     const res = arrayOfErrors.reduce((res, errors) => {
-        return errors != null ? Object.assign({}, (/** @type {?} */ (res)), errors) : (/** @type {?} */ (res));
+        return errors != null ? Object.assign({}, /** @type {?} */ ((res)), errors) : /** @type {?} */ ((res));
     }, {});
     return Object.keys(res).length === 0 ? null : res;
 }
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Used to provide a `ControlValueAccessor` for form controls.
  *
  * See `DefaultValueAccessor` for how to implement one.
  *
  * \@publicApi
- * @type {?}
- */
+  @type {?} */
 const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -756,7 +753,7 @@ CheckboxControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: Checkbox
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -781,13 +778,12 @@ function _isAndroid() {
     const userAgent = ɵgetDOM() ? ɵgetDOM().getUserAgent() : '';
     return /android (\d+)/.test(userAgent.toLowerCase());
 }
-/**
+/** *
  * \@description
  * Provide this token to control if form directives buffer IME input until
  * the "compositionend" event occurs.
  * \@publicApi
- * @type {?}
- */
+  @type {?} */
 const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
 /**
  * \@description
@@ -961,7 +957,7 @@ DefaultValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: DefaultValueAcce
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -975,11 +971,11 @@ DefaultValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: DefaultValueAcce
  * @return {?}
  */
 function normalizeValidator(validator) {
-    if (((/** @type {?} */ (validator))).validate) {
-        return (c) => ((/** @type {?} */ (validator))).validate(c);
+    if ((/** @type {?} */ (validator)).validate) {
+        return (c) => (/** @type {?} */ (validator)).validate(c);
     }
     else {
-        return (/** @type {?} */ (validator));
+        return /** @type {?} */ (validator);
     }
 }
 /**
@@ -987,17 +983,17 @@ function normalizeValidator(validator) {
  * @return {?}
  */
 function normalizeAsyncValidator(validator) {
-    if (((/** @type {?} */ (validator))).validate) {
-        return (c) => ((/** @type {?} */ (validator))).validate(c);
+    if ((/** @type {?} */ (validator)).validate) {
+        return (c) => (/** @type {?} */ (validator)).validate(c);
     }
     else {
-        return (/** @type {?} */ (validator));
+        return /** @type {?} */ (validator);
     }
 }
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1062,7 +1058,6 @@ class NumberValueAccessor {
      * @return {?}
      */
     writeValue(value) {
-        // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
         /** @type {?} */
         const normalizedValue = value == null ? '' : value;
         this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
@@ -1135,7 +1130,7 @@ NumberValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: NumberValueAccess
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @return {?}
@@ -1193,7 +1188,7 @@ class NgControl extends AbstractControlDirective {
      * @throws An exception that this method is not implemented
      * @return {?}
      */
-    get validator() { return (/** @type {?} */ (unimplemented())); }
+    get validator() { return /** @type {?} */ (unimplemented()); }
     /**
      * \@description
      * The registered async validator function for the control
@@ -1201,12 +1196,12 @@ class NgControl extends AbstractControlDirective {
      * @throws An exception that this method is not implemented
      * @return {?}
      */
-    get asyncValidator() { return (/** @type {?} */ (unimplemented())); }
+    get asyncValidator() { return /** @type {?} */ (unimplemented()); }
 }
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1463,7 +1458,7 @@ RadioControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: RadioContro
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1598,7 +1593,7 @@ RangeValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: RangeValueAccessor
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1662,7 +1657,7 @@ const FormErrorExamples = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class ReactiveErrors {
     /**
@@ -1759,7 +1754,7 @@ class ReactiveErrors {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -2107,7 +2102,7 @@ NgSelectOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectOption, select
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -2232,7 +2227,6 @@ class SelectMultipleControlValueAccessor {
         /** @type {?} */
         let optionSelectedStateSetter;
         if (Array.isArray(value)) {
-            // convert values to ids
             /** @type {?} */
             const ids = value.map((v) => this._getOptionId(v));
             optionSelectedStateSetter = (opt, o) => { opt._setSelected(ids.indexOf(o.toString()) > -1); };
@@ -2268,7 +2262,7 @@ class SelectMultipleControlValueAccessor {
             // Degrade on IE
             else {
                 /** @type {?} */
-                const options = (/** @type {?} */ (_.options));
+                const options = /** @type {?} */ (_.options);
                 for (let i = 0; i < options.length; i++) {
                     /** @type {?} */
                     const opt = options.item(i);
@@ -2318,7 +2312,7 @@ class SelectMultipleControlValueAccessor {
      */
     _getOptionId(value) {
         for (const id of Array.from(this._optionMap.keys())) {
-            if (this._compareWith((/** @type {?} */ (this._optionMap.get(id)))._value, value))
+            if (this._compareWith(/** @type {?} */ ((this._optionMap.get(id)))._value, value))
                 return id;
         }
         return null;
@@ -2331,7 +2325,7 @@ class SelectMultipleControlValueAccessor {
     _getOptionValue(valueString) {
         /** @type {?} */
         const id = _extractId$1(valueString);
-        return this._optionMap.has(id) ? (/** @type {?} */ (this._optionMap.get(id)))._value : valueString;
+        return this._optionMap.has(id) ? /** @type {?} */ ((this._optionMap.get(id)))._value : valueString;
     }
 }
 SelectMultipleControlValueAccessor.decorators = [
@@ -2488,7 +2482,7 @@ NgSelectMultipleOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectMultip
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @param {?} name
@@ -2496,7 +2490,7 @@ NgSelectMultipleOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectMultip
  * @return {?}
  */
 function controlPath(name, parent) {
-    return [...(/** @type {?} */ (parent.path)), name];
+    return [.../** @type {?} */ ((parent.path)), name];
 }
 /**
  * @param {?} control
@@ -2508,23 +2502,23 @@ function setUpControl(control, dir) {
         _throwError(dir, 'Cannot find control with');
     if (!dir.valueAccessor)
         _throwError(dir, 'No value accessor for form control with');
-    control.validator = Validators.compose([(/** @type {?} */ (control.validator)), dir.validator]);
-    control.asyncValidator = Validators.composeAsync([(/** @type {?} */ (control.asyncValidator)), dir.asyncValidator]);
-    (/** @type {?} */ (dir.valueAccessor)).writeValue(control.value);
+    control.validator = Validators.compose([/** @type {?} */ ((control.validator)), dir.validator]);
+    control.asyncValidator = Validators.composeAsync([/** @type {?} */ ((control.asyncValidator)), dir.asyncValidator]); /** @type {?} */
+    ((dir.valueAccessor)).writeValue(control.value);
     setUpViewChangePipeline(control, dir);
     setUpModelChangePipeline(control, dir);
     setUpBlurPipeline(control, dir);
-    if ((/** @type {?} */ (dir.valueAccessor)).setDisabledState) {
-        control.registerOnDisabledChange((isDisabled) => { (/** @type {?} */ ((/** @type {?} */ (dir.valueAccessor)).setDisabledState))(isDisabled); });
+    if (/** @type {?} */ ((dir.valueAccessor)).setDisabledState) {
+        control.registerOnDisabledChange((isDisabled) => { /** @type {?} */ ((/** @type {?} */ ((dir.valueAccessor)).setDisabledState))(isDisabled); });
     }
     // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
     dir._rawValidators.forEach((validator) => {
-        if (((/** @type {?} */ (validator))).registerOnValidatorChange)
-            (/** @type {?} */ (((/** @type {?} */ (validator))).registerOnValidatorChange))(() => control.updateValueAndValidity());
+        if ((/** @type {?} */ (validator)).registerOnValidatorChange)
+            /** @type {?} */ (((/** @type {?} */ (validator)).registerOnValidatorChange))(() => control.updateValueAndValidity());
     });
     dir._rawAsyncValidators.forEach((validator) => {
-        if (((/** @type {?} */ (validator))).registerOnValidatorChange)
-            (/** @type {?} */ (((/** @type {?} */ (validator))).registerOnValidatorChange))(() => control.updateValueAndValidity());
+        if ((/** @type {?} */ (validator)).registerOnValidatorChange)
+            /** @type {?} */ (((/** @type {?} */ (validator)).registerOnValidatorChange))(() => control.updateValueAndValidity());
     });
 }
 /**
@@ -2533,8 +2527,8 @@ function setUpControl(control, dir) {
  * @return {?}
  */
 function cleanUpControl(control, dir) {
-    (/** @type {?} */ (dir.valueAccessor)).registerOnChange(() => _noControlError(dir));
-    (/** @type {?} */ (dir.valueAccessor)).registerOnTouched(() => _noControlError(dir));
+    /** @type {?} */ ((dir.valueAccessor)).registerOnChange(() => _noControlError(dir)); /** @type {?} */
+    ((dir.valueAccessor)).registerOnTouched(() => _noControlError(dir));
     dir._rawValidators.forEach((validator) => {
         if (validator.registerOnValidatorChange) {
             validator.registerOnValidatorChange(null);
@@ -2554,7 +2548,7 @@ function cleanUpControl(control, dir) {
  * @return {?}
  */
 function setUpViewChangePipeline(control, dir) {
-    (/** @type {?} */ (dir.valueAccessor)).registerOnChange((newValue) => {
+    /** @type {?} */ ((dir.valueAccessor)).registerOnChange((newValue) => {
         control._pendingValue = newValue;
         control._pendingChange = true;
         control._pendingDirty = true;
@@ -2568,7 +2562,7 @@ function setUpViewChangePipeline(control, dir) {
  * @return {?}
  */
 function setUpBlurPipeline(control, dir) {
-    (/** @type {?} */ (dir.valueAccessor)).registerOnTouched(() => {
+    /** @type {?} */ ((dir.valueAccessor)).registerOnTouched(() => {
         control._pendingTouched = true;
         if (control.updateOn === 'blur' && control._pendingChange)
             updateControl(control, dir);
@@ -2595,8 +2589,9 @@ function updateControl(control, dir) {
  */
 function setUpModelChangePipeline(control, dir) {
     control.registerOnChange((newValue, emitModelEvent) => {
+        /** @type {?} */ ((
         // control -> view
-        (/** @type {?} */ (dir.valueAccessor)).writeValue(newValue);
+        dir.valueAccessor)).writeValue(newValue);
         // control -> ngModel
         if (emitModelEvent)
             dir.viewToModelUpdate(newValue);
@@ -2628,10 +2623,10 @@ function _noControlError(dir) {
 function _throwError(dir, message) {
     /** @type {?} */
     let messageEnd;
-    if ((/** @type {?} */ (dir.path)).length > 1) {
-        messageEnd = `path: '${(/** @type {?} */ (dir.path)).join(' -> ')}'`;
+    if (/** @type {?} */ ((dir.path)).length > 1) {
+        messageEnd = `path: '${(/** @type {?} */ ((dir.path))).join(' -> ')}'`;
     }
-    else if ((/** @type {?} */ (dir.path))[0]) {
+    else if (/** @type {?} */ ((dir.path))[0]) {
         messageEnd = `name: '${dir.path}'`;
     }
     else {
@@ -2693,14 +2688,13 @@ function syncPendingControls(form, directives) {
     form._syncPendingControls();
     directives.forEach(dir => {
         /** @type {?} */
-        const control = (/** @type {?} */ (dir.control));
+        const control = /** @type {?} */ (dir.control);
         if (control.updateOn === 'submit' && control._pendingChange) {
             dir.viewToModelUpdate(control._pendingValue);
             control._pendingChange = false;
         }
     });
 }
-// TODO: vsavkin remove it once https://github.com/angular/angular/issues/3011 is implemented
 /**
  * @param {?} dir
  * @param {?} valueAccessors
@@ -2753,7 +2747,6 @@ function removeDir(list, el) {
     if (index > -1)
         list.splice(index, 1);
 }
-// TODO(kara): remove after deprecation period
 /**
  * @param {?} name
  * @param {?} type
@@ -2774,7 +2767,7 @@ function _ngModelWarning(name, type, instance, warningConfig) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * \@description
@@ -2790,8 +2783,8 @@ class AbstractFormGroupDirective extends ControlContainer {
      * @return {?}
      */
     ngOnInit() {
-        this._checkParentType();
-        (/** @type {?} */ (this.formDirective)).addFormGroup(this);
+        this._checkParentType(); /** @type {?} */
+        ((this.formDirective)).addFormGroup(this);
     }
     /**
      * \@description
@@ -2809,7 +2802,7 @@ class AbstractFormGroupDirective extends ControlContainer {
      * The `FormGroup` bound to this directive.
      * @return {?}
      */
-    get control() { return (/** @type {?} */ (this.formDirective)).getFormGroup(this); }
+    get control() { return /** @type {?} */ ((this.formDirective)).getFormGroup(this); }
     /**
      * \@description
      * The path to this group from the top-level directive.
@@ -2846,7 +2839,7 @@ class AbstractFormGroupDirective extends ControlContainer {
 const _c0 = ["ng-untouched", "ng-touched", "ng-pristine", "ng-dirty", "ng-valid", "ng-invalid", "ng-pending"];
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -3010,39 +3003,35 @@ NgControlStatusGroup.ngDirectiveDef = ɵdefineDirective({ type: NgControlStatusG
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Reports that a FormControl is valid, meaning that no errors exist in the input value.
  *
  * @see `status`
- * @type {?}
- */
+  @type {?} */
 const VALID = 'VALID';
-/**
+/** *
  * Reports that a FormControl is invalid, meaning that an error exists in the input value.
  *
  * @see `status`
- * @type {?}
- */
+  @type {?} */
 const INVALID = 'INVALID';
-/**
+/** *
  * Reports that a FormControl is pending, meaning that that async validation is occurring and
  * errors are not yet available for the input value.
  *
  * @see `markAsPending`
  * @see `status`
- * @type {?}
- */
+  @type {?} */
 const PENDING = 'PENDING';
-/**
+/** *
  * Reports that a FormControl is disabled, meaning that the control is exempt from ancestor
  * calculations of validity or value.
  *
  * @see `markAsDisabled`
  * @see `status`
- * @type {?}
- */
+  @type {?} */
 const DISABLED = 'DISABLED';
 /**
  * @param {?} control
@@ -3054,16 +3043,16 @@ function _find(control, path, delimiter) {
     if (path == null)
         return null;
     if (!(path instanceof Array)) {
-        path = ((/** @type {?} */ (path))).split(delimiter);
+        path = (/** @type {?} */ (path)).split(delimiter);
     }
     if (path instanceof Array && (path.length === 0))
         return null;
-    return ((/** @type {?} */ (path))).reduce((v, name) => {
+    return (/** @type {?} */ (path)).reduce((v, name) => {
         if (v instanceof FormGroup) {
-            return v.controls.hasOwnProperty((/** @type {?} */ (name))) ? v.controls[name] : null;
+            return v.controls.hasOwnProperty(/** @type {?} */ (name)) ? v.controls[name] : null;
         }
         if (v instanceof FormArray) {
-            return v.at((/** @type {?} */ (name))) || null;
+            return v.at(/** @type {?} */ (name)) || null;
         }
         return null;
     }, control);
@@ -3074,8 +3063,8 @@ function _find(control, path, delimiter) {
  */
 function coerceToValidator(validatorOrOpts) {
     /** @type {?} */
-    const validator = (/** @type {?} */ ((isOptionsObj(validatorOrOpts) ? ((/** @type {?} */ (validatorOrOpts))).validators :
-        validatorOrOpts)));
+    const validator = /** @type {?} */ ((isOptionsObj(validatorOrOpts) ? (/** @type {?} */ (validatorOrOpts)).validators :
+        validatorOrOpts));
     return Array.isArray(validator) ? composeValidators(validator) : validator || null;
 }
 /**
@@ -3085,8 +3074,8 @@ function coerceToValidator(validatorOrOpts) {
  */
 function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
     /** @type {?} */
-    const origAsyncValidator = (/** @type {?} */ ((isOptionsObj(validatorOrOpts) ? ((/** @type {?} */ (validatorOrOpts))).asyncValidators :
-        asyncValidator)));
+    const origAsyncValidator = /** @type {?} */ ((isOptionsObj(validatorOrOpts) ? (/** @type {?} */ (validatorOrOpts)).asyncValidators :
+        asyncValidator));
     return Array.isArray(origAsyncValidator) ? composeAsyncValidators(origAsyncValidator) :
         origAsyncValidator || null;
 }
@@ -3267,7 +3256,7 @@ class AbstractControl {
      * @return {?}
      */
     markAsTouched(opts = {}) {
-        ((/** @type {?} */ (this))).touched = true;
+        (/** @type {?} */ (this)).touched = true;
         if (this._parent && !opts.onlySelf) {
             this._parent.markAsTouched(opts);
         }
@@ -3285,7 +3274,7 @@ class AbstractControl {
      * @return {?}
      */
     markAsUntouched(opts = {}) {
-        ((/** @type {?} */ (this))).touched = false;
+        (/** @type {?} */ (this)).touched = false;
         this._pendingTouched = false;
         this._forEachChild((control) => { control.markAsUntouched({ onlySelf: true }); });
         if (this._parent && !opts.onlySelf) {
@@ -3303,7 +3292,7 @@ class AbstractControl {
      * @return {?}
      */
     markAsDirty(opts = {}) {
-        ((/** @type {?} */ (this))).pristine = false;
+        (/** @type {?} */ (this)).pristine = false;
         if (this._parent && !opts.onlySelf) {
             this._parent.markAsDirty(opts);
         }
@@ -3322,7 +3311,7 @@ class AbstractControl {
      * @return {?}
      */
     markAsPristine(opts = {}) {
-        ((/** @type {?} */ (this))).pristine = true;
+        (/** @type {?} */ (this)).pristine = true;
         this._pendingDirty = false;
         this._forEachChild((control) => { control.markAsPristine({ onlySelf: true }); });
         if (this._parent && !opts.onlySelf) {
@@ -3345,9 +3334,9 @@ class AbstractControl {
      * @return {?}
      */
     markAsPending(opts = {}) {
-        ((/** @type {?} */ (this))).status = PENDING;
+        (/** @type {?} */ (this)).status = PENDING;
         if (opts.emitEvent !== false) {
-            ((/** @type {?} */ (this.statusChanges))).emit(this.status);
+            (/** @type {?} */ (this.statusChanges)).emit(this.status);
         }
         if (this._parent && !opts.onlySelf) {
             this._parent.markAsPending(opts);
@@ -3370,13 +3359,13 @@ class AbstractControl {
      * @return {?}
      */
     disable(opts = {}) {
-        ((/** @type {?} */ (this))).status = DISABLED;
-        ((/** @type {?} */ (this))).errors = null;
+        (/** @type {?} */ (this)).status = DISABLED;
+        (/** @type {?} */ (this)).errors = null;
         this._forEachChild((control) => { control.disable(Object.assign({}, opts, { onlySelf: true })); });
         this._updateValue();
         if (opts.emitEvent !== false) {
-            ((/** @type {?} */ (this.valueChanges))).emit(this.value);
-            ((/** @type {?} */ (this.statusChanges))).emit(this.status);
+            (/** @type {?} */ (this.valueChanges)).emit(this.value);
+            (/** @type {?} */ (this.statusChanges)).emit(this.status);
         }
         this._updateAncestors(opts);
         this._onDisabledChange.forEach((changeFn) => changeFn(true));
@@ -3399,7 +3388,7 @@ class AbstractControl {
      * @return {?}
      */
     enable(opts = {}) {
-        ((/** @type {?} */ (this))).status = VALID;
+        (/** @type {?} */ (this)).status = VALID;
         this._forEachChild((control) => { control.enable(Object.assign({}, opts, { onlySelf: true })); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
         this._updateAncestors(opts);
@@ -3441,15 +3430,15 @@ class AbstractControl {
         this._updateValue();
         if (this.enabled) {
             this._cancelExistingSubscription();
-            ((/** @type {?} */ (this))).errors = this._runValidator();
-            ((/** @type {?} */ (this))).status = this._calculateStatus();
+            (/** @type {?} */ (this)).errors = this._runValidator();
+            (/** @type {?} */ (this)).status = this._calculateStatus();
             if (this.status === VALID || this.status === PENDING) {
                 this._runAsyncValidator(opts.emitEvent);
             }
         }
         if (opts.emitEvent !== false) {
-            ((/** @type {?} */ (this.valueChanges))).emit(this.value);
-            ((/** @type {?} */ (this.statusChanges))).emit(this.status);
+            (/** @type {?} */ (this.valueChanges)).emit(this.value);
+            (/** @type {?} */ (this.statusChanges)).emit(this.status);
         }
         if (this._parent && !opts.onlySelf) {
             this._parent.updateValueAndValidity(opts);
@@ -3468,7 +3457,7 @@ class AbstractControl {
      * @return {?}
      */
     _setInitialStatus() {
-        ((/** @type {?} */ (this))).status = this._allControlsDisabled() ? DISABLED : VALID;
+        (/** @type {?} */ (this)).status = this._allControlsDisabled() ? DISABLED : VALID;
     }
     /**
      * @return {?}
@@ -3482,7 +3471,7 @@ class AbstractControl {
      */
     _runAsyncValidator(emitEvent) {
         if (this.asyncValidator) {
-            ((/** @type {?} */ (this))).status = PENDING;
+            (/** @type {?} */ (this)).status = PENDING;
             /** @type {?} */
             const obs = toObservable(this.asyncValidator(this));
             this._asyncValidationSubscription =
@@ -3523,7 +3512,7 @@ class AbstractControl {
      * @return {?}
      */
     setErrors(errors, opts = {}) {
-        ((/** @type {?} */ (this))).errors = errors;
+        (/** @type {?} */ (this)).errors = errors;
         this._updateControlsErrors(opts.emitEvent !== false);
     }
     /**
@@ -3587,9 +3576,9 @@ class AbstractControl {
      * @return {?}
      */
     _updateControlsErrors(emitEvent) {
-        ((/** @type {?} */ (this))).status = this._calculateStatus();
+        (/** @type {?} */ (this)).status = this._calculateStatus();
         if (emitEvent) {
-            ((/** @type {?} */ (this.statusChanges))).emit(this.status);
+            (/** @type {?} */ (this.statusChanges)).emit(this.status);
         }
         if (this._parent) {
             this._parent._updateControlsErrors(emitEvent);
@@ -3600,8 +3589,8 @@ class AbstractControl {
      * @return {?}
      */
     _initObservables() {
-        ((/** @type {?} */ (this))).valueChanges = new EventEmitter();
-        ((/** @type {?} */ (this))).statusChanges = new EventEmitter();
+        (/** @type {?} */ (this)).valueChanges = new EventEmitter();
+        (/** @type {?} */ (this)).statusChanges = new EventEmitter();
     }
     /**
      * @return {?}
@@ -3645,7 +3634,7 @@ class AbstractControl {
      * @return {?}
      */
     _updatePristine(opts = {}) {
-        ((/** @type {?} */ (this))).pristine = !this._anyControlsDirty();
+        (/** @type {?} */ (this)).pristine = !this._anyControlsDirty();
         if (this._parent && !opts.onlySelf) {
             this._parent._updatePristine(opts);
         }
@@ -3656,7 +3645,7 @@ class AbstractControl {
      * @return {?}
      */
     _updateTouched(opts = {}) {
-        ((/** @type {?} */ (this))).touched = this._anyControlsTouched();
+        (/** @type {?} */ (this)).touched = this._anyControlsTouched();
         if (this._parent && !opts.onlySelf) {
             this._parent._updateTouched(opts);
         }
@@ -3682,8 +3671,8 @@ class AbstractControl {
      * @return {?}
      */
     _setUpdateStrategy(opts) {
-        if (isOptionsObj(opts) && ((/** @type {?} */ (opts))).updateOn != null) {
-            this._updateOn = (/** @type {?} */ (((/** @type {?} */ (opts))).updateOn));
+        if (isOptionsObj(opts) && (/** @type {?} */ (opts)).updateOn != null) {
+            this._updateOn = /** @type {?} */ (((/** @type {?} */ (opts)).updateOn));
         }
     }
 }
@@ -3834,7 +3823,7 @@ class FormControl extends AbstractControl {
      * @return {?}
      */
     setValue(value, options = {}) {
-        ((/** @type {?} */ (this))).value = this._pendingValue = value;
+        (/** @type {?} */ (this)).value = this._pendingValue = value;
         if (this._onChange.length && options.emitModelToViewChange !== false) {
             this._onChange.forEach((changeFn) => changeFn(this.value, options.emitViewToModelChange !== false));
         }
@@ -3951,12 +3940,12 @@ class FormControl extends AbstractControl {
      */
     _applyFormState(formState) {
         if (this._isBoxedValue(formState)) {
-            ((/** @type {?} */ (this))).value = this._pendingValue = formState.value;
+            (/** @type {?} */ (this)).value = this._pendingValue = formState.value;
             formState.disabled ? this.disable({ onlySelf: true, emitEvent: false }) :
                 this.enable({ onlySelf: true, emitEvent: false });
         }
         else {
-            ((/** @type {?} */ (this))).value = this._pendingValue = formState;
+            (/** @type {?} */ (this)).value = this._pendingValue = formState;
         }
     }
 }
@@ -4287,7 +4276,7 @@ class FormGroup extends AbstractControl {
      */
     getRawValue() {
         return this._reduceChildren({}, (acc, control, name) => {
-            acc[name] = control instanceof FormControl ? control.value : ((/** @type {?} */ (control))).getRawValue();
+            acc[name] = control instanceof FormControl ? control.value : (/** @type {?} */ (control)).getRawValue();
             return acc;
         });
     }
@@ -4342,7 +4331,7 @@ class FormGroup extends AbstractControl {
      * \@internal
      * @return {?}
      */
-    _updateValue() { ((/** @type {?} */ (this))).value = this._reduceValue(); }
+    _updateValue() { (/** @type {?} */ (this)).value = this._reduceValue(); }
     /**
      * \@internal
      * @param {?} condition
@@ -4708,7 +4697,7 @@ class FormArray extends AbstractControl {
      */
     getRawValue() {
         return this.controls.map((control) => {
-            return control instanceof FormControl ? control.value : ((/** @type {?} */ (control))).getRawValue();
+            return control instanceof FormControl ? control.value : (/** @type {?} */ (control)).getRawValue();
         });
     }
     /**
@@ -4753,7 +4742,7 @@ class FormArray extends AbstractControl {
      * @return {?}
      */
     _updateValue() {
-        ((/** @type {?} */ (this))).value =
+        (/** @type {?} */ (this)).value =
             this.controls.filter((control) => control.enabled || this.disabled)
                 .map((control) => control.value);
     }
@@ -4807,7 +4796,7 @@ class FormArray extends AbstractControl {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -4955,8 +4944,7 @@ class NgForm extends ControlContainer {
         resolvedPromise.then(() => {
             /** @type {?} */
             const container = this._findContainer(dir.path);
-            ((/** @type {?} */ (dir))).control =
-                (/** @type {?} */ (container.registerControl(dir.name, dir.control)));
+            (/** @type {?} */ (dir)).control = /** @type {?} */ (container.registerControl(dir.name, dir.control));
             setUpControl(dir.control, dir);
             dir.control.updateValueAndValidity({ emitEvent: false });
             this._directives.push(dir);
@@ -4969,7 +4957,7 @@ class NgForm extends ControlContainer {
      * @param {?} dir The `NgModel` directive instance.
      * @return {?}
      */
-    getControl(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getControl(dir) { return /** @type {?} */ (this.form.get(dir.path)); }
     /**
      * \@description
      * Removes the `NgModel` instance from the internal list of directives
@@ -5028,7 +5016,7 @@ class NgForm extends ControlContainer {
      * @param {?} dir The `NgModelGroup` directive instance.
      * @return {?}
      */
-    getFormGroup(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getFormGroup(dir) { return /** @type {?} */ (this.form.get(dir.path)); }
     /**
      * Sets the new value for the provided `NgControl` directive.
      *
@@ -5039,7 +5027,7 @@ class NgForm extends ControlContainer {
     updateModel(dir, value) {
         resolvedPromise.then(() => {
             /** @type {?} */
-            const ctrl = (/** @type {?} */ (this.form.get((/** @type {?} */ (dir.path)))));
+            const ctrl = /** @type {?} */ (this.form.get(/** @type {?} */ ((dir.path))));
             ctrl.setValue(value);
         });
     }
@@ -5060,7 +5048,7 @@ class NgForm extends ControlContainer {
      * @return {?}
      */
     onSubmit($event) {
-        ((/** @type {?} */ (this))).submitted = true;
+        (/** @type {?} */ (this)).submitted = true;
         syncPendingControls(this.form, this._directives);
         this.ngSubmit.emit($event);
         return false;
@@ -5080,7 +5068,7 @@ class NgForm extends ControlContainer {
      */
     resetForm(value = undefined) {
         this.form.reset(value);
-        ((/** @type {?} */ (this))).submitted = false;
+        (/** @type {?} */ (this)).submitted = false;
     }
     /**
      * @return {?}
@@ -5097,7 +5085,7 @@ class NgForm extends ControlContainer {
      */
     _findContainer(path) {
         path.pop();
-        return path.length ? (/** @type {?} */ (this.form.get(path))) : this.form;
+        return path.length ? /** @type {?} */ (this.form.get(path)) : this.form;
     }
 }
 NgForm.decorators = [
@@ -5157,7 +5145,7 @@ NgForm.ngDirectiveDef = ɵdefineDirective({ type: NgForm, selectors: [["form", 3
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class TemplateDrivenErrors {
     /**
@@ -5239,7 +5227,7 @@ class TemplateDrivenErrors {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -5248,11 +5236,10 @@ class TemplateDrivenErrors {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
+/** *
  * \@description
  * `InjectionToken` to provide to turn off the warning when using 'ngForm' deprecated selector.
- * @type {?}
- */
+  @type {?} */
 const NG_FORM_SELECTOR_WARNING = new InjectionToken('NgFormSelectorWarning');
 /**
  * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
@@ -5303,7 +5290,7 @@ NgFormSelectorWarning.ngDirectiveDef = ɵdefineDirective({ type: NgFormSelectorW
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -5415,7 +5402,7 @@ NgModelGroup.ngDirectiveDef = ɵdefineDirective({ type: NgModelGroup, selectors:
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -5429,7 +5416,7 @@ const formControlBinding = {
     provide: NgControl,
     useExisting: forwardRef(() => NgModel)
 };
-/**
+/** *
  * `ngModel` forces an additional change detection run when its inputs change:
  * E.g.:
  * ```
@@ -5445,8 +5432,7 @@ const formControlBinding = {
  * Notes:
  * - this is just one extra run no matter how many `ngModel` have been changed.
  * - this is a general problem when using `exportAs` for directives!
- * @type {?}
- */
+  @type {?} */
 const resolvedPromise$1 = Promise.resolve(null);
 /**
  * \@description
@@ -5796,7 +5782,7 @@ NgModel.ngDirectiveDef = ɵdefineDirective({ type: NgModel, selectors: [["", "ng
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -5805,10 +5791,9 @@ NgModel.ngDirectiveDef = ɵdefineDirective({ type: NgModel, selectors: [["", "ng
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
+/** *
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
- * @type {?}
- */
+  @type {?} */
 const NG_MODEL_WITH_FORM_CONTROL_WARNING = new InjectionToken('NgModelWithFormControlWarning');
 /** @type {?} */
 const formControlBinding$1 = {
@@ -5945,8 +5930,8 @@ class FormControlDirective extends NgControl {
     ngOnChanges(changes) {
         if (this._isControlChanged(changes)) {
             setUpControl(this.form, this);
-            if (this.control.disabled && (/** @type {?} */ (this.valueAccessor)).setDisabledState) {
-                (/** @type {?} */ ((/** @type {?} */ (this.valueAccessor)).setDisabledState))(true);
+            if (this.control.disabled && /** @type {?} */ ((this.valueAccessor)).setDisabledState) {
+                /** @type {?} */ ((/** @type {?} */ ((this.valueAccessor)).setDisabledState))(true);
             }
             this.form.updateValueAndValidity({ emitEvent: false });
         }
@@ -6086,7 +6071,7 @@ FormControlDirective.ngDirectiveDef = ɵdefineDirective({ type: FormControlDirec
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -6146,7 +6131,7 @@ class FormGroupDirective extends ControlContainer {
          * \@description
          * Tracks the `FormGroup` bound to this directive.
          */
-        this.form = (/** @type {?} */ (null));
+        this.form = /** @type {?} */ ((null));
         /**
          * \@description
          * Emits an event when the form submission has been triggered.
@@ -6210,7 +6195,7 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir The `FormControlName` directive instance.
      * @return {?}
      */
-    getControl(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getControl(dir) { return /** @type {?} */ (this.form.get(dir.path)); }
     /**
      * \@description
      * Removes the `FormControlName` instance from the internal list of directives
@@ -6245,7 +6230,7 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir The `FormGroupName` directive instance.
      * @return {?}
      */
-    getFormGroup(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getFormGroup(dir) { return /** @type {?} */ (this.form.get(dir.path)); }
     /**
      * Adds a new `FormArrayName` directive instance to the form.
      *
@@ -6272,7 +6257,7 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir The `FormArrayName` directive instance.
      * @return {?}
      */
-    getFormArray(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getFormArray(dir) { return /** @type {?} */ (this.form.get(dir.path)); }
     /**
      * Sets the new value for the provided `FormControlName` directive.
      *
@@ -6282,7 +6267,7 @@ class FormGroupDirective extends ControlContainer {
      */
     updateModel(dir, value) {
         /** @type {?} */
-        const ctrl = (/** @type {?} */ (this.form.get(dir.path)));
+        const ctrl = /** @type {?} */ (this.form.get(dir.path));
         ctrl.setValue(value);
     }
     /**
@@ -6294,7 +6279,7 @@ class FormGroupDirective extends ControlContainer {
      * @return {?}
      */
     onSubmit($event) {
-        ((/** @type {?} */ (this))).submitted = true;
+        (/** @type {?} */ (this)).submitted = true;
         syncPendingControls(this.form, this.directives);
         this.ngSubmit.emit($event);
         return false;
@@ -6314,7 +6299,7 @@ class FormGroupDirective extends ControlContainer {
      */
     resetForm(value = undefined) {
         this.form.reset(value);
-        ((/** @type {?} */ (this))).submitted = false;
+        (/** @type {?} */ (this)).submitted = false;
     }
     /**
      * \@internal
@@ -6328,7 +6313,7 @@ class FormGroupDirective extends ControlContainer {
                 cleanUpControl(dir.control, dir);
                 if (newCtrl)
                     setUpControl(newCtrl, dir);
-                ((/** @type {?} */ (dir))).control = newCtrl;
+                (/** @type {?} */ (dir)).control = newCtrl;
             }
         });
         this.form._updateTreeValidity({ emitEvent: false });
@@ -6348,10 +6333,10 @@ class FormGroupDirective extends ControlContainer {
     _updateValidators() {
         /** @type {?} */
         const sync = composeValidators(this._validators);
-        this.form.validator = Validators.compose([(/** @type {?} */ (this.form.validator)), (/** @type {?} */ (sync))]);
+        this.form.validator = Validators.compose([/** @type {?} */ ((this.form.validator)), /** @type {?} */ ((sync))]);
         /** @type {?} */
         const async = composeAsyncValidators(this._asyncValidators);
-        this.form.asyncValidator = Validators.composeAsync([(/** @type {?} */ (this.form.asyncValidator)), (/** @type {?} */ (async))]);
+        this.form.asyncValidator = Validators.composeAsync([/** @type {?} */ ((this.form.asyncValidator)), /** @type {?} */ ((async))]);
     }
     /**
      * @return {?}
@@ -6420,7 +6405,7 @@ FormGroupDirective.ngDirectiveDef = ɵdefineDirective({ type: FormGroupDirective
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -6601,8 +6586,8 @@ class FormArrayName extends ControlContainer {
      * @return {?}
      */
     ngOnInit() {
-        this._checkParentType();
-        (/** @type {?} */ (this.formDirective)).addFormArray(this);
+        this._checkParentType(); /** @type {?} */
+        ((this.formDirective)).addFormArray(this);
     }
     /**
      * \@description
@@ -6619,14 +6604,14 @@ class FormArrayName extends ControlContainer {
      * The `FormArray` bound to this directive.
      * @return {?}
      */
-    get control() { return (/** @type {?} */ (this.formDirective)).getFormArray(this); }
+    get control() { return /** @type {?} */ ((this.formDirective)).getFormArray(this); }
     /**
      * \@description
      * The top-level directive for this group if present, otherwise null.
      * @return {?}
      */
     get formDirective() {
-        return this._parent ? (/** @type {?} */ (this._parent.formDirective)) : null;
+        return this._parent ? /** @type {?} */ (this._parent.formDirective) : null;
     }
     /**
      * \@description
@@ -6719,7 +6704,7 @@ function _hasInvalidParent(parent) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -6909,7 +6894,7 @@ class FormControlName extends NgControl {
      * Each index is the string name of the control on that level.
      * @return {?}
      */
-    get path() { return controlPath(this.name, (/** @type {?} */ (this._parent))); }
+    get path() { return controlPath(this.name, /** @type {?} */ ((this._parent))); }
     /**
      * \@description
      * The top-level directive for this group if present, otherwise null.
@@ -6930,7 +6915,7 @@ class FormControlName extends NgControl {
      * @return {?}
      */
     get asyncValidator() {
-        return (/** @type {?} */ (composeAsyncValidators(this._rawAsyncValidators)));
+        return /** @type {?} */ ((composeAsyncValidators(this._rawAsyncValidators)));
     }
     /**
      * @return {?}
@@ -6950,9 +6935,9 @@ class FormControlName extends NgControl {
      */
     _setUpControl() {
         this._checkParentType();
-        ((/** @type {?} */ (this))).control = this.formDirective.addControl(this);
-        if (this.control.disabled && (/** @type {?} */ (this.valueAccessor)).setDisabledState) {
-            (/** @type {?} */ ((/** @type {?} */ (this.valueAccessor)).setDisabledState))(true);
+        (/** @type {?} */ (this)).control = this.formDirective.addControl(this);
+        if (this.control.disabled && /** @type {?} */ ((this.valueAccessor)).setDisabledState) {
+            /** @type {?} */ ((/** @type {?} */ ((this.valueAccessor)).setDisabledState))(true);
         }
         this._added = true;
     }
@@ -7171,10 +7156,9 @@ const ɵCheckboxRequiredValidator_BaseFactory = ɵgetInheritedFactory(CheckboxRe
                 host: { '[attr.required]': 'required ? "" : null' }
             }]
     }], null, null);
-/**
+/** *
  * Provider which adds `EmailValidator` to `NG_VALIDATORS`.
- * @type {?}
- */
+  @type {?} */
 const EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => EmailValidator),
@@ -7239,15 +7223,14 @@ EmailValidator.ngDirectiveDef = ɵdefineDirective({ type: EmailValidator, select
     }], null, { email: [{
             type: Input
         }] });
-/**
+/** *
  * Provider which adds `MinLengthValidator` to `NG_VALIDATORS`.
  *
  * \@usageNotes
  * ### Example:
  *
  * {\@example common/forms/ts/validators/validators.ts region='min'}
- * @type {?}
- */
+  @type {?} */
 const MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => MinLengthValidator),
@@ -7317,15 +7300,14 @@ MinLengthValidator.ngDirectiveDef = ɵdefineDirective({ type: MinLengthValidator
     }], null, { minlength: [{
             type: Input
         }] });
-/**
+/** *
  * Provider which adds `MaxLengthValidator` to `NG_VALIDATORS`.
  *
  * \@usageNotes
  * ### Example:
  *
  * {\@example common/forms/ts/validators/validators.ts region='max'}
- * @type {?}
- */
+  @type {?} */
 const MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(() => MaxLengthValidator),
@@ -7473,7 +7455,7 @@ PatternValidator.ngDirectiveDef = ɵdefineDirective({ type: PatternValidator, se
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -7487,9 +7469,9 @@ PatternValidator.ngDirectiveDef = ɵdefineDirective({ type: PatternValidator, se
  * @return {?}
  */
 function isAbstractControlOptions(options) {
-    return ((/** @type {?} */ (options))).asyncValidators !== undefined ||
-        ((/** @type {?} */ (options))).validators !== undefined ||
-        ((/** @type {?} */ (options))).updateOn !== undefined;
+    return (/** @type {?} */ (options)).asyncValidators !== undefined ||
+        (/** @type {?} */ (options)).validators !== undefined ||
+        (/** @type {?} */ (options)).updateOn !== undefined;
 }
 /**
  * \@description
@@ -7544,8 +7526,8 @@ class FormBuilder {
             }
             else {
                 // `options` are legacy form group options
-                validators = options.validator != null ? options.validator : null;
-                asyncValidators = options.asyncValidator != null ? options.asyncValidator : null;
+                validators = options["validator"] != null ? options["validator"] : null;
+                asyncValidators = options["asyncValidator"] != null ? options["asyncValidator"] : null;
             }
         }
         return new FormGroup(controls, { asyncValidators, updateOn, validators });
@@ -7645,17 +7627,16 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * \@publicApi
- * @type {?}
- */
-const VERSION = new Version('7.2.0-beta.2+8.sha-9c7fb0d');
+  @type {?} */
+const VERSION = new Version('7.2.0-beta.2+6.sha-28ceca0');
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -7780,7 +7761,7 @@ InternalFormsSharedModule.ngInjectorDef = defineInjector({ factory: function Int
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -7881,17 +7862,18 @@ ReactiveFormsModule.ngInjectorDef = defineInjector({ factory: function ReactiveF
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
+// This file only reexports content of the `src` folder. Keep it that way.
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 export { AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
