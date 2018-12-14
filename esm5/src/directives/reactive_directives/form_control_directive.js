@@ -227,7 +227,7 @@ export { FormControlDirective };
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormControlDirective, [{
         type: Directive,
         args: [{ selector: '[formControl]', providers: [formControlBinding], exportAs: 'ngForm' }]
-    }], function () { return [{
+    }], [{
         type: Array,
         decorators: [{
                 type: Optional
@@ -265,7 +265,7 @@ export { FormControlDirective };
                 type: Inject,
                 args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
             }]
-    }]; }, { form: [{
+    }], { form: [{
             type: Input,
             args: ['formControl']
         }], isDisabled: [{

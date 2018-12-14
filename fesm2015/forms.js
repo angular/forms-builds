@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-beta.2+39.sha-d0d351c
+ * @license Angular v7.2.0-beta.2+37.sha-a8ebc83
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -748,11 +748,11 @@ CheckboxControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: Checkbox
                 host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
                 providers: [CHECKBOX_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
-    }]; }, null);
+    }], null);
 
 /**
  * @fileoverview added by tsickle
@@ -945,7 +945,7 @@ DefaultValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: DefaultValueAcce
                 },
                 providers: [DEFAULT_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
@@ -957,7 +957,7 @@ DefaultValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: DefaultValueAcce
                 type: Inject,
                 args: [COMPOSITION_BUFFER_MODE]
             }]
-    }]; }, null);
+    }], null);
 
 /**
  * @fileoverview added by tsickle
@@ -1127,11 +1127,11 @@ NumberValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: NumberValueAccess
                 },
                 providers: [NUMBER_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
-    }]; }, null);
+    }], null);
 
 /**
  * @fileoverview added by tsickle
@@ -1445,7 +1445,7 @@ RadioControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: RadioContro
                 host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
                 providers: [RADIO_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
@@ -1453,7 +1453,7 @@ RadioControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: RadioContro
         type: RadioControlRegistry
     }, {
         type: Injector
-    }]; }, { name: [{
+    }], { name: [{
             type: Input
         }], formControlName: [{
             type: Input
@@ -1590,11 +1590,11 @@ RangeValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: RangeValueAccessor
                 },
                 providers: [RANGE_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
-    }]; }, null);
+    }], null);
 
 /**
  * @fileoverview added by tsickle
@@ -1993,11 +1993,11 @@ SelectControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: SelectCont
                 host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [SELECT_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
-    }]; }, { compareWith: [{
+    }], { compareWith: [{
             type: Input
         }] });
 /**
@@ -2086,7 +2086,7 @@ NgSelectOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectOption, select
 /*@__PURE__*/ ɵsetClassMetadata(NgSelectOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
-    }], function () { return [{
+    }], [{
         type: ElementRef
     }, {
         type: Renderer2
@@ -2097,7 +2097,7 @@ NgSelectOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectOption, select
             }, {
                 type: Host
             }]
-    }]; }, { ngValue: [{
+    }], { ngValue: [{
             type: Input,
             args: ['ngValue']
         }], value: [{
@@ -2360,11 +2360,11 @@ SelectMultipleControlValueAccessor.ngDirectiveDef = ɵdefineDirective({ type: Se
                 host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
                 providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
-    }]; }, { compareWith: [{
+    }], { compareWith: [{
             type: Input
         }] });
 /**
@@ -2467,7 +2467,7 @@ NgSelectMultipleOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectMultip
 /*@__PURE__*/ ɵsetClassMetadata(NgSelectMultipleOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
-    }], function () { return [{
+    }], [{
         type: ElementRef
     }, {
         type: Renderer2
@@ -2478,7 +2478,7 @@ NgSelectMultipleOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectMultip
             }, {
                 type: Host
             }]
-    }]; }, { ngValue: [{
+    }], { ngValue: [{
             type: Input,
             args: ['ngValue']
         }], value: [{
@@ -2950,12 +2950,12 @@ NgControlStatus.ngDirectiveDef = ɵdefineDirective({ type: NgControlStatus, sele
 /*@__PURE__*/ ɵsetClassMetadata(NgControlStatus, [{
         type: Directive,
         args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost }]
-    }], function () { return [{
+    }], [{
         type: NgControl,
         decorators: [{
                 type: Self
             }]
-    }]; }, null);
+    }], null);
 /**
  * \@description
  * Directive automatically applied to Angular form groups that sets CSS classes
@@ -3001,12 +3001,12 @@ NgControlStatusGroup.ngDirectiveDef = ɵdefineDirective({ type: NgControlStatusG
                 selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
                 host: ngControlStatusHost
             }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Self
             }]
-    }]; }, null);
+    }], null);
 
 /**
  * @fileoverview added by tsickle
@@ -5130,7 +5130,7 @@ NgForm.ngDirectiveDef = ɵdefineDirective({ type: NgForm, selectors: [["form", 3
                 outputs: ['ngSubmit'],
                 exportAs: 'ngForm'
             }]
-    }], function () { return [{
+    }], [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -5150,7 +5150,7 @@ NgForm.ngDirectiveDef = ɵdefineDirective({ type: NgForm, selectors: [["form", 3
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { options: [{
+    }], { options: [{
             type: Input,
             args: ['ngFormOptions']
         }] });
@@ -5291,7 +5291,7 @@ NgFormSelectorWarning.ngDirectiveDef = ɵdefineDirective({ type: NgFormSelectorW
 /*@__PURE__*/ ɵsetClassMetadata(NgFormSelectorWarning, [{
         type: Directive,
         args: [{ selector: 'ngForm' }]
-    }], function () { return [{
+    }], [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -5299,7 +5299,7 @@ NgFormSelectorWarning.ngDirectiveDef = ɵdefineDirective({ type: NgFormSelectorW
                 type: Inject,
                 args: [NG_FORM_SELECTOR_WARNING]
             }]
-    }]; }, null);
+    }], null);
 
 /**
  * @fileoverview added by tsickle
@@ -5381,7 +5381,7 @@ NgModelGroup.ngDirectiveDef = ɵdefineDirective({ type: NgModelGroup, selectors:
 /*@__PURE__*/ ɵsetClassMetadata(NgModelGroup, [{
         type: Directive,
         args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Host
@@ -5408,7 +5408,7 @@ NgModelGroup.ngDirectiveDef = ɵdefineDirective({ type: NgModelGroup, selectors:
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['ngModelGroup']
         }] });
@@ -5741,7 +5741,7 @@ NgModel.ngDirectiveDef = ɵdefineDirective({ type: NgModel, selectors: [["", "ng
                 providers: [formControlBinding],
                 exportAs: 'ngModel'
             }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -5778,7 +5778,7 @@ NgModel.ngDirectiveDef = ɵdefineDirective({ type: NgModel, selectors: [["", "ng
                 type: Inject,
                 args: [NG_VALUE_ACCESSOR]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input
         }], isDisabled: [{
             type: Input,
@@ -6032,7 +6032,7 @@ FormControlDirective.ngDirectiveDef = ɵdefineDirective({ type: FormControlDirec
 /*@__PURE__*/ ɵsetClassMetadata(FormControlDirective, [{
         type: Directive,
         args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' }]
-    }], function () { return [{
+    }], [{
         type: Array,
         decorators: [{
                 type: Optional
@@ -6070,7 +6070,7 @@ FormControlDirective.ngDirectiveDef = ɵdefineDirective({ type: FormControlDirec
                 type: Inject,
                 args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
             }]
-    }]; }, { form: [{
+    }], { form: [{
             type: Input,
             args: ['formControl']
         }], isDisabled: [{
@@ -6391,7 +6391,7 @@ FormGroupDirective.ngDirectiveDef = ɵdefineDirective({ type: FormGroupDirective
                 host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                 exportAs: 'ngForm'
             }]
-    }], function () { return [{
+    }], [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -6411,7 +6411,7 @@ FormGroupDirective.ngDirectiveDef = ɵdefineDirective({ type: FormGroupDirective
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { form: [{
+    }], { form: [{
             type: Input,
             args: ['formGroup']
         }], ngSubmit: [{
@@ -6519,7 +6519,7 @@ FormGroupName.ngDirectiveDef = ɵdefineDirective({ type: FormGroupName, selector
 /*@__PURE__*/ ɵsetClassMetadata(FormGroupName, [{
         type: Directive,
         args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -6548,7 +6548,7 @@ FormGroupName.ngDirectiveDef = ɵdefineDirective({ type: FormGroupName, selector
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['formGroupName']
         }] });
@@ -6675,7 +6675,7 @@ FormArrayName.ngDirectiveDef = ɵdefineDirective({ type: FormArrayName, selector
 /*@__PURE__*/ ɵsetClassMetadata(FormArrayName, [{
         type: Directive,
         args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -6704,7 +6704,7 @@ FormArrayName.ngDirectiveDef = ɵdefineDirective({ type: FormArrayName, selector
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['formArrayName']
         }] });
@@ -6986,7 +6986,7 @@ FormControlName.ngDirectiveDef = ɵdefineDirective({ type: FormControlName, sele
 /*@__PURE__*/ ɵsetClassMetadata(FormControlName, [{
         type: Directive,
         args: [{ selector: '[formControlName]', providers: [controlNameBinding] }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -7033,7 +7033,7 @@ FormControlName.ngDirectiveDef = ɵdefineDirective({ type: FormControlName, sele
                 type: Inject,
                 args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['formControlName']
         }], isDisabled: [{
@@ -7651,7 +7651,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0-beta.2+39.sha-d0d351c');
+const VERSION = new Version('7.2.0-beta.2+37.sha-a8ebc83');
 
 /**
  * @fileoverview added by tsickle

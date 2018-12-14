@@ -199,11 +199,11 @@ export { SelectControlValueAccessor };
                 host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [SELECT_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
-    }]; }, { compareWith: [{
+    }], { compareWith: [{
             type: Input
         }] });
 /**
@@ -275,7 +275,7 @@ export { NgSelectOption };
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgSelectOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
-    }], function () { return [{
+    }], [{
         type: ElementRef
     }, {
         type: Renderer2
@@ -286,7 +286,7 @@ export { NgSelectOption };
             }, {
                 type: Host
             }]
-    }]; }, { ngValue: [{
+    }], { ngValue: [{
             type: Input,
             args: ['ngValue']
         }], value: [{

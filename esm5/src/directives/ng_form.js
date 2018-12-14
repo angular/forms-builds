@@ -300,7 +300,7 @@ export { NgForm };
                 outputs: ['ngSubmit'],
                 exportAs: 'ngForm'
             }]
-    }], function () { return [{
+    }], [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -320,7 +320,7 @@ export { NgForm };
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { options: [{
+    }], { options: [{
             type: Input,
             args: ['ngFormOptions']
         }] });

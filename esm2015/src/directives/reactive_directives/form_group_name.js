@@ -107,7 +107,7 @@ FormGroupName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupName, selec
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormGroupName, [{
         type: Directive,
         args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -136,7 +136,7 @@ FormGroupName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupName, selec
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['formGroupName']
         }] });
@@ -272,7 +272,7 @@ FormArrayName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormArrayName, selec
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormArrayName, [{
         type: Directive,
         args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -301,7 +301,7 @@ FormArrayName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormArrayName, selec
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['formArrayName']
         }] });

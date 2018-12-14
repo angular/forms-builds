@@ -216,11 +216,11 @@ export { SelectMultipleControlValueAccessor };
                 host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
                 providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
-    }]; }, { compareWith: [{
+    }], { compareWith: [{
             type: Input
         }] });
 /**
@@ -302,7 +302,7 @@ export { NgSelectMultipleOption };
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgSelectMultipleOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
-    }], function () { return [{
+    }], [{
         type: ElementRef
     }, {
         type: Renderer2
@@ -313,7 +313,7 @@ export { NgSelectMultipleOption };
             }, {
                 type: Host
             }]
-    }]; }, { ngValue: [{
+    }], { ngValue: [{
             type: Input,
             args: ['ngValue']
         }], value: [{

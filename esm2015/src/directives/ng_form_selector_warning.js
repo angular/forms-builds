@@ -55,7 +55,7 @@ NgFormSelectorWarning.ngDirectiveDef = i0.ɵdefineDirective({ type: NgFormSelect
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgFormSelectorWarning, [{
         type: Directive,
         args: [{ selector: 'ngForm' }]
-    }], function () { return [{
+    }], [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -63,7 +63,7 @@ NgFormSelectorWarning.ngDirectiveDef = i0.ɵdefineDirective({ type: NgFormSelect
                 type: Inject,
                 args: [NG_FORM_SELECTOR_WARNING]
             }]
-    }]; }, null);
+    }], null);
 if (false) {
     /**
      * Static property used to track whether the deprecation warning for this selector has been sent.

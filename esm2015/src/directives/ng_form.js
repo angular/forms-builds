@@ -329,7 +329,7 @@ NgForm.ngDirectiveDef = i0.ɵdefineDirective({ type: NgForm, selectors: [["form"
                 outputs: ['ngSubmit'],
                 exportAs: 'ngForm'
             }]
-    }], function () { return [{
+    }], [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -349,7 +349,7 @@ NgForm.ngDirectiveDef = i0.ɵdefineDirective({ type: NgForm, selectors: [["form"
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { options: [{
+    }], { options: [{
             type: Input,
             args: ['ngFormOptions']
         }] });

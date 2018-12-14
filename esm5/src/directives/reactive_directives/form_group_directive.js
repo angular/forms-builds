@@ -270,7 +270,7 @@ export { FormGroupDirective };
                 host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                 exportAs: 'ngForm'
             }]
-    }], function () { return [{
+    }], [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -290,7 +290,7 @@ export { FormGroupDirective };
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { form: [{
+    }], { form: [{
             type: Input,
             args: ['formGroup']
         }], ngSubmit: [{

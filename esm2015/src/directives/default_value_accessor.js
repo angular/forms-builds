@@ -193,7 +193,7 @@ DefaultValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: DefaultValueA
                 },
                 providers: [DEFAULT_VALUE_ACCESSOR]
             }]
-    }], function () { return [{
+    }], [{
         type: Renderer2
     }, {
         type: ElementRef
@@ -205,7 +205,7 @@ DefaultValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: DefaultValueA
                 type: Inject,
                 args: [COMPOSITION_BUFFER_MODE]
             }]
-    }]; }, null);
+    }], null);
 if (false) {
     /**
      * \@description

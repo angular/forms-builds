@@ -85,7 +85,7 @@ NgModelGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModelGroup, selecto
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgModelGroup, [{
         type: Directive,
         args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Host
@@ -112,7 +112,7 @@ NgModelGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModelGroup, selecto
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['ngModelGroup']
         }] });
