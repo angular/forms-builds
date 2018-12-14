@@ -247,7 +247,7 @@ RadioControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RadioCon
                 host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
                 providers: [RADIO_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
@@ -255,7 +255,7 @@ RadioControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RadioCon
         type: RadioControlRegistry
     }, {
         type: Injector
-    }], { name: [{
+    }]; }, { name: [{
             type: Input
         }], formControlName: [{
             type: Input

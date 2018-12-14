@@ -244,7 +244,7 @@ FormControlDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlDi
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormControlDirective, [{
         type: Directive,
         args: [{ selector: '[formControl]', providers: [formControlBinding], exportAs: 'ngForm' }]
-    }], [{
+    }], function () { return [{
         type: Array,
         decorators: [{
                 type: Optional
@@ -282,7 +282,7 @@ FormControlDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlDi
                 type: Inject,
                 args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
             }]
-    }], { form: [{
+    }]; }, { form: [{
             type: Input,
             args: ['formControl']
         }], isDisabled: [{

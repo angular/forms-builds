@@ -130,11 +130,11 @@ RangeValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RangeValueAcces
                 },
                 providers: [RANGE_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], null);
+    }]; }, null);
 if (false) {
     /**
      * \@description
