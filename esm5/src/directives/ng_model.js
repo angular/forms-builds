@@ -288,7 +288,7 @@ export { NgModel };
                 providers: [formControlBinding],
                 exportAs: 'ngModel'
             }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -325,7 +325,7 @@ export { NgModel };
                 type: Inject,
                 args: [NG_VALUE_ACCESSOR]
             }]
-    }], { name: [{
+    }]; }, { name: [{
             type: Input
         }], isDisabled: [{
             type: Input,

@@ -237,11 +237,11 @@ SelectControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectC
                 host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [SELECT_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], { compareWith: [{
+    }]; }, { compareWith: [{
             type: Input
         }] });
 if (false) {
@@ -362,7 +362,7 @@ NgSelectOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectOption, sel
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgSelectOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
-    }], [{
+    }], function () { return [{
         type: ElementRef
     }, {
         type: Renderer2
@@ -373,7 +373,7 @@ NgSelectOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectOption, sel
             }, {
                 type: Host
             }]
-    }], { ngValue: [{
+    }]; }, { ngValue: [{
             type: Input,
             args: ['ngValue']
         }], value: [{

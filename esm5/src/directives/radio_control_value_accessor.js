@@ -190,7 +190,7 @@ export { RadioControlValueAccessor };
                 host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
                 providers: [RADIO_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
@@ -198,7 +198,7 @@ export { RadioControlValueAccessor };
         type: RadioControlRegistry
     }, {
         type: Injector
-    }], { name: [{
+    }]; }, { name: [{
             type: Input
         }], formControlName: [{
             type: Input

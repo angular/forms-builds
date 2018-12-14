@@ -312,7 +312,7 @@ FormGroupDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupDirect
                 host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                 exportAs: 'ngForm'
             }]
-    }], [{
+    }], function () { return [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -332,7 +332,7 @@ FormGroupDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupDirect
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }], { form: [{
+    }]; }, { form: [{
             type: Input,
             args: ['formGroup']
         }], ngSubmit: [{

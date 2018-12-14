@@ -279,7 +279,7 @@ FormControlName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlName, s
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormControlName, [{
         type: Directive,
         args: [{ selector: '[formControlName]', providers: [controlNameBinding] }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -326,7 +326,7 @@ FormControlName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlName, s
                 type: Inject,
                 args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
             }]
-    }], { name: [{
+    }]; }, { name: [{
             type: Input,
             args: ['formControlName']
         }], isDisabled: [{
