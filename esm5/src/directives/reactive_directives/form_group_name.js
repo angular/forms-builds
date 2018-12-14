@@ -87,7 +87,7 @@ export { FormGroupName };
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormGroupName, [{
         type: Directive,
         args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -116,7 +116,7 @@ export { FormGroupName };
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['formGroupName']
         }] });
@@ -239,7 +239,7 @@ export { FormArrayName };
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormArrayName, [{
         type: Directive,
         args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] }]
-    }], function () { return [{
+    }], [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -268,7 +268,7 @@ export { FormArrayName };
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }]; }, { name: [{
+    }], { name: [{
             type: Input,
             args: ['formArrayName']
         }] });
