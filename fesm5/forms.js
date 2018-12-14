@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-beta.2+30.sha-c6ae729
+ * @license Angular v7.2.0-beta.2+41.sha-522919a
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -726,11 +726,11 @@ var CheckboxControlValueAccessor = /** @class */ (function () {
                 host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
                 providers: [CHECKBOX_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], null);
+    }]; }, null);
 
 /**
  * @license
@@ -872,7 +872,7 @@ var DefaultValueAccessor = /** @class */ (function () {
                 },
                 providers: [DEFAULT_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
@@ -884,7 +884,7 @@ var DefaultValueAccessor = /** @class */ (function () {
                 type: Inject,
                 args: [COMPOSITION_BUFFER_MODE]
             }]
-    }], null);
+    }]; }, null);
 
 /**
  * @license
@@ -1013,11 +1013,11 @@ var NumberValueAccessor = /** @class */ (function () {
                 },
                 providers: [NUMBER_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], null);
+    }]; }, null);
 
 /**
  * @license
@@ -1284,7 +1284,7 @@ var RadioControlValueAccessor = /** @class */ (function () {
                 host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
                 providers: [RADIO_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
@@ -1292,7 +1292,7 @@ var RadioControlValueAccessor = /** @class */ (function () {
         type: RadioControlRegistry
     }, {
         type: Injector
-    }], { name: [{
+    }]; }, { name: [{
             type: Input
         }], formControlName: [{
             type: Input
@@ -1401,11 +1401,11 @@ var RangeValueAccessor = /** @class */ (function () {
                 },
                 providers: [RANGE_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], null);
+    }]; }, null);
 
 /**
  * @license
@@ -1646,11 +1646,11 @@ var SelectControlValueAccessor = /** @class */ (function () {
                 host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [SELECT_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], { compareWith: [{
+    }]; }, { compareWith: [{
             type: Input
         }] });
 /**
@@ -1721,7 +1721,7 @@ var NgSelectOption = /** @class */ (function () {
 /*@__PURE__*/ ɵsetClassMetadata(NgSelectOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
-    }], [{
+    }], function () { return [{
         type: ElementRef
     }, {
         type: Renderer2
@@ -1732,7 +1732,7 @@ var NgSelectOption = /** @class */ (function () {
             }, {
                 type: Host
             }]
-    }], { ngValue: [{
+    }]; }, { ngValue: [{
             type: Input,
             args: ['ngValue']
         }], value: [{
@@ -1940,11 +1940,11 @@ var SelectMultipleControlValueAccessor = /** @class */ (function () {
                 host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
                 providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], { compareWith: [{
+    }]; }, { compareWith: [{
             type: Input
         }] });
 /**
@@ -2025,7 +2025,7 @@ var NgSelectMultipleOption = /** @class */ (function () {
 /*@__PURE__*/ ɵsetClassMetadata(NgSelectMultipleOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
-    }], [{
+    }], function () { return [{
         type: ElementRef
     }, {
         type: Renderer2
@@ -2036,7 +2036,7 @@ var NgSelectMultipleOption = /** @class */ (function () {
             }, {
                 type: Host
             }]
-    }], { ngValue: [{
+    }]; }, { ngValue: [{
             type: Input,
             args: ['ngValue']
         }], value: [{
@@ -2421,12 +2421,12 @@ var NgControlStatus = /** @class */ (function (_super) {
 /*@__PURE__*/ ɵsetClassMetadata(NgControlStatus, [{
         type: Directive,
         args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost }]
-    }], [{
+    }], function () { return [{
         type: NgControl,
         decorators: [{
                 type: Self
             }]
-    }], null);
+    }]; }, null);
 /**
  * @description
  * Directive automatically applied to Angular form groups that sets CSS classes
@@ -2463,12 +2463,12 @@ var NgControlStatusGroup = /** @class */ (function (_super) {
                 selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
                 host: ngControlStatusHost
             }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Self
             }]
-    }], null);
+    }]; }, null);
 
 /**
  * @license
@@ -4437,7 +4437,7 @@ var NgForm = /** @class */ (function (_super) {
                 outputs: ['ngSubmit'],
                 exportAs: 'ngForm'
             }]
-    }], [{
+    }], function () { return [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -4457,7 +4457,7 @@ var NgForm = /** @class */ (function (_super) {
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }], { options: [{
+    }]; }, { options: [{
             type: Input,
             args: ['ngFormOptions']
         }] });
@@ -4530,7 +4530,7 @@ var NgFormSelectorWarning = /** @class */ (function () {
 /*@__PURE__*/ ɵsetClassMetadata(NgFormSelectorWarning, [{
         type: Directive,
         args: [{ selector: 'ngForm' }]
-    }], [{
+    }], function () { return [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -4538,7 +4538,7 @@ var NgFormSelectorWarning = /** @class */ (function () {
                 type: Inject,
                 args: [NG_FORM_SELECTOR_WARNING]
             }]
-    }], null);
+    }]; }, null);
 
 var modelGroupProvider = {
     provide: ControlContainer,
@@ -4591,7 +4591,7 @@ var NgModelGroup = /** @class */ (function (_super) {
 /*@__PURE__*/ ɵsetClassMetadata(NgModelGroup, [{
         type: Directive,
         args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Host
@@ -4618,7 +4618,7 @@ var NgModelGroup = /** @class */ (function (_super) {
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }], { name: [{
+    }]; }, { name: [{
             type: Input,
             args: ['ngModelGroup']
         }] });
@@ -4892,7 +4892,7 @@ var NgModel = /** @class */ (function (_super) {
                 providers: [formControlBinding],
                 exportAs: 'ngModel'
             }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -4929,7 +4929,7 @@ var NgModel = /** @class */ (function (_super) {
                 type: Inject,
                 args: [NG_VALUE_ACCESSOR]
             }]
-    }], { name: [{
+    }]; }, { name: [{
             type: Input
         }], isDisabled: [{
             type: Input,
@@ -5157,7 +5157,7 @@ var FormControlDirective = /** @class */ (function (_super) {
 /*@__PURE__*/ ɵsetClassMetadata(FormControlDirective, [{
         type: Directive,
         args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' }]
-    }], [{
+    }], function () { return [{
         type: Array,
         decorators: [{
                 type: Optional
@@ -5195,7 +5195,7 @@ var FormControlDirective = /** @class */ (function (_super) {
                 type: Inject,
                 args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
             }]
-    }], { form: [{
+    }]; }, { form: [{
             type: Input,
             args: ['formControl']
         }], isDisabled: [{
@@ -5465,7 +5465,7 @@ var FormGroupDirective = /** @class */ (function (_super) {
                 host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                 exportAs: 'ngForm'
             }]
-    }], [{
+    }], function () { return [{
         type: undefined,
         decorators: [{
                 type: Optional
@@ -5485,7 +5485,7 @@ var FormGroupDirective = /** @class */ (function (_super) {
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }], { form: [{
+    }]; }, { form: [{
             type: Input,
             args: ['formGroup']
         }], ngSubmit: [{
@@ -5564,7 +5564,7 @@ var FormGroupName = /** @class */ (function (_super) {
 /*@__PURE__*/ ɵsetClassMetadata(FormGroupName, [{
         type: Directive,
         args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -5593,7 +5593,7 @@ var FormGroupName = /** @class */ (function (_super) {
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }], { name: [{
+    }]; }, { name: [{
             type: Input,
             args: ['formGroupName']
         }] });
@@ -5715,7 +5715,7 @@ var FormArrayName = /** @class */ (function (_super) {
 /*@__PURE__*/ ɵsetClassMetadata(FormArrayName, [{
         type: Directive,
         args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -5744,7 +5744,7 @@ var FormArrayName = /** @class */ (function (_super) {
                 type: Inject,
                 args: [NG_ASYNC_VALIDATORS]
             }]
-    }], { name: [{
+    }]; }, { name: [{
             type: Input,
             args: ['formArrayName']
         }] });
@@ -5992,7 +5992,7 @@ var FormControlName = /** @class */ (function (_super) {
 /*@__PURE__*/ ɵsetClassMetadata(FormControlName, [{
         type: Directive,
         args: [{ selector: '[formControlName]', providers: [controlNameBinding] }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -6039,7 +6039,7 @@ var FormControlName = /** @class */ (function (_super) {
                 type: Inject,
                 args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
             }]
-    }], { name: [{
+    }]; }, { name: [{
             type: Input,
             args: ['formControlName']
         }], isDisabled: [{
@@ -6524,7 +6524,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.0-beta.2+30.sha-c6ae729');
+var VERSION = new Version('7.2.0-beta.2+41.sha-522919a');
 
 /**
  * @license

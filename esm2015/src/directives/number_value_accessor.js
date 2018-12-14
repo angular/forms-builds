@@ -133,11 +133,11 @@ NumberValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: NumberValueAcc
                 },
                 providers: [NUMBER_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], null);
+    }]; }, null);
 if (false) {
     /**
      * \@description

@@ -338,7 +338,7 @@ NgModel.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModel, selectors: [["", 
                 providers: [formControlBinding],
                 exportAs: 'ngModel'
             }]
-    }], [{
+    }], function () { return [{
         type: ControlContainer,
         decorators: [{
                 type: Optional
@@ -375,7 +375,7 @@ NgModel.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModel, selectors: [["", 
                 type: Inject,
                 args: [NG_VALUE_ACCESSOR]
             }]
-    }], { name: [{
+    }]; }, { name: [{
             type: Input
         }], isDisabled: [{
             type: Input,

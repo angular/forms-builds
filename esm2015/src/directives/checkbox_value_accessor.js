@@ -118,11 +118,11 @@ CheckboxControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: Check
                 host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
                 providers: [CHECKBOX_VALUE_ACCESSOR]
             }]
-    }], [{
+    }], function () { return [{
         type: Renderer2
     }, {
         type: ElementRef
-    }], null);
+    }]; }, null);
 if (false) {
     /**
      * \@description
