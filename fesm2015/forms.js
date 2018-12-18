@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-beta.2+81.sha-4774a1a
+ * @license Angular v7.2.0-beta.2+82.sha-1c93afe
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2082,7 +2082,7 @@ NgSelectOption.propDecorators = {
     ngValue: [{ type: Input, args: ['ngValue',] }],
     value: [{ type: Input, args: ['value',] }]
 };
-NgSelectOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], factory: function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(ɵdirectiveInject(ElementRef), ɵdirectiveInject(Renderer2), ɵdirectiveInject(SelectControlValueAccessor, 9)); }, inputs: { ngValue: ["ngValue", "ngValue"], value: ["value", "value"] } });
+NgSelectOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], factory: function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(ɵdirectiveInject(ElementRef), ɵdirectiveInject(Renderer2), ɵdirectiveInject(SelectControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
 /*@__PURE__*/ ɵsetClassMetadata(NgSelectOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
@@ -2463,7 +2463,7 @@ NgSelectMultipleOption.propDecorators = {
     ngValue: [{ type: Input, args: ['ngValue',] }],
     value: [{ type: Input, args: ['value',] }]
 };
-NgSelectMultipleOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(ɵdirectiveInject(ElementRef), ɵdirectiveInject(Renderer2), ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: ["ngValue", "ngValue"], value: ["value", "value"] } });
+NgSelectMultipleOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(ɵdirectiveInject(ElementRef), ɵdirectiveInject(Renderer2), ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
 /*@__PURE__*/ ɵsetClassMetadata(NgSelectMultipleOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
@@ -7751,7 +7751,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0-beta.2+81.sha-4774a1a');
+const VERSION = new Version('7.2.0-beta.2+82.sha-1c93afe');
 
 /**
  * @fileoverview added by tsickle

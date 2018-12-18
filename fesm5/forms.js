@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-beta.2+81.sha-4774a1a
+ * @license Angular v7.2.0-beta.2+82.sha-1c93afe
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1715,7 +1715,7 @@ var NgSelectOption = /** @class */ (function () {
             this._select.writeValue(this._select.value);
         }
     };
-    NgSelectOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], factory: function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(ɵdirectiveInject(ElementRef), ɵdirectiveInject(Renderer2), ɵdirectiveInject(SelectControlValueAccessor, 9)); }, inputs: { ngValue: ["ngValue", "ngValue"], value: ["value", "value"] } });
+    NgSelectOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], factory: function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(ɵdirectiveInject(ElementRef), ɵdirectiveInject(Renderer2), ɵdirectiveInject(SelectControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
     return NgSelectOption;
 }());
 /*@__PURE__*/ ɵsetClassMetadata(NgSelectOption, [{
@@ -2019,7 +2019,7 @@ var NgSelectMultipleOption = /** @class */ (function () {
             this._select.writeValue(this._select.value);
         }
     };
-    NgSelectMultipleOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(ɵdirectiveInject(ElementRef), ɵdirectiveInject(Renderer2), ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: ["ngValue", "ngValue"], value: ["value", "value"] } });
+    NgSelectMultipleOption.ngDirectiveDef = ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(ɵdirectiveInject(ElementRef), ɵdirectiveInject(Renderer2), ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
     return NgSelectMultipleOption;
 }());
 /*@__PURE__*/ ɵsetClassMetadata(NgSelectMultipleOption, [{
@@ -6664,7 +6664,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.0-beta.2+81.sha-4774a1a');
+var VERSION = new Version('7.2.0-beta.2+82.sha-1c93afe');
 
 /**
  * @license
