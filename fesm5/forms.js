@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-beta.2+68.sha-87d7b74
+ * @license Angular v7.2.0-beta.2+70.sha-8042140
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6053,22 +6053,34 @@ var FormControlName = /** @class */ (function (_super) {
             args: ['ngModelChange']
         }] });
 
+/**
+ * @description
+ * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
 var REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(function () { return RequiredValidator; }),
     multi: true
 };
+/**
+ * @description
+ * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
 var CHECKBOX_REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(function () { return CheckboxRequiredValidator; }),
     multi: true
 };
 /**
- * A Directive that adds the `required` validator to any controls marked with the
- * `required` attribute, via the `NG_VALIDATORS` binding.
+ * @description
+ * A directive that adds the `required` validator to any controls marked with the
+ * `required` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
+ *
+ * @see [Form Validation](guide/form-validation)
  *
  * @usageNotes
- * ### Example
+ *
+ * ### Adding a required validator using template-driven forms
  *
  * ```
  * <input name="fullName" ngModel required>
@@ -6082,6 +6094,10 @@ var RequiredValidator = /** @class */ (function () {
     function RequiredValidator() {
     }
     Object.defineProperty(RequiredValidator.prototype, "required", {
+        /**
+         * @description
+         * Tracks changes to the required attribute bound to this directive.
+         */
         get: function () { return this._required; },
         set: function (value) {
             this._required = value != null && value !== false && "" + value !== 'false';
@@ -6091,9 +6107,20 @@ var RequiredValidator = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @description
+     * Method that validates whether the control is empty.
+     * Returns the validation result if enabled, otherwise null.
+     */
     RequiredValidator.prototype.validate = function (control) {
         return this.required ? Validators.required(control) : null;
     };
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
     RequiredValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     RequiredValidator.ngDirectiveDef = ɵdefineDirective({ type: RequiredValidator, selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]], factory: function RequiredValidator_Factory(t) { return new (t || RequiredValidator)(); }, hostBindings: function RequiredValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
             ɵallocHostVars(1);
@@ -6114,10 +6141,15 @@ var RequiredValidator = /** @class */ (function () {
         }] });
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
- * `required` attribute, via the `NG_VALIDATORS` binding.
+ * `required` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
+ *
+ * @see [Form Validation](guide/form-validation)
  *
  * @usageNotes
- * ### Example
+ *
+ * ### Adding a required checkbox validator using template-driven forms
+ *
+ * The following example shows how to add a checkbox required validator to an input attached to an ngModel binding.
  *
  * ```
  * <input type="checkbox" name="active" ngModel required>
@@ -6132,6 +6164,11 @@ var CheckboxRequiredValidator = /** @class */ (function (_super) {
     function CheckboxRequiredValidator() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    /**
+     * @description
+     * Method that validates whether or not the checkbox has been checked.
+     * Returns the validation result if enabled, otherwise null.
+     */
     CheckboxRequiredValidator.prototype.validate = function (control) {
         return this.required ? Validators.requiredTrue(control) : null;
     };
@@ -6152,7 +6189,8 @@ var ɵCheckboxRequiredValidator_BaseFactory = ɵgetInheritedFactory(CheckboxRequ
             }]
     }], null, null);
 /**
- * Provider which adds `EmailValidator` to `NG_VALIDATORS`.
+ * @description
+ * Provider which adds `EmailValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 var EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -6160,11 +6198,16 @@ var EMAIL_VALIDATOR = {
     multi: true
 };
 /**
- * A Directive that adds the `email` validator to controls marked with the
- * `email` attribute, via the `NG_VALIDATORS` binding.
+ * A directive that adds the `email` validator to controls marked with the
+ * `email` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
+ *
+ * @see [Form Validation](guide/form-validation)
  *
  * @usageNotes
- * ### Example
+ *
+ * ### Adding an email validator
+ *
+ * The following example shows how to add an email validator to an input attached to an ngModel binding.
  *
  * ```
  * <input type="email" name="email" ngModel email>
@@ -6180,6 +6223,10 @@ var EmailValidator = /** @class */ (function () {
     function EmailValidator() {
     }
     Object.defineProperty(EmailValidator.prototype, "email", {
+        /**
+         * @description
+         * Tracks changes to the email attribute bound to this directive.
+         */
         set: function (value) {
             this._enabled = value === '' || value === true || value === 'true';
             if (this._onChange)
@@ -6188,9 +6235,20 @@ var EmailValidator = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @description
+     * Method that validates whether an email address is valid.
+     * Returns the validation result if enabled, otherwise null.
+     */
     EmailValidator.prototype.validate = function (control) {
         return this._enabled ? Validators.email(control) : null;
     };
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
     EmailValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     EmailValidator.ngDirectiveDef = ɵdefineDirective({ type: EmailValidator, selectors: [["", "email", "", "formControlName", ""], ["", "email", "", "formControl", ""], ["", "email", "", "ngModel", ""]], factory: function EmailValidator_Factory(t) { return new (t || EmailValidator)(); }, inputs: { email: "email" }, features: [ɵProvidersFeature([EMAIL_VALIDATOR])] });
     return EmailValidator;
@@ -6205,12 +6263,8 @@ var EmailValidator = /** @class */ (function () {
             type: Input
         }] });
 /**
- * Provider which adds `MinLengthValidator` to `NG_VALIDATORS`.
- *
- * @usageNotes
- * ### Example:
- *
- * {@example common/forms/ts/validators/validators.ts region='min'}
+ * @description
+ * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 var MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -6218,16 +6272,36 @@ var MIN_LENGTH_VALIDATOR = {
     multi: true
 };
 /**
- * A directive which installs the `MinLengthValidator` for any `formControlName`,
- * `formControl`, or control with `ngModel` that also has a `minlength` attribute.
+ * A directive that adds minimum length validation to controls marked with the
+ * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` mult-provider list.
  *
- * @ngModule FormsModule
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a minimum length validator
+ *
+ * The following example shows how to add a minimum length validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input name="firstName" ngModel minlength="4">
+ * ```
+ *
  * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  * @publicApi
  */
 var MinLengthValidator = /** @class */ (function () {
     function MinLengthValidator() {
     }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
     MinLengthValidator.prototype.ngOnChanges = function (changes) {
         if ('minlength' in changes) {
             this._createValidator();
@@ -6235,9 +6309,20 @@ var MinLengthValidator = /** @class */ (function () {
                 this._onChange();
         }
     };
+    /**
+     * @description
+     * Method that validates whether the value meets a minimum length
+     * requirement. Returns the validation result if enabled, otherwise null.
+     */
     MinLengthValidator.prototype.validate = function (control) {
         return this.minlength == null ? null : this._validator(control);
     };
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
     MinLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     MinLengthValidator.prototype._createValidator = function () {
         this._validator = Validators.minLength(parseInt(this.minlength, 10));
@@ -6260,12 +6345,8 @@ var MinLengthValidator = /** @class */ (function () {
             type: Input
         }] });
 /**
- * Provider which adds `MaxLengthValidator` to `NG_VALIDATORS`.
- *
- * @usageNotes
- * ### Example:
- *
- * {@example common/forms/ts/validators/validators.ts region='max'}
+ * @description
+ * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 var MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -6273,16 +6354,36 @@ var MAX_LENGTH_VALIDATOR = {
     multi: true
 };
 /**
- * A directive which installs the `MaxLengthValidator` for any `formControlName`,
- * `formControl`, or control with `ngModel` that also has a `maxlength` attribute.
+ * A directive that adds max length validation to controls marked with the
+ * `maxlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
- * @ngModule FormsModule
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a maximum length validator
+ *
+ * The following example shows how to add a maximum length validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input name="firstName" ngModel maxlength="25">
+ * ```
+ *
  * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  * @publicApi
  */
 var MaxLengthValidator = /** @class */ (function () {
     function MaxLengthValidator() {
     }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
     MaxLengthValidator.prototype.ngOnChanges = function (changes) {
         if ('maxlength' in changes) {
             this._createValidator();
@@ -6290,9 +6391,20 @@ var MaxLengthValidator = /** @class */ (function () {
                 this._onChange();
         }
     };
+    /**
+     * @description
+     * Method that validates whether the value exceeds
+     * the maximum length requirement.
+     */
     MaxLengthValidator.prototype.validate = function (control) {
         return this.maxlength != null ? this._validator(control) : null;
     };
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
     MaxLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     MaxLengthValidator.prototype._createValidator = function () {
         this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
@@ -6314,31 +6426,48 @@ var MaxLengthValidator = /** @class */ (function () {
     }], null, { maxlength: [{
             type: Input
         }] });
+/**
+ * @description
+ * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
 var PATTERN_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef(function () { return PatternValidator; }),
     multi: true
 };
 /**
- * A Directive that adds the `pattern` validator to any controls marked with the
- * `pattern` attribute, via the `NG_VALIDATORS` binding. Uses attribute value
- * as the regex to validate Control value against.  Follows pattern attribute
- * semantics; i.e. regex must match entire Control value.
+ * @description
+ * A directive that adds regex pattern validation to controls marked with the
+ * `pattern` attribute. The regex must match the entire control value.
+ * The directive is provided with the `NG_VALIDATORS` multi-provider list.
+ *
+ * @see [Form Validation](guide/form-validation)
  *
  * @usageNotes
- * ### Example
  *
- * ```
- * <input [name]="fullName" pattern="[a-zA-Z ]*" ngModel>
+ * ### Adding a pattern validator
+ *
+ * The following example shows how to add a pattern validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input name="firstName" ngModel pattern="[a-zA-Z ]*">
  * ```
  *
- * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
  * @publicApi
  */
 var PatternValidator = /** @class */ (function () {
     function PatternValidator() {
     }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
     PatternValidator.prototype.ngOnChanges = function (changes) {
         if ('pattern' in changes) {
             this._createValidator();
@@ -6346,7 +6475,18 @@ var PatternValidator = /** @class */ (function () {
                 this._onChange();
         }
     };
+    /**
+     * @description
+     * Method that validates whether the value matches the
+     * the pattern requirement.
+     */
     PatternValidator.prototype.validate = function (control) { return this._validator(control); };
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
     PatternValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     PatternValidator.prototype._createValidator = function () { this._validator = Validators.pattern(this.pattern); };
     PatternValidator.ngDirectiveDef = ɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], factory: function PatternValidator_Factory(t) { return new (t || PatternValidator)(); }, hostBindings: function PatternValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
@@ -6524,7 +6664,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.0-beta.2+68.sha-87d7b74');
+var VERSION = new Version('7.2.0-beta.2+70.sha-8042140');
 
 /**
  * @license
