@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-rc.0+10.sha-0ae1e93
+ * @license Angular v7.2.0-rc.0+12.sha-70c184b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -511,8 +511,12 @@ var Validators = /** @class */ (function () {
     /**
      * @description
      * Validator that requires the control's value to match a regex pattern. This validator is also
-     * provided
-     * by default if you use the HTML5 `pattern` attribute.
+     * provided by default if you use the HTML5 `pattern` attribute.
+     *
+     * Note that if a Regexp is provided, the Regexp is used as is to test the values. On the other
+     * hand, if a string is passed, the `^` character is prepended and the `$` character is
+     * appended to the provided string (if not already present), and the resulting regular
+     * expression is used to test the values.
      *
      * @usageNotes
      *
@@ -6408,7 +6412,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.0-rc.0+10.sha-0ae1e93');
+var VERSION = new Version('7.2.0-rc.0+12.sha-70c184b');
 
 /**
  * @license
