@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-rc.0+46.sha-1e6c9be
+ * @license Angular v7.2.0-rc.0+52.sha-51a0bd2
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -197,7 +197,31 @@
         /**
          * @description
          * Reports whether the control with the given path has the error specified.
-         * If no path is given, it checks for the error on the present control.
+         *
+         * @param errorCode The code of the error to check
+         * @param path A list of control names that designates how to move from the current control
+         * to the control that should be queried for errors.
+         *
+         * @usageNotes
+         * For example, for the following `FormGroup`:
+         *
+         * ```
+         * form = new FormGroup({
+         *   address: new FormGroup({ street: new FormControl() })
+         * });
+         * ```
+         *
+         * The path to the 'street' control from the root form would be 'address' -> 'street'.
+         *
+         * It can be provided to this method in one of two formats:
+         *
+         * 1. An array of string control names, e.g. `['address', 'street']`
+         * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+         *
+         * If no path is given, this method checks for the error on the current control.
+         *
+         * @returns whether the given error is present in the control at the given path.
+         *
          * If the control is not present, false is returned.
          */
         AbstractControlDirective.prototype.hasError = function (errorCode, path) {
@@ -206,7 +230,29 @@
         /**
          * @description
          * Reports error data for the control with the given path.
-         * If the control is not present, null is returned.
+         *
+         * @param errorCode The code of the error to check
+         * @param path A list of control names that designates how to move from the current control
+         * to the control that should be queried for errors.
+         *
+         * @usageNotes
+         * For example, for the following `FormGroup`:
+         *
+         * ```
+         * form = new FormGroup({
+         *   address: new FormGroup({ street: new FormControl() })
+         * });
+         * ```
+         *
+         * The path to the 'street' control from the root form would be 'address' -> 'street'.
+         *
+         * It can be provided to this method in one of two formats:
+         *
+         * 1. An array of string control names, e.g. `['address', 'street']`
+         * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+         *
+         * @returns error data for that particular error. If the control or error is not present,
+         * null is returned.
          */
         AbstractControlDirective.prototype.getError = function (errorCode, path) {
             return this.control ? this.control.getError(errorCode, path) : null;
@@ -3062,28 +3108,69 @@
          */
         AbstractControl.prototype.get = function (path) { return _find(this, path, '.'); };
         /**
-         * Reports error data for a specific error occurring in this control or in another control.
+         * @description
+         * Reports error data for the control with the given path.
          *
-         * @param errorCode The error code for which to retrieve data
-         * @param path The path to a control to check. If not supplied, checks for the error in this
-         * control.
+         * @param errorCode The code of the error to check
+         * @param path A list of control names that designates how to move from the current control
+         * to the control that should be queried for errors.
          *
-         * @returns The error data if the control with the given path has the given error, otherwise null
-         * or undefined.
+         * @usageNotes
+         * For example, for the following `FormGroup`:
+         *
+         * ```
+         * form = new FormGroup({
+         *   address: new FormGroup({ street: new FormControl() })
+         * });
+         * ```
+         *
+         * The path to the 'street' control from the root form would be 'address' -> 'street'.
+         *
+         * It can be provided to this method in one of two formats:
+         *
+         * 1. An array of string control names, e.g. `['address', 'street']`
+         * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+         *
+         * @returns error data for that particular error. If the control or error is not present,
+         * null is returned.
          */
         AbstractControl.prototype.getError = function (errorCode, path) {
             var control = path ? this.get(path) : this;
             return control && control.errors ? control.errors[errorCode] : null;
         };
         /**
+         * @description
          * Reports whether the control with the given path has the error specified.
          *
-         * @param errorCode The error code for which to retrieve data
-         * @param path The path to a control to check. If not supplied, checks for the error in this
-         * control.
-         * @returns True when the control with the given path has the error, otherwise false.
+         * @param errorCode The code of the error to check
+         * @param path A list of control names that designates how to move from the current control
+         * to the control that should be queried for errors.
+         *
+         * @usageNotes
+         * For example, for the following `FormGroup`:
+         *
+         * ```
+         * form = new FormGroup({
+         *   address: new FormGroup({ street: new FormControl() })
+         * });
+         * ```
+         *
+         * The path to the 'street' control from the root form would be 'address' -> 'street'.
+         *
+         * It can be provided to this method in one of two formats:
+         *
+         * 1. An array of string control names, e.g. `['address', 'street']`
+         * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+         *
+         * If no path is given, this method checks for the error on the current control.
+         *
+         * @returns whether the given error is present in the control at the given path.
+         *
+         * If the control is not present, false is returned.
          */
-        AbstractControl.prototype.hasError = function (errorCode, path) { return !!this.getError(errorCode, path); };
+        AbstractControl.prototype.hasError = function (errorCode, path) {
+            return !!this.getError(errorCode, path);
+        };
         Object.defineProperty(AbstractControl.prototype, "root", {
             /**
              * Retrieves the top-level ancestor of this control.
@@ -6742,7 +6829,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('7.2.0-rc.0+46.sha-1e6c9be');
+    var VERSION = new i0.Version('7.2.0-rc.0+52.sha-51a0bd2');
 
     /**
      * @license
