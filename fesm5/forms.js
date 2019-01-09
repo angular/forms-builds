@@ -1,14 +1,258 @@
 /**
- * @license Angular v7.2.0+47.sha-b621a69
+ * @license Angular v7.2.0+54.sha-1c39ad3
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
+import { InjectionToken, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Self, ɵisObservable, ɵisPromise, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
 import { __decorate, __param, __metadata, __extends, __values, __assign, __spread } from 'tslib';
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
+import { ɵgetDOM } from '@angular/platform-browser';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ɵgetDOM } from '@angular/platform-browser';
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * Used to provide a `ControlValueAccessor` for form controls.
+ *
+ * See `DefaultValueAccessor` for how to implement one.
+ *
+ * @publicApi
+ */
+var NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var CHECKBOX_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return CheckboxControlValueAccessor; }),
+    multi: true,
+};
+/**
+ * @description
+ * A `ControlValueAccessor` for writing a value and listening to changes on a checkbox input
+ * element.
+ *
+ * @usageNotes
+ *
+ * ### Using a checkbox with a reactive form.
+ *
+ * The following example shows how to use a checkbox with a reactive form.
+ *
+ * ```ts
+ * const rememberLoginControl = new FormControl();
+ * ```
+ *
+ * ```
+ * <input type="checkbox" [formControl]="rememberLoginControl">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+var CheckboxControlValueAccessor = /** @class */ (function () {
+    function CheckboxControlValueAccessor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        /**
+         * @description
+         * The registered callback function called when a change event occurs on the input element.
+         */
+        this.onChange = function (_) { };
+        /**
+         * @description
+         * The registered callback function called when a blur event occurs on the input element.
+         */
+        this.onTouched = function () { };
+    }
+    /**
+     * Sets the "checked" property on the input element.
+     *
+     * @param value The checked value
+     */
+    CheckboxControlValueAccessor.prototype.writeValue = function (value) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
+    };
+    /**
+     * @description
+     * Registers a function called when the control value changes.
+     *
+     * @param fn The callback function
+     */
+    CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    /**
+     * Sets the "disabled" property on the input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    };
+    CheckboxControlValueAccessor = __decorate([
+        Directive({
+            selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
+            host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
+            providers: [CHECKBOX_VALUE_ACCESSOR]
+        }),
+        __metadata("design:paramtypes", [Renderer2, ElementRef])
+    ], CheckboxControlValueAccessor);
+    return CheckboxControlValueAccessor;
+}());
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var DEFAULT_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return DefaultValueAccessor; }),
+    multi: true
+};
+/**
+ * We must check whether the agent is Android because composition events
+ * behave differently between iOS and Android.
+ */
+function _isAndroid() {
+    var userAgent = ɵgetDOM() ? ɵgetDOM().getUserAgent() : '';
+    return /android (\d+)/.test(userAgent.toLowerCase());
+}
+/**
+ * @description
+ * Provide this token to control if form directives buffer IME input until
+ * the "compositionend" event occurs.
+ * @publicApi
+ */
+var COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
+/**
+ * @description
+ * The default `ControlValueAccessor` for writing a value and listening to changes on input
+ * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
+ * `NgModel` directives.
+ *
+ * @usageNotes
+ *
+ * ### Using the default value accessor
+ *
+ * The following example shows how to use an input element that activates the default value accessor
+ * (in this case, a text field).
+ *
+ * ```ts
+ * const firstNameControl = new FormControl();
+ * ```
+ *
+ * ```
+ * <input type="text" [formControl]="firstNameControl">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+var DefaultValueAccessor = /** @class */ (function () {
+    function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        this._compositionMode = _compositionMode;
+        /**
+         * @description
+         * The registered callback function called when an input event occurs on the input element.
+         */
+        this.onChange = function (_) { };
+        /**
+         * @description
+         * The registered callback function called when a blur event occurs on the input element.
+         */
+        this.onTouched = function () { };
+        /** Whether the user is creating a composition string (IME events). */
+        this._composing = false;
+        if (this._compositionMode == null) {
+            this._compositionMode = !_isAndroid();
+        }
+    }
+    /**
+     * Sets the "value" property on the input element.
+     *
+     * @param value The checked value
+     */
+    DefaultValueAccessor.prototype.writeValue = function (value) {
+        var normalizedValue = value == null ? '' : value;
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+    };
+    /**
+     * @description
+     * Registers a function called when the control value changes.
+     *
+     * @param fn The callback function
+     */
+    DefaultValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    DefaultValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    /**
+     * Sets the "disabled" property on the input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    };
+    /** @internal */
+    DefaultValueAccessor.prototype._handleInput = function (value) {
+        if (!this._compositionMode || (this._compositionMode && !this._composing)) {
+            this.onChange(value);
+        }
+    };
+    /** @internal */
+    DefaultValueAccessor.prototype._compositionStart = function () { this._composing = true; };
+    /** @internal */
+    DefaultValueAccessor.prototype._compositionEnd = function (value) {
+        this._composing = false;
+        this._compositionMode && this.onChange(value);
+    };
+    DefaultValueAccessor = __decorate([
+        Directive({
+            selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
+            // TODO: vsavkin replace the above selector with the one below it once
+            // https://github.com/angular/angular/issues/3011 is implemented
+            // selector: '[ngModel],[formControl],[formControlName]',
+            host: {
+                '(input)': '$any(this)._handleInput($event.target.value)',
+                '(blur)': 'onTouched()',
+                '(compositionstart)': '$any(this)._compositionStart()',
+                '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
+            },
+            providers: [DEFAULT_VALUE_ACCESSOR]
+        }),
+        __param(2, Optional()), __param(2, Inject(COMPOSITION_BUFFER_MODE)),
+        __metadata("design:paramtypes", [Renderer2, ElementRef, Boolean])
+    ], DefaultValueAccessor);
+    return DefaultValueAccessor;
+}());
 
 /**
  * @license
@@ -299,6 +543,204 @@ var ControlContainer = /** @class */ (function (_super) {
     });
     return ControlContainer;
 }(AbstractControlDirective));
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+function unimplemented() {
+    throw new Error('unimplemented');
+}
+/**
+ * @description
+ * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
+ * object to a DOM element.
+ *
+ * @publicApi
+ */
+var NgControl = /** @class */ (function (_super) {
+    __extends(NgControl, _super);
+    function NgControl() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        /**
+         * @description
+         * The parent form for the control.
+         *
+         * @internal
+         */
+        _this._parent = null;
+        /**
+         * @description
+         * The name for the control
+         */
+        _this.name = null;
+        /**
+         * @description
+         * The value accessor for the control
+         */
+        _this.valueAccessor = null;
+        /**
+         * @description
+         * The uncomposed array of synchronous validators for the control
+         *
+         * @internal
+         */
+        _this._rawValidators = [];
+        /**
+         * @description
+         * The uncomposed array of async validators for the control
+         *
+         * @internal
+         */
+        _this._rawAsyncValidators = [];
+        return _this;
+    }
+    Object.defineProperty(NgControl.prototype, "validator", {
+        /**
+         * @description
+         * The registered synchronous validator function for the control
+         *
+         * @throws An exception that this method is not implemented
+         */
+        get: function () { return unimplemented(); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NgControl.prototype, "asyncValidator", {
+        /**
+         * @description
+         * The registered async validator function for the control
+         *
+         * @throws An exception that this method is not implemented
+         */
+        get: function () { return unimplemented(); },
+        enumerable: true,
+        configurable: true
+    });
+    return NgControl;
+}(AbstractControlDirective));
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var AbstractControlStatus = /** @class */ (function () {
+    function AbstractControlStatus(cd) {
+        this._cd = cd;
+    }
+    Object.defineProperty(AbstractControlStatus.prototype, "ngClassUntouched", {
+        get: function () { return this._cd.control ? this._cd.control.untouched : false; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
+        get: function () { return this._cd.control ? this._cd.control.touched : false; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
+        get: function () { return this._cd.control ? this._cd.control.pristine : false; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
+        get: function () { return this._cd.control ? this._cd.control.dirty : false; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
+        get: function () { return this._cd.control ? this._cd.control.valid : false; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
+        get: function () { return this._cd.control ? this._cd.control.invalid : false; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
+        get: function () { return this._cd.control ? this._cd.control.pending : false; },
+        enumerable: true,
+        configurable: true
+    });
+    return AbstractControlStatus;
+}());
+var ngControlStatusHost = {
+    '[class.ng-untouched]': 'ngClassUntouched',
+    '[class.ng-touched]': 'ngClassTouched',
+    '[class.ng-pristine]': 'ngClassPristine',
+    '[class.ng-dirty]': 'ngClassDirty',
+    '[class.ng-valid]': 'ngClassValid',
+    '[class.ng-invalid]': 'ngClassInvalid',
+    '[class.ng-pending]': 'ngClassPending',
+};
+/**
+ * @description
+ * Directive automatically applied to Angular form controls that sets CSS classes
+ * based on control status.
+ *
+ * @usageNotes
+ *
+ * ### CSS classes applied
+ *
+ * The following classes are applied as the properties become true:
+ *
+ * * ng-valid
+ * * ng-invalid
+ * * ng-pending
+ * * ng-pristine
+ * * ng-dirty
+ * * ng-untouched
+ * * ng-touched
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+var NgControlStatus = /** @class */ (function (_super) {
+    __extends(NgControlStatus, _super);
+    function NgControlStatus(cd) {
+        return _super.call(this, cd) || this;
+    }
+    NgControlStatus = __decorate([
+        Directive({ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost }),
+        __param(0, Self()),
+        __metadata("design:paramtypes", [NgControl])
+    ], NgControlStatus);
+    return NgControlStatus;
+}(AbstractControlStatus));
+/**
+ * @description
+ * Directive automatically applied to Angular form groups that sets CSS classes
+ * based on control status (valid/invalid/dirty/etc).
+ *
+ * @see `NgControlStatus`
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+var NgControlStatusGroup = /** @class */ (function (_super) {
+    __extends(NgControlStatusGroup, _super);
+    function NgControlStatusGroup(cd) {
+        return _super.call(this, cd) || this;
+    }
+    NgControlStatusGroup = __decorate([
+        Directive({
+            selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
+            host: ngControlStatusHost
+        }),
+        __param(0, Self()),
+        __metadata("design:paramtypes", [ControlContainer])
+    ], NgControlStatusGroup);
+    return NgControlStatusGroup;
+}(AbstractControlStatus));
 
 /**
  * @license
@@ -674,250 +1116,6 @@ function _mergeErrors(arrayOfErrors) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-/**
- * Used to provide a `ControlValueAccessor` for form controls.
- *
- * See `DefaultValueAccessor` for how to implement one.
- *
- * @publicApi
- */
-var NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-var CHECKBOX_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return CheckboxControlValueAccessor; }),
-    multi: true,
-};
-/**
- * @description
- * A `ControlValueAccessor` for writing a value and listening to changes on a checkbox input
- * element.
- *
- * @usageNotes
- *
- * ### Using a checkbox with a reactive form.
- *
- * The following example shows how to use a checkbox with a reactive form.
- *
- * ```ts
- * const rememberLoginControl = new FormControl();
- * ```
- *
- * ```
- * <input type="checkbox" [formControl]="rememberLoginControl">
- * ```
- *
- * @ngModule ReactiveFormsModule
- * @ngModule FormsModule
- * @publicApi
- */
-var CheckboxControlValueAccessor = /** @class */ (function () {
-    function CheckboxControlValueAccessor(_renderer, _elementRef) {
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
-        /**
-         * @description
-         * The registered callback function called when a change event occurs on the input element.
-         */
-        this.onChange = function (_) { };
-        /**
-         * @description
-         * The registered callback function called when a blur event occurs on the input element.
-         */
-        this.onTouched = function () { };
-    }
-    /**
-     * Sets the "checked" property on the input element.
-     *
-     * @param value The checked value
-     */
-    CheckboxControlValueAccessor.prototype.writeValue = function (value) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
-    };
-    /**
-     * @description
-     * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
-     */
-    CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
-    /**
-     * @description
-     * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
-     */
-    CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    /**
-     * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
-     */
-    CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    };
-    CheckboxControlValueAccessor = __decorate([
-        Directive({
-            selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
-            host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
-            providers: [CHECKBOX_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [Renderer2, ElementRef])
-    ], CheckboxControlValueAccessor);
-    return CheckboxControlValueAccessor;
-}());
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-var DEFAULT_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return DefaultValueAccessor; }),
-    multi: true
-};
-/**
- * We must check whether the agent is Android because composition events
- * behave differently between iOS and Android.
- */
-function _isAndroid() {
-    var userAgent = ɵgetDOM() ? ɵgetDOM().getUserAgent() : '';
-    return /android (\d+)/.test(userAgent.toLowerCase());
-}
-/**
- * @description
- * Provide this token to control if form directives buffer IME input until
- * the "compositionend" event occurs.
- * @publicApi
- */
-var COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
-/**
- * @description
- * The default `ControlValueAccessor` for writing a value and listening to changes on input
- * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
- * `NgModel` directives.
- *
- * @usageNotes
- *
- * ### Using the default value accessor
- *
- * The following example shows how to use an input element that activates the default value accessor
- * (in this case, a text field).
- *
- * ```ts
- * const firstNameControl = new FormControl();
- * ```
- *
- * ```
- * <input type="text" [formControl]="firstNameControl">
- * ```
- *
- * @ngModule ReactiveFormsModule
- * @ngModule FormsModule
- * @publicApi
- */
-var DefaultValueAccessor = /** @class */ (function () {
-    function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
-        this._compositionMode = _compositionMode;
-        /**
-         * @description
-         * The registered callback function called when an input event occurs on the input element.
-         */
-        this.onChange = function (_) { };
-        /**
-         * @description
-         * The registered callback function called when a blur event occurs on the input element.
-         */
-        this.onTouched = function () { };
-        /** Whether the user is creating a composition string (IME events). */
-        this._composing = false;
-        if (this._compositionMode == null) {
-            this._compositionMode = !_isAndroid();
-        }
-    }
-    /**
-     * Sets the "value" property on the input element.
-     *
-     * @param value The checked value
-     */
-    DefaultValueAccessor.prototype.writeValue = function (value) {
-        var normalizedValue = value == null ? '' : value;
-        this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
-    };
-    /**
-     * @description
-     * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
-     */
-    DefaultValueAccessor.prototype.registerOnChange = function (fn) { this.onChange = fn; };
-    /**
-     * @description
-     * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
-     */
-    DefaultValueAccessor.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    /**
-     * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
-     */
-    DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    };
-    /** @internal */
-    DefaultValueAccessor.prototype._handleInput = function (value) {
-        if (!this._compositionMode || (this._compositionMode && !this._composing)) {
-            this.onChange(value);
-        }
-    };
-    /** @internal */
-    DefaultValueAccessor.prototype._compositionStart = function () { this._composing = true; };
-    /** @internal */
-    DefaultValueAccessor.prototype._compositionEnd = function (value) {
-        this._composing = false;
-        this._compositionMode && this.onChange(value);
-    };
-    DefaultValueAccessor = __decorate([
-        Directive({
-            selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
-            // TODO: vsavkin replace the above selector with the one below it once
-            // https://github.com/angular/angular/issues/3011 is implemented
-            // selector: '[ngModel],[formControl],[formControlName]',
-            host: {
-                '(input)': '$any(this)._handleInput($event.target.value)',
-                '(blur)': 'onTouched()',
-                '(compositionstart)': '$any(this)._compositionStart()',
-                '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
-            },
-            providers: [DEFAULT_VALUE_ACCESSOR]
-        }),
-        __param(2, Optional()), __param(2, Inject(COMPOSITION_BUFFER_MODE)),
-        __metadata("design:paramtypes", [Renderer2, ElementRef, Boolean])
-    ], DefaultValueAccessor);
-    return DefaultValueAccessor;
-}());
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 function normalizeValidator(validator) {
     if (validator.validate) {
         return function (c) { return validator.validate(c); };
@@ -969,6 +1167,7 @@ var NUMBER_VALUE_ACCESSOR = {
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
+ * @publicApi
  */
 var NumberValueAccessor = /** @class */ (function () {
     function NumberValueAccessor(_renderer, _elementRef) {
@@ -1034,85 +1233,6 @@ var NumberValueAccessor = /** @class */ (function () {
     ], NumberValueAccessor);
     return NumberValueAccessor;
 }());
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-function unimplemented() {
-    throw new Error('unimplemented');
-}
-/**
- * @description
- * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
- * object to a DOM element.
- *
- * @publicApi
- */
-var NgControl = /** @class */ (function (_super) {
-    __extends(NgControl, _super);
-    function NgControl() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        /**
-         * @description
-         * The parent form for the control.
-         *
-         * @internal
-         */
-        _this._parent = null;
-        /**
-         * @description
-         * The name for the control
-         */
-        _this.name = null;
-        /**
-         * @description
-         * The value accessor for the control
-         */
-        _this.valueAccessor = null;
-        /**
-         * @description
-         * The uncomposed array of synchronous validators for the control
-         *
-         * @internal
-         */
-        _this._rawValidators = [];
-        /**
-         * @description
-         * The uncomposed array of async validators for the control
-         *
-         * @internal
-         */
-        _this._rawAsyncValidators = [];
-        return _this;
-    }
-    Object.defineProperty(NgControl.prototype, "validator", {
-        /**
-         * @description
-         * The registered synchronous validator function for the control
-         *
-         * @throws An exception that this method is not implemented
-         */
-        get: function () { return unimplemented(); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgControl.prototype, "asyncValidator", {
-        /**
-         * @description
-         * The registered async validator function for the control
-         *
-         * @throws An exception that this method is not implemented
-         */
-        get: function () { return unimplemented(); },
-        enumerable: true,
-        configurable: true
-    });
-    return NgControl;
-}(AbstractControlDirective));
 
 /**
  * @license
@@ -1344,6 +1464,7 @@ var RANGE_VALUE_ACCESSOR = {
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
+ * @publicApi
  */
 var RangeValueAccessor = /** @class */ (function () {
     function RangeValueAccessor(_renderer, _elementRef) {
@@ -2228,214 +2349,6 @@ function _ngModelWarning(name, type, instance, warningConfig) {
         instance._ngModelWarningSent = true;
     }
 }
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * @description
- * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
- *
- * @publicApi
- */
-var AbstractFormGroupDirective = /** @class */ (function (_super) {
-    __extends(AbstractFormGroupDirective, _super);
-    function AbstractFormGroupDirective() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * @description
-     * An internal callback method triggered on the instance after the inputs are set.
-     * Registers the group with its parent group.
-     */
-    AbstractFormGroupDirective.prototype.ngOnInit = function () {
-        this._checkParentType();
-        this.formDirective.addFormGroup(this);
-    };
-    /**
-     * @description
-     * An internal callback method triggered before the instance is destroyed.
-     * Removes the group from its parent group.
-     */
-    AbstractFormGroupDirective.prototype.ngOnDestroy = function () {
-        if (this.formDirective) {
-            this.formDirective.removeFormGroup(this);
-        }
-    };
-    Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
-        /**
-         * @description
-         * The `FormGroup` bound to this directive.
-         */
-        get: function () { return this.formDirective.getFormGroup(this); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractFormGroupDirective.prototype, "path", {
-        /**
-         * @description
-         * The path to this group from the top-level directive.
-         */
-        get: function () { return controlPath(this.name, this._parent); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractFormGroupDirective.prototype, "formDirective", {
-        /**
-         * @description
-         * The top-level directive for this group if present, otherwise null.
-         */
-        get: function () { return this._parent ? this._parent.formDirective : null; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractFormGroupDirective.prototype, "validator", {
-        /**
-         * @description
-         * The synchronous validators registered with this group.
-         */
-        get: function () { return composeValidators(this._validators); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractFormGroupDirective.prototype, "asyncValidator", {
-        /**
-         * @description
-         * The async validators registered with this group.
-         */
-        get: function () {
-            return composeAsyncValidators(this._asyncValidators);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /** @internal */
-    AbstractFormGroupDirective.prototype._checkParentType = function () { };
-    return AbstractFormGroupDirective;
-}(ControlContainer));
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-var AbstractControlStatus = /** @class */ (function () {
-    function AbstractControlStatus(cd) {
-        this._cd = cd;
-    }
-    Object.defineProperty(AbstractControlStatus.prototype, "ngClassUntouched", {
-        get: function () { return this._cd.control ? this._cd.control.untouched : false; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
-        get: function () { return this._cd.control ? this._cd.control.touched : false; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
-        get: function () { return this._cd.control ? this._cd.control.pristine : false; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
-        get: function () { return this._cd.control ? this._cd.control.dirty : false; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
-        get: function () { return this._cd.control ? this._cd.control.valid : false; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
-        get: function () { return this._cd.control ? this._cd.control.invalid : false; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
-        get: function () { return this._cd.control ? this._cd.control.pending : false; },
-        enumerable: true,
-        configurable: true
-    });
-    return AbstractControlStatus;
-}());
-var ngControlStatusHost = {
-    '[class.ng-untouched]': 'ngClassUntouched',
-    '[class.ng-touched]': 'ngClassTouched',
-    '[class.ng-pristine]': 'ngClassPristine',
-    '[class.ng-dirty]': 'ngClassDirty',
-    '[class.ng-valid]': 'ngClassValid',
-    '[class.ng-invalid]': 'ngClassInvalid',
-    '[class.ng-pending]': 'ngClassPending',
-};
-/**
- * @description
- * Directive automatically applied to Angular form controls that sets CSS classes
- * based on control status.
- *
- * @usageNotes
- *
- * ### CSS classes applied
- *
- * The following classes are applied as the properties become true:
- *
- * * ng-valid
- * * ng-invalid
- * * ng-pending
- * * ng-pristine
- * * ng-dirty
- * * ng-untouched
- * * ng-touched
- *
- * @ngModule ReactiveFormsModule
- * @ngModule FormsModule
- * @publicApi
- */
-var NgControlStatus = /** @class */ (function (_super) {
-    __extends(NgControlStatus, _super);
-    function NgControlStatus(cd) {
-        return _super.call(this, cd) || this;
-    }
-    NgControlStatus = __decorate([
-        Directive({ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost }),
-        __param(0, Self()),
-        __metadata("design:paramtypes", [NgControl])
-    ], NgControlStatus);
-    return NgControlStatus;
-}(AbstractControlStatus));
-/**
- * @description
- * Directive automatically applied to Angular form groups that sets CSS classes
- * based on control status (valid/invalid/dirty/etc).
- *
- * @see `NgControlStatus`
- *
- * @ngModule ReactiveFormsModule
- * @ngModule FormsModule
- * @publicApi
- */
-var NgControlStatusGroup = /** @class */ (function (_super) {
-    __extends(NgControlStatusGroup, _super);
-    function NgControlStatusGroup(cd) {
-        return _super.call(this, cd) || this;
-    }
-    NgControlStatusGroup = __decorate([
-        Directive({
-            selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-            host: ngControlStatusHost
-        }),
-        __param(0, Self()),
-        __metadata("design:paramtypes", [ControlContainer])
-    ], NgControlStatusGroup);
-    return NgControlStatusGroup;
-}(AbstractControlStatus));
 
 /**
  * @license
@@ -4535,6 +4448,95 @@ var NgFormSelectorWarning = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+/**
+ * @description
+ * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
+ *
+ * @publicApi
+ */
+var AbstractFormGroupDirective = /** @class */ (function (_super) {
+    __extends(AbstractFormGroupDirective, _super);
+    function AbstractFormGroupDirective() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    /**
+     * @description
+     * An internal callback method triggered on the instance after the inputs are set.
+     * Registers the group with its parent group.
+     */
+    AbstractFormGroupDirective.prototype.ngOnInit = function () {
+        this._checkParentType();
+        this.formDirective.addFormGroup(this);
+    };
+    /**
+     * @description
+     * An internal callback method triggered before the instance is destroyed.
+     * Removes the group from its parent group.
+     */
+    AbstractFormGroupDirective.prototype.ngOnDestroy = function () {
+        if (this.formDirective) {
+            this.formDirective.removeFormGroup(this);
+        }
+    };
+    Object.defineProperty(AbstractFormGroupDirective.prototype, "control", {
+        /**
+         * @description
+         * The `FormGroup` bound to this directive.
+         */
+        get: function () { return this.formDirective.getFormGroup(this); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractFormGroupDirective.prototype, "path", {
+        /**
+         * @description
+         * The path to this group from the top-level directive.
+         */
+        get: function () { return controlPath(this.name, this._parent); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractFormGroupDirective.prototype, "formDirective", {
+        /**
+         * @description
+         * The top-level directive for this group if present, otherwise null.
+         */
+        get: function () { return this._parent ? this._parent.formDirective : null; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractFormGroupDirective.prototype, "validator", {
+        /**
+         * @description
+         * The synchronous validators registered with this group.
+         */
+        get: function () { return composeValidators(this._validators); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AbstractFormGroupDirective.prototype, "asyncValidator", {
+        /**
+         * @description
+         * The async validators registered with this group.
+         */
+        get: function () {
+            return composeAsyncValidators(this._asyncValidators);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /** @internal */
+    AbstractFormGroupDirective.prototype._checkParentType = function () { };
+    return AbstractFormGroupDirective;
+}(ControlContainer));
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 var modelGroupProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(function () { return NgModelGroup; })
@@ -4898,6 +4900,42 @@ var NgModel = /** @class */ (function (_super) {
     ], NgModel);
     return NgModel;
 }(NgControl));
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * @description
+ *
+ * Adds `novalidate` attribute to all forms by default.
+ *
+ * `novalidate` is used to disable browser's native form validation.
+ *
+ * If you want to use native validation with Angular forms, just add `ngNativeValidate` attribute:
+ *
+ * ```
+ * <form ngNativeValidate></form>
+ * ```
+ *
+ * @publicApi
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ */
+var NgNoValidate = /** @class */ (function () {
+    function NgNoValidate() {
+    }
+    NgNoValidate = __decorate([
+        Directive({
+            selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
+            host: { 'novalidate': '' },
+        })
+    ], NgNoValidate);
+    return NgNoValidate;
+}());
 
 /**
  * @license
@@ -6350,6 +6388,50 @@ var PatternValidator = /** @class */ (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var SHARED_FORM_DIRECTIVES = [
+    NgNoValidate,
+    NgSelectOption,
+    NgSelectMultipleOption,
+    DefaultValueAccessor,
+    NumberValueAccessor,
+    RangeValueAccessor,
+    CheckboxControlValueAccessor,
+    SelectControlValueAccessor,
+    SelectMultipleControlValueAccessor,
+    RadioControlValueAccessor,
+    NgControlStatus,
+    NgControlStatusGroup,
+    RequiredValidator,
+    MinLengthValidator,
+    MaxLengthValidator,
+    PatternValidator,
+    CheckboxRequiredValidator,
+    EmailValidator,
+];
+var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
+var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
+/**
+ * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
+ */
+var InternalFormsSharedModule = /** @class */ (function () {
+    function InternalFormsSharedModule() {
+    }
+    InternalFormsSharedModule = __decorate([
+        NgModule({
+            declarations: SHARED_FORM_DIRECTIVES,
+            exports: SHARED_FORM_DIRECTIVES,
+        })
+    ], InternalFormsSharedModule);
+    return InternalFormsSharedModule;
+}());
+
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 function isAbstractControlOptions(options) {
     return options.asyncValidators !== undefined ||
         options.validators !== undefined ||
@@ -6499,87 +6581,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.0+47.sha-b621a69');
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * @description
- *
- * Adds `novalidate` attribute to all forms by default.
- *
- * `novalidate` is used to disable browser's native form validation.
- *
- * If you want to use native validation with Angular forms, just add `ngNativeValidate` attribute:
- *
- * ```
- * <form ngNativeValidate></form>
- * ```
- *
- * @publicApi
- * @ngModule ReactiveFormsModule
- * @ngModule FormsModule
- */
-var NgNoValidate = /** @class */ (function () {
-    function NgNoValidate() {
-    }
-    NgNoValidate = __decorate([
-        Directive({
-            selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
-            host: { 'novalidate': '' },
-        })
-    ], NgNoValidate);
-    return NgNoValidate;
-}());
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-var SHARED_FORM_DIRECTIVES = [
-    NgNoValidate,
-    NgSelectOption,
-    NgSelectMultipleOption,
-    DefaultValueAccessor,
-    NumberValueAccessor,
-    RangeValueAccessor,
-    CheckboxControlValueAccessor,
-    SelectControlValueAccessor,
-    SelectMultipleControlValueAccessor,
-    RadioControlValueAccessor,
-    NgControlStatus,
-    NgControlStatusGroup,
-    RequiredValidator,
-    MinLengthValidator,
-    MaxLengthValidator,
-    PatternValidator,
-    CheckboxRequiredValidator,
-    EmailValidator,
-];
-var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
-var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
-/**
- * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
- */
-var InternalFormsSharedModule = /** @class */ (function () {
-    function InternalFormsSharedModule() {
-    }
-    InternalFormsSharedModule = __decorate([
-        NgModule({
-            declarations: SHARED_FORM_DIRECTIVES,
-            exports: SHARED_FORM_DIRECTIVES,
-        })
-    ], InternalFormsSharedModule);
-    return InternalFormsSharedModule;
-}());
+var VERSION = new Version('7.2.0+54.sha-1c39ad3');
 
 /**
  * @license
@@ -6695,5 +6697,5 @@ var ReactiveFormsModule = /** @class */ (function () {
  * Generated bundle index. Do not edit.
  */
 
-export { InternalFormsSharedModule as ɵangular_packages_forms_forms_bc, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_bb, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_z, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_ba, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_a, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_b, AbstractControlStatus as ɵangular_packages_forms_forms_c, ngControlStatusHost as ɵangular_packages_forms_forms_d, formDirectiveProvider as ɵangular_packages_forms_forms_e, NG_FORM_SELECTOR_WARNING as ɵangular_packages_forms_forms_f, formControlBinding as ɵangular_packages_forms_forms_g, modelGroupProvider as ɵangular_packages_forms_forms_h, NgNoValidate as ɵangular_packages_forms_forms_bh, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_bd, NumberValueAccessor as ɵangular_packages_forms_forms_be, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_i, RadioControlRegistry as ɵangular_packages_forms_forms_j, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_bf, RangeValueAccessor as ɵangular_packages_forms_forms_bg, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_k, formControlBinding$1 as ɵangular_packages_forms_forms_l, controlNameBinding as ɵangular_packages_forms_forms_m, formDirectiveProvider$1 as ɵangular_packages_forms_forms_n, formArrayNameProvider as ɵangular_packages_forms_forms_p, formGroupNameProvider as ɵangular_packages_forms_forms_o, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_q, NgSelectMultipleOption as ɵangular_packages_forms_forms_s, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_r, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_u, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_v, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_x, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_w, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_y, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_t, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
+export { REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_d, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, AbstractControlStatus as ɵangular_packages_forms_forms_f, ngControlStatusHost as ɵangular_packages_forms_forms_g, formDirectiveProvider as ɵangular_packages_forms_forms_h, NG_FORM_SELECTOR_WARNING as ɵangular_packages_forms_forms_i, formControlBinding as ɵangular_packages_forms_forms_j, modelGroupProvider as ɵangular_packages_forms_forms_k, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_l, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_m, RadioControlRegistry as ɵangular_packages_forms_forms_n, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_o, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_p, formControlBinding$1 as ɵangular_packages_forms_forms_q, controlNameBinding as ɵangular_packages_forms_forms_r, formDirectiveProvider$1 as ɵangular_packages_forms_forms_s, formArrayNameProvider as ɵangular_packages_forms_forms_u, formGroupNameProvider as ɵangular_packages_forms_forms_t, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_v, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_w, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_y, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_z, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bb, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_ba, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_bc, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_x, InternalFormsSharedModule as ɵInternalFormsSharedModule, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, NgNoValidate as ɵNgNoValidate, NumberValueAccessor, RadioControlValueAccessor, RangeValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, NgSelectMultipleOption as ɵNgSelectMultipleOption, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
 //# sourceMappingURL=forms.js.map
