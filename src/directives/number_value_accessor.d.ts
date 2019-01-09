@@ -31,6 +31,7 @@ export declare const NUMBER_VALUE_ACCESSOR: any;
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
+ * @publicApi
  */
 export declare class NumberValueAccessor implements ControlValueAccessor {
     private _renderer;

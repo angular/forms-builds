@@ -31,6 +31,7 @@ export declare const RANGE_VALUE_ACCESSOR: StaticProvider;
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
+ * @publicApi
  */
 export declare class RangeValueAccessor implements ControlValueAccessor {
     private _renderer;
