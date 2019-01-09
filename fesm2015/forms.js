@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0+56.sha-c3aa24c
+ * @license Angular v7.2.0+74.sha-9b2b9b3
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7113,7 +7113,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0+56.sha-c3aa24c');
+const VERSION = new Version('7.2.0+74.sha-9b2b9b3');
 
 /**
  * @fileoverview added by tsickle
@@ -7122,7 +7122,6 @@ const VERSION = new Version('7.2.0+56.sha-c3aa24c');
 /**
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
- * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  *
