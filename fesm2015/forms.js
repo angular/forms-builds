@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0+71.sha-76580b9
+ * @license Angular v7.2.0+74.sha-9b2b9b3
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7994,7 +7994,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0+71.sha-76580b9');
+const VERSION = new Version('7.2.0+74.sha-9b2b9b3');
 
 /**
  * @fileoverview added by tsickle
@@ -8010,7 +8010,6 @@ const VERSION = new Version('7.2.0+71.sha-76580b9');
 /**
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
- * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  *
