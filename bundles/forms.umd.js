@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0+74.sha-9b2b9b3
+ * @license Angular v7.2.0+72.sha-582395b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6950,7 +6950,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('7.2.0+74.sha-9b2b9b3');
+    var VERSION = new i0.Version('7.2.0+72.sha-582395b');
 
     /**
      * @license
@@ -6962,6 +6962,7 @@
     /**
      * Exports the required providers and directives for template-driven forms,
      * making them available for import by NgModules that import this module.
+     * @see [Forms](guide/forms)
      *
      * @see [Forms Guide](/guide/forms)
      *
