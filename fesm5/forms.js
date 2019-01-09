@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0+72.sha-582395b
+ * @license Angular v7.2.0+73.sha-91a8a4f
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -6876,7 +6876,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.0+72.sha-582395b');
+var VERSION = new Version('7.2.0+73.sha-91a8a4f');
 
 /**
  * @license
@@ -6888,7 +6888,6 @@ var VERSION = new Version('7.2.0+72.sha-582395b');
 /**
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
- * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  *
