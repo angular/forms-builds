@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0+103.sha-885f1af
+ * @license Angular v7.2.0+104.sha-b78351c
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7,8 +7,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/platform-browser'), require('rxjs'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', '@angular/platform-browser', 'rxjs', 'rxjs/operators'], factory) :
-    (factory((global.ng = global.ng || {}, global.ng.forms = {}),global.ng.core,global.ng.platformBrowser,global.rxjs,global.rxjs.operators));
-}(this, (function (exports,i0,platformBrowser,rxjs,operators) { 'use strict';
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.forms = {}), global.ng.core, global.ng.platformBrowser, global.rxjs, global.rxjs.operators));
+}(this, function (exports, i0, platformBrowser, rxjs, operators) { 'use strict';
 
     /**
      * @license
@@ -6950,7 +6950,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('7.2.0+103.sha-885f1af');
+    var VERSION = new i0.Version('7.2.0+104.sha-b78351c');
 
     /**
      * @license
@@ -7111,5 +7111,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=forms.umd.js.map

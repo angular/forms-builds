@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.2.0+103.sha-885f1af
+ * @license Angular v7.2.0+104.sha-b78351c
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Version, NgModule, Self, Host, Input, SkipSelf, Injectable, Injector, EventEmitter, Output, ɵlooseIdentical, ɵisObservable, ɵisPromise, isDevMode, ɵdefineDirective, ɵdirectiveInject, ɵsetClassMetadata, ɵdefineNgModule, defineInjector, ɵlistener, ɵProvidersFeature, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, defineInjectable, ɵNgOnChangesFeature, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, defineInjectable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵNgOnChangesFeature, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory, NgModule, ɵdefineNgModule, defineInjector, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -7994,7 +7994,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0+103.sha-885f1af');
+const VERSION = new Version('7.2.0+104.sha-b78351c');
 
 /**
  * @fileoverview added by tsickle
