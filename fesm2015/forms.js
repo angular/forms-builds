@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0+104.sha-b78351c
+ * @license Angular v7.2.0+105.sha-9277142
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5148,7 +5148,7 @@ NgForm.propDecorators = {
 NgForm.ngDirectiveDef = ɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ngForm"], ["ng-form"], ["", "ngForm", ""]], factory: function NgForm_Factory(t) { return new (t || NgForm)(ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function NgForm_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         ɵlistener("submit", function NgForm_submit_HostBindingHandler($event) { return ctx.onSubmit($event); });
         ɵlistener("reset", function NgForm_reset_HostBindingHandler($event) { return ctx.onReset(); });
-    } }, inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: "ngForm", features: [ɵProvidersFeature([formDirectiveProvider]), ɵInheritDefinitionFeature] });
+    } }, inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [ɵProvidersFeature([formDirectiveProvider]), ɵInheritDefinitionFeature] });
 /*@__PURE__*/ ɵsetClassMetadata(NgForm, [{
         type: Directive,
         args: [{
@@ -5476,7 +5476,7 @@ NgModelGroup.ctorParameters = () => [
 NgModelGroup.propDecorators = {
     name: [{ type: Input, args: ['ngModelGroup',] }]
 };
-NgModelGroup.ngDirectiveDef = ɵdefineDirective({ type: NgModelGroup, selectors: [["", "ngModelGroup", ""]], factory: function NgModelGroup_Factory(t) { return new (t || NgModelGroup)(ɵdirectiveInject(ControlContainer, 5), ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: ["ngModelGroup", "name"] }, exportAs: "ngModelGroup", features: [ɵProvidersFeature([modelGroupProvider]), ɵInheritDefinitionFeature] });
+NgModelGroup.ngDirectiveDef = ɵdefineDirective({ type: NgModelGroup, selectors: [["", "ngModelGroup", ""]], factory: function NgModelGroup_Factory(t) { return new (t || NgModelGroup)(ɵdirectiveInject(ControlContainer, 5), ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: ["ngModelGroup", "name"] }, exportAs: ["ngModelGroup"], features: [ɵProvidersFeature([modelGroupProvider]), ɵInheritDefinitionFeature] });
 /*@__PURE__*/ ɵsetClassMetadata(NgModelGroup, [{
         type: Directive,
         args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' }]
@@ -5841,7 +5841,7 @@ NgModel.propDecorators = {
     options: [{ type: Input, args: ['ngModelOptions',] }],
     update: [{ type: Output, args: ['ngModelChange',] }]
 };
-NgModel.ngDirectiveDef = ɵdefineDirective({ type: NgModel, selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]], factory: function NgModel_Factory(t) { return new (t || NgModel)(ɵdirectiveInject(ControlContainer, 9), ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵdirectiveInject(NG_VALUE_ACCESSOR, 10)); }, inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, exportAs: "ngModel", features: [ɵProvidersFeature([formControlBinding]), ɵInheritDefinitionFeature, ɵNgOnChangesFeature] });
+NgModel.ngDirectiveDef = ɵdefineDirective({ type: NgModel, selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]], factory: function NgModel_Factory(t) { return new (t || NgModel)(ɵdirectiveInject(ControlContainer, 9), ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵdirectiveInject(NG_VALUE_ACCESSOR, 10)); }, inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngModel"], features: [ɵProvidersFeature([formControlBinding]), ɵInheritDefinitionFeature, ɵNgOnChangesFeature] });
 /*@__PURE__*/ ɵsetClassMetadata(NgModel, [{
         type: Directive,
         args: [{
@@ -6182,7 +6182,7 @@ FormControlDirective.propDecorators = {
     model: [{ type: Input, args: ['ngModel',] }],
     update: [{ type: Output, args: ['ngModelChange',] }]
 };
-FormControlDirective.ngDirectiveDef = ɵdefineDirective({ type: FormControlDirective, selectors: [["", "formControl", ""]], factory: function FormControlDirective_Factory(t) { return new (t || FormControlDirective)(ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵdirectiveInject(NG_VALUE_ACCESSOR, 10), ɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); }, inputs: { form: ["formControl", "form"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, exportAs: "ngForm", features: [ɵProvidersFeature([formControlBinding$1]), ɵInheritDefinitionFeature, ɵNgOnChangesFeature] });
+FormControlDirective.ngDirectiveDef = ɵdefineDirective({ type: FormControlDirective, selectors: [["", "formControl", ""]], factory: function FormControlDirective_Factory(t) { return new (t || FormControlDirective)(ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵdirectiveInject(NG_VALUE_ACCESSOR, 10), ɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); }, inputs: { form: ["formControl", "form"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngForm"], features: [ɵProvidersFeature([formControlBinding$1]), ɵInheritDefinitionFeature, ɵNgOnChangesFeature] });
 /*@__PURE__*/ ɵsetClassMetadata(FormControlDirective, [{
         type: Directive,
         args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' }]
@@ -6539,7 +6539,7 @@ FormGroupDirective.propDecorators = {
 FormGroupDirective.ngDirectiveDef = ɵdefineDirective({ type: FormGroupDirective, selectors: [["", "formGroup", ""]], factory: function FormGroupDirective_Factory(t) { return new (t || FormGroupDirective)(ɵdirectiveInject(NG_VALIDATORS, 10), ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function FormGroupDirective_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         ɵlistener("submit", function FormGroupDirective_submit_HostBindingHandler($event) { return ctx.onSubmit($event); });
         ɵlistener("reset", function FormGroupDirective_reset_HostBindingHandler($event) { return ctx.onReset(); });
-    } }, inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: "ngForm", features: [ɵProvidersFeature([formDirectiveProvider$1]), ɵInheritDefinitionFeature, ɵNgOnChangesFeature] });
+    } }, inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [ɵProvidersFeature([formDirectiveProvider$1]), ɵInheritDefinitionFeature, ɵNgOnChangesFeature] });
 /*@__PURE__*/ ɵsetClassMetadata(FormGroupDirective, [{
         type: Directive,
         args: [{
@@ -7994,7 +7994,7 @@ FormBuilder.ngInjectableDef = defineInjectable({ token: FormBuilder, factory: fu
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0+104.sha-b78351c');
+const VERSION = new Version('7.2.0+105.sha-9277142');
 
 /**
  * @fileoverview added by tsickle
