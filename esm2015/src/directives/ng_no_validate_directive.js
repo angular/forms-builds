@@ -36,7 +36,7 @@ NgNoValidate.decorators = [
                 host: { 'novalidate': '' },
             },] },
 ];
-NgNoValidate.ngDirectiveDef = i0.ɵdefineDirective({ type: NgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function NgNoValidate_Factory(t) { return new (t || NgNoValidate)(); }, attributes: ["novalidate", ""] });
+/** @nocollapse */ NgNoValidate.ngDirectiveDef = i0.ɵdefineDirective({ type: NgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function NgNoValidate_Factory(t) { return new (t || NgNoValidate)(); }, attributes: ["novalidate", ""] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgNoValidate, [{
         type: Directive,
         args: [{

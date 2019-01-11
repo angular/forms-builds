@@ -115,7 +115,7 @@ RangeValueAccessor.ctorParameters = () => [
     { type: Renderer2 },
     { type: ElementRef }
 ];
-RangeValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], factory: function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef)); }, hostBindings: function RangeValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+/** @nocollapse */ RangeValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], factory: function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef)); }, hostBindings: function RangeValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         i0.ɵlistener("change", function RangeValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
         i0.ɵlistener("input", function RangeValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
         i0.ɵlistener("blur", function RangeValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });

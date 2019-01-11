@@ -339,7 +339,7 @@ NgModel.propDecorators = {
     options: [{ type: Input, args: ['ngModelOptions',] }],
     update: [{ type: Output, args: ['ngModelChange',] }]
 };
-NgModel.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModel, selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]], factory: function NgModel_Factory(t) { return new (t || NgModel)(i0.ɵdirectiveInject(ControlContainer, 9), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10)); }, inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngModel"], features: [i0.ɵProvidersFeature([formControlBinding]), i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature] });
+/** @nocollapse */ NgModel.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModel, selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]], factory: function NgModel_Factory(t) { return new (t || NgModel)(i0.ɵdirectiveInject(ControlContainer, 9), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10)); }, inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngModel"], features: [i0.ɵProvidersFeature([formControlBinding]), i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgModel, [{
         type: Directive,
         args: [{

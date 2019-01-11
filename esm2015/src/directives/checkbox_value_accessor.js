@@ -107,7 +107,7 @@ CheckboxControlValueAccessor.ctorParameters = () => [
     { type: Renderer2 },
     { type: ElementRef }
 ];
-CheckboxControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: CheckboxControlValueAccessor, selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]], factory: function CheckboxControlValueAccessor_Factory(t) { return new (t || CheckboxControlValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef)); }, hostBindings: function CheckboxControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+/** @nocollapse */ CheckboxControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: CheckboxControlValueAccessor, selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]], factory: function CheckboxControlValueAccessor_Factory(t) { return new (t || CheckboxControlValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef)); }, hostBindings: function CheckboxControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         i0.ɵlistener("change", function CheckboxControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.checked); });
         i0.ɵlistener("blur", function CheckboxControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
     } }, features: [i0.ɵProvidersFeature([CHECKBOX_VALUE_ACCESSOR])] });
