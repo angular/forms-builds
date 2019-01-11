@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-rc.0+93.sha-0465dc6
+ * @license Angular v7.2.0-rc.0+95.sha-3c08b86
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -2859,7 +2859,7 @@ class AbstractControl {
     /**
      * A control is `valid` when its `status` is `VALID`.
      *
-     * @see `status`
+     * @see {\@link AbstractControl.status}
      *
      * @return {?} True if the control has passed all of its validation tests,
      * false otherwise.
@@ -2868,7 +2868,7 @@ class AbstractControl {
     /**
      * A control is `invalid` when its `status` is `INVALID`.
      *
-     * @see `status`
+     * @see {\@link AbstractControl.status}
      *
      * @return {?} True if this control has failed one or more of its validation checks,
      * false otherwise.
@@ -2877,7 +2877,7 @@ class AbstractControl {
     /**
      * A control is `pending` when its `status` is `PENDING`.
      *
-     * @see `status`
+     * @see {\@link AbstractControl.status}
      *
      * @return {?} True if this control is in the process of conducting a validation check,
      * false otherwise.
@@ -2886,11 +2886,11 @@ class AbstractControl {
     /**
      * A control is `disabled` when its `status` is `DISABLED`.
      *
-     * @see `status`
-     *
      * Disabled controls are exempt from validation checks and
      * are not included in the aggregate value of their ancestor
      * controls.
+     *
+     * @see {\@link AbstractControl.status}
      *
      * @return {?} True if the control is disabled, false otherwise.
      */
@@ -2898,7 +2898,7 @@ class AbstractControl {
     /**
      * A control is `enabled` as long as its `status` is not `DISABLED`.
      *
-     * @see `status`
+     * @see {\@link AbstractControl.status}
      *
      * @return {?} True if the control has any status other than 'DISABLED',
      * false if the status is 'DISABLED'.
@@ -2961,7 +2961,9 @@ class AbstractControl {
     clearAsyncValidators() { this.asyncValidator = null; }
     /**
      * Marks the control as `touched`. A control is touched by focus and
-     * blur events that do not change the value; compare `markAsDirty`;
+     * blur events that do not change the value.
+     *
+     * @see `markAsUntouched()` / `markAsDirty()` / `markAsPristine()`
      *
      * @param {?=} opts Configuration options that determine how the control propagates changes
      * and emits events events after marking is applied.
@@ -2981,6 +2983,8 @@ class AbstractControl {
      * If the control has any children, also marks all children as `untouched`
      * and recalculates the `touched` status of all parent controls.
      *
+     * @see `markAsTouched()` / `markAsDirty()` / `markAsPristine()`
+     *
      * @param {?=} opts Configuration options that determine how the control propagates changes
      * and emits events after the marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
@@ -2998,6 +3002,8 @@ class AbstractControl {
     /**
      * Marks the control as `dirty`. A control becomes dirty when
      * the control's value is changed through the UI; compare `markAsTouched`.
+     *
+     * @see `markAsTouched()` / `markAsUntouched()` / `markAsPristine()`
      *
      * @param {?=} opts Configuration options that determine how the control propagates changes
      * and emits events after marking is applied.
@@ -3018,6 +3024,8 @@ class AbstractControl {
      * and recalculates the `pristine` status of all parent
      * controls.
      *
+     * @see `markAsTouched()` / `markAsUntouched()` / `markAsDirty()`
+     *
      * @param {?=} opts Configuration options that determine how the control emits events after
      * marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
@@ -3036,6 +3044,8 @@ class AbstractControl {
      * Marks the control as `pending`.
      *
      * A control is pending while the control performs async validation.
+     *
+     * @see {\@link AbstractControl.status}
      *
      * @param {?=} opts Configuration options that determine how the control propagates changes and
      * emits events after marking is applied.
@@ -3061,6 +3071,8 @@ class AbstractControl {
      * excluded from the aggregate value of any parent. Its status is `DISABLED`.
      *
      * If the control has children, all children are also disabled.
+     *
+     * @see {\@link AbstractControl.status}
      *
      * @param {?=} opts Configuration options that determine how the control propagates
      * changes and emits events after the control is disabled.
@@ -3090,6 +3102,8 @@ class AbstractControl {
      * its validators.
      *
      * By default, if the control has children, all children are enabled.
+     *
+     * @see {\@link AbstractControl.status}
      *
      * @param {?=} opts Configure options that control how the control propagates changes and
      * emits events when marked as untouched
@@ -6959,7 +6973,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0-rc.0+93.sha-0465dc6');
+const VERSION = new Version('7.2.0-rc.0+95.sha-3c08b86');
 
 /**
  * @fileoverview added by tsickle
