@@ -1,621 +1,13 @@
 /**
- * @license Angular v7.2.0-rc.0+20.sha-1c0ac25
+ * @license Angular v7.2.0+103.sha-7de7e1b
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, ɵisObservable, ɵisPromise, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, Self, EventEmitter, SkipSelf, Output, Version, NgModule } from '@angular/core';
+import { InjectionToken, Directive, ElementRef, Renderer2, forwardRef, Inject, Optional, Self, ɵisObservable, ɵisPromise, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
+import { ɵgetDOM } from '@angular/platform-browser';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ɵgetDOM } from '@angular/platform-browser';
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * \@description
- * Base class for control directives.
- *
- * This class is only used internally in the `ReactiveFormsModule` and the `FormsModule`.
- *
- * \@publicApi
- * @abstract
- */
-class AbstractControlDirective {
-    /**
-     * \@description
-     * Reports the value of the control if it is present, otherwise null.
-     * @return {?}
-     */
-    get value() { return this.control ? this.control.value : null; }
-    /**
-     * \@description
-     * Reports whether the control is valid. A control is considered valid if no
-     * validation errors exist with the current value.
-     * If the control is not present, null is returned.
-     * @return {?}
-     */
-    get valid() { return this.control ? this.control.valid : null; }
-    /**
-     * \@description
-     * Reports whether the control is invalid, meaning that an error exists in the input value.
-     * If the control is not present, null is returned.
-     * @return {?}
-     */
-    get invalid() { return this.control ? this.control.invalid : null; }
-    /**
-     * \@description
-     * Reports whether a control is pending, meaning that that async validation is occurring and
-     * errors are not yet available for the input value. If the control is not present, null is
-     * returned.
-     * @return {?}
-     */
-    get pending() { return this.control ? this.control.pending : null; }
-    /**
-     * \@description
-     * Reports whether the control is disabled, meaning that the control is disabled
-     * in the UI and is exempt from validation checks and excluded from aggregate
-     * values of ancestor controls. If the control is not present, null is returned.
-     * @return {?}
-     */
-    get disabled() { return this.control ? this.control.disabled : null; }
-    /**
-     * \@description
-     * Reports whether the control is enabled, meaning that the control is included in ancestor
-     * calculations of validity or value. If the control is not present, null is returned.
-     * @return {?}
-     */
-    get enabled() { return this.control ? this.control.enabled : null; }
-    /**
-     * \@description
-     * Reports the control's validation errors. If the control is not present, null is returned.
-     * @return {?}
-     */
-    get errors() { return this.control ? this.control.errors : null; }
-    /**
-     * \@description
-     * Reports whether the control is pristine, meaning that the user has not yet changed
-     * the value in the UI. If the control is not present, null is returned.
-     * @return {?}
-     */
-    get pristine() { return this.control ? this.control.pristine : null; }
-    /**
-     * \@description
-     * Reports whether the control is dirty, meaning that the user has changed
-     * the value in the UI. If the control is not present, null is returned.
-     * @return {?}
-     */
-    get dirty() { return this.control ? this.control.dirty : null; }
-    /**
-     * \@description
-     * Reports whether the control is touched, meaning that the user has triggered
-     * a `blur` event on it. If the control is not present, null is returned.
-     * @return {?}
-     */
-    get touched() { return this.control ? this.control.touched : null; }
-    /**
-     * \@description
-     * Reports the validation status of the control. Possible values include:
-     * 'VALID', 'INVALID', 'DISABLED', and 'PENDING'.
-     * If the control is not present, null is returned.
-     * @return {?}
-     */
-    get status() { return this.control ? this.control.status : null; }
-    /**
-     * \@description
-     * Reports whether the control is untouched, meaning that the user has not yet triggered
-     * a `blur` event on it. If the control is not present, null is returned.
-     * @return {?}
-     */
-    get untouched() { return this.control ? this.control.untouched : null; }
-    /**
-     * \@description
-     * Returns a multicasting observable that emits a validation status whenever it is
-     * calculated for the control. If the control is not present, null is returned.
-     * @return {?}
-     */
-    get statusChanges() {
-        return this.control ? this.control.statusChanges : null;
-    }
-    /**
-     * \@description
-     * Returns a multicasting observable of value changes for the control that emits every time the
-     * value of the control changes in the UI or programmatically.
-     * If the control is not present, null is returned.
-     * @return {?}
-     */
-    get valueChanges() {
-        return this.control ? this.control.valueChanges : null;
-    }
-    /**
-     * \@description
-     * Returns an array that represents the path from the top-level form to this control.
-     * Each index is the string name of the control on that level.
-     * @return {?}
-     */
-    get path() { return null; }
-    /**
-     * \@description
-     * Resets the control with the provided value if the control is present.
-     * @param {?=} value
-     * @return {?}
-     */
-    reset(value = undefined) {
-        if (this.control)
-            this.control.reset(value);
-    }
-    /**
-     * \@description
-     * Reports whether the control with the given path has the error specified.
-     * If no path is given, it checks for the error on the present control.
-     * If the control is not present, false is returned.
-     * @param {?} errorCode
-     * @param {?=} path
-     * @return {?}
-     */
-    hasError(errorCode, path) {
-        return this.control ? this.control.hasError(errorCode, path) : false;
-    }
-    /**
-     * \@description
-     * Reports error data for the control with the given path.
-     * If the control is not present, null is returned.
-     * @param {?} errorCode
-     * @param {?=} path
-     * @return {?}
-     */
-    getError(errorCode, path) {
-        return this.control ? this.control.getError(errorCode, path) : null;
-    }
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * \@description
- * A base class for directives that contain multiple registered instances of `NgControl`.
- * Only used by the forms module.
- *
- * \@publicApi
- * @abstract
- */
-class ControlContainer extends AbstractControlDirective {
-    /**
-     * \@description
-     * The top-level form directive for the control.
-     * @return {?}
-     */
-    get formDirective() { return null; }
-    /**
-     * \@description
-     * The path to this group.
-     * @return {?}
-     */
-    get path() { return null; }
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * @param {?} value
- * @return {?}
- */
-function isEmptyInputValue(value) {
-    // we don't check for string here so it also works with arrays
-    return value == null || value.length === 0;
-}
-/**
- * \@description
- * An `InjectionToken` for registering additional synchronous validators used with `AbstractControl`s.
- *
- * @see `NG_ASYNC_VALIDATORS`
- *
- * \@usageNotes
- *
- * ### Providing a custom validator
- *
- * The following example registers a custom validator directive. Adding the validator to the
- * existing collection of validators requires the `multi: true` option.
- *
- * ```typescript
- * \@Directive({
- *   selector: '[customValidator]',
- *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
- * })
- * class CustomValidatorDirective implements Validator {
- *   validate(control: AbstractControl): ValidationErrors | null {
- *     return { 'custom': true };
- *   }
- * }
- * ```
- *
- * \@publicApi
- * @type {?}
- */
-const NG_VALIDATORS = new InjectionToken('NgValidators');
-/**
- * \@description
- * An `InjectionToken` for registering additional asynchronous validators used with `AbstractControl`s.
- *
- * @see `NG_VALIDATORS`
- *
- * \@publicApi
- * @type {?}
- */
-const NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
-/** @type {?} */
-const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
-/**
- * \@description
- * Provides a set of built-in validators that can be used by form controls.
- *
- * A validator is a function that processes a `FormControl` or collection of
- * controls and returns an error map or null. A null map means that validation has passed.
- *
- * @see [Form Validation](/guide/form-validation)
- *
- * \@publicApi
- */
-class Validators {
-    /**
-     * \@description
-     * Validator that requires the control's value to be greater than or equal to the provided number.
-     * The validator exists only as a function and not as a directive.
-     *
-     * \@usageNotes
-     *
-     * ### Validate against a minimum of 3
-     *
-     * ```typescript
-     * const control = new FormControl(2, Validators.min(3));
-     *
-     * console.log(control.errors); // {min: {min: 3, actual: 2}}
-     * ```
-     *
-     * @param {?} min
-     * @return {?} A validator function that returns an error map with the
-     * `min` property if the validation check fails, otherwise `null`.
-     *
-     */
-    static min(min) {
-        return (control) => {
-            if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
-                return null; // don't validate empty values to allow optional controls
-            }
-            /** @type {?} */
-            const value = parseFloat(control.value);
-            // Controls with NaN values after parsing should be treated as not having a
-            // minimum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-min
-            return !isNaN(value) && value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
-        };
-    }
-    /**
-     * \@description
-     * Validator that requires the control's value to be less than or equal to the provided number.
-     * The validator exists only as a function and not as a directive.
-     *
-     * \@usageNotes
-     *
-     * ### Validate against a maximum of 15
-     *
-     * ```typescript
-     * const control = new FormControl(16, Validators.max(15));
-     *
-     * console.log(control.errors); // {max: {max: 15, actual: 16}}
-     * ```
-     *
-     * @param {?} max
-     * @return {?} A validator function that returns an error map with the
-     * `max` property if the validation check fails, otherwise `null`.
-     *
-     */
-    static max(max) {
-        return (control) => {
-            if (isEmptyInputValue(control.value) || isEmptyInputValue(max)) {
-                return null; // don't validate empty values to allow optional controls
-            }
-            /** @type {?} */
-            const value = parseFloat(control.value);
-            // Controls with NaN values after parsing should be treated as not having a
-            // maximum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-max
-            return !isNaN(value) && value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
-        };
-    }
-    /**
-     * \@description
-     * Validator that requires the control have a non-empty value.
-     *
-     * \@usageNotes
-     *
-     * ### Validate that the field is non-empty
-     *
-     * ```typescript
-     * const control = new FormControl('', Validators.required);
-     *
-     * console.log(control.errors); // {required: true}
-     * ```
-     *
-     * @param {?} control
-     * @return {?} An error map with the `required` property
-     * if the validation check fails, otherwise `null`.
-     *
-     */
-    static required(control) {
-        return isEmptyInputValue(control.value) ? { 'required': true } : null;
-    }
-    /**
-     * \@description
-     * Validator that requires the control's value be true. This validator is commonly
-     * used for required checkboxes.
-     *
-     * \@usageNotes
-     *
-     * ### Validate that the field value is true
-     *
-     * ```typescript
-     * const control = new FormControl('', Validators.requiredTrue);
-     *
-     * console.log(control.errors); // {required: true}
-     * ```
-     *
-     * @param {?} control
-     * @return {?} An error map that contains the `required` property
-     * set to `true` if the validation check fails, otherwise `null`.
-     */
-    static requiredTrue(control) {
-        return control.value === true ? null : { 'required': true };
-    }
-    /**
-     * \@description
-     * Validator that requires the control's value pass an email validation test.
-     *
-     * \@usageNotes
-     *
-     * ### Validate that the field matches a valid email pattern
-     *
-     * ```typescript
-     * const control = new FormControl('bad\@', Validators.email);
-     *
-     * console.log(control.errors); // {email: true}
-     * ```
-     *
-     * @param {?} control
-     * @return {?} An error map with the `email` property
-     * if the validation check fails, otherwise `null`.
-     *
-     */
-    static email(control) {
-        if (isEmptyInputValue(control.value)) {
-            return null; // don't validate empty values to allow optional controls
-        }
-        return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
-    }
-    /**
-     * \@description
-     * Validator that requires the length of the control's value to be greater than or equal
-     * to the provided minimum length. This validator is also provided by default if you use the
-     * the HTML5 `minlength` attribute.
-     *
-     * \@usageNotes
-     *
-     * ### Validate that the field has a minimum of 3 characters
-     *
-     * ```typescript
-     * const control = new FormControl('ng', Validators.minLength(3));
-     *
-     * console.log(control.errors); // {minlength: {requiredLength: 3, actualLength: 2}}
-     * ```
-     *
-     * ```html
-     * <input minlength="5">
-     * ```
-     *
-     * @param {?} minLength
-     * @return {?} A validator function that returns an error map with the
-     * `minlength` if the validation check fails, otherwise `null`.
-     */
-    static minLength(minLength) {
-        return (control) => {
-            if (isEmptyInputValue(control.value)) {
-                return null; // don't validate empty values to allow optional controls
-            }
-            /** @type {?} */
-            const length = control.value ? control.value.length : 0;
-            return length < minLength ?
-                { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
-                null;
-        };
-    }
-    /**
-     * \@description
-     * Validator that requires the length of the control's value to be less than or equal
-     * to the provided maximum length. This validator is also provided by default if you use the
-     * the HTML5 `maxlength` attribute.
-     *
-     * \@usageNotes
-     *
-     * ### Validate that the field has maximum of 5 characters
-     *
-     * ```typescript
-     * const control = new FormControl('Angular', Validators.maxLength(5));
-     *
-     * console.log(control.errors); // {maxlength: {requiredLength: 5, actualLength: 7}}
-     * ```
-     *
-     * ```html
-     * <input maxlength="5">
-     * ```
-     *
-     * @param {?} maxLength
-     * @return {?} A validator function that returns an error map with the
-     * `maxlength` property if the validation check fails, otherwise `null`.
-     */
-    static maxLength(maxLength) {
-        return (control) => {
-            /** @type {?} */
-            const length = control.value ? control.value.length : 0;
-            return length > maxLength ?
-                { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
-                null;
-        };
-    }
-    /**
-     * \@description
-     * Validator that requires the control's value to match a regex pattern. This validator is also
-     * provided
-     * by default if you use the HTML5 `pattern` attribute.
-     *
-     * \@usageNotes
-     *
-     * ### Validate that the field only contains letters or spaces
-     *
-     * ```typescript
-     * const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
-     *
-     * console.log(control.errors); // {pattern: {requiredPattern: '^[a-zA-Z ]*$', actualValue: '1'}}
-     * ```
-     *
-     * ```html
-     * <input pattern="[a-zA-Z ]*">
-     * ```
-     *
-     * @param {?} pattern
-     * @return {?} A validator function that returns an error map with the
-     * `pattern` property if the validation check fails, otherwise `null`.
-     */
-    static pattern(pattern) {
-        if (!pattern)
-            return Validators.nullValidator;
-        /** @type {?} */
-        let regex;
-        /** @type {?} */
-        let regexStr;
-        if (typeof pattern === 'string') {
-            regexStr = '';
-            if (pattern.charAt(0) !== '^')
-                regexStr += '^';
-            regexStr += pattern;
-            if (pattern.charAt(pattern.length - 1) !== '$')
-                regexStr += '$';
-            regex = new RegExp(regexStr);
-        }
-        else {
-            regexStr = pattern.toString();
-            regex = pattern;
-        }
-        return (control) => {
-            if (isEmptyInputValue(control.value)) {
-                return null; // don't validate empty values to allow optional controls
-            }
-            /** @type {?} */
-            const value = control.value;
-            return regex.test(value) ? null :
-                { 'pattern': { 'requiredPattern': regexStr, 'actualValue': value } };
-        };
-    }
-    /**
-     * \@description
-     * Validator that performs no operation.
-     * @param {?} control
-     * @return {?}
-     */
-    static nullValidator(control) { return null; }
-    /**
-     * @param {?} validators
-     * @return {?}
-     */
-    static compose(validators) {
-        if (!validators)
-            return null;
-        /** @type {?} */
-        const presentValidators = (/** @type {?} */ (validators.filter(isPresent)));
-        if (presentValidators.length == 0)
-            return null;
-        return function (control) {
-            return _mergeErrors(_executeValidators(control, presentValidators));
-        };
-    }
-    /**
-     * \@description
-     * Compose multiple async validators into a single function that returns the union
-     * of the individual error objects for the provided control.
-     *
-     * @param {?} validators
-     * @return {?} A validator function that returns an error map with the
-     * merged error objects of the async validators if the validation check fails, otherwise `null`.
-     */
-    static composeAsync(validators) {
-        if (!validators)
-            return null;
-        /** @type {?} */
-        const presentValidators = (/** @type {?} */ (validators.filter(isPresent)));
-        if (presentValidators.length == 0)
-            return null;
-        return function (control) {
-            /** @type {?} */
-            const observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
-            return forkJoin(observables).pipe(map(_mergeErrors));
-        };
-    }
-}
-/**
- * @param {?} o
- * @return {?}
- */
-function isPresent(o) {
-    return o != null;
-}
-/**
- * @param {?} r
- * @return {?}
- */
-function toObservable(r) {
-    /** @type {?} */
-    const obs = ɵisPromise(r) ? from(r) : r;
-    if (!(ɵisObservable(obs))) {
-        throw new Error(`Expected validator to return Promise or Observable.`);
-    }
-    return obs;
-}
-/**
- * @param {?} control
- * @param {?} validators
- * @return {?}
- */
-function _executeValidators(control, validators) {
-    return validators.map(v => v(control));
-}
-/**
- * @param {?} control
- * @param {?} validators
- * @return {?}
- */
-function _executeAsyncValidators(control, validators) {
-    return validators.map(v => v(control));
-}
-/**
- * @param {?} arrayOfErrors
- * @return {?}
- */
-function _mergeErrors(arrayOfErrors) {
-    /** @type {?} */
-    const res = arrayOfErrors.reduce((res, errors) => {
-        return errors != null ? Object.assign({}, (/** @type {?} */ (res)), errors) : (/** @type {?} */ (res));
-    }, {});
-    return Object.keys(res).length === 0 ? null : res;
-}
 
 /**
  * @fileoverview added by tsickle
@@ -907,6 +299,841 @@ DefaultValueAccessor.ctorParameters = () => [
  * found in the LICENSE file at https://angular.io/license
  */
 /**
+ * \@description
+ * Base class for control directives.
+ *
+ * This class is only used internally in the `ReactiveFormsModule` and the `FormsModule`.
+ *
+ * \@publicApi
+ * @abstract
+ */
+class AbstractControlDirective {
+    /**
+     * \@description
+     * Reports the value of the control if it is present, otherwise null.
+     * @return {?}
+     */
+    get value() { return this.control ? this.control.value : null; }
+    /**
+     * \@description
+     * Reports whether the control is valid. A control is considered valid if no
+     * validation errors exist with the current value.
+     * If the control is not present, null is returned.
+     * @return {?}
+     */
+    get valid() { return this.control ? this.control.valid : null; }
+    /**
+     * \@description
+     * Reports whether the control is invalid, meaning that an error exists in the input value.
+     * If the control is not present, null is returned.
+     * @return {?}
+     */
+    get invalid() { return this.control ? this.control.invalid : null; }
+    /**
+     * \@description
+     * Reports whether a control is pending, meaning that that async validation is occurring and
+     * errors are not yet available for the input value. If the control is not present, null is
+     * returned.
+     * @return {?}
+     */
+    get pending() { return this.control ? this.control.pending : null; }
+    /**
+     * \@description
+     * Reports whether the control is disabled, meaning that the control is disabled
+     * in the UI and is exempt from validation checks and excluded from aggregate
+     * values of ancestor controls. If the control is not present, null is returned.
+     * @return {?}
+     */
+    get disabled() { return this.control ? this.control.disabled : null; }
+    /**
+     * \@description
+     * Reports whether the control is enabled, meaning that the control is included in ancestor
+     * calculations of validity or value. If the control is not present, null is returned.
+     * @return {?}
+     */
+    get enabled() { return this.control ? this.control.enabled : null; }
+    /**
+     * \@description
+     * Reports the control's validation errors. If the control is not present, null is returned.
+     * @return {?}
+     */
+    get errors() { return this.control ? this.control.errors : null; }
+    /**
+     * \@description
+     * Reports whether the control is pristine, meaning that the user has not yet changed
+     * the value in the UI. If the control is not present, null is returned.
+     * @return {?}
+     */
+    get pristine() { return this.control ? this.control.pristine : null; }
+    /**
+     * \@description
+     * Reports whether the control is dirty, meaning that the user has changed
+     * the value in the UI. If the control is not present, null is returned.
+     * @return {?}
+     */
+    get dirty() { return this.control ? this.control.dirty : null; }
+    /**
+     * \@description
+     * Reports whether the control is touched, meaning that the user has triggered
+     * a `blur` event on it. If the control is not present, null is returned.
+     * @return {?}
+     */
+    get touched() { return this.control ? this.control.touched : null; }
+    /**
+     * \@description
+     * Reports the validation status of the control. Possible values include:
+     * 'VALID', 'INVALID', 'DISABLED', and 'PENDING'.
+     * If the control is not present, null is returned.
+     * @return {?}
+     */
+    get status() { return this.control ? this.control.status : null; }
+    /**
+     * \@description
+     * Reports whether the control is untouched, meaning that the user has not yet triggered
+     * a `blur` event on it. If the control is not present, null is returned.
+     * @return {?}
+     */
+    get untouched() { return this.control ? this.control.untouched : null; }
+    /**
+     * \@description
+     * Returns a multicasting observable that emits a validation status whenever it is
+     * calculated for the control. If the control is not present, null is returned.
+     * @return {?}
+     */
+    get statusChanges() {
+        return this.control ? this.control.statusChanges : null;
+    }
+    /**
+     * \@description
+     * Returns a multicasting observable of value changes for the control that emits every time the
+     * value of the control changes in the UI or programmatically.
+     * If the control is not present, null is returned.
+     * @return {?}
+     */
+    get valueChanges() {
+        return this.control ? this.control.valueChanges : null;
+    }
+    /**
+     * \@description
+     * Returns an array that represents the path from the top-level form to this control.
+     * Each index is the string name of the control on that level.
+     * @return {?}
+     */
+    get path() { return null; }
+    /**
+     * \@description
+     * Resets the control with the provided value if the control is present.
+     * @param {?=} value
+     * @return {?}
+     */
+    reset(value = undefined) {
+        if (this.control)
+            this.control.reset(value);
+    }
+    /**
+     * \@description
+     * Reports whether the control with the given path has the error specified.
+     *
+     * \@usageNotes
+     * For example, for the following `FormGroup`:
+     *
+     * ```
+     * form = new FormGroup({
+     *   address: new FormGroup({ street: new FormControl() })
+     * });
+     * ```
+     *
+     * The path to the 'street' control from the root form would be 'address' -> 'street'.
+     *
+     * It can be provided to this method in one of two formats:
+     *
+     * 1. An array of string control names, e.g. `['address', 'street']`
+     * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+     *
+     * If no path is given, this method checks for the error on the current control.
+     *
+     * @param {?} errorCode The code of the error to check
+     * @param {?=} path A list of control names that designates how to move from the current control
+     * to the control that should be queried for errors.
+     *
+     * @return {?} whether the given error is present in the control at the given path.
+     *
+     * If the control is not present, false is returned.
+     */
+    hasError(errorCode, path) {
+        return this.control ? this.control.hasError(errorCode, path) : false;
+    }
+    /**
+     * \@description
+     * Reports error data for the control with the given path.
+     *
+     * \@usageNotes
+     * For example, for the following `FormGroup`:
+     *
+     * ```
+     * form = new FormGroup({
+     *   address: new FormGroup({ street: new FormControl() })
+     * });
+     * ```
+     *
+     * The path to the 'street' control from the root form would be 'address' -> 'street'.
+     *
+     * It can be provided to this method in one of two formats:
+     *
+     * 1. An array of string control names, e.g. `['address', 'street']`
+     * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+     *
+     * @param {?} errorCode The code of the error to check
+     * @param {?=} path A list of control names that designates how to move from the current control
+     * to the control that should be queried for errors.
+     *
+     * @return {?} error data for that particular error. If the control or error is not present,
+     * null is returned.
+     */
+    getError(errorCode, path) {
+        return this.control ? this.control.getError(errorCode, path) : null;
+    }
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * \@description
+ * A base class for directives that contain multiple registered instances of `NgControl`.
+ * Only used by the forms module.
+ *
+ * \@publicApi
+ * @abstract
+ */
+class ControlContainer extends AbstractControlDirective {
+    /**
+     * \@description
+     * The top-level form directive for the control.
+     * @return {?}
+     */
+    get formDirective() { return null; }
+    /**
+     * \@description
+     * The path to this group.
+     * @return {?}
+     */
+    get path() { return null; }
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @return {?}
+ */
+function unimplemented() {
+    throw new Error('unimplemented');
+}
+/**
+ * \@description
+ * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
+ * object to a DOM element.
+ *
+ * \@publicApi
+ * @abstract
+ */
+class NgControl extends AbstractControlDirective {
+    constructor() {
+        super(...arguments);
+        /**
+         * \@description
+         * The parent form for the control.
+         *
+         * \@internal
+         */
+        this._parent = null;
+        /**
+         * \@description
+         * The name for the control
+         */
+        this.name = null;
+        /**
+         * \@description
+         * The value accessor for the control
+         */
+        this.valueAccessor = null;
+        /**
+         * \@description
+         * The uncomposed array of synchronous validators for the control
+         *
+         * \@internal
+         */
+        this._rawValidators = [];
+        /**
+         * \@description
+         * The uncomposed array of async validators for the control
+         *
+         * \@internal
+         */
+        this._rawAsyncValidators = [];
+    }
+    /**
+     * \@description
+     * The registered synchronous validator function for the control
+     *
+     * @throws An exception that this method is not implemented
+     * @return {?}
+     */
+    get validator() { return (/** @type {?} */ (unimplemented())); }
+    /**
+     * \@description
+     * The registered async validator function for the control
+     *
+     * @throws An exception that this method is not implemented
+     * @return {?}
+     */
+    get asyncValidator() { return (/** @type {?} */ (unimplemented())); }
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class AbstractControlStatus {
+    /**
+     * @param {?} cd
+     */
+    constructor(cd) { this._cd = cd; }
+    /**
+     * @return {?}
+     */
+    get ngClassUntouched() { return this._cd.control ? this._cd.control.untouched : false; }
+    /**
+     * @return {?}
+     */
+    get ngClassTouched() { return this._cd.control ? this._cd.control.touched : false; }
+    /**
+     * @return {?}
+     */
+    get ngClassPristine() { return this._cd.control ? this._cd.control.pristine : false; }
+    /**
+     * @return {?}
+     */
+    get ngClassDirty() { return this._cd.control ? this._cd.control.dirty : false; }
+    /**
+     * @return {?}
+     */
+    get ngClassValid() { return this._cd.control ? this._cd.control.valid : false; }
+    /**
+     * @return {?}
+     */
+    get ngClassInvalid() { return this._cd.control ? this._cd.control.invalid : false; }
+    /**
+     * @return {?}
+     */
+    get ngClassPending() { return this._cd.control ? this._cd.control.pending : false; }
+}
+/** @type {?} */
+const ngControlStatusHost = {
+    '[class.ng-untouched]': 'ngClassUntouched',
+    '[class.ng-touched]': 'ngClassTouched',
+    '[class.ng-pristine]': 'ngClassPristine',
+    '[class.ng-dirty]': 'ngClassDirty',
+    '[class.ng-valid]': 'ngClassValid',
+    '[class.ng-invalid]': 'ngClassInvalid',
+    '[class.ng-pending]': 'ngClassPending',
+};
+/**
+ * \@description
+ * Directive automatically applied to Angular form controls that sets CSS classes
+ * based on control status.
+ *
+ * \@usageNotes
+ *
+ * ### CSS classes applied
+ *
+ * The following classes are applied as the properties become true:
+ *
+ * * ng-valid
+ * * ng-invalid
+ * * ng-pending
+ * * ng-pristine
+ * * ng-dirty
+ * * ng-untouched
+ * * ng-touched
+ *
+ * \@ngModule ReactiveFormsModule
+ * \@ngModule FormsModule
+ * \@publicApi
+ */
+class NgControlStatus extends AbstractControlStatus {
+    /**
+     * @param {?} cd
+     */
+    constructor(cd) { super(cd); }
+}
+NgControlStatus.decorators = [
+    { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] }
+];
+/** @nocollapse */
+NgControlStatus.ctorParameters = () => [
+    { type: NgControl, decorators: [{ type: Self }] }
+];
+/**
+ * \@description
+ * Directive automatically applied to Angular form groups that sets CSS classes
+ * based on control status (valid/invalid/dirty/etc).
+ *
+ * @see `NgControlStatus`
+ *
+ * \@ngModule ReactiveFormsModule
+ * \@ngModule FormsModule
+ * \@publicApi
+ */
+class NgControlStatusGroup extends AbstractControlStatus {
+    /**
+     * @param {?} cd
+     */
+    constructor(cd) { super(cd); }
+}
+NgControlStatusGroup.decorators = [
+    { type: Directive, args: [{
+                selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
+                host: ngControlStatusHost
+            },] }
+];
+/** @nocollapse */
+NgControlStatusGroup.ctorParameters = () => [
+    { type: ControlContainer, decorators: [{ type: Self }] }
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @param {?} value
+ * @return {?}
+ */
+function isEmptyInputValue(value) {
+    // we don't check for string here so it also works with arrays
+    return value == null || value.length === 0;
+}
+/**
+ * \@description
+ * An `InjectionToken` for registering additional synchronous validators used with `AbstractControl`s.
+ *
+ * @see `NG_ASYNC_VALIDATORS`
+ *
+ * \@usageNotes
+ *
+ * ### Providing a custom validator
+ *
+ * The following example registers a custom validator directive. Adding the validator to the
+ * existing collection of validators requires the `multi: true` option.
+ *
+ * ```typescript
+ * \@Directive({
+ *   selector: '[customValidator]',
+ *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ * })
+ * class CustomValidatorDirective implements Validator {
+ *   validate(control: AbstractControl): ValidationErrors | null {
+ *     return { 'custom': true };
+ *   }
+ * }
+ * ```
+ *
+ * \@publicApi
+ * @type {?}
+ */
+const NG_VALIDATORS = new InjectionToken('NgValidators');
+/**
+ * \@description
+ * An `InjectionToken` for registering additional asynchronous validators used with `AbstractControl`s.
+ *
+ * @see `NG_VALIDATORS`
+ *
+ * \@publicApi
+ * @type {?}
+ */
+const NG_ASYNC_VALIDATORS = new InjectionToken('NgAsyncValidators');
+/** @type {?} */
+const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
+/**
+ * \@description
+ * Provides a set of built-in validators that can be used by form controls.
+ *
+ * A validator is a function that processes a `FormControl` or collection of
+ * controls and returns an error map or null. A null map means that validation has passed.
+ *
+ * @see [Form Validation](/guide/form-validation)
+ *
+ * \@publicApi
+ */
+class Validators {
+    /**
+     * \@description
+     * Validator that requires the control's value to be greater than or equal to the provided number.
+     * The validator exists only as a function and not as a directive.
+     *
+     * \@usageNotes
+     *
+     * ### Validate against a minimum of 3
+     *
+     * ```typescript
+     * const control = new FormControl(2, Validators.min(3));
+     *
+     * console.log(control.errors); // {min: {min: 3, actual: 2}}
+     * ```
+     *
+     * @param {?} min
+     * @return {?} A validator function that returns an error map with the
+     * `min` property if the validation check fails, otherwise `null`.
+     *
+     */
+    static min(min) {
+        return (control) => {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            /** @type {?} */
+            const value = parseFloat(control.value);
+            // Controls with NaN values after parsing should be treated as not having a
+            // minimum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-min
+            return !isNaN(value) && value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
+        };
+    }
+    /**
+     * \@description
+     * Validator that requires the control's value to be less than or equal to the provided number.
+     * The validator exists only as a function and not as a directive.
+     *
+     * \@usageNotes
+     *
+     * ### Validate against a maximum of 15
+     *
+     * ```typescript
+     * const control = new FormControl(16, Validators.max(15));
+     *
+     * console.log(control.errors); // {max: {max: 15, actual: 16}}
+     * ```
+     *
+     * @param {?} max
+     * @return {?} A validator function that returns an error map with the
+     * `max` property if the validation check fails, otherwise `null`.
+     *
+     */
+    static max(max) {
+        return (control) => {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(max)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            /** @type {?} */
+            const value = parseFloat(control.value);
+            // Controls with NaN values after parsing should be treated as not having a
+            // maximum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-max
+            return !isNaN(value) && value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
+        };
+    }
+    /**
+     * \@description
+     * Validator that requires the control have a non-empty value.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field is non-empty
+     *
+     * ```typescript
+     * const control = new FormControl('', Validators.required);
+     *
+     * console.log(control.errors); // {required: true}
+     * ```
+     *
+     * @param {?} control
+     * @return {?} An error map with the `required` property
+     * if the validation check fails, otherwise `null`.
+     *
+     */
+    static required(control) {
+        return isEmptyInputValue(control.value) ? { 'required': true } : null;
+    }
+    /**
+     * \@description
+     * Validator that requires the control's value be true. This validator is commonly
+     * used for required checkboxes.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field value is true
+     *
+     * ```typescript
+     * const control = new FormControl('', Validators.requiredTrue);
+     *
+     * console.log(control.errors); // {required: true}
+     * ```
+     *
+     * @param {?} control
+     * @return {?} An error map that contains the `required` property
+     * set to `true` if the validation check fails, otherwise `null`.
+     */
+    static requiredTrue(control) {
+        return control.value === true ? null : { 'required': true };
+    }
+    /**
+     * \@description
+     * Validator that requires the control's value pass an email validation test.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field matches a valid email pattern
+     *
+     * ```typescript
+     * const control = new FormControl('bad\@', Validators.email);
+     *
+     * console.log(control.errors); // {email: true}
+     * ```
+     *
+     * @param {?} control
+     * @return {?} An error map with the `email` property
+     * if the validation check fails, otherwise `null`.
+     *
+     */
+    static email(control) {
+        if (isEmptyInputValue(control.value)) {
+            return null; // don't validate empty values to allow optional controls
+        }
+        return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
+    }
+    /**
+     * \@description
+     * Validator that requires the length of the control's value to be greater than or equal
+     * to the provided minimum length. This validator is also provided by default if you use the
+     * the HTML5 `minlength` attribute.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field has a minimum of 3 characters
+     *
+     * ```typescript
+     * const control = new FormControl('ng', Validators.minLength(3));
+     *
+     * console.log(control.errors); // {minlength: {requiredLength: 3, actualLength: 2}}
+     * ```
+     *
+     * ```html
+     * <input minlength="5">
+     * ```
+     *
+     * @param {?} minLength
+     * @return {?} A validator function that returns an error map with the
+     * `minlength` if the validation check fails, otherwise `null`.
+     */
+    static minLength(minLength) {
+        return (control) => {
+            if (isEmptyInputValue(control.value)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            /** @type {?} */
+            const length = control.value ? control.value.length : 0;
+            return length < minLength ?
+                { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
+                null;
+        };
+    }
+    /**
+     * \@description
+     * Validator that requires the length of the control's value to be less than or equal
+     * to the provided maximum length. This validator is also provided by default if you use the
+     * the HTML5 `maxlength` attribute.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field has maximum of 5 characters
+     *
+     * ```typescript
+     * const control = new FormControl('Angular', Validators.maxLength(5));
+     *
+     * console.log(control.errors); // {maxlength: {requiredLength: 5, actualLength: 7}}
+     * ```
+     *
+     * ```html
+     * <input maxlength="5">
+     * ```
+     *
+     * @param {?} maxLength
+     * @return {?} A validator function that returns an error map with the
+     * `maxlength` property if the validation check fails, otherwise `null`.
+     */
+    static maxLength(maxLength) {
+        return (control) => {
+            /** @type {?} */
+            const length = control.value ? control.value.length : 0;
+            return length > maxLength ?
+                { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
+                null;
+        };
+    }
+    /**
+     * \@description
+     * Validator that requires the control's value to match a regex pattern. This validator is also
+     * provided by default if you use the HTML5 `pattern` attribute.
+     *
+     * Note that if a Regexp is provided, the Regexp is used as is to test the values. On the other
+     * hand, if a string is passed, the `^` character is prepended and the `$` character is
+     * appended to the provided string (if not already present), and the resulting regular
+     * expression is used to test the values.
+     *
+     * \@usageNotes
+     *
+     * ### Validate that the field only contains letters or spaces
+     *
+     * ```typescript
+     * const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
+     *
+     * console.log(control.errors); // {pattern: {requiredPattern: '^[a-zA-Z ]*$', actualValue: '1'}}
+     * ```
+     *
+     * ```html
+     * <input pattern="[a-zA-Z ]*">
+     * ```
+     *
+     * @param {?} pattern
+     * @return {?} A validator function that returns an error map with the
+     * `pattern` property if the validation check fails, otherwise `null`.
+     */
+    static pattern(pattern) {
+        if (!pattern)
+            return Validators.nullValidator;
+        /** @type {?} */
+        let regex;
+        /** @type {?} */
+        let regexStr;
+        if (typeof pattern === 'string') {
+            regexStr = '';
+            if (pattern.charAt(0) !== '^')
+                regexStr += '^';
+            regexStr += pattern;
+            if (pattern.charAt(pattern.length - 1) !== '$')
+                regexStr += '$';
+            regex = new RegExp(regexStr);
+        }
+        else {
+            regexStr = pattern.toString();
+            regex = pattern;
+        }
+        return (control) => {
+            if (isEmptyInputValue(control.value)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            /** @type {?} */
+            const value = control.value;
+            return regex.test(value) ? null :
+                { 'pattern': { 'requiredPattern': regexStr, 'actualValue': value } };
+        };
+    }
+    /**
+     * \@description
+     * Validator that performs no operation.
+     * @param {?} control
+     * @return {?}
+     */
+    static nullValidator(control) { return null; }
+    /**
+     * @param {?} validators
+     * @return {?}
+     */
+    static compose(validators) {
+        if (!validators)
+            return null;
+        /** @type {?} */
+        const presentValidators = (/** @type {?} */ (validators.filter(isPresent)));
+        if (presentValidators.length == 0)
+            return null;
+        return function (control) {
+            return _mergeErrors(_executeValidators(control, presentValidators));
+        };
+    }
+    /**
+     * \@description
+     * Compose multiple async validators into a single function that returns the union
+     * of the individual error objects for the provided control.
+     *
+     * @param {?} validators
+     * @return {?} A validator function that returns an error map with the
+     * merged error objects of the async validators if the validation check fails, otherwise `null`.
+     */
+    static composeAsync(validators) {
+        if (!validators)
+            return null;
+        /** @type {?} */
+        const presentValidators = (/** @type {?} */ (validators.filter(isPresent)));
+        if (presentValidators.length == 0)
+            return null;
+        return function (control) {
+            /** @type {?} */
+            const observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
+            return forkJoin(observables).pipe(map(_mergeErrors));
+        };
+    }
+}
+/**
+ * @param {?} o
+ * @return {?}
+ */
+function isPresent(o) {
+    return o != null;
+}
+/**
+ * @param {?} r
+ * @return {?}
+ */
+function toObservable(r) {
+    /** @type {?} */
+    const obs = ɵisPromise(r) ? from(r) : r;
+    if (!(ɵisObservable(obs))) {
+        throw new Error(`Expected validator to return Promise or Observable.`);
+    }
+    return obs;
+}
+/**
+ * @param {?} control
+ * @param {?} validators
+ * @return {?}
+ */
+function _executeValidators(control, validators) {
+    return validators.map(v => v(control));
+}
+/**
+ * @param {?} control
+ * @param {?} validators
+ * @return {?}
+ */
+function _executeAsyncValidators(control, validators) {
+    return validators.map(v => v(control));
+}
+/**
+ * @param {?} arrayOfErrors
+ * @return {?}
+ */
+function _mergeErrors(arrayOfErrors) {
+    /** @type {?} */
+    const res = arrayOfErrors.reduce((res, errors) => {
+        return errors != null ? Object.assign({}, (/** @type {?} */ (res)), errors) : (/** @type {?} */ (res));
+    }, {});
+    return Object.keys(res).length === 0 ? null : res;
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * @param {?} validator
  * @return {?}
  */
@@ -963,6 +1190,7 @@ const NUMBER_VALUE_ACCESSOR = {
  *
  * \@ngModule ReactiveFormsModule
  * \@ngModule FormsModule
+ * \@publicApi
  */
 class NumberValueAccessor {
     /**
@@ -1040,77 +1268,6 @@ NumberValueAccessor.ctorParameters = () => [
     { type: Renderer2 },
     { type: ElementRef }
 ];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * @return {?}
- */
-function unimplemented() {
-    throw new Error('unimplemented');
-}
-/**
- * \@description
- * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
- * object to a DOM element.
- *
- * \@publicApi
- * @abstract
- */
-class NgControl extends AbstractControlDirective {
-    constructor() {
-        super(...arguments);
-        /**
-         * \@description
-         * The parent form for the control.
-         *
-         * \@internal
-         */
-        this._parent = null;
-        /**
-         * \@description
-         * The name for the control
-         */
-        this.name = null;
-        /**
-         * \@description
-         * The value accessor for the control
-         */
-        this.valueAccessor = null;
-        /**
-         * \@description
-         * The uncomposed array of synchronous validators for the control
-         *
-         * \@internal
-         */
-        this._rawValidators = [];
-        /**
-         * \@description
-         * The uncomposed array of async validators for the control
-         *
-         * \@internal
-         */
-        this._rawAsyncValidators = [];
-    }
-    /**
-     * \@description
-     * The registered synchronous validator function for the control
-     *
-     * @throws An exception that this method is not implemented
-     * @return {?}
-     */
-    get validator() { return (/** @type {?} */ (unimplemented())); }
-    /**
-     * \@description
-     * The registered async validator function for the control
-     *
-     * @throws An exception that this method is not implemented
-     * @return {?}
-     */
-    get asyncValidator() { return (/** @type {?} */ (unimplemented())); }
-}
 
 /**
  * @fileoverview added by tsickle
@@ -1367,6 +1524,7 @@ const RANGE_VALUE_ACCESSOR = {
  *
  * \@ngModule ReactiveFormsModule
  * \@ngModule FormsModule
+ * \@publicApi
  */
 class RangeValueAccessor {
     /**
@@ -2529,189 +2687,6 @@ function _ngModelWarning(name, type, instance, warningConfig) {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
- * \@description
- * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
- *
- * \@publicApi
- */
-class AbstractFormGroupDirective extends ControlContainer {
-    /**
-     * \@description
-     * An internal callback method triggered on the instance after the inputs are set.
-     * Registers the group with its parent group.
-     * @return {?}
-     */
-    ngOnInit() {
-        this._checkParentType();
-        (/** @type {?} */ (this.formDirective)).addFormGroup(this);
-    }
-    /**
-     * \@description
-     * An internal callback method triggered before the instance is destroyed.
-     * Removes the group from its parent group.
-     * @return {?}
-     */
-    ngOnDestroy() {
-        if (this.formDirective) {
-            this.formDirective.removeFormGroup(this);
-        }
-    }
-    /**
-     * \@description
-     * The `FormGroup` bound to this directive.
-     * @return {?}
-     */
-    get control() { return (/** @type {?} */ (this.formDirective)).getFormGroup(this); }
-    /**
-     * \@description
-     * The path to this group from the top-level directive.
-     * @return {?}
-     */
-    get path() { return controlPath(this.name, this._parent); }
-    /**
-     * \@description
-     * The top-level directive for this group if present, otherwise null.
-     * @return {?}
-     */
-    get formDirective() { return this._parent ? this._parent.formDirective : null; }
-    /**
-     * \@description
-     * The synchronous validators registered with this group.
-     * @return {?}
-     */
-    get validator() { return composeValidators(this._validators); }
-    /**
-     * \@description
-     * The async validators registered with this group.
-     * @return {?}
-     */
-    get asyncValidator() {
-        return composeAsyncValidators(this._asyncValidators);
-    }
-    /**
-     * \@internal
-     * @return {?}
-     */
-    _checkParentType() { }
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class AbstractControlStatus {
-    /**
-     * @param {?} cd
-     */
-    constructor(cd) { this._cd = cd; }
-    /**
-     * @return {?}
-     */
-    get ngClassUntouched() { return this._cd.control ? this._cd.control.untouched : false; }
-    /**
-     * @return {?}
-     */
-    get ngClassTouched() { return this._cd.control ? this._cd.control.touched : false; }
-    /**
-     * @return {?}
-     */
-    get ngClassPristine() { return this._cd.control ? this._cd.control.pristine : false; }
-    /**
-     * @return {?}
-     */
-    get ngClassDirty() { return this._cd.control ? this._cd.control.dirty : false; }
-    /**
-     * @return {?}
-     */
-    get ngClassValid() { return this._cd.control ? this._cd.control.valid : false; }
-    /**
-     * @return {?}
-     */
-    get ngClassInvalid() { return this._cd.control ? this._cd.control.invalid : false; }
-    /**
-     * @return {?}
-     */
-    get ngClassPending() { return this._cd.control ? this._cd.control.pending : false; }
-}
-/** @type {?} */
-const ngControlStatusHost = {
-    '[class.ng-untouched]': 'ngClassUntouched',
-    '[class.ng-touched]': 'ngClassTouched',
-    '[class.ng-pristine]': 'ngClassPristine',
-    '[class.ng-dirty]': 'ngClassDirty',
-    '[class.ng-valid]': 'ngClassValid',
-    '[class.ng-invalid]': 'ngClassInvalid',
-    '[class.ng-pending]': 'ngClassPending',
-};
-/**
- * \@description
- * Directive automatically applied to Angular form controls that sets CSS classes
- * based on control status.
- *
- * \@usageNotes
- *
- * ### CSS classes applied
- *
- * The following classes are applied as the properties become true:
- *
- * * ng-valid
- * * ng-invalid
- * * ng-pending
- * * ng-pristine
- * * ng-dirty
- * * ng-untouched
- * * ng-touched
- *
- * \@ngModule ReactiveFormsModule
- * \@ngModule FormsModule
- * \@publicApi
- */
-class NgControlStatus extends AbstractControlStatus {
-    /**
-     * @param {?} cd
-     */
-    constructor(cd) { super(cd); }
-}
-NgControlStatus.decorators = [
-    { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] }
-];
-/** @nocollapse */
-NgControlStatus.ctorParameters = () => [
-    { type: NgControl, decorators: [{ type: Self }] }
-];
-/**
- * \@description
- * Directive automatically applied to Angular form groups that sets CSS classes
- * based on control status (valid/invalid/dirty/etc).
- *
- * @see `NgControlStatus`
- *
- * \@ngModule ReactiveFormsModule
- * \@ngModule FormsModule
- * \@publicApi
- */
-class NgControlStatusGroup extends AbstractControlStatus {
-    /**
-     * @param {?} cd
-     */
-    constructor(cd) { super(cd); }
-}
-NgControlStatusGroup.decorators = [
-    { type: Directive, args: [{
-                selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-                host: ngControlStatusHost
-            },] }
-];
-/** @nocollapse */
-NgControlStatusGroup.ctorParameters = () => [
-    { type: ControlContainer, decorators: [{ type: Self }] }
-];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
  * Reports that a FormControl is valid, meaning that no errors exist in the input value.
  *
  * @see `status`
@@ -3250,14 +3225,31 @@ class AbstractControl {
      */
     get(path) { return _find(this, path, '.'); }
     /**
-     * Reports error data for a specific error occurring in this control or in another control.
+     * \@description
+     * Reports error data for the control with the given path.
      *
-     * @param {?} errorCode The error code for which to retrieve data
-     * @param {?=} path The path to a control to check. If not supplied, checks for the error in this
-     * control.
+     * \@usageNotes
+     * For example, for the following `FormGroup`:
      *
-     * @return {?} The error data if the control with the given path has the given error, otherwise null
-     * or undefined.
+     * ```
+     * form = new FormGroup({
+     *   address: new FormGroup({ street: new FormControl() })
+     * });
+     * ```
+     *
+     * The path to the 'street' control from the root form would be 'address' -> 'street'.
+     *
+     * It can be provided to this method in one of two formats:
+     *
+     * 1. An array of string control names, e.g. `['address', 'street']`
+     * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+     *
+     * @param {?} errorCode The code of the error to check
+     * @param {?=} path A list of control names that designates how to move from the current control
+     * to the control that should be queried for errors.
+     *
+     * @return {?} error data for that particular error. If the control or error is not present,
+     * null is returned.
      */
     getError(errorCode, path) {
         /** @type {?} */
@@ -3265,14 +3257,38 @@ class AbstractControl {
         return control && control.errors ? control.errors[errorCode] : null;
     }
     /**
+     * \@description
      * Reports whether the control with the given path has the error specified.
      *
-     * @param {?} errorCode The error code for which to retrieve data
-     * @param {?=} path The path to a control to check. If not supplied, checks for the error in this
-     * control.
-     * @return {?} True when the control with the given path has the error, otherwise false.
+     * \@usageNotes
+     * For example, for the following `FormGroup`:
+     *
+     * ```
+     * form = new FormGroup({
+     *   address: new FormGroup({ street: new FormControl() })
+     * });
+     * ```
+     *
+     * The path to the 'street' control from the root form would be 'address' -> 'street'.
+     *
+     * It can be provided to this method in one of two formats:
+     *
+     * 1. An array of string control names, e.g. `['address', 'street']`
+     * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+     *
+     * If no path is given, this method checks for the error on the current control.
+     *
+     * @param {?} errorCode The code of the error to check
+     * @param {?=} path A list of control names that designates how to move from the current control
+     * to the control that should be queried for errors.
+     *
+     * @return {?} whether the given error is present in the control at the given path.
+     *
+     * If the control is not present, false is returned.
      */
-    hasError(errorCode, path) { return !!this.getError(errorCode, path); }
+    hasError(errorCode, path) {
+        return !!this.getError(errorCode, path);
+    }
     /**
      * Retrieves the top-level ancestor of this control.
      * @return {?}
@@ -4949,6 +4965,77 @@ NgFormSelectorWarning.ctorParameters = () => [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * \@description
+ * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
+ *
+ * \@publicApi
+ */
+class AbstractFormGroupDirective extends ControlContainer {
+    /**
+     * \@description
+     * An internal callback method triggered on the instance after the inputs are set.
+     * Registers the group with its parent group.
+     * @return {?}
+     */
+    ngOnInit() {
+        this._checkParentType();
+        (/** @type {?} */ (this.formDirective)).addFormGroup(this);
+    }
+    /**
+     * \@description
+     * An internal callback method triggered before the instance is destroyed.
+     * Removes the group from its parent group.
+     * @return {?}
+     */
+    ngOnDestroy() {
+        if (this.formDirective) {
+            this.formDirective.removeFormGroup(this);
+        }
+    }
+    /**
+     * \@description
+     * The `FormGroup` bound to this directive.
+     * @return {?}
+     */
+    get control() { return (/** @type {?} */ (this.formDirective)).getFormGroup(this); }
+    /**
+     * \@description
+     * The path to this group from the top-level directive.
+     * @return {?}
+     */
+    get path() { return controlPath(this.name, this._parent); }
+    /**
+     * \@description
+     * The top-level directive for this group if present, otherwise null.
+     * @return {?}
+     */
+    get formDirective() { return this._parent ? this._parent.formDirective : null; }
+    /**
+     * \@description
+     * The synchronous validators registered with this group.
+     * @return {?}
+     */
+    get validator() { return composeValidators(this._validators); }
+    /**
+     * \@description
+     * The async validators registered with this group.
+     * @return {?}
+     */
+    get asyncValidator() {
+        return composeAsyncValidators(this._asyncValidators);
+    }
+    /**
+     * \@internal
+     * @return {?}
+     */
+    _checkParentType() { }
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /** @type {?} */
 const modelGroupProvider = {
     provide: ControlContainer,
@@ -5337,6 +5424,36 @@ NgModel.propDecorators = {
     options: [{ type: Input, args: ['ngModelOptions',] }],
     update: [{ type: Output, args: ['ngModelChange',] }]
 };
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * \@description
+ *
+ * Adds `novalidate` attribute to all forms by default.
+ *
+ * `novalidate` is used to disable browser's native form validation.
+ *
+ * If you want to use native validation with Angular forms, just add `ngNativeValidate` attribute:
+ *
+ * ```
+ * <form ngNativeValidate></form>
+ * ```
+ *
+ * \@publicApi
+ * \@ngModule ReactiveFormsModule
+ * \@ngModule FormsModule
+ */
+class NgNoValidate {
+}
+NgNoValidate.decorators = [
+    { type: Directive, args: [{
+                selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
+                host: { 'novalidate': '' },
+            },] }
+];
 
 /**
  * @fileoverview added by tsickle
@@ -6790,6 +6907,47 @@ PatternValidator.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/** @type {?} */
+const SHARED_FORM_DIRECTIVES = [
+    NgNoValidate,
+    NgSelectOption,
+    NgSelectMultipleOption,
+    DefaultValueAccessor,
+    NumberValueAccessor,
+    RangeValueAccessor,
+    CheckboxControlValueAccessor,
+    SelectControlValueAccessor,
+    SelectMultipleControlValueAccessor,
+    RadioControlValueAccessor,
+    NgControlStatus,
+    NgControlStatusGroup,
+    RequiredValidator,
+    MinLengthValidator,
+    MaxLengthValidator,
+    PatternValidator,
+    CheckboxRequiredValidator,
+    EmailValidator,
+];
+/** @type {?} */
+const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
+/** @type {?} */
+const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
+/**
+ * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
+ */
+class InternalFormsSharedModule {
+}
+InternalFormsSharedModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: SHARED_FORM_DIRECTIVES,
+                exports: SHARED_FORM_DIRECTIVES,
+            },] }
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /**
  * @param {?} options
  * @return {?}
@@ -6955,78 +7113,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0-rc.0+20.sha-1c0ac25');
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * \@description
- *
- * Adds `novalidate` attribute to all forms by default.
- *
- * `novalidate` is used to disable browser's native form validation.
- *
- * If you want to use native validation with Angular forms, just add `ngNativeValidate` attribute:
- *
- * ```
- * <form ngNativeValidate></form>
- * ```
- *
- * \@publicApi
- * \@ngModule ReactiveFormsModule
- * \@ngModule FormsModule
- */
-class NgNoValidate {
-}
-NgNoValidate.decorators = [
-    { type: Directive, args: [{
-                selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
-                host: { 'novalidate': '' },
-            },] }
-];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/** @type {?} */
-const SHARED_FORM_DIRECTIVES = [
-    NgNoValidate,
-    NgSelectOption,
-    NgSelectMultipleOption,
-    DefaultValueAccessor,
-    NumberValueAccessor,
-    RangeValueAccessor,
-    CheckboxControlValueAccessor,
-    SelectControlValueAccessor,
-    SelectMultipleControlValueAccessor,
-    RadioControlValueAccessor,
-    NgControlStatus,
-    NgControlStatusGroup,
-    RequiredValidator,
-    MinLengthValidator,
-    MaxLengthValidator,
-    PatternValidator,
-    CheckboxRequiredValidator,
-    EmailValidator,
-];
-/** @type {?} */
-const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
-/** @type {?} */
-const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
-/**
- * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
- */
-class InternalFormsSharedModule {
-}
-InternalFormsSharedModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: SHARED_FORM_DIRECTIVES,
-                exports: SHARED_FORM_DIRECTIVES,
-            },] }
-];
+const VERSION = new Version('7.2.0+103.sha-7de7e1b');
 
 /**
  * @fileoverview added by tsickle
@@ -7035,7 +7122,6 @@ InternalFormsSharedModule.decorators = [
 /**
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
- * @see [Forms](guide/forms)
  *
  * @see [Forms Guide](/guide/forms)
  *
@@ -7121,5 +7207,5 @@ ReactiveFormsModule.decorators = [
  * Generated bundle index. Do not edit.
  */
 
-export { InternalFormsSharedModule as ɵangular_packages_forms_forms_bc, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_bb, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_z, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_ba, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_a, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_b, AbstractControlStatus as ɵangular_packages_forms_forms_c, ngControlStatusHost as ɵangular_packages_forms_forms_d, formDirectiveProvider as ɵangular_packages_forms_forms_e, NG_FORM_SELECTOR_WARNING as ɵangular_packages_forms_forms_f, formControlBinding as ɵangular_packages_forms_forms_g, modelGroupProvider as ɵangular_packages_forms_forms_h, NgNoValidate as ɵangular_packages_forms_forms_bh, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_bd, NumberValueAccessor as ɵangular_packages_forms_forms_be, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_i, RadioControlRegistry as ɵangular_packages_forms_forms_j, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_bf, RangeValueAccessor as ɵangular_packages_forms_forms_bg, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_k, formControlBinding$1 as ɵangular_packages_forms_forms_l, controlNameBinding as ɵangular_packages_forms_forms_m, formDirectiveProvider$1 as ɵangular_packages_forms_forms_n, formArrayNameProvider as ɵangular_packages_forms_forms_p, formGroupNameProvider as ɵangular_packages_forms_forms_o, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_q, NgSelectMultipleOption as ɵangular_packages_forms_forms_s, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_r, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_u, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_v, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_x, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_w, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_y, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_t, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, RadioControlValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
+export { REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_d, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, AbstractControlStatus as ɵangular_packages_forms_forms_f, ngControlStatusHost as ɵangular_packages_forms_forms_g, formDirectiveProvider as ɵangular_packages_forms_forms_h, NG_FORM_SELECTOR_WARNING as ɵangular_packages_forms_forms_i, formControlBinding as ɵangular_packages_forms_forms_j, modelGroupProvider as ɵangular_packages_forms_forms_k, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_l, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_m, RadioControlRegistry as ɵangular_packages_forms_forms_n, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_o, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_p, formControlBinding$1 as ɵangular_packages_forms_forms_q, controlNameBinding as ɵangular_packages_forms_forms_r, formDirectiveProvider$1 as ɵangular_packages_forms_forms_s, formArrayNameProvider as ɵangular_packages_forms_forms_u, formGroupNameProvider as ɵangular_packages_forms_forms_t, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_v, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_w, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_y, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_z, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bb, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_ba, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_bc, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_x, InternalFormsSharedModule as ɵInternalFormsSharedModule, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, NgNoValidate as ɵNgNoValidate, NumberValueAccessor, RadioControlValueAccessor, RangeValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, NgSelectMultipleOption as ɵNgSelectMultipleOption, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
 //# sourceMappingURL=forms.js.map
