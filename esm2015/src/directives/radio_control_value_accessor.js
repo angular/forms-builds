@@ -80,7 +80,7 @@ export class RadioControlRegistry {
 RadioControlRegistry.decorators = [
     { type: Injectable },
 ];
-RadioControlRegistry.ngInjectableDef = i0.defineInjectable({ token: RadioControlRegistry, factory: function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); }, providedIn: null });
+/** @nocollapse */ RadioControlRegistry.ngInjectableDef = i0.defineInjectable({ token: RadioControlRegistry, factory: function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); }, providedIn: null });
 /*@__PURE__*/ i0.ɵsetClassMetadata(RadioControlRegistry, [{
         type: Injectable
     }], null, null);
@@ -242,7 +242,7 @@ RadioControlValueAccessor.propDecorators = {
     formControlName: [{ type: Input }],
     value: [{ type: Input }]
 };
-RadioControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], factory: function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef), i0.ɵdirectiveInject(RadioControlRegistry), i0.ɵdirectiveInject(Injector)); }, hostBindings: function RadioControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+/** @nocollapse */ RadioControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], factory: function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef), i0.ɵdirectiveInject(RadioControlRegistry), i0.ɵdirectiveInject(Injector)); }, hostBindings: function RadioControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         i0.ɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange(); });
         i0.ɵlistener("blur", function RadioControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
     } }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [i0.ɵProvidersFeature([RADIO_VALUE_ACCESSOR])] });

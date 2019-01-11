@@ -82,7 +82,7 @@ InternalFormsSharedModule.decorators = [
                 exports: SHARED_FORM_DIRECTIVES,
             },] },
 ];
-InternalFormsSharedModule.ngModuleDef = i0.ɵdefineNgModule({ type: InternalFormsSharedModule, bootstrap: [], declarations: [NgNoValidate,
+/** @nocollapse */ InternalFormsSharedModule.ngModuleDef = i0.ɵdefineNgModule({ type: InternalFormsSharedModule, bootstrap: [], declarations: [NgNoValidate,
         NgSelectOption,
         NgSelectMultipleOption,
         DefaultValueAccessor,
@@ -117,7 +117,7 @@ InternalFormsSharedModule.ngModuleDef = i0.ɵdefineNgModule({ type: InternalForm
         PatternValidator,
         CheckboxRequiredValidator,
         EmailValidator] });
-InternalFormsSharedModule.ngInjectorDef = i0.defineInjector({ factory: function InternalFormsSharedModule_Factory(t) { return new (t || InternalFormsSharedModule)(); }, providers: [], imports: [SHARED_FORM_DIRECTIVES] });
+/** @nocollapse */ InternalFormsSharedModule.ngInjectorDef = i0.defineInjector({ factory: function InternalFormsSharedModule_Factory(t) { return new (t || InternalFormsSharedModule)(); }, providers: [], imports: [SHARED_FORM_DIRECTIVES] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(InternalFormsSharedModule, [{
         type: NgModule,
         args: [{

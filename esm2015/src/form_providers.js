@@ -54,8 +54,8 @@ FormsModule.decorators = [
                 exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
             },] },
 ];
-FormsModule.ngModuleDef = i0.ɵdefineNgModule({ type: FormsModule, bootstrap: [], declarations: [i1.NgModel, i2.NgModelGroup, i3.NgForm, i4.NgFormSelectorWarning], imports: [], exports: [InternalFormsSharedModule, i1.NgModel, i2.NgModelGroup, i3.NgForm, i4.NgFormSelectorWarning] });
-FormsModule.ngInjectorDef = i0.defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [[InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
+/** @nocollapse */ FormsModule.ngModuleDef = i0.ɵdefineNgModule({ type: FormsModule, bootstrap: [], declarations: [i1.NgModel, i2.NgModelGroup, i3.NgForm, i4.NgFormSelectorWarning], imports: [], exports: [InternalFormsSharedModule, i1.NgModel, i2.NgModelGroup, i3.NgForm, i4.NgFormSelectorWarning] });
+/** @nocollapse */ FormsModule.ngInjectorDef = i0.defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [[InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormsModule, [{
         type: NgModule,
         args: [{
@@ -100,8 +100,8 @@ ReactiveFormsModule.decorators = [
                 exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] },
 ];
-ReactiveFormsModule.ngModuleDef = i0.ɵdefineNgModule({ type: ReactiveFormsModule, bootstrap: [], declarations: [i5.FormControlDirective, i6.FormGroupDirective, i7.FormControlName, i8.FormGroupName, i8.FormArrayName], imports: [], exports: [InternalFormsSharedModule, i5.FormControlDirective, i6.FormGroupDirective, i7.FormControlName, i8.FormGroupName, i8.FormArrayName] });
-ReactiveFormsModule.ngInjectorDef = i0.defineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [[InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]] });
+/** @nocollapse */ ReactiveFormsModule.ngModuleDef = i0.ɵdefineNgModule({ type: ReactiveFormsModule, bootstrap: [], declarations: [i5.FormControlDirective, i6.FormGroupDirective, i7.FormControlName, i8.FormGroupName, i8.FormArrayName], imports: [], exports: [InternalFormsSharedModule, i5.FormControlDirective, i6.FormGroupDirective, i7.FormControlName, i8.FormGroupName, i8.FormArrayName] });
+/** @nocollapse */ ReactiveFormsModule.ngInjectorDef = i0.defineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [[InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(ReactiveFormsModule, [{
         type: NgModule,
         args: [{

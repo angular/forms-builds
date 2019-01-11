@@ -168,7 +168,7 @@ export class FormBuilder {
 FormBuilder.decorators = [
     { type: Injectable },
 ];
-FormBuilder.ngInjectableDef = i0.defineInjectable({ token: FormBuilder, factory: function FormBuilder_Factory(t) { return new (t || FormBuilder)(); }, providedIn: null });
+/** @nocollapse */ FormBuilder.ngInjectableDef = i0.defineInjectable({ token: FormBuilder, factory: function FormBuilder_Factory(t) { return new (t || FormBuilder)(); }, providedIn: null });
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormBuilder, [{
         type: Injectable
     }], null, null);
