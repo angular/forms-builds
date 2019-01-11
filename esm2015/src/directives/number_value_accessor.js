@@ -118,7 +118,7 @@ NumberValueAccessor.ctorParameters = () => [
     { type: Renderer2 },
     { type: ElementRef }
 ];
-/** @nocollapse */ NumberValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], factory: function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef)); }, hostBindings: function NumberValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+NumberValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], factory: function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef)); }, hostBindings: function NumberValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         i0.ɵlistener("change", function NumberValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
         i0.ɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
         i0.ɵlistener("blur", function NumberValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });

@@ -101,7 +101,7 @@ NgControlStatus.decorators = [
 NgControlStatus.ctorParameters = () => [
     { type: NgControl, decorators: [{ type: Self }] }
 ];
-/** @nocollapse */ NgControlStatus.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ɵdirectiveInject(NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+NgControlStatus.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ɵdirectiveInject(NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         i0.ɵelementStyling(_c0, null, null, ctx);
     } if (rf & 2) {
         i0.ɵelementClassProp(elIndex, 0, ctx.ngClassUntouched, ctx);
@@ -149,7 +149,7 @@ NgControlStatusGroup.decorators = [
 NgControlStatusGroup.ctorParameters = () => [
     { type: ControlContainer, decorators: [{ type: Self }] }
 ];
-/** @nocollapse */ NgControlStatusGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵdirectiveInject(ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+NgControlStatusGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵdirectiveInject(ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         i0.ɵelementStyling(_c0, null, null, ctx);
     } if (rf & 2) {
         i0.ɵelementClassProp(elIndex, 0, ctx.ngClassUntouched, ctx);

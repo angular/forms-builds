@@ -272,7 +272,7 @@ SelectMultipleControlValueAccessor.ctorParameters = () => [
 SelectMultipleControlValueAccessor.propDecorators = {
     compareWith: [{ type: Input }]
 };
-/** @nocollapse */ SelectMultipleControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], factory: function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef)); }, hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+SelectMultipleControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], factory: function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(ElementRef)); }, hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         i0.ɵlistener("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target); });
         i0.ɵlistener("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
     } }, inputs: { compareWith: "compareWith" }, features: [i0.ɵProvidersFeature([SELECT_MULTIPLE_VALUE_ACCESSOR])] });
@@ -431,7 +431,7 @@ NgSelectMultipleOption.propDecorators = {
     ngValue: [{ type: Input, args: ['ngValue',] }],
     value: [{ type: Input, args: ['value',] }]
 };
-/** @nocollapse */ NgSelectMultipleOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(i0.ɵdirectiveInject(ElementRef), i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
+NgSelectMultipleOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectMultipleOption, selectors: [["option"]], factory: function NgSelectMultipleOption_Factory(t) { return new (t || NgSelectMultipleOption)(i0.ɵdirectiveInject(ElementRef), i0.ɵdirectiveInject(Renderer2), i0.ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgSelectMultipleOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
