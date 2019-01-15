@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.2.0+178.sha-e62eeed
+ * @license Angular v7.2.0+179.sha-6930451
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, defineInjectable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory, NgModule, ɵdefineNgModule, defineInjector, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, defineInjectable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵelementHostAttrs, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory, NgModule, ɵdefineNgModule, defineInjector, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -5916,6 +5916,7 @@ NgModel.propDecorators = {
             args: ['ngModelChange']
         }] });
 
+const _c0$1 = ["novalidate", ""];
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
@@ -5952,7 +5953,9 @@ NgNoValidate.decorators = [
                 host: { 'novalidate': '' },
             },] },
 ];
-/** @nocollapse */ NgNoValidate.ngDirectiveDef = ɵdefineDirective({ type: NgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function NgNoValidate_Factory(t) { return new (t || NgNoValidate)(); }, attributes: ["novalidate", ""] });
+/** @nocollapse */ NgNoValidate.ngDirectiveDef = ɵdefineDirective({ type: NgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function NgNoValidate_Factory(t) { return new (t || NgNoValidate)(); }, hostBindings: function NgNoValidate_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+        ɵelementHostAttrs(ctx, _c0$1);
+    } } });
 /*@__PURE__*/ ɵsetClassMetadata(NgNoValidate, [{
         type: Directive,
         args: [{
@@ -8008,7 +8011,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0+178.sha-e62eeed');
+const VERSION = new Version('7.2.0+179.sha-6930451');
 
 /**
  * @fileoverview added by tsickle

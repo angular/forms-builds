@@ -1,10 +1,10 @@
 /**
- * @license Angular v7.2.0+178.sha-e62eeed
+ * @license Angular v7.2.0+179.sha-6930451
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, ɵdefineDirective, ɵdirectiveInject, Renderer2, ElementRef, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, Self, ɵisPromise, ɵisObservable, defineInjectable, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, Output, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory, ɵdefineNgModule, defineInjector, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, ɵdefineDirective, ɵdirectiveInject, Renderer2, ElementRef, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵelementStyling, ɵelementClassProp, ɵelementStylingApply, ɵInheritDefinitionFeature, Self, ɵisPromise, ɵisObservable, defineInjectable, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, Output, ɵelementHostAttrs, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory, ɵdefineNgModule, defineInjector, NgModule, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { __extends, __assign, __values, __spread } from 'tslib';
 import { forkJoin, from } from 'rxjs';
@@ -5067,6 +5067,7 @@ var NgModel = /** @class */ (function (_super) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var _c0$1 = ["novalidate", ""];
 /**
  * @description
  *
@@ -5087,7 +5088,9 @@ var NgModel = /** @class */ (function (_super) {
 var NgNoValidate = /** @class */ (function () {
     function NgNoValidate() {
     }
-    NgNoValidate.ngDirectiveDef = ɵdefineDirective({ type: NgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function NgNoValidate_Factory(t) { return new (t || NgNoValidate)(); }, attributes: ["novalidate", ""] });
+    NgNoValidate.ngDirectiveDef = ɵdefineDirective({ type: NgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function NgNoValidate_Factory(t) { return new (t || NgNoValidate)(); }, hostBindings: function NgNoValidate_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+            ɵelementHostAttrs(ctx, _c0$1);
+        } } });
     return NgNoValidate;
 }());
 /*@__PURE__*/ ɵsetClassMetadata(NgNoValidate, [{
@@ -6898,7 +6901,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.0+178.sha-e62eeed');
+var VERSION = new Version('7.2.0+179.sha-6930451');
 
 /**
  * @license
