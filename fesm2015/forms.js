@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.0-rc.0+129.sha-35ec2dc
+ * @license Angular v7.2.0+98.sha-03293c4
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -155,11 +155,32 @@ class AbstractControlDirective {
     /**
      * \@description
      * Reports whether the control with the given path has the error specified.
-     * If no path is given, it checks for the error on the present control.
+     *
+     * \@usageNotes
+     * For example, for the following `FormGroup`:
+     *
+     * ```
+     * form = new FormGroup({
+     *   address: new FormGroup({ street: new FormControl() })
+     * });
+     * ```
+     *
+     * The path to the 'street' control from the root form would be 'address' -> 'street'.
+     *
+     * It can be provided to this method in one of two formats:
+     *
+     * 1. An array of string control names, e.g. `['address', 'street']`
+     * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+     *
+     * If no path is given, this method checks for the error on the current control.
+     *
+     * @param {?} errorCode The code of the error to check
+     * @param {?=} path A list of control names that designates how to move from the current control
+     * to the control that should be queried for errors.
+     *
+     * @return {?} whether the given error is present in the control at the given path.
+     *
      * If the control is not present, false is returned.
-     * @param {?} errorCode
-     * @param {?=} path
-     * @return {?}
      */
     hasError(errorCode, path) {
         return this.control ? this.control.hasError(errorCode, path) : false;
@@ -167,10 +188,29 @@ class AbstractControlDirective {
     /**
      * \@description
      * Reports error data for the control with the given path.
-     * If the control is not present, null is returned.
-     * @param {?} errorCode
-     * @param {?=} path
-     * @return {?}
+     *
+     * \@usageNotes
+     * For example, for the following `FormGroup`:
+     *
+     * ```
+     * form = new FormGroup({
+     *   address: new FormGroup({ street: new FormControl() })
+     * });
+     * ```
+     *
+     * The path to the 'street' control from the root form would be 'address' -> 'street'.
+     *
+     * It can be provided to this method in one of two formats:
+     *
+     * 1. An array of string control names, e.g. `['address', 'street']`
+     * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+     *
+     * @param {?} errorCode The code of the error to check
+     * @param {?=} path A list of control names that designates how to move from the current control
+     * to the control that should be queried for errors.
+     *
+     * @return {?} error data for that particular error. If the control or error is not present,
+     * null is returned.
      */
     getError(errorCode, path) {
         return this.control ? this.control.getError(errorCode, path) : null;
@@ -3268,14 +3308,31 @@ class AbstractControl {
      */
     get(path) { return _find(this, path, '.'); }
     /**
-     * Reports error data for a specific error occurring in this control or in another control.
+     * \@description
+     * Reports error data for the control with the given path.
      *
-     * @param {?} errorCode The error code for which to retrieve data
-     * @param {?=} path The path to a control to check. If not supplied, checks for the error in this
-     * control.
+     * \@usageNotes
+     * For example, for the following `FormGroup`:
      *
-     * @return {?} The error data if the control with the given path has the given error, otherwise null
-     * or undefined.
+     * ```
+     * form = new FormGroup({
+     *   address: new FormGroup({ street: new FormControl() })
+     * });
+     * ```
+     *
+     * The path to the 'street' control from the root form would be 'address' -> 'street'.
+     *
+     * It can be provided to this method in one of two formats:
+     *
+     * 1. An array of string control names, e.g. `['address', 'street']`
+     * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+     *
+     * @param {?} errorCode The code of the error to check
+     * @param {?=} path A list of control names that designates how to move from the current control
+     * to the control that should be queried for errors.
+     *
+     * @return {?} error data for that particular error. If the control or error is not present,
+     * null is returned.
      */
     getError(errorCode, path) {
         /** @type {?} */
@@ -3283,14 +3340,38 @@ class AbstractControl {
         return control && control.errors ? control.errors[errorCode] : null;
     }
     /**
+     * \@description
      * Reports whether the control with the given path has the error specified.
      *
-     * @param {?} errorCode The error code for which to retrieve data
-     * @param {?=} path The path to a control to check. If not supplied, checks for the error in this
-     * control.
-     * @return {?} True when the control with the given path has the error, otherwise false.
+     * \@usageNotes
+     * For example, for the following `FormGroup`:
+     *
+     * ```
+     * form = new FormGroup({
+     *   address: new FormGroup({ street: new FormControl() })
+     * });
+     * ```
+     *
+     * The path to the 'street' control from the root form would be 'address' -> 'street'.
+     *
+     * It can be provided to this method in one of two formats:
+     *
+     * 1. An array of string control names, e.g. `['address', 'street']`
+     * 1. A period-delimited list of control names in one string, e.g. `'address.street'`
+     *
+     * If no path is given, this method checks for the error on the current control.
+     *
+     * @param {?} errorCode The code of the error to check
+     * @param {?=} path A list of control names that designates how to move from the current control
+     * to the control that should be queried for errors.
+     *
+     * @return {?} whether the given error is present in the control at the given path.
+     *
+     * If the control is not present, false is returned.
      */
-    hasError(errorCode, path) { return !!this.getError(errorCode, path); }
+    hasError(errorCode, path) {
+        return !!this.getError(errorCode, path);
+    }
     /**
      * Retrieves the top-level ancestor of this control.
      * @return {?}
@@ -6973,7 +7054,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.0-rc.0+129.sha-35ec2dc');
+const VERSION = new Version('7.2.0+98.sha-03293c4');
 
 /**
  * @fileoverview added by tsickle
