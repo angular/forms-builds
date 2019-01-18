@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.1+6.sha-49bee4c
+ * @license Angular v7.2.1+7.sha-93d78c9
  * (c) 2010-2018 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -7054,7 +7054,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('7.2.1+6.sha-49bee4c');
+const VERSION = new Version('7.2.1+7.sha-93d78c9');
 
 /**
  * @fileoverview added by tsickle
