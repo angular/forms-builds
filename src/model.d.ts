@@ -251,6 +251,11 @@ export declare abstract class AbstractControl {
         onlySelf?: boolean;
     }): void;
     /**
+     * Marks the control and all its descendant controls as `touched`.
+     * @see `markAsTouched()`
+     */
+    markAllAsTouched(): void;
+    /**
      * Marks the control as `untouched`.
      *
      * If the control has any children, also marks all children as `untouched`
