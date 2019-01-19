@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.0+15.sha-7220bfd
+ * @license Angular v8.0.0-beta.0+25.sha-218110a
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2617,6 +2617,14 @@ var AbstractControl = /** @class */ (function () {
         if (this._parent && !opts.onlySelf) {
             this._parent.markAsTouched(opts);
         }
+    };
+    /**
+     * Marks the control and all its descendant controls as `touched`.
+     * @see `markAsTouched()`
+     */
+    AbstractControl.prototype.markAllAsTouched = function () {
+        this.markAsTouched({ onlySelf: true });
+        this._forEachChild(function (control) { return control.markAllAsTouched(); });
     };
     /**
      * Marks the control as `untouched`.
@@ -6603,7 +6611,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('8.0.0-beta.0+15.sha-7220bfd');
+var VERSION = new Version('8.0.0-beta.0+25.sha-218110a');
 
 /**
  * @license
