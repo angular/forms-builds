@@ -258,7 +258,7 @@ var FormGroupDirective = /** @class */ (function (_super) {
     FormGroupDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupDirective, selectors: [["", "formGroup", ""]], factory: function FormGroupDirective_Factory(t) { return new (t || FormGroupDirective)(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function FormGroupDirective_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
             i0.ɵlistener("submit", function FormGroupDirective_submit_HostBindingHandler($event) { return ctx.onSubmit($event); });
             i0.ɵlistener("reset", function FormGroupDirective_reset_HostBindingHandler($event) { return ctx.onReset(); });
-        } }, inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [i0.ɵProvidersFeature([formDirectiveProvider]), i0.ɵInheritDefinitionFeature] });
+        } }, inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [i0.ɵProvidersFeature([formDirectiveProvider]), i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature()] });
     return FormGroupDirective;
 }(ControlContainer));
 export { FormGroupDirective };
