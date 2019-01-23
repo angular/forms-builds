@@ -290,7 +290,7 @@ var MinLengthValidator = /** @class */ (function () {
             i0.ɵallocHostVars(1);
         } if (rf & 2) {
             i0.ɵelementAttribute(elIndex, "minlength", i0.ɵbind((ctx.minlength ? ctx.minlength : null)));
-        } }, inputs: { minlength: "minlength" }, features: [i0.ɵProvidersFeature([MIN_LENGTH_VALIDATOR]), i0.ɵNgOnChangesFeature()] });
+        } }, inputs: { minlength: "minlength" }, features: [i0.ɵProvidersFeature([MIN_LENGTH_VALIDATOR])] });
     return MinLengthValidator;
 }());
 export { MinLengthValidator };
@@ -373,7 +373,7 @@ var MaxLengthValidator = /** @class */ (function () {
             i0.ɵallocHostVars(1);
         } if (rf & 2) {
             i0.ɵelementAttribute(elIndex, "maxlength", i0.ɵbind((ctx.maxlength ? ctx.maxlength : null)));
-        } }, inputs: { maxlength: "maxlength" }, features: [i0.ɵProvidersFeature([MAX_LENGTH_VALIDATOR]), i0.ɵNgOnChangesFeature()] });
+        } }, inputs: { maxlength: "maxlength" }, features: [i0.ɵProvidersFeature([MAX_LENGTH_VALIDATOR])] });
     return MaxLengthValidator;
 }());
 export { MaxLengthValidator };
@@ -454,7 +454,7 @@ var PatternValidator = /** @class */ (function () {
             i0.ɵallocHostVars(1);
         } if (rf & 2) {
             i0.ɵelementAttribute(elIndex, "pattern", i0.ɵbind((ctx.pattern ? ctx.pattern : null)));
-        } }, inputs: { pattern: "pattern" }, features: [i0.ɵProvidersFeature([PATTERN_VALIDATOR]), i0.ɵNgOnChangesFeature()] });
+        } }, inputs: { pattern: "pattern" }, features: [i0.ɵProvidersFeature([PATTERN_VALIDATOR])] });
     return PatternValidator;
 }());
 export { PatternValidator };
