@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.1+35.sha-fdc2b0b
+ * @license Angular v8.0.0-beta.1+56.sha-fd8dbd5
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2897,6 +2897,9 @@
          */
         AbstractControl.prototype.disable = function (opts) {
             if (opts === void 0) { opts = {}; }
+            // If parent has been marked artificially dirty we don't want to re-calculate the
+            // parent's dirtiness based on the children.
+            var skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
             this.status = DISABLED;
             this.errors = null;
             this._forEachChild(function (control) { control.disable(__assign({}, opts, { onlySelf: true })); });
@@ -2905,7 +2908,7 @@
                 this.valueChanges.emit(this.value);
                 this.statusChanges.emit(this.status);
             }
-            this._updateAncestors(opts);
+            this._updateAncestors(__assign({}, opts, { skipPristineCheck: skipPristineCheck }));
             this._onDisabledChange.forEach(function (changeFn) { return changeFn(true); });
         };
         /**
@@ -2928,16 +2931,21 @@
          */
         AbstractControl.prototype.enable = function (opts) {
             if (opts === void 0) { opts = {}; }
+            // If parent has been marked artificially dirty we don't want to re-calculate the
+            // parent's dirtiness based on the children.
+            var skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
             this.status = VALID;
             this._forEachChild(function (control) { control.enable(__assign({}, opts, { onlySelf: true })); });
             this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-            this._updateAncestors(opts);
+            this._updateAncestors(__assign({}, opts, { skipPristineCheck: skipPristineCheck }));
             this._onDisabledChange.forEach(function (changeFn) { return changeFn(false); });
         };
         AbstractControl.prototype._updateAncestors = function (opts) {
             if (this._parent && !opts.onlySelf) {
                 this._parent.updateValueAndValidity(opts);
-                this._parent._updatePristine();
+                if (!opts.skipPristineCheck) {
+                    this._parent._updatePristine();
+                }
                 this._parent._updateTouched();
             }
         };
@@ -3194,6 +3202,15 @@
             if (isOptionsObj(opts) && opts.updateOn != null) {
                 this._updateOn = opts.updateOn;
             }
+        };
+        /**
+         * Check to see if parent has been marked artificially dirty.
+         *
+         * @internal
+         */
+        AbstractControl.prototype._parentMarkedDirty = function (onlySelf) {
+            var parentDirty = this._parent && this._parent.dirty;
+            return !onlySelf && parentDirty && !this._parent._anyControlsDirty();
         };
         return AbstractControl;
     }());
@@ -6983,7 +7000,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('8.0.0-beta.1+35.sha-fdc2b0b');
+    var VERSION = new i0.Version('8.0.0-beta.1+56.sha-fd8dbd5');
 
     /**
      * @license

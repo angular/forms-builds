@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.1+35.sha-fdc2b0b
+ * @license Angular v8.0.0-beta.1+56.sha-fd8dbd5
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3369,6 +3369,10 @@ class AbstractControl {
      * @return {?}
      */
     disable(opts = {}) {
+        // If parent has been marked artificially dirty we don't want to re-calculate the
+        // parent's dirtiness based on the children.
+        /** @type {?} */
+        const skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
         ((/** @type {?} */ (this))).status = DISABLED;
         ((/** @type {?} */ (this))).errors = null;
         this._forEachChild((control) => { control.disable(Object.assign({}, opts, { onlySelf: true })); });
@@ -3377,7 +3381,7 @@ class AbstractControl {
             ((/** @type {?} */ (this.valueChanges))).emit(this.value);
             ((/** @type {?} */ (this.statusChanges))).emit(this.status);
         }
-        this._updateAncestors(opts);
+        this._updateAncestors(Object.assign({}, opts, { skipPristineCheck }));
         this._onDisabledChange.forEach((changeFn) => changeFn(true));
     }
     /**
@@ -3400,10 +3404,14 @@ class AbstractControl {
      * @return {?}
      */
     enable(opts = {}) {
+        // If parent has been marked artificially dirty we don't want to re-calculate the
+        // parent's dirtiness based on the children.
+        /** @type {?} */
+        const skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
         ((/** @type {?} */ (this))).status = VALID;
         this._forEachChild((control) => { control.enable(Object.assign({}, opts, { onlySelf: true })); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-        this._updateAncestors(opts);
+        this._updateAncestors(Object.assign({}, opts, { skipPristineCheck }));
         this._onDisabledChange.forEach((changeFn) => changeFn(false));
     }
     /**
@@ -3414,7 +3422,9 @@ class AbstractControl {
     _updateAncestors(opts) {
         if (this._parent && !opts.onlySelf) {
             this._parent.updateValueAndValidity(opts);
-            this._parent._updatePristine();
+            if (!opts.skipPristineCheck) {
+                this._parent._updatePristine();
+            }
             this._parent._updateTouched();
         }
     }
@@ -3733,6 +3743,19 @@ class AbstractControl {
         if (isOptionsObj(opts) && ((/** @type {?} */ (opts))).updateOn != null) {
             this._updateOn = (/** @type {?} */ (((/** @type {?} */ (opts))).updateOn));
         }
+    }
+    /**
+     * Check to see if parent has been marked artificially dirty.
+     *
+     * \@internal
+     * @private
+     * @param {?=} onlySelf
+     * @return {?}
+     */
+    _parentMarkedDirty(onlySelf) {
+        /** @type {?} */
+        const parentDirty = this._parent && this._parent.dirty;
+        return !onlySelf && parentDirty && !this._parent._anyControlsDirty();
     }
 }
 /**
@@ -8020,7 +8043,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.0.0-beta.1+35.sha-fdc2b0b');
+const VERSION = new Version('8.0.0-beta.1+56.sha-fd8dbd5');
 
 /**
  * @fileoverview added by tsickle
