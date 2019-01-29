@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.1+68.sha-6e16338
+ * @license Angular v8.0.0-beta.1+83.sha-e18a52e
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6723,7 +6723,7 @@ var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, Form
 var InternalFormsSharedModule = /** @class */ (function () {
     function InternalFormsSharedModule() {
     }
-    InternalFormsSharedModule.ngModuleDef = ɵdefineNgModule({ type: InternalFormsSharedModule, bootstrap: [], declarations: [NgNoValidate,
+    InternalFormsSharedModule.ngModuleDef = ɵdefineNgModule({ type: InternalFormsSharedModule, declarations: [NgNoValidate,
             NgSelectOption,
             NgSelectMultipleOption,
             DefaultValueAccessor,
@@ -6740,7 +6740,7 @@ var InternalFormsSharedModule = /** @class */ (function () {
             MaxLengthValidator,
             PatternValidator,
             CheckboxRequiredValidator,
-            EmailValidator], imports: [], exports: [NgNoValidate,
+            EmailValidator], exports: [NgNoValidate,
             NgSelectOption,
             NgSelectMultipleOption,
             DefaultValueAccessor,
@@ -6926,7 +6926,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('8.0.0-beta.1+68.sha-6e16338');
+var VERSION = new Version('8.0.0-beta.1+83.sha-e18a52e');
 
 /**
  * @license
@@ -6960,7 +6960,7 @@ var FormsModule = /** @class */ (function () {
             providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
         };
     };
-    FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule, bootstrap: [], declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], imports: [], exports: [InternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
+    FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule, declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], exports: [InternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
     FormsModule.ngInjectorDef = defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [[InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
     return FormsModule;
 }());
@@ -7001,7 +7001,7 @@ var ReactiveFormsModule = /** @class */ (function () {
                 }]
         };
     };
-    ReactiveFormsModule.ngModuleDef = ɵdefineNgModule({ type: ReactiveFormsModule, bootstrap: [], declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], imports: [], exports: [InternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
+    ReactiveFormsModule.ngModuleDef = ɵdefineNgModule({ type: ReactiveFormsModule, declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [InternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
     ReactiveFormsModule.ngInjectorDef = defineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [[InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]] });
     return ReactiveFormsModule;
 }());
