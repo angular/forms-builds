@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -9,6 +8,7 @@ import * as i0 from '@angular/core';
 import { ElementRef, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
 import { NgControl } from './ng_control';
+import * as i0 from "@angular/core";
 export declare const RADIO_VALUE_ACCESSOR: any;
 /**
  * @description
@@ -135,5 +135,5 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     setDisabledState(isDisabled: boolean): void;
     private _checkName;
     private _throwNameError;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<RadioControlValueAccessor, 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]', never, {'name': 'name', 'formControlName': 'formControlName', 'value': 'value'}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<RadioControlValueAccessor, "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", never, { 'name': "name", 'formControlName': "formControlName", 'value': "value" }, {}, never>;
 }

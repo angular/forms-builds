@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -12,6 +11,7 @@ import { ControlContainer } from './control_container';
 import { ControlValueAccessor } from './control_value_accessor';
 import { NgControl } from './ng_control';
 import { AsyncValidator, AsyncValidatorFn, Validator, ValidatorFn } from './validators';
+import * as i0 from "@angular/core";
 export declare const formControlBinding: any;
 /**
  * @description
@@ -199,5 +199,5 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _checkName;
     private _updateValue;
     private _updateDisabled;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgModel, '[ngModel]:not([formControlName]):not([formControl])', ['ngModel'], {'name': 'name', 'isDisabled': 'disabled', 'model': 'ngModel', 'options': 'ngModelOptions'}, {'update': 'ngModelChange'}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgModel, "[ngModel]:not([formControlName]):not([formControl])", ["ngModel"], { 'name': "name", 'isDisabled': "disabled", 'model': "ngModel", 'options': "ngModelOptions" }, { 'update': "ngModelChange" }, never>;
 }

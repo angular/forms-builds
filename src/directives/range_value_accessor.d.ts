@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -8,6 +7,7 @@ import * as i0 from '@angular/core';
  */
 import { ElementRef, Renderer2, StaticProvider } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
+import * as i0 from "@angular/core";
 export declare const RANGE_VALUE_ACCESSOR: StaticProvider;
 /**
  * @description
@@ -74,5 +74,5 @@ export declare class RangeValueAccessor implements ControlValueAccessor {
      * @param isDisabled The disabled value
      */
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<RangeValueAccessor, 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]', never, {}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<RangeValueAccessor, "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", never, {}, {}, never>;
 }

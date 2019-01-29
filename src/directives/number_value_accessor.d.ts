@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -8,6 +7,7 @@ import * as i0 from '@angular/core';
  */
 import { ElementRef, Renderer2 } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
+import * as i0 from "@angular/core";
 export declare const NUMBER_VALUE_ACCESSOR: any;
 /**
  * @description
@@ -74,5 +74,5 @@ export declare class NumberValueAccessor implements ControlValueAccessor {
      * @param isDisabled The disabled value
      */
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NumberValueAccessor, 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]', never, {}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NumberValueAccessor, "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", never, {}, {}, never>;
 }

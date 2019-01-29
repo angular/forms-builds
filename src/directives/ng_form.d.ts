@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -13,6 +12,7 @@ import { Form } from './form_interface';
 import { NgControl } from './ng_control';
 import { NgModel } from './ng_model';
 import { NgModelGroup } from './ng_model_group';
+import * as i0 from "@angular/core";
 export declare const formDirectiveProvider: any;
 /**
  * @description
@@ -220,5 +220,5 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
      */
     resetForm(value?: any): void;
     private _setUpdateStrategy;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgForm, 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]', ['ngForm'], {'options': 'ngFormOptions'}, {'ngSubmit': 'ngSubmit'}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgForm, "form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]", ["ngForm"], { 'options': "ngFormOptions" }, { 'ngSubmit': "ngSubmit" }, never>;
 }

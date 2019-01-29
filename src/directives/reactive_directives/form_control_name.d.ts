@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -12,6 +11,7 @@ import { ControlContainer } from '../control_container';
 import { ControlValueAccessor } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
 import { AsyncValidator, AsyncValidatorFn, Validator, ValidatorFn } from '../validators';
+import * as i0 from "@angular/core";
 export declare const controlNameBinding: any;
 /**
  * @description
@@ -178,5 +178,5 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     readonly asyncValidator: AsyncValidatorFn;
     private _checkParentType;
     private _setUpControl;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormControlName, '[formControlName]', never, {'name': 'formControlName', 'isDisabled': 'disabled', 'model': 'ngModel'}, {'update': 'ngModelChange'}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormControlName, "[formControlName]", never, { 'name': "formControlName", 'isDisabled': "disabled", 'model': "ngModel" }, { 'update': "ngModelChange" }, never>;
 }

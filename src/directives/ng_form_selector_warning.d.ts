@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -7,6 +6,7 @@ import * as i0 from '@angular/core';
  * found in the LICENSE file at https://angular.io/license
  */
 import { InjectionToken } from '@angular/core';
+import * as i0 from "@angular/core";
 /**
  * @description
  * `InjectionToken` to provide to turn off the warning when using 'ngForm' deprecated selector.
@@ -21,5 +21,5 @@ export declare const NG_FORM_SELECTOR_WARNING: InjectionToken<{}>;
  */
 export declare class NgFormSelectorWarning {
     constructor(ngFormWarning: string | null);
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgFormSelectorWarning, 'ngForm', never, {}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgFormSelectorWarning, "ngForm", never, {}, {}, never>;
 }

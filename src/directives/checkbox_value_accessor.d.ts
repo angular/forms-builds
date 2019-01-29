@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -8,6 +7,7 @@ import * as i0 from '@angular/core';
  */
 import { ElementRef, Renderer2 } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
+import * as i0 from "@angular/core";
 export declare const CHECKBOX_VALUE_ACCESSOR: any;
 /**
  * @description
@@ -72,5 +72,5 @@ export declare class CheckboxControlValueAccessor implements ControlValueAccesso
      * @param isDisabled The disabled value
      */
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<CheckboxControlValueAccessor, 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]', never, {}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<CheckboxControlValueAccessor, "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", never, {}, {}, never>;
 }

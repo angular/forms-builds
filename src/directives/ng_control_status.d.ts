@@ -1,14 +1,7 @@
-import * as i0 from '@angular/core';
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 import { AbstractControlDirective } from './abstract_control_directive';
 import { ControlContainer } from './control_container';
 import { NgControl } from './ng_control';
+import * as i0 from "@angular/core";
 export declare class AbstractControlStatus {
     private _cd;
     constructor(cd: AbstractControlDirective);
@@ -54,7 +47,7 @@ export declare const ngControlStatusHost: {
  */
 export declare class NgControlStatus extends AbstractControlStatus {
     constructor(cd: NgControl);
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgControlStatus, '[formControlName],[ngModel],[formControl]', never, {}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgControlStatus, "[formControlName],[ngModel],[formControl]", never, {}, {}, never>;
 }
 /**
  * @description
@@ -69,5 +62,5 @@ export declare class NgControlStatus extends AbstractControlStatus {
  */
 export declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgControlStatusGroup, '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]', never, {}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgControlStatusGroup, "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", never, {}, {}, never>;
 }

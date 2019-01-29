@@ -1,14 +1,3 @@
-import * as i0 from '@angular/core';
-import * as i1 from './directives/ng_no_validate_directive';
-import * as i2 from './directives/select_control_value_accessor';
-import * as i3 from './directives/select_multiple_control_value_accessor';
-import * as i4 from './directives/default_value_accessor';
-import * as i5 from './directives/number_value_accessor';
-import * as i6 from './directives/range_value_accessor';
-import * as i7 from './directives/checkbox_value_accessor';
-import * as i8 from './directives/radio_control_value_accessor';
-import * as i9 from './directives/ng_control_status';
-import * as i10 from './directives/validators';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -17,6 +6,17 @@ import * as i10 from './directives/validators';
  * found in the LICENSE file at https://angular.io/license
  */
 import { Type } from '@angular/core';
+import * as i0 from "@angular/core";
+import * as i1 from "./directives/ng_no_validate_directive";
+import * as i2 from "./directives/select_control_value_accessor";
+import * as i3 from "./directives/select_multiple_control_value_accessor";
+import * as i4 from "./directives/default_value_accessor";
+import * as i5 from "./directives/number_value_accessor";
+import * as i6 from "./directives/range_value_accessor";
+import * as i7 from "./directives/checkbox_value_accessor";
+import * as i8 from "./directives/radio_control_value_accessor";
+import * as i9 from "./directives/ng_control_status";
+import * as i10 from "./directives/validators";
 export { CheckboxControlValueAccessor } from './directives/checkbox_value_accessor';
 export { ControlValueAccessor } from './directives/control_value_accessor';
 export { DefaultValueAccessor } from './directives/default_value_accessor';

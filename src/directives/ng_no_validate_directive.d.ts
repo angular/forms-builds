@@ -1,11 +1,4 @@
-import * as i0 from '@angular/core';
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
+import * as i0 from "@angular/core";
 /**
  * @description
  *
@@ -24,5 +17,5 @@ import * as i0 from '@angular/core';
  * @ngModule FormsModule
  */
 export declare class NgNoValidate {
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgNoValidate, 'form:not([ngNoForm]):not([ngNativeValidate])', never, {}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgNoValidate, "form:not([ngNoForm]):not([ngNativeValidate])", never, {}, {}, never>;
 }

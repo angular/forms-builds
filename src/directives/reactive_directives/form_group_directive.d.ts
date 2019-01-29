@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -12,6 +11,7 @@ import { ControlContainer } from '../control_container';
 import { Form } from '../form_interface';
 import { FormControlName } from './form_control_name';
 import { FormArrayName, FormGroupName } from './form_group_name';
+import * as i0 from "@angular/core";
 export declare const formDirectiveProvider: any;
 /**
  * @description
@@ -174,5 +174,5 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     private _updateRegistrations;
     private _updateValidators;
     private _checkFormPresent;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormGroupDirective, '[formGroup]', ['ngForm'], {'form': 'formGroup'}, {'ngSubmit': 'ngSubmit'}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormGroupDirective, "[formGroup]", ["ngForm"], { 'form': "formGroup" }, { 'ngSubmit': "ngSubmit" }, never>;
 }

@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -8,6 +7,7 @@ import * as i0 from '@angular/core';
  */
 import { ElementRef, OnDestroy, Renderer2, StaticProvider } from '@angular/core';
 import { ControlValueAccessor } from './control_value_accessor';
+import * as i0 from "@angular/core";
 export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
 /**
  * @description
@@ -99,7 +99,7 @@ export declare class SelectMultipleControlValueAccessor implements ControlValueA
      * @param isDisabled The disabled value
      */
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<SelectMultipleControlValueAccessor, 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]', never, {'compareWith': 'compareWith'}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<SelectMultipleControlValueAccessor, "select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]", never, { 'compareWith': "compareWith" }, {}, never>;
 }
 /**
  * @description
@@ -134,5 +134,5 @@ export declare class NgSelectMultipleOption implements OnDestroy {
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
      */
     ngOnDestroy(): void;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgSelectMultipleOption, 'option', never, {'ngValue': 'ngValue', 'value': 'value'}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgSelectMultipleOption, "option", never, { 'ngValue': "ngValue", 'value': "value" }, {}, never>;
 }

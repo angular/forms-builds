@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -11,6 +10,7 @@ import { FormControl } from '../../model';
 import { ControlValueAccessor } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
 import { AsyncValidator, AsyncValidatorFn, Validator, ValidatorFn } from '../validators';
+import * as i0 from "@angular/core";
 /**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
@@ -163,5 +163,5 @@ export declare class FormControlDirective extends NgControl implements OnChanges
      */
     viewToModelUpdate(newValue: any): void;
     private _isControlChanged;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormControlDirective, '[formControl]', ['ngForm'], {'form': 'formControl', 'isDisabled': 'disabled', 'model': 'ngModel'}, {'update': 'ngModelChange'}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormControlDirective, "[formControl]", ["ngForm"], { 'form': "formControl", 'isDisabled': "disabled", 'model': "ngModel" }, { 'update': "ngModelChange" }, never>;
 }

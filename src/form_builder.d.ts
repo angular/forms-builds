@@ -1,13 +1,6 @@
-import * as i0 from '@angular/core';
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 import { AsyncValidatorFn, ValidatorFn } from './directives/validators';
 import { AbstractControlOptions, FormArray, FormControl, FormGroup } from './model';
+import * as i0 from "@angular/core";
 /**
  * @description
  * Creates an `AbstractControl` from a user-specified configuration.

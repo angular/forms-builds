@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -9,6 +8,7 @@ import * as i0 from '@angular/core';
 import { OnDestroy, OnInit } from '@angular/core';
 import { AbstractFormGroupDirective } from './abstract_form_group_directive';
 import { ControlContainer } from './control_container';
+import * as i0 from "@angular/core";
 export declare const modelGroupProvider: any;
 /**
  * @description
@@ -44,5 +44,5 @@ export declare class NgModelGroup extends AbstractFormGroupDirective implements 
      */
     name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgModelGroup, '[ngModelGroup]', ['ngModelGroup'], {'name': 'ngModelGroup'}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgModelGroup, "[ngModelGroup]", ["ngModelGroup"], { 'name': "ngModelGroup" }, {}, never>;
 }

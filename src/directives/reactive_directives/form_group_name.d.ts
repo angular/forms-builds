@@ -1,4 +1,3 @@
-import * as i0 from '@angular/core';
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -12,6 +11,7 @@ import { AbstractFormGroupDirective } from '../abstract_form_group_directive';
 import { ControlContainer } from '../control_container';
 import { AsyncValidatorFn, ValidatorFn } from '../validators';
 import { FormGroupDirective } from './form_group_directive';
+import * as i0 from "@angular/core";
 export declare const formGroupNameProvider: any;
 /**
  * @description
@@ -68,7 +68,7 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      */
     name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormGroupName, '[formGroupName]', never, {'name': 'formGroupName'}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormGroupName, "[formGroupName]", never, { 'name': "formGroupName" }, {}, never>;
 }
 export declare const formArrayNameProvider: any;
 /**
@@ -143,5 +143,5 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      */
     readonly asyncValidator: AsyncValidatorFn | null;
     private _checkParentType;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormArrayName, '[formArrayName]', never, {'name': 'formArrayName'}, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<FormArrayName, "[formArrayName]", never, { 'name': "formArrayName" }, {}, never>;
 }
