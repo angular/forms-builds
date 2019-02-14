@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.3+172.sha-841a1d3
+ * @license Angular v8.0.0-beta.3+162.sha-3842dd6
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4345,9 +4345,9 @@ class FormGroup extends AbstractControl {
         this._forEachChild((control, name) => {
             control.reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
         });
+        this.updateValueAndValidity(options);
         this._updatePristine(options);
         this._updateTouched(options);
-        this.updateValueAndValidity(options);
     }
     /**
      * The aggregate value of the `FormGroup`, including any disabled controls.
@@ -4767,9 +4767,9 @@ class FormArray extends AbstractControl {
         this._forEachChild((control, index) => {
             control.reset(value[index], { onlySelf: true, emitEvent: options.emitEvent });
         });
+        this.updateValueAndValidity(options);
         this._updatePristine(options);
         this._updateTouched(options);
-        this.updateValueAndValidity(options);
     }
     /**
      * The aggregate value of the array, including any disabled controls.
@@ -8043,7 +8043,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.0.0-beta.3+172.sha-841a1d3');
+const VERSION = new Version('8.0.0-beta.3+162.sha-3842dd6');
 
 /**
  * @fileoverview added by tsickle
