@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.5+9.sha-58436fd
+ * @license Angular v8.0.0-beta.5+10.sha-be121bb
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -657,11 +657,11 @@ class NgControl extends AbstractControlDirective {
     get asyncValidator() { return (/** @type {?} */ (unimplemented())); }
 }
 
-const _c0 = ["ng-untouched", "ng-touched", "ng-pristine", "ng-dirty", "ng-valid", "ng-invalid", "ng-pending"];
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+const _c0 = ["ng-untouched", "ng-touched", "ng-pristine", "ng-dirty", "ng-valid", "ng-invalid", "ng-pending"];
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5948,11 +5948,11 @@ NgModel.propDecorators = {
             args: ['ngModelChange']
         }] });
 
-const _c0$1 = ["novalidate", ""];
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+const _c0$1 = ["novalidate", ""];
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -7257,6 +7257,10 @@ FormControlName.propDecorators = {
         }] });
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
  * \@description
  * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
  * @type {?}
@@ -7783,6 +7787,10 @@ PatternValidator.propDecorators = {
             type: Input
         }] });
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /** @type {?} */
 const SHARED_FORM_DIRECTIVES = [
     NgNoValidate,
@@ -8043,7 +8051,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.0.0-beta.5+9.sha-58436fd');
+const VERSION = new Version('8.0.0-beta.5+10.sha-be121bb');
 
 /**
  * @fileoverview added by tsickle
