@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.6+22.sha-cb20b3b.with-local-changes
+ * @license Angular v8.0.0-beta.6+25.sha-03d2e5c.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6535,8 +6535,8 @@ var FormBuilder = /** @class */ (function () {
             }
             else {
                 // `options` are legacy form group options
-                validators = options.validator != null ? options.validator : null;
-                asyncValidators = options.asyncValidator != null ? options.asyncValidator : null;
+                validators = options['validator'] != null ? options['validator'] : null;
+                asyncValidators = options['asyncValidator'] != null ? options['asyncValidator'] : null;
             }
         }
         return new FormGroup(controls, { asyncValidators: asyncValidators, updateOn: updateOn, validators: validators });
@@ -6628,7 +6628,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('8.0.0-beta.6+22.sha-cb20b3b.with-local-changes');
+var VERSION = new Version('8.0.0-beta.6+25.sha-03d2e5c.with-local-changes');
 
 /**
  * @license
