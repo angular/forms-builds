@@ -36,7 +36,7 @@ export declare class FormsModule {
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnDeprecatedNgFormSelector?: 'never' | 'once' | 'always';
     }): ModuleWithProviders<FormsModule>;
-    static ngModuleDef: i0.ɵNgModuleDefWithMeta<FormsModule, [typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm, typeof i4.NgFormSelectorWarning], never, [typeof i5.InternalFormsSharedModule, typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm, typeof i4.NgFormSelectorWarning]>;
+    static ngModuleDef: i0.ɵNgModuleDefWithMeta<FormsModule, [typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm, typeof i4.NgFormSelectorWarning], never, [typeof i5.ɵInternalFormsSharedModule, typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm, typeof i4.NgFormSelectorWarning]>;
     static ngInjectorDef: i0.ɵInjectorDef<FormsModule>;
 }
 /**
@@ -60,6 +60,6 @@ export declare class ReactiveFormsModule {
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnNgModelWithFormControl: 'never' | 'once' | 'always';
     }): ModuleWithProviders<ReactiveFormsModule>;
-    static ngModuleDef: i0.ɵNgModuleDefWithMeta<ReactiveFormsModule, [typeof i6.FormControlDirective, typeof i7.FormGroupDirective, typeof i8.FormControlName, typeof i9.FormGroupName, typeof i9.FormArrayName], never, [typeof i5.InternalFormsSharedModule, typeof i6.FormControlDirective, typeof i7.FormGroupDirective, typeof i8.FormControlName, typeof i9.FormGroupName, typeof i9.FormArrayName]>;
+    static ngModuleDef: i0.ɵNgModuleDefWithMeta<ReactiveFormsModule, [typeof i6.FormControlDirective, typeof i7.FormGroupDirective, typeof i8.FormControlName, typeof i9.FormGroupName, typeof i9.FormArrayName], never, [typeof i5.ɵInternalFormsSharedModule, typeof i6.FormControlDirective, typeof i7.FormGroupDirective, typeof i8.FormControlName, typeof i9.FormGroupName, typeof i9.FormArrayName]>;
     static ngInjectorDef: i0.ɵInjectorDef<ReactiveFormsModule>;
 }

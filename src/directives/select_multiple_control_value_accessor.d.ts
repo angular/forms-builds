@@ -111,7 +111,7 @@ export declare class SelectMultipleControlValueAccessor implements ControlValueA
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class NgSelectMultipleOption implements OnDestroy {
+export declare class ɵNgSelectMultipleOption implements OnDestroy {
     private _element;
     private _renderer;
     private _select;
@@ -134,5 +134,6 @@ export declare class NgSelectMultipleOption implements OnDestroy {
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
      */
     ngOnDestroy(): void;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgSelectMultipleOption, "option", never, { 'ngValue': "ngValue", 'value': "value" }, {}, never>;
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<ɵNgSelectMultipleOption, "option", never, { 'ngValue': "ngValue", 'value': "value" }, {}, never>;
 }
+export { ɵNgSelectMultipleOption as NgSelectMultipleOption };

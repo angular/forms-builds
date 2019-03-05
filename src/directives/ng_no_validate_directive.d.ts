@@ -16,6 +16,7 @@ import * as i0 from "@angular/core";
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
  */
-export declare class NgNoValidate {
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgNoValidate, "form:not([ngNoForm]):not([ngNativeValidate])", never, {}, {}, never>;
+export declare class ɵNgNoValidate {
+    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<ɵNgNoValidate, "form:not([ngNoForm]):not([ngNativeValidate])", never, {}, {}, never>;
 }
+export { ɵNgNoValidate as NgNoValidate };
