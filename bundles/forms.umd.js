@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.6+74.sha-3063547.with-local-changes
+ * @license Angular v8.0.0-beta.6+84.sha-25166d4.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2166,8 +2166,8 @@
      * @ngModule FormsModule
      * @publicApi
      */
-    var NgSelectMultipleOption = /** @class */ (function () {
-        function NgSelectMultipleOption(_element, _renderer, _select) {
+    var ɵNgSelectMultipleOption = /** @class */ (function () {
+        function ɵNgSelectMultipleOption(_element, _renderer, _select) {
             this._element = _element;
             this._renderer = _renderer;
             this._select = _select;
@@ -2175,7 +2175,7 @@
                 this.id = this._select._registerOption(this);
             }
         }
-        Object.defineProperty(NgSelectMultipleOption.prototype, "ngValue", {
+        Object.defineProperty(ɵNgSelectMultipleOption.prototype, "ngValue", {
             /**
              * @description
              * Tracks the value bound to the option element. Unlike the value binding,
@@ -2191,7 +2191,7 @@
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(NgSelectMultipleOption.prototype, "value", {
+        Object.defineProperty(ɵNgSelectMultipleOption.prototype, "value", {
             /**
              * @description
              * Tracks simple string values bound to the option element.
@@ -2211,18 +2211,18 @@
             configurable: true
         });
         /** @internal */
-        NgSelectMultipleOption.prototype._setElementValue = function (value) {
+        ɵNgSelectMultipleOption.prototype._setElementValue = function (value) {
             this._renderer.setProperty(this._element.nativeElement, 'value', value);
         };
         /** @internal */
-        NgSelectMultipleOption.prototype._setSelected = function (selected) {
+        ɵNgSelectMultipleOption.prototype._setSelected = function (selected) {
             this._renderer.setProperty(this._element.nativeElement, 'selected', selected);
         };
         /**
          * @description
          * Lifecycle method called before the directive's instance is destroyed. For internal use only.
          */
-        NgSelectMultipleOption.prototype.ngOnDestroy = function () {
+        ɵNgSelectMultipleOption.prototype.ngOnDestroy = function () {
             if (this._select) {
                 this._select._optionMap.delete(this.id);
                 this._select.writeValue(this._select.value);
@@ -2232,19 +2232,19 @@
             core.Input('ngValue'),
             __metadata("design:type", Object),
             __metadata("design:paramtypes", [Object])
-        ], NgSelectMultipleOption.prototype, "ngValue", null);
+        ], ɵNgSelectMultipleOption.prototype, "ngValue", null);
         __decorate([
             core.Input('value'),
             __metadata("design:type", Object),
             __metadata("design:paramtypes", [Object])
-        ], NgSelectMultipleOption.prototype, "value", null);
-        NgSelectMultipleOption = __decorate([
+        ], ɵNgSelectMultipleOption.prototype, "value", null);
+        ɵNgSelectMultipleOption = __decorate([
             core.Directive({ selector: 'option' }),
             __param(2, core.Optional()), __param(2, core.Host()),
             __metadata("design:paramtypes", [core.ElementRef, core.Renderer2,
                 SelectMultipleControlValueAccessor])
-        ], NgSelectMultipleOption);
-        return NgSelectMultipleOption;
+        ], ɵNgSelectMultipleOption);
+        return ɵNgSelectMultipleOption;
     }());
 
     /**
@@ -5061,16 +5061,16 @@
      * @ngModule ReactiveFormsModule
      * @ngModule FormsModule
      */
-    var NgNoValidate = /** @class */ (function () {
-        function NgNoValidate() {
+    var ɵNgNoValidate = /** @class */ (function () {
+        function ɵNgNoValidate() {
         }
-        NgNoValidate = __decorate([
+        ɵNgNoValidate = __decorate([
             core.Directive({
                 selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
                 host: { 'novalidate': '' },
             })
-        ], NgNoValidate);
-        return NgNoValidate;
+        ], ɵNgNoValidate);
+        return ɵNgNoValidate;
     }());
 
     /**
@@ -6525,9 +6525,9 @@
      * found in the LICENSE file at https://angular.io/license
      */
     var SHARED_FORM_DIRECTIVES = [
-        NgNoValidate,
+        ɵNgNoValidate,
         NgSelectOption,
-        NgSelectMultipleOption,
+        ɵNgSelectMultipleOption,
         DefaultValueAccessor,
         NumberValueAccessor,
         RangeValueAccessor,
@@ -6549,16 +6549,16 @@
     /**
      * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
      */
-    var InternalFormsSharedModule = /** @class */ (function () {
-        function InternalFormsSharedModule() {
+    var ɵInternalFormsSharedModule = /** @class */ (function () {
+        function ɵInternalFormsSharedModule() {
         }
-        InternalFormsSharedModule = __decorate([
+        ɵInternalFormsSharedModule = __decorate([
             core.NgModule({
                 declarations: SHARED_FORM_DIRECTIVES,
                 exports: SHARED_FORM_DIRECTIVES,
             })
-        ], InternalFormsSharedModule);
-        return InternalFormsSharedModule;
+        ], ɵInternalFormsSharedModule);
+        return ɵInternalFormsSharedModule;
     }());
 
     /**
@@ -6717,7 +6717,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('8.0.0-beta.6+74.sha-3063547.with-local-changes');
+    var VERSION = new core.Version('8.0.0-beta.6+84.sha-25166d4.with-local-changes');
 
     /**
      * @license
@@ -6757,7 +6757,7 @@
             core.NgModule({
                 declarations: TEMPLATE_DRIVEN_DIRECTIVES,
                 providers: [RadioControlRegistry],
-                exports: [InternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
+                exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
             })
         ], FormsModule);
         return FormsModule;
@@ -6797,7 +6797,7 @@
             core.NgModule({
                 declarations: [REACTIVE_DRIVEN_DIRECTIVES],
                 providers: [FormBuilder, RadioControlRegistry],
-                exports: [InternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
+                exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             })
         ], ReactiveFormsModule);
         return ReactiveFormsModule;
@@ -6832,36 +6832,41 @@
      * Generated bundle index. Do not edit.
      */
 
+    exports.ɵangular_packages_forms_forms_d = ɵInternalFormsSharedModule;
+    exports.ɵInternalFormsSharedModule = ɵInternalFormsSharedModule;
     exports.ɵangular_packages_forms_forms_c = REACTIVE_DRIVEN_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_a = SHARED_FORM_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_b = TEMPLATE_DRIVEN_DIRECTIVES;
-    exports.ɵangular_packages_forms_forms_d = CHECKBOX_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_e = DEFAULT_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_f = AbstractControlStatus;
-    exports.ɵangular_packages_forms_forms_g = ngControlStatusHost;
-    exports.ɵangular_packages_forms_forms_h = formDirectiveProvider;
-    exports.ɵangular_packages_forms_forms_i = NG_FORM_SELECTOR_WARNING;
-    exports.ɵangular_packages_forms_forms_j = formControlBinding;
-    exports.ɵangular_packages_forms_forms_k = modelGroupProvider;
-    exports.ɵangular_packages_forms_forms_l = NUMBER_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_m = RADIO_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_n = RadioControlRegistry;
-    exports.ɵangular_packages_forms_forms_o = RANGE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_p = NG_MODEL_WITH_FORM_CONTROL_WARNING;
-    exports.ɵangular_packages_forms_forms_q = formControlBinding$1;
-    exports.ɵangular_packages_forms_forms_r = controlNameBinding;
-    exports.ɵangular_packages_forms_forms_s = formDirectiveProvider$1;
-    exports.ɵangular_packages_forms_forms_u = formArrayNameProvider;
-    exports.ɵangular_packages_forms_forms_t = formGroupNameProvider;
-    exports.ɵangular_packages_forms_forms_v = SELECT_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_w = SELECT_MULTIPLE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_y = CHECKBOX_REQUIRED_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_z = EMAIL_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bb = MAX_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_ba = MIN_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bc = PATTERN_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_x = REQUIRED_VALIDATOR;
-    exports.ɵInternalFormsSharedModule = InternalFormsSharedModule;
+    exports.ɵangular_packages_forms_forms_e = CHECKBOX_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_f = DEFAULT_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_g = AbstractControlStatus;
+    exports.ɵangular_packages_forms_forms_h = ngControlStatusHost;
+    exports.ɵangular_packages_forms_forms_i = formDirectiveProvider;
+    exports.ɵangular_packages_forms_forms_j = NG_FORM_SELECTOR_WARNING;
+    exports.ɵangular_packages_forms_forms_k = formControlBinding;
+    exports.ɵangular_packages_forms_forms_l = modelGroupProvider;
+    exports.ɵangular_packages_forms_forms_z = ɵNgNoValidate;
+    exports.ɵNgNoValidate = ɵNgNoValidate;
+    exports.ɵangular_packages_forms_forms_m = NUMBER_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_n = RADIO_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_o = RadioControlRegistry;
+    exports.ɵangular_packages_forms_forms_p = RANGE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_q = NG_MODEL_WITH_FORM_CONTROL_WARNING;
+    exports.ɵangular_packages_forms_forms_r = formControlBinding$1;
+    exports.ɵangular_packages_forms_forms_s = controlNameBinding;
+    exports.ɵangular_packages_forms_forms_t = formDirectiveProvider$1;
+    exports.ɵangular_packages_forms_forms_v = formArrayNameProvider;
+    exports.ɵangular_packages_forms_forms_u = formGroupNameProvider;
+    exports.ɵangular_packages_forms_forms_w = SELECT_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_y = ɵNgSelectMultipleOption;
+    exports.ɵNgSelectMultipleOption = ɵNgSelectMultipleOption;
+    exports.ɵangular_packages_forms_forms_x = SELECT_MULTIPLE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_bb = CHECKBOX_REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bc = EMAIL_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_be = MAX_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bd = MIN_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bf = PATTERN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_ba = REQUIRED_VALIDATOR;
     exports.AbstractControlDirective = AbstractControlDirective;
     exports.AbstractFormGroupDirective = AbstractFormGroupDirective;
     exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
@@ -6876,7 +6881,6 @@
     exports.NgFormSelectorWarning = NgFormSelectorWarning;
     exports.NgModel = NgModel;
     exports.NgModelGroup = NgModelGroup;
-    exports.ɵNgNoValidate = NgNoValidate;
     exports.NumberValueAccessor = NumberValueAccessor;
     exports.RadioControlValueAccessor = RadioControlValueAccessor;
     exports.RangeValueAccessor = RangeValueAccessor;
@@ -6888,7 +6892,6 @@
     exports.NgSelectOption = NgSelectOption;
     exports.SelectControlValueAccessor = SelectControlValueAccessor;
     exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
-    exports.ɵNgSelectMultipleOption = NgSelectMultipleOption;
     exports.CheckboxRequiredValidator = CheckboxRequiredValidator;
     exports.EmailValidator = EmailValidator;
     exports.MaxLengthValidator = MaxLengthValidator;
