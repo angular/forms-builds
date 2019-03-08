@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.7+38.sha-fd5cd10.with-local-changes
+ * @license Angular v8.0.0-beta.7+41.sha-a68b1a1.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1450,6 +1450,37 @@ export declare class FormArray extends AbstractControl {
      * For enabled controls only, the `value` property is the best way to get the value of the array.
      */
     getRawValue(): any[];
+    /**
+     * Remove all controls in the `FormArray`.
+     *
+     * @usageNotes
+     * ### Remove all elements from a FormArray
+     *
+     * ```ts
+     * const arr = new FormArray([
+     *    new FormControl(),
+     *    new FormControl()
+     * ]);
+     * console.log(arr.length);  // 2
+     *
+     * arr.clear();
+     * console.log(arr.length);  // 0
+     * ```
+     *
+     * It's a simpler and more efficient alternative to removing all elements one by one:
+     *
+     * ```ts
+     * const arr = new FormArray([
+     *    new FormControl(),
+     *    new FormControl()
+     * ]);
+     *
+     * while (arr.length) {
+     *    arr.removeAt(0);
+     * }
+     * ```
+     */
+    clear(): void;
     private _registerControl;
 }
 

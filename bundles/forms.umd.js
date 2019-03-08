@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.7+38.sha-fd5cd10.with-local-changes
+ * @license Angular v8.0.0-beta.7+41.sha-a68b1a1.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4135,6 +4135,43 @@
                 return control instanceof FormControl ? control.value : control.getRawValue();
             });
         };
+        /**
+         * Remove all controls in the `FormArray`.
+         *
+         * @usageNotes
+         * ### Remove all elements from a FormArray
+         *
+         * ```ts
+         * const arr = new FormArray([
+         *    new FormControl(),
+         *    new FormControl()
+         * ]);
+         * console.log(arr.length);  // 2
+         *
+         * arr.clear();
+         * console.log(arr.length);  // 0
+         * ```
+         *
+         * It's a simpler and more efficient alternative to removing all elements one by one:
+         *
+         * ```ts
+         * const arr = new FormArray([
+         *    new FormControl(),
+         *    new FormControl()
+         * ]);
+         *
+         * while (arr.length) {
+         *    arr.removeAt(0);
+         * }
+         * ```
+         */
+        FormArray.prototype.clear = function () {
+            if (this.controls.length < 1)
+                return;
+            this._forEachChild(function (control) { return control._registerOnCollectionChange(function () { }); });
+            this.controls.splice(0);
+            this.updateValueAndValidity();
+        };
         /** @internal */
         FormArray.prototype._syncPendingControls = function () {
             var subtreeUpdated = this.controls.reduce(function (updated, child) {
@@ -6717,7 +6754,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('8.0.0-beta.7+38.sha-fd5cd10.with-local-changes');
+    var VERSION = new core.Version('8.0.0-beta.7+41.sha-a68b1a1.with-local-changes');
 
     /**
      * @license
