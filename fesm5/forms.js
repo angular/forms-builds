@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.7+49.sha-b012ab2.with-local-changes
+ * @license Angular v8.0.0-beta.7+50.sha-fc30530.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3822,7 +3822,7 @@ var FormGroup = /** @class */ (function (_super) {
  *
  * ### Adding or removing controls from a form array
  *
- * To change the controls in the array, use the `push`, `insert`, or `removeAt` methods
+ * To change the controls in the array, use the `push`, `insert`, `removeAt` or `clear` methods
  * in `FormArray` itself. These methods ensure the controls are properly tracked in the
  * form's hierarchy. Do not modify the array of `AbstractControl`s used to instantiate
  * the `FormArray` directly, as that result in strange and unexpected behavior such
@@ -6827,7 +6827,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('8.0.0-beta.7+49.sha-b012ab2.with-local-changes');
+var VERSION = new Version('8.0.0-beta.7+50.sha-fc30530.with-local-changes');
 
 /**
  * @license
