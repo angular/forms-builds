@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.8+8.sha-9a7f560.with-local-changes
+ * @license Angular v8.0.0-beta.8+11.sha-7b20cec.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Used to provide a `ControlValueAccessor` for form controls.
@@ -25,7 +25,7 @@ const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -37,7 +37,10 @@ const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 /** @type {?} */
 const CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CheckboxControlValueAccessor),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => CheckboxControlValueAccessor)),
     multi: true,
 };
 /**
@@ -75,12 +78,19 @@ class CheckboxControlValueAccessor {
          * \@description
          * The registered callback function called when a change event occurs on the input element.
          */
-        this.onChange = (_) => { };
+        this.onChange = (/**
+         * @param {?} _
+         * @return {?}
+         */
+        (_) => { });
         /**
          * \@description
          * The registered callback function called when a blur event occurs on the input element.
          */
-        this.onTouched = () => { };
+        this.onTouched = (/**
+         * @return {?}
+         */
+        () => { });
     }
     /**
      * Sets the "checked" property on the input element.
@@ -144,7 +154,7 @@ CheckboxControlValueAccessor.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -156,7 +166,10 @@ CheckboxControlValueAccessor.ctorParameters = () => [
 /** @type {?} */
 const DEFAULT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => DefaultValueAccessor),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => DefaultValueAccessor)),
     multi: true
 };
 /**
@@ -216,12 +229,19 @@ class DefaultValueAccessor {
          * \@description
          * The registered callback function called when an input event occurs on the input element.
          */
-        this.onChange = (_) => { };
+        this.onChange = (/**
+         * @param {?} _
+         * @return {?}
+         */
+        (_) => { });
         /**
          * \@description
          * The registered callback function called when a blur event occurs on the input element.
          */
-        this.onTouched = () => { };
+        this.onTouched = (/**
+         * @return {?}
+         */
+        () => { });
         /**
          * Whether the user is creating a composition string (IME events).
          */
@@ -342,7 +362,7 @@ DefaultValueAccessor.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -550,7 +570,7 @@ class AbstractControlDirective {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@description
@@ -577,7 +597,7 @@ class ControlContainer extends AbstractControlDirective {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @return {?}
@@ -648,7 +668,7 @@ class NgControl extends AbstractControlDirective {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 const _c0 = ["ng-untouched", "ng-touched", "ng-pristine", "ng-dirty", "ng-valid", "ng-invalid", "ng-pending"];
 /**
@@ -807,7 +827,7 @@ NgControlStatusGroup.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @param {?} value
@@ -891,7 +911,11 @@ class Validators {
      *
      */
     static min(min) {
-        return (control) => {
+        return (/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => {
             if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
                 return null; // don't validate empty values to allow optional controls
             }
@@ -900,7 +924,7 @@ class Validators {
             // Controls with NaN values after parsing should be treated as not having a
             // minimum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-min
             return !isNaN(value) && value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
-        };
+        });
     }
     /**
      * \@description
@@ -923,7 +947,11 @@ class Validators {
      *
      */
     static max(max) {
-        return (control) => {
+        return (/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => {
             if (isEmptyInputValue(control.value) || isEmptyInputValue(max)) {
                 return null; // don't validate empty values to allow optional controls
             }
@@ -932,7 +960,7 @@ class Validators {
             // Controls with NaN values after parsing should be treated as not having a
             // maximum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-max
             return !isNaN(value) && value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
-        };
+        });
     }
     /**
      * \@description
@@ -1028,7 +1056,11 @@ class Validators {
      * `minlength` if the validation check fails, otherwise `null`.
      */
     static minLength(minLength) {
-        return (control) => {
+        return (/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => {
             if (isEmptyInputValue(control.value)) {
                 return null; // don't validate empty values to allow optional controls
             }
@@ -1037,7 +1069,7 @@ class Validators {
             return length < minLength ?
                 { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
                 null;
-        };
+        });
     }
     /**
      * \@description
@@ -1064,13 +1096,17 @@ class Validators {
      * `maxlength` property if the validation check fails, otherwise `null`.
      */
     static maxLength(maxLength) {
-        return (control) => {
+        return (/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => {
             /** @type {?} */
             const length = control.value ? control.value.length : 0;
             return length > maxLength ?
                 { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
                 null;
-        };
+        });
     }
     /**
      * \@description
@@ -1120,7 +1156,11 @@ class Validators {
             regexStr = pattern.toString();
             regex = pattern;
         }
-        return (control) => {
+        return (/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => {
             if (isEmptyInputValue(control.value)) {
                 return null; // don't validate empty values to allow optional controls
             }
@@ -1128,7 +1168,7 @@ class Validators {
             const value = control.value;
             return regex.test(value) ? null :
                 { 'pattern': { 'requiredPattern': regexStr, 'actualValue': value } };
-        };
+        });
     }
     /**
      * \@description
@@ -1148,9 +1188,13 @@ class Validators {
         const presentValidators = (/** @type {?} */ (validators.filter(isPresent)));
         if (presentValidators.length == 0)
             return null;
-        return function (control) {
+        return (/**
+         * @param {?} control
+         * @return {?}
+         */
+        function (control) {
             return _mergeErrors(_executeValidators(control, presentValidators));
-        };
+        });
     }
     /**
      * \@description
@@ -1168,11 +1212,15 @@ class Validators {
         const presentValidators = (/** @type {?} */ (validators.filter(isPresent)));
         if (presentValidators.length == 0)
             return null;
-        return function (control) {
+        return (/**
+         * @param {?} control
+         * @return {?}
+         */
+        function (control) {
             /** @type {?} */
             const observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
             return forkJoin(observables).pipe(map(_mergeErrors));
-        };
+        });
     }
 }
 /**
@@ -1200,7 +1248,11 @@ function toObservable(r) {
  * @return {?}
  */
 function _executeValidators(control, validators) {
-    return validators.map(v => v(control));
+    return validators.map((/**
+     * @param {?} v
+     * @return {?}
+     */
+    v => v(control)));
 }
 /**
  * @param {?} control
@@ -1208,7 +1260,11 @@ function _executeValidators(control, validators) {
  * @return {?}
  */
 function _executeAsyncValidators(control, validators) {
-    return validators.map(v => v(control));
+    return validators.map((/**
+     * @param {?} v
+     * @return {?}
+     */
+    v => v(control)));
 }
 /**
  * @param {?} arrayOfErrors
@@ -1216,15 +1272,20 @@ function _executeAsyncValidators(control, validators) {
  */
 function _mergeErrors(arrayOfErrors) {
     /** @type {?} */
-    const res = arrayOfErrors.reduce((res, errors) => {
+    const res = arrayOfErrors.reduce((/**
+     * @param {?} res
+     * @param {?} errors
+     * @return {?}
+     */
+    (res, errors) => {
         return errors != null ? Object.assign({}, (/** @type {?} */ (res)), errors) : (/** @type {?} */ (res));
-    }, {});
+    }), {});
     return Object.keys(res).length === 0 ? null : res;
 }
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1239,7 +1300,11 @@ function _mergeErrors(arrayOfErrors) {
  */
 function normalizeValidator(validator) {
     if (((/** @type {?} */ (validator))).validate) {
-        return (c) => ((/** @type {?} */ (validator))).validate(c);
+        return (/**
+         * @param {?} c
+         * @return {?}
+         */
+        (c) => ((/** @type {?} */ (validator))).validate(c));
     }
     else {
         return (/** @type {?} */ (validator));
@@ -1251,7 +1316,11 @@ function normalizeValidator(validator) {
  */
 function normalizeAsyncValidator(validator) {
     if (((/** @type {?} */ (validator))).validate) {
-        return (c) => ((/** @type {?} */ (validator))).validate(c);
+        return (/**
+         * @param {?} c
+         * @return {?}
+         */
+        (c) => ((/** @type {?} */ (validator))).validate(c));
     }
     else {
         return (/** @type {?} */ (validator));
@@ -1260,7 +1329,7 @@ function normalizeAsyncValidator(validator) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1272,7 +1341,10 @@ function normalizeAsyncValidator(validator) {
 /** @type {?} */
 const NUMBER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NumberValueAccessor),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => NumberValueAccessor)),
     multi: true
 };
 /**
@@ -1312,12 +1384,19 @@ class NumberValueAccessor {
          * The registered callback function called when a change or input event occurs on the input
          * element.
          */
-        this.onChange = (_) => { };
+        this.onChange = (/**
+         * @param {?} _
+         * @return {?}
+         */
+        (_) => { });
         /**
          * \@description
          * The registered callback function called when a blur event occurs on the input element.
          */
-        this.onTouched = () => { };
+        this.onTouched = (/**
+         * @return {?}
+         */
+        () => { });
     }
     /**
      * Sets the "value" property on the input element.
@@ -1339,7 +1418,11 @@ class NumberValueAccessor {
      * @return {?}
      */
     registerOnChange(fn) {
-        this.onChange = (value) => { fn(value == '' ? null : parseFloat(value)); };
+        this.onChange = (/**
+         * @param {?} value
+         * @return {?}
+         */
+        (value) => { fn(value == '' ? null : parseFloat(value)); });
     }
     /**
      * \@description
@@ -1395,7 +1478,7 @@ NumberValueAccessor.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1407,7 +1490,10 @@ NumberValueAccessor.ctorParameters = () => [
 /** @type {?} */
 const RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => RadioControlValueAccessor),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => RadioControlValueAccessor)),
     multi: true
 };
 /**
@@ -1449,11 +1535,15 @@ class RadioControlRegistry {
      * @return {?}
      */
     select(accessor) {
-        this._accessors.forEach((c) => {
+        this._accessors.forEach((/**
+         * @param {?} c
+         * @return {?}
+         */
+        (c) => {
             if (this._isSameGroup(c, accessor) && c[1] !== accessor) {
                 c[1].fireUncheck(accessor.value);
             }
-        });
+        }));
     }
     /**
      * @private
@@ -1511,12 +1601,18 @@ class RadioControlValueAccessor {
          * \@description
          * The registered callback function called when a change event occurs on the input element.
          */
-        this.onChange = () => { };
+        this.onChange = (/**
+         * @return {?}
+         */
+        () => { });
         /**
          * \@description
          * The registered callback function called when a blur event occurs on the input element.
          */
-        this.onTouched = () => { };
+        this.onTouched = (/**
+         * @return {?}
+         */
+        () => { });
     }
     /**
      * \@description
@@ -1556,10 +1652,13 @@ class RadioControlValueAccessor {
      */
     registerOnChange(fn) {
         this._fn = fn;
-        this.onChange = () => {
+        this.onChange = (/**
+         * @return {?}
+         */
+        () => {
             fn(this.value);
             this._registry.select(this);
-        };
+        });
     }
     /**
      * Sets the "value" on the radio input element and unchecks it.
@@ -1647,7 +1746,7 @@ RadioControlValueAccessor.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1659,7 +1758,10 @@ RadioControlValueAccessor.propDecorators = {
 /** @type {?} */
 const RANGE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => RangeValueAccessor),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => RangeValueAccessor)),
     multi: true
 };
 /**
@@ -1699,12 +1801,19 @@ class RangeValueAccessor {
          * The registered callback function called when a change or input event occurs on the input
          * element.
          */
-        this.onChange = (_) => { };
+        this.onChange = (/**
+         * @param {?} _
+         * @return {?}
+         */
+        (_) => { });
         /**
          * \@description
          * The registered callback function called when a blur event occurs on the input element.
          */
-        this.onTouched = () => { };
+        this.onTouched = (/**
+         * @return {?}
+         */
+        () => { });
     }
     /**
      * Sets the "value" property on the input element.
@@ -1723,7 +1832,11 @@ class RangeValueAccessor {
      * @return {?}
      */
     registerOnChange(fn) {
-        this.onChange = (value) => { fn(value == '' ? null : parseFloat(value)); };
+        this.onChange = (/**
+         * @param {?} value
+         * @return {?}
+         */
+        (value) => { fn(value == '' ? null : parseFloat(value)); });
     }
     /**
      * \@description
@@ -1779,7 +1892,7 @@ RangeValueAccessor.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1843,7 +1956,7 @@ const FormErrorExamples = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ReactiveErrors {
     /**
@@ -1940,7 +2053,7 @@ class ReactiveErrors {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -1952,7 +2065,10 @@ class ReactiveErrors {
 /** @type {?} */
 const SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SelectControlValueAccessor),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => SelectControlValueAccessor)),
     multi: true
 };
 /**
@@ -2051,12 +2167,19 @@ class SelectControlValueAccessor {
          * \@description
          * The registered callback function called when a change event occurs on the input element.
          */
-        this.onChange = (_) => { };
+        this.onChange = (/**
+         * @param {?} _
+         * @return {?}
+         */
+        (_) => { });
         /**
          * \@description
          * The registered callback function called when a blur event occurs on the input element.
          */
-        this.onTouched = () => { };
+        this.onTouched = (/**
+         * @return {?}
+         */
+        () => { });
         this._compareWith = ɵlooseIdentical;
     }
     /**
@@ -2098,10 +2221,14 @@ class SelectControlValueAccessor {
      * @return {?}
      */
     registerOnChange(fn) {
-        this.onChange = (valueString) => {
+        this.onChange = (/**
+         * @param {?} valueString
+         * @return {?}
+         */
+        (valueString) => {
             this.value = this._getOptionValue(valueString);
             fn(this.value);
-        };
+        });
     }
     /**
      * \@description
@@ -2277,7 +2404,7 @@ NgSelectOption.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -2289,7 +2416,10 @@ NgSelectOption.propDecorators = {
 /** @type {?} */
 const SELECT_MULTIPLE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SelectMultipleControlValueAccessor),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => SelectMultipleControlValueAccessor)),
     multi: true
 };
 /**
@@ -2368,12 +2498,19 @@ class SelectMultipleControlValueAccessor {
          * \@description
          * The registered callback function called when a change event occurs on the input element.
          */
-        this.onChange = (_) => { };
+        this.onChange = (/**
+         * @param {?} _
+         * @return {?}
+         */
+        (_) => { });
         /**
          * \@description
          * The registered callback function called when a blur event occurs on the input element.
          */
-        this.onTouched = () => { };
+        this.onTouched = (/**
+         * @return {?}
+         */
+        () => { });
         this._compareWith = ɵlooseIdentical;
     }
     /**
@@ -2404,11 +2541,25 @@ class SelectMultipleControlValueAccessor {
         if (Array.isArray(value)) {
             // convert values to ids
             /** @type {?} */
-            const ids = value.map((v) => this._getOptionId(v));
-            optionSelectedStateSetter = (opt, o) => { opt._setSelected(ids.indexOf(o.toString()) > -1); };
+            const ids = value.map((/**
+             * @param {?} v
+             * @return {?}
+             */
+            (v) => this._getOptionId(v)));
+            optionSelectedStateSetter = (/**
+             * @param {?} opt
+             * @param {?} o
+             * @return {?}
+             */
+            (opt, o) => { opt._setSelected(ids.indexOf(o.toString()) > -1); });
         }
         else {
-            optionSelectedStateSetter = (opt, o) => { opt._setSelected(false); };
+            optionSelectedStateSetter = (/**
+             * @param {?} opt
+             * @param {?} o
+             * @return {?}
+             */
+            (opt, o) => { opt._setSelected(false); });
         }
         this._optionMap.forEach(optionSelectedStateSetter);
     }
@@ -2421,7 +2572,11 @@ class SelectMultipleControlValueAccessor {
      * @return {?}
      */
     registerOnChange(fn) {
-        this.onChange = (_) => {
+        this.onChange = (/**
+         * @param {?} _
+         * @return {?}
+         */
+        (_) => {
             /** @type {?} */
             const selected = [];
             if (_.hasOwnProperty('selectedOptions')) {
@@ -2451,7 +2606,7 @@ class SelectMultipleControlValueAccessor {
             }
             this.value = selected;
             fn(selected);
-        };
+        });
     }
     /**
      * \@description
@@ -2647,7 +2802,7 @@ class ɵNgSelectMultipleOption {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @param {?} name
@@ -2674,17 +2829,35 @@ function setUpControl(control, dir) {
     setUpModelChangePipeline(control, dir);
     setUpBlurPipeline(control, dir);
     if ((/** @type {?} */ (dir.valueAccessor)).setDisabledState) {
-        control.registerOnDisabledChange((isDisabled) => { (/** @type {?} */ ((/** @type {?} */ (dir.valueAccessor)).setDisabledState))(isDisabled); });
+        control.registerOnDisabledChange((/**
+         * @param {?} isDisabled
+         * @return {?}
+         */
+        (isDisabled) => { (/** @type {?} */ ((/** @type {?} */ (dir.valueAccessor)).setDisabledState))(isDisabled); }));
     }
     // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
-    dir._rawValidators.forEach((validator) => {
+    dir._rawValidators.forEach((/**
+     * @param {?} validator
+     * @return {?}
+     */
+    (validator) => {
         if (((/** @type {?} */ (validator))).registerOnValidatorChange)
-            (/** @type {?} */ (((/** @type {?} */ (validator))).registerOnValidatorChange))(() => control.updateValueAndValidity());
-    });
-    dir._rawAsyncValidators.forEach((validator) => {
+            (/** @type {?} */ (((/** @type {?} */ (validator))).registerOnValidatorChange))((/**
+             * @return {?}
+             */
+            () => control.updateValueAndValidity()));
+    }));
+    dir._rawAsyncValidators.forEach((/**
+     * @param {?} validator
+     * @return {?}
+     */
+    (validator) => {
         if (((/** @type {?} */ (validator))).registerOnValidatorChange)
-            (/** @type {?} */ (((/** @type {?} */ (validator))).registerOnValidatorChange))(() => control.updateValueAndValidity());
-    });
+            (/** @type {?} */ (((/** @type {?} */ (validator))).registerOnValidatorChange))((/**
+             * @return {?}
+             */
+            () => control.updateValueAndValidity()));
+    }));
 }
 /**
  * @param {?} control
@@ -2692,18 +2865,32 @@ function setUpControl(control, dir) {
  * @return {?}
  */
 function cleanUpControl(control, dir) {
-    (/** @type {?} */ (dir.valueAccessor)).registerOnChange(() => _noControlError(dir));
-    (/** @type {?} */ (dir.valueAccessor)).registerOnTouched(() => _noControlError(dir));
-    dir._rawValidators.forEach((validator) => {
+    (/** @type {?} */ (dir.valueAccessor)).registerOnChange((/**
+     * @return {?}
+     */
+    () => _noControlError(dir)));
+    (/** @type {?} */ (dir.valueAccessor)).registerOnTouched((/**
+     * @return {?}
+     */
+    () => _noControlError(dir)));
+    dir._rawValidators.forEach((/**
+     * @param {?} validator
+     * @return {?}
+     */
+    (validator) => {
         if (validator.registerOnValidatorChange) {
             validator.registerOnValidatorChange(null);
         }
-    });
-    dir._rawAsyncValidators.forEach((validator) => {
+    }));
+    dir._rawAsyncValidators.forEach((/**
+     * @param {?} validator
+     * @return {?}
+     */
+    (validator) => {
         if (validator.registerOnValidatorChange) {
             validator.registerOnValidatorChange(null);
         }
-    });
+    }));
     if (control)
         control._clearChangeFns();
 }
@@ -2713,13 +2900,17 @@ function cleanUpControl(control, dir) {
  * @return {?}
  */
 function setUpViewChangePipeline(control, dir) {
-    (/** @type {?} */ (dir.valueAccessor)).registerOnChange((newValue) => {
+    (/** @type {?} */ (dir.valueAccessor)).registerOnChange((/**
+     * @param {?} newValue
+     * @return {?}
+     */
+    (newValue) => {
         control._pendingValue = newValue;
         control._pendingChange = true;
         control._pendingDirty = true;
         if (control.updateOn === 'change')
             updateControl(control, dir);
-    });
+    }));
 }
 /**
  * @param {?} control
@@ -2727,13 +2918,16 @@ function setUpViewChangePipeline(control, dir) {
  * @return {?}
  */
 function setUpBlurPipeline(control, dir) {
-    (/** @type {?} */ (dir.valueAccessor)).registerOnTouched(() => {
+    (/** @type {?} */ (dir.valueAccessor)).registerOnTouched((/**
+     * @return {?}
+     */
+    () => {
         control._pendingTouched = true;
         if (control.updateOn === 'blur' && control._pendingChange)
             updateControl(control, dir);
         if (control.updateOn !== 'submit')
             control.markAsTouched();
-    });
+    }));
 }
 /**
  * @param {?} control
@@ -2753,13 +2947,18 @@ function updateControl(control, dir) {
  * @return {?}
  */
 function setUpModelChangePipeline(control, dir) {
-    control.registerOnChange((newValue, emitModelEvent) => {
+    control.registerOnChange((/**
+     * @param {?} newValue
+     * @param {?} emitModelEvent
+     * @return {?}
+     */
+    (newValue, emitModelEvent) => {
         // control -> view
         (/** @type {?} */ (dir.valueAccessor)).writeValue(newValue);
         // control -> ngModel
         if (emitModelEvent)
             dir.viewToModelUpdate(newValue);
-    });
+    }));
 }
 /**
  * @param {?} control
@@ -2841,7 +3040,11 @@ const BUILTIN_ACCESSORS = [
  * @return {?}
  */
 function isBuiltInAccessor(valueAccessor) {
-    return BUILTIN_ACCESSORS.some(a => valueAccessor.constructor === a);
+    return BUILTIN_ACCESSORS.some((/**
+     * @param {?} a
+     * @return {?}
+     */
+    a => valueAccessor.constructor === a));
 }
 /**
  * @param {?} form
@@ -2850,14 +3053,18 @@ function isBuiltInAccessor(valueAccessor) {
  */
 function syncPendingControls(form, directives) {
     form._syncPendingControls();
-    directives.forEach(dir => {
+    directives.forEach((/**
+     * @param {?} dir
+     * @return {?}
+     */
+    dir => {
         /** @type {?} */
         const control = (/** @type {?} */ (dir.control));
         if (control.updateOn === 'submit' && control._pendingChange) {
             dir.viewToModelUpdate(control._pendingValue);
             control._pendingChange = false;
         }
-    });
+    }));
 }
 // TODO: vsavkin remove it once https://github.com/angular/angular/issues/3011 is implemented
 /**
@@ -2876,7 +3083,11 @@ function selectValueAccessor(dir, valueAccessors) {
     let builtinAccessor = undefined;
     /** @type {?} */
     let customAccessor = undefined;
-    valueAccessors.forEach((v) => {
+    valueAccessors.forEach((/**
+     * @param {?} v
+     * @return {?}
+     */
+    (v) => {
         if (v.constructor === DefaultValueAccessor) {
             defaultAccessor = v;
         }
@@ -2890,7 +3101,7 @@ function selectValueAccessor(dir, valueAccessors) {
                 _throwError(dir, 'More than one custom value accessor matches form control with');
             customAccessor = v;
         }
-    });
+    }));
     if (customAccessor)
         return customAccessor;
     if (builtinAccessor)
@@ -2933,7 +3144,7 @@ function _ngModelWarning(name, type, instance, warningConfig) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Reports that a FormControl is valid, meaning that no errors exist in the input value.
@@ -2981,7 +3192,12 @@ function _find(control, path, delimiter) {
     }
     if (path instanceof Array && (path.length === 0))
         return null;
-    return ((/** @type {?} */ (path))).reduce((v, name) => {
+    return ((/** @type {?} */ (path))).reduce((/**
+     * @param {?} v
+     * @param {?} name
+     * @return {?}
+     */
+    (v, name) => {
         if (v instanceof FormGroup) {
             return v.controls.hasOwnProperty((/** @type {?} */ (name))) ? v.controls[name] : null;
         }
@@ -2989,7 +3205,7 @@ function _find(control, path, delimiter) {
             return v.at((/** @type {?} */ (name))) || null;
         }
         return null;
-    }, control);
+    }), control);
 }
 /**
  * @param {?=} validatorOrOpts
@@ -3050,7 +3266,10 @@ class AbstractControl {
         /**
          * \@internal
          */
-        this._onCollectionChange = () => { };
+        this._onCollectionChange = (/**
+         * @return {?}
+         */
+        () => { });
         /**
          * A control is `pristine` if the user has not yet changed
          * the value in the UI.
@@ -3204,7 +3423,11 @@ class AbstractControl {
      */
     markAllAsTouched() {
         this.markAsTouched({ onlySelf: true });
-        this._forEachChild((control) => control.markAllAsTouched());
+        this._forEachChild((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => control.markAllAsTouched()));
     }
     /**
      * Marks the control as `untouched`.
@@ -3223,7 +3446,11 @@ class AbstractControl {
     markAsUntouched(opts = {}) {
         ((/** @type {?} */ (this))).touched = false;
         this._pendingTouched = false;
-        this._forEachChild((control) => { control.markAsUntouched({ onlySelf: true }); });
+        this._forEachChild((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => { control.markAsUntouched({ onlySelf: true }); }));
         if (this._parent && !opts.onlySelf) {
             this._parent._updateTouched(opts);
         }
@@ -3264,7 +3491,11 @@ class AbstractControl {
     markAsPristine(opts = {}) {
         ((/** @type {?} */ (this))).pristine = true;
         this._pendingDirty = false;
-        this._forEachChild((control) => { control.markAsPristine({ onlySelf: true }); });
+        this._forEachChild((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => { control.markAsPristine({ onlySelf: true }); }));
         if (this._parent && !opts.onlySelf) {
             this._parent._updatePristine(opts);
         }
@@ -3320,14 +3551,22 @@ class AbstractControl {
         const skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
         ((/** @type {?} */ (this))).status = DISABLED;
         ((/** @type {?} */ (this))).errors = null;
-        this._forEachChild((control) => { control.disable(Object.assign({}, opts, { onlySelf: true })); });
+        this._forEachChild((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => { control.disable(Object.assign({}, opts, { onlySelf: true })); }));
         this._updateValue();
         if (opts.emitEvent !== false) {
             ((/** @type {?} */ (this.valueChanges))).emit(this.value);
             ((/** @type {?} */ (this.statusChanges))).emit(this.status);
         }
         this._updateAncestors(Object.assign({}, opts, { skipPristineCheck }));
-        this._onDisabledChange.forEach((changeFn) => changeFn(true));
+        this._onDisabledChange.forEach((/**
+         * @param {?} changeFn
+         * @return {?}
+         */
+        (changeFn) => changeFn(true)));
     }
     /**
      * Enables the control. This means the control is included in validation checks and
@@ -3354,10 +3593,18 @@ class AbstractControl {
         /** @type {?} */
         const skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
         ((/** @type {?} */ (this))).status = VALID;
-        this._forEachChild((control) => { control.enable(Object.assign({}, opts, { onlySelf: true })); });
+        this._forEachChild((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => { control.enable(Object.assign({}, opts, { onlySelf: true })); }));
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
         this._updateAncestors(Object.assign({}, opts, { skipPristineCheck }));
-        this._onDisabledChange.forEach((changeFn) => changeFn(false));
+        this._onDisabledChange.forEach((/**
+         * @param {?} changeFn
+         * @return {?}
+         */
+        (changeFn) => changeFn(false)));
     }
     /**
      * @private
@@ -3418,7 +3665,11 @@ class AbstractControl {
      * @return {?}
      */
     _updateTreeValidity(opts = { emitEvent: true }) {
-        this._forEachChild((ctrl) => ctrl._updateTreeValidity(opts));
+        this._forEachChild((/**
+         * @param {?} ctrl
+         * @return {?}
+         */
+        (ctrl) => ctrl._updateTreeValidity(opts)));
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
     }
     /**
@@ -3446,7 +3697,11 @@ class AbstractControl {
             /** @type {?} */
             const obs = toObservable(this.asyncValidator(this));
             this._asyncValidationSubscription =
-                obs.subscribe((errors) => this.setErrors(errors, { emitEvent }));
+                obs.subscribe((/**
+                 * @param {?} errors
+                 * @return {?}
+                 */
+                (errors) => this.setErrors(errors, { emitEvent })));
         }
     }
     /**
@@ -3626,21 +3881,33 @@ class AbstractControl {
      * @return {?}
      */
     _anyControlsHaveStatus(status) {
-        return this._anyControls((control) => control.status === status);
+        return this._anyControls((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => control.status === status));
     }
     /**
      * \@internal
      * @return {?}
      */
     _anyControlsDirty() {
-        return this._anyControls((control) => control.dirty);
+        return this._anyControls((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => control.dirty));
     }
     /**
      * \@internal
      * @return {?}
      */
     _anyControlsTouched() {
-        return this._anyControls((control) => control.touched);
+        return this._anyControls((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => control.touched));
     }
     /**
      * \@internal
@@ -3852,7 +4119,11 @@ class FormControl extends AbstractControl {
     setValue(value, options = {}) {
         ((/** @type {?} */ (this))).value = this._pendingValue = value;
         if (this._onChange.length && options.emitModelToViewChange !== false) {
-            this._onChange.forEach((changeFn) => changeFn(this.value, options.emitViewToModelChange !== false));
+            this._onChange.forEach((/**
+             * @param {?} changeFn
+             * @return {?}
+             */
+            (changeFn) => changeFn(this.value, options.emitViewToModelChange !== false)));
         }
         this.updateValueAndValidity(options);
     }
@@ -3927,7 +4198,10 @@ class FormControl extends AbstractControl {
     _clearChangeFns() {
         this._onChange = [];
         this._onDisabledChange = [];
-        this._onCollectionChange = () => { };
+        this._onCollectionChange = (/**
+         * @return {?}
+         */
+        () => { });
     }
     /**
      * Register a listener for disabled events.
@@ -4111,7 +4385,10 @@ class FormGroup extends AbstractControl {
      */
     removeControl(name) {
         if (this.controls[name])
-            this.controls[name]._registerOnCollectionChange(() => { });
+            this.controls[name]._registerOnCollectionChange((/**
+             * @return {?}
+             */
+            () => { }));
         delete (this.controls[name]);
         this.updateValueAndValidity();
         this._onCollectionChange();
@@ -4125,7 +4402,10 @@ class FormGroup extends AbstractControl {
      */
     setControl(name, control) {
         if (this.controls[name])
-            this.controls[name]._registerOnCollectionChange(() => { });
+            this.controls[name]._registerOnCollectionChange((/**
+             * @return {?}
+             */
+            () => { }));
         delete (this.controls[name]);
         if (control)
             this.registerControl(name, control);
@@ -4182,10 +4462,14 @@ class FormGroup extends AbstractControl {
      */
     setValue(value, options = {}) {
         this._checkAllValuesPresent(value);
-        Object.keys(value).forEach(name => {
+        Object.keys(value).forEach((/**
+         * @param {?} name
+         * @return {?}
+         */
+        name => {
             this._throwIfControlMissing(name);
             this.controls[name].setValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
-        });
+        }));
         this.updateValueAndValidity(options);
     }
     /**
@@ -4223,11 +4507,15 @@ class FormGroup extends AbstractControl {
      * @return {?}
      */
     patchValue(value, options = {}) {
-        Object.keys(value).forEach(name => {
+        Object.keys(value).forEach((/**
+         * @param {?} name
+         * @return {?}
+         */
+        name => {
             if (this.controls[name]) {
                 this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
             }
-        });
+        }));
         this.updateValueAndValidity(options);
     }
     /**
@@ -4287,9 +4575,14 @@ class FormGroup extends AbstractControl {
      * @return {?}
      */
     reset(value = {}, options = {}) {
-        this._forEachChild((control, name) => {
+        this._forEachChild((/**
+         * @param {?} control
+         * @param {?} name
+         * @return {?}
+         */
+        (control, name) => {
             control.reset(value[name], { onlySelf: true, emitEvent: options.emitEvent });
-        });
+        }));
         this._updatePristine(options);
         this._updateTouched(options);
         this.updateValueAndValidity(options);
@@ -4303,10 +4596,16 @@ class FormGroup extends AbstractControl {
      * @return {?}
      */
     getRawValue() {
-        return this._reduceChildren({}, (acc, control, name) => {
+        return this._reduceChildren({}, (/**
+         * @param {?} acc
+         * @param {?} control
+         * @param {?} name
+         * @return {?}
+         */
+        (acc, control, name) => {
             acc[name] = control instanceof FormControl ? control.value : ((/** @type {?} */ (control))).getRawValue();
             return acc;
-        });
+        }));
     }
     /**
      * \@internal
@@ -4314,9 +4613,14 @@ class FormGroup extends AbstractControl {
      */
     _syncPendingControls() {
         /** @type {?} */
-        let subtreeUpdated = this._reduceChildren(false, (updated, child) => {
+        let subtreeUpdated = this._reduceChildren(false, (/**
+         * @param {?} updated
+         * @param {?} child
+         * @return {?}
+         */
+        (updated, child) => {
             return child._syncPendingControls() ? true : updated;
-        });
+        }));
         if (subtreeUpdated)
             this.updateValueAndValidity({ onlySelf: true });
         return subtreeUpdated;
@@ -4343,17 +4647,25 @@ class FormGroup extends AbstractControl {
      * @return {?}
      */
     _forEachChild(cb) {
-        Object.keys(this.controls).forEach(k => cb(this.controls[k], k));
+        Object.keys(this.controls).forEach((/**
+         * @param {?} k
+         * @return {?}
+         */
+        k => cb(this.controls[k], k)));
     }
     /**
      * \@internal
      * @return {?}
      */
     _setUpControls() {
-        this._forEachChild((control) => {
+        this._forEachChild((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => {
             control.setParent(this);
             control._registerOnCollectionChange(this._onCollectionChange);
-        });
+        }));
     }
     /**
      * \@internal
@@ -4368,9 +4680,14 @@ class FormGroup extends AbstractControl {
     _anyControls(condition) {
         /** @type {?} */
         let res = false;
-        this._forEachChild((control, name) => {
+        this._forEachChild((/**
+         * @param {?} control
+         * @param {?} name
+         * @return {?}
+         */
+        (control, name) => {
             res = res || (this.contains(name) && condition(control));
-        });
+        }));
         return res;
     }
     /**
@@ -4378,12 +4695,18 @@ class FormGroup extends AbstractControl {
      * @return {?}
      */
     _reduceValue() {
-        return this._reduceChildren({}, (acc, control, name) => {
+        return this._reduceChildren({}, (/**
+         * @param {?} acc
+         * @param {?} control
+         * @param {?} name
+         * @return {?}
+         */
+        (acc, control, name) => {
             if (control.enabled || this.disabled) {
                 acc[name] = control.value;
             }
             return acc;
-        });
+        }));
     }
     /**
      * \@internal
@@ -4394,7 +4717,12 @@ class FormGroup extends AbstractControl {
     _reduceChildren(initValue, fn) {
         /** @type {?} */
         let res = initValue;
-        this._forEachChild((control, name) => { res = fn(res, control, name); });
+        this._forEachChild((/**
+         * @param {?} control
+         * @param {?} name
+         * @return {?}
+         */
+        (control, name) => { res = fn(res, control, name); }));
         return res;
     }
     /**
@@ -4415,11 +4743,16 @@ class FormGroup extends AbstractControl {
      * @return {?}
      */
     _checkAllValuesPresent(value) {
-        this._forEachChild((control, name) => {
+        this._forEachChild((/**
+         * @param {?} control
+         * @param {?} name
+         * @return {?}
+         */
+        (control, name) => {
             if (value[name] === undefined) {
                 throw new Error(`Must supply a value for form control with name: '${name}'.`);
             }
-        });
+        }));
     }
 }
 /**
@@ -4547,7 +4880,10 @@ class FormArray extends AbstractControl {
      */
     removeAt(index) {
         if (this.controls[index])
-            this.controls[index]._registerOnCollectionChange(() => { });
+            this.controls[index]._registerOnCollectionChange((/**
+             * @return {?}
+             */
+            () => { }));
         this.controls.splice(index, 1);
         this.updateValueAndValidity();
     }
@@ -4560,7 +4896,10 @@ class FormArray extends AbstractControl {
      */
     setControl(index, control) {
         if (this.controls[index])
-            this.controls[index]._registerOnCollectionChange(() => { });
+            this.controls[index]._registerOnCollectionChange((/**
+             * @return {?}
+             */
+            () => { }));
         this.controls.splice(index, 1);
         if (control) {
             this.controls.splice(index, 0, control);
@@ -4612,10 +4951,15 @@ class FormArray extends AbstractControl {
      */
     setValue(value, options = {}) {
         this._checkAllValuesPresent(value);
-        value.forEach((newValue, index) => {
+        value.forEach((/**
+         * @param {?} newValue
+         * @param {?} index
+         * @return {?}
+         */
+        (newValue, index) => {
             this._throwIfControlMissing(index);
             this.at(index).setValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
-        });
+        }));
         this.updateValueAndValidity(options);
     }
     /**
@@ -4654,11 +4998,16 @@ class FormArray extends AbstractControl {
      * @return {?}
      */
     patchValue(value, options = {}) {
-        value.forEach((newValue, index) => {
+        value.forEach((/**
+         * @param {?} newValue
+         * @param {?} index
+         * @return {?}
+         */
+        (newValue, index) => {
             if (this.at(index)) {
                 this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
             }
-        });
+        }));
         this.updateValueAndValidity(options);
     }
     /**
@@ -4709,9 +5058,14 @@ class FormArray extends AbstractControl {
      * @return {?}
      */
     reset(value = [], options = {}) {
-        this._forEachChild((control, index) => {
+        this._forEachChild((/**
+         * @param {?} control
+         * @param {?} index
+         * @return {?}
+         */
+        (control, index) => {
             control.reset(value[index], { onlySelf: true, emitEvent: options.emitEvent });
-        });
+        }));
         this._updatePristine(options);
         this._updateTouched(options);
         this.updateValueAndValidity(options);
@@ -4724,9 +5078,13 @@ class FormArray extends AbstractControl {
      * @return {?}
      */
     getRawValue() {
-        return this.controls.map((control) => {
+        return this.controls.map((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => {
             return control instanceof FormControl ? control.value : ((/** @type {?} */ (control))).getRawValue();
-        });
+        }));
     }
     /**
      * Remove all controls in the `FormArray`.
@@ -4762,7 +5120,14 @@ class FormArray extends AbstractControl {
     clear() {
         if (this.controls.length < 1)
             return;
-        this._forEachChild((control) => control._registerOnCollectionChange(() => { }));
+        this._forEachChild((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => control._registerOnCollectionChange((/**
+         * @return {?}
+         */
+        () => { }))));
         this.controls.splice(0);
         this.updateValueAndValidity();
     }
@@ -4772,9 +5137,14 @@ class FormArray extends AbstractControl {
      */
     _syncPendingControls() {
         /** @type {?} */
-        let subtreeUpdated = this.controls.reduce((updated, child) => {
+        let subtreeUpdated = this.controls.reduce((/**
+         * @param {?} updated
+         * @param {?} child
+         * @return {?}
+         */
+        (updated, child) => {
             return child._syncPendingControls() ? true : updated;
-        }, false);
+        }), false);
         if (subtreeUpdated)
             this.updateValueAndValidity({ onlySelf: true });
         return subtreeUpdated;
@@ -4801,7 +5171,12 @@ class FormArray extends AbstractControl {
      * @return {?}
      */
     _forEachChild(cb) {
-        this.controls.forEach((control, index) => { cb(control, index); });
+        this.controls.forEach((/**
+         * @param {?} control
+         * @param {?} index
+         * @return {?}
+         */
+        (control, index) => { cb(control, index); }));
     }
     /**
      * \@internal
@@ -4809,8 +5184,16 @@ class FormArray extends AbstractControl {
      */
     _updateValue() {
         ((/** @type {?} */ (this))).value =
-            this.controls.filter((control) => control.enabled || this.disabled)
-                .map((control) => control.value);
+            this.controls.filter((/**
+             * @param {?} control
+             * @return {?}
+             */
+            (control) => control.enabled || this.disabled))
+                .map((/**
+             * @param {?} control
+             * @return {?}
+             */
+            (control) => control.value));
     }
     /**
      * \@internal
@@ -4818,14 +5201,22 @@ class FormArray extends AbstractControl {
      * @return {?}
      */
     _anyControls(condition) {
-        return this.controls.some((control) => control.enabled && condition(control));
+        return this.controls.some((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => control.enabled && condition(control)));
     }
     /**
      * \@internal
      * @return {?}
      */
     _setUpControls() {
-        this._forEachChild((control) => this._registerControl(control));
+        this._forEachChild((/**
+         * @param {?} control
+         * @return {?}
+         */
+        (control) => this._registerControl(control)));
     }
     /**
      * \@internal
@@ -4833,11 +5224,16 @@ class FormArray extends AbstractControl {
      * @return {?}
      */
     _checkAllValuesPresent(value) {
-        this._forEachChild((control, i) => {
+        this._forEachChild((/**
+         * @param {?} control
+         * @param {?} i
+         * @return {?}
+         */
+        (control, i) => {
             if (value[i] === undefined) {
                 throw new Error(`Must supply a value for form control at index: ${i}.`);
             }
-        });
+        }));
     }
     /**
      * \@internal
@@ -4863,7 +5259,7 @@ class FormArray extends AbstractControl {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -4875,7 +5271,10 @@ class FormArray extends AbstractControl {
 /** @type {?} */
 const formDirectiveProvider = {
     provide: ControlContainer,
-    useExisting: forwardRef(() => NgForm)
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => NgForm))
 };
 /** @type {?} */
 const resolvedPromise = Promise.resolve(null);
@@ -5008,7 +5407,10 @@ class NgForm extends ControlContainer {
      * @return {?}
      */
     addControl(dir) {
-        resolvedPromise.then(() => {
+        resolvedPromise.then((/**
+         * @return {?}
+         */
+        () => {
             /** @type {?} */
             const container = this._findContainer(dir.path);
             ((/** @type {?} */ (dir))).control =
@@ -5016,7 +5418,7 @@ class NgForm extends ControlContainer {
             setUpControl(dir.control, dir);
             dir.control.updateValueAndValidity({ emitEvent: false });
             this._directives.push(dir);
-        });
+        }));
     }
     /**
      * \@description
@@ -5034,14 +5436,17 @@ class NgForm extends ControlContainer {
      * @return {?}
      */
     removeControl(dir) {
-        resolvedPromise.then(() => {
+        resolvedPromise.then((/**
+         * @return {?}
+         */
+        () => {
             /** @type {?} */
             const container = this._findContainer(dir.path);
             if (container) {
                 container.removeControl(dir.name);
             }
             removeDir(this._directives, dir);
-        });
+        }));
     }
     /**
      * \@description
@@ -5051,7 +5456,10 @@ class NgForm extends ControlContainer {
      * @return {?}
      */
     addFormGroup(dir) {
-        resolvedPromise.then(() => {
+        resolvedPromise.then((/**
+         * @return {?}
+         */
+        () => {
             /** @type {?} */
             const container = this._findContainer(dir.path);
             /** @type {?} */
@@ -5059,7 +5467,7 @@ class NgForm extends ControlContainer {
             setUpFormContainer(group, dir);
             container.registerControl(dir.name, group);
             group.updateValueAndValidity({ emitEvent: false });
-        });
+        }));
     }
     /**
      * \@description
@@ -5069,13 +5477,16 @@ class NgForm extends ControlContainer {
      * @return {?}
      */
     removeFormGroup(dir) {
-        resolvedPromise.then(() => {
+        resolvedPromise.then((/**
+         * @return {?}
+         */
+        () => {
             /** @type {?} */
             const container = this._findContainer(dir.path);
             if (container) {
                 container.removeControl(dir.name);
             }
-        });
+        }));
     }
     /**
      * \@description
@@ -5093,11 +5504,14 @@ class NgForm extends ControlContainer {
      * @return {?}
      */
     updateModel(dir, value) {
-        resolvedPromise.then(() => {
+        resolvedPromise.then((/**
+         * @return {?}
+         */
+        () => {
             /** @type {?} */
             const ctrl = (/** @type {?} */ (this.form.get((/** @type {?} */ (dir.path)))));
             ctrl.setValue(value);
-        });
+        }));
     }
     /**
      * \@description
@@ -5208,7 +5622,7 @@ NgForm.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class TemplateDrivenErrors {
     /**
@@ -5290,7 +5704,7 @@ class TemplateDrivenErrors {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -5351,7 +5765,7 @@ NgFormSelectorWarning.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@description
@@ -5422,7 +5836,7 @@ class AbstractFormGroupDirective extends ControlContainer {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -5434,7 +5848,10 @@ class AbstractFormGroupDirective extends ControlContainer {
 /** @type {?} */
 const modelGroupProvider = {
     provide: ControlContainer,
-    useExisting: forwardRef(() => NgModelGroup)
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => NgModelGroup))
 };
 /**
  * \@description
@@ -5525,7 +5942,7 @@ NgModelGroup.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -5537,7 +5954,10 @@ NgModelGroup.propDecorators = {
 /** @type {?} */
 const formControlBinding = {
     provide: NgControl,
-    useExisting: forwardRef(() => NgModel)
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => NgModel))
 };
 /**
  * `ngModel` forces an additional change detection run when its inputs change:
@@ -5809,7 +6229,10 @@ class NgModel extends NgControl {
      * @return {?}
      */
     _updateValue(value) {
-        resolvedPromise$1.then(() => { this.control.setValue(value, { emitViewToModelChange: false }); });
+        resolvedPromise$1.then((/**
+         * @return {?}
+         */
+        () => { this.control.setValue(value, { emitViewToModelChange: false }); }));
     }
     /**
      * @private
@@ -5821,14 +6244,17 @@ class NgModel extends NgControl {
         const disabledValue = changes['isDisabled'].currentValue;
         /** @type {?} */
         const isDisabled = disabledValue === '' || (disabledValue && disabledValue !== 'false');
-        resolvedPromise$1.then(() => {
+        resolvedPromise$1.then((/**
+         * @return {?}
+         */
+        () => {
             if (isDisabled && !this.control.disabled) {
                 this.control.disable();
             }
             else if (!isDisabled && this.control.disabled) {
                 this.control.enable();
             }
-        });
+        }));
     }
 }
 NgModel.decorators = [
@@ -5903,7 +6329,7 @@ NgModel.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 const _c0$1 = ["novalidate", ""];
 /**
@@ -5951,7 +6377,7 @@ class ɵNgNoValidate {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -5968,7 +6394,10 @@ const NG_MODEL_WITH_FORM_CONTROL_WARNING = new InjectionToken('NgModelWithFormCo
 /** @type {?} */
 const formControlBinding$1 = {
     provide: NgControl,
-    useExisting: forwardRef(() => FormControlDirective)
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => FormControlDirective))
 };
 /**
  * \@description
@@ -6230,7 +6659,7 @@ FormControlDirective.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -6242,7 +6671,10 @@ FormControlDirective.propDecorators = {
 /** @type {?} */
 const formDirectiveProvider$1 = {
     provide: ControlContainer,
-    useExisting: forwardRef(() => FormGroupDirective)
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => FormGroupDirective))
 };
 /**
  * \@description
@@ -6465,7 +6897,11 @@ class FormGroupDirective extends ControlContainer {
      * @return {?}
      */
     _updateDomValue() {
-        this.directives.forEach(dir => {
+        this.directives.forEach((/**
+         * @param {?} dir
+         * @return {?}
+         */
+        dir => {
             /** @type {?} */
             const newCtrl = this.form.get(dir.path);
             if (dir.control !== newCtrl) {
@@ -6474,7 +6910,7 @@ class FormGroupDirective extends ControlContainer {
                     setUpControl(newCtrl, dir);
                 ((/** @type {?} */ (dir))).control = newCtrl;
             }
-        });
+        }));
         this.form._updateTreeValidity({ emitEvent: false });
     }
     /**
@@ -6482,9 +6918,15 @@ class FormGroupDirective extends ControlContainer {
      * @return {?}
      */
     _updateRegistrations() {
-        this.form._registerOnCollectionChange(() => this._updateDomValue());
+        this.form._registerOnCollectionChange((/**
+         * @return {?}
+         */
+        () => this._updateDomValue()));
         if (this._oldForm)
-            this._oldForm._registerOnCollectionChange(() => { });
+            this._oldForm._registerOnCollectionChange((/**
+             * @return {?}
+             */
+            () => { }));
         this._oldForm = this.form;
     }
     /**
@@ -6561,7 +7003,7 @@ FormGroupDirective.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -6573,7 +7015,10 @@ FormGroupDirective.propDecorators = {
 /** @type {?} */
 const formGroupNameProvider = {
     provide: ControlContainer,
-    useExisting: forwardRef(() => FormGroupName)
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => FormGroupName))
 };
 /**
  * \@description
@@ -6687,7 +7132,10 @@ FormGroupName.propDecorators = {
 /** @type {?} */
 const formArrayNameProvider = {
     provide: ControlContainer,
-    useExisting: forwardRef(() => FormArrayName)
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => FormArrayName))
 };
 /**
  * \@description
@@ -6843,7 +7291,7 @@ function _hasInvalidParent(parent) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -6855,7 +7303,10 @@ function _hasInvalidParent(parent) {
 /** @type {?} */
 const controlNameBinding = {
     provide: NgControl,
-    useExisting: forwardRef(() => FormControlName)
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => FormControlName))
 };
 /**
  * \@description
@@ -7160,7 +7611,7 @@ FormControlName.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@description
@@ -7169,7 +7620,10 @@ FormControlName.propDecorators = {
  */
 const REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => RequiredValidator),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => RequiredValidator)),
     multi: true
 };
 /**
@@ -7179,7 +7633,10 @@ const REQUIRED_VALIDATOR = {
  */
 const CHECKBOX_REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => CheckboxRequiredValidator),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => CheckboxRequiredValidator)),
     multi: true
 };
 /**
@@ -7321,7 +7778,10 @@ const ɵCheckboxRequiredValidator_BaseFactory = ɵgetInheritedFactory(CheckboxRe
  */
 const EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => EmailValidator),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => EmailValidator)),
     multi: true
 };
 /**
@@ -7403,7 +7863,10 @@ EmailValidator.propDecorators = {
  */
 const MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => MinLengthValidator),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => MinLengthValidator)),
     multi: true
 };
 /**
@@ -7501,7 +7964,10 @@ MinLengthValidator.propDecorators = {
  */
 const MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => MaxLengthValidator),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => MaxLengthValidator)),
     multi: true
 };
 /**
@@ -7599,7 +8065,10 @@ MaxLengthValidator.propDecorators = {
  */
 const PATTERN_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => PatternValidator),
+    useExisting: forwardRef((/**
+     * @return {?}
+     */
+    () => PatternValidator)),
     multi: true
 };
 /**
@@ -7691,7 +8160,7 @@ PatternValidator.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const SHARED_FORM_DIRECTIVES = [
@@ -7775,7 +8244,7 @@ class ɵInternalFormsSharedModule {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -7897,7 +8366,11 @@ class FormBuilder {
      */
     array(controlsConfig, validatorOrOpts, asyncValidator) {
         /** @type {?} */
-        const controls = controlsConfig.map(c => this._createControl(c));
+        const controls = controlsConfig.map((/**
+         * @param {?} c
+         * @return {?}
+         */
+        c => this._createControl(c)));
         return new FormArray(controls, validatorOrOpts, asyncValidator);
     }
     /**
@@ -7908,9 +8381,13 @@ class FormBuilder {
     _reduceControls(controlsConfig) {
         /** @type {?} */
         const controls = {};
-        Object.keys(controlsConfig).forEach(controlName => {
+        Object.keys(controlsConfig).forEach((/**
+         * @param {?} controlName
+         * @return {?}
+         */
+        controlName => {
             controls[controlName] = this._createControl(controlsConfig[controlName]);
-        });
+        }));
         return controls;
     }
     /**
@@ -7947,17 +8424,17 @@ FormBuilder.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.0.0-beta.8+8.sha-9a7f560.with-local-changes');
+const VERSION = new Version('8.0.0-beta.8+11.sha-7b20cec.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @license
@@ -8057,17 +8534,17 @@ ReactiveFormsModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 export { ɵInternalFormsSharedModule, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, ɵNgNoValidate, NumberValueAccessor, RadioControlValueAccessor, RangeValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, ɵNgSelectMultipleOption, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
