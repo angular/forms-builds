@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.7+14.sha-8210bea.with-local-changes
+ * @license Angular v8.0.0-beta.8+18.sha-4b7ed54.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3883,7 +3883,7 @@
      *
      * ### Adding or removing controls from a form array
      *
-     * To change the controls in the array, use the `push`, `insert`, or `removeAt` methods
+     * To change the controls in the array, use the `push`, `insert`, `removeAt` or `clear` methods
      * in `FormArray` itself. These methods ensure the controls are properly tracked in the
      * form's hierarchy. Do not modify the array of `AbstractControl`s used to instantiate
      * the `FormArray` directly, as that result in strange and unexpected behavior such
@@ -4134,6 +4134,43 @@
             return this.controls.map(function (control) {
                 return control instanceof FormControl ? control.value : control.getRawValue();
             });
+        };
+        /**
+         * Remove all controls in the `FormArray`.
+         *
+         * @usageNotes
+         * ### Remove all elements from a FormArray
+         *
+         * ```ts
+         * const arr = new FormArray([
+         *    new FormControl(),
+         *    new FormControl()
+         * ]);
+         * console.log(arr.length);  // 2
+         *
+         * arr.clear();
+         * console.log(arr.length);  // 0
+         * ```
+         *
+         * It's a simpler and more efficient alternative to removing all elements one by one:
+         *
+         * ```ts
+         * const arr = new FormArray([
+         *    new FormControl(),
+         *    new FormControl()
+         * ]);
+         *
+         * while (arr.length) {
+         *    arr.removeAt(0);
+         * }
+         * ```
+         */
+        FormArray.prototype.clear = function () {
+            if (this.controls.length < 1)
+                return;
+            this._forEachChild(function (control) { return control._registerOnCollectionChange(function () { }); });
+            this.controls.splice(0);
+            this.updateValueAndValidity();
         };
         /** @internal */
         FormArray.prototype._syncPendingControls = function () {
@@ -6717,7 +6754,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('8.0.0-beta.7+14.sha-8210bea.with-local-changes');
+    var VERSION = new core.Version('8.0.0-beta.8+18.sha-4b7ed54.with-local-changes');
 
     /**
      * @license
