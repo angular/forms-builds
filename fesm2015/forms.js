@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.8+74.sha-4a665ca.with-local-changes
+ * @license Angular v8.0.0-beta.8+75.sha-e769f9c.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3847,7 +3847,7 @@ class FormControl extends AbstractControl {
      * Sets a new value for the form control.
      *
      * @param {?} value The new value for the control.
-     * @param {?=} options Configuration options that determine how the control proopagates changes
+     * @param {?=} options Configuration options that determine how the control propagates changes
      * and emits events when the value changes.
      * The configuration options are passed to the {\@link AbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
@@ -7674,7 +7674,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.0.0-beta.8+74.sha-4a665ca.with-local-changes');
+const VERSION = new Version('8.0.0-beta.8+75.sha-e769f9c.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
