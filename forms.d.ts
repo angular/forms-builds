@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.8+56.sha-8e70ca3.with-local-changes
+ * @license Angular v8.0.0-beta.8+79.sha-a3ec058.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1755,7 +1755,7 @@ export declare class FormControl extends AbstractControl {
      * Sets a new value for the form control.
      *
      * @param value The new value for the control.
-     * @param options Configuration options that determine how the control proopagates changes
+     * @param options Configuration options that determine how the control propagates changes
      * and emits events when the value changes.
      * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
