@@ -1,5 +1,5 @@
 /**
- * @license Angular v7.2.9+26.sha-8e57965.with-local-changes
+ * @license Angular v7.2.9+28.sha-280ea13.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3246,7 +3246,7 @@ var FormControl = /** @class */ (function (_super) {
      * Sets a new value for the form control.
      *
      * @param value The new value for the control.
-     * @param options Configuration options that determine how the control proopagates changes
+     * @param options Configuration options that determine how the control propagates changes
      * and emits events when the value changes.
      * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
@@ -6521,7 +6521,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('7.2.9+26.sha-8e57965.with-local-changes');
+var VERSION = new Version('7.2.9+28.sha-280ea13.with-local-changes');
 
 /**
  * @license
