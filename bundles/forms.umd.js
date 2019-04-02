@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-beta.10+117.sha-6b39c9c.with-local-changes
+ * @license Angular v8.0.0-beta.10+120.sha-60afe88.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6698,44 +6698,45 @@
     var ɵInternalFormsSharedModule = /** @class */ (function () {
         function ɵInternalFormsSharedModule() {
         }
-        ɵInternalFormsSharedModule.ngModuleDef = i0.ɵdefineNgModule({ type: ɵInternalFormsSharedModule, declarations: [ɵNgNoValidate,
-                NgSelectOption,
-                ɵNgSelectMultipleOption,
-                DefaultValueAccessor,
-                NumberValueAccessor,
-                RangeValueAccessor,
-                CheckboxControlValueAccessor,
-                SelectControlValueAccessor,
-                SelectMultipleControlValueAccessor,
-                RadioControlValueAccessor,
-                NgControlStatus,
-                NgControlStatusGroup,
-                RequiredValidator,
-                MinLengthValidator,
-                MaxLengthValidator,
-                PatternValidator,
-                CheckboxRequiredValidator,
-                EmailValidator], exports: [ɵNgNoValidate,
-                NgSelectOption,
-                ɵNgSelectMultipleOption,
-                DefaultValueAccessor,
-                NumberValueAccessor,
-                RangeValueAccessor,
-                CheckboxControlValueAccessor,
-                SelectControlValueAccessor,
-                SelectMultipleControlValueAccessor,
-                RadioControlValueAccessor,
-                NgControlStatus,
-                NgControlStatusGroup,
-                RequiredValidator,
-                MinLengthValidator,
-                MaxLengthValidator,
-                PatternValidator,
-                CheckboxRequiredValidator,
-                EmailValidator] });
-        ɵInternalFormsSharedModule.ngInjectorDef = i0.defineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); }, providers: [], imports: [SHARED_FORM_DIRECTIVES] });
+        ɵInternalFormsSharedModule.ngModuleDef = i0.ɵdefineNgModule({ type: ɵInternalFormsSharedModule });
+        ɵInternalFormsSharedModule.ngInjectorDef = i0.defineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
         return ɵInternalFormsSharedModule;
     }());
+    /*@__PURE__*/ i0.ɵsetNgModuleScope(ɵInternalFormsSharedModule, { declarations: [ɵNgNoValidate,
+            NgSelectOption,
+            ɵNgSelectMultipleOption,
+            DefaultValueAccessor,
+            NumberValueAccessor,
+            RangeValueAccessor,
+            CheckboxControlValueAccessor,
+            SelectControlValueAccessor,
+            SelectMultipleControlValueAccessor,
+            RadioControlValueAccessor,
+            NgControlStatus,
+            NgControlStatusGroup,
+            RequiredValidator,
+            MinLengthValidator,
+            MaxLengthValidator,
+            PatternValidator,
+            CheckboxRequiredValidator,
+            EmailValidator], exports: [ɵNgNoValidate,
+            NgSelectOption,
+            ɵNgSelectMultipleOption,
+            DefaultValueAccessor,
+            NumberValueAccessor,
+            RangeValueAccessor,
+            CheckboxControlValueAccessor,
+            SelectControlValueAccessor,
+            SelectMultipleControlValueAccessor,
+            RadioControlValueAccessor,
+            NgControlStatus,
+            NgControlStatusGroup,
+            RequiredValidator,
+            MinLengthValidator,
+            MaxLengthValidator,
+            PatternValidator,
+            CheckboxRequiredValidator,
+            EmailValidator] });
     /*@__PURE__*/ i0.ɵsetClassMetadata(ɵInternalFormsSharedModule, [{
             type: i0.NgModule,
             args: [{
@@ -6901,7 +6902,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('8.0.0-beta.10+117.sha-6b39c9c.with-local-changes');
+    var VERSION = new i0.Version('8.0.0-beta.10+120.sha-60afe88.with-local-changes');
 
     /**
      * @license
@@ -6935,10 +6936,11 @@
                 providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
             };
         };
-        FormsModule.ngModuleDef = i0.ɵdefineNgModule({ type: FormsModule, declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
-        FormsModule.ngInjectorDef = i0.defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [[ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
+        FormsModule.ngModuleDef = i0.ɵdefineNgModule({ type: FormsModule });
+        FormsModule.ngInjectorDef = i0.defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
         return FormsModule;
     }());
+    /*@__PURE__*/ i0.ɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
     /*@__PURE__*/ i0.ɵsetClassMetadata(FormsModule, [{
             type: i0.NgModule,
             args: [{
@@ -6976,10 +6978,11 @@
                     }]
             };
         };
-        ReactiveFormsModule.ngModuleDef = i0.ɵdefineNgModule({ type: ReactiveFormsModule, declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
-        ReactiveFormsModule.ngInjectorDef = i0.defineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [[ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]] });
+        ReactiveFormsModule.ngModuleDef = i0.ɵdefineNgModule({ type: ReactiveFormsModule });
+        ReactiveFormsModule.ngInjectorDef = i0.defineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
         return ReactiveFormsModule;
     }());
+    /*@__PURE__*/ i0.ɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
     /*@__PURE__*/ i0.ɵsetClassMetadata(ReactiveFormsModule, [{
             type: i0.NgModule,
             args: [{

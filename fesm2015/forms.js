@@ -1,10 +1,10 @@
 /**
- * @license Angular v8.0.0-beta.10+117.sha-6b39c9c.with-local-changes
+ * @license Angular v8.0.0-beta.10+120.sha-60afe88.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵelementHostStyling, ɵelementHostClassProp, ɵelementHostStylingApply, ɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, defineInjectable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵNgOnChangesFeature, ɵelementHostAttrs, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory, NgModule, ɵdefineNgModule, defineInjector, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵdefineDirective, ɵdirectiveInject, ɵlistener, ɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵelementHostStyling, ɵelementHostClassProp, ɵelementHostStylingApply, ɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, defineInjectable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵNgOnChangesFeature, ɵelementHostAttrs, ɵallocHostVars, ɵelementAttribute, ɵbind, ɵgetInheritedFactory, NgModule, ɵdefineNgModule, defineInjector, ɵsetNgModuleScope, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8198,7 +8198,9 @@ class ɵInternalFormsSharedModule {
                 exports: SHARED_FORM_DIRECTIVES,
             },] },
 ];
-/** @nocollapse */ ɵInternalFormsSharedModule.ngModuleDef = ɵdefineNgModule({ type: ɵInternalFormsSharedModule, declarations: [ɵNgNoValidate,
+/** @nocollapse */ ɵInternalFormsSharedModule.ngModuleDef = ɵdefineNgModule({ type: ɵInternalFormsSharedModule });
+/** @nocollapse */ ɵInternalFormsSharedModule.ngInjectorDef = defineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
+/*@__PURE__*/ ɵsetNgModuleScope(ɵInternalFormsSharedModule, { declarations: [ɵNgNoValidate,
         NgSelectOption,
         ɵNgSelectMultipleOption,
         DefaultValueAccessor,
@@ -8233,7 +8235,6 @@ class ɵInternalFormsSharedModule {
         PatternValidator,
         CheckboxRequiredValidator,
         EmailValidator] });
-/** @nocollapse */ ɵInternalFormsSharedModule.ngInjectorDef = defineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); }, providers: [], imports: [SHARED_FORM_DIRECTIVES] });
 /*@__PURE__*/ ɵsetClassMetadata(ɵInternalFormsSharedModule, [{
         type: NgModule,
         args: [{
@@ -8430,7 +8431,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.0.0-beta.10+117.sha-6b39c9c.with-local-changes');
+const VERSION = new Version('8.0.0-beta.10+120.sha-60afe88.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
@@ -8475,8 +8476,9 @@ FormsModule.decorators = [
                 exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/** @nocollapse */ FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule, declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
-/** @nocollapse */ FormsModule.ngInjectorDef = defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [[ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]] });
+/** @nocollapse */ FormsModule.ngModuleDef = ɵdefineNgModule({ type: FormsModule });
+/** @nocollapse */ FormsModule.ngInjectorDef = defineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
+/*@__PURE__*/ ɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm, NgFormSelectorWarning] });
 /*@__PURE__*/ ɵsetClassMetadata(FormsModule, [{
         type: NgModule,
         args: [{
@@ -8521,8 +8523,9 @@ ReactiveFormsModule.decorators = [
                 exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/** @nocollapse */ ReactiveFormsModule.ngModuleDef = ɵdefineNgModule({ type: ReactiveFormsModule, declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
-/** @nocollapse */ ReactiveFormsModule.ngInjectorDef = defineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [[ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]] });
+/** @nocollapse */ ReactiveFormsModule.ngModuleDef = ɵdefineNgModule({ type: ReactiveFormsModule });
+/** @nocollapse */ ReactiveFormsModule.ngInjectorDef = defineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
+/*@__PURE__*/ ɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
 /*@__PURE__*/ ɵsetClassMetadata(ReactiveFormsModule, [{
         type: NgModule,
         args: [{
