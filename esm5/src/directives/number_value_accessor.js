@@ -87,11 +87,11 @@ var NumberValueAccessor = /** @class */ (function () {
     NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     };
-    NumberValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], factory: function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(i0.ElementRef)); }, hostBindings: function NumberValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-            i0.ɵlistener("change", function NumberValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
-            i0.ɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
-            i0.ɵlistener("blur", function NumberValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
-        } }, features: [i0.ɵProvidersFeature([NUMBER_VALUE_ACCESSOR])] });
+    NumberValueAccessor.ngDirectiveDef = i0.ΔdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], factory: function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(i0.ΔdirectiveInject(i0.Renderer2), i0.ΔdirectiveInject(i0.ElementRef)); }, hostBindings: function NumberValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+            i0.Δlistener("change", function NumberValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
+            i0.Δlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
+            i0.Δlistener("blur", function NumberValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
+        } }, features: [i0.ΔProvidersFeature([NUMBER_VALUE_ACCESSOR])] });
     return NumberValueAccessor;
 }());
 export { NumberValueAccessor };

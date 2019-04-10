@@ -115,7 +115,7 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
      * @param isDisabled The disabled value
      */
     setDisabledState(isDisabled: boolean): void;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<SelectControlValueAccessor, "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", never, { 'compareWith': "compareWith" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<SelectControlValueAccessor, "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", never, { 'compareWith': "compareWith" }, {}, never>;
 }
 /**
  * @description
@@ -154,5 +154,5 @@ export declare class NgSelectOption implements OnDestroy {
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
      */
     ngOnDestroy(): void;
-    static ngDirectiveDef: i0.ɵDirectiveDefWithMeta<NgSelectOption, "option", never, { 'ngValue': "ngValue", 'value': "value" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<NgSelectOption, "option", never, { 'ngValue': "ngValue", 'value': "value" }, {}, never>;
 }

@@ -37,8 +37,8 @@ export class ɵNgNoValidate {
                 host: { 'novalidate': '' },
             },] },
 ];
-/** @nocollapse */ ɵNgNoValidate.ngDirectiveDef = i0.ɵdefineDirective({ type: ɵNgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function ɵNgNoValidate_Factory(t) { return new (t || ɵNgNoValidate)(); }, hostBindings: function ɵNgNoValidate_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-        i0.ɵelementHostAttrs(_c0);
+/** @nocollapse */ ɵNgNoValidate.ngDirectiveDef = i0.ΔdefineDirective({ type: ɵNgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function ɵNgNoValidate_Factory(t) { return new (t || ɵNgNoValidate)(); }, hostBindings: function ɵNgNoValidate_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+        i0.ΔelementHostAttrs(_c0);
     } } });
 /*@__PURE__*/ i0.ɵsetClassMetadata(ɵNgNoValidate, [{
         type: Directive,

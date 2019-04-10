@@ -85,11 +85,11 @@ var RangeValueAccessor = /** @class */ (function () {
     RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     };
-    RangeValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], factory: function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(i0.ElementRef)); }, hostBindings: function RangeValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-            i0.ɵlistener("change", function RangeValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
-            i0.ɵlistener("input", function RangeValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
-            i0.ɵlistener("blur", function RangeValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
-        } }, features: [i0.ɵProvidersFeature([RANGE_VALUE_ACCESSOR])] });
+    RangeValueAccessor.ngDirectiveDef = i0.ΔdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], factory: function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(i0.ΔdirectiveInject(i0.Renderer2), i0.ΔdirectiveInject(i0.ElementRef)); }, hostBindings: function RangeValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+            i0.Δlistener("change", function RangeValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
+            i0.Δlistener("input", function RangeValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
+            i0.Δlistener("blur", function RangeValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
+        } }, features: [i0.ΔProvidersFeature([RANGE_VALUE_ACCESSOR])] });
     return RangeValueAccessor;
 }());
 export { RangeValueAccessor };

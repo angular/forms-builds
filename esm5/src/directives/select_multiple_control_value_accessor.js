@@ -202,10 +202,10 @@ var SelectMultipleControlValueAccessor = /** @class */ (function () {
         var id = _extractId(valueString);
         return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
     };
-    SelectMultipleControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], factory: function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(i0.ElementRef)); }, hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-            i0.ɵlistener("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target); });
-            i0.ɵlistener("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
-        } }, inputs: { compareWith: "compareWith" }, features: [i0.ɵProvidersFeature([SELECT_MULTIPLE_VALUE_ACCESSOR])] });
+    SelectMultipleControlValueAccessor.ngDirectiveDef = i0.ΔdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], factory: function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(i0.ΔdirectiveInject(i0.Renderer2), i0.ΔdirectiveInject(i0.ElementRef)); }, hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+            i0.Δlistener("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target); });
+            i0.Δlistener("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
+        } }, inputs: { compareWith: "compareWith" }, features: [i0.ΔProvidersFeature([SELECT_MULTIPLE_VALUE_ACCESSOR])] });
     return SelectMultipleControlValueAccessor;
 }());
 export { SelectMultipleControlValueAccessor };
@@ -291,7 +291,7 @@ var ɵNgSelectMultipleOption = /** @class */ (function () {
             this._select.writeValue(this._select.value);
         }
     };
-    ɵNgSelectMultipleOption.ngDirectiveDef = i0.ɵdefineDirective({ type: ɵNgSelectMultipleOption, selectors: [["option"]], factory: function ɵNgSelectMultipleOption_Factory(t) { return new (t || ɵNgSelectMultipleOption)(i0.ɵdirectiveInject(i0.ElementRef), i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
+    ɵNgSelectMultipleOption.ngDirectiveDef = i0.ΔdefineDirective({ type: ɵNgSelectMultipleOption, selectors: [["option"]], factory: function ɵNgSelectMultipleOption_Factory(t) { return new (t || ɵNgSelectMultipleOption)(i0.ΔdirectiveInject(i0.ElementRef), i0.ΔdirectiveInject(i0.Renderer2), i0.ΔdirectiveInject(SelectMultipleControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
     return ɵNgSelectMultipleOption;
 }());
 export { ɵNgSelectMultipleOption };

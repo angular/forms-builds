@@ -255,10 +255,10 @@ var FormGroupDirective = /** @class */ (function (_super) {
             ReactiveErrors.missingFormException();
         }
     };
-    FormGroupDirective.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupDirective, selectors: [["", "formGroup", ""]], factory: function FormGroupDirective_Factory(t) { return new (t || FormGroupDirective)(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function FormGroupDirective_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-            i0.ɵlistener("submit", function FormGroupDirective_submit_HostBindingHandler($event) { return ctx.onSubmit($event); });
-            i0.ɵlistener("reset", function FormGroupDirective_reset_HostBindingHandler($event) { return ctx.onReset(); });
-        } }, inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [i0.ɵProvidersFeature([formDirectiveProvider]), i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature()] });
+    FormGroupDirective.ngDirectiveDef = i0.ΔdefineDirective({ type: FormGroupDirective, selectors: [["", "formGroup", ""]], factory: function FormGroupDirective_Factory(t) { return new (t || FormGroupDirective)(i0.ΔdirectiveInject(NG_VALIDATORS, 10), i0.ΔdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function FormGroupDirective_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+            i0.Δlistener("submit", function FormGroupDirective_submit_HostBindingHandler($event) { return ctx.onSubmit($event); });
+            i0.Δlistener("reset", function FormGroupDirective_reset_HostBindingHandler($event) { return ctx.onReset(); });
+        } }, inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [i0.ΔProvidersFeature([formDirectiveProvider]), i0.ΔInheritDefinitionFeature, i0.ΔNgOnChangesFeature()] });
     return FormGroupDirective;
 }(ControlContainer));
 export { FormGroupDirective };

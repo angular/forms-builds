@@ -35,7 +35,7 @@ var NgFormSelectorWarning = /** @class */ (function () {
      * @internal
      */
     NgFormSelectorWarning._ngFormWarning = false;
-    NgFormSelectorWarning.ngDirectiveDef = i0.ɵdefineDirective({ type: NgFormSelectorWarning, selectors: [["ngForm"]], factory: function NgFormSelectorWarning_Factory(t) { return new (t || NgFormSelectorWarning)(i0.ɵdirectiveInject(NG_FORM_SELECTOR_WARNING, 8)); } });
+    NgFormSelectorWarning.ngDirectiveDef = i0.ΔdefineDirective({ type: NgFormSelectorWarning, selectors: [["ngForm"]], factory: function NgFormSelectorWarning_Factory(t) { return new (t || NgFormSelectorWarning)(i0.ΔdirectiveInject(NG_FORM_SELECTOR_WARNING, 8)); } });
     return NgFormSelectorWarning;
 }());
 export { NgFormSelectorWarning };

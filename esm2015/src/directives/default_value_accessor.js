@@ -182,12 +182,12 @@ DefaultValueAccessor.ctorParameters = () => [
     { type: ElementRef },
     { type: Boolean, decorators: [{ type: Optional }, { type: Inject, args: [COMPOSITION_BUFFER_MODE,] }] }
 ];
-/** @nocollapse */ DefaultValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: DefaultValueAccessor, selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]], factory: function DefaultValueAccessor_Factory(t) { return new (t || DefaultValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(i0.ElementRef), i0.ɵdirectiveInject(COMPOSITION_BUFFER_MODE, 8)); }, hostBindings: function DefaultValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-        i0.ɵlistener("input", function DefaultValueAccessor_input_HostBindingHandler($event) { return ctx._handleInput($event.target.value); });
-        i0.ɵlistener("blur", function DefaultValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
-        i0.ɵlistener("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler($event) { return ctx._compositionStart(); });
-        i0.ɵlistener("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) { return ctx._compositionEnd($event.target.value); });
-    } }, features: [i0.ɵProvidersFeature([DEFAULT_VALUE_ACCESSOR])] });
+/** @nocollapse */ DefaultValueAccessor.ngDirectiveDef = i0.ΔdefineDirective({ type: DefaultValueAccessor, selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]], factory: function DefaultValueAccessor_Factory(t) { return new (t || DefaultValueAccessor)(i0.ΔdirectiveInject(i0.Renderer2), i0.ΔdirectiveInject(i0.ElementRef), i0.ΔdirectiveInject(COMPOSITION_BUFFER_MODE, 8)); }, hostBindings: function DefaultValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+        i0.Δlistener("input", function DefaultValueAccessor_input_HostBindingHandler($event) { return ctx._handleInput($event.target.value); });
+        i0.Δlistener("blur", function DefaultValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
+        i0.Δlistener("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler($event) { return ctx._compositionStart(); });
+        i0.Δlistener("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) { return ctx._compositionEnd($event.target.value); });
+    } }, features: [i0.ΔProvidersFeature([DEFAULT_VALUE_ACCESSOR])] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(DefaultValueAccessor, [{
         type: Directive,
         args: [{

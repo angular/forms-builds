@@ -335,10 +335,10 @@ NgForm.ctorParameters = () => [
 NgForm.propDecorators = {
     options: [{ type: Input, args: ['ngFormOptions',] }]
 };
-/** @nocollapse */ NgForm.ngDirectiveDef = i0.ɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ngForm"], ["ng-form"], ["", "ngForm", ""]], factory: function NgForm_Factory(t) { return new (t || NgForm)(i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function NgForm_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-        i0.ɵlistener("submit", function NgForm_submit_HostBindingHandler($event) { return ctx.onSubmit($event); });
-        i0.ɵlistener("reset", function NgForm_reset_HostBindingHandler($event) { return ctx.onReset(); });
-    } }, inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [i0.ɵProvidersFeature([formDirectiveProvider]), i0.ɵInheritDefinitionFeature] });
+/** @nocollapse */ NgForm.ngDirectiveDef = i0.ΔdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ngForm"], ["ng-form"], ["", "ngForm", ""]], factory: function NgForm_Factory(t) { return new (t || NgForm)(i0.ΔdirectiveInject(NG_VALIDATORS, 10), i0.ΔdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, hostBindings: function NgForm_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+        i0.Δlistener("submit", function NgForm_submit_HostBindingHandler($event) { return ctx.onSubmit($event); });
+        i0.Δlistener("reset", function NgForm_reset_HostBindingHandler($event) { return ctx.onReset(); });
+    } }, inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [i0.ΔProvidersFeature([formDirectiveProvider]), i0.ΔInheritDefinitionFeature] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgForm, [{
         type: Directive,
         args: [{

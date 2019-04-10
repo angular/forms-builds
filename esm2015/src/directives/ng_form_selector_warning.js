@@ -51,7 +51,7 @@ NgFormSelectorWarning.decorators = [
 NgFormSelectorWarning.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_FORM_SELECTOR_WARNING,] }] }
 ];
-/** @nocollapse */ NgFormSelectorWarning.ngDirectiveDef = i0.ɵdefineDirective({ type: NgFormSelectorWarning, selectors: [["ngForm"]], factory: function NgFormSelectorWarning_Factory(t) { return new (t || NgFormSelectorWarning)(i0.ɵdirectiveInject(NG_FORM_SELECTOR_WARNING, 8)); } });
+/** @nocollapse */ NgFormSelectorWarning.ngDirectiveDef = i0.ΔdefineDirective({ type: NgFormSelectorWarning, selectors: [["ngForm"]], factory: function NgFormSelectorWarning_Factory(t) { return new (t || NgFormSelectorWarning)(i0.ΔdirectiveInject(NG_FORM_SELECTOR_WARNING, 8)); } });
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgFormSelectorWarning, [{
         type: Directive,
         args: [{ selector: 'ngForm' }]

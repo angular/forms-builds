@@ -240,10 +240,10 @@ SelectControlValueAccessor.ctorParameters = () => [
 SelectControlValueAccessor.propDecorators = {
     compareWith: [{ type: Input }]
 };
-/** @nocollapse */ SelectControlValueAccessor.ngDirectiveDef = i0.ɵdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], factory: function SelectControlValueAccessor_Factory(t) { return new (t || SelectControlValueAccessor)(i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(i0.ElementRef)); }, hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-        i0.ɵlistener("change", function SelectControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
-        i0.ɵlistener("blur", function SelectControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
-    } }, inputs: { compareWith: "compareWith" }, features: [i0.ɵProvidersFeature([SELECT_VALUE_ACCESSOR])] });
+/** @nocollapse */ SelectControlValueAccessor.ngDirectiveDef = i0.ΔdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], factory: function SelectControlValueAccessor_Factory(t) { return new (t || SelectControlValueAccessor)(i0.ΔdirectiveInject(i0.Renderer2), i0.ΔdirectiveInject(i0.ElementRef)); }, hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+        i0.Δlistener("change", function SelectControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); });
+        i0.Δlistener("blur", function SelectControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
+    } }, inputs: { compareWith: "compareWith" }, features: [i0.ΔProvidersFeature([SELECT_VALUE_ACCESSOR])] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(SelectControlValueAccessor, [{
         type: Directive,
         args: [{
@@ -377,7 +377,7 @@ NgSelectOption.propDecorators = {
     ngValue: [{ type: Input, args: ['ngValue',] }],
     value: [{ type: Input, args: ['value',] }]
 };
-/** @nocollapse */ NgSelectOption.ngDirectiveDef = i0.ɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], factory: function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(i0.ɵdirectiveInject(i0.ElementRef), i0.ɵdirectiveInject(i0.Renderer2), i0.ɵdirectiveInject(SelectControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
+/** @nocollapse */ NgSelectOption.ngDirectiveDef = i0.ΔdefineDirective({ type: NgSelectOption, selectors: [["option"]], factory: function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(i0.ΔdirectiveInject(i0.ElementRef), i0.ΔdirectiveInject(i0.Renderer2), i0.ΔdirectiveInject(SelectControlValueAccessor, 9)); }, inputs: { ngValue: "ngValue", value: "value" } });
 /*@__PURE__*/ i0.ɵsetClassMetadata(NgSelectOption, [{
         type: Directive,
         args: [{ selector: 'option' }]

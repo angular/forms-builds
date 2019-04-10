@@ -59,7 +59,7 @@ var NgModelGroup = /** @class */ (function (_super) {
             TemplateDrivenErrors.modelGroupParentException();
         }
     };
-    NgModelGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgModelGroup, selectors: [["", "ngModelGroup", ""]], factory: function NgModelGroup_Factory(t) { return new (t || NgModelGroup)(i0.ɵdirectiveInject(i1.ControlContainer, 5), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: ["ngModelGroup", "name"] }, exportAs: ["ngModelGroup"], features: [i0.ɵProvidersFeature([modelGroupProvider]), i0.ɵInheritDefinitionFeature] });
+    NgModelGroup.ngDirectiveDef = i0.ΔdefineDirective({ type: NgModelGroup, selectors: [["", "ngModelGroup", ""]], factory: function NgModelGroup_Factory(t) { return new (t || NgModelGroup)(i0.ΔdirectiveInject(i1.ControlContainer, 5), i0.ΔdirectiveInject(NG_VALIDATORS, 10), i0.ΔdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: ["ngModelGroup", "name"] }, exportAs: ["ngModelGroup"], features: [i0.ΔProvidersFeature([modelGroupProvider]), i0.ΔInheritDefinitionFeature] });
     return NgModelGroup;
 }(AbstractFormGroupDirective));
 export { NgModelGroup };

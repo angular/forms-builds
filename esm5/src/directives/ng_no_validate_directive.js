@@ -28,8 +28,8 @@ var _c0 = ["novalidate", ""];
 var ɵNgNoValidate = /** @class */ (function () {
     function ɵNgNoValidate() {
     }
-    ɵNgNoValidate.ngDirectiveDef = i0.ɵdefineDirective({ type: ɵNgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function ɵNgNoValidate_Factory(t) { return new (t || ɵNgNoValidate)(); }, hostBindings: function ɵNgNoValidate_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-            i0.ɵelementHostAttrs(_c0);
+    ɵNgNoValidate.ngDirectiveDef = i0.ΔdefineDirective({ type: ɵNgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], factory: function ɵNgNoValidate_Factory(t) { return new (t || ɵNgNoValidate)(); }, hostBindings: function ɵNgNoValidate_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+            i0.ΔelementHostAttrs(_c0);
         } } });
     return ɵNgNoValidate;
 }());

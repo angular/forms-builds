@@ -92,18 +92,18 @@ var NgControlStatus = /** @class */ (function (_super) {
     function NgControlStatus(cd) {
         return _super.call(this, cd) || this;
     }
-    NgControlStatus.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ɵdirectiveInject(i1.NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-            i0.ɵelementHostStyling(_c0);
+    NgControlStatus.ngDirectiveDef = i0.ΔdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], factory: function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ΔdirectiveInject(i1.NgControl, 2)); }, hostBindings: function NgControlStatus_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+            i0.ΔelementHostStyling(_c0);
         } if (rf & 2) {
-            i0.ɵelementHostClassProp(0, ctx.ngClassUntouched);
-            i0.ɵelementHostClassProp(1, ctx.ngClassTouched);
-            i0.ɵelementHostClassProp(2, ctx.ngClassPristine);
-            i0.ɵelementHostClassProp(3, ctx.ngClassDirty);
-            i0.ɵelementHostClassProp(4, ctx.ngClassValid);
-            i0.ɵelementHostClassProp(5, ctx.ngClassInvalid);
-            i0.ɵelementHostClassProp(6, ctx.ngClassPending);
-            i0.ɵelementHostStylingApply();
-        } }, features: [i0.ɵInheritDefinitionFeature] });
+            i0.ΔelementHostClassProp(0, ctx.ngClassUntouched);
+            i0.ΔelementHostClassProp(1, ctx.ngClassTouched);
+            i0.ΔelementHostClassProp(2, ctx.ngClassPristine);
+            i0.ΔelementHostClassProp(3, ctx.ngClassDirty);
+            i0.ΔelementHostClassProp(4, ctx.ngClassValid);
+            i0.ΔelementHostClassProp(5, ctx.ngClassInvalid);
+            i0.ΔelementHostClassProp(6, ctx.ngClassPending);
+            i0.ΔelementHostStylingApply();
+        } }, features: [i0.ΔInheritDefinitionFeature] });
     return NgControlStatus;
 }(AbstractControlStatus));
 export { NgControlStatus };
@@ -129,18 +129,18 @@ var NgControlStatusGroup = /** @class */ (function (_super) {
     function NgControlStatusGroup(cd) {
         return _super.call(this, cd) || this;
     }
-    NgControlStatusGroup.ngDirectiveDef = i0.ɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵdirectiveInject(i2.ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
-            i0.ɵelementHostStyling(_c0);
+    NgControlStatusGroup.ngDirectiveDef = i0.ΔdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], factory: function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ΔdirectiveInject(i2.ControlContainer, 2)); }, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+            i0.ΔelementHostStyling(_c0);
         } if (rf & 2) {
-            i0.ɵelementHostClassProp(0, ctx.ngClassUntouched);
-            i0.ɵelementHostClassProp(1, ctx.ngClassTouched);
-            i0.ɵelementHostClassProp(2, ctx.ngClassPristine);
-            i0.ɵelementHostClassProp(3, ctx.ngClassDirty);
-            i0.ɵelementHostClassProp(4, ctx.ngClassValid);
-            i0.ɵelementHostClassProp(5, ctx.ngClassInvalid);
-            i0.ɵelementHostClassProp(6, ctx.ngClassPending);
-            i0.ɵelementHostStylingApply();
-        } }, features: [i0.ɵInheritDefinitionFeature] });
+            i0.ΔelementHostClassProp(0, ctx.ngClassUntouched);
+            i0.ΔelementHostClassProp(1, ctx.ngClassTouched);
+            i0.ΔelementHostClassProp(2, ctx.ngClassPristine);
+            i0.ΔelementHostClassProp(3, ctx.ngClassDirty);
+            i0.ΔelementHostClassProp(4, ctx.ngClassValid);
+            i0.ΔelementHostClassProp(5, ctx.ngClassInvalid);
+            i0.ΔelementHostClassProp(6, ctx.ngClassPending);
+            i0.ΔelementHostStylingApply();
+        } }, features: [i0.ΔInheritDefinitionFeature] });
     return NgControlStatusGroup;
 }(AbstractControlStatus));
 export { NgControlStatusGroup };

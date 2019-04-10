@@ -281,7 +281,7 @@ FormControlName.propDecorators = {
     model: [{ type: Input, args: ['ngModel',] }],
     update: [{ type: Output, args: ['ngModelChange',] }]
 };
-/** @nocollapse */ FormControlName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormControlName, selectors: [["", "formControlName", ""]], factory: function FormControlName_Factory(t) { return new (t || FormControlName)(i0.ɵdirectiveInject(i1.ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵdirectiveInject(NG_VALUE_ACCESSOR, 10), i0.ɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); }, inputs: { name: ["formControlName", "name"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, features: [i0.ɵProvidersFeature([controlNameBinding]), i0.ɵInheritDefinitionFeature, i0.ɵNgOnChangesFeature()] });
+/** @nocollapse */ FormControlName.ngDirectiveDef = i0.ΔdefineDirective({ type: FormControlName, selectors: [["", "formControlName", ""]], factory: function FormControlName_Factory(t) { return new (t || FormControlName)(i0.ΔdirectiveInject(i1.ControlContainer, 13), i0.ΔdirectiveInject(NG_VALIDATORS, 10), i0.ΔdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ΔdirectiveInject(NG_VALUE_ACCESSOR, 10), i0.ΔdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); }, inputs: { name: ["formControlName", "name"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, features: [i0.ΔProvidersFeature([controlNameBinding]), i0.ΔInheritDefinitionFeature, i0.ΔNgOnChangesFeature()] });
 /*@__PURE__*/ i0.ɵsetClassMetadata(FormControlName, [{
         type: Directive,
         args: [{ selector: '[formControlName]', providers: [controlNameBinding] }]

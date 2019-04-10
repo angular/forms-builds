@@ -81,7 +81,7 @@ var FormGroupName = /** @class */ (function (_super) {
             ReactiveErrors.groupParentException();
         }
     };
-    FormGroupName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormGroupName, selectors: [["", "formGroupName", ""]], factory: function FormGroupName_Factory(t) { return new (t || FormGroupName)(i0.ɵdirectiveInject(i1.ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: ["formGroupName", "name"] }, features: [i0.ɵProvidersFeature([formGroupNameProvider]), i0.ɵInheritDefinitionFeature] });
+    FormGroupName.ngDirectiveDef = i0.ΔdefineDirective({ type: FormGroupName, selectors: [["", "formGroupName", ""]], factory: function FormGroupName_Factory(t) { return new (t || FormGroupName)(i0.ΔdirectiveInject(i1.ControlContainer, 13), i0.ΔdirectiveInject(NG_VALIDATORS, 10), i0.ΔdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: ["formGroupName", "name"] }, features: [i0.ΔProvidersFeature([formGroupNameProvider]), i0.ΔInheritDefinitionFeature] });
     return FormGroupName;
 }(AbstractFormGroupDirective));
 export { FormGroupName };
@@ -224,7 +224,7 @@ var FormArrayName = /** @class */ (function (_super) {
             ReactiveErrors.arrayParentException();
         }
     };
-    FormArrayName.ngDirectiveDef = i0.ɵdefineDirective({ type: FormArrayName, selectors: [["", "formArrayName", ""]], factory: function FormArrayName_Factory(t) { return new (t || FormArrayName)(i0.ɵdirectiveInject(i1.ControlContainer, 13), i0.ɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: ["formArrayName", "name"] }, features: [i0.ɵProvidersFeature([formArrayNameProvider]), i0.ɵInheritDefinitionFeature] });
+    FormArrayName.ngDirectiveDef = i0.ΔdefineDirective({ type: FormArrayName, selectors: [["", "formArrayName", ""]], factory: function FormArrayName_Factory(t) { return new (t || FormArrayName)(i0.ΔdirectiveInject(i1.ControlContainer, 13), i0.ΔdirectiveInject(NG_VALIDATORS, 10), i0.ΔdirectiveInject(NG_ASYNC_VALIDATORS, 10)); }, inputs: { name: ["formArrayName", "name"] }, features: [i0.ΔProvidersFeature([formArrayNameProvider]), i0.ΔInheritDefinitionFeature] });
     return FormArrayName;
 }(ControlContainer));
 export { FormArrayName };
