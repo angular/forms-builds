@@ -174,5 +174,5 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     private _updateRegistrations;
     private _updateValidators;
     private _checkFormPresent;
-    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<FormGroupDirective, "[formGroup]", ["ngForm"], { 'form': "formGroup" }, { 'ngSubmit': "ngSubmit" }, never>;
+    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<FormGroupDirective, "[formGroup]", ["ngForm"], { 'form': "formGroup" }, { 'ngSubmit': "ngSubmit" }, never>;
 }
