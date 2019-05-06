@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-rc.0+88.sha-b2437c4.with-local-changes
+ * @license Angular v8.0.0-rc.0+89.sha-ea9a381.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6014,7 +6014,7 @@
      *
      * ```ts
      * imports: [
-     *   ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'});
+     *   ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
      * ]
      * ```
      *
@@ -6902,7 +6902,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('8.0.0-rc.0+88.sha-b2437c4.with-local-changes');
+    var VERSION = new i0.Version('8.0.0-rc.0+89.sha-ea9a381.with-local-changes');
 
     /**
      * @license
