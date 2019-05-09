@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-rc.0+122.sha-d8665e6.with-local-changes
+ * @license Angular v8.0.0-rc.0+130.sha-d2c83ea.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -43,7 +43,9 @@ export declare abstract class AbstractControl {
      * The current value of the control.
      *
      * * For a `FormControl`, the current value.
-     * * For a `FormGroup`, the values of enabled controls as an object
+     * * For an enabled `FormGroup`, the values of enabled controls as an object
+     * with a key-value pair for each member of the group.
+     * * For a disabled `FormGroup`, the values of all controls as an object
      * with a key-value pair for each member of the group.
      * * For a `FormArray`, the values of enabled controls as an array.
      *
