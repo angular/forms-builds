@@ -81,7 +81,9 @@ export declare abstract class AbstractControl {
      * The current value of the control.
      *
      * * For a `FormControl`, the current value.
-     * * For a `FormGroup`, the values of enabled controls as an object
+     * * For an enabled `FormGroup`, the values of enabled controls as an object
+     * with a key-value pair for each member of the group.
+     * * For a disabled `FormGroup`, the values of all controls as an object
      * with a key-value pair for each member of the group.
      * * For a `FormArray`, the values of enabled controls as an array.
      *
