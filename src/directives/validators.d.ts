@@ -152,7 +152,7 @@ export declare class RequiredValidator implements Validator {
      * @param fn The callback function
      */
     registerOnValidatorChange(fn: () => void): void;
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { 'required': "required" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { 'required': "required" }, {}, never>;
 }
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
@@ -181,7 +181,7 @@ export declare class CheckboxRequiredValidator extends RequiredValidator {
      * Returns the validation result if enabled, otherwise null.
      */
     validate(control: AbstractControl): ValidationErrors | null;
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<CheckboxRequiredValidator, "input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]", never, {}, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<CheckboxRequiredValidator, "input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]", never, {}, {}, never>;
 }
 /**
  * @description
@@ -231,7 +231,7 @@ export declare class EmailValidator implements Validator {
      * @param fn The callback function
      */
     registerOnValidatorChange(fn: () => void): void;
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { 'email': "email" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { 'email': "email" }, {}, never>;
 }
 /**
  * @description
@@ -309,7 +309,7 @@ export declare class MinLengthValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { 'minlength': "minlength" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { 'minlength': "minlength" }, {}, never>;
 }
 /**
  * @description
@@ -367,7 +367,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { 'maxlength': "maxlength" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { 'maxlength': "maxlength" }, {}, never>;
 }
 /**
  * @description
@@ -427,5 +427,5 @@ export declare class PatternValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { 'pattern': "pattern" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { 'pattern': "pattern" }, {}, never>;
 }

@@ -68,7 +68,7 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      */
     name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<FormGroupName, "[formGroupName]", never, { 'name': "formGroupName" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<FormGroupName, "[formGroupName]", never, { 'name': "formGroupName" }, {}, never>;
 }
 export declare const formArrayNameProvider: any;
 /**
@@ -143,5 +143,5 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      */
     readonly asyncValidator: AsyncValidatorFn | null;
     private _checkParentType;
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<FormArrayName, "[formArrayName]", never, { 'name': "formArrayName" }, {}, never>;
+    static ngDirectiveDef: i0.ΔDirectiveDefWithMeta<FormArrayName, "[formArrayName]", never, { 'name': "formArrayName" }, {}, never>;
 }
