@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-rc.0+199.sha-e9ead2b.with-local-changes
+ * @license Angular v8.0.0-rc.0+216.sha-c9b588b.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5020,8 +5020,12 @@ const formDirectiveProvider = {
      */
     () => NgForm))
 };
+const ɵ0 = /**
+ * @return {?}
+ */
+() => Promise.resolve(null);
 /** @type {?} */
-const resolvedPromise = Promise.resolve(null);
+const resolvedPromise = ((ɵ0))();
 /**
  * \@description
  * Creates a top-level `FormGroup` instance and binds it to a form
@@ -5615,6 +5619,10 @@ const formControlBinding = {
      */
     () => NgModel))
 };
+const ɵ0$1 = /**
+ * @return {?}
+ */
+() => Promise.resolve(null);
 /**
  * `ngModel` forces an additional change detection run when its inputs change:
  * E.g.:
@@ -5633,7 +5641,7 @@ const formControlBinding = {
  * - this is a general problem when using `exportAs` for directives!
  * @type {?}
  */
-const resolvedPromise$1 = Promise.resolve(null);
+const resolvedPromise$1 = ((ɵ0$1))();
 /**
  * \@description
  * Creates a `FormControl` instance from a domain model and binds it
@@ -7674,7 +7682,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.0.0-rc.0+199.sha-e9ead2b.with-local-changes');
+const VERSION = new Version('8.0.0-rc.0+216.sha-c9b588b.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
