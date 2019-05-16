@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-rc.0+200.sha-3f7e823.with-local-changes
+ * @license Angular v8.0.0-rc.0+222.sha-757d4c3.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4166,7 +4166,8 @@ var formDirectiveProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(function () { return NgForm; })
 };
-var resolvedPromise = Promise.resolve(null);
+var ɵ0 = function () { return Promise.resolve(null); };
+var resolvedPromise = (ɵ0)();
 /**
  * @description
  * Creates a top-level `FormGroup` instance and binds it to a form
@@ -4693,6 +4694,7 @@ var formControlBinding = {
     provide: NgControl,
     useExisting: forwardRef(function () { return NgModel; })
 };
+var ɵ0$1 = function () { return Promise.resolve(null); };
 /**
  * `ngModel` forces an additional change detection run when its inputs change:
  * E.g.:
@@ -4710,7 +4712,7 @@ var formControlBinding = {
  * - this is just one extra run no matter how many `ngModel` have been changed.
  * - this is a general problem when using `exportAs` for directives!
  */
-var resolvedPromise$1 = Promise.resolve(null);
+var resolvedPromise$1 = (ɵ0$1)();
 /**
  * @description
  * Creates a `FormControl` instance from a domain model and binds it
@@ -6665,7 +6667,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('8.0.0-rc.0+200.sha-3f7e823.with-local-changes');
+var VERSION = new Version('8.0.0-rc.0+222.sha-757d4c3.with-local-changes');
 
 /**
  * @license
