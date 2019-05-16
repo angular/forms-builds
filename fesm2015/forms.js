@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.0.0-rc.0+200.sha-3f7e823.with-local-changes
+ * @license Angular v8.0.0-rc.0+222.sha-757d4c3.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5277,7 +5277,10 @@ const formDirectiveProvider = {
     () => NgForm))
 };
 /** @type {?} */
-const resolvedPromise = Promise.resolve(null);
+const resolvedPromise = ((/**
+ * @return {?}
+ */
+() => Promise.resolve(null)))();
 /**
  * \@description
  * Creates a top-level `FormGroup` instance and binds it to a form
@@ -5977,7 +5980,10 @@ const formControlBinding = {
  * - this is a general problem when using `exportAs` for directives!
  * @type {?}
  */
-const resolvedPromise$1 = Promise.resolve(null);
+const resolvedPromise$1 = ((/**
+ * @return {?}
+ */
+() => Promise.resolve(null)))();
 /**
  * \@description
  * Creates a `FormControl` instance from a domain model and binds it
@@ -8431,7 +8437,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.0.0-rc.0+200.sha-3f7e823.with-local-changes');
+const VERSION = new Version('8.0.0-rc.0+222.sha-757d4c3.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
