@@ -1,10 +1,10 @@
 /**
- * @license Angular v8.0.0-rc.0+305.sha-d4e6263.with-local-changes
+ * @license Angular v8.0.0-rc.0+311.sha-2cdbe9b.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, ɵɵdefineDirective, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵɵstyling, ɵɵclassProp, ɵɵstylingApply, ɵɵInheritDefinitionFeature, Self, ɵisPromise, ɵisObservable, ɵɵdefineInjectable, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵelementHostAttrs, ɵɵallocHostVars, ɵɵelementAttribute, ɵɵbind, ɵɵgetInheritedFactory, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, ɵɵdefineDirective, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵɵstyling, ɵɵclassProp, ɵɵstylingApply, ɵɵInheritDefinitionFeature, Self, ɵisPromise, ɵisObservable, ɵɵdefineInjectable, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵelementHostAttrs, ɵɵallocHostVars, ɵɵattribute, ɵɵgetInheritedFactory, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, NgModule, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { __extends, __assign, __values, __spread } from 'tslib';
 import { forkJoin, from } from 'rxjs';
@@ -6207,7 +6207,7 @@ var RequiredValidator = /** @class */ (function () {
     RequiredValidator.ngDirectiveDef = ɵɵdefineDirective({ type: RequiredValidator, selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]], factory: function RequiredValidator_Factory(t) { return new (t || RequiredValidator)(); }, hostBindings: function RequiredValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
             ɵɵallocHostVars(1);
         } if (rf & 2) {
-            ɵɵelementAttribute(elIndex, "required", ɵɵbind(ctx.required ? "" : null));
+            ɵɵattribute("required", ctx.required ? "" : null);
         } }, inputs: { required: "required" }, features: [ɵɵProvidersFeature([REQUIRED_VALIDATOR])] });
     return RequiredValidator;
 }());
@@ -6257,7 +6257,7 @@ var CheckboxRequiredValidator = /** @class */ (function (_super) {
     CheckboxRequiredValidator.ngDirectiveDef = ɵɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], factory: function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory(t || CheckboxRequiredValidator); }, hostBindings: function CheckboxRequiredValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
             ɵɵallocHostVars(1);
         } if (rf & 2) {
-            ɵɵelementAttribute(elIndex, "required", ɵɵbind(ctx.required ? "" : null));
+            ɵɵattribute("required", ctx.required ? "" : null);
         } }, features: [ɵɵProvidersFeature([CHECKBOX_REQUIRED_VALIDATOR]), ɵɵInheritDefinitionFeature] });
     return CheckboxRequiredValidator;
 }(RequiredValidator));
@@ -6412,7 +6412,7 @@ var MinLengthValidator = /** @class */ (function () {
     MinLengthValidator.ngDirectiveDef = ɵɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], factory: function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); }, hostBindings: function MinLengthValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
             ɵɵallocHostVars(1);
         } if (rf & 2) {
-            ɵɵelementAttribute(elIndex, "minlength", ɵɵbind(ctx.minlength ? ctx.minlength : null));
+            ɵɵattribute("minlength", ctx.minlength ? ctx.minlength : null);
         } }, inputs: { minlength: "minlength" }, features: [ɵɵProvidersFeature([MIN_LENGTH_VALIDATOR]), ɵɵNgOnChangesFeature()] });
     return MinLengthValidator;
 }());
@@ -6494,7 +6494,7 @@ var MaxLengthValidator = /** @class */ (function () {
     MaxLengthValidator.ngDirectiveDef = ɵɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], factory: function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); }, hostBindings: function MaxLengthValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
             ɵɵallocHostVars(1);
         } if (rf & 2) {
-            ɵɵelementAttribute(elIndex, "maxlength", ɵɵbind(ctx.maxlength ? ctx.maxlength : null));
+            ɵɵattribute("maxlength", ctx.maxlength ? ctx.maxlength : null);
         } }, inputs: { maxlength: "maxlength" }, features: [ɵɵProvidersFeature([MAX_LENGTH_VALIDATOR]), ɵɵNgOnChangesFeature()] });
     return MaxLengthValidator;
 }());
@@ -6574,7 +6574,7 @@ var PatternValidator = /** @class */ (function () {
     PatternValidator.ngDirectiveDef = ɵɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], factory: function PatternValidator_Factory(t) { return new (t || PatternValidator)(); }, hostBindings: function PatternValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
             ɵɵallocHostVars(1);
         } if (rf & 2) {
-            ɵɵelementAttribute(elIndex, "pattern", ɵɵbind(ctx.pattern ? ctx.pattern : null));
+            ɵɵattribute("pattern", ctx.pattern ? ctx.pattern : null);
         } }, inputs: { pattern: "pattern" }, features: [ɵɵProvidersFeature([PATTERN_VALIDATOR]), ɵɵNgOnChangesFeature()] });
     return PatternValidator;
 }());
@@ -6828,7 +6828,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('8.0.0-rc.0+305.sha-d4e6263.with-local-changes');
+var VERSION = new Version('8.0.0-rc.0+311.sha-2cdbe9b.with-local-changes');
 
 /**
  * @license
