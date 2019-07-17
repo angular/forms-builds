@@ -221,19 +221,35 @@ export declare abstract class AbstractControl {
     /**
      * Sets the synchronous validators that are active on this control.  Calling
      * this overwrites any existing sync validators.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
      */
     setValidators(newValidator: ValidatorFn | ValidatorFn[] | null): void;
     /**
      * Sets the async validators that are active on this control. Calling this
      * overwrites any existing async validators.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
      */
     setAsyncValidators(newValidator: AsyncValidatorFn | AsyncValidatorFn[] | null): void;
     /**
      * Empties out the sync validator list.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
      */
     clearValidators(): void;
     /**
      * Empties out the async validator list.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
      */
     clearAsyncValidators(): void;
     /**

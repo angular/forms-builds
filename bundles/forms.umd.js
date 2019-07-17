@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.2.0-next.1+63.sha-1ac0775.with-local-changes
+ * @license Angular v8.2.0-next.1+66.sha-9e83822.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -931,6 +931,8 @@
          * @returns A validator function that returns an error map with the
          * `min` property if the validation check fails, otherwise `null`.
          *
+         * @see `updateValueAndValidity()`
+         *
          */
         Validators.min = function (min) {
             return function (control) {
@@ -961,6 +963,8 @@
          * @returns A validator function that returns an error map with the
          * `max` property if the validation check fails, otherwise `null`.
          *
+         * @see `updateValueAndValidity()`
+         *
          */
         Validators.max = function (max) {
             return function (control) {
@@ -990,6 +994,8 @@
          * @returns An error map with the `required` property
          * if the validation check fails, otherwise `null`.
          *
+         * @see `updateValueAndValidity()`
+         *
          */
         Validators.required = function (control) {
             return isEmptyInputValue(control.value) ? { 'required': true } : null;
@@ -1011,6 +1017,9 @@
          *
          * @returns An error map that contains the `required` property
          * set to `true` if the validation check fails, otherwise `null`.
+         *
+         * @see `updateValueAndValidity()`
+         *
          */
         Validators.requiredTrue = function (control) {
             return control.value === true ? null : { 'required': true };
@@ -1031,6 +1040,8 @@
          *
          * @returns An error map with the `email` property
          * if the validation check fails, otherwise `null`.
+         *
+         * @see `updateValueAndValidity()`
          *
          */
         Validators.email = function (control) {
@@ -1061,6 +1072,9 @@
          *
          * @returns A validator function that returns an error map with the
          * `minlength` if the validation check fails, otherwise `null`.
+         *
+         * @see `updateValueAndValidity()`
+         *
          */
         Validators.minLength = function (minLength) {
             return function (control) {
@@ -1095,6 +1109,9 @@
          *
          * @returns A validator function that returns an error map with the
          * `maxlength` property if the validation check fails, otherwise `null`.
+         *
+         * @see `updateValueAndValidity()`
+         *
          */
         Validators.maxLength = function (maxLength) {
             return function (control) {
@@ -1108,11 +1125,6 @@
          * @description
          * Validator that requires the control's value to match a regex pattern. This validator is also
          * provided by default if you use the HTML5 `pattern` attribute.
-         *
-         * Note that if a Regexp is provided, the Regexp is used as is to test the values. On the other
-         * hand, if a string is passed, the `^` character is prepended and the `$` character is
-         * appended to the provided string (if not already present), and the resulting regular
-         * expression is used to test the values.
          *
          * @usageNotes
          *
@@ -1128,8 +1140,16 @@
          * <input pattern="[a-zA-Z ]*">
          * ```
          *
+         * @param pattern A regular expression to be used as is to test the values, or a string.
+         * If a string is passed, the `^` character is prepended and the `$` character is
+         * appended to the provided string (if not already present), and the resulting regular
+         * expression is used to test the values.
+         *
          * @returns A validator function that returns an error map with the
          * `pattern` property if the validation check fails, otherwise `null`.
+         *
+         * @see `updateValueAndValidity()`
+         *
          */
         Validators.pattern = function (pattern) {
             if (!pattern)
@@ -1161,6 +1181,9 @@
         /**
          * @description
          * Validator that performs no operation.
+         *
+         * @see `updateValueAndValidity()`
+         *
          */
         Validators.nullValidator = function (control) { return null; };
         Validators.compose = function (validators) {
@@ -1180,7 +1203,10 @@
          *
          * @returns A validator function that returns an error map with the
          * merged error objects of the async validators if the validation check fails, otherwise `null`.
-        */
+         *
+         * @see `updateValueAndValidity()`
+         *
+         */
         Validators.composeAsync = function (validators) {
             if (!validators)
                 return null;
@@ -2681,6 +2707,10 @@
         /**
          * Sets the synchronous validators that are active on this control.  Calling
          * this overwrites any existing sync validators.
+         *
+         * When you add or remove a validator at run time, you must call
+         * `updateValueAndValidity()` for the new validation to take effect.
+         *
          */
         AbstractControl.prototype.setValidators = function (newValidator) {
             this.validator = coerceToValidator(newValidator);
@@ -2688,16 +2718,28 @@
         /**
          * Sets the async validators that are active on this control. Calling this
          * overwrites any existing async validators.
+         *
+         * When you add or remove a validator at run time, you must call
+         * `updateValueAndValidity()` for the new validation to take effect.
+         *
          */
         AbstractControl.prototype.setAsyncValidators = function (newValidator) {
             this.asyncValidator = coerceToAsyncValidator(newValidator);
         };
         /**
          * Empties out the sync validator list.
+         *
+         * When you add or remove a validator at run time, you must call
+         * `updateValueAndValidity()` for the new validation to take effect.
+         *
          */
         AbstractControl.prototype.clearValidators = function () { this.validator = null; };
         /**
          * Empties out the async validator list.
+         *
+         * When you add or remove a validator at run time, you must call
+         * `updateValueAndValidity()` for the new validation to take effect.
+         *
          */
         AbstractControl.prototype.clearAsyncValidators = function () { this.asyncValidator = null; };
         /**
@@ -6902,7 +6944,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('8.2.0-next.1+63.sha-1ac0775.with-local-changes');
+    var VERSION = new i0.Version('8.2.0-next.1+66.sha-9e83822.with-local-changes');
 
     /**
      * @license
