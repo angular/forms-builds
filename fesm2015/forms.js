@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.2.0-next.1+63.sha-1ac0775.with-local-changes
+ * @license Angular v8.2.0-next.1+66.sha-9e83822.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -805,6 +805,8 @@ class Validators {
      * console.log(control.errors); // {min: {min: 3, actual: 2}}
      * ```
      *
+     * @see `updateValueAndValidity()`
+     *
      * @param {?} min
      * @return {?} A validator function that returns an error map with the
      * `min` property if the validation check fails, otherwise `null`.
@@ -841,6 +843,8 @@ class Validators {
      * console.log(control.errors); // {max: {max: 15, actual: 16}}
      * ```
      *
+     * @see `updateValueAndValidity()`
+     *
      * @param {?} max
      * @return {?} A validator function that returns an error map with the
      * `max` property if the validation check fails, otherwise `null`.
@@ -876,6 +880,8 @@ class Validators {
      * console.log(control.errors); // {required: true}
      * ```
      *
+     * @see `updateValueAndValidity()`
+     *
      * @param {?} control
      * @return {?} An error map with the `required` property
      * if the validation check fails, otherwise `null`.
@@ -899,9 +905,12 @@ class Validators {
      * console.log(control.errors); // {required: true}
      * ```
      *
+     * @see `updateValueAndValidity()`
+     *
      * @param {?} control
      * @return {?} An error map that contains the `required` property
      * set to `true` if the validation check fails, otherwise `null`.
+     *
      */
     static requiredTrue(control) {
         return control.value === true ? null : { 'required': true };
@@ -919,6 +928,8 @@ class Validators {
      *
      * console.log(control.errors); // {email: true}
      * ```
+     *
+     * @see `updateValueAndValidity()`
      *
      * @param {?} control
      * @return {?} An error map with the `email` property
@@ -951,9 +962,12 @@ class Validators {
      * <input minlength="5">
      * ```
      *
+     * @see `updateValueAndValidity()`
+     *
      * @param {?} minLength
      * @return {?} A validator function that returns an error map with the
      * `minlength` if the validation check fails, otherwise `null`.
+     *
      */
     static minLength(minLength) {
         return (/**
@@ -991,9 +1005,12 @@ class Validators {
      * <input maxlength="5">
      * ```
      *
+     * @see `updateValueAndValidity()`
+     *
      * @param {?} maxLength
      * @return {?} A validator function that returns an error map with the
      * `maxlength` property if the validation check fails, otherwise `null`.
+     *
      */
     static maxLength(maxLength) {
         return (/**
@@ -1013,11 +1030,6 @@ class Validators {
      * Validator that requires the control's value to match a regex pattern. This validator is also
      * provided by default if you use the HTML5 `pattern` attribute.
      *
-     * Note that if a Regexp is provided, the Regexp is used as is to test the values. On the other
-     * hand, if a string is passed, the `^` character is prepended and the `$` character is
-     * appended to the provided string (if not already present), and the resulting regular
-     * expression is used to test the values.
-     *
      * \@usageNotes
      *
      * ### Validate that the field only contains letters or spaces
@@ -1032,9 +1044,16 @@ class Validators {
      * <input pattern="[a-zA-Z ]*">
      * ```
      *
-     * @param {?} pattern
+     * @see `updateValueAndValidity()`
+     *
+     * @param {?} pattern A regular expression to be used as is to test the values, or a string.
+     * If a string is passed, the `^` character is prepended and the `$` character is
+     * appended to the provided string (if not already present), and the resulting regular
+     * expression is used to test the values.
+     *
      * @return {?} A validator function that returns an error map with the
      * `pattern` property if the validation check fails, otherwise `null`.
+     *
      */
     static pattern(pattern) {
         if (!pattern)
@@ -1073,6 +1092,9 @@ class Validators {
     /**
      * \@description
      * Validator that performs no operation.
+     *
+     * @see `updateValueAndValidity()`
+     *
      * @param {?} control
      * @return {?}
      */
@@ -1101,9 +1123,12 @@ class Validators {
      * Compose multiple async validators into a single function that returns the union
      * of the individual error objects for the provided control.
      *
+     * @see `updateValueAndValidity()`
+     *
      * @param {?} validators
      * @return {?} A validator function that returns an error map with the
      * merged error objects of the async validators if the validation check fails, otherwise `null`.
+     *
      */
     static composeAsync(validators) {
         if (!validators)
@@ -3124,6 +3149,10 @@ class AbstractControl {
     /**
      * Sets the synchronous validators that are active on this control.  Calling
      * this overwrites any existing sync validators.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
      * @param {?} newValidator
      * @return {?}
      */
@@ -3133,6 +3162,10 @@ class AbstractControl {
     /**
      * Sets the async validators that are active on this control. Calling this
      * overwrites any existing async validators.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
      * @param {?} newValidator
      * @return {?}
      */
@@ -3141,11 +3174,19 @@ class AbstractControl {
     }
     /**
      * Empties out the sync validator list.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
      * @return {?}
      */
     clearValidators() { this.validator = null; }
     /**
      * Empties out the async validator list.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
      * @return {?}
      */
     clearAsyncValidators() { this.asyncValidator = null; }
@@ -7682,7 +7723,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.2.0-next.1+63.sha-1ac0775.with-local-changes');
+const VERSION = new Version('8.2.0-next.1+66.sha-9e83822.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
