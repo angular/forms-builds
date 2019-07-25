@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.2.0-next.2+70.sha-b696413.with-local-changes
+ * @license Angular v8.2.0-next.2+85.sha-c7542a1.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1635,8 +1635,7 @@ export declare class FormBuilder {
      *
      * The following example returns a control with an initial value in a disabled state.
      *
-     * <code-example path="forms/ts/formBuilder/form_builder_example.ts"
-     *   linenums="false" region="disabled-control">
+     * <code-example path="forms/ts/formBuilder/form_builder_example.ts" region="disabled-control">
      * </code-example>
      */
     control(formState: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl;
