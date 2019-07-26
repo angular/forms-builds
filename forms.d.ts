@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.2.0-next.2+93.sha-3a2b195.with-local-changes
+ * @license Angular v8.2.0-next.2+94.sha-6ece7db.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1955,7 +1955,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     /** @deprecated as of v6 */
     model: any;
     /** @deprecated as of v6 */
-    update: EventEmitter<{}>;
+    update: EventEmitter<any>;
     constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /**
      * @description
@@ -2117,7 +2117,7 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     /** @deprecated as of v6 */
     model: any;
     /** @deprecated as of v6 */
-    update: EventEmitter<{}>;
+    update: EventEmitter<any>;
     constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /**
      * @description
@@ -2497,7 +2497,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * @description
      * Emits an event when the form submission has been triggered.
      */
-    ngSubmit: EventEmitter<{}>;
+    ngSubmit: EventEmitter<any>;
     constructor(_validators: any[], _asyncValidators: any[]);
     /**
      * @description
@@ -3016,7 +3016,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
      * @description
      * Event emitter for the "ngSubmit" event
      */
-    ngSubmit: EventEmitter<{}>;
+    ngSubmit: EventEmitter<any>;
     /**
      * @description
      * Tracks options for the `NgForm` instance.
@@ -3282,7 +3282,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * Event emitter for producing the `ngModelChange` event after
      * the view model updates.
      */
-    update: EventEmitter<{}>;
+    update: EventEmitter<any>;
     constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
     /**
      * @description
@@ -4356,7 +4356,7 @@ export declare const ɵangular_packages_forms_forms_i: any;
  * @description
  * `InjectionToken` to provide to turn off the warning when using 'ngForm' deprecated selector.
  */
-export declare const ɵangular_packages_forms_forms_j: InjectionToken<{}>;
+export declare const ɵangular_packages_forms_forms_j: InjectionToken<unknown>;
 
 export declare const ɵangular_packages_forms_forms_k: any;
 
@@ -4395,7 +4395,7 @@ export declare const ɵangular_packages_forms_forms_p: StaticProvider;
 /**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
-export declare const ɵangular_packages_forms_forms_q: InjectionToken<{}>;
+export declare const ɵangular_packages_forms_forms_q: InjectionToken<unknown>;
 
 export declare const ɵangular_packages_forms_forms_r: any;
 
