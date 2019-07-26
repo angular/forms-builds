@@ -14,7 +14,7 @@ import * as i0 from "@angular/core";
 /**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
-export declare const NG_MODEL_WITH_FORM_CONTROL_WARNING: InjectionToken<{}>;
+export declare const NG_MODEL_WITH_FORM_CONTROL_WARNING: InjectionToken<unknown>;
 export declare const formControlBinding: any;
 /**
  * @description
@@ -122,7 +122,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     /** @deprecated as of v6 */
     model: any;
     /** @deprecated as of v6 */
-    update: EventEmitter<{}>;
+    update: EventEmitter<any>;
     constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /**
      * @description

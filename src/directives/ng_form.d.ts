@@ -98,7 +98,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
      * @description
      * Event emitter for the "ngSubmit" event
      */
-    ngSubmit: EventEmitter<{}>;
+    ngSubmit: EventEmitter<any>;
     /**
      * @description
      * Tracks options for the `NgForm` instance.
