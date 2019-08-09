@@ -1,11 +1,11 @@
 /**
- * @license Angular v8.2.1+4.sha-6ec91dd.with-local-changes
+ * @license Angular v8.2.1+6.sha-eccb60c.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 import { __decorate, __metadata, __param, __extends, __assign, __values, __spread } from 'tslib';
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, Self, ɵisPromise, ɵisObservable, Injectable, Input, Injector, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, Self, ɵisPromise, ɵisObservable, Injectable, Input, Injector, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -1908,6 +1908,12 @@ function _buildValueString$1(id, value) {
 function _extractId$1(valueString) {
     return valueString.split(':')[0];
 }
+/** Mock interface for HTMLCollection */
+var HTMLCollection = /** @class */ (function () {
+    function HTMLCollection() {
+    }
+    return HTMLCollection;
+}());
 /**
  * @description
  * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select control
@@ -6708,7 +6714,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('8.2.1+4.sha-6ec91dd.with-local-changes');
+var VERSION = new Version('8.2.1+6.sha-eccb60c.with-local-changes');
 
 /**
  * @license
