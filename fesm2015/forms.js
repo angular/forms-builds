@@ -1,10 +1,10 @@
 /**
- * @license Angular v9.0.0-next.1+11.sha-0ddf0c4.with-local-changes
+ * @license Angular v9.0.0-next.1+13.sha-c198a27.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵɵdefineDirective, ɵɵdirectiveInject, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵɵallocHostVars, ɵɵstyling, ɵɵclassProp, ɵɵstylingApply, ɵɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, ɵɵdefineInjectable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵɵNgOnChangesFeature, ɵɵelementHostAttrs, ɵɵattribute, ɵɵgetInheritedFactory, NgModule, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵɵdefineDirective, ɵɵdirectiveInject, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵɵallocHostVars, ɵɵstyling, ɵɵclassProp, ɵɵstylingApply, ɵɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, Injectable, ɵɵdefineInjectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵɵNgOnChangesFeature, ɵɵelementHostAttrs, ɵɵattribute, ɵɵgetInheritedFactory, NgModule, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,6 +13,131 @@ import { map } from 'rxjs/operators';
  * @fileoverview added by tsickle
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * \@description
+ * Defines an interface that acts as a bridge between the Angular forms API and a
+ * native element in the DOM.
+ *
+ * Implement this interface to create a custom form control directive
+ * that integrates with Angular forms.
+ *
+ * @see DefaultValueAccessor
+ *
+ * \@publicApi
+ * @record
+ */
+function ControlValueAccessor() { }
+if (false) {
+    /**
+     * \@description
+     * Writes a new value to the element.
+     *
+     * This method is called by the forms API to write to the view when programmatic
+     * changes from model to view are requested.
+     *
+     * \@usageNotes
+     * ### Write a value to the element
+     *
+     * The following example writes a value to the native DOM element.
+     *
+     * ```ts
+     * writeValue(value: any): void {
+     *   this._renderer.setProperty(this._elementRef.nativeElement, 'value', value);
+     * }
+     * ```
+     *
+     * @param {?} obj The new value for the element
+     * @return {?}
+     */
+    ControlValueAccessor.prototype.writeValue = function (obj) { };
+    /**
+     * \@description
+     * Registers a callback function that is called when the control's value
+     * changes in the UI.
+     *
+     * This method is called by the forms API on initialization to update the form
+     * model when values propagate from the view to the model.
+     *
+     * When implementing the `registerOnChange` method in your own value accessor,
+     * save the given function so your class calls it at the appropriate time.
+     *
+     * \@usageNotes
+     * ### Store the change function
+     *
+     * The following example stores the provided function as an internal method.
+     *
+     * ```ts
+     * registerOnChange(fn: (_: any) => void): void {
+     *   this._onChange = fn;
+     * }
+     * ```
+     *
+     * When the value changes in the UI, call the registered
+     * function to allow the forms API to update itself:
+     *
+     * ```ts
+     * host: {
+     *    '(change)': '_onChange($event.target.value)'
+     * }
+     * ```
+     *
+     * @param {?} fn The callback function to register
+     * @return {?}
+     */
+    ControlValueAccessor.prototype.registerOnChange = function (fn) { };
+    /**
+     * \@description
+     * Registers a callback function is called by the forms API on initialization
+     * to update the form model on blur.
+     *
+     * When implementing `registerOnTouched` in your own value accessor, save the given
+     * function so your class calls it when the control should be considered
+     * blurred or "touched".
+     *
+     * \@usageNotes
+     * ### Store the callback function
+     *
+     * The following example stores the provided function as an internal method.
+     *
+     * ```ts
+     * registerOnTouched(fn: any): void {
+     *   this._onTouched = fn;
+     * }
+     * ```
+     *
+     * On blur (or equivalent), your class should call the registered function to allow
+     * the forms API to update itself:
+     *
+     * ```ts
+     * host: {
+     *    '(blur)': '_onTouched()'
+     * }
+     * ```
+     *
+     * @param {?} fn The callback function to register
+     * @return {?}
+     */
+    ControlValueAccessor.prototype.registerOnTouched = function (fn) { };
+    /**
+     * \@description
+     * Function that is called by the forms API when the control status changes to
+     * or from 'DISABLED'. Depending on the status, it enables or disables the
+     * appropriate DOM element.
+     *
+     * \@usageNotes
+     * The following is an example of writing the disabled property to a native DOM element:
+     *
+     * ```ts
+     * setDisabledState(isDisabled: boolean): void {
+     *   this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+     * }
+     * ```
+     *
+     * @param {?} isDisabled The disabled status to set on the element
+     * @return {?}
+     */
+    ControlValueAccessor.prototype.setDisabledState = function (isDisabled) { };
+}
 /**
  * Used to provide a `ControlValueAccessor` for form controls.
  *
@@ -151,6 +276,30 @@ CheckboxControlValueAccessor.ctorParameters = () => [
                 providers: [CHECKBOX_VALUE_ACCESSOR]
             }]
     }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, null);
+if (false) {
+    /**
+     * \@description
+     * The registered callback function called when a change event occurs on the input element.
+     * @type {?}
+     */
+    CheckboxControlValueAccessor.prototype.onChange;
+    /**
+     * \@description
+     * The registered callback function called when a blur event occurs on the input element.
+     * @type {?}
+     */
+    CheckboxControlValueAccessor.prototype.onTouched;
+    /**
+     * @type {?}
+     * @private
+     */
+    CheckboxControlValueAccessor.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    CheckboxControlValueAccessor.prototype._elementRef;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -359,6 +508,41 @@ DefaultValueAccessor.ctorParameters = () => [
                 type: Inject,
                 args: [COMPOSITION_BUFFER_MODE]
             }] }]; }, null);
+if (false) {
+    /**
+     * \@description
+     * The registered callback function called when an input event occurs on the input element.
+     * @type {?}
+     */
+    DefaultValueAccessor.prototype.onChange;
+    /**
+     * \@description
+     * The registered callback function called when a blur event occurs on the input element.
+     * @type {?}
+     */
+    DefaultValueAccessor.prototype.onTouched;
+    /**
+     * Whether the user is creating a composition string (IME events).
+     * @type {?}
+     * @private
+     */
+    DefaultValueAccessor.prototype._composing;
+    /**
+     * @type {?}
+     * @private
+     */
+    DefaultValueAccessor.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    DefaultValueAccessor.prototype._elementRef;
+    /**
+     * @type {?}
+     * @private
+     */
+    DefaultValueAccessor.prototype._compositionMode;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -567,6 +751,16 @@ class AbstractControlDirective {
         return this.control ? this.control.getError(errorCode, path) : null;
     }
 }
+if (false) {
+    /**
+     * \@description
+     * A reference to the underlying control.
+     *
+     * @abstract
+     * @return {?} the control that backs this directive. Most properties fall through to that instance.
+     */
+    AbstractControlDirective.prototype.control = function () { };
+}
 
 /**
  * @fileoverview added by tsickle
@@ -593,6 +787,14 @@ class ControlContainer extends AbstractControlDirective {
      * @return {?}
      */
     get path() { return null; }
+}
+if (false) {
+    /**
+     * \@description
+     * The name for the control
+     * @type {?}
+     */
+    ControlContainer.prototype.name;
 }
 
 /**
@@ -665,6 +867,53 @@ class NgControl extends AbstractControlDirective {
      */
     get asyncValidator() { return (/** @type {?} */ (unimplemented())); }
 }
+if (false) {
+    /**
+     * \@description
+     * The parent form for the control.
+     *
+     * \@internal
+     * @type {?}
+     */
+    NgControl.prototype._parent;
+    /**
+     * \@description
+     * The name for the control
+     * @type {?}
+     */
+    NgControl.prototype.name;
+    /**
+     * \@description
+     * The value accessor for the control
+     * @type {?}
+     */
+    NgControl.prototype.valueAccessor;
+    /**
+     * \@description
+     * The uncomposed array of synchronous validators for the control
+     *
+     * \@internal
+     * @type {?}
+     */
+    NgControl.prototype._rawValidators;
+    /**
+     * \@description
+     * The uncomposed array of async validators for the control
+     *
+     * \@internal
+     * @type {?}
+     */
+    NgControl.prototype._rawAsyncValidators;
+    /**
+     * \@description
+     * The callback method to update the model from the view when requested
+     *
+     * @abstract
+     * @param {?} newValue The new value for the view
+     * @return {?}
+     */
+    NgControl.prototype.viewToModelUpdate = function (newValue) { };
+}
 
 /**
  * @fileoverview added by tsickle
@@ -710,6 +959,13 @@ class AbstractControlStatus {
      * @return {?}
      */
     get ngClassPending() { return this._cd.control ? this._cd.control.pending : false; }
+}
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    AbstractControlStatus.prototype._cd;
 }
 /** @type {?} */
 const ngControlStatusHost = {
@@ -1501,6 +1757,31 @@ NumberValueAccessor.ctorParameters = () => [
                 providers: [NUMBER_VALUE_ACCESSOR]
             }]
     }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, null);
+if (false) {
+    /**
+     * \@description
+     * The registered callback function called when a change or input event occurs on the input
+     * element.
+     * @type {?}
+     */
+    NumberValueAccessor.prototype.onChange;
+    /**
+     * \@description
+     * The registered callback function called when a blur event occurs on the input element.
+     * @type {?}
+     */
+    NumberValueAccessor.prototype.onTouched;
+    /**
+     * @type {?}
+     * @private
+     */
+    NumberValueAccessor.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    NumberValueAccessor.prototype._elementRef;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -1591,6 +1872,13 @@ RadioControlRegistry.decorators = [
 /*@__PURE__*/ ɵsetClassMetadata(RadioControlRegistry, [{
         type: Injectable
     }], null, null);
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    RadioControlRegistry.prototype._accessors;
+}
 /**
  * \@description
  * The `ControlValueAccessor` for writing radio control values and listening to radio control
@@ -1769,6 +2057,74 @@ RadioControlValueAccessor.propDecorators = {
         }], value: [{
             type: Input
         }] });
+if (false) {
+    /**
+     * \@internal
+     * @type {?}
+     */
+    RadioControlValueAccessor.prototype._state;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    RadioControlValueAccessor.prototype._control;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    RadioControlValueAccessor.prototype._fn;
+    /**
+     * \@description
+     * The registered callback function called when a change event occurs on the input element.
+     * @type {?}
+     */
+    RadioControlValueAccessor.prototype.onChange;
+    /**
+     * \@description
+     * The registered callback function called when a blur event occurs on the input element.
+     * @type {?}
+     */
+    RadioControlValueAccessor.prototype.onTouched;
+    /**
+     * \@description
+     * Tracks the name of the radio input element.
+     * @type {?}
+     */
+    RadioControlValueAccessor.prototype.name;
+    /**
+     * \@description
+     * Tracks the name of the `FormControl` bound to the directive. The name corresponds
+     * to a key in the parent `FormGroup` or `FormArray`.
+     * @type {?}
+     */
+    RadioControlValueAccessor.prototype.formControlName;
+    /**
+     * \@description
+     * Tracks the value of the radio input element
+     * @type {?}
+     */
+    RadioControlValueAccessor.prototype.value;
+    /**
+     * @type {?}
+     * @private
+     */
+    RadioControlValueAccessor.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    RadioControlValueAccessor.prototype._elementRef;
+    /**
+     * @type {?}
+     * @private
+     */
+    RadioControlValueAccessor.prototype._registry;
+    /**
+     * @type {?}
+     * @private
+     */
+    RadioControlValueAccessor.prototype._injector;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -1915,6 +2271,31 @@ RangeValueAccessor.ctorParameters = () => [
                 providers: [RANGE_VALUE_ACCESSOR]
             }]
     }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, null);
+if (false) {
+    /**
+     * \@description
+     * The registered callback function called when a change or input event occurs on the input
+     * element.
+     * @type {?}
+     */
+    RangeValueAccessor.prototype.onChange;
+    /**
+     * \@description
+     * The registered callback function called when a blur event occurs on the input element.
+     * @type {?}
+     */
+    RangeValueAccessor.prototype.onTouched;
+    /**
+     * @type {?}
+     * @private
+     */
+    RangeValueAccessor.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    RangeValueAccessor.prototype._elementRef;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -2330,6 +2711,47 @@ SelectControlValueAccessor.propDecorators = {
     }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, { compareWith: [{
             type: Input
         }] });
+if (false) {
+    /** @type {?} */
+    SelectControlValueAccessor.prototype.value;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    SelectControlValueAccessor.prototype._optionMap;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    SelectControlValueAccessor.prototype._idCounter;
+    /**
+     * \@description
+     * The registered callback function called when a change event occurs on the input element.
+     * @type {?}
+     */
+    SelectControlValueAccessor.prototype.onChange;
+    /**
+     * \@description
+     * The registered callback function called when a blur event occurs on the input element.
+     * @type {?}
+     */
+    SelectControlValueAccessor.prototype.onTouched;
+    /**
+     * @type {?}
+     * @private
+     */
+    SelectControlValueAccessor.prototype._compareWith;
+    /**
+     * @type {?}
+     * @private
+     */
+    SelectControlValueAccessor.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    SelectControlValueAccessor.prototype._elementRef;
+}
 /**
  * \@description
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
@@ -2427,6 +2849,29 @@ NgSelectOption.propDecorators = {
             type: Input,
             args: ['value']
         }] });
+if (false) {
+    /**
+     * \@description
+     * ID of the option element
+     * @type {?}
+     */
+    NgSelectOption.prototype.id;
+    /**
+     * @type {?}
+     * @private
+     */
+    NgSelectOption.prototype._element;
+    /**
+     * @type {?}
+     * @private
+     */
+    NgSelectOption.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    NgSelectOption.prototype._select;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -2468,6 +2913,33 @@ function _buildValueString$1(id, value) {
  */
 function _extractId$1(valueString) {
     return valueString.split(':')[0];
+}
+/**
+ * Mock interface for HTML Options
+ * @record
+ */
+function HTMLOption() { }
+if (false) {
+    /** @type {?} */
+    HTMLOption.prototype.value;
+    /** @type {?} */
+    HTMLOption.prototype.selected;
+}
+/**
+ * Mock interface for HTMLCollection
+ * @abstract
+ */
+class HTMLCollection {
+}
+if (false) {
+    /** @type {?} */
+    HTMLCollection.prototype.length;
+    /**
+     * @abstract
+     * @param {?} _
+     * @return {?}
+     */
+    HTMLCollection.prototype.item = function (_) { };
 }
 /**
  * \@description
@@ -2714,6 +3186,51 @@ SelectMultipleControlValueAccessor.propDecorators = {
     }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, { compareWith: [{
             type: Input
         }] });
+if (false) {
+    /**
+     * \@description
+     * The current value
+     * @type {?}
+     */
+    SelectMultipleControlValueAccessor.prototype.value;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    SelectMultipleControlValueAccessor.prototype._optionMap;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    SelectMultipleControlValueAccessor.prototype._idCounter;
+    /**
+     * \@description
+     * The registered callback function called when a change event occurs on the input element.
+     * @type {?}
+     */
+    SelectMultipleControlValueAccessor.prototype.onChange;
+    /**
+     * \@description
+     * The registered callback function called when a blur event occurs on the input element.
+     * @type {?}
+     */
+    SelectMultipleControlValueAccessor.prototype.onTouched;
+    /**
+     * @type {?}
+     * @private
+     */
+    SelectMultipleControlValueAccessor.prototype._compareWith;
+    /**
+     * @type {?}
+     * @private
+     */
+    SelectMultipleControlValueAccessor.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    SelectMultipleControlValueAccessor.prototype._elementRef;
+}
 /**
  * \@description
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
@@ -2825,6 +3342,30 @@ class ɵNgSelectMultipleOption {
             type: Input,
             args: ['value']
         }] });
+if (false) {
+    /** @type {?} */
+    ɵNgSelectMultipleOption.prototype.id;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    ɵNgSelectMultipleOption.prototype._value;
+    /**
+     * @type {?}
+     * @private
+     */
+    ɵNgSelectMultipleOption.prototype._element;
+    /**
+     * @type {?}
+     * @private
+     */
+    ɵNgSelectMultipleOption.prototype._renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    ɵNgSelectMultipleOption.prototype._select;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -3254,6 +3795,33 @@ function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
         asyncValidator)));
     return Array.isArray(origAsyncValidator) ? composeAsyncValidators(origAsyncValidator) :
         origAsyncValidator || null;
+}
+/**
+ * Interface for options provided to an `AbstractControl`.
+ *
+ * \@publicApi
+ * @record
+ */
+function AbstractControlOptions() { }
+if (false) {
+    /**
+     * \@description
+     * The list of validators applied to a control.
+     * @type {?|undefined}
+     */
+    AbstractControlOptions.prototype.validators;
+    /**
+     * \@description
+     * The list of async validators applied to control.
+     * @type {?|undefined}
+     */
+    AbstractControlOptions.prototype.asyncValidators;
+    /**
+     * \@description
+     * The event name for control to update upon.
+     * @type {?|undefined}
+     */
+    AbstractControlOptions.prototype.updateOn;
 }
 /**
  * @param {?=} validatorOrOpts
@@ -4012,6 +4580,168 @@ class AbstractControl {
         return !onlySelf && parentDirty && !this._parent._anyControlsDirty();
     }
 }
+if (false) {
+    /**
+     * \@internal
+     * @type {?}
+     */
+    AbstractControl.prototype._pendingDirty;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    AbstractControl.prototype._pendingTouched;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    AbstractControl.prototype._onCollectionChange;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    AbstractControl.prototype._updateOn;
+    /**
+     * @type {?}
+     * @private
+     */
+    AbstractControl.prototype._parent;
+    /**
+     * @type {?}
+     * @private
+     */
+    AbstractControl.prototype._asyncValidationSubscription;
+    /**
+     * The current value of the control.
+     *
+     * * For a `FormControl`, the current value.
+     * * For an enabled `FormGroup`, the values of enabled controls as an object
+     * with a key-value pair for each member of the group.
+     * * For a disabled `FormGroup`, the values of all controls as an object
+     * with a key-value pair for each member of the group.
+     * * For a `FormArray`, the values of enabled controls as an array.
+     *
+     * @type {?}
+     */
+    AbstractControl.prototype.value;
+    /**
+     * The validation status of the control. There are four possible
+     * validation status values:
+     *
+     * * **VALID**: This control has passed all validation checks.
+     * * **INVALID**: This control has failed at least one validation check.
+     * * **PENDING**: This control is in the midst of conducting a validation check.
+     * * **DISABLED**: This control is exempt from validation checks.
+     *
+     * These status values are mutually exclusive, so a control cannot be
+     * both valid AND invalid or invalid AND disabled.
+     * @type {?}
+     */
+    AbstractControl.prototype.status;
+    /**
+     * An object containing any errors generated by failing validation,
+     * or null if there are no errors.
+     * @type {?}
+     */
+    AbstractControl.prototype.errors;
+    /**
+     * A control is `pristine` if the user has not yet changed
+     * the value in the UI.
+     *
+     * \@return True if the user has not yet changed the value in the UI; compare `dirty`.
+     * Programmatic changes to a control's value do not mark it dirty.
+     * @type {?}
+     */
+    AbstractControl.prototype.pristine;
+    /**
+     * True if the control is marked as `touched`.
+     *
+     * A control is marked `touched` once the user has triggered
+     * a `blur` event on it.
+     * @type {?}
+     */
+    AbstractControl.prototype.touched;
+    /**
+     * A multicasting observable that emits an event every time the value of the control changes, in
+     * the UI or programmatically.
+     * @type {?}
+     */
+    AbstractControl.prototype.valueChanges;
+    /**
+     * A multicasting observable that emits an event every time the validation `status` of the control
+     * recalculates.
+     *
+     * @see {\@link AbstractControl.status}
+     *
+     * @type {?}
+     */
+    AbstractControl.prototype.statusChanges;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    AbstractControl.prototype._onDisabledChange;
+    /** @type {?} */
+    AbstractControl.prototype.validator;
+    /** @type {?} */
+    AbstractControl.prototype.asyncValidator;
+    /**
+     * Sets the value of the control. Abstract method (implemented in sub-classes).
+     * @abstract
+     * @param {?} value
+     * @param {?=} options
+     * @return {?}
+     */
+    AbstractControl.prototype.setValue = function (value, options) { };
+    /**
+     * Patches the value of the control. Abstract method (implemented in sub-classes).
+     * @abstract
+     * @param {?} value
+     * @param {?=} options
+     * @return {?}
+     */
+    AbstractControl.prototype.patchValue = function (value, options) { };
+    /**
+     * Resets the control. Abstract method (implemented in sub-classes).
+     * @abstract
+     * @param {?=} value
+     * @param {?=} options
+     * @return {?}
+     */
+    AbstractControl.prototype.reset = function (value, options) { };
+    /**
+     * \@internal
+     * @abstract
+     * @return {?}
+     */
+    AbstractControl.prototype._updateValue = function () { };
+    /**
+     * \@internal
+     * @abstract
+     * @param {?} cb
+     * @return {?}
+     */
+    AbstractControl.prototype._forEachChild = function (cb) { };
+    /**
+     * \@internal
+     * @abstract
+     * @param {?} condition
+     * @return {?}
+     */
+    AbstractControl.prototype._anyControls = function (condition) { };
+    /**
+     * \@internal
+     * @abstract
+     * @return {?}
+     */
+    AbstractControl.prototype._allControlsDisabled = function () { };
+    /**
+     * \@internal
+     * @abstract
+     * @return {?}
+     */
+    AbstractControl.prototype._syncPendingControls = function () { };
+}
 /**
  * Tracks the value and validation status of an individual form control.
  *
@@ -4292,6 +5022,23 @@ class FormControl extends AbstractControl {
             ((/** @type {?} */ (this))).value = this._pendingValue = formState;
         }
     }
+}
+if (false) {
+    /**
+     * \@internal
+     * @type {?}
+     */
+    FormControl.prototype._onChange;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    FormControl.prototype._pendingValue;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    FormControl.prototype._pendingChange;
 }
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -4797,6 +5544,10 @@ class FormGroup extends AbstractControl {
         }));
     }
 }
+if (false) {
+    /** @type {?} */
+    FormGroup.prototype.controls;
+}
 /**
  * Tracks the value and validity state of an array of `FormControl`,
  * `FormGroup` or `FormArray` instances.
@@ -5298,6 +6049,10 @@ class FormArray extends AbstractControl {
         control._registerOnCollectionChange(this._onCollectionChange);
     }
 }
+if (false) {
+    /** @type {?} */
+    FormArray.prototype.controls;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -5664,6 +6419,42 @@ NgForm.propDecorators = {
             type: Input,
             args: ['ngFormOptions']
         }] });
+if (false) {
+    /**
+     * \@description
+     * Returns whether the form submission has been triggered.
+     * @type {?}
+     */
+    NgForm.prototype.submitted;
+    /**
+     * @type {?}
+     * @private
+     */
+    NgForm.prototype._directives;
+    /**
+     * \@description
+     * The `FormGroup` instance created for this form.
+     * @type {?}
+     */
+    NgForm.prototype.form;
+    /**
+     * \@description
+     * Event emitter for the "ngSubmit" event
+     * @type {?}
+     */
+    NgForm.prototype.ngSubmit;
+    /**
+     * \@description
+     * Tracks options for the `NgForm` instance.
+     *
+     * **updateOn**: Sets the default `updateOn` value for all child `NgModels` below it
+     * unless explicitly set by a child `NgModel` using `ngModelOptions`). Defaults to 'change'.
+     * Possible values: `'change'` | `'blur'` | `'submit'`.
+     *
+     * @type {?}
+     */
+    NgForm.prototype.options;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -5807,6 +6598,16 @@ NgFormSelectorWarning.ctorParameters = () => [
                 type: Inject,
                 args: [NG_FORM_SELECTOR_WARNING]
             }] }]; }, null);
+if (false) {
+    /**
+     * Static property used to track whether the deprecation warning for this selector has been sent.
+     * Used to support warning config of "once".
+     *
+     * \@internal
+     * @type {?}
+     */
+    NgFormSelectorWarning._ngFormWarning;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -5877,6 +6678,32 @@ class AbstractFormGroupDirective extends ControlContainer {
      * @return {?}
      */
     _checkParentType() { }
+}
+if (false) {
+    /**
+     * \@description
+     * The parent control for the group
+     *
+     * \@internal
+     * @type {?}
+     */
+    AbstractFormGroupDirective.prototype._parent;
+    /**
+     * \@description
+     * An array of synchronous validators for the group
+     *
+     * \@internal
+     * @type {?}
+     */
+    AbstractFormGroupDirective.prototype._validators;
+    /**
+     * \@description
+     * An array of async validators for the group
+     *
+     * \@internal
+     * @type {?}
+     */
+    AbstractFormGroupDirective.prototype._asyncValidators;
 }
 
 /**
@@ -5984,6 +6811,15 @@ NgModelGroup.propDecorators = {
             type: Input,
             args: ['ngModelGroup']
         }] });
+if (false) {
+    /**
+     * \@description
+     * Tracks the name of the `NgModelGroup` bound to the directive. The name corresponds
+     * to a key in the parent `NgForm`.
+     * @type {?}
+     */
+    NgModelGroup.prototype.name;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -6374,6 +7210,64 @@ NgModel.propDecorators = {
             type: Output,
             args: ['ngModelChange']
         }] });
+if (false) {
+    /** @type {?} */
+    NgModel.prototype.control;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    NgModel.prototype._registered;
+    /**
+     * \@description
+     * Internal reference to the view model value.
+     * @type {?}
+     */
+    NgModel.prototype.viewModel;
+    /**
+     * \@description
+     * Tracks the name bound to the directive. The parent form
+     * uses this name as a key to retrieve this control's value.
+     * @type {?}
+     */
+    NgModel.prototype.name;
+    /**
+     * \@description
+     * Tracks whether the control is disabled.
+     * @type {?}
+     */
+    NgModel.prototype.isDisabled;
+    /**
+     * \@description
+     * Tracks the value bound to this directive.
+     * @type {?}
+     */
+    NgModel.prototype.model;
+    /**
+     * \@description
+     * Tracks the configuration options for this `ngModel` instance.
+     *
+     * **name**: An alternative to setting the name attribute on the form control element. See
+     * the [example](api/forms/NgModel#using-ngmodel-on-a-standalone-control) for using `NgModel`
+     * as a standalone control.
+     *
+     * **standalone**: When set to true, the `ngModel` will not register itself with its parent form,
+     * and acts as if it's not in the form. Defaults to false.
+     *
+     * **updateOn**: Defines the event upon which the form control value and validity update.
+     * Defaults to 'change'. Possible values: `'change'` | `'blur'` | `'submit'`.
+     *
+     * @type {?}
+     */
+    NgModel.prototype.options;
+    /**
+     * \@description
+     * Event emitter for producing the `ngModelChange` event after
+     * the view model updates.
+     * @type {?}
+     */
+    NgModel.prototype.update;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -6704,6 +7598,53 @@ FormControlDirective.propDecorators = {
             type: Output,
             args: ['ngModelChange']
         }] });
+if (false) {
+    /**
+     * \@description
+     * Static property used to track whether any ngModel warnings have been sent across
+     * all instances of FormControlDirective. Used to support warning config of "once".
+     *
+     * \@internal
+     * @type {?}
+     */
+    FormControlDirective._ngModelWarningSentOnce;
+    /**
+     * \@description
+     * Internal reference to the view model value.
+     * @type {?}
+     */
+    FormControlDirective.prototype.viewModel;
+    /**
+     * \@description
+     * Tracks the `FormControl` instance bound to the directive.
+     * @type {?}
+     */
+    FormControlDirective.prototype.form;
+    /**
+     * @deprecated as of v6
+     * @type {?}
+     */
+    FormControlDirective.prototype.model;
+    /**
+     * @deprecated as of v6
+     * @type {?}
+     */
+    FormControlDirective.prototype.update;
+    /**
+     * \@description
+     * Instance property used to track whether an ngModel warning has been sent out for this
+     * particular `FormControlDirective` instance. Used to support warning config of "always".
+     *
+     * \@internal
+     * @type {?}
+     */
+    FormControlDirective.prototype._ngModelWarningSent;
+    /**
+     * @type {?}
+     * @private
+     */
+    FormControlDirective.prototype._ngModelWarningConfig;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -7048,6 +7989,47 @@ FormGroupDirective.propDecorators = {
         }], ngSubmit: [{
             type: Output
         }] });
+if (false) {
+    /**
+     * \@description
+     * Reports whether the form submission has been triggered.
+     * @type {?}
+     */
+    FormGroupDirective.prototype.submitted;
+    /**
+     * @type {?}
+     * @private
+     */
+    FormGroupDirective.prototype._oldForm;
+    /**
+     * \@description
+     * Tracks the list of added `FormControlName` instances
+     * @type {?}
+     */
+    FormGroupDirective.prototype.directives;
+    /**
+     * \@description
+     * Tracks the `FormGroup` bound to this directive.
+     * @type {?}
+     */
+    FormGroupDirective.prototype.form;
+    /**
+     * \@description
+     * Emits an event when the form submission has been triggered.
+     * @type {?}
+     */
+    FormGroupDirective.prototype.ngSubmit;
+    /**
+     * @type {?}
+     * @private
+     */
+    FormGroupDirective.prototype._validators;
+    /**
+     * @type {?}
+     * @private
+     */
+    FormGroupDirective.prototype._asyncValidators;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -7177,6 +8159,15 @@ FormGroupName.propDecorators = {
             type: Input,
             args: ['formGroupName']
         }] });
+if (false) {
+    /**
+     * \@description
+     * Tracks the name of the `FormGroup` bound to the directive. The name corresponds
+     * to a key in the parent `FormGroup` or `FormArray`.
+     * @type {?}
+     */
+    FormGroupName.prototype.name;
+}
 /** @type {?} */
 const formArrayNameProvider = {
     provide: ControlContainer,
@@ -7328,6 +8319,30 @@ FormArrayName.propDecorators = {
             type: Input,
             args: ['formArrayName']
         }] });
+if (false) {
+    /**
+     * \@internal
+     * @type {?}
+     */
+    FormArrayName.prototype._parent;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    FormArrayName.prototype._validators;
+    /**
+     * \@internal
+     * @type {?}
+     */
+    FormArrayName.prototype._asyncValidators;
+    /**
+     * \@description
+     * Tracks the name of the `FormArray` bound to the directive. The name corresponds
+     * to a key in the parent `FormGroup` or `FormArray`.
+     * @type {?}
+     */
+    FormArrayName.prototype.name;
+}
 /**
  * @param {?} parent
  * @return {?}
@@ -7658,11 +8673,171 @@ FormControlName.propDecorators = {
             type: Output,
             args: ['ngModelChange']
         }] });
+if (false) {
+    /**
+     * \@description
+     * Static property used to track whether any ngModel warnings have been sent across
+     * all instances of FormControlName. Used to support warning config of "once".
+     *
+     * \@internal
+     * @type {?}
+     */
+    FormControlName._ngModelWarningSentOnce;
+    /**
+     * @type {?}
+     * @private
+     */
+    FormControlName.prototype._added;
+    /**
+     * \@description
+     * Internal reference to the view model value.
+     * \@internal
+     * @type {?}
+     */
+    FormControlName.prototype.viewModel;
+    /**
+     * \@description
+     * Tracks the `FormControl` instance bound to the directive.
+     * @type {?}
+     */
+    FormControlName.prototype.control;
+    /**
+     * \@description
+     * Tracks the name of the `FormControl` bound to the directive. The name corresponds
+     * to a key in the parent `FormGroup` or `FormArray`.
+     * Accepts a name as a string or a number.
+     * The name in the form of a string is useful for individual forms,
+     * while the numerical form allows for form controls to be bound
+     * to indices when iterating over controls in a `FormArray`.
+     * @type {?}
+     */
+    FormControlName.prototype.name;
+    /**
+     * @deprecated as of v6
+     * @type {?}
+     */
+    FormControlName.prototype.model;
+    /**
+     * @deprecated as of v6
+     * @type {?}
+     */
+    FormControlName.prototype.update;
+    /**
+     * \@description
+     * Instance property used to track whether an ngModel warning has been sent out for this
+     * particular FormControlName instance. Used to support warning config of "always".
+     *
+     * \@internal
+     * @type {?}
+     */
+    FormControlName.prototype._ngModelWarningSent;
+    /**
+     * @type {?}
+     * @private
+     */
+    FormControlName.prototype._ngModelWarningConfig;
+}
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * \@description
+ * An interface implemented by classes that perform synchronous validation.
+ *
+ * \@usageNotes
+ *
+ * ### Provide a custom validator
+ *
+ * The following example implements the `Validator` interface to create a
+ * validator directive with a custom error key.
+ *
+ * ```typescript
+ * \@Directive({
+ *   selector: '[customValidator]',
+ *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ * })
+ * class CustomValidatorDirective implements Validator {
+ *   validate(control: AbstractControl): ValidationErrors|null {
+ *     return {'custom': true};
+ *   }
+ * }
+ * ```
+ *
+ * \@publicApi
+ * @record
+ */
+function Validator() { }
+if (false) {
+    /**
+     * \@description
+     * Method that performs synchronous validation against the provided control.
+     *
+     * @param {?} control The control to validate against.
+     *
+     * @return {?} A map of validation errors if validation fails,
+     * otherwise null.
+     */
+    Validator.prototype.validate = function (control) { };
+    /**
+     * \@description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param {?} fn The callback function
+     * @return {?}
+     */
+    Validator.prototype.registerOnValidatorChange = function (fn) { };
+}
+/**
+ * \@description
+ * An interface implemented by classes that perform asynchronous validation.
+ *
+ * \@usageNotes
+ *
+ * ### Provide a custom async validator directive
+ *
+ * The following example implements the `AsyncValidator` interface to create an
+ * async validator directive with a custom error key.
+ *
+ * ```typescript
+ * import { of as observableOf } from 'rxjs';
+ *
+ * \@Directive({
+ *   selector: '[customAsyncValidator]',
+ *   providers: [{provide: NG_ASYNC_VALIDATORS, useExisting: CustomAsyncValidatorDirective, multi:
+ * true}]
+ * })
+ * class CustomAsyncValidatorDirective implements AsyncValidator {
+ *   validate(control: AbstractControl): Observable<ValidationErrors|null> {
+ *     return observableOf({'custom': true});
+ *   }
+ * }
+ * ```
+ *
+ * \@publicApi
+ * @record
+ */
+function AsyncValidator() { }
+if (false) {
+    /**
+     * \@description
+     * Method that performs async validation against the provided control.
+     *
+     * @param {?} control The control to validate against.
+     *
+     * @return {?} A promise or observable that resolves a map of validation errors
+     * if validation fails, otherwise null.
+     */
+    AsyncValidator.prototype.validate = function (control) { };
+}
 /**
  * \@description
  * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
@@ -7768,6 +8943,18 @@ RequiredValidator.propDecorators = {
     }], null, { required: [{
             type: Input
         }] });
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    RequiredValidator.prototype._required;
+    /**
+     * @type {?}
+     * @private
+     */
+    RequiredValidator.prototype._onChange;
+}
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
@@ -7906,6 +9093,36 @@ EmailValidator.propDecorators = {
     }], null, { email: [{
             type: Input
         }] });
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    EmailValidator.prototype._enabled;
+    /**
+     * @type {?}
+     * @private
+     */
+    EmailValidator.prototype._onChange;
+}
+/**
+ * \@description
+ * A function that receives a control and synchronously returns a map of
+ * validation errors if present, otherwise null.
+ *
+ * \@publicApi
+ * @record
+ */
+function ValidatorFn() { }
+/**
+ * \@description
+ * A function that receives a control and returns a Promise or observable
+ * that emits validation errors if present, otherwise null.
+ *
+ * \@publicApi
+ * @record
+ */
+function AsyncValidatorFn() { }
 /**
  * \@description
  * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
@@ -8007,6 +9224,24 @@ MinLengthValidator.propDecorators = {
     }], null, { minlength: [{
             type: Input
         }] });
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    MinLengthValidator.prototype._validator;
+    /**
+     * @type {?}
+     * @private
+     */
+    MinLengthValidator.prototype._onChange;
+    /**
+     * \@description
+     * Tracks changes to the the minimum length bound to this directive.
+     * @type {?}
+     */
+    MinLengthValidator.prototype.minlength;
+}
 /**
  * \@description
  * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
@@ -8108,6 +9343,24 @@ MaxLengthValidator.propDecorators = {
     }], null, { maxlength: [{
             type: Input
         }] });
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    MaxLengthValidator.prototype._validator;
+    /**
+     * @type {?}
+     * @private
+     */
+    MaxLengthValidator.prototype._onChange;
+    /**
+     * \@description
+     * Tracks changes to the the maximum length bound to this directive.
+     * @type {?}
+     */
+    MaxLengthValidator.prototype.maxlength;
+}
 /**
  * \@description
  * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
@@ -8207,6 +9460,24 @@ PatternValidator.propDecorators = {
     }], null, { pattern: [{
             type: Input
         }] });
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    PatternValidator.prototype._validator;
+    /**
+     * @type {?}
+     * @private
+     */
+    PatternValidator.prototype._onChange;
+    /**
+     * \@description
+     * Tracks changes to the pattern bound to this directive.
+     * @type {?}
+     */
+    PatternValidator.prototype.pattern;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -8480,7 +9751,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.1+11.sha-0ddf0c4.with-local-changes');
+const VERSION = new Version('9.0.0-next.1+13.sha-c198a27.with-local-changes');
 
 /**
  * @fileoverview added by tsickle

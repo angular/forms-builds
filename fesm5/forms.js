@@ -1,10 +1,10 @@
 /**
- * @license Angular v9.0.0-next.1+11.sha-0ddf0c4.with-local-changes
+ * @license Angular v9.0.0-next.1+13.sha-c198a27.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, ɵɵdefineDirective, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵɵallocHostVars, ɵɵstyling, ɵɵclassProp, ɵɵstylingApply, ɵɵInheritDefinitionFeature, Self, ɵisPromise, ɵisObservable, ɵɵdefineInjectable, Injectable, Injector, Input, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵelementHostAttrs, ɵɵattribute, ɵɵgetInheritedFactory, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, ɵɵdefineDirective, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵɵallocHostVars, ɵɵstyling, ɵɵclassProp, ɵɵstylingApply, ɵɵInheritDefinitionFeature, Self, ɵisPromise, ɵisObservable, ɵɵdefineInjectable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵelementHostAttrs, ɵɵattribute, ɵɵgetInheritedFactory, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, NgModule, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { __extends, __assign, __values, __spread } from 'tslib';
 import { forkJoin, from } from 'rxjs';
@@ -1937,6 +1937,12 @@ function _buildValueString$1(id, value) {
 function _extractId$1(valueString) {
     return valueString.split(':')[0];
 }
+/** Mock interface for HTMLCollection */
+var HTMLCollection = /** @class */ (function () {
+    function HTMLCollection() {
+    }
+    return HTMLCollection;
+}());
 /**
  * @description
  * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select control
@@ -6872,7 +6878,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-next.1+11.sha-0ddf0c4.with-local-changes');
+var VERSION = new Version('9.0.0-next.1+13.sha-c198a27.with-local-changes');
 
 /**
  * @license
