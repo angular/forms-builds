@@ -122,12 +122,8 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
      * @description
      * Tracks the name of the `FormControl` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
-     * Accepts a name as a string or a number.
-     * The name in the form of a string is useful for individual forms,
-     * while the numerical form allows for form controls to be bound
-     * to indices when iterating over controls in a `FormArray`.
      */
-    name: string | number | null;
+    name: string;
     /**
      * @description
      * Triggers a warning that this input should not be used with reactive forms.
