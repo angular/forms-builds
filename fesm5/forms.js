@@ -1,11 +1,11 @@
 /**
- * @license Angular v9.0.0-next.1+11.sha-0ddf0c4.with-local-changes
+ * @license Angular v9.0.0-next.1+18.sha-9a37e82.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 import { __decorate, __metadata, __param, __extends, __assign, __values, __spread } from 'tslib';
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, Self, ɵisPromise, ɵisObservable, Injectable, Input, Injector, Host, ɵlooseIdentical, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, Self, ɵisPromise, ɵisObservable, Injectable, Input, Injector, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/platform-browser';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -1908,6 +1908,12 @@ function _buildValueString$1(id, value) {
 function _extractId$1(valueString) {
     return valueString.split(':')[0];
 }
+/** Mock interface for HTMLCollection */
+var HTMLCollection = /** @class */ (function () {
+    function HTMLCollection() {
+    }
+    return HTMLCollection;
+}());
 /**
  * @description
  * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select control
@@ -5976,9 +5982,7 @@ var FormControlName = /** @class */ (function (_super) {
          * Returns an array that represents the path from the top-level form to this control.
          * Each index is the string name of the control on that level.
          */
-        get: function () {
-            return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
-        },
+        get: function () { return controlPath(this.name, this._parent); },
         enumerable: true,
         configurable: true
     });
@@ -6042,7 +6046,7 @@ var FormControlName = /** @class */ (function (_super) {
     FormControlName._ngModelWarningSentOnce = false;
     __decorate([
         Input('formControlName'),
-        __metadata("design:type", Object)
+        __metadata("design:type", String)
     ], FormControlName.prototype, "name", void 0);
     __decorate([
         Input('disabled'),
@@ -6710,7 +6714,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-next.1+11.sha-0ddf0c4.with-local-changes');
+var VERSION = new Version('9.0.0-next.1+18.sha-9a37e82.with-local-changes');
 
 /**
  * @license
