@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.2+12.sha-e4d5102.with-local-changes
+ * @license Angular v9.0.0-next.2+15.sha-5064dc7.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2107,8 +2107,12 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
      * @description
      * Tracks the name of the `FormControl` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
+     * Accepts a name as a string or a number.
+     * The name in the form of a string is useful for individual forms,
+     * while the numerical form allows for form controls to be bound
+     * to indices when iterating over controls in a `FormArray`.
      */
-    name: string;
+    name: string | number | null;
     /**
      * @description
      * Triggers a warning that this input should not be used with reactive forms.
@@ -2861,7 +2865,7 @@ export declare abstract class NgControl extends AbstractControlDirective {
      * @description
      * The name for the control
      */
-    name: string | null;
+    name: string | number | null;
     /**
      * @description
      * The value accessor for the control
