@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.2+12.sha-e4d5102.with-local-changes
+ * @license Angular v9.0.0-next.2+13.sha-628b0c1.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5982,7 +5982,9 @@ var FormControlName = /** @class */ (function (_super) {
          * Returns an array that represents the path from the top-level form to this control.
          * Each index is the string name of the control on that level.
          */
-        get: function () { return controlPath(this.name, this._parent); },
+        get: function () {
+            return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
+        },
         enumerable: true,
         configurable: true
     });
@@ -6046,7 +6048,7 @@ var FormControlName = /** @class */ (function (_super) {
     FormControlName._ngModelWarningSentOnce = false;
     __decorate([
         Input('formControlName'),
-        __metadata("design:type", String)
+        __metadata("design:type", Object)
     ], FormControlName.prototype, "name", void 0);
     __decorate([
         Input('disabled'),
@@ -6714,7 +6716,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-next.2+12.sha-e4d5102.with-local-changes');
+var VERSION = new Version('9.0.0-next.2+13.sha-628b0c1.with-local-changes');
 
 /**
  * @license
