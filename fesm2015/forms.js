@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.2+12.sha-e4d5102.with-local-changes
+ * @license Angular v9.0.0-next.2+15.sha-5064dc7.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3377,7 +3377,7 @@ if (false) {
  * @return {?}
  */
 function controlPath(name, parent) {
-    return [...(/** @type {?} */ (parent.path)), name];
+    return [...(/** @type {?} */ (parent.path)), (/** @type {?} */ (name))];
 }
 /**
  * @param {?} control
@@ -8547,7 +8547,9 @@ class FormControlName extends NgControl {
      * Each index is the string name of the control on that level.
      * @return {?}
      */
-    get path() { return controlPath(this.name, (/** @type {?} */ (this._parent))); }
+    get path() {
+        return controlPath(this.name == null ? this.name : this.name.toString(), (/** @type {?} */ (this._parent)));
+    }
     /**
      * \@description
      * The top-level directive for this group if present, otherwise null.
@@ -8703,6 +8705,10 @@ if (false) {
      * \@description
      * Tracks the name of the `FormControl` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
+     * Accepts a name as a string or a number.
+     * The name in the form of a string is useful for individual forms,
+     * while the numerical form allows for form controls to be bound
+     * to indices when iterating over controls in a `FormArray`.
      * @type {?}
      */
     FormControlName.prototype.name;
@@ -9745,7 +9751,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.2+12.sha-e4d5102.with-local-changes');
+const VERSION = new Version('9.0.0-next.2+15.sha-5064dc7.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
