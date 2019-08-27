@@ -74,5 +74,6 @@ export declare class RangeValueAccessor implements ControlValueAccessor {
      * @param isDisabled The disabled value
      */
     setDisabledState(isDisabled: boolean): void;
+    static ngFactoryDef: i0.ɵɵFactoryDef<RangeValueAccessor>;
     static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<RangeValueAccessor, "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", never, {}, {}, never>;
 }

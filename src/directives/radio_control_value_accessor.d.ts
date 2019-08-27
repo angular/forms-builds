@@ -135,5 +135,6 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     setDisabledState(isDisabled: boolean): void;
     private _checkName;
     private _throwNameError;
+    static ngFactoryDef: i0.ɵɵFactoryDef<RadioControlValueAccessor>;
     static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<RadioControlValueAccessor, "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", never, { 'name': "name", 'formControlName': "formControlName", 'value': "value" }, {}, never>;
 }
