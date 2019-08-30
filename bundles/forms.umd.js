@@ -1,14 +1,14 @@
 /**
- * @license Angular v9.0.0-next.4+39.sha-3758978.with-local-changes
+ * @license Angular v9.0.0-next.4+44.sha-1537791.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/platform-browser'), require('rxjs'), require('rxjs/operators')) :
-    typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', '@angular/platform-browser', 'rxjs', 'rxjs/operators'], factory) :
-    (global = global || self, factory((global.ng = global.ng || {}, global.ng.forms = {}), global.ng.core, global.ng.platformBrowser, global.rxjs, global.rxjs.operators));
-}(this, function (exports, i0, platformBrowser, rxjs, operators) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('rxjs'), require('rxjs/operators')) :
+    typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', '@angular/common', 'rxjs', 'rxjs/operators'], factory) :
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.forms = {}), global.ng.core, global.ng.common, global.rxjs, global.rxjs.operators));
+}(this, function (exports, i0, common, rxjs, operators) { 'use strict';
 
     /**
      * @license
@@ -139,7 +139,7 @@
      * behave differently between iOS and Android.
      */
     function _isAndroid() {
-        var userAgent = platformBrowser.ɵgetDOM() ? platformBrowser.ɵgetDOM().getUserAgent() : '';
+        var userAgent = common.ɵgetDOM() ? common.ɵgetDOM().getUserAgent() : '';
         return /android (\d+)/.test(userAgent.toLowerCase());
     }
     /**
@@ -7092,7 +7092,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-next.4+39.sha-3758978.with-local-changes');
+    var VERSION = new i0.Version('9.0.0-next.4+44.sha-1537791.with-local-changes');
 
     /**
      * @license

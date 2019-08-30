@@ -1,11 +1,11 @@
 /**
- * @license Angular v9.0.0-next.4+39.sha-3758978.with-local-changes
+ * @license Angular v9.0.0-next.4+44.sha-1537791.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
 import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵɵdirectiveInject, ɵɵdefineDirective, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵɵallocHostVars, ɵɵstyling, ɵɵclassProp, ɵɵstylingApply, ɵɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, Injectable, ɵɵdefineInjectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵɵNgOnChangesFeature, ɵɵelementHostAttrs, ɵɵattribute, ɵɵgetInheritedFactory, NgModule, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, Version } from '@angular/core';
-import { ɵgetDOM } from '@angular/platform-browser';
+import { ɵgetDOM } from '@angular/common';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -9778,7 +9778,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.4+39.sha-3758978.with-local-changes');
+const VERSION = new Version('9.0.0-next.4+44.sha-1537791.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
