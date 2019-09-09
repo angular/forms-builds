@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.2.5+10.sha-aaea387.with-local-changes
+ * @license Angular v8.2.5+12.sha-48e4b0e.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1795,7 +1795,6 @@ class RadioControlValueAccessor {
     /**
      * \@description
      * A lifecycle method called when the directive is initialized. For internal use only.
-     *
      * @return {?}
      */
     ngOnInit() {
@@ -1806,7 +1805,6 @@ class RadioControlValueAccessor {
     /**
      * \@description
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     *
      * @return {?}
      */
     ngOnDestroy() { this._registry.remove(this); }
@@ -4957,7 +4955,8 @@ class FormGroup extends AbstractControl {
      * Reports false for disabled controls. If you'd like to check for existence in the group
      * only, use {\@link AbstractControl#get get} instead.
      *
-     * @param {?} controlName
+     * @param {?} controlName The control name to check for existence in the collection
+     *
      * @return {?} false for disabled controls, true otherwise.
      */
     contains(controlName) {
@@ -5099,7 +5098,9 @@ class FormGroup extends AbstractControl {
      * console.log(this.form.value);  // {first: 'name', last: 'last name'}
      * console.log(this.form.get('first').status);  // 'DISABLED'
      * ```
-     * @param {?=} value
+     * @param {?=} value Resets the control with an initial value,
+     * or an object that defines the initial value and disabled state.
+     *
      * @param {?=} options Configuration options that determine how the control propagates changes
      * and emits events when the group is reset.
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default is
@@ -8982,7 +8983,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('8.2.5+10.sha-aaea387.with-local-changes');
+const VERSION = new Version('8.2.5+12.sha-48e4b0e.with-local-changes');
 
 /**
  * @fileoverview added by tsickle

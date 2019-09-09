@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.2.5+10.sha-aaea387.with-local-changes
+ * @license Angular v8.2.5+12.sha-48e4b0e.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1549,8 +1549,6 @@
         /**
          * @description
          * A lifecycle method called when the directive is initialized. For internal use only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
          */
         RadioControlValueAccessor.prototype.ngOnInit = function () {
             this._control = this._injector.get(NgControl);
@@ -1560,8 +1558,6 @@
         /**
          * @description
          * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
          */
         RadioControlValueAccessor.prototype.ngOnDestroy = function () { this._registry.remove(this); };
         /**
@@ -3710,7 +3706,7 @@
          * Reports false for disabled controls. If you'd like to check for existence in the group
          * only, use {@link AbstractControl#get get} instead.
          *
-         * @param name The control name to check for existence in the collection
+         * @param controlName The control name to check for existence in the collection
          *
          * @returns false for disabled controls, true otherwise.
          */
@@ -3814,7 +3810,7 @@
          * is a standalone value or a form state object with both a value and a disabled
          * status.
          *
-         * @param formState Resets the control with an initial value,
+         * @param value Resets the control with an initial value,
          * or an object that defines the initial value and disabled state.
          *
          * @param options Configuration options that determine how the control propagates changes
@@ -6901,7 +6897,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('8.2.5+10.sha-aaea387.with-local-changes');
+    var VERSION = new core.Version('8.2.5+12.sha-48e4b0e.with-local-changes');
 
     /**
      * @license
