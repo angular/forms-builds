@@ -89,15 +89,11 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     /**
      * @description
      * A lifecycle method called when the directive is initialized. For internal use only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
      */
     ngOnInit(): void;
     /**
      * @description
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
      */
     ngOnDestroy(): void;
     /**
