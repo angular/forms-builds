@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.6+58.sha-e6ed4a2.with-local-changes
+ * @license Angular v9.0.0-next.6+60.sha-a2e890e.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -907,7 +907,6 @@
         NgControlStatus.ngFactoryDef = function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(i0.ɵɵdirectiveInject(NgControl, 2)); };
         NgControlStatus.ngDirectiveDef = i0.ɵɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], hostBindings: function NgControlStatus_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
                 i0.ɵɵallocHostVars(7);
-                i0.ɵɵstyling();
             } if (rf & 2) {
                 i0.ɵɵclassProp("ng-untouched", ctx.ngClassUntouched);
                 i0.ɵɵclassProp("ng-touched", ctx.ngClassTouched);
@@ -916,7 +915,6 @@
                 i0.ɵɵclassProp("ng-valid", ctx.ngClassValid);
                 i0.ɵɵclassProp("ng-invalid", ctx.ngClassInvalid);
                 i0.ɵɵclassProp("ng-pending", ctx.ngClassPending);
-                i0.ɵɵstylingApply();
             } }, features: [i0.ɵɵInheritDefinitionFeature] });
         return NgControlStatus;
     }(AbstractControlStatus));
@@ -945,7 +943,6 @@
         NgControlStatusGroup.ngFactoryDef = function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵɵdirectiveInject(ControlContainer, 2)); };
         NgControlStatusGroup.ngDirectiveDef = i0.ɵɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
                 i0.ɵɵallocHostVars(7);
-                i0.ɵɵstyling();
             } if (rf & 2) {
                 i0.ɵɵclassProp("ng-untouched", ctx.ngClassUntouched);
                 i0.ɵɵclassProp("ng-touched", ctx.ngClassTouched);
@@ -954,7 +951,6 @@
                 i0.ɵɵclassProp("ng-valid", ctx.ngClassValid);
                 i0.ɵɵclassProp("ng-invalid", ctx.ngClassInvalid);
                 i0.ɵɵclassProp("ng-pending", ctx.ngClassPending);
-                i0.ɵɵstylingApply();
             } }, features: [i0.ɵɵInheritDefinitionFeature] });
         return NgControlStatusGroup;
     }(AbstractControlStatus));
@@ -7088,7 +7084,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-next.6+58.sha-e6ed4a2.with-local-changes');
+    var VERSION = new i0.Version('9.0.0-next.6+60.sha-a2e890e.with-local-changes');
 
     /**
      * @license
