@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.9.with-local-changes
+ * @license Angular v9.0.0-next.9+1.sha-4e35e34.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1545,7 +1545,8 @@
             return controlPair[0]._parent === accessor._control._parent &&
                 controlPair[1].name === accessor.name;
         };
-        RadioControlRegistry.ngInjectableDef = i0.ɵɵdefineInjectable({ token: RadioControlRegistry, factory: function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); }, providedIn: null });
+        RadioControlRegistry.ngFactoryDef = function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); };
+        RadioControlRegistry.ngInjectableDef = i0.ɵɵdefineInjectable({ token: RadioControlRegistry, factory: function (t) { return RadioControlRegistry.ngFactoryDef(t); }, providedIn: null });
         return RadioControlRegistry;
     }());
     /*@__PURE__*/ i0.ɵsetClassMetadata(RadioControlRegistry, [{
@@ -7067,7 +7068,8 @@
                 return this.control(controlConfig);
             }
         };
-        FormBuilder.ngInjectableDef = i0.ɵɵdefineInjectable({ token: FormBuilder, factory: function FormBuilder_Factory(t) { return new (t || FormBuilder)(); }, providedIn: null });
+        FormBuilder.ngFactoryDef = function FormBuilder_Factory(t) { return new (t || FormBuilder)(); };
+        FormBuilder.ngInjectableDef = i0.ɵɵdefineInjectable({ token: FormBuilder, factory: function (t) { return FormBuilder.ngFactoryDef(t); }, providedIn: null });
         return FormBuilder;
     }());
     /*@__PURE__*/ i0.ɵsetClassMetadata(FormBuilder, [{
@@ -7084,7 +7086,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-next.9.with-local-changes');
+    var VERSION = new i0.Version('9.0.0-next.9+1.sha-4e35e34.with-local-changes');
 
     /**
      * @license
