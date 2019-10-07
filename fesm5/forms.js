@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.9+57.sha-c61e4d7.with-local-changes
+ * @license Angular v9.0.0-next.9+59.sha-fee28e2.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4665,7 +4665,9 @@ var AbstractFormGroupDirective = /** @class */ (function (_super) {
          * @description
          * The path to this group from the top-level directive.
          */
-        get: function () { return controlPath(this.name, this._parent); },
+        get: function () {
+            return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
+        },
         enumerable: true,
         configurable: true
     });
@@ -5701,7 +5703,7 @@ var FormGroupName = /** @class */ (function (_super) {
     };
     __decorate([
         Input('formGroupName'),
-        __metadata("design:type", String)
+        __metadata("design:type", Object)
     ], FormGroupName.prototype, "name", void 0);
     FormGroupName = __decorate([
         Directive({ selector: '[formGroupName]', providers: [formGroupNameProvider] }),
@@ -5794,7 +5796,9 @@ var FormArrayName = /** @class */ (function (_super) {
          * Returns an array that represents the path from the top-level form to this control.
          * Each index is the string name of the control on that level.
          */
-        get: function () { return controlPath(this.name, this._parent); },
+        get: function () {
+            return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
+        },
         enumerable: true,
         configurable: true
     });
@@ -5826,7 +5830,7 @@ var FormArrayName = /** @class */ (function (_super) {
     };
     __decorate([
         Input('formArrayName'),
-        __metadata("design:type", String)
+        __metadata("design:type", Object)
     ], FormArrayName.prototype, "name", void 0);
     FormArrayName = __decorate([
         Directive({ selector: '[formArrayName]', providers: [formArrayNameProvider] }),
@@ -6756,7 +6760,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-next.9+57.sha-c61e4d7.with-local-changes');
+var VERSION = new Version('9.0.0-next.9+59.sha-fee28e2.with-local-changes');
 
 /**
  * @license

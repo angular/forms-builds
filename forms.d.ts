@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.9+57.sha-c61e4d7.with-local-changes
+ * @license Angular v9.0.0-next.9+59.sha-fee28e2.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -909,7 +909,7 @@ export declare abstract class ControlContainer extends AbstractControlDirective 
      * @description
      * The name for the control
      */
-    name: string;
+    name: string | number | null;
     /**
      * @description
      * The top-level form directive for the control.
@@ -1531,8 +1531,12 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * @description
      * Tracks the name of the `FormArray` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
+     * Accepts a name as a string or a number.
+     * The name in the form of a string is useful for individual forms,
+     * while the numerical form allows for form arrays to be bound
+     * to indices when iterating over arrays in a `FormArray`.
      */
-    name: string;
+    name: string | number | null;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
     /**
      * @description
@@ -2670,8 +2674,12 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      * @description
      * Tracks the name of the `FormGroup` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
+     * Accepts a name as a string or a number.
+     * The name in the form of a string is useful for individual forms,
+     * while the numerical form allows for form groups to be bound
+     * to indices when iterating over groups in a `FormArray`.
      */
-    name: string;
+    name: string | number | null;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
 }
 
