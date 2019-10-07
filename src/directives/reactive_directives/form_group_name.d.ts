@@ -65,12 +65,8 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      * @description
      * Tracks the name of the `FormGroup` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
-     * Accepts a name as a string or a number.
-     * The name in the form of a string is useful for individual forms,
-     * while the numerical form allows for form groups to be bound
-     * to indices when iterating over groups in a `FormArray`.
      */
-    name: string | number | null;
+    name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
     static ngFactoryDef: i0.ɵɵFactoryDef<FormGroupName>;
     static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<FormGroupName, "[formGroupName]", never, { 'name': "formGroupName" }, {}, never>;
@@ -105,12 +101,8 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * @description
      * Tracks the name of the `FormArray` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
-     * Accepts a name as a string or a number.
-     * The name in the form of a string is useful for individual forms,
-     * while the numerical form allows for form arrays to be bound
-     * to indices when iterating over arrays in a `FormArray`.
      */
-    name: string | number | null;
+    name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
     /**
      * @description
