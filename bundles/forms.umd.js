@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.2.9+26.sha-3541e59.with-local-changes
+ * @license Angular v8.2.9+27.sha-2952ea5.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6941,7 +6941,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('8.2.9+26.sha-3541e59.with-local-changes');
+    var VERSION = new core.Version('8.2.9+27.sha-2952ea5.with-local-changes');
 
     /**
      * @license
