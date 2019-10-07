@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.9+59.sha-fee28e2.with-local-changes
+ * @license Angular v9.0.0-next.9+58.sha-3efb060.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4852,9 +4852,7 @@
              * @description
              * The path to this group from the top-level directive.
              */
-            get: function () {
-                return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
-            },
+            get: function () { return controlPath(this.name, this._parent); },
             enumerable: true,
             configurable: true
         });
@@ -5890,7 +5888,7 @@
         };
         __decorate([
             core.Input('formGroupName'),
-            __metadata("design:type", Object)
+            __metadata("design:type", String)
         ], FormGroupName.prototype, "name", void 0);
         FormGroupName = __decorate([
             core.Directive({ selector: '[formGroupName]', providers: [formGroupNameProvider] }),
@@ -5983,9 +5981,7 @@
              * Returns an array that represents the path from the top-level form to this control.
              * Each index is the string name of the control on that level.
              */
-            get: function () {
-                return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
-            },
+            get: function () { return controlPath(this.name, this._parent); },
             enumerable: true,
             configurable: true
         });
@@ -6017,7 +6013,7 @@
         };
         __decorate([
             core.Input('formArrayName'),
-            __metadata("design:type", Object)
+            __metadata("design:type", String)
         ], FormArrayName.prototype, "name", void 0);
         FormArrayName = __decorate([
             core.Directive({ selector: '[formArrayName]', providers: [formArrayNameProvider] }),
@@ -6947,7 +6943,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('9.0.0-next.9+59.sha-fee28e2.with-local-changes');
+    var VERSION = new core.Version('9.0.0-next.9+58.sha-3efb060.with-local-changes');
 
     /**
      * @license
