@@ -19,7 +19,7 @@ export declare abstract class ControlContainer extends AbstractControlDirective 
      * @description
      * The name for the control
      */
-    name: string;
+    name: string | number | null;
     /**
      * @description
      * The top-level form directive for the control.

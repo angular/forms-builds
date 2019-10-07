@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.9+57.sha-c61e4d7.with-local-changes
+ * @license Angular v9.0.0-next.9+59.sha-fee28e2.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6707,7 +6707,9 @@ class AbstractFormGroupDirective extends ControlContainer {
      * The path to this group from the top-level directive.
      * @return {?}
      */
-    get path() { return controlPath(this.name, this._parent); }
+    get path() {
+        return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
+    }
     /**
      * \@description
      * The top-level directive for this group if present, otherwise null.
@@ -8225,6 +8227,10 @@ if (false) {
      * \@description
      * Tracks the name of the `FormGroup` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
+     * Accepts a name as a string or a number.
+     * The name in the form of a string is useful for individual forms,
+     * while the numerical form allows for form groups to be bound
+     * to indices when iterating over groups in a `FormArray`.
      * @type {?}
      */
     FormGroupName.prototype.name;
@@ -8314,7 +8320,9 @@ class FormArrayName extends ControlContainer {
      * Each index is the string name of the control on that level.
      * @return {?}
      */
-    get path() { return controlPath(this.name, this._parent); }
+    get path() {
+        return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
+    }
     /**
      * \@description
      * Synchronous validator function composed of all the synchronous validators registered with this
@@ -8401,6 +8409,10 @@ if (false) {
      * \@description
      * Tracks the name of the `FormArray` bound to the directive. The name corresponds
      * to a key in the parent `FormGroup` or `FormArray`.
+     * Accepts a name as a string or a number.
+     * The name in the form of a string is useful for individual forms,
+     * while the numerical form allows for form arrays to be bound
+     * to indices when iterating over arrays in a `FormArray`.
      * @type {?}
      */
     FormArrayName.prototype.name;
@@ -9821,7 +9833,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.9+57.sha-c61e4d7.with-local-changes');
+const VERSION = new Version('9.0.0-next.9+59.sha-fee28e2.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
