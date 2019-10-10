@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.10+27.sha-1ae77da.with-local-changes
+ * @license Angular v9.0.0-next.10+28.sha-6ab5f36.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3805,11 +3805,11 @@ function _find(control, path, delimiter) {
     if (path == null)
         return null;
     if (!(path instanceof Array)) {
-        path = ((/** @type {?} */ (path))).split(delimiter);
+        path = path.split(delimiter);
     }
-    if (path instanceof Array && (path.length === 0))
+    if (path instanceof Array && path.length === 0)
         return null;
-    return ((/** @type {?} */ (path))).reduce((/**
+    return path.reduce((/**
      * @param {?} v
      * @param {?} name
      * @return {?}
@@ -9833,7 +9833,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.10+27.sha-1ae77da.with-local-changes');
+const VERSION = new Version('9.0.0-next.10+28.sha-6ab5f36.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
