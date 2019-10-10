@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.10+29.sha-b0834fe.with-local-changes
+ * @license Angular v9.0.0-next.10+30.sha-f54adf1.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2684,10 +2684,10 @@
     function _find(control, path, delimiter) {
         if (path == null)
             return null;
-        if (!(path instanceof Array)) {
+        if (!Array.isArray(path)) {
             path = path.split(delimiter);
         }
-        if (path instanceof Array && path.length === 0)
+        if (Array.isArray(path) && path.length === 0)
             return null;
         return path.reduce(function (v, name) {
             if (v instanceof FormGroup) {
@@ -7134,7 +7134,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-next.10+29.sha-b0834fe.with-local-changes');
+    var VERSION = new i0.Version('9.0.0-next.10+30.sha-f54adf1.with-local-changes');
 
     /**
      * @license
