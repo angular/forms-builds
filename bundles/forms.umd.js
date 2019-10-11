@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.10+37.sha-15e3b5f.with-local-changes
+ * @license Angular v9.0.0-next.10+41.sha-d4d0723.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4716,7 +4716,7 @@
         ], NgForm.prototype, "options", void 0);
         NgForm = __decorate([
             core.Directive({
-                selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]',
+                selector: 'form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]',
                 providers: [formDirectiveProvider],
                 host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                 outputs: ['ngSubmit'],
@@ -4728,78 +4728,6 @@
         ], NgForm);
         return NgForm;
     }(ControlContainer));
-
-    /**
-     * @license
-     * Copyright Google Inc. All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    var TemplateDrivenErrors = /** @class */ (function () {
-        function TemplateDrivenErrors() {
-        }
-        TemplateDrivenErrors.modelParentException = function () {
-            throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using\n      formGroup's partner directive \"formControlName\" instead.  Example:\n\n      " + FormErrorExamples.formControlName + "\n\n      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:\n\n      Example:\n\n      " + FormErrorExamples.ngModelWithFormGroup);
-        };
-        TemplateDrivenErrors.formGroupNameException = function () {
-            throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.\n\n      Option 1: Use formControlName instead of ngModel (reactive strategy):\n\n      " + FormErrorExamples.formGroupName + "\n\n      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):\n\n      " + FormErrorExamples.ngModelGroup);
-        };
-        TemplateDrivenErrors.missingNameException = function () {
-            throw new Error("If ngModel is used within a form tag, either the name attribute must be set or the form\n      control must be defined as 'standalone' in ngModelOptions.\n\n      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">");
-        };
-        TemplateDrivenErrors.modelGroupParentException = function () {
-            throw new Error("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + FormErrorExamples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + FormErrorExamples.ngModelGroup);
-        };
-        TemplateDrivenErrors.ngFormWarning = function () {
-            console.warn("\n    It looks like you're using 'ngForm'.\n\n    Support for using the 'ngForm' element selector has been deprecated in Angular v6 and will be removed\n    in Angular v9.\n\n    Use 'ng-form' instead.\n\n    Before:\n    <ngForm #myForm=\"ngForm\">\n\n    After:\n    <ng-form #myForm=\"ngForm\">\n    ");
-        };
-        return TemplateDrivenErrors;
-    }());
-
-    /**
-     * @license
-     * Copyright Google Inc. All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    /**
-     * @description
-     * `InjectionToken` to provide to turn off the warning when using 'ngForm' deprecated selector.
-     */
-    var NG_FORM_SELECTOR_WARNING = new core.InjectionToken('NgFormSelectorWarning');
-    /**
-     * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
-     *
-     * @deprecated in Angular v6 and will be removed in Angular v9.
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var NgFormSelectorWarning = /** @class */ (function () {
-        function NgFormSelectorWarning(ngFormWarning) {
-            if (((!ngFormWarning || ngFormWarning === 'once') && !NgFormSelectorWarning_1._ngFormWarning) ||
-                ngFormWarning === 'always') {
-                TemplateDrivenErrors.ngFormWarning();
-                NgFormSelectorWarning_1._ngFormWarning = true;
-            }
-        }
-        NgFormSelectorWarning_1 = NgFormSelectorWarning;
-        var NgFormSelectorWarning_1;
-        /**
-         * Static property used to track whether the deprecation warning for this selector has been sent.
-         * Used to support warning config of "once".
-         *
-         * @internal
-         */
-        NgFormSelectorWarning._ngFormWarning = false;
-        NgFormSelectorWarning = NgFormSelectorWarning_1 = __decorate([
-            core.Directive({ selector: 'ngForm' }),
-            __param(0, core.Optional()), __param(0, core.Inject(NG_FORM_SELECTOR_WARNING)),
-            __metadata("design:paramtypes", [Object])
-        ], NgFormSelectorWarning);
-        return NgFormSelectorWarning;
-    }());
 
     /**
      * @license
@@ -4891,6 +4819,31 @@
         AbstractFormGroupDirective.prototype._checkParentType = function () { };
         return AbstractFormGroupDirective;
     }(ControlContainer));
+
+    /**
+     * @license
+     * Copyright Google Inc. All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    var TemplateDrivenErrors = /** @class */ (function () {
+        function TemplateDrivenErrors() {
+        }
+        TemplateDrivenErrors.modelParentException = function () {
+            throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using\n      formGroup's partner directive \"formControlName\" instead.  Example:\n\n      " + FormErrorExamples.formControlName + "\n\n      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:\n\n      Example:\n\n      " + FormErrorExamples.ngModelWithFormGroup);
+        };
+        TemplateDrivenErrors.formGroupNameException = function () {
+            throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.\n\n      Option 1: Use formControlName instead of ngModel (reactive strategy):\n\n      " + FormErrorExamples.formGroupName + "\n\n      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):\n\n      " + FormErrorExamples.ngModelGroup);
+        };
+        TemplateDrivenErrors.missingNameException = function () {
+            throw new Error("If ngModel is used within a form tag, either the name attribute must be set or the form\n      control must be defined as 'standalone' in ngModelOptions.\n\n      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">");
+        };
+        TemplateDrivenErrors.modelGroupParentException = function () {
+            throw new Error("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + FormErrorExamples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + FormErrorExamples.ngModelGroup);
+        };
+        return TemplateDrivenErrors;
+    }());
 
     /**
      * @license
@@ -6775,7 +6728,7 @@
         CheckboxRequiredValidator,
         EmailValidator,
     ];
-    var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
+    var TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
     var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
     /**
      * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
@@ -6947,7 +6900,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('9.0.0-next.10+37.sha-15e3b5f.with-local-changes');
+    var VERSION = new core.Version('9.0.0-next.10+41.sha-d4d0723.with-local-changes');
 
     /**
      * @license
@@ -6967,23 +6920,7 @@
     var FormsModule = /** @class */ (function () {
         function FormsModule() {
         }
-        FormsModule_1 = FormsModule;
-        /**
-         * @description
-         * Provides options for configuring the template-driven forms module.
-         *
-         * @param opts An object of configuration options
-         * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
-         * `ngForm` selector is used.
-         */
-        FormsModule.withConfig = function (opts) {
-            return {
-                ngModule: FormsModule_1,
-                providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
-            };
-        };
-        var FormsModule_1;
-        FormsModule = FormsModule_1 = __decorate([
+        FormsModule = __decorate([
             core.NgModule({
                 declarations: TEMPLATE_DRIVEN_DIRECTIVES,
                 providers: [RadioControlRegistry],
@@ -7072,31 +7009,30 @@
     exports.ɵangular_packages_forms_forms_g = AbstractControlStatus;
     exports.ɵangular_packages_forms_forms_h = ngControlStatusHost;
     exports.ɵangular_packages_forms_forms_i = formDirectiveProvider;
-    exports.ɵangular_packages_forms_forms_j = NG_FORM_SELECTOR_WARNING;
-    exports.ɵangular_packages_forms_forms_k = formControlBinding;
-    exports.ɵangular_packages_forms_forms_l = modelGroupProvider;
-    exports.ɵangular_packages_forms_forms_z = ɵNgNoValidate;
+    exports.ɵangular_packages_forms_forms_j = formControlBinding;
+    exports.ɵangular_packages_forms_forms_k = modelGroupProvider;
+    exports.ɵangular_packages_forms_forms_y = ɵNgNoValidate;
     exports.ɵNgNoValidate = ɵNgNoValidate;
-    exports.ɵangular_packages_forms_forms_m = NUMBER_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_n = RADIO_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_o = RadioControlRegistry;
-    exports.ɵangular_packages_forms_forms_p = RANGE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_q = NG_MODEL_WITH_FORM_CONTROL_WARNING;
-    exports.ɵangular_packages_forms_forms_r = formControlBinding$1;
-    exports.ɵangular_packages_forms_forms_s = controlNameBinding;
-    exports.ɵangular_packages_forms_forms_t = formDirectiveProvider$1;
-    exports.ɵangular_packages_forms_forms_v = formArrayNameProvider;
-    exports.ɵangular_packages_forms_forms_u = formGroupNameProvider;
-    exports.ɵangular_packages_forms_forms_w = SELECT_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_y = ɵNgSelectMultipleOption;
+    exports.ɵangular_packages_forms_forms_l = NUMBER_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_m = RADIO_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_n = RadioControlRegistry;
+    exports.ɵangular_packages_forms_forms_o = RANGE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_p = NG_MODEL_WITH_FORM_CONTROL_WARNING;
+    exports.ɵangular_packages_forms_forms_q = formControlBinding$1;
+    exports.ɵangular_packages_forms_forms_r = controlNameBinding;
+    exports.ɵangular_packages_forms_forms_s = formDirectiveProvider$1;
+    exports.ɵangular_packages_forms_forms_u = formArrayNameProvider;
+    exports.ɵangular_packages_forms_forms_t = formGroupNameProvider;
+    exports.ɵangular_packages_forms_forms_v = SELECT_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_x = ɵNgSelectMultipleOption;
     exports.ɵNgSelectMultipleOption = ɵNgSelectMultipleOption;
-    exports.ɵangular_packages_forms_forms_x = SELECT_MULTIPLE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_bb = CHECKBOX_REQUIRED_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bc = EMAIL_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_be = MAX_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bd = MIN_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bf = PATTERN_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_ba = REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_w = SELECT_MULTIPLE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_ba = CHECKBOX_REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bb = EMAIL_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bd = MAX_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bc = MIN_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_be = PATTERN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_z = REQUIRED_VALIDATOR;
     exports.AbstractControlDirective = AbstractControlDirective;
     exports.AbstractFormGroupDirective = AbstractFormGroupDirective;
     exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
@@ -7108,7 +7044,6 @@
     exports.NgControlStatus = NgControlStatus;
     exports.NgControlStatusGroup = NgControlStatusGroup;
     exports.NgForm = NgForm;
-    exports.NgFormSelectorWarning = NgFormSelectorWarning;
     exports.NgModel = NgModel;
     exports.NgModelGroup = NgModelGroup;
     exports.NumberValueAccessor = NumberValueAccessor;

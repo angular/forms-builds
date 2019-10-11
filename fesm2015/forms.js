@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.10+37.sha-15e3b5f.with-local-changes
+ * @license Angular v9.0.0-next.10+41.sha-d4d0723.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6162,7 +6162,7 @@ class NgForm extends ControlContainer {
 }
 NgForm.decorators = [
     { type: Directive, args: [{
-                selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,ng-form,[ngForm]',
+                selector: 'form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]',
                 providers: [formDirectiveProvider],
                 host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                 outputs: ['ngSubmit'],
@@ -6212,142 +6212,6 @@ if (false) {
      * @type {?}
      */
     NgForm.prototype.options;
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class TemplateDrivenErrors {
-    /**
-     * @return {?}
-     */
-    static modelParentException() {
-        throw new Error(`
-      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using
-      formGroup's partner directive "formControlName" instead.  Example:
-
-      ${FormErrorExamples.formControlName}
-
-      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:
-
-      Example:
-
-      ${FormErrorExamples.ngModelWithFormGroup}`);
-    }
-    /**
-     * @return {?}
-     */
-    static formGroupNameException() {
-        throw new Error(`
-      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.
-
-      Option 1: Use formControlName instead of ngModel (reactive strategy):
-
-      ${FormErrorExamples.formGroupName}
-
-      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):
-
-      ${FormErrorExamples.ngModelGroup}`);
-    }
-    /**
-     * @return {?}
-     */
-    static missingNameException() {
-        throw new Error(`If ngModel is used within a form tag, either the name attribute must be set or the form
-      control must be defined as 'standalone' in ngModelOptions.
-
-      Example 1: <input [(ngModel)]="person.firstName" name="first">
-      Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">`);
-    }
-    /**
-     * @return {?}
-     */
-    static modelGroupParentException() {
-        throw new Error(`
-      ngModelGroup cannot be used with a parent formGroup directive.
-
-      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):
-
-      ${FormErrorExamples.formGroupName}
-
-      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):
-
-      ${FormErrorExamples.ngModelGroup}`);
-    }
-    /**
-     * @return {?}
-     */
-    static ngFormWarning() {
-        console.warn(`
-    It looks like you're using 'ngForm'.
-
-    Support for using the 'ngForm' element selector has been deprecated in Angular v6 and will be removed
-    in Angular v9.
-
-    Use 'ng-form' instead.
-
-    Before:
-    <ngForm #myForm="ngForm">
-
-    After:
-    <ng-form #myForm="ngForm">
-    `);
-    }
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * \@description
- * `InjectionToken` to provide to turn off the warning when using 'ngForm' deprecated selector.
- * @type {?}
- */
-const NG_FORM_SELECTOR_WARNING = new InjectionToken('NgFormSelectorWarning');
-/**
- * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
- *
- * @deprecated in Angular v6 and will be removed in Angular v9.
- * \@ngModule FormsModule
- * \@publicApi
- */
-class NgFormSelectorWarning {
-    /**
-     * @param {?} ngFormWarning
-     */
-    constructor(ngFormWarning) {
-        if (((!ngFormWarning || ngFormWarning === 'once') && !NgFormSelectorWarning._ngFormWarning) ||
-            ngFormWarning === 'always') {
-            TemplateDrivenErrors.ngFormWarning();
-            NgFormSelectorWarning._ngFormWarning = true;
-        }
-    }
-}
-/**
- * Static property used to track whether the deprecation warning for this selector has been sent.
- * Used to support warning config of "once".
- *
- * \@internal
- */
-NgFormSelectorWarning._ngFormWarning = false;
-NgFormSelectorWarning.decorators = [
-    { type: Directive, args: [{ selector: 'ngForm' },] }
-];
-/** @nocollapse */
-NgFormSelectorWarning.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_FORM_SELECTOR_WARNING,] }] }
-];
-if (false) {
-    /**
-     * Static property used to track whether the deprecation warning for this selector has been sent.
-     * Used to support warning config of "once".
-     *
-     * \@internal
-     * @type {?}
-     */
-    NgFormSelectorWarning._ngFormWarning;
 }
 
 /**
@@ -6447,6 +6311,69 @@ if (false) {
      * @type {?}
      */
     AbstractFormGroupDirective.prototype._asyncValidators;
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class TemplateDrivenErrors {
+    /**
+     * @return {?}
+     */
+    static modelParentException() {
+        throw new Error(`
+      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using
+      formGroup's partner directive "formControlName" instead.  Example:
+
+      ${FormErrorExamples.formControlName}
+
+      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:
+
+      Example:
+
+      ${FormErrorExamples.ngModelWithFormGroup}`);
+    }
+    /**
+     * @return {?}
+     */
+    static formGroupNameException() {
+        throw new Error(`
+      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.
+
+      Option 1: Use formControlName instead of ngModel (reactive strategy):
+
+      ${FormErrorExamples.formGroupName}
+
+      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):
+
+      ${FormErrorExamples.ngModelGroup}`);
+    }
+    /**
+     * @return {?}
+     */
+    static missingNameException() {
+        throw new Error(`If ngModel is used within a form tag, either the name attribute must be set or the form
+      control must be defined as 'standalone' in ngModelOptions.
+
+      Example 1: <input [(ngModel)]="person.firstName" name="first">
+      Example 2: <input [(ngModel)]="person.firstName" [ngModelOptions]="{standalone: true}">`);
+    }
+    /**
+     * @return {?}
+     */
+    static modelGroupParentException() {
+        throw new Error(`
+      ngModelGroup cannot be used with a parent formGroup directive.
+
+      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):
+
+      ${FormErrorExamples.formGroupName}
+
+      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):
+
+      ${FormErrorExamples.ngModelGroup}`);
+    }
 }
 
 /**
@@ -8854,7 +8781,7 @@ const SHARED_FORM_DIRECTIVES = [
     EmailValidator,
 ];
 /** @type {?} */
-const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm, NgFormSelectorWarning];
+const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
 /** @type {?} */
 const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
 /**
@@ -9045,7 +8972,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.10+37.sha-15e3b5f.with-local-changes');
+const VERSION = new Version('9.0.0-next.10+41.sha-d4d0723.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
@@ -9060,21 +8987,6 @@ const VERSION = new Version('9.0.0-next.10+37.sha-15e3b5f.with-local-changes');
  * \@publicApi
  */
 class FormsModule {
-    /**
-     * \@description
-     * Provides options for configuring the template-driven forms module.
-     *
-     * @param {?} opts An object of configuration options
-     * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
-     * `ngForm` selector is used.
-     * @return {?}
-     */
-    static withConfig(opts) {
-        return {
-            ngModule: FormsModule,
-            providers: [{ provide: NG_FORM_SELECTOR_WARNING, useValue: opts.warnOnDeprecatedNgFormSelector }]
-        };
-    }
 }
 FormsModule.decorators = [
     { type: NgModule, args: [{
@@ -9139,5 +9051,5 @@ ReactiveFormsModule.decorators = [
  * Generated bundle index. Do not edit.
  */
 
-export { ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d, ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_f, AbstractControlStatus as ɵangular_packages_forms_forms_g, ngControlStatusHost as ɵangular_packages_forms_forms_h, formDirectiveProvider as ɵangular_packages_forms_forms_i, NG_FORM_SELECTOR_WARNING as ɵangular_packages_forms_forms_j, formControlBinding as ɵangular_packages_forms_forms_k, modelGroupProvider as ɵangular_packages_forms_forms_l, ɵNgNoValidate as ɵangular_packages_forms_forms_z, ɵNgNoValidate, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_m, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_n, RadioControlRegistry as ɵangular_packages_forms_forms_o, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_p, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_q, formControlBinding$1 as ɵangular_packages_forms_forms_r, controlNameBinding as ɵangular_packages_forms_forms_s, formDirectiveProvider$1 as ɵangular_packages_forms_forms_t, formArrayNameProvider as ɵangular_packages_forms_forms_v, formGroupNameProvider as ɵangular_packages_forms_forms_u, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_w, ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_y, ɵNgSelectMultipleOption, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_x, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_bb, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_bc, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_be, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bd, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_bf, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_ba, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgFormSelectorWarning, NgModel, NgModelGroup, NumberValueAccessor, RadioControlValueAccessor, RangeValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
+export { ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d, ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_f, AbstractControlStatus as ɵangular_packages_forms_forms_g, ngControlStatusHost as ɵangular_packages_forms_forms_h, formDirectiveProvider as ɵangular_packages_forms_forms_i, formControlBinding as ɵangular_packages_forms_forms_j, modelGroupProvider as ɵangular_packages_forms_forms_k, ɵNgNoValidate as ɵangular_packages_forms_forms_y, ɵNgNoValidate, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_l, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_m, RadioControlRegistry as ɵangular_packages_forms_forms_n, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_o, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_p, formControlBinding$1 as ɵangular_packages_forms_forms_q, controlNameBinding as ɵangular_packages_forms_forms_r, formDirectiveProvider$1 as ɵangular_packages_forms_forms_s, formArrayNameProvider as ɵangular_packages_forms_forms_u, formGroupNameProvider as ɵangular_packages_forms_forms_t, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_v, ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_x, ɵNgSelectMultipleOption, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_w, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_ba, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_bb, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bd, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bc, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_be, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_z, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NumberValueAccessor, RadioControlValueAccessor, RangeValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
 //# sourceMappingURL=forms.js.map

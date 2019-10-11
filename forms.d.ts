@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.10+37.sha-15e3b5f.with-local-changes
+ * @license Angular v9.0.0-next.10+41.sha-d4d0723.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2694,17 +2694,6 @@ declare type FormHooks = 'change' | 'blur' | 'submit';
  * @publicApi
  */
 export declare class FormsModule {
-    /**
-     * @description
-     * Provides options for configuring the template-driven forms module.
-     *
-     * @param opts An object of configuration options
-     * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
-     * `ngForm` selector is used.
-     */
-    static withConfig(opts: {
-        /** @deprecated as of v6 */ warnOnDeprecatedNgFormSelector?: 'never' | 'once' | 'always';
-    }): ModuleWithProviders<FormsModule>;
 }
 
 /**
@@ -3153,17 +3142,6 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
 }
 
 /**
- * This directive is solely used to display warnings when the deprecated `ngForm` selector is used.
- *
- * @deprecated in Angular v6 and will be removed in Angular v9.
- * @ngModule FormsModule
- * @publicApi
- */
-export declare class NgFormSelectorWarning {
-    constructor(ngFormWarning: string | null);
-}
-
-/**
  * @description
  * Creates a `FormControl` instance from a domain model and binds it
  * to a form control element.
@@ -3599,7 +3577,7 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
      * Tracks the value of the radio input element
      */
     value: any;
-    constructor(_renderer: Renderer2, _elementRef: ElementRef, _registry: ɵangular_packages_forms_forms_o, _injector: Injector);
+    constructor(_renderer: Renderer2, _elementRef: ElementRef, _registry: ɵangular_packages_forms_forms_n, _injector: Injector);
     /**
      * @description
      * A lifecycle method called when the directive is initialized. For internal use only.
@@ -4310,39 +4288,33 @@ export declare const ɵangular_packages_forms_forms_b: Type<any>[];
 
 /**
  * @description
- * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_ba: StaticProvider;
 
 /**
  * @description
- * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bb: StaticProvider;
-
-/**
- * @description
  * Provider which adds `EmailValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_bc: any;
+export declare const ɵangular_packages_forms_forms_bb: any;
 
 /**
  * @description
  * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_bd: any;
+export declare const ɵangular_packages_forms_forms_bc: any;
 
 /**
  * @description
  * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_be: any;
+export declare const ɵangular_packages_forms_forms_bd: any;
 
 /**
  * @description
  * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_bf: any;
+export declare const ɵangular_packages_forms_forms_be: any;
 
 export declare const ɵangular_packages_forms_forms_c: Type<any>[];
 
@@ -4374,11 +4346,7 @@ export declare const ɵangular_packages_forms_forms_h: {
 
 export declare const ɵangular_packages_forms_forms_i: any;
 
-/**
- * @description
- * `InjectionToken` to provide to turn off the warning when using 'ngForm' deprecated selector.
- */
-export declare const ɵangular_packages_forms_forms_j: InjectionToken<unknown>;
+export declare const ɵangular_packages_forms_forms_j: any;
 
 export declare const ɵangular_packages_forms_forms_k: any;
 
@@ -4386,13 +4354,11 @@ export declare const ɵangular_packages_forms_forms_l: any;
 
 export declare const ɵangular_packages_forms_forms_m: any;
 
-export declare const ɵangular_packages_forms_forms_n: any;
-
 /**
  * @description
  * Class used by Angular to track radio buttons. For internal use only.
  */
-export declare class ɵangular_packages_forms_forms_o {
+export declare class ɵangular_packages_forms_forms_n {
     private _accessors;
     /**
      * @description
@@ -4412,12 +4378,14 @@ export declare class ɵangular_packages_forms_forms_o {
     private _isSameGroup;
 }
 
-export declare const ɵangular_packages_forms_forms_p: StaticProvider;
+export declare const ɵangular_packages_forms_forms_o: StaticProvider;
 
 /**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
-export declare const ɵangular_packages_forms_forms_q: InjectionToken<unknown>;
+export declare const ɵangular_packages_forms_forms_p: InjectionToken<unknown>;
+
+export declare const ɵangular_packages_forms_forms_q: any;
 
 export declare const ɵangular_packages_forms_forms_r: any;
 
@@ -4427,11 +4395,15 @@ export declare const ɵangular_packages_forms_forms_t: any;
 
 export declare const ɵangular_packages_forms_forms_u: any;
 
-export declare const ɵangular_packages_forms_forms_v: any;
+export declare const ɵangular_packages_forms_forms_v: StaticProvider;
 
 export declare const ɵangular_packages_forms_forms_w: StaticProvider;
 
-export declare const ɵangular_packages_forms_forms_x: StaticProvider;
+/**
+ * @description
+ * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_z: StaticProvider;
 
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
@@ -4462,7 +4434,7 @@ export { ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d }
 declare class ɵNgNoValidate {
 }
 export { ɵNgNoValidate }
-export { ɵNgNoValidate as ɵangular_packages_forms_forms_z }
+export { ɵNgNoValidate as ɵangular_packages_forms_forms_y }
 
 /**
  * @description
@@ -4499,6 +4471,6 @@ declare class ɵNgSelectMultipleOption implements OnDestroy {
     ngOnDestroy(): void;
 }
 export { ɵNgSelectMultipleOption }
-export { ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_y }
+export { ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_x }
 
 export { }
