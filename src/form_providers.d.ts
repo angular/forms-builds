@@ -10,12 +10,11 @@ import * as i0 from "@angular/core";
 import * as i1 from "./directives/ng_model";
 import * as i2 from "./directives/ng_model_group";
 import * as i3 from "./directives/ng_form";
-import * as i4 from "./directives/ng_form_selector_warning";
-import * as i5 from "./directives";
-import * as i6 from "./directives/reactive_directives/form_control_directive";
-import * as i7 from "./directives/reactive_directives/form_group_directive";
-import * as i8 from "./directives/reactive_directives/form_control_name";
-import * as i9 from "./directives/reactive_directives/form_group_name";
+import * as i4 from "./directives";
+import * as i5 from "./directives/reactive_directives/form_control_directive";
+import * as i6 from "./directives/reactive_directives/form_group_directive";
+import * as i7 from "./directives/reactive_directives/form_control_name";
+import * as i8 from "./directives/reactive_directives/form_group_name";
 /**
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
@@ -25,18 +24,7 @@ import * as i9 from "./directives/reactive_directives/form_group_name";
  * @publicApi
  */
 export declare class FormsModule {
-    /**
-     * @description
-     * Provides options for configuring the template-driven forms module.
-     *
-     * @param opts An object of configuration options
-     * * `warnOnDeprecatedNgFormSelector` Configures when to emit a warning when the deprecated
-     * `ngForm` selector is used.
-     */
-    static withConfig(opts: {
-        /** @deprecated as of v6 */ warnOnDeprecatedNgFormSelector?: 'never' | 'once' | 'always';
-    }): ModuleWithProviders<FormsModule>;
-    static ngModuleDef: i0.ɵɵNgModuleDefWithMeta<FormsModule, [typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm, typeof i4.NgFormSelectorWarning], never, [typeof i5.ɵInternalFormsSharedModule, typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm, typeof i4.NgFormSelectorWarning]>;
+    static ngModuleDef: i0.ɵɵNgModuleDefWithMeta<FormsModule, [typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm], never, [typeof i4.ɵInternalFormsSharedModule, typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm]>;
     static ngInjectorDef: i0.ɵɵInjectorDef<FormsModule>;
 }
 /**
@@ -60,6 +48,6 @@ export declare class ReactiveFormsModule {
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnNgModelWithFormControl: 'never' | 'once' | 'always';
     }): ModuleWithProviders<ReactiveFormsModule>;
-    static ngModuleDef: i0.ɵɵNgModuleDefWithMeta<ReactiveFormsModule, [typeof i6.FormControlDirective, typeof i7.FormGroupDirective, typeof i8.FormControlName, typeof i9.FormGroupName, typeof i9.FormArrayName], never, [typeof i5.ɵInternalFormsSharedModule, typeof i6.FormControlDirective, typeof i7.FormGroupDirective, typeof i8.FormControlName, typeof i9.FormGroupName, typeof i9.FormArrayName]>;
+    static ngModuleDef: i0.ɵɵNgModuleDefWithMeta<ReactiveFormsModule, [typeof i5.FormControlDirective, typeof i6.FormGroupDirective, typeof i7.FormControlName, typeof i8.FormGroupName, typeof i8.FormArrayName], never, [typeof i4.ɵInternalFormsSharedModule, typeof i5.FormControlDirective, typeof i6.FormGroupDirective, typeof i7.FormControlName, typeof i8.FormGroupName, typeof i8.FormArrayName]>;
     static ngInjectorDef: i0.ɵɵInjectorDef<ReactiveFormsModule>;
 }
