@@ -75,5 +75,5 @@ export declare class NumberValueAccessor implements ControlValueAccessor {
      */
     setDisabledState(isDisabled: boolean): void;
     static ngFactoryDef: i0.ɵɵFactoryDef<NumberValueAccessor>;
-    static ngDirectiveDef: i0.ɵɵDirectiveDefWithMeta<NumberValueAccessor, "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<NumberValueAccessor, "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", never, {}, {}, never>;
 }
