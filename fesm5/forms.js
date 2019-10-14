@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.10+73.sha-f433d66.with-local-changes
+ * @license Angular v9.0.0-next.10+75.sha-fc93daf.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6692,7 +6692,7 @@ var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, Form
 var ɵInternalFormsSharedModule = /** @class */ (function () {
     function ɵInternalFormsSharedModule() {
     }
-    ɵInternalFormsSharedModule.ngModuleDef = ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
+    ɵInternalFormsSharedModule.ɵmod = ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
     ɵInternalFormsSharedModule.ngInjectorDef = ɵɵdefineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
     return ɵInternalFormsSharedModule;
 }());
@@ -6896,7 +6896,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-next.10+73.sha-f433d66.with-local-changes');
+var VERSION = new Version('9.0.0-next.10+75.sha-fc93daf.with-local-changes');
 
 /**
  * @license
@@ -6916,7 +6916,7 @@ var VERSION = new Version('9.0.0-next.10+73.sha-f433d66.with-local-changes');
 var FormsModule = /** @class */ (function () {
     function FormsModule() {
     }
-    FormsModule.ngModuleDef = ɵɵdefineNgModule({ type: FormsModule });
+    FormsModule.ɵmod = ɵɵdefineNgModule({ type: FormsModule });
     FormsModule.ngInjectorDef = ɵɵdefineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
     return FormsModule;
 }());
@@ -6958,7 +6958,7 @@ var ReactiveFormsModule = /** @class */ (function () {
                 }]
         };
     };
-    ReactiveFormsModule.ngModuleDef = ɵɵdefineNgModule({ type: ReactiveFormsModule });
+    ReactiveFormsModule.ɵmod = ɵɵdefineNgModule({ type: ReactiveFormsModule });
     ReactiveFormsModule.ngInjectorDef = ɵɵdefineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
     return ReactiveFormsModule;
 }());

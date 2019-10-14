@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.10+73.sha-f433d66.with-local-changes
+ * @license Angular v9.0.0-next.10+75.sha-fc93daf.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6879,7 +6879,7 @@
     var ɵInternalFormsSharedModule = /** @class */ (function () {
         function ɵInternalFormsSharedModule() {
         }
-        ɵInternalFormsSharedModule.ngModuleDef = i0.ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
+        ɵInternalFormsSharedModule.ɵmod = i0.ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
         ɵInternalFormsSharedModule.ngInjectorDef = i0.ɵɵdefineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
         return ɵInternalFormsSharedModule;
     }());
@@ -7083,7 +7083,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-next.10+73.sha-f433d66.with-local-changes');
+    var VERSION = new i0.Version('9.0.0-next.10+75.sha-fc93daf.with-local-changes');
 
     /**
      * @license
@@ -7103,7 +7103,7 @@
     var FormsModule = /** @class */ (function () {
         function FormsModule() {
         }
-        FormsModule.ngModuleDef = i0.ɵɵdefineNgModule({ type: FormsModule });
+        FormsModule.ɵmod = i0.ɵɵdefineNgModule({ type: FormsModule });
         FormsModule.ngInjectorDef = i0.ɵɵdefineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
         return FormsModule;
     }());
@@ -7145,7 +7145,7 @@
                     }]
             };
         };
-        ReactiveFormsModule.ngModuleDef = i0.ɵɵdefineNgModule({ type: ReactiveFormsModule });
+        ReactiveFormsModule.ɵmod = i0.ɵɵdefineNgModule({ type: ReactiveFormsModule });
         ReactiveFormsModule.ngInjectorDef = i0.ɵɵdefineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
         return ReactiveFormsModule;
     }());

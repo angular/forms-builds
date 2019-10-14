@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.10+73.sha-f433d66.with-local-changes
+ * @license Angular v9.0.0-next.10+75.sha-fc93daf.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -9509,7 +9509,7 @@ class ɵInternalFormsSharedModule {
                 exports: SHARED_FORM_DIRECTIVES,
             },] },
 ];
-/** @nocollapse */ ɵInternalFormsSharedModule.ngModuleDef = ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
+/** @nocollapse */ ɵInternalFormsSharedModule.ɵmod = ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
 /** @nocollapse */ ɵInternalFormsSharedModule.ngInjectorDef = ɵɵdefineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
 /*@__PURE__*/ ɵɵsetNgModuleScope(ɵInternalFormsSharedModule, { declarations: [ɵNgNoValidate,
         NgSelectOption,
@@ -9742,7 +9742,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.10+73.sha-f433d66.with-local-changes');
+const VERSION = new Version('9.0.0-next.10+75.sha-fc93daf.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
@@ -9772,7 +9772,7 @@ FormsModule.decorators = [
                 exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/** @nocollapse */ FormsModule.ngModuleDef = ɵɵdefineNgModule({ type: FormsModule });
+/** @nocollapse */ FormsModule.ɵmod = ɵɵdefineNgModule({ type: FormsModule });
 /** @nocollapse */ FormsModule.ngInjectorDef = ɵɵdefineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
 /*@__PURE__*/ ɵɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] });
 /*@__PURE__*/ ɵsetClassMetadata(FormsModule, [{
@@ -9819,7 +9819,7 @@ ReactiveFormsModule.decorators = [
                 exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] },
 ];
-/** @nocollapse */ ReactiveFormsModule.ngModuleDef = ɵɵdefineNgModule({ type: ReactiveFormsModule });
+/** @nocollapse */ ReactiveFormsModule.ɵmod = ɵɵdefineNgModule({ type: ReactiveFormsModule });
 /** @nocollapse */ ReactiveFormsModule.ngInjectorDef = ɵɵdefineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
 /*@__PURE__*/ ɵɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
 /*@__PURE__*/ ɵsetClassMetadata(ReactiveFormsModule, [{

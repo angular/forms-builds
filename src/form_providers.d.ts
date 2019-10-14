@@ -24,7 +24,7 @@ import * as i8 from "./directives/reactive_directives/form_group_name";
  * @publicApi
  */
 export declare class FormsModule {
-    static ngModuleDef: i0.ɵɵNgModuleDefWithMeta<FormsModule, [typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm], never, [typeof i4.ɵInternalFormsSharedModule, typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm]>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<FormsModule, [typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm], never, [typeof i4.ɵInternalFormsSharedModule, typeof i1.NgModel, typeof i2.NgModelGroup, typeof i3.NgForm]>;
     static ngInjectorDef: i0.ɵɵInjectorDef<FormsModule>;
 }
 /**
@@ -48,6 +48,6 @@ export declare class ReactiveFormsModule {
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnNgModelWithFormControl: 'never' | 'once' | 'always';
     }): ModuleWithProviders<ReactiveFormsModule>;
-    static ngModuleDef: i0.ɵɵNgModuleDefWithMeta<ReactiveFormsModule, [typeof i5.FormControlDirective, typeof i6.FormGroupDirective, typeof i7.FormControlName, typeof i8.FormGroupName, typeof i8.FormArrayName], never, [typeof i4.ɵInternalFormsSharedModule, typeof i5.FormControlDirective, typeof i6.FormGroupDirective, typeof i7.FormControlName, typeof i8.FormGroupName, typeof i8.FormArrayName]>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<ReactiveFormsModule, [typeof i5.FormControlDirective, typeof i6.FormGroupDirective, typeof i7.FormControlName, typeof i8.FormGroupName, typeof i8.FormArrayName], never, [typeof i4.ɵInternalFormsSharedModule, typeof i5.FormControlDirective, typeof i6.FormGroupDirective, typeof i7.FormControlName, typeof i8.FormGroupName, typeof i8.FormArrayName]>;
     static ngInjectorDef: i0.ɵɵInjectorDef<ReactiveFormsModule>;
 }
