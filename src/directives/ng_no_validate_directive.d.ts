@@ -17,7 +17,7 @@ import * as i0 from "@angular/core";
  * @ngModule FormsModule
  */
 export declare class ɵNgNoValidate {
-    static ngFactoryDef: i0.ɵɵFactoryDef<ɵNgNoValidate>;
+    static ɵfac: i0.ɵɵFactoryDef<ɵNgNoValidate>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<ɵNgNoValidate, "form:not([ngNoForm]):not([ngNativeValidate])", never, {}, {}, never>;
 }
 export { ɵNgNoValidate as NgNoValidate };

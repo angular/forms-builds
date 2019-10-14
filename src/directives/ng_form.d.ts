@@ -220,6 +220,6 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
      */
     resetForm(value?: any): void;
     private _setUpdateStrategy;
-    static ngFactoryDef: i0.ɵɵFactoryDef<NgForm>;
+    static ɵfac: i0.ɵɵFactoryDef<NgForm>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgForm, "form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]", ["ngForm"], { 'options': "ngFormOptions" }, { 'ngSubmit': "ngSubmit" }, never>;
 }

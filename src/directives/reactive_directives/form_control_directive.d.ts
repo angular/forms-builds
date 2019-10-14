@@ -163,6 +163,6 @@ export declare class FormControlDirective extends NgControl implements OnChanges
      */
     viewToModelUpdate(newValue: any): void;
     private _isControlChanged;
-    static ngFactoryDef: i0.ɵɵFactoryDef<FormControlDirective>;
+    static ɵfac: i0.ɵɵFactoryDef<FormControlDirective>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormControlDirective, "[formControl]", ["ngForm"], { 'form': "formControl", 'isDisabled': "disabled", 'model': "ngModel" }, { 'update': "ngModelChange" }, never>;
 }

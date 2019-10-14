@@ -44,6 +44,6 @@ export declare class NgModelGroup extends AbstractFormGroupDirective implements 
      */
     name: string;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
-    static ngFactoryDef: i0.ɵɵFactoryDef<NgModelGroup>;
+    static ɵfac: i0.ɵɵFactoryDef<NgModelGroup>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgModelGroup, "[ngModelGroup]", ["ngModelGroup"], { 'name': "ngModelGroup" }, {}, never>;
 }

@@ -182,6 +182,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     readonly asyncValidator: AsyncValidatorFn;
     private _checkParentType;
     private _setUpControl;
-    static ngFactoryDef: i0.ɵɵFactoryDef<FormControlName>;
+    static ɵfac: i0.ɵɵFactoryDef<FormControlName>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormControlName, "[formControlName]", never, { 'name': "formControlName", 'isDisabled': "disabled", 'model': "ngModel" }, { 'update': "ngModelChange" }, never>;
 }

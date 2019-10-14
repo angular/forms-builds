@@ -32,7 +32,7 @@ export declare class RadioControlRegistry {
      */
     select(accessor: RadioControlValueAccessor): void;
     private _isSameGroup;
-    static ngFactoryDef: i0.ɵɵFactoryDef<RadioControlRegistry>;
+    static ɵfac: i0.ɵɵFactoryDef<RadioControlRegistry>;
     static ngInjectableDef: i0.ɵɵInjectableDef<RadioControlRegistry>;
 }
 /**
@@ -132,6 +132,6 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     setDisabledState(isDisabled: boolean): void;
     private _checkName;
     private _throwNameError;
-    static ngFactoryDef: i0.ɵɵFactoryDef<RadioControlValueAccessor>;
+    static ɵfac: i0.ɵɵFactoryDef<RadioControlValueAccessor>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<RadioControlValueAccessor, "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", never, { 'name': "name", 'formControlName': "formControlName", 'value': "value" }, {}, never>;
 }
