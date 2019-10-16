@@ -33,7 +33,7 @@ export declare class RadioControlRegistry {
     select(accessor: RadioControlValueAccessor): void;
     private _isSameGroup;
     static ɵfac: i0.ɵɵFactoryDef<RadioControlRegistry>;
-    static ngInjectableDef: i0.ɵɵInjectableDef<RadioControlRegistry>;
+    static ɵprov: i0.ɵɵInjectableDef<RadioControlRegistry>;
 }
 /**
  * @description

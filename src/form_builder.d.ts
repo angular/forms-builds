@@ -80,5 +80,5 @@ export declare class FormBuilder {
      */
     array(controlsConfig: any[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray;
     static ɵfac: i0.ɵɵFactoryDef<FormBuilder>;
-    static ngInjectableDef: i0.ɵɵInjectableDef<FormBuilder>;
+    static ɵprov: i0.ɵɵInjectableDef<FormBuilder>;
 }
