@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.11+59.sha-117ca7c.with-local-changes
+ * @license Angular v9.0.0-next.11+62.sha-a0d16dc.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -944,7 +944,9 @@ class NgControlStatus extends AbstractControlStatus {
     /**
      * @param {?} cd
      */
-    constructor(cd) { super(cd); }
+    constructor(cd) {
+        super(cd);
+    }
 }
 NgControlStatus.decorators = [
     { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] }
@@ -968,7 +970,9 @@ class NgControlStatusGroup extends AbstractControlStatus {
     /**
      * @param {?} cd
      */
-    constructor(cd) { super(cd); }
+    constructor(cd) {
+        super(cd);
+    }
 }
 NgControlStatusGroup.decorators = [
     { type: Directive, args: [{
@@ -1503,7 +1507,7 @@ function _mergeErrors(arrayOfErrors) {
      * @return {?}
      */
     (res, errors) => {
-        return errors != null ? Object.assign({}, (/** @type {?} */ (res)), errors) : (/** @type {?} */ (res));
+        return errors != null ? Object.assign(Object.assign({}, (/** @type {?} */ (res))), errors) : (/** @type {?} */ (res));
     }), {});
     return Object.keys(res).length === 0 ? null : res;
 }
@@ -3957,13 +3961,13 @@ class AbstractControl {
          * @param {?} control
          * @return {?}
          */
-        (control) => { control.disable(Object.assign({}, opts, { onlySelf: true })); }));
+        (control) => { control.disable(Object.assign(Object.assign({}, opts), { onlySelf: true })); }));
         this._updateValue();
         if (opts.emitEvent !== false) {
             ((/** @type {?} */ (this.valueChanges))).emit(this.value);
             ((/** @type {?} */ (this.statusChanges))).emit(this.status);
         }
-        this._updateAncestors(Object.assign({}, opts, { skipPristineCheck }));
+        this._updateAncestors(Object.assign(Object.assign({}, opts), { skipPristineCheck }));
         this._onDisabledChange.forEach((/**
          * @param {?} changeFn
          * @return {?}
@@ -3999,9 +4003,9 @@ class AbstractControl {
          * @param {?} control
          * @return {?}
          */
-        (control) => { control.enable(Object.assign({}, opts, { onlySelf: true })); }));
+        (control) => { control.enable(Object.assign(Object.assign({}, opts), { onlySelf: true })); }));
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-        this._updateAncestors(Object.assign({}, opts, { skipPristineCheck }));
+        this._updateAncestors(Object.assign(Object.assign({}, opts), { skipPristineCheck }));
         this._onDisabledChange.forEach((/**
          * @param {?} changeFn
          * @return {?}
@@ -8972,7 +8976,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.11+59.sha-117ca7c.with-local-changes');
+const VERSION = new Version('9.0.0-next.11+62.sha-a0d16dc.with-local-changes');
 
 /**
  * @fileoverview added by tsickle

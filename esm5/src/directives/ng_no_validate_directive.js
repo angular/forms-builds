@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Directive } from '@angular/core';
 /**
  * @description
@@ -27,7 +27,7 @@ import { Directive } from '@angular/core';
 var ɵNgNoValidate = /** @class */ (function () {
     function ɵNgNoValidate() {
     }
-    ɵNgNoValidate = tslib_1.__decorate([
+    ɵNgNoValidate = __decorate([
         Directive({
             selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
             host: { 'novalidate': '' },

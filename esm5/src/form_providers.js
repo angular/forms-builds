@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { NgModule } from '@angular/core';
 import { InternalFormsSharedModule, NG_MODEL_WITH_FORM_CONTROL_WARNING, REACTIVE_DRIVEN_DIRECTIVES, TEMPLATE_DRIVEN_DIRECTIVES } from './directives';
 import { RadioControlRegistry } from './directives/radio_control_value_accessor';
@@ -21,7 +21,7 @@ import { FormBuilder } from './form_builder';
 var FormsModule = /** @class */ (function () {
     function FormsModule() {
     }
-    FormsModule = tslib_1.__decorate([
+    FormsModule = __decorate([
         NgModule({
             declarations: TEMPLATE_DRIVEN_DIRECTIVES,
             providers: [RadioControlRegistry],
@@ -62,7 +62,7 @@ var ReactiveFormsModule = /** @class */ (function () {
         };
     };
     var ReactiveFormsModule_1;
-    ReactiveFormsModule = ReactiveFormsModule_1 = tslib_1.__decorate([
+    ReactiveFormsModule = ReactiveFormsModule_1 = __decorate([
         NgModule({
             declarations: [REACTIVE_DRIVEN_DIRECTIVES],
             providers: [FormBuilder, RadioControlRegistry],
