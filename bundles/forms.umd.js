@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.11+59.sha-117ca7c.with-local-changes
+ * @license Angular v9.0.0-next.11+62.sha-a0d16dc.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -315,8 +315,10 @@
         for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
             t[p] = s[p];
         if (s != null && typeof Object.getOwnPropertySymbols === "function")
-            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-                t[p[i]] = s[p[i]];
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+                if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                    t[p[i]] = s[p[i]];
+            }
         return t;
     }
 
@@ -409,6 +411,14 @@
             ar = ar.concat(__read(arguments[i]));
         return ar;
     }
+
+    function __spreadArrays() {
+        for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+        for (var r = Array(s), k = 0, i = 0; i < il; i++)
+            for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+                r[k] = a[j];
+        return r;
+    };
 
     function __await(v) {
         return this instanceof __await ? (this.v = v, this) : new __await(v);
@@ -1396,7 +1406,7 @@
     }
     function _mergeErrors(arrayOfErrors) {
         var res = arrayOfErrors.reduce(function (res, errors) {
-            return errors != null ? __assign({}, res, errors) : res;
+            return errors != null ? __assign(__assign({}, res), errors) : res;
         }, {});
         return Object.keys(res).length === 0 ? null : res;
     }
@@ -3057,13 +3067,13 @@
             var skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
             this.status = DISABLED;
             this.errors = null;
-            this._forEachChild(function (control) { control.disable(__assign({}, opts, { onlySelf: true })); });
+            this._forEachChild(function (control) { control.disable(__assign(__assign({}, opts), { onlySelf: true })); });
             this._updateValue();
             if (opts.emitEvent !== false) {
                 this.valueChanges.emit(this.value);
                 this.statusChanges.emit(this.status);
             }
-            this._updateAncestors(__assign({}, opts, { skipPristineCheck: skipPristineCheck }));
+            this._updateAncestors(__assign(__assign({}, opts), { skipPristineCheck: skipPristineCheck }));
             this._onDisabledChange.forEach(function (changeFn) { return changeFn(true); });
         };
         /**
@@ -3090,9 +3100,9 @@
             // parent's dirtiness based on the children.
             var skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
             this.status = VALID;
-            this._forEachChild(function (control) { control.enable(__assign({}, opts, { onlySelf: true })); });
+            this._forEachChild(function (control) { control.enable(__assign(__assign({}, opts), { onlySelf: true })); });
             this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-            this._updateAncestors(__assign({}, opts, { skipPristineCheck: skipPristineCheck }));
+            this._updateAncestors(__assign(__assign({}, opts), { skipPristineCheck: skipPristineCheck }));
             this._onDisabledChange.forEach(function (changeFn) { return changeFn(false); });
         };
         AbstractControl.prototype._updateAncestors = function (opts) {
@@ -7083,7 +7093,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-next.11+59.sha-117ca7c.with-local-changes');
+    var VERSION = new i0.Version('9.0.0-next.11+62.sha-a0d16dc.with-local-changes');
 
     /**
      * @license
