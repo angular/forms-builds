@@ -1,5 +1,5 @@
 /**
- * @license Angular v8.2.11+11.sha-88869a2.with-local-changes
+ * @license Angular v8.2.11+13.sha-3f3e1bf.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3777,7 +3777,7 @@
          * ```
          *
          * @throws When strict checks fail, such as setting the value of a control
-         * that doesn't exist or if you excluding the value of a control.
+         * that doesn't exist or if you exclude a value of a control that does exist.
          *
          * @param value The new value for the control that matches the structure of the group.
          * @param options Configuration options that determine how the control propagates changes
@@ -6941,7 +6941,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('8.2.11+11.sha-88869a2.with-local-changes');
+    var VERSION = new core.Version('8.2.11+13.sha-3f3e1bf.with-local-changes');
 
     /**
      * @license
