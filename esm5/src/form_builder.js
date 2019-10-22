@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from './model';
 function isAbstractControlOptions(options) {
@@ -140,7 +140,7 @@ var FormBuilder = /** @class */ (function () {
             return this.control(controlConfig);
         }
     };
-    FormBuilder = tslib_1.__decorate([
+    FormBuilder = __decorate([
         Injectable()
     ], FormBuilder);
     return FormBuilder;

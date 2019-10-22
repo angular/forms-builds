@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.11+24.sha-20be755.with-local-changes
+ * @license Angular v9.0.0-next.12+50.sha-dfff5fe.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1174,7 +1174,7 @@ function _executeAsyncValidators(control, validators) {
 }
 function _mergeErrors(arrayOfErrors) {
     var res = arrayOfErrors.reduce(function (res, errors) {
-        return errors != null ? __assign({}, res, errors) : res;
+        return errors != null ? __assign(__assign({}, res), errors) : res;
     }, {});
     return Object.keys(res).length === 0 ? null : res;
 }
@@ -2833,13 +2833,13 @@ var AbstractControl = /** @class */ (function () {
         var skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
         this.status = DISABLED;
         this.errors = null;
-        this._forEachChild(function (control) { control.disable(__assign({}, opts, { onlySelf: true })); });
+        this._forEachChild(function (control) { control.disable(__assign(__assign({}, opts), { onlySelf: true })); });
         this._updateValue();
         if (opts.emitEvent !== false) {
             this.valueChanges.emit(this.value);
             this.statusChanges.emit(this.status);
         }
-        this._updateAncestors(__assign({}, opts, { skipPristineCheck: skipPristineCheck }));
+        this._updateAncestors(__assign(__assign({}, opts), { skipPristineCheck: skipPristineCheck }));
         this._onDisabledChange.forEach(function (changeFn) { return changeFn(true); });
     };
     /**
@@ -2866,9 +2866,9 @@ var AbstractControl = /** @class */ (function () {
         // parent's dirtiness based on the children.
         var skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
         this.status = VALID;
-        this._forEachChild(function (control) { control.enable(__assign({}, opts, { onlySelf: true })); });
+        this._forEachChild(function (control) { control.enable(__assign(__assign({}, opts), { onlySelf: true })); });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-        this._updateAncestors(__assign({}, opts, { skipPristineCheck: skipPristineCheck }));
+        this._updateAncestors(__assign(__assign({}, opts), { skipPristineCheck: skipPristineCheck }));
         this._onDisabledChange.forEach(function (changeFn) { return changeFn(false); });
     };
     AbstractControl.prototype._updateAncestors = function (opts) {
@@ -3590,7 +3590,7 @@ var FormGroup = /** @class */ (function (_super) {
      * ```
      *
      * @throws When strict checks fail, such as setting the value of a control
-     * that doesn't exist or if you excluding the value of a control.
+     * that doesn't exist or if you exclude a value of a control that does exist.
      *
      * @param value The new value for the control that matches the structure of the group.
      * @param options Configuration options that determine how the control propagates changes
@@ -6713,7 +6713,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-next.11+24.sha-20be755.with-local-changes');
+var VERSION = new Version('9.0.0-next.12+50.sha-dfff5fe.with-local-changes');
 
 /**
  * @license

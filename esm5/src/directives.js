@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { NgModule } from '@angular/core';
 import { CheckboxControlValueAccessor } from './directives/checkbox_value_accessor';
 import { DefaultValueAccessor } from './directives/default_value_accessor';
@@ -68,7 +68,7 @@ export var REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirectiv
 var ɵInternalFormsSharedModule = /** @class */ (function () {
     function ɵInternalFormsSharedModule() {
     }
-    ɵInternalFormsSharedModule = tslib_1.__decorate([
+    ɵInternalFormsSharedModule = __decorate([
         NgModule({
             declarations: SHARED_FORM_DIRECTIVES,
             exports: SHARED_FORM_DIRECTIVES,

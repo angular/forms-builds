@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.11+24.sha-20be755.with-local-changes
+ * @license Angular v9.0.0-next.12+50.sha-dfff5fe.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2328,7 +2328,7 @@ export declare class FormGroup extends AbstractControl {
      * ```
      *
      * @throws When strict checks fail, such as setting the value of a control
-     * that doesn't exist or if you excluding the value of a control.
+     * that doesn't exist or if you exclude a value of a control that does exist.
      *
      * @param value The new value for the control that matches the structure of the group.
      * @param options Configuration options that determine how the control propagates changes
