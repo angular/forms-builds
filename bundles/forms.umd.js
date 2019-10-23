@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.12+51.sha-398ff1e.with-local-changes
+ * @license Angular v9.0.0-next.12+54.sha-383457f.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5297,7 +5297,8 @@
      * ### Use with ngModel
      *
      * Support for using the `ngModel` input property and `ngModelChange` event with reactive
-     * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+     * form directives has been deprecated in Angular v6 and will be removed in a future version
+     * of Angular.
      *
      * Now deprecated:
      *
@@ -5323,9 +5324,9 @@
      * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
      * the class removes the convenience of defining forms in the template.
      *
-     * To update your code before v7, you'll want to decide whether to stick with reactive form
-     * directives (and get/set values using reactive forms patterns) or switch over to
-     * template-driven directives.
+     * To update your code before support is removed, you'll want to decide whether to stick
+     * with reactive form directives (and get/set values using reactive forms patterns) or
+     * switch over to template-driven directives.
      *
      * After (choice 1 - use reactive forms):
      *
@@ -6033,7 +6034,8 @@
      * ### Use with ngModel
      *
      * Support for using the `ngModel` input property and `ngModelChange` event with reactive
-     * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+     * form directives has been deprecated in Angular v6 and will be removed in a future
+     * version of Angular.
      *
      * Now deprecated:
      *
@@ -6061,8 +6063,8 @@
      * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
      * the class removes the convenience of defining forms in the template.
      *
-     * To update your code before v7, you'll want to decide whether to stick with reactive form
-     * directives (and get/set values using reactive forms patterns) or switch over to
+     * To update your code before support is removed, you'll want to decide whether to stick with
+     * reactive form directives (and get/set values using reactive forms patterns) or switch over to
      * template-driven directives.
      *
      * After (choice 1 - use reactive forms):
@@ -6910,7 +6912,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('9.0.0-next.12+51.sha-398ff1e.with-local-changes');
+    var VERSION = new core.Version('9.0.0-next.12+54.sha-383457f.with-local-changes');
 
     /**
      * @license
