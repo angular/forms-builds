@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.13+53.sha-3505692.with-local-changes
+ * @license Angular v9.0.0-next.13+54.sha-14c4b1b.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4785,13 +4785,6 @@
             }] });
 
     /**
-     * @license
-     * Copyright Google Inc. All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    /**
      * @description
      * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
      *
@@ -4872,8 +4865,11 @@
         });
         /** @internal */
         AbstractFormGroupDirective.prototype._checkParentType = function () { };
+        AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
+        AbstractFormGroupDirective.ɵdir = i0.ɵɵdefineDirective({ type: AbstractFormGroupDirective, selectors: [], features: [i0.ɵɵInheritDefinitionFeature] });
         return AbstractFormGroupDirective;
     }(ControlContainer));
+    var ɵAbstractFormGroupDirective_BaseFactory = i0.ɵɵgetInheritedFactory(AbstractFormGroupDirective);
 
     /**
      * @license
@@ -7095,7 +7091,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-next.13+53.sha-3505692.with-local-changes');
+    var VERSION = new i0.Version('9.0.0-next.13+54.sha-14c4b1b.with-local-changes');
 
     /**
      * @license

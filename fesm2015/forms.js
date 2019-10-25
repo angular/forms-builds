@@ -1,10 +1,10 @@
 /**
- * @license Angular v9.0.0-next.13+53.sha-3505692.with-local-changes
+ * @license Angular v9.0.0-next.13+54.sha-14c4b1b.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵɵdirectiveInject, ɵɵdefineDirective, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵɵallocHostVars, ɵɵclassProp, ɵɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, Injectable, ɵɵdefineInjectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, ɵɵNgOnChangesFeature, ɵɵelementHostAttrs, ɵɵattribute, ɵɵgetInheritedFactory, NgModule, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, ɵɵdirectiveInject, ɵɵdefineDirective, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Optional, Inject, Self, ɵɵallocHostVars, ɵɵclassProp, ɵɵInheritDefinitionFeature, ɵisPromise, ɵisObservable, Injectable, ɵɵdefineInjectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, ɵɵgetInheritedFactory, SkipSelf, Output, ɵɵNgOnChangesFeature, ɵɵelementHostAttrs, ɵɵattribute, NgModule, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/common';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6519,6 +6519,13 @@ if (false) {
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
  * \@description
  * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
  *
@@ -6586,6 +6593,9 @@ class AbstractFormGroupDirective extends ControlContainer {
      */
     _checkParentType() { }
 }
+/** @nocollapse */ AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
+/** @nocollapse */ AbstractFormGroupDirective.ɵdir = ɵɵdefineDirective({ type: AbstractFormGroupDirective, selectors: [], features: [ɵɵInheritDefinitionFeature] });
+const ɵAbstractFormGroupDirective_BaseFactory = ɵɵgetInheritedFactory(AbstractFormGroupDirective);
 if (false) {
     /**
      * \@description
@@ -9748,7 +9758,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.13+53.sha-3505692.with-local-changes');
+const VERSION = new Version('9.0.0-next.13+54.sha-14c4b1b.with-local-changes');
 
 /**
  * @fileoverview added by tsickle

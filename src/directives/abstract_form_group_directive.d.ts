@@ -10,6 +10,7 @@ import { FormGroup } from '../model';
 import { ControlContainer } from './control_container';
 import { Form } from './form_interface';
 import { AsyncValidatorFn, ValidatorFn } from './validators';
+import * as i0 from "@angular/core";
 /**
  * @description
  * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
@@ -54,4 +55,6 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * The async validators registered with this group.
      */
     readonly asyncValidator: AsyncValidatorFn | null;
+    static ɵfac: i0.ɵɵFactoryDef<AbstractFormGroupDirective>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<AbstractFormGroupDirective, never, never, {}, {}, never>;
 }
