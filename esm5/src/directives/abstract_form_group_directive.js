@@ -84,7 +84,7 @@ var AbstractFormGroupDirective = /** @class */ (function (_super) {
     /** @internal */
     AbstractFormGroupDirective.prototype._checkParentType = function () { };
     AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
-    AbstractFormGroupDirective.ɵdir = i0.ɵɵdefineDirective({ type: AbstractFormGroupDirective, selectors: [], features: [i0.ɵɵInheritDefinitionFeature] });
+    AbstractFormGroupDirective.ɵdir = i0.ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [i0.ɵɵInheritDefinitionFeature] });
     return AbstractFormGroupDirective;
 }(ControlContainer));
 export { AbstractFormGroupDirective };

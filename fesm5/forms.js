@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.14+24.sha-d1246a1.with-local-changes
+ * @license Angular v9.0.0-next.14+25.sha-c3e9356.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4669,7 +4669,7 @@ var AbstractFormGroupDirective = /** @class */ (function (_super) {
     /** @internal */
     AbstractFormGroupDirective.prototype._checkParentType = function () { };
     AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
-    AbstractFormGroupDirective.ɵdir = ɵɵdefineDirective({ type: AbstractFormGroupDirective, selectors: [], features: [ɵɵInheritDefinitionFeature] });
+    AbstractFormGroupDirective.ɵdir = ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [ɵɵInheritDefinitionFeature] });
     return AbstractFormGroupDirective;
 }(ControlContainer));
 var ɵAbstractFormGroupDirective_BaseFactory = ɵɵgetInheritedFactory(AbstractFormGroupDirective);
@@ -6894,7 +6894,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-next.14+24.sha-d1246a1.with-local-changes');
+var VERSION = new Version('9.0.0-next.14+25.sha-c3e9356.with-local-changes');
 
 /**
  * @license

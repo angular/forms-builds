@@ -81,7 +81,7 @@ export class AbstractFormGroupDirective extends ControlContainer {
     _checkParentType() { }
 }
 /** @nocollapse */ AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
-/** @nocollapse */ AbstractFormGroupDirective.ɵdir = i0.ɵɵdefineDirective({ type: AbstractFormGroupDirective, selectors: [], features: [i0.ɵɵInheritDefinitionFeature] });
+/** @nocollapse */ AbstractFormGroupDirective.ɵdir = i0.ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [i0.ɵɵInheritDefinitionFeature] });
 const ɵAbstractFormGroupDirective_BaseFactory = i0.ɵɵgetInheritedFactory(AbstractFormGroupDirective);
 if (false) {
     /**
