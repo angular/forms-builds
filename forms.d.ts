@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.12+25.sha-083d4b8.with-local-changes
+ * @license Angular v9.0.0-rc.1+58.sha-dbd55fc.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1872,7 +1872,8 @@ export declare class FormControl extends AbstractControl {
  * ### Use with ngModel
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
- * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+ * form directives has been deprecated in Angular v6 and will be removed in a future version
+ * of Angular.
  *
  * Now deprecated:
  *
@@ -1898,9 +1899,9 @@ export declare class FormControl extends AbstractControl {
  * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
  * the class removes the convenience of defining forms in the template.
  *
- * To update your code before v7, you'll want to decide whether to stick with reactive form
- * directives (and get/set values using reactive forms patterns) or switch over to
- * template-driven directives.
+ * To update your code before support is removed, you'll want to decide whether to stick
+ * with reactive form directives (and get/set values using reactive forms patterns) or
+ * switch over to template-driven directives.
  *
  * After (choice 1 - use reactive forms):
  *
@@ -2028,7 +2029,8 @@ export declare class FormControlDirective extends NgControl implements OnChanges
  * ### Use with ngModel
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
- * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+ * form directives has been deprecated in Angular v6 and will be removed in a future
+ * version of Angular.
  *
  * Now deprecated:
  *
@@ -2047,7 +2049,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
  * an input/output property named `ngModel` on the reactive form directive that simply
  * approximates (some of) its behavior. Specifically, it allows getting/setting the value
  * and intercepting value events. However, some of `ngModel`'s other features - like
- * delaying updates with`ngModelOptions` or exporting the directive - simply don't work,
+ * delaying updates with `ngModelOptions` or exporting the directive - simply don't work,
  * which has understandably caused some confusion.
  *
  * In addition, this pattern mixes template-driven and reactive forms strategies, which
@@ -2056,8 +2058,8 @@ export declare class FormControlDirective extends NgControl implements OnChanges
  * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
  * the class removes the convenience of defining forms in the template.
  *
- * To update your code before v7, you'll want to decide whether to stick with reactive form
- * directives (and get/set values using reactive forms patterns) or switch over to
+ * To update your code before support is removed, you'll want to decide whether to stick with
+ * reactive form directives (and get/set values using reactive forms patterns) or switch over to
  * template-driven directives.
  *
  * After (choice 1 - use reactive forms):
@@ -2328,7 +2330,7 @@ export declare class FormGroup extends AbstractControl {
      * ```
      *
      * @throws When strict checks fail, such as setting the value of a control
-     * that doesn't exist or if you excluding the value of a control.
+     * that doesn't exist or if you exclude a value of a control that does exist.
      *
      * @param value The new value for the control that matches the structure of the group.
      * @param options Configuration options that determine how the control propagates changes

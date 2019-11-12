@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.12+25.sha-083d4b8.with-local-changes
+ * @license Angular v9.0.0-rc.1+58.sha-dbd55fc.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -8,7 +8,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('rxjs'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', '@angular/common', 'rxjs', 'rxjs/operators'], factory) :
     (global = global || self, factory((global.ng = global.ng || {}, global.ng.forms = {}), global.ng.core, global.ng.common, global.rxjs, global.rxjs.operators));
-}(this, function (exports, core, common, rxjs, operators) { 'use strict';
+}(this, (function (exports, core, common, rxjs, operators) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3787,7 +3787,7 @@
          * ```
          *
          * @throws When strict checks fail, such as setting the value of a control
-         * that doesn't exist or if you excluding the value of a control.
+         * that doesn't exist or if you exclude a value of a control that does exist.
          *
          * @param value The new value for the control that matches the structure of the group.
          * @param options Configuration options that determine how the control propagates changes
@@ -5297,7 +5297,8 @@
      * ### Use with ngModel
      *
      * Support for using the `ngModel` input property and `ngModelChange` event with reactive
-     * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+     * form directives has been deprecated in Angular v6 and will be removed in a future version
+     * of Angular.
      *
      * Now deprecated:
      *
@@ -5323,9 +5324,9 @@
      * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
      * the class removes the convenience of defining forms in the template.
      *
-     * To update your code before v7, you'll want to decide whether to stick with reactive form
-     * directives (and get/set values using reactive forms patterns) or switch over to
-     * template-driven directives.
+     * To update your code before support is removed, you'll want to decide whether to stick
+     * with reactive form directives (and get/set values using reactive forms patterns) or
+     * switch over to template-driven directives.
      *
      * After (choice 1 - use reactive forms):
      *
@@ -6033,7 +6034,8 @@
      * ### Use with ngModel
      *
      * Support for using the `ngModel` input property and `ngModelChange` event with reactive
-     * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+     * form directives has been deprecated in Angular v6 and will be removed in a future
+     * version of Angular.
      *
      * Now deprecated:
      *
@@ -6052,7 +6054,7 @@
      * an input/output property named `ngModel` on the reactive form directive that simply
      * approximates (some of) its behavior. Specifically, it allows getting/setting the value
      * and intercepting value events. However, some of `ngModel`'s other features - like
-     * delaying updates with`ngModelOptions` or exporting the directive - simply don't work,
+     * delaying updates with `ngModelOptions` or exporting the directive - simply don't work,
      * which has understandably caused some confusion.
      *
      * In addition, this pattern mixes template-driven and reactive forms strategies, which
@@ -6061,8 +6063,8 @@
      * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
      * the class removes the convenience of defining forms in the template.
      *
-     * To update your code before v7, you'll want to decide whether to stick with reactive form
-     * directives (and get/set values using reactive forms patterns) or switch over to
+     * To update your code before support is removed, you'll want to decide whether to stick with
+     * reactive form directives (and get/set values using reactive forms patterns) or switch over to
      * template-driven directives.
      *
      * After (choice 1 - use reactive forms):
@@ -6910,7 +6912,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('9.0.0-next.12+25.sha-083d4b8.with-local-changes');
+    var VERSION = new core.Version('9.0.0-rc.1+58.sha-dbd55fc.with-local-changes');
 
     /**
      * @license
@@ -7009,11 +7011,59 @@
      * Generated bundle index. Do not edit.
      */
 
-    exports.ɵangular_packages_forms_forms_d = ɵInternalFormsSharedModule;
+    exports.AbstractControl = AbstractControl;
+    exports.AbstractControlDirective = AbstractControlDirective;
+    exports.AbstractFormGroupDirective = AbstractFormGroupDirective;
+    exports.COMPOSITION_BUFFER_MODE = COMPOSITION_BUFFER_MODE;
+    exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
+    exports.CheckboxRequiredValidator = CheckboxRequiredValidator;
+    exports.ControlContainer = ControlContainer;
+    exports.DefaultValueAccessor = DefaultValueAccessor;
+    exports.EmailValidator = EmailValidator;
+    exports.FormArray = FormArray;
+    exports.FormArrayName = FormArrayName;
+    exports.FormBuilder = FormBuilder;
+    exports.FormControl = FormControl;
+    exports.FormControlDirective = FormControlDirective;
+    exports.FormControlName = FormControlName;
+    exports.FormGroup = FormGroup;
+    exports.FormGroupDirective = FormGroupDirective;
+    exports.FormGroupName = FormGroupName;
+    exports.FormsModule = FormsModule;
+    exports.MaxLengthValidator = MaxLengthValidator;
+    exports.MinLengthValidator = MinLengthValidator;
+    exports.NG_ASYNC_VALIDATORS = NG_ASYNC_VALIDATORS;
+    exports.NG_VALIDATORS = NG_VALIDATORS;
+    exports.NG_VALUE_ACCESSOR = NG_VALUE_ACCESSOR;
+    exports.NgControl = NgControl;
+    exports.NgControlStatus = NgControlStatus;
+    exports.NgControlStatusGroup = NgControlStatusGroup;
+    exports.NgForm = NgForm;
+    exports.NgModel = NgModel;
+    exports.NgModelGroup = NgModelGroup;
+    exports.NgSelectOption = NgSelectOption;
+    exports.NumberValueAccessor = NumberValueAccessor;
+    exports.PatternValidator = PatternValidator;
+    exports.RadioControlValueAccessor = RadioControlValueAccessor;
+    exports.RangeValueAccessor = RangeValueAccessor;
+    exports.ReactiveFormsModule = ReactiveFormsModule;
+    exports.RequiredValidator = RequiredValidator;
+    exports.SelectControlValueAccessor = SelectControlValueAccessor;
+    exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
+    exports.VERSION = VERSION;
+    exports.Validators = Validators;
     exports.ɵInternalFormsSharedModule = ɵInternalFormsSharedModule;
-    exports.ɵangular_packages_forms_forms_c = REACTIVE_DRIVEN_DIRECTIVES;
+    exports.ɵNgNoValidate = ɵNgNoValidate;
+    exports.ɵNgSelectMultipleOption = ɵNgSelectMultipleOption;
     exports.ɵangular_packages_forms_forms_a = SHARED_FORM_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_b = TEMPLATE_DRIVEN_DIRECTIVES;
+    exports.ɵangular_packages_forms_forms_ba = CHECKBOX_REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bb = EMAIL_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bc = MIN_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bd = MAX_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_be = PATTERN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_c = REACTIVE_DRIVEN_DIRECTIVES;
+    exports.ɵangular_packages_forms_forms_d = ɵInternalFormsSharedModule;
     exports.ɵangular_packages_forms_forms_e = CHECKBOX_VALUE_ACCESSOR;
     exports.ɵangular_packages_forms_forms_f = DEFAULT_VALUE_ACCESSOR;
     exports.ɵangular_packages_forms_forms_g = AbstractControlStatus;
@@ -7021,8 +7071,6 @@
     exports.ɵangular_packages_forms_forms_i = formDirectiveProvider;
     exports.ɵangular_packages_forms_forms_j = formControlBinding;
     exports.ɵangular_packages_forms_forms_k = modelGroupProvider;
-    exports.ɵangular_packages_forms_forms_y = ɵNgNoValidate;
-    exports.ɵNgNoValidate = ɵNgNoValidate;
     exports.ɵangular_packages_forms_forms_l = NUMBER_VALUE_ACCESSOR;
     exports.ɵangular_packages_forms_forms_m = RADIO_VALUE_ACCESSOR;
     exports.ɵangular_packages_forms_forms_n = RadioControlRegistry;
@@ -7031,61 +7079,15 @@
     exports.ɵangular_packages_forms_forms_q = formControlBinding$1;
     exports.ɵangular_packages_forms_forms_r = controlNameBinding;
     exports.ɵangular_packages_forms_forms_s = formDirectiveProvider$1;
-    exports.ɵangular_packages_forms_forms_u = formArrayNameProvider;
     exports.ɵangular_packages_forms_forms_t = formGroupNameProvider;
+    exports.ɵangular_packages_forms_forms_u = formArrayNameProvider;
     exports.ɵangular_packages_forms_forms_v = SELECT_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_x = ɵNgSelectMultipleOption;
-    exports.ɵNgSelectMultipleOption = ɵNgSelectMultipleOption;
     exports.ɵangular_packages_forms_forms_w = SELECT_MULTIPLE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_ba = CHECKBOX_REQUIRED_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bb = EMAIL_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bd = MAX_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bc = MIN_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_be = PATTERN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_x = ɵNgSelectMultipleOption;
+    exports.ɵangular_packages_forms_forms_y = ɵNgNoValidate;
     exports.ɵangular_packages_forms_forms_z = REQUIRED_VALIDATOR;
-    exports.AbstractControlDirective = AbstractControlDirective;
-    exports.AbstractFormGroupDirective = AbstractFormGroupDirective;
-    exports.CheckboxControlValueAccessor = CheckboxControlValueAccessor;
-    exports.ControlContainer = ControlContainer;
-    exports.NG_VALUE_ACCESSOR = NG_VALUE_ACCESSOR;
-    exports.COMPOSITION_BUFFER_MODE = COMPOSITION_BUFFER_MODE;
-    exports.DefaultValueAccessor = DefaultValueAccessor;
-    exports.NgControl = NgControl;
-    exports.NgControlStatus = NgControlStatus;
-    exports.NgControlStatusGroup = NgControlStatusGroup;
-    exports.NgForm = NgForm;
-    exports.NgModel = NgModel;
-    exports.NgModelGroup = NgModelGroup;
-    exports.NumberValueAccessor = NumberValueAccessor;
-    exports.RadioControlValueAccessor = RadioControlValueAccessor;
-    exports.RangeValueAccessor = RangeValueAccessor;
-    exports.FormControlDirective = FormControlDirective;
-    exports.FormControlName = FormControlName;
-    exports.FormGroupDirective = FormGroupDirective;
-    exports.FormArrayName = FormArrayName;
-    exports.FormGroupName = FormGroupName;
-    exports.NgSelectOption = NgSelectOption;
-    exports.SelectControlValueAccessor = SelectControlValueAccessor;
-    exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
-    exports.CheckboxRequiredValidator = CheckboxRequiredValidator;
-    exports.EmailValidator = EmailValidator;
-    exports.MaxLengthValidator = MaxLengthValidator;
-    exports.MinLengthValidator = MinLengthValidator;
-    exports.PatternValidator = PatternValidator;
-    exports.RequiredValidator = RequiredValidator;
-    exports.FormBuilder = FormBuilder;
-    exports.AbstractControl = AbstractControl;
-    exports.FormArray = FormArray;
-    exports.FormControl = FormControl;
-    exports.FormGroup = FormGroup;
-    exports.NG_ASYNC_VALIDATORS = NG_ASYNC_VALIDATORS;
-    exports.NG_VALIDATORS = NG_VALIDATORS;
-    exports.Validators = Validators;
-    exports.VERSION = VERSION;
-    exports.FormsModule = FormsModule;
-    exports.ReactiveFormsModule = ReactiveFormsModule;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=forms.umd.js.map

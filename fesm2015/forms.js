@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-next.12+25.sha-083d4b8.with-local-changes
+ * @license Angular v9.0.0-rc.1+58.sha-dbd55fc.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5030,7 +5030,7 @@ class FormGroup extends AbstractControl {
      * ```
      *
      * @throws When strict checks fail, such as setting the value of a control
-     * that doesn't exist or if you excluding the value of a control.
+     * that doesn't exist or if you exclude a value of a control that does exist.
      *
      * @param {?} value The new value for the control that matches the structure of the group.
      * @param {?=} options Configuration options that determine how the control propagates changes
@@ -6922,7 +6922,8 @@ const formControlBinding$1 = {
  * ### Use with ngModel
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
- * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+ * form directives has been deprecated in Angular v6 and will be removed in a future version
+ * of Angular.
  *
  * Now deprecated:
  *
@@ -6948,9 +6949,9 @@ const formControlBinding$1 = {
  * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
  * the class removes the convenience of defining forms in the template.
  *
- * To update your code before v7, you'll want to decide whether to stick with reactive form
- * directives (and get/set values using reactive forms patterns) or switch over to
- * template-driven directives.
+ * To update your code before support is removed, you'll want to decide whether to stick
+ * with reactive form directives (and get/set values using reactive forms patterns) or
+ * switch over to template-driven directives.
  *
  * After (choice 1 - use reactive forms):
  *
@@ -7817,7 +7818,8 @@ const controlNameBinding = {
  * ### Use with ngModel
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
- * form directives has been deprecated in Angular v6 and will be removed in Angular v7.
+ * form directives has been deprecated in Angular v6 and will be removed in a future
+ * version of Angular.
  *
  * Now deprecated:
  *
@@ -7836,7 +7838,7 @@ const controlNameBinding = {
  * an input/output property named `ngModel` on the reactive form directive that simply
  * approximates (some of) its behavior. Specifically, it allows getting/setting the value
  * and intercepting value events. However, some of `ngModel`'s other features - like
- * delaying updates with`ngModelOptions` or exporting the directive - simply don't work,
+ * delaying updates with `ngModelOptions` or exporting the directive - simply don't work,
  * which has understandably caused some confusion.
  *
  * In addition, this pattern mixes template-driven and reactive forms strategies, which
@@ -7845,8 +7847,8 @@ const controlNameBinding = {
  * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
  * the class removes the convenience of defining forms in the template.
  *
- * To update your code before v7, you'll want to decide whether to stick with reactive form
- * directives (and get/set values using reactive forms patterns) or switch over to
+ * To update your code before support is removed, you'll want to decide whether to stick with
+ * reactive form directives (and get/set values using reactive forms patterns) or switch over to
  * template-driven directives.
  *
  * After (choice 1 - use reactive forms):
@@ -8976,7 +8978,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-next.12+25.sha-083d4b8.with-local-changes');
+const VERSION = new Version('9.0.0-rc.1+58.sha-dbd55fc.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
@@ -9055,5 +9057,5 @@ ReactiveFormsModule.decorators = [
  * Generated bundle index. Do not edit.
  */
 
-export { ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d, ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_f, AbstractControlStatus as ɵangular_packages_forms_forms_g, ngControlStatusHost as ɵangular_packages_forms_forms_h, formDirectiveProvider as ɵangular_packages_forms_forms_i, formControlBinding as ɵangular_packages_forms_forms_j, modelGroupProvider as ɵangular_packages_forms_forms_k, ɵNgNoValidate as ɵangular_packages_forms_forms_y, ɵNgNoValidate, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_l, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_m, RadioControlRegistry as ɵangular_packages_forms_forms_n, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_o, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_p, formControlBinding$1 as ɵangular_packages_forms_forms_q, controlNameBinding as ɵangular_packages_forms_forms_r, formDirectiveProvider$1 as ɵangular_packages_forms_forms_s, formArrayNameProvider as ɵangular_packages_forms_forms_u, formGroupNameProvider as ɵangular_packages_forms_forms_t, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_v, ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_x, ɵNgSelectMultipleOption, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_w, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_ba, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_bb, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bd, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bc, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_be, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_z, AbstractControlDirective, AbstractFormGroupDirective, CheckboxControlValueAccessor, ControlContainer, NG_VALUE_ACCESSOR, COMPOSITION_BUFFER_MODE, DefaultValueAccessor, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NumberValueAccessor, RadioControlValueAccessor, RangeValueAccessor, FormControlDirective, FormControlName, FormGroupDirective, FormArrayName, FormGroupName, NgSelectOption, SelectControlValueAccessor, SelectMultipleControlValueAccessor, CheckboxRequiredValidator, EmailValidator, MaxLengthValidator, MinLengthValidator, PatternValidator, RequiredValidator, FormBuilder, AbstractControl, FormArray, FormControl, FormGroup, NG_ASYNC_VALIDATORS, NG_VALIDATORS, Validators, VERSION, FormsModule, ReactiveFormsModule };
+export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, MaxLengthValidator, MinLengthValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NumberValueAccessor, PatternValidator, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, VERSION, Validators, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_ba, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_bb, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bc, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bd, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_be, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_f, AbstractControlStatus as ɵangular_packages_forms_forms_g, ngControlStatusHost as ɵangular_packages_forms_forms_h, formDirectiveProvider as ɵangular_packages_forms_forms_i, formControlBinding as ɵangular_packages_forms_forms_j, modelGroupProvider as ɵangular_packages_forms_forms_k, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_l, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_m, RadioControlRegistry as ɵangular_packages_forms_forms_n, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_o, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_p, formControlBinding$1 as ɵangular_packages_forms_forms_q, controlNameBinding as ɵangular_packages_forms_forms_r, formDirectiveProvider$1 as ɵangular_packages_forms_forms_s, formGroupNameProvider as ɵangular_packages_forms_forms_t, formArrayNameProvider as ɵangular_packages_forms_forms_u, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_v, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_w, ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_x, ɵNgNoValidate as ɵangular_packages_forms_forms_y, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_z };
 //# sourceMappingURL=forms.js.map
