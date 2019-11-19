@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+177.sha-6bf2531.with-local-changes
+ * @license Angular v9.0.0-rc.1+172.sha-f69c6e2.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1017,7 +1017,13 @@ NgControlStatus.ctorParameters = () => [
 /** @nocollapse */ NgControlStatus.ɵdir = ɵɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], hostBindings: function NgControlStatus_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         ɵɵallocHostVars(7);
     } if (rf & 2) {
-        ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
+        ɵɵclassProp("ng-untouched", ctx.ngClassUntouched);
+        ɵɵclassProp("ng-touched", ctx.ngClassTouched);
+        ɵɵclassProp("ng-pristine", ctx.ngClassPristine);
+        ɵɵclassProp("ng-dirty", ctx.ngClassDirty);
+        ɵɵclassProp("ng-valid", ctx.ngClassValid);
+        ɵɵclassProp("ng-invalid", ctx.ngClassInvalid);
+        ɵɵclassProp("ng-pending", ctx.ngClassPending);
     } }, features: [ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ ɵsetClassMetadata(NgControlStatus, [{
         type: Directive,
@@ -1058,7 +1064,13 @@ NgControlStatusGroup.ctorParameters = () => [
 /** @nocollapse */ NgControlStatusGroup.ɵdir = ɵɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
         ɵɵallocHostVars(7);
     } if (rf & 2) {
-        ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
+        ɵɵclassProp("ng-untouched", ctx.ngClassUntouched);
+        ɵɵclassProp("ng-touched", ctx.ngClassTouched);
+        ɵɵclassProp("ng-pristine", ctx.ngClassPristine);
+        ɵɵclassProp("ng-dirty", ctx.ngClassDirty);
+        ɵɵclassProp("ng-valid", ctx.ngClassValid);
+        ɵɵclassProp("ng-invalid", ctx.ngClassInvalid);
+        ɵɵclassProp("ng-pending", ctx.ngClassPending);
     } }, features: [ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ ɵsetClassMetadata(NgControlStatusGroup, [{
         type: Directive,
@@ -9733,7 +9745,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-rc.1+177.sha-6bf2531.with-local-changes');
+const VERSION = new Version('9.0.0-rc.1+172.sha-f69c6e2.with-local-changes');
 
 /**
  * @fileoverview added by tsickle
