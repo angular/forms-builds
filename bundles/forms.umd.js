@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+164.sha-c68200c.with-local-changes
+ * @license Angular v9.0.0-rc.1+177.sha-6bf2531.with-local-changes
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -914,13 +914,7 @@
         NgControlStatus.ɵdir = i0.ɵɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], hostBindings: function NgControlStatus_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
                 i0.ɵɵallocHostVars(7);
             } if (rf & 2) {
-                i0.ɵɵclassProp("ng-untouched", ctx.ngClassUntouched);
-                i0.ɵɵclassProp("ng-touched", ctx.ngClassTouched);
-                i0.ɵɵclassProp("ng-pristine", ctx.ngClassPristine);
-                i0.ɵɵclassProp("ng-dirty", ctx.ngClassDirty);
-                i0.ɵɵclassProp("ng-valid", ctx.ngClassValid);
-                i0.ɵɵclassProp("ng-invalid", ctx.ngClassInvalid);
-                i0.ɵɵclassProp("ng-pending", ctx.ngClassPending);
+                i0.ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
             } }, features: [i0.ɵɵInheritDefinitionFeature] });
         return NgControlStatus;
     }(AbstractControlStatus));
@@ -950,13 +944,7 @@
         NgControlStatusGroup.ɵdir = i0.ɵɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
                 i0.ɵɵallocHostVars(7);
             } if (rf & 2) {
-                i0.ɵɵclassProp("ng-untouched", ctx.ngClassUntouched);
-                i0.ɵɵclassProp("ng-touched", ctx.ngClassTouched);
-                i0.ɵɵclassProp("ng-pristine", ctx.ngClassPristine);
-                i0.ɵɵclassProp("ng-dirty", ctx.ngClassDirty);
-                i0.ɵɵclassProp("ng-valid", ctx.ngClassValid);
-                i0.ɵɵclassProp("ng-invalid", ctx.ngClassInvalid);
-                i0.ɵɵclassProp("ng-pending", ctx.ngClassPending);
+                i0.ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
             } }, features: [i0.ɵɵInheritDefinitionFeature] });
         return NgControlStatusGroup;
     }(AbstractControlStatus));
@@ -7078,7 +7066,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-rc.1+164.sha-c68200c.with-local-changes');
+    var VERSION = new i0.Version('9.0.0-rc.1+177.sha-6bf2531.with-local-changes');
 
     /**
      * @license
