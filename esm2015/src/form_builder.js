@@ -177,7 +177,7 @@ FormBuilder.decorators = [
     { type: Injectable },
 ];
 /** @nocollapse */ FormBuilder.ɵfac = function FormBuilder_Factory(t) { return new (t || FormBuilder)(); };
-/** @nocollapse */ FormBuilder.ɵprov = i0.ɵɵdefineInjectable({ token: FormBuilder, factory: FormBuilder.ɵfac, providedIn: null });
+/** @nocollapse */ FormBuilder.ɵprov = i0.ɵɵdefineInjectable({ token: FormBuilder, factory: FormBuilder.ɵfac });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(FormBuilder, [{
         type: Injectable
     }], null, null); })();

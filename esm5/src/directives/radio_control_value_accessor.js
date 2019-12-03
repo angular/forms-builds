@@ -60,7 +60,7 @@ var RadioControlRegistry = /** @class */ (function () {
             controlPair[1].name === accessor.name;
     };
     RadioControlRegistry.ɵfac = function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); };
-    RadioControlRegistry.ɵprov = i0.ɵɵdefineInjectable({ token: RadioControlRegistry, factory: RadioControlRegistry.ɵfac, providedIn: null });
+    RadioControlRegistry.ɵprov = i0.ɵɵdefineInjectable({ token: RadioControlRegistry, factory: RadioControlRegistry.ɵfac });
     return RadioControlRegistry;
 }());
 export { RadioControlRegistry };

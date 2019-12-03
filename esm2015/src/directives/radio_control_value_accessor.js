@@ -89,7 +89,7 @@ RadioControlRegistry.decorators = [
     { type: Injectable },
 ];
 /** @nocollapse */ RadioControlRegistry.ɵfac = function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); };
-/** @nocollapse */ RadioControlRegistry.ɵprov = i0.ɵɵdefineInjectable({ token: RadioControlRegistry, factory: RadioControlRegistry.ɵfac, providedIn: null });
+/** @nocollapse */ RadioControlRegistry.ɵprov = i0.ɵɵdefineInjectable({ token: RadioControlRegistry, factory: RadioControlRegistry.ɵfac });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(RadioControlRegistry, [{
         type: Injectable
     }], null, null); })();

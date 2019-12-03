@@ -141,7 +141,7 @@ var FormBuilder = /** @class */ (function () {
         }
     };
     FormBuilder.ɵfac = function FormBuilder_Factory(t) { return new (t || FormBuilder)(); };
-    FormBuilder.ɵprov = i0.ɵɵdefineInjectable({ token: FormBuilder, factory: FormBuilder.ɵfac, providedIn: null });
+    FormBuilder.ɵprov = i0.ɵɵdefineInjectable({ token: FormBuilder, factory: FormBuilder.ɵfac });
     return FormBuilder;
 }());
 export { FormBuilder };
