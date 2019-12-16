@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.6+60.sha-76e4870
+ * @license Angular v9.0.0-rc.6+61.sha-b1d4c58
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3228,6 +3228,8 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
  */
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     readonly control: FormControl;
+    /** @nodoc */
+    static ngAcceptInputType_disabled: boolean | string;
     /**
      * @description
      * Internal reference to the view model value.
