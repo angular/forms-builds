@@ -153,7 +153,7 @@ export declare class RequiredValidator implements Validator {
      */
     registerOnValidatorChange(fn: () => void): void;
     static ɵfac: i0.ɵɵFactoryDef<RequiredValidator>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { 'required': "required" }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { "required": "required"; }, {}, never>;
 }
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
@@ -234,7 +234,7 @@ export declare class EmailValidator implements Validator {
      */
     registerOnValidatorChange(fn: () => void): void;
     static ɵfac: i0.ɵɵFactoryDef<EmailValidator>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { 'email': "email" }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { "email": "email"; }, {}, never>;
 }
 /**
  * @description
@@ -313,7 +313,7 @@ export declare class MinLengthValidator implements Validator, OnChanges {
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
     static ɵfac: i0.ɵɵFactoryDef<MinLengthValidator>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { 'minlength': "minlength" }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { "minlength": "minlength"; }, {}, never>;
 }
 /**
  * @description
@@ -372,7 +372,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
     static ɵfac: i0.ɵɵFactoryDef<MaxLengthValidator>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { 'maxlength': "maxlength" }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { "maxlength": "maxlength"; }, {}, never>;
 }
 /**
  * @description
@@ -433,5 +433,5 @@ export declare class PatternValidator implements Validator, OnChanges {
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
     static ɵfac: i0.ɵɵFactoryDef<PatternValidator>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { 'pattern': "pattern" }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { "pattern": "pattern"; }, {}, never>;
 }

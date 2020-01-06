@@ -184,5 +184,5 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     private _checkParentType;
     private _setUpControl;
     static ɵfac: i0.ɵɵFactoryDef<FormControlName>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormControlName, "[formControlName]", never, { 'name': "formControlName", 'isDisabled': "disabled", 'model': "ngModel" }, { 'update': "ngModelChange" }, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormControlName, "[formControlName]", never, { "name": "formControlName"; "isDisabled": "disabled"; "model": "ngModel"; }, { "update": "ngModelChange"; }, never>;
 }
