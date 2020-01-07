@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.7+2.sha-ca8b584
+ * @license Angular v9.0.0-rc.7+36.sha-6b68f40
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2695,7 +2695,7 @@ var AbstractControl = /** @class */ (function () {
      * @see `markAsPristine()`
      *
      * @param opts Configuration options that determine how the control propagates changes
-     * and emits events events after marking is applied.
+     * and emits events after marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
      */
@@ -6715,7 +6715,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-rc.7+2.sha-ca8b584');
+var VERSION = new Version('9.0.0-rc.7+36.sha-6b68f40');
 
 /**
  * @license
