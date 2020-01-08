@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+524.sha-f004195
+ * @license Angular v9.0.0-rc.1+558.sha-d1c7ca7
  * (c) 2010-2019 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3829,7 +3829,7 @@ class AbstractControl {
      * @see `markAsUntouched()` / `markAsDirty()` / `markAsPristine()`
      *
      * @param {?=} opts Configuration options that determine how the control propagates changes
-     * and emits events events after marking is applied.
+     * and emits events after marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
      * @return {?}
@@ -9015,7 +9015,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-rc.1+524.sha-f004195');
+const VERSION = new Version('9.0.0-rc.1+558.sha-d1c7ca7');
 
 /**
  * @fileoverview added by tsickle
