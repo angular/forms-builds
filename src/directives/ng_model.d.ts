@@ -99,7 +99,7 @@ export declare const formControlBinding: any;
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     readonly control: FormControl;
     /** @nodoc */
-    static ngAcceptInputType_disabled: boolean | string;
+    static ngAcceptInputType_isDisabled: boolean | string;
     /**
      * @description
      * Internal reference to the view model value.
