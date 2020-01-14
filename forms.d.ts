@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+671.sha-d863526
+ * @license Angular v9.0.0-rc.1+672.sha-9ceee07
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2726,7 +2726,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
      * @description
      * Tracks changes to the the maximum length bound to this directive.
      */
-    maxlength: string;
+    maxlength: string | number;
     /**
      * @description
      * A lifecycle method called when the directive's inputs change. For internal use
@@ -2753,7 +2753,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
 
 /**
  * A directive that adds minimum length validation to controls marked with the
- * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` mult-provider list.
+ * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
  * @see [Form Validation](guide/form-validation)
  *
@@ -2779,7 +2779,7 @@ export declare class MinLengthValidator implements Validator, OnChanges {
      * @description
      * Tracks changes to the the minimum length bound to this directive.
      */
-    minlength: string;
+    minlength: string | number;
     /**
      * @description
      * A lifecycle method called when the directive's inputs change. For internal use
