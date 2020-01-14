@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+671.sha-d863526
+ * @license Angular v9.0.0-rc.1+672.sha-9ceee07
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -9150,7 +9150,7 @@ const MIN_LENGTH_VALIDATOR = {
 };
 /**
  * A directive that adds minimum length validation to controls marked with the
- * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` mult-provider list.
+ * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
  * @see [Form Validation](guide/form-validation)
  *
@@ -9208,7 +9208,7 @@ class MinLengthValidator {
      * @return {?}
      */
     _createValidator() {
-        this._validator = Validators.minLength(parseInt(this.minlength, 10));
+        this._validator = Validators.minLength(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
     }
 }
 MinLengthValidator.decorators = [
@@ -9328,7 +9328,7 @@ class MaxLengthValidator {
      * @return {?}
      */
     _createValidator() {
-        this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
+        this._validator = Validators.maxLength(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
     }
 }
 MaxLengthValidator.decorators = [
@@ -9770,7 +9770,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-rc.1+671.sha-d863526');
+const VERSION = new Version('9.0.0-rc.1+672.sha-9ceee07');
 
 /**
  * @fileoverview added by tsickle

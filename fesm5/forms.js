@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+671.sha-d863526
+ * @license Angular v9.0.0-rc.1+672.sha-9ceee07
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6393,7 +6393,7 @@ var MIN_LENGTH_VALIDATOR = {
 };
 /**
  * A directive that adds minimum length validation to controls marked with the
- * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` mult-provider list.
+ * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
  * @see [Form Validation](guide/form-validation)
  *
@@ -6445,7 +6445,7 @@ var MinLengthValidator = /** @class */ (function () {
      */
     MinLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     MinLengthValidator.prototype._createValidator = function () {
-        this._validator = Validators.minLength(parseInt(this.minlength, 10));
+        this._validator = Validators.minLength(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
     };
     MinLengthValidator.ɵfac = function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); };
     MinLengthValidator.ɵdir = ɵɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], hostBindings: function MinLengthValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
@@ -6528,7 +6528,7 @@ var MaxLengthValidator = /** @class */ (function () {
      */
     MaxLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
     MaxLengthValidator.prototype._createValidator = function () {
-        this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
+        this._validator = Validators.maxLength(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
     };
     MaxLengthValidator.ɵfac = function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); };
     MaxLengthValidator.ɵdir = ɵɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], hostBindings: function MaxLengthValidator_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
@@ -6869,7 +6869,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-rc.1+671.sha-d863526');
+var VERSION = new Version('9.0.0-rc.1+672.sha-9ceee07');
 
 /**
  * @license
