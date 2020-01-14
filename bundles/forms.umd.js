@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.8+115.sha-e100bbc
+ * @license Angular v9.0.0-rc.8+116.sha-3113bb7
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6491,7 +6491,7 @@
     };
     /**
      * A directive that adds minimum length validation to controls marked with the
-     * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` mult-provider list.
+     * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
      *
      * @see [Form Validation](guide/form-validation)
      *
@@ -6543,11 +6543,11 @@
          */
         MinLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         MinLengthValidator.prototype._createValidator = function () {
-            this._validator = Validators.minLength(parseInt(this.minlength, 10));
+            this._validator = Validators.minLength(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
         };
         __decorate([
             core.Input(),
-            __metadata("design:type", String)
+            __metadata("design:type", Object)
         ], MinLengthValidator.prototype, "minlength", void 0);
         MinLengthValidator = __decorate([
             core.Directive({
@@ -6621,11 +6621,11 @@
          */
         MaxLengthValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
         MaxLengthValidator.prototype._createValidator = function () {
-            this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
+            this._validator = Validators.maxLength(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
         };
         __decorate([
             core.Input(),
-            __metadata("design:type", String)
+            __metadata("design:type", Object)
         ], MaxLengthValidator.prototype, "maxlength", void 0);
         MaxLengthValidator = __decorate([
             core.Directive({
@@ -6912,7 +6912,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('9.0.0-rc.8+115.sha-e100bbc');
+    var VERSION = new core.Version('9.0.0-rc.8+116.sha-3113bb7');
 
     /**
      * @license
