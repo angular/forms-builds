@@ -138,7 +138,8 @@ export declare class RequiredValidator implements Validator {
      * @description
      * Tracks changes to the required attribute bound to this directive.
      */
-    required: boolean | string;
+    get required(): boolean | string;
+    set required(value: boolean | string);
     /**
      * @description
      * Method that validates whether the control is empty.
@@ -219,7 +220,7 @@ export declare class EmailValidator implements Validator {
      * @description
      * Tracks changes to the email attribute bound to this directive.
      */
-    email: boolean | string;
+    set email(value: boolean | string);
     /**
      * @description
      * Method that validates whether an email address is valid.

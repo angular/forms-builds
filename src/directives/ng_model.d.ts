@@ -167,24 +167,24 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * Returns an array that represents the path from the top-level form to this control.
      * Each index is the string name of the control on that level.
      */
-    readonly path: string[];
+    get path(): string[];
     /**
      * @description
      * The top-level directive for this control if present, otherwise null.
      */
-    readonly formDirective: any;
+    get formDirective(): any;
     /**
      * @description
      * Synchronous validator function composed of all the synchronous validators
      * registered with this directive.
      */
-    readonly validator: ValidatorFn | null;
+    get validator(): ValidatorFn | null;
     /**
      * @description
      * Async validator function composed of all the async validators registered with this
      * directive.
      */
-    readonly asyncValidator: AsyncValidatorFn | null;
+    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * Sets the new value for the view model and emits an `ngModelChange` event.

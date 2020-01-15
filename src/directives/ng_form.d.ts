@@ -121,23 +121,23 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
      * @description
      * The directive instance.
      */
-    readonly formDirective: Form;
+    get formDirective(): Form;
     /**
      * @description
      * The internal `FormGroup` instance.
      */
-    readonly control: FormGroup;
+    get control(): FormGroup;
     /**
      * @description
      * Returns an array representing the path to this group. Because this directive
      * always lives at the top level of a form, it is always an empty array.
      */
-    readonly path: string[];
+    get path(): string[];
     /**
      * @description
      * Returns a map of the controls in this group.
      */
-    readonly controls: {
+    get controls(): {
         [key: string]: AbstractControl;
     };
     /**

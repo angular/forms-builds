@@ -72,18 +72,18 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * @description
      * Returns this directive's instance.
      */
-    readonly formDirective: Form;
+    get formDirective(): Form;
     /**
      * @description
      * Returns the `FormGroup` bound to this directive.
      */
-    readonly control: FormGroup;
+    get control(): FormGroup;
     /**
      * @description
      * Returns an array representing the path to this group. Because this directive
      * always lives at the top level of a form, it always an empty array.
      */
-    readonly path: string[];
+    get path(): string[];
     /**
      * @description
      * Method that sets up the control directive in this group, re-calculates its value

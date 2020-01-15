@@ -34,27 +34,27 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * @description
      * The `FormGroup` bound to this directive.
      */
-    readonly control: FormGroup;
+    get control(): FormGroup;
     /**
      * @description
      * The path to this group from the top-level directive.
      */
-    readonly path: string[];
+    get path(): string[];
     /**
      * @description
      * The top-level directive for this group if present, otherwise null.
      */
-    readonly formDirective: Form | null;
+    get formDirective(): Form | null;
     /**
      * @description
      * The synchronous validators registered with this group.
      */
-    readonly validator: ValidatorFn | null;
+    get validator(): ValidatorFn | null;
     /**
      * @description
      * The async validators registered with this group.
      */
-    readonly asyncValidator: AsyncValidatorFn | null;
+    get asyncValidator(): AsyncValidatorFn | null;
     static ɵfac: i0.ɵɵFactoryDef<AbstractFormGroupDirective>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<AbstractFormGroupDirective, never, never, {}, {}, never>;
 }

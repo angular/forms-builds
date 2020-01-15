@@ -119,7 +119,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
      * @description
      * Triggers a warning that this input should not be used with reactive forms.
      */
-    isDisabled: boolean;
+    set isDisabled(isDisabled: boolean);
     /** @deprecated as of v6 */
     model: any;
     /** @deprecated as of v6 */
@@ -138,24 +138,24 @@ export declare class FormControlDirective extends NgControl implements OnChanges
      * Returns an array that represents the path from the top-level form to this control.
      * Each index is the string name of the control on that level.
      */
-    readonly path: string[];
+    get path(): string[];
     /**
      * @description
      * Synchronous validator function composed of all the synchronous validators
      * registered with this directive.
      */
-    readonly validator: ValidatorFn | null;
+    get validator(): ValidatorFn | null;
     /**
      * @description
      * Async validator function composed of all the async validators registered with this
      * directive.
      */
-    readonly asyncValidator: AsyncValidatorFn | null;
+    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * The `FormControl` bound to this directive.
      */
-    readonly control: FormControl;
+    get control(): FormControl;
     /**
      * @description
      * Sets the new value for the view model and emits an `ngModelChange` event.

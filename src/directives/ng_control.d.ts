@@ -32,14 +32,14 @@ export declare abstract class NgControl extends AbstractControlDirective {
      *
      * @throws An exception that this method is not implemented
      */
-    readonly validator: ValidatorFn | null;
+    get validator(): ValidatorFn | null;
     /**
      * @description
      * The registered async validator function for the control
      *
      * @throws An exception that this method is not implemented
      */
-    readonly asyncValidator: AsyncValidatorFn | null;
+    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * The callback method to update the model from the view when requested

@@ -128,29 +128,29 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * @description
      * The `FormArray` bound to this directive.
      */
-    readonly control: FormArray;
+    get control(): FormArray;
     /**
      * @description
      * The top-level directive for this group if present, otherwise null.
      */
-    readonly formDirective: FormGroupDirective | null;
+    get formDirective(): FormGroupDirective | null;
     /**
      * @description
      * Returns an array that represents the path from the top-level form to this control.
      * Each index is the string name of the control on that level.
      */
-    readonly path: string[];
+    get path(): string[];
     /**
      * @description
      * Synchronous validator function composed of all the synchronous validators registered with this
      * directive.
      */
-    readonly validator: ValidatorFn | null;
+    get validator(): ValidatorFn | null;
     /**
      * @description
      * Async validator function composed of all the async validators registered with this directive.
      */
-    readonly asyncValidator: AsyncValidatorFn | null;
+    get asyncValidator(): AsyncValidatorFn | null;
     private _checkParentType;
     static ɵfac: i0.ɵɵFactoryDef<FormArrayName>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormArrayName, "[formArrayName]", never, { "name": "formArrayName"; }, {}, never>;

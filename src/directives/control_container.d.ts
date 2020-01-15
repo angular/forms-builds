@@ -24,10 +24,10 @@ export declare abstract class ControlContainer extends AbstractControlDirective 
      * @description
      * The top-level form directive for the control.
      */
-    readonly formDirective: Form | null;
+    get formDirective(): Form | null;
     /**
      * @description
      * The path to this group.
      */
-    readonly path: string[] | null;
+    get path(): string[] | null;
 }

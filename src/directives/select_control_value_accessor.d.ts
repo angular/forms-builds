@@ -85,7 +85,7 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
      * Tracks the option comparison algorithm for tracking identities when
      * checking for changes.
      */
-    compareWith: (o1: any, o2: any) => boolean;
+    set compareWith(fn: (o1: any, o2: any) => boolean);
     private _compareWith;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
@@ -143,13 +143,13 @@ export declare class NgSelectOption implements OnDestroy {
      * Tracks the value bound to the option element. Unlike the value binding,
      * ngValue supports binding to objects.
      */
-    ngValue: any;
+    set ngValue(value: any);
     /**
      * @description
      * Tracks simple string values bound to the option element.
      * For objects, use the `ngValue` input binding.
      */
-    value: any;
+    set value(value: any);
     /**
      * @description
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
