@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+782.sha-5aa0507
+ * @license Angular v9.0.0-rc.1+783.sha-fa8d324
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -162,7 +162,8 @@ export declare abstract class AbstractControl {
     get untouched(): boolean;
     /**
      * A multicasting observable that emits an event every time the value of the control changes, in
-     * the UI or programmatically.
+     * the UI or programmatically. It also emits an event each time you call enable() or disable()
+     * without passing along {emitEvent: false} as a function argument.
      */
     readonly valueChanges: Observable<any>;
     /**
