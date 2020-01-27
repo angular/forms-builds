@@ -242,7 +242,7 @@ SelectControlValueAccessor.propDecorators = {
     compareWith: [{ type: Input }]
 };
 /** @nocollapse */ SelectControlValueAccessor.ɵfac = function SelectControlValueAccessor_Factory(t) { return new (t || SelectControlValueAccessor)(i0.ɵɵdirectiveInject(i0.Renderer2), i0.ɵɵdirectiveInject(i0.ElementRef)); };
-/** @nocollapse */ SelectControlValueAccessor.ɵdir = i0.ɵɵdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+/** @nocollapse */ SelectControlValueAccessor.ɵdir = i0.ɵɵdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         i0.ɵɵlistener("change", function SelectControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function SelectControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
     } }, inputs: { compareWith: "compareWith" }, features: [i0.ɵɵProvidersFeature([SELECT_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(SelectControlValueAccessor, [{

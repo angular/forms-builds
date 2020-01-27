@@ -134,7 +134,7 @@ NumberValueAccessor.ctorParameters = () => [
     { type: ElementRef }
 ];
 /** @nocollapse */ NumberValueAccessor.ɵfac = function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(i0.ɵɵdirectiveInject(i0.Renderer2), i0.ɵɵdirectiveInject(i0.ElementRef)); };
-/** @nocollapse */ NumberValueAccessor.ɵdir = i0.ɵɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], hostBindings: function NumberValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+/** @nocollapse */ NumberValueAccessor.ɵdir = i0.ɵɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], hostBindings: function NumberValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         i0.ɵɵlistener("change", function NumberValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function NumberValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
     } }, features: [i0.ɵɵProvidersFeature([NUMBER_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NumberValueAccessor, [{

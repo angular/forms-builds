@@ -340,7 +340,7 @@ NgForm.propDecorators = {
     options: [{ type: Input, args: ['ngFormOptions',] }]
 };
 /** @nocollapse */ NgForm.ɵfac = function NgForm_Factory(t) { return new (t || NgForm)(i0.ɵɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
-/** @nocollapse */ NgForm.ɵdir = i0.ɵɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ng-form"], ["", "ngForm", ""]], hostBindings: function NgForm_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+/** @nocollapse */ NgForm.ɵdir = i0.ɵɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ng-form"], ["", "ngForm", ""]], hostBindings: function NgForm_HostBindings(rf, ctx) { if (rf & 1) {
         i0.ɵɵlistener("submit", function NgForm_submit_HostBindingHandler($event) { return ctx.onSubmit($event); })("reset", function NgForm_reset_HostBindingHandler($event) { return ctx.onReset(); });
     } }, inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [i0.ɵɵProvidersFeature([formDirectiveProvider]), i0.ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NgForm, [{

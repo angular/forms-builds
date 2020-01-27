@@ -259,7 +259,7 @@ RadioControlValueAccessor.propDecorators = {
     value: [{ type: Input }]
 };
 /** @nocollapse */ RadioControlValueAccessor.ɵfac = function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(i0.ɵɵdirectiveInject(i0.Renderer2), i0.ɵɵdirectiveInject(i0.ElementRef), i0.ɵɵdirectiveInject(RadioControlRegistry), i0.ɵɵdirectiveInject(i0.Injector)); };
-/** @nocollapse */ RadioControlValueAccessor.ɵdir = i0.ɵɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], hostBindings: function RadioControlValueAccessor_HostBindings(rf, ctx, elIndex) { if (rf & 1) {
+/** @nocollapse */ RadioControlValueAccessor.ɵdir = i0.ɵɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], hostBindings: function RadioControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         i0.ɵɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange(); })("blur", function RadioControlValueAccessor_blur_HostBindingHandler($event) { return ctx.onTouched(); });
     } }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [i0.ɵɵProvidersFeature([RADIO_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(RadioControlValueAccessor, [{
