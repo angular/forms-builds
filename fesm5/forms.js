@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+976.sha-2d5bb26
+ * @license Angular v9.0.0-rc.1+977.sha-76b77ec
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4288,8 +4288,8 @@ var resolvedPromise = (ɵ0)();
  *
  * ### Migrating from deprecated ngForm selector
  *
- * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
- * in Angular v9.
+ * Support for using `ngForm` element selector has been deprecated in Angular v6 and may be removed
+ * in Angular v9 or later.
  *
  * This has been deprecated to keep selectors consistent with other core Angular selectors,
  * as element selectors are typically written in kebab-case.
@@ -6715,7 +6715,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.0.0-rc.1+976.sha-2d5bb26');
+var VERSION = new Version('9.0.0-rc.1+977.sha-76b77ec');
 
 /**
  * @license
