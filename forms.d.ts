@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0+40.sha-bfcf6d0
+ * @license Angular v9.0.0+41.sha-d9fcfd3
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2968,8 +2968,8 @@ export declare class NgControlStatusGroup extends ɵangular_packages_forms_forms
  *
  * ### Migrating from deprecated ngForm selector
  *
- * Support for using `ngForm` element selector has been deprecated in Angular v6 and will be removed
- * in Angular v9.
+ * Support for using `ngForm` element selector has been deprecated in Angular v6 and may be removed
+ * in Angular v9 or later.
  *
  * This has been deprecated to keep selectors consistent with other core Angular selectors,
  * as element selectors are typically written in kebab-case.
