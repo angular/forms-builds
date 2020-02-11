@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+977.sha-76b77ec
+ * @license Angular v9.0.0-rc.1+982.sha-a92d97c
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6193,6 +6193,20 @@ const resolvedPromise = ((/**
  * </form>
  * ```
  *
+ * ### Native DOM validation UI
+ *
+ * In order to prevent the native DOM form validation UI from interfering with Angular's form
+ * validation, Angular automatically adds the `novalidate` attribute on any `<form>` whenever
+ * `FormModule` or `ReactiveFormModule` are imported into the application.
+ * If you want to explicitly enable native DOM validation UI with Angular forms, you can add the
+ * `ngNativeValidate` attribute to the `<form>` element:
+ *
+ * ```html
+ * <form ngNativeValidate>
+ *   ...
+ * </form>
+ * ```
+ *
  * \@ngModule FormsModule
  * \@publicApi
  */
@@ -9754,7 +9768,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-rc.1+977.sha-76b77ec');
+const VERSION = new Version('9.0.0-rc.1+982.sha-a92d97c');
 
 /**
  * @fileoverview added by tsickle
