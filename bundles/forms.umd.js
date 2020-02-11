@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0+41.sha-d9fcfd3
+ * @license Angular v9.0.0+46.sha-3cc24a9
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4518,6 +4518,20 @@
      * </form>
      * ```
      *
+     * ### Native DOM validation UI
+     *
+     * In order to prevent the native DOM form validation UI from interfering with Angular's form
+     * validation, Angular automatically adds the `novalidate` attribute on any `<form>` whenever
+     * `FormModule` or `ReactiveFormModule` are imported into the application.
+     * If you want to explicitly enable native DOM validation UI with Angular forms, you can add the
+     * `ngNativeValidate` attribute to the `<form>` element:
+     *
+     * ```html
+     * <form ngNativeValidate>
+     *   ...
+     * </form>
+     * ```
+     *
      * @ngModule FormsModule
      * @publicApi
      */
@@ -6912,7 +6926,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('9.0.0+41.sha-d9fcfd3');
+    var VERSION = new core.Version('9.0.0+46.sha-3cc24a9');
 
     /**
      * @license
