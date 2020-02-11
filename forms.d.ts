@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+977.sha-76b77ec
+ * @license Angular v9.0.0-rc.1+981.sha-e1160f1
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2998,6 +2998,20 @@ export declare class NgControlStatusGroup extends ɵangular_packages_forms_forms
  * ```html
  * <form [ngFormOptions]="{updateOn: 'blur'}">
  *    <input name="one" ngModel>  <!-- this ngModel will update on blur -->
+ * </form>
+ * ```
+ *
+ * ### Native DOM validation UI
+ *
+ * In order to prevent the native DOM form validation UI from interfering with Angular's form
+ * validation, Angular automatically adds the `novalidate` attribute on any `<form>` whenever
+ * `FormModule` or `ReactiveFormModule` are imported into the application.
+ * If you want to explicitly enable native DOM validation UI with Angular forms, you can add the
+ * `ngNativeValidate` attribute to the `<form>` element:
+ *
+ * ```html
+ * <form ngNativeValidate>
+ *   ...
  * </form>
  * ```
  *
