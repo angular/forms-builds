@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+989.sha-b9b38f0
+ * @license Angular v9.0.0-rc.1+990.sha-eef047b
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1590,14 +1590,16 @@ function _executeAsyncValidators(control, validators) {
  */
 function _mergeErrors(arrayOfErrors) {
     /** @type {?} */
-    const res = arrayOfErrors.reduce((/**
-     * @param {?} res
+    let res = {};
+    // Not using Array.reduce here due to a Chrome 80 bug
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=1049982
+    arrayOfErrors.forEach((/**
      * @param {?} errors
      * @return {?}
      */
-    (res, errors) => {
-        return errors != null ? Object.assign(Object.assign({}, (/** @type {?} */ (res))), errors) : (/** @type {?} */ (res));
-    }), {});
+    (errors) => {
+        res = errors != null ? Object.assign(Object.assign({}, (/** @type {?} */ (res))), errors) : (/** @type {?} */ (res));
+    }));
     return Object.keys(res).length === 0 ? null : res;
 }
 
@@ -3804,20 +3806,28 @@ function _find(control, path, delimiter) {
     }
     if (Array.isArray(path) && path.length === 0)
         return null;
-    return path.reduce((/**
-     * @param {?} v
+    // Not using Array.reduce here due to a Chrome 80 bug
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=1049982
+    /** @type {?} */
+    let controlToFind = control;
+    path.forEach((/**
      * @param {?} name
      * @return {?}
      */
-    (v, name) => {
-        if (v instanceof FormGroup) {
-            return v.controls.hasOwnProperty((/** @type {?} */ (name))) ? v.controls[name] : null;
+    (name) => {
+        if (controlToFind instanceof FormGroup) {
+            controlToFind = controlToFind.controls.hasOwnProperty((/** @type {?} */ (name))) ?
+                controlToFind.controls[name] :
+                null;
         }
-        if (v instanceof FormArray) {
-            return v.at((/** @type {?} */ (name))) || null;
+        else if (controlToFind instanceof FormArray) {
+            controlToFind = controlToFind.at((/** @type {?} */ (name))) || null;
         }
-        return null;
-    }), control);
+        else {
+            controlToFind = null;
+        }
+    }));
+    return controlToFind;
 }
 /**
  * @param {?=} validatorOrOpts
@@ -9768,7 +9778,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.0.0-rc.1+989.sha-b9b38f0');
+const VERSION = new Version('9.0.0-rc.1+990.sha-eef047b');
 
 /**
  * @fileoverview added by tsickle

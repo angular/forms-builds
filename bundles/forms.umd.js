@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.0.0-rc.1+989.sha-b9b38f0
+ * @license Angular v9.0.0-rc.1+990.sha-eef047b
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1385,9 +1385,12 @@
         return validators.map(function (v) { return v(control); });
     }
     function _mergeErrors(arrayOfErrors) {
-        var res = arrayOfErrors.reduce(function (res, errors) {
-            return errors != null ? __assign(__assign({}, res), errors) : res;
-        }, {});
+        var res = {};
+        // Not using Array.reduce here due to a Chrome 80 bug
+        // https://bugs.chromium.org/p/chromium/issues/detail?id=1049982
+        arrayOfErrors.forEach(function (errors) {
+            res = errors != null ? __assign(__assign({}, res), errors) : res;
+        });
         return Object.keys(res).length === 0 ? null : res;
     }
 
@@ -2672,15 +2675,23 @@
         }
         if (Array.isArray(path) && path.length === 0)
             return null;
-        return path.reduce(function (v, name) {
-            if (v instanceof FormGroup) {
-                return v.controls.hasOwnProperty(name) ? v.controls[name] : null;
+        // Not using Array.reduce here due to a Chrome 80 bug
+        // https://bugs.chromium.org/p/chromium/issues/detail?id=1049982
+        var controlToFind = control;
+        path.forEach(function (name) {
+            if (controlToFind instanceof FormGroup) {
+                controlToFind = controlToFind.controls.hasOwnProperty(name) ?
+                    controlToFind.controls[name] :
+                    null;
             }
-            if (v instanceof FormArray) {
-                return v.at(name) || null;
+            else if (controlToFind instanceof FormArray) {
+                controlToFind = controlToFind.at(name) || null;
             }
-            return null;
-        }, control);
+            else {
+                controlToFind = null;
+            }
+        });
+        return controlToFind;
     }
     function coerceToValidator(validatorOrOpts) {
         var validator = (isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators :
@@ -7063,7 +7074,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('9.0.0-rc.1+989.sha-b9b38f0');
+    var VERSION = new i0.Version('9.0.0-rc.1+990.sha-eef047b');
 
     /**
      * @license
