@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.1.0-next.0+27.sha-939e2f7
+ * @license Angular v9.1.0-next.0+26.sha-d05629b
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5931,6 +5931,24 @@ const resolvedPromise = ((ɵ0))();
  *
  * \@usageNotes
  *
+ * ### Migrating from deprecated ngForm selector
+ *
+ * Support for using `ngForm` element selector has been deprecated in Angular v6 and may be removed
+ * in Angular v9 or later.
+ *
+ * This has been deprecated to keep selectors consistent with other core Angular selectors,
+ * as element selectors are typically written in kebab-case.
+ *
+ * Now deprecated:
+ * ```html
+ * <ngForm #myForm="ngForm">
+ * ```
+ *
+ * After:
+ * ```html
+ * <ng-form #myForm="ngForm">
+ * ```
+ *
  * ### Listening for form submission
  *
  * The following example shows how to capture the form values from the "ngSubmit" event.
@@ -9022,7 +9040,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.1.0-next.0+27.sha-939e2f7');
+const VERSION = new Version('9.1.0-next.0+26.sha-d05629b');
 
 /**
  * @fileoverview added by tsickle
