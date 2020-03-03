@@ -475,7 +475,7 @@ MinLengthValidator.propDecorators = {
 /** @nocollapse */ MinLengthValidator.ɵfac = function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); };
 /** @nocollapse */ MinLengthValidator.ɵdir = i0.ɵɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], hostVars: 1, hostBindings: function MinLengthValidator_HostBindings(rf, ctx) { if (rf & 2) {
         i0.ɵɵattribute("minlength", ctx.minlength ? ctx.minlength : null);
-    } }, inputs: { minlength: "minlength" }, features: [i0.ɵɵProvidersFeature([MIN_LENGTH_VALIDATOR]), i0.ɵɵNgOnChangesFeature()] });
+    } }, inputs: { minlength: "minlength" }, features: [i0.ɵɵProvidersFeature([MIN_LENGTH_VALIDATOR]), i0.ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(MinLengthValidator, [{
         type: Directive,
         args: [{
@@ -593,7 +593,7 @@ MaxLengthValidator.propDecorators = {
 /** @nocollapse */ MaxLengthValidator.ɵfac = function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); };
 /** @nocollapse */ MaxLengthValidator.ɵdir = i0.ɵɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], hostVars: 1, hostBindings: function MaxLengthValidator_HostBindings(rf, ctx) { if (rf & 2) {
         i0.ɵɵattribute("maxlength", ctx.maxlength ? ctx.maxlength : null);
-    } }, inputs: { maxlength: "maxlength" }, features: [i0.ɵɵProvidersFeature([MAX_LENGTH_VALIDATOR]), i0.ɵɵNgOnChangesFeature()] });
+    } }, inputs: { maxlength: "maxlength" }, features: [i0.ɵɵProvidersFeature([MAX_LENGTH_VALIDATOR]), i0.ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(MaxLengthValidator, [{
         type: Directive,
         args: [{
@@ -709,7 +709,7 @@ PatternValidator.propDecorators = {
 /** @nocollapse */ PatternValidator.ɵfac = function PatternValidator_Factory(t) { return new (t || PatternValidator)(); };
 /** @nocollapse */ PatternValidator.ɵdir = i0.ɵɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], hostVars: 1, hostBindings: function PatternValidator_HostBindings(rf, ctx) { if (rf & 2) {
         i0.ɵɵattribute("pattern", ctx.pattern ? ctx.pattern : null);
-    } }, inputs: { pattern: "pattern" }, features: [i0.ɵɵProvidersFeature([PATTERN_VALIDATOR]), i0.ɵɵNgOnChangesFeature()] });
+    } }, inputs: { pattern: "pattern" }, features: [i0.ɵɵProvidersFeature([PATTERN_VALIDATOR]), i0.ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(PatternValidator, [{
         type: Directive,
         args: [{

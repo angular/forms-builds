@@ -247,7 +247,7 @@ FormControlDirective.propDecorators = {
     update: [{ type: Output, args: ['ngModelChange',] }]
 };
 /** @nocollapse */ FormControlDirective.ɵfac = function FormControlDirective_Factory(t) { return new (t || FormControlDirective)(i0.ɵɵdirectiveInject(NG_VALIDATORS, 10), i0.ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), i0.ɵɵdirectiveInject(NG_VALUE_ACCESSOR, 10), i0.ɵɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); };
-/** @nocollapse */ FormControlDirective.ɵdir = i0.ɵɵdefineDirective({ type: FormControlDirective, selectors: [["", "formControl", ""]], inputs: { form: ["formControl", "form"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngForm"], features: [i0.ɵɵProvidersFeature([formControlBinding]), i0.ɵɵInheritDefinitionFeature, i0.ɵɵNgOnChangesFeature()] });
+/** @nocollapse */ FormControlDirective.ɵdir = i0.ɵɵdefineDirective({ type: FormControlDirective, selectors: [["", "formControl", ""]], inputs: { form: ["formControl", "form"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngForm"], features: [i0.ɵɵProvidersFeature([formControlBinding]), i0.ɵɵInheritDefinitionFeature, i0.ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(FormControlDirective, [{
         type: Directive,
         args: [{ selector: '[formControl]', providers: [formControlBinding], exportAs: 'ngForm' }]
