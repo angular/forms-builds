@@ -72,7 +72,7 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      */
     name: string | number | null;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
-    static ɵfac: i0.ɵɵFactoryDef<FormGroupName>;
+    static ɵfac: i0.ɵɵFactoryDef<FormGroupName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormGroupName, "[formGroupName]", never, { "name": "formGroupName"; }, {}, never>;
 }
 export declare const formArrayNameProvider: any;
@@ -152,6 +152,6 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      */
     get asyncValidator(): AsyncValidatorFn | null;
     private _checkParentType;
-    static ɵfac: i0.ɵɵFactoryDef<FormArrayName>;
+    static ɵfac: i0.ɵɵFactoryDef<FormArrayName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormArrayName, "[formArrayName]", never, { "name": "formArrayName"; }, {}, never>;
 }

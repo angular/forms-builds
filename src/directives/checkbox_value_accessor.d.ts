@@ -72,6 +72,6 @@ export declare class CheckboxControlValueAccessor implements ControlValueAccesso
      * @param isDisabled The disabled value
      */
     setDisabledState(isDisabled: boolean): void;
-    static ɵfac: i0.ɵɵFactoryDef<CheckboxControlValueAccessor>;
+    static ɵfac: i0.ɵɵFactoryDef<CheckboxControlValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<CheckboxControlValueAccessor, "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", never, {}, {}, never>;
 }

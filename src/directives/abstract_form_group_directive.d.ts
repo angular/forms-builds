@@ -55,6 +55,6 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * The async validators registered with this group.
      */
     get asyncValidator(): AsyncValidatorFn | null;
-    static ɵfac: i0.ɵɵFactoryDef<AbstractFormGroupDirective>;
+    static ɵfac: i0.ɵɵFactoryDef<AbstractFormGroupDirective, never>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<AbstractFormGroupDirective, never, never, {}, {}, never>;
 }
