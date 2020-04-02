@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "9.1.0+49.sha-c3ce190",
+  "version": "9.1.0+56.sha-9f486c3",
   "description": "Angular - directives and services for creating forms",
   "main": "./bundles/forms.umd.js",
   "module": "./fesm5/forms.js",
@@ -13,9 +13,9 @@
   "author": "angular",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "9.1.0+49.sha-c3ce190",
-    "@angular/common": "9.1.0+49.sha-c3ce190",
-    "@angular/platform-browser": "9.1.0+49.sha-c3ce190",
+    "@angular/core": "9.1.0+56.sha-9f486c3",
+    "@angular/common": "9.1.0+56.sha-9f486c3",
+    "@angular/platform-browser": "9.1.0+56.sha-9f486c3",
     "rxjs": "^6.5.3",
     "tslib": "^1.10.0"
   },
