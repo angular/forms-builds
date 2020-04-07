@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.1.0-rc.0+143.sha-96a3de6
+ * @license Angular v9.1.0-rc.0+149.sha-0075017
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3091,6 +3091,7 @@ var AbstractControl = /** @class */ (function () {
      * Calling `setErrors` also updates the validity of the parent control.
      *
      * @usageNotes
+     *
      * ### Manually set the errors for a control
      *
      * ```
@@ -3296,7 +3297,7 @@ var AbstractControl = /** @class */ (function () {
  * This is one of the three fundamental building blocks of Angular forms, along with
  * `FormGroup` and `FormArray`. It extends the `AbstractControl` class that
  * implements most of the base functionality for accessing the value, validation status,
- * user interactions and events.
+ * user interactions and events. See [usage examples below](#usage-notes).
  *
  * @see `AbstractControl`
  * @see [Reactive Forms Guide](guide/reactive-forms)
@@ -5284,7 +5285,12 @@ var formControlBinding$1 = {
 };
 /**
  * @description
- * * Syncs a standalone `FormControl` instance to a form control element.
+ * Synchronizes a standalone `FormControl` instance to a form control element.
+ *
+ * Note that support for using the `ngModel` input property and `ngModelChange` event with reactive
+ * form directives was deprecated in Angular v6 and is scheduled for removal in
+ * a future version of Angular.
+ * For details, see [Deprecated features](guide/deprecations#ngmodel-with-reactive-forms).
  *
  * @see [Reactive Forms Guide](guide/reactive-forms)
  * @see `FormControl`
@@ -5292,79 +5298,9 @@ var formControlBinding$1 = {
  *
  * @usageNotes
  *
- * ### Registering a single form control
- *
- * The following examples shows how to register a standalone control and set its value.
+ * The following example shows how to register a standalone control and set its value.
  *
  * {@example forms/ts/simpleFormControl/simple_form_control_example.ts region='Component'}
- *
- * ### Use with ngModel
- *
- * Support for using the `ngModel` input property and `ngModelChange` event with reactive
- * form directives has been deprecated in Angular v6 and will be removed in a future version
- * of Angular.
- *
- * Now deprecated:
- *
- * ```html
- * <input [formControl]="control" [(ngModel)]="value">
- * ```
- *
- * ```ts
- * this.value = 'some value';
- * ```
- *
- * This has been deprecated for a few reasons. First, developers have found this pattern
- * confusing. It seems like the actual `ngModel` directive is being used, but in fact it's
- * an input/output property named `ngModel` on the reactive form directive that simply
- * approximates (some of) its behavior. Specifically, it allows getting/setting the value
- * and intercepting value events. However, some of `ngModel`'s other features - like
- * delaying updates with`ngModelOptions` or exporting the directive - simply don't work,
- * which has understandably caused some confusion.
- *
- * In addition, this pattern mixes template-driven and reactive forms strategies, which
- * we generally don't recommend because it doesn't take advantage of the full benefits of
- * either strategy. Setting the value in the template violates the template-agnostic
- * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
- * the class removes the convenience of defining forms in the template.
- *
- * To update your code before support is removed, you'll want to decide whether to stick
- * with reactive form directives (and get/set values using reactive forms patterns) or
- * switch over to template-driven directives.
- *
- * After (choice 1 - use reactive forms):
- *
- * ```html
- * <input [formControl]="control">
- * ```
- *
- * ```ts
- * this.control.setValue('some value');
- * ```
- *
- * After (choice 2 - use template-driven forms):
- *
- * ```html
- * <input [(ngModel)]="value">
- * ```
- *
- * ```ts
- * this.value = 'some value';
- * ```
- *
- * By default, when you use this pattern, you will see a deprecation warning once in dev
- * mode. You can choose to silence this warning by providing a config for
- * `ReactiveFormsModule` at import time:
- *
- * ```ts
- * imports: [
- *   ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'});
- * ]
- * ```
- *
- * Alternatively, you can choose to surface a separate warning for each instance of this
- * pattern with a config value of `"always"`. This may help to track down where in the code
- * the pattern is being used as the code is being updated.
  *
  * @ngModule ReactiveFormsModule
  * @publicApi
@@ -6107,77 +6043,13 @@ var controlNameBinding = {
  * * Radio buttons: `RadioControlValueAccessor`
  * * Selects: `SelectControlValueAccessor`
  *
- * ### Use with ngModel
+ * ### Use with ngModel is deprecated
  *
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
- * form directives has been deprecated in Angular v6 and will be removed in a future
- * version of Angular.
+ * form directives has been deprecated in Angular v6 and is scheduled for removal in
+ * a future version of Angular.
  *
- * Now deprecated:
- *
- * ```html
- * <form [formGroup]="form">
- *   <input formControlName="first" [(ngModel)]="value">
- * </form>
- * ```
- *
- * ```ts
- * this.value = 'some value';
- * ```
- *
- * This has been deprecated for a few reasons. First, developers have found this pattern
- * confusing. It seems like the actual `ngModel` directive is being used, but in fact it's
- * an input/output property named `ngModel` on the reactive form directive that simply
- * approximates (some of) its behavior. Specifically, it allows getting/setting the value
- * and intercepting value events. However, some of `ngModel`'s other features - like
- * delaying updates with `ngModelOptions` or exporting the directive - simply don't work,
- * which has understandably caused some confusion.
- *
- * In addition, this pattern mixes template-driven and reactive forms strategies, which
- * we generally don't recommend because it doesn't take advantage of the full benefits of
- * either strategy. Setting the value in the template violates the template-agnostic
- * principles behind reactive forms, whereas adding a `FormControl`/`FormGroup` layer in
- * the class removes the convenience of defining forms in the template.
- *
- * To update your code before support is removed, you'll want to decide whether to stick with
- * reactive form directives (and get/set values using reactive forms patterns) or switch over to
- * template-driven directives.
- *
- * After (choice 1 - use reactive forms):
- *
- * ```html
- * <form [formGroup]="form">
- *   <input formControlName="first">
- * </form>
- * ```
- *
- * ```ts
- * this.form.get('first').setValue('some value');
- * ```
- *
- * After (choice 2 - use template-driven forms):
- *
- * ```html
- * <input [(ngModel)]="value">
- * ```
- *
- * ```ts
- * this.value = 'some value';
- * ```
- *
- * By default, when you use this pattern, you will see a deprecation warning once in dev
- * mode. You can choose to silence this warning by providing a config for
- * `ReactiveFormsModule` at import time:
- *
- * ```ts
- * imports: [
- *   ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
- * ]
- * ```
- *
- * Alternatively, you can choose to surface a separate warning for each instance of this
- * pattern with a config value of `"always"`. This may help to track down where in the code
- * the pattern is being used as the code is being updated.
+ * For details, see [Deprecated features](guide/deprecations#ngmodel-with-reactive-forms).
  *
  * @ngModule ReactiveFormsModule
  * @publicApi
@@ -7082,7 +6954,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.1.0-rc.0+143.sha-96a3de6');
+var VERSION = new Version('9.1.0-rc.0+149.sha-0075017');
 
 /**
  * @license
@@ -7095,7 +6967,8 @@ var VERSION = new Version('9.1.0-rc.0+143.sha-96a3de6');
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
  *
- * @see [Forms Guide](/guide/forms)
+ * @see [Forms Overview](/guide/forms-overview)
+ * @see [Template-driven Forms Guide](/guide/forms)
  *
  * @publicApi
  */
@@ -7118,9 +6991,9 @@ var FormsModule = /** @class */ (function () {
 /**
  * Exports the required infrastructure and directives for reactive forms,
  * making them available for import by NgModules that import this module.
- * @see [Forms](guide/reactive-forms)
  *
- * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * @see [Forms Overview](guide/forms-overview)
+ * @see [Reactive Forms Guide](guide/reactive-forms)
  *
  * @publicApi
  */

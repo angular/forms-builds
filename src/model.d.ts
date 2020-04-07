@@ -435,6 +435,7 @@ export declare abstract class AbstractControl {
      * Calling `setErrors` also updates the validity of the parent control.
      *
      * @usageNotes
+     *
      * ### Manually set the errors for a control
      *
      * ```
@@ -543,7 +544,7 @@ export declare abstract class AbstractControl {
  * This is one of the three fundamental building blocks of Angular forms, along with
  * `FormGroup` and `FormArray`. It extends the `AbstractControl` class that
  * implements most of the base functionality for accessing the value, validation status,
- * user interactions and events.
+ * user interactions and events. See [usage examples below](#usage-notes).
  *
  * @see `AbstractControl`
  * @see [Reactive Forms Guide](guide/reactive-forms)
