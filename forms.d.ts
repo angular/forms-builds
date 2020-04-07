@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.1.0+88.sha-aeb6d0d
+ * @license Angular v9.1.0+89.sha-f48a065
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -871,7 +871,8 @@ export declare class CheckboxControlValueAccessor implements ControlValueAccesso
  *
  * ### Adding a required checkbox validator using template-driven forms
  *
- * The following example shows how to add a checkbox required validator to an input attached to an ngModel binding.
+ * The following example shows how to add a checkbox required validator to an input attached to an
+ * ngModel binding.
  *
  * ```
  * <input type="checkbox" name="active" ngModel required>
@@ -1123,7 +1124,8 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
  *
  * ### Adding an email validator
  *
- * The following example shows how to add an email validator to an input attached to an ngModel binding.
+ * The following example shows how to add an email validator to an input attached to an ngModel
+ * binding.
  *
  * ```
  * <input type="email" name="email" ngModel email>
@@ -1260,7 +1262,7 @@ export declare interface Form {
  * ], {validators: myValidator, asyncValidators: myAsyncValidator});
  * ```
  *
-  * ### Set the updateOn property for all controls in a form array
+ * ### Set the updateOn property for all controls in a form array
  *
  * The options object is used to set a default value for each child
  * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
@@ -1286,18 +1288,18 @@ export declare interface Form {
 export declare class FormArray extends AbstractControl {
     controls: AbstractControl[];
     /**
-    * Creates a new `FormArray` instance.
-    *
-    * @param controls An array of child controls. Each child control is given an index
-    * where it is registered.
-    *
-    * @param validatorOrOpts A synchronous validator function, or an array of
-    * such functions, or an `AbstractControlOptions` object that contains validation functions
-    * and a validation trigger.
-    *
-    * @param asyncValidator A single async validator or array of async validator functions
-    *
-    */
+     * Creates a new `FormArray` instance.
+     *
+     * @param controls An array of child controls. Each child control is given an index
+     * where it is registered.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     *
+     */
     constructor(controls: AbstractControl[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Get the `AbstractControl` at the given `index` in the array.
@@ -1760,18 +1762,18 @@ export declare class FormBuilder {
  */
 export declare class FormControl extends AbstractControl {
     /**
-    * Creates a new `FormControl` instance.
-    *
-    * @param formState Initializes the control with an initial value,
-    * or an object that defines the initial value and disabled state.
-    *
-    * @param validatorOrOpts A synchronous validator function, or an array of
-    * such functions, or an `AbstractControlOptions` object that contains validation functions
-    * and a validation trigger.
-    *
-    * @param asyncValidator A single async validator or array of async validator functions
-    *
-    */
+     * Creates a new `FormControl` instance.
+     *
+     * @param formState Initializes the control with an initial value,
+     * or an object that defines the initial value and disabled state.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     *
+     */
     constructor(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Sets a new value for the form control.
@@ -2253,18 +2255,18 @@ export declare class FormGroup extends AbstractControl {
         [key: string]: AbstractControl;
     };
     /**
-    * Creates a new `FormGroup` instance.
-    *
-    * @param controls A collection of child controls. The key for each child is the name
-    * under which it is registered.
-    *
-    * @param validatorOrOpts A synchronous validator function, or an array of
-    * such functions, or an `AbstractControlOptions` object that contains validation functions
-    * and a validation trigger.
-    *
-    * @param asyncValidator A single async validator or array of async validator functions
-    *
-    */
+     * Creates a new `FormGroup` instance.
+     *
+     * @param controls A collection of child controls. The key for each child is the name
+     * under which it is registered.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     *
+     */
     constructor(controls: {
         [key: string]: AbstractControl;
     }, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
@@ -2807,7 +2809,8 @@ export declare class MinLengthValidator implements Validator, OnChanges {
 
 /**
  * @description
- * An `InjectionToken` for registering additional asynchronous validators used with `AbstractControl`s.
+ * An `InjectionToken` for registering additional asynchronous validators used with
+ * `AbstractControl`s.
  *
  * @see `NG_VALIDATORS`
  *
@@ -2817,7 +2820,8 @@ export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[
 
 /**
  * @description
- * An `InjectionToken` for registering additional synchronous validators used with `AbstractControl`s.
+ * An `InjectionToken` for registering additional synchronous validators used with
+ * `AbstractControl`s.
  *
  * @see `NG_ASYNC_VALIDATORS`
  *
@@ -3160,10 +3164,10 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
  * the domain model in your class.
  *
  * To inspect the properties of the associated `FormControl` (like validity state),
- * export the directive into a local template variable using `ngModel` as the key (ex: `#myVar="ngModel"`).
- * You then access the control using the directive's `control` property,
- * but most properties used (like `valid` and `dirty`) fall through to the control anyway for direct access.
- * See a full list of properties directly available in `AbstractControlDirective`.
+ * export the directive into a local template variable using `ngModel` as the key (ex:
+ * `#myVar="ngModel"`). You then access the control using the directive's `control` property, but
+ * most properties used (like `valid` and `dirty`) fall through to the control anyway for direct
+ * access. See a full list of properties directly available in `AbstractControlDirective`.
  *
  * @see `RadioControlValueAccessor`
  * @see `SelectControlValueAccessor`
@@ -3209,8 +3213,8 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
  *
  * ### Setting the ngModel name attribute through options
  *
- * The following example shows you an alternate way to set the name attribute. The name attribute is used
- * within a custom form component, and the name `@Input` property serves a different purpose.
+ * The following example shows you an alternate way to set the name attribute. The name attribute is
+ * used within a custom form component, and the name `@Input` property serves a different purpose.
  *
  * ```html
  * <form>
@@ -3869,9 +3873,9 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
 
 /**
  * @description
- * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select control
- * changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and `NgModel`
- * directives.
+ * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select
+ * control changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
+ * `NgModel` directives.
  *
  * @see `SelectControlValueAccessor`
  *
@@ -4128,11 +4132,13 @@ export declare class Validators {
      * @description
      * Validator that requires the control's value pass an email validation test.
      *
-     * Tests the value using a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
+     * Tests the value using a [regular
+     * expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
      * pattern suitable for common usecases. The pattern is based on the definition of a valid email
-     * address in the [WHATWG HTML specification](https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address)
-     * with some enhancements to incorporate more RFC rules (such as rules related to domain names and
-     * the lengths of different parts of the address).
+     * address in the [WHATWG HTML
+     * specification](https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address) with
+     * some enhancements to incorporate more RFC rules (such as rules related to domain names and the
+     * lengths of different parts of the address).
      *
      * The differences from the WHATWG version include:
      * - Disallow `local-part` (the part before the `@` symbol) to begin or end with a period (`.`).
