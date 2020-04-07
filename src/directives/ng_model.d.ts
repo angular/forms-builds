@@ -33,10 +33,10 @@ export declare const formControlBinding: any;
  * the domain model in your class.
  *
  * To inspect the properties of the associated `FormControl` (like validity state),
- * export the directive into a local template variable using `ngModel` as the key (ex: `#myVar="ngModel"`).
- * You then access the control using the directive's `control` property,
- * but most properties used (like `valid` and `dirty`) fall through to the control anyway for direct access.
- * See a full list of properties directly available in `AbstractControlDirective`.
+ * export the directive into a local template variable using `ngModel` as the key (ex:
+ * `#myVar="ngModel"`). You then access the control using the directive's `control` property, but
+ * most properties used (like `valid` and `dirty`) fall through to the control anyway for direct
+ * access. See a full list of properties directly available in `AbstractControlDirective`.
  *
  * @see `RadioControlValueAccessor`
  * @see `SelectControlValueAccessor`
@@ -82,8 +82,8 @@ export declare const formControlBinding: any;
  *
  * ### Setting the ngModel name attribute through options
  *
- * The following example shows you an alternate way to set the name attribute. The name attribute is used
- * within a custom form component, and the name `@Input` property serves a different purpose.
+ * The following example shows you an alternate way to set the name attribute. The name attribute is
+ * used within a custom form component, and the name `@Input` property serves a different purpose.
  *
  * ```html
  * <form>

@@ -636,18 +636,18 @@ export declare abstract class AbstractControl {
  */
 export declare class FormControl extends AbstractControl {
     /**
-    * Creates a new `FormControl` instance.
-    *
-    * @param formState Initializes the control with an initial value,
-    * or an object that defines the initial value and disabled state.
-    *
-    * @param validatorOrOpts A synchronous validator function, or an array of
-    * such functions, or an `AbstractControlOptions` object that contains validation functions
-    * and a validation trigger.
-    *
-    * @param asyncValidator A single async validator or array of async validator functions
-    *
-    */
+     * Creates a new `FormControl` instance.
+     *
+     * @param formState Initializes the control with an initial value,
+     * or an object that defines the initial value and disabled state.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     *
+     */
     constructor(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Sets a new value for the form control.
@@ -806,18 +806,18 @@ export declare class FormGroup extends AbstractControl {
         [key: string]: AbstractControl;
     };
     /**
-    * Creates a new `FormGroup` instance.
-    *
-    * @param controls A collection of child controls. The key for each child is the name
-    * under which it is registered.
-    *
-    * @param validatorOrOpts A synchronous validator function, or an array of
-    * such functions, or an `AbstractControlOptions` object that contains validation functions
-    * and a validation trigger.
-    *
-    * @param asyncValidator A single async validator or array of async validator functions
-    *
-    */
+     * Creates a new `FormGroup` instance.
+     *
+     * @param controls A collection of child controls. The key for each child is the name
+     * under which it is registered.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     *
+     */
     constructor(controls: {
         [key: string]: AbstractControl;
     }, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
@@ -1055,7 +1055,7 @@ export declare class FormGroup extends AbstractControl {
  * ], {validators: myValidator, asyncValidators: myAsyncValidator});
  * ```
  *
-  * ### Set the updateOn property for all controls in a form array
+ * ### Set the updateOn property for all controls in a form array
  *
  * The options object is used to set a default value for each child
  * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
@@ -1081,18 +1081,18 @@ export declare class FormGroup extends AbstractControl {
 export declare class FormArray extends AbstractControl {
     controls: AbstractControl[];
     /**
-    * Creates a new `FormArray` instance.
-    *
-    * @param controls An array of child controls. Each child control is given an index
-    * where it is registered.
-    *
-    * @param validatorOrOpts A synchronous validator function, or an array of
-    * such functions, or an `AbstractControlOptions` object that contains validation functions
-    * and a validation trigger.
-    *
-    * @param asyncValidator A single async validator or array of async validator functions
-    *
-    */
+     * Creates a new `FormArray` instance.
+     *
+     * @param controls An array of child controls. Each child control is given an index
+     * where it is registered.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     *
+     */
     constructor(controls: AbstractControl[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Get the `AbstractControl` at the given `index` in the array.

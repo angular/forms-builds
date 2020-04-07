@@ -11,9 +11,9 @@ import * as i0 from "@angular/core";
 export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
 /**
  * @description
- * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select control
- * changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and `NgModel`
- * directives.
+ * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select
+ * control changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
+ * `NgModel` directives.
  *
  * @see `SelectControlValueAccessor`
  *

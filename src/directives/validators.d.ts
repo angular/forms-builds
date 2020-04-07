@@ -166,7 +166,8 @@ export declare class RequiredValidator implements Validator {
  *
  * ### Adding a required checkbox validator using template-driven forms
  *
- * The following example shows how to add a checkbox required validator to an input attached to an ngModel binding.
+ * The following example shows how to add a checkbox required validator to an input attached to an
+ * ngModel binding.
  *
  * ```
  * <input type="checkbox" name="active" ngModel required>
@@ -201,7 +202,8 @@ export declare const EMAIL_VALIDATOR: any;
  *
  * ### Adding an email validator
  *
- * The following example shows how to add an email validator to an input attached to an ngModel binding.
+ * The following example shows how to add an email validator to an input attached to an ngModel
+ * binding.
  *
  * ```
  * <input type="email" name="email" ngModel email>

@@ -11,7 +11,8 @@ import { AsyncValidatorFn, ValidationErrors, Validator, ValidatorFn } from './di
 import { AbstractControl } from './model';
 /**
  * @description
- * An `InjectionToken` for registering additional synchronous validators used with `AbstractControl`s.
+ * An `InjectionToken` for registering additional synchronous validators used with
+ * `AbstractControl`s.
  *
  * @see `NG_ASYNC_VALIDATORS`
  *
@@ -39,7 +40,8 @@ import { AbstractControl } from './model';
 export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
 /**
  * @description
- * An `InjectionToken` for registering additional asynchronous validators used with `AbstractControl`s.
+ * An `InjectionToken` for registering additional asynchronous validators used with
+ * `AbstractControl`s.
  *
  * @see `NG_VALIDATORS`
  *
@@ -149,11 +151,13 @@ export declare class Validators {
      * @description
      * Validator that requires the control's value pass an email validation test.
      *
-     * Tests the value using a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
+     * Tests the value using a [regular
+     * expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
      * pattern suitable for common usecases. The pattern is based on the definition of a valid email
-     * address in the [WHATWG HTML specification](https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address)
-     * with some enhancements to incorporate more RFC rules (such as rules related to domain names and
-     * the lengths of different parts of the address).
+     * address in the [WHATWG HTML
+     * specification](https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address) with
+     * some enhancements to incorporate more RFC rules (such as rules related to domain names and the
+     * lengths of different parts of the address).
      *
      * The differences from the WHATWG version include:
      * - Disallow `local-part` (the part before the `@` symbol) to begin or end with a period (`.`).
