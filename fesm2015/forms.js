@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.1.0-rc.0+129.sha-93302b7
+ * @license Angular v9.1.0-rc.0+131.sha-7d0af17
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -228,7 +228,9 @@ class CheckboxControlValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnChange(fn) { this.onChange = fn; }
+    registerOnChange(fn) {
+        this.onChange = fn;
+    }
     /**
      * \@description
      * Registers a function called when the control is touched.
@@ -236,7 +238,9 @@ class CheckboxControlValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
     /**
      * Sets the "disabled" property on the input element.
      *
@@ -394,7 +398,9 @@ class DefaultValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnChange(fn) { this.onChange = fn; }
+    registerOnChange(fn) {
+        this.onChange = fn;
+    }
     /**
      * \@description
      * Registers a function called when the control is touched.
@@ -402,7 +408,9 @@ class DefaultValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
     /**
      * Sets the "disabled" property on the input element.
      *
@@ -426,7 +434,9 @@ class DefaultValueAccessor {
      * \@internal
      * @return {?}
      */
-    _compositionStart() { this._composing = true; }
+    _compositionStart() {
+        this._composing = true;
+    }
     /**
      * \@internal
      * @param {?} value
@@ -521,7 +531,9 @@ class AbstractControlDirective {
      * Reports the value of the control if it is present, otherwise null.
      * @return {?}
      */
-    get value() { return this.control ? this.control.value : null; }
+    get value() {
+        return this.control ? this.control.value : null;
+    }
     /**
      * \@description
      * Reports whether the control is valid. A control is considered valid if no
@@ -529,14 +541,18 @@ class AbstractControlDirective {
      * If the control is not present, null is returned.
      * @return {?}
      */
-    get valid() { return this.control ? this.control.valid : null; }
+    get valid() {
+        return this.control ? this.control.valid : null;
+    }
     /**
      * \@description
      * Reports whether the control is invalid, meaning that an error exists in the input value.
      * If the control is not present, null is returned.
      * @return {?}
      */
-    get invalid() { return this.control ? this.control.invalid : null; }
+    get invalid() {
+        return this.control ? this.control.invalid : null;
+    }
     /**
      * \@description
      * Reports whether a control is pending, meaning that that async validation is occurring and
@@ -544,7 +560,9 @@ class AbstractControlDirective {
      * returned.
      * @return {?}
      */
-    get pending() { return this.control ? this.control.pending : null; }
+    get pending() {
+        return this.control ? this.control.pending : null;
+    }
     /**
      * \@description
      * Reports whether the control is disabled, meaning that the control is disabled
@@ -552,41 +570,53 @@ class AbstractControlDirective {
      * values of ancestor controls. If the control is not present, null is returned.
      * @return {?}
      */
-    get disabled() { return this.control ? this.control.disabled : null; }
+    get disabled() {
+        return this.control ? this.control.disabled : null;
+    }
     /**
      * \@description
      * Reports whether the control is enabled, meaning that the control is included in ancestor
      * calculations of validity or value. If the control is not present, null is returned.
      * @return {?}
      */
-    get enabled() { return this.control ? this.control.enabled : null; }
+    get enabled() {
+        return this.control ? this.control.enabled : null;
+    }
     /**
      * \@description
      * Reports the control's validation errors. If the control is not present, null is returned.
      * @return {?}
      */
-    get errors() { return this.control ? this.control.errors : null; }
+    get errors() {
+        return this.control ? this.control.errors : null;
+    }
     /**
      * \@description
      * Reports whether the control is pristine, meaning that the user has not yet changed
      * the value in the UI. If the control is not present, null is returned.
      * @return {?}
      */
-    get pristine() { return this.control ? this.control.pristine : null; }
+    get pristine() {
+        return this.control ? this.control.pristine : null;
+    }
     /**
      * \@description
      * Reports whether the control is dirty, meaning that the user has changed
      * the value in the UI. If the control is not present, null is returned.
      * @return {?}
      */
-    get dirty() { return this.control ? this.control.dirty : null; }
+    get dirty() {
+        return this.control ? this.control.dirty : null;
+    }
     /**
      * \@description
      * Reports whether the control is touched, meaning that the user has triggered
      * a `blur` event on it. If the control is not present, null is returned.
      * @return {?}
      */
-    get touched() { return this.control ? this.control.touched : null; }
+    get touched() {
+        return this.control ? this.control.touched : null;
+    }
     /**
      * \@description
      * Reports the validation status of the control. Possible values include:
@@ -594,14 +624,18 @@ class AbstractControlDirective {
      * If the control is not present, null is returned.
      * @return {?}
      */
-    get status() { return this.control ? this.control.status : null; }
+    get status() {
+        return this.control ? this.control.status : null;
+    }
     /**
      * \@description
      * Reports whether the control is untouched, meaning that the user has not yet triggered
      * a `blur` event on it. If the control is not present, null is returned.
      * @return {?}
      */
-    get untouched() { return this.control ? this.control.untouched : null; }
+    get untouched() {
+        return this.control ? this.control.untouched : null;
+    }
     /**
      * \@description
      * Returns a multicasting observable that emits a validation status whenever it is
@@ -627,7 +661,9 @@ class AbstractControlDirective {
      * Each index is the string name of the control on that level.
      * @return {?}
      */
-    get path() { return null; }
+    get path() {
+        return null;
+    }
     /**
      * \@description
      * Resets the control with the provided value if the control is present.
@@ -732,13 +768,17 @@ class ControlContainer extends AbstractControlDirective {
      * The top-level form directive for the control.
      * @return {?}
      */
-    get formDirective() { return null; }
+    get formDirective() {
+        return null;
+    }
     /**
      * \@description
      * The path to this group.
      * @return {?}
      */
-    get path() { return null; }
+    get path() {
+        return null;
+    }
 }
 if (false) {
     /**
@@ -810,7 +850,9 @@ class NgControl extends AbstractControlDirective {
      * @throws An exception that this method is not implemented
      * @return {?}
      */
-    get validator() { return (/** @type {?} */ (unimplemented())); }
+    get validator() {
+        return (/** @type {?} */ (unimplemented()));
+    }
     /**
      * \@description
      * The registered async validator function for the control
@@ -818,7 +860,9 @@ class NgControl extends AbstractControlDirective {
      * @throws An exception that this method is not implemented
      * @return {?}
      */
-    get asyncValidator() { return (/** @type {?} */ (unimplemented())); }
+    get asyncValidator() {
+        return (/** @type {?} */ (unimplemented()));
+    }
 }
 if (false) {
     /**
@@ -877,35 +921,51 @@ class AbstractControlStatus {
     /**
      * @param {?} cd
      */
-    constructor(cd) { this._cd = cd; }
+    constructor(cd) {
+        this._cd = cd;
+    }
     /**
      * @return {?}
      */
-    get ngClassUntouched() { return this._cd.control ? this._cd.control.untouched : false; }
+    get ngClassUntouched() {
+        return this._cd.control ? this._cd.control.untouched : false;
+    }
     /**
      * @return {?}
      */
-    get ngClassTouched() { return this._cd.control ? this._cd.control.touched : false; }
+    get ngClassTouched() {
+        return this._cd.control ? this._cd.control.touched : false;
+    }
     /**
      * @return {?}
      */
-    get ngClassPristine() { return this._cd.control ? this._cd.control.pristine : false; }
+    get ngClassPristine() {
+        return this._cd.control ? this._cd.control.pristine : false;
+    }
     /**
      * @return {?}
      */
-    get ngClassDirty() { return this._cd.control ? this._cd.control.dirty : false; }
+    get ngClassDirty() {
+        return this._cd.control ? this._cd.control.dirty : false;
+    }
     /**
      * @return {?}
      */
-    get ngClassValid() { return this._cd.control ? this._cd.control.valid : false; }
+    get ngClassValid() {
+        return this._cd.control ? this._cd.control.valid : false;
+    }
     /**
      * @return {?}
      */
-    get ngClassInvalid() { return this._cd.control ? this._cd.control.invalid : false; }
+    get ngClassInvalid() {
+        return this._cd.control ? this._cd.control.invalid : false;
+    }
     /**
      * @return {?}
      */
-    get ngClassPending() { return this._cd.control ? this._cd.control.pending : false; }
+    get ngClassPending() {
+        return this._cd.control ? this._cd.control.pending : false;
+    }
 }
 if (false) {
     /**
@@ -951,7 +1011,9 @@ class NgControlStatus extends AbstractControlStatus {
     /**
      * @param {?} cd
      */
-    constructor(cd) { super(cd); }
+    constructor(cd) {
+        super(cd);
+    }
 }
 NgControlStatus.decorators = [
     { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] }
@@ -975,7 +1037,9 @@ class NgControlStatusGroup extends AbstractControlStatus {
     /**
      * @param {?} cd
      */
-    constructor(cd) { super(cd); }
+    constructor(cd) {
+        super(cd);
+    }
 }
 NgControlStatusGroup.decorators = [
     { type: Directive, args: [{
@@ -1003,7 +1067,8 @@ function isEmptyInputValue(value) {
 }
 /**
  * \@description
- * An `InjectionToken` for registering additional synchronous validators used with `AbstractControl`s.
+ * An `InjectionToken` for registering additional synchronous validators used with
+ * `AbstractControl`s.
  *
  * @see `NG_ASYNC_VALIDATORS`
  *
@@ -1032,7 +1097,8 @@ function isEmptyInputValue(value) {
 const NG_VALIDATORS = new InjectionToken('NgValidators');
 /**
  * \@description
- * An `InjectionToken` for registering additional asynchronous validators used with `AbstractControl`s.
+ * An `InjectionToken` for registering additional asynchronous validators used with
+ * `AbstractControl`s.
  *
  * @see `NG_VALIDATORS`
  *
@@ -1213,11 +1279,13 @@ class Validators {
      * \@description
      * Validator that requires the control's value pass an email validation test.
      *
-     * Tests the value using a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
+     * Tests the value using a [regular
+     * expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
      * pattern suitable for common usecases. The pattern is based on the definition of a valid email
-     * address in the [WHATWG HTML specification](https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address)
-     * with some enhancements to incorporate more RFC rules (such as rules related to domain names and
-     * the lengths of different parts of the address).
+     * address in the [WHATWG HTML
+     * specification](https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address) with
+     * some enhancements to incorporate more RFC rules (such as rules related to domain names and the
+     * lengths of different parts of the address).
      *
      * The differences from the WHATWG version include:
      * - Disallow `local-part` (the part before the `\@` symbol) to begin or end with a period (`.`).
@@ -1406,7 +1474,9 @@ class Validators {
      * @param {?} control
      * @return {?}
      */
-    static nullValidator(control) { return null; }
+    static nullValidator(control) {
+        return null;
+    }
     /**
      * @param {?} validators
      * @return {?}
@@ -1652,7 +1722,9 @@ class NumberValueAccessor {
          * @param {?} value
          * @return {?}
          */
-        (value) => { fn(value == '' ? null : parseFloat(value)); });
+        (value) => {
+            fn(value == '' ? null : parseFloat(value));
+        });
     }
     /**
      * \@description
@@ -1661,7 +1733,9 @@ class NumberValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
     /**
      * Sets the "disabled" property on the input element.
      *
@@ -1864,7 +1938,9 @@ class RadioControlValueAccessor {
      * Lifecycle method called before the directive's instance is destroyed. For internal use only.
      * @return {?}
      */
-    ngOnDestroy() { this._registry.remove(this); }
+    ngOnDestroy() {
+        this._registry.remove(this);
+    }
     /**
      * \@description
      * Sets the "checked" property value on the radio input element.
@@ -1899,7 +1975,9 @@ class RadioControlValueAccessor {
      * @param {?} value
      * @return {?}
      */
-    fireUncheck(value) { this.writeValue(value); }
+    fireUncheck(value) {
+        this.writeValue(value);
+    }
     /**
      * \@description
      * Registers a function called when the control is touched.
@@ -1907,7 +1985,9 @@ class RadioControlValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
     /**
      * Sets the "disabled" property on the input element.
      *
@@ -2113,7 +2193,9 @@ class RangeValueAccessor {
          * @param {?} value
          * @return {?}
          */
-        (value) => { fn(value == '' ? null : parseFloat(value)); });
+        (value) => {
+            fn(value == '' ? null : parseFloat(value));
+        });
     }
     /**
      * \@description
@@ -2122,7 +2204,9 @@ class RangeValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
     /**
      * Sets the "disabled" property on the range input element.
      *
@@ -2332,8 +2416,8 @@ class ReactiveErrors {
     in Angular v7.
     
     For more information on this, see our API docs here:
-    https://angular.io/api/forms/${directiveName === 'formControl' ? 'FormControlDirective'
-            : 'FormControlName'}#use-with-ngmodel
+    https://angular.io/api/forms/${directiveName === 'formControl' ? 'FormControlDirective' :
+            'FormControlName'}#use-with-ngmodel
     `);
     }
 }
@@ -2518,7 +2602,9 @@ class SelectControlValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
     /**
      * Sets the "disabled" property on the select input element.
      *
@@ -2532,7 +2618,9 @@ class SelectControlValueAccessor {
      * \@internal
      * @return {?}
      */
-    _registerOption() { return (this._idCounter++).toString(); }
+    _registerOption() {
+        return (this._idCounter++).toString();
+    }
     /**
      * \@internal
      * @param {?} value
@@ -2782,9 +2870,9 @@ if (false) {
 }
 /**
  * \@description
- * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select control
- * changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and `NgModel`
- * directives.
+ * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select
+ * control changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
+ * `NgModel` directives.
  *
  * @see `SelectControlValueAccessor`
  *
@@ -2888,7 +2976,9 @@ class SelectMultipleControlValueAccessor {
              * @param {?} o
              * @return {?}
              */
-            (opt, o) => { opt._setSelected(ids.indexOf(o.toString()) > -1); });
+            (opt, o) => {
+                opt._setSelected(ids.indexOf(o.toString()) > -1);
+            });
         }
         else {
             optionSelectedStateSetter = (/**
@@ -2896,7 +2986,9 @@ class SelectMultipleControlValueAccessor {
              * @param {?} o
              * @return {?}
              */
-            (opt, o) => { opt._setSelected(false); });
+            (opt, o) => {
+                opt._setSelected(false);
+            });
         }
         this._optionMap.forEach(optionSelectedStateSetter);
     }
@@ -2952,7 +3044,9 @@ class SelectMultipleControlValueAccessor {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnTouched(fn) { this.onTouched = fn; }
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
     /**
      * Sets the "disabled" property on the select input element.
      *
@@ -3211,7 +3305,9 @@ function setUpControl(control, dir) {
          * @param {?} isDisabled
          * @return {?}
          */
-        (isDisabled) => { (/** @type {?} */ ((/** @type {?} */ (dir.valueAccessor)).setDisabledState))(isDisabled); }));
+        (isDisabled) => {
+            (/** @type {?} */ ((/** @type {?} */ (dir.valueAccessor)).setDisabledState))(isDisabled);
+        }));
     }
     // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
     dir._rawValidators.forEach((/**
@@ -3708,7 +3804,9 @@ class AbstractControl {
      * The parent control.
      * @return {?}
      */
-    get parent() { return this._parent; }
+    get parent() {
+        return this._parent;
+    }
     /**
      * A control is `valid` when its `status` is `VALID`.
      *
@@ -3717,7 +3815,9 @@ class AbstractControl {
      * @return {?} True if the control has passed all of its validation tests,
      * false otherwise.
      */
-    get valid() { return this.status === VALID; }
+    get valid() {
+        return this.status === VALID;
+    }
     /**
      * A control is `invalid` when its `status` is `INVALID`.
      *
@@ -3726,7 +3826,9 @@ class AbstractControl {
      * @return {?} True if this control has failed one or more of its validation checks,
      * false otherwise.
      */
-    get invalid() { return this.status === INVALID; }
+    get invalid() {
+        return this.status === INVALID;
+    }
     /**
      * A control is `pending` when its `status` is `PENDING`.
      *
@@ -3735,7 +3837,9 @@ class AbstractControl {
      * @return {?} True if this control is in the process of conducting a validation check,
      * false otherwise.
      */
-    get pending() { return this.status == PENDING; }
+    get pending() {
+        return this.status == PENDING;
+    }
     /**
      * A control is `disabled` when its `status` is `DISABLED`.
      *
@@ -3747,7 +3851,9 @@ class AbstractControl {
      *
      * @return {?} True if the control is disabled, false otherwise.
      */
-    get disabled() { return this.status === DISABLED; }
+    get disabled() {
+        return this.status === DISABLED;
+    }
     /**
      * A control is `enabled` as long as its `status` is not `DISABLED`.
      *
@@ -3757,7 +3863,9 @@ class AbstractControl {
      * false if the status is 'DISABLED'.
      *
      */
-    get enabled() { return this.status !== DISABLED; }
+    get enabled() {
+        return this.status !== DISABLED;
+    }
     /**
      * A control is `dirty` if the user has changed the value
      * in the UI.
@@ -3765,7 +3873,9 @@ class AbstractControl {
      * @return {?} True if the user has changed the value of this control in the UI; compare `pristine`.
      * Programmatic changes to a control's value do not mark it dirty.
      */
-    get dirty() { return !this.pristine; }
+    get dirty() {
+        return !this.pristine;
+    }
     /**
      * True if the control has not been marked as touched
      *
@@ -3773,7 +3883,9 @@ class AbstractControl {
      * a `blur` event on it.
      * @return {?}
      */
-    get untouched() { return !this.touched; }
+    get untouched() {
+        return !this.touched;
+    }
     /**
      * Reports the update strategy of the `AbstractControl` (meaning
      * the event on which the control updates itself).
@@ -3818,7 +3930,9 @@ class AbstractControl {
      *
      * @return {?}
      */
-    clearValidators() { this.validator = null; }
+    clearValidators() {
+        this.validator = null;
+    }
     /**
      * Empties out the async validator list.
      *
@@ -3827,7 +3941,9 @@ class AbstractControl {
      *
      * @return {?}
      */
-    clearAsyncValidators() { this.asyncValidator = null; }
+    clearAsyncValidators() {
+        this.asyncValidator = null;
+    }
     /**
      * Marks the control as `touched`. A control is touched by focus and
      * blur events that do not change the value.
@@ -3880,7 +3996,9 @@ class AbstractControl {
          * @param {?} control
          * @return {?}
          */
-        (control) => { control.markAsUntouched({ onlySelf: true }); }));
+        (control) => {
+            control.markAsUntouched({ onlySelf: true });
+        }));
         if (this._parent && !opts.onlySelf) {
             this._parent._updateTouched(opts);
         }
@@ -3925,7 +4043,9 @@ class AbstractControl {
          * @param {?} control
          * @return {?}
          */
-        (control) => { control.markAsPristine({ onlySelf: true }); }));
+        (control) => {
+            control.markAsPristine({ onlySelf: true });
+        }));
         if (this._parent && !opts.onlySelf) {
             this._parent._updatePristine(opts);
         }
@@ -3985,7 +4105,9 @@ class AbstractControl {
          * @param {?} control
          * @return {?}
          */
-        (control) => { control.disable(Object.assign(Object.assign({}, opts), { onlySelf: true })); }));
+        (control) => {
+            control.disable(Object.assign(Object.assign({}, opts), { onlySelf: true }));
+        }));
         this._updateValue();
         if (opts.emitEvent !== false) {
             ((/** @type {?} */ (this.valueChanges))).emit(this.value);
@@ -4027,7 +4149,9 @@ class AbstractControl {
          * @param {?} control
          * @return {?}
          */
-        (control) => { control.enable(Object.assign(Object.assign({}, opts), { onlySelf: true })); }));
+        (control) => {
+            control.enable(Object.assign(Object.assign({}, opts), { onlySelf: true }));
+        }));
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
         this._updateAncestors(Object.assign(Object.assign({}, opts), { skipPristineCheck }));
         this._onDisabledChange.forEach((/**
@@ -4054,7 +4178,9 @@ class AbstractControl {
      * @param {?} parent Sets the parent of the control
      * @return {?}
      */
-    setParent(parent) { this._parent = parent; }
+    setParent(parent) {
+        this._parent = parent;
+    }
     /**
      * Recalculates the value and validation status of the control.
      *
@@ -4190,7 +4316,9 @@ class AbstractControl {
      *
      * @return {?}
      */
-    get(path) { return _find(this, path, '.'); }
+    get(path) {
+        return _find(this, path, '.');
+    }
     /**
      * \@description
      * Reports error data for the control with the given path.
@@ -4375,7 +4503,9 @@ class AbstractControl {
      * @param {?} fn
      * @return {?}
      */
-    _registerOnCollectionChange(fn) { this._onCollectionChange = fn; }
+    _registerOnCollectionChange(fn) {
+        this._onCollectionChange = fn;
+    }
     /**
      * \@internal
      * @param {?=} opts
@@ -4771,19 +4901,25 @@ class FormControl extends AbstractControl {
      * @param {?} condition
      * @return {?}
      */
-    _anyControls(condition) { return false; }
+    _anyControls(condition) {
+        return false;
+    }
     /**
      * \@internal
      * @return {?}
      */
-    _allControlsDisabled() { return this.disabled; }
+    _allControlsDisabled() {
+        return this.disabled;
+    }
     /**
      * Register a listener for change events.
      *
      * @param {?} fn The method that is called when the value changes
      * @return {?}
      */
-    registerOnChange(fn) { this._onChange.push(fn); }
+    registerOnChange(fn) {
+        this._onChange.push(fn);
+    }
     /**
      * \@internal
      * @return {?}
@@ -5284,7 +5420,9 @@ class FormGroup extends AbstractControl {
      * \@internal
      * @return {?}
      */
-    _updateValue() { ((/** @type {?} */ (this))).value = this._reduceValue(); }
+    _updateValue() {
+        ((/** @type {?} */ (this))).value = this._reduceValue();
+    }
     /**
      * \@internal
      * @param {?} condition
@@ -5335,7 +5473,9 @@ class FormGroup extends AbstractControl {
          * @param {?} name
          * @return {?}
          */
-        (control, name) => { res = fn(res, control, name); }));
+        (control, name) => {
+            res = fn(res, control, name);
+        }));
         return res;
     }
     /**
@@ -5464,7 +5604,9 @@ class FormArray extends AbstractControl {
      * @param {?} index Index in the array to retrieve the control
      * @return {?}
      */
-    at(index) { return this.controls[index]; }
+    at(index) {
+        return this.controls[index];
+    }
     /**
      * Insert a new `AbstractControl` at the end of the array.
      *
@@ -5529,7 +5671,9 @@ class FormArray extends AbstractControl {
      * Length of the control array.
      * @return {?}
      */
-    get length() { return this.controls.length; }
+    get length() {
+        return this.controls.length;
+    }
     /**
      * Sets the value of the `FormArray`. It accepts an array that matches
      * the structure of the control.
@@ -5793,7 +5937,9 @@ class FormArray extends AbstractControl {
          * @param {?} index
          * @return {?}
          */
-        (control, index) => { cb(control, index); }));
+        (control, index) => {
+            cb(control, index);
+        }));
     }
     /**
      * \@internal
@@ -5987,32 +6133,42 @@ class NgForm extends ControlContainer {
      * Lifecycle method called after the view is initialized. For internal use only.
      * @return {?}
      */
-    ngAfterViewInit() { this._setUpdateStrategy(); }
+    ngAfterViewInit() {
+        this._setUpdateStrategy();
+    }
     /**
      * \@description
      * The directive instance.
      * @return {?}
      */
-    get formDirective() { return this; }
+    get formDirective() {
+        return this;
+    }
     /**
      * \@description
      * The internal `FormGroup` instance.
      * @return {?}
      */
-    get control() { return this.form; }
+    get control() {
+        return this.form;
+    }
     /**
      * \@description
      * Returns an array representing the path to this group. Because this directive
      * always lives at the top level of a form, it is always an empty array.
      * @return {?}
      */
-    get path() { return []; }
+    get path() {
+        return [];
+    }
     /**
      * \@description
      * Returns a map of the controls in this group.
      * @return {?}
      */
-    get controls() { return this.form.controls; }
+    get controls() {
+        return this.form.controls;
+    }
     /**
      * \@description
      * Method that sets up the control directive in this group, re-calculates its value
@@ -6042,7 +6198,9 @@ class NgForm extends ControlContainer {
      * @param {?} dir The `NgModel` directive instance.
      * @return {?}
      */
-    getControl(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getControl(dir) {
+        return (/** @type {?} */ (this.form.get(dir.path)));
+    }
     /**
      * \@description
      * Removes the `NgModel` instance from the internal list of directives
@@ -6110,7 +6268,9 @@ class NgForm extends ControlContainer {
      * @param {?} dir The `NgModelGroup` directive instance.
      * @return {?}
      */
-    getFormGroup(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getFormGroup(dir) {
+        return (/** @type {?} */ (this.form.get(dir.path)));
+    }
     /**
      * Sets the new value for the provided `NgControl` directive.
      *
@@ -6135,7 +6295,9 @@ class NgForm extends ControlContainer {
      * @param {?} value The new value
      * @return {?}
      */
-    setValue(value) { this.control.setValue(value); }
+    setValue(value) {
+        this.control.setValue(value);
+    }
     /**
      * \@description
      * Method called when the "submit" event is triggered on the form.
@@ -6155,7 +6317,9 @@ class NgForm extends ControlContainer {
      * Method called when the "reset" event is triggered on the form.
      * @return {?}
      */
-    onReset() { this.resetForm(); }
+    onReset() {
+        this.resetForm();
+    }
     /**
      * \@description
      * Resets the form to an initial value and resets its submitted status.
@@ -6278,7 +6442,9 @@ class AbstractFormGroupDirective extends ControlContainer {
      * The `FormGroup` bound to this directive.
      * @return {?}
      */
-    get control() { return (/** @type {?} */ (this.formDirective)).getFormGroup(this); }
+    get control() {
+        return (/** @type {?} */ (this.formDirective)).getFormGroup(this);
+    }
     /**
      * \@description
      * The path to this group from the top-level directive.
@@ -6292,13 +6458,17 @@ class AbstractFormGroupDirective extends ControlContainer {
      * The top-level directive for this group if present, otherwise null.
      * @return {?}
      */
-    get formDirective() { return this._parent ? this._parent.formDirective : null; }
+    get formDirective() {
+        return this._parent ? this._parent.formDirective : null;
+    }
     /**
      * \@description
      * The synchronous validators registered with this group.
      * @return {?}
      */
-    get validator() { return composeValidators(this._validators); }
+    get validator() {
+        return composeValidators(this._validators);
+    }
     /**
      * \@description
      * The async validators registered with this group.
@@ -6543,10 +6713,10 @@ const resolvedPromise$1 = ((ɵ0$1))();
  * the domain model in your class.
  *
  * To inspect the properties of the associated `FormControl` (like validity state),
- * export the directive into a local template variable using `ngModel` as the key (ex: `#myVar="ngModel"`).
- * You then access the control using the directive's `control` property,
- * but most properties used (like `valid` and `dirty`) fall through to the control anyway for direct access.
- * See a full list of properties directly available in `AbstractControlDirective`.
+ * export the directive into a local template variable using `ngModel` as the key (ex:
+ * `#myVar="ngModel"`). You then access the control using the directive's `control` property, but
+ * most properties used (like `valid` and `dirty`) fall through to the control anyway for direct
+ * access. See a full list of properties directly available in `AbstractControlDirective`.
  *
  * @see `RadioControlValueAccessor`
  * @see `SelectControlValueAccessor`
@@ -6592,8 +6762,8 @@ const resolvedPromise$1 = ((ɵ0$1))();
  *
  * ### Setting the ngModel name attribute through options
  *
- * The following example shows you an alternate way to set the name attribute. The name attribute is used
- * within a custom form component, and the name `\@Input` property serves a different purpose.
+ * The following example shows you an alternate way to set the name attribute. The name attribute is
+ * used within a custom form component, and the name `\@Input` property serves a different purpose.
  *
  * ```html
  * <form>
@@ -6657,7 +6827,9 @@ class NgModel extends NgControl {
      * use only.
      * @return {?}
      */
-    ngOnDestroy() { this.formDirective && this.formDirective.removeControl(this); }
+    ngOnDestroy() {
+        this.formDirective && this.formDirective.removeControl(this);
+    }
     /**
      * \@description
      * Returns an array that represents the path from the top-level form to this control.
@@ -6672,14 +6844,18 @@ class NgModel extends NgControl {
      * The top-level directive for this control if present, otherwise null.
      * @return {?}
      */
-    get formDirective() { return this._parent ? this._parent.formDirective : null; }
+    get formDirective() {
+        return this._parent ? this._parent.formDirective : null;
+    }
     /**
      * \@description
      * Synchronous validator function composed of all the synchronous validators
      * registered with this directive.
      * @return {?}
      */
-    get validator() { return composeValidators(this._rawValidators); }
+    get validator() {
+        return composeValidators(this._rawValidators);
+    }
     /**
      * \@description
      * Async validator function composed of all the async validators registered with this
@@ -6706,8 +6882,7 @@ class NgModel extends NgControl {
      */
     _setUpControl() {
         this._setUpdateStrategy();
-        this._isStandalone() ? this._setUpStandalone() :
-            this.formDirective.addControl(this);
+        this._isStandalone() ? this._setUpStandalone() : this.formDirective.addControl(this);
         this._registered = true;
     }
     /**
@@ -6777,7 +6952,9 @@ class NgModel extends NgControl {
         resolvedPromise$1.then((/**
          * @return {?}
          */
-        () => { this.control.setValue(value, { emitViewToModelChange: false }); }));
+        () => {
+            this.control.setValue(value, { emitViewToModelChange: false });
+        }));
     }
     /**
      * @private
@@ -7055,7 +7232,9 @@ class FormControlDirective extends NgControl {
      * @param {?} isDisabled
      * @return {?}
      */
-    set isDisabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
+    set isDisabled(isDisabled) {
+        ReactiveErrors.disabledAttrWarning();
+    }
     /**
      * \@description
      * A lifecycle method called when the directive's inputs change. For internal use
@@ -7084,14 +7263,18 @@ class FormControlDirective extends NgControl {
      * Each index is the string name of the control on that level.
      * @return {?}
      */
-    get path() { return []; }
+    get path() {
+        return [];
+    }
     /**
      * \@description
      * Synchronous validator function composed of all the synchronous validators
      * registered with this directive.
      * @return {?}
      */
-    get validator() { return composeValidators(this._rawValidators); }
+    get validator() {
+        return composeValidators(this._rawValidators);
+    }
     /**
      * \@description
      * Async validator function composed of all the async validators registered with this
@@ -7106,7 +7289,9 @@ class FormControlDirective extends NgControl {
      * The `FormControl` bound to this directive.
      * @return {?}
      */
-    get control() { return this.form; }
+    get control() {
+        return this.form;
+    }
     /**
      * \@description
      * Sets the new value for the view model and emits an `ngModelChange` event.
@@ -7285,20 +7470,26 @@ class FormGroupDirective extends ControlContainer {
      * Returns this directive's instance.
      * @return {?}
      */
-    get formDirective() { return this; }
+    get formDirective() {
+        return this;
+    }
     /**
      * \@description
      * Returns the `FormGroup` bound to this directive.
      * @return {?}
      */
-    get control() { return this.form; }
+    get control() {
+        return this.form;
+    }
     /**
      * \@description
      * Returns an array representing the path to this group. Because this directive
      * always lives at the top level of a form, it always an empty array.
      * @return {?}
      */
-    get path() { return []; }
+    get path() {
+        return [];
+    }
     /**
      * \@description
      * Method that sets up the control directive in this group, re-calculates its value
@@ -7322,7 +7513,9 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir The `FormControlName` directive instance.
      * @return {?}
      */
-    getControl(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getControl(dir) {
+        return (/** @type {?} */ (this.form.get(dir.path)));
+    }
     /**
      * \@description
      * Removes the `FormControlName` instance from the internal list of directives
@@ -7330,7 +7523,9 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir The `FormControlName` directive instance.
      * @return {?}
      */
-    removeControl(dir) { removeDir(this.directives, dir); }
+    removeControl(dir) {
+        removeDir(this.directives, dir);
+    }
     /**
      * Adds a new `FormGroupName` directive instance to the form.
      *
@@ -7357,7 +7552,9 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir The `FormGroupName` directive instance.
      * @return {?}
      */
-    getFormGroup(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getFormGroup(dir) {
+        return (/** @type {?} */ (this.form.get(dir.path)));
+    }
     /**
      * Adds a new `FormArrayName` directive instance to the form.
      *
@@ -7384,7 +7581,9 @@ class FormGroupDirective extends ControlContainer {
      * @param {?} dir The `FormArrayName` directive instance.
      * @return {?}
      */
-    getFormArray(dir) { return (/** @type {?} */ (this.form.get(dir.path))); }
+    getFormArray(dir) {
+        return (/** @type {?} */ (this.form.get(dir.path)));
+    }
     /**
      * Sets the new value for the provided `FormControlName` directive.
      *
@@ -7416,7 +7615,9 @@ class FormGroupDirective extends ControlContainer {
      * Method called when the "reset" event is triggered on the form.
      * @return {?}
      */
-    onReset() { this.resetForm(); }
+    onReset() {
+        this.resetForm();
+    }
     /**
      * \@description
      * Resets the form to an initial value and resets its submitted status.
@@ -7723,7 +7924,9 @@ class FormArrayName extends ControlContainer {
      * The `FormArray` bound to this directive.
      * @return {?}
      */
-    get control() { return (/** @type {?} */ (this.formDirective)).getFormArray(this); }
+    get control() {
+        return (/** @type {?} */ (this.formDirective)).getFormArray(this);
+    }
     /**
      * \@description
      * The top-level directive for this group if present, otherwise null.
@@ -7747,7 +7950,9 @@ class FormArrayName extends ControlContainer {
      * directive.
      * @return {?}
      */
-    get validator() { return composeValidators(this._validators); }
+    get validator() {
+        return composeValidators(this._validators);
+    }
     /**
      * \@description
      * Async validator function composed of all the async validators registered with this directive.
@@ -7961,7 +8166,9 @@ class FormControlName extends NgControl {
      * @param {?} isDisabled
      * @return {?}
      */
-    set isDisabled(isDisabled) { ReactiveErrors.disabledAttrWarning(); }
+    set isDisabled(isDisabled) {
+        ReactiveErrors.disabledAttrWarning();
+    }
     /**
      * \@description
      * A lifecycle method called when the directive's inputs change. For internal use only.
@@ -8013,14 +8220,18 @@ class FormControlName extends NgControl {
      * The top-level directive for this group if present, otherwise null.
      * @return {?}
      */
-    get formDirective() { return this._parent ? this._parent.formDirective : null; }
+    get formDirective() {
+        return this._parent ? this._parent.formDirective : null;
+    }
     /**
      * \@description
      * Synchronous validator function composed of all the synchronous validators
      * registered with this directive.
      * @return {?}
      */
-    get validator() { return composeValidators(this._rawValidators); }
+    get validator() {
+        return composeValidators(this._rawValidators);
+    }
     /**
      * \@description
      * Async validator function composed of all the async validators registered with this
@@ -8292,7 +8503,9 @@ class RequiredValidator {
      * Tracks changes to the required attribute bound to this directive.
      * @return {?}
      */
-    get required() { return this._required; }
+    get required() {
+        return this._required;
+    }
     /**
      * @param {?} value
      * @return {?}
@@ -8319,7 +8532,9 @@ class RequiredValidator {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnValidatorChange(fn) { this._onChange = fn; }
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
 }
 RequiredValidator.decorators = [
     { type: Directive, args: [{
@@ -8353,7 +8568,8 @@ if (false) {
  *
  * ### Adding a required checkbox validator using template-driven forms
  *
- * The following example shows how to add a checkbox required validator to an input attached to an ngModel binding.
+ * The following example shows how to add a checkbox required validator to an input attached to an
+ * ngModel binding.
  *
  * ```
  * <input type="checkbox" name="active" ngModel required>
@@ -8405,7 +8621,8 @@ const EMAIL_VALIDATOR = {
  *
  * ### Adding an email validator
  *
- * The following example shows how to add an email validator to an input attached to an ngModel binding.
+ * The following example shows how to add an email validator to an input attached to an ngModel
+ * binding.
  *
  * ```
  * <input type="email" name="email" ngModel email>
@@ -8446,7 +8663,9 @@ class EmailValidator {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnValidatorChange(fn) { this._onChange = fn; }
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
 }
 EmailValidator.decorators = [
     { type: Directive, args: [{
@@ -8554,7 +8773,9 @@ class MinLengthValidator {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnValidatorChange(fn) { this._onChange = fn; }
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
     /**
      * @private
      * @return {?}
@@ -8658,7 +8879,9 @@ class MaxLengthValidator {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnValidatorChange(fn) { this._onChange = fn; }
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
     /**
      * @private
      * @return {?}
@@ -8754,7 +8977,9 @@ class PatternValidator {
      * @param {?} control
      * @return {?}
      */
-    validate(control) { return this._validator(control); }
+    validate(control) {
+        return this._validator(control);
+    }
     /**
      * \@description
      * Registers a callback function to call when the validator inputs change.
@@ -8762,12 +8987,16 @@ class PatternValidator {
      * @param {?} fn The callback function
      * @return {?}
      */
-    registerOnValidatorChange(fn) { this._onChange = fn; }
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
     /**
      * @private
      * @return {?}
      */
-    _createValidator() { this._validator = Validators.pattern(this.pattern); }
+    _createValidator() {
+        this._validator = Validators.pattern(this.pattern);
+    }
 }
 PatternValidator.decorators = [
     { type: Directive, args: [{
@@ -9018,7 +9247,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('9.1.0-rc.0+129.sha-93302b7');
+const VERSION = new Version('9.1.0-rc.0+131.sha-7d0af17');
 
 /**
  * @fileoverview added by tsickle
@@ -9064,10 +9293,9 @@ class ReactiveFormsModule {
     static withConfig(opts) {
         return {
             ngModule: ReactiveFormsModule,
-            providers: [{
-                    provide: NG_MODEL_WITH_FORM_CONTROL_WARNING,
-                    useValue: opts.warnOnNgModelWithFormControl
-                }]
+            providers: [
+                { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
+            ]
         };
     }
 }
