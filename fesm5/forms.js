@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.1.0-rc.0+140.sha-7f28845
+ * @license Angular v9.1.0-rc.0+141.sha-4a18428
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2895,7 +2895,7 @@ var AbstractControl = /** @class */ (function () {
      * @param opts Configuration options that determine how the control emits events after
      * marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
-     * marks all direct ancestors. Default is false..
+     * marks all direct ancestors. Default is false.
      */
     AbstractControl.prototype.markAsPristine = function (opts) {
         if (opts === void 0) { opts = {}; }
@@ -2918,7 +2918,7 @@ var AbstractControl = /** @class */ (function () {
      * @param opts Configuration options that determine how the control propagates changes and
      * emits events after marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
-     * marks all direct ancestors. Default is false..
+     * marks all direct ancestors. Default is false.
      * * `emitEvent`: When true or not supplied (the default), the `statusChanges`
      * observable emits an event with the latest status the control is marked pending.
      * When false, no events are emitted.
@@ -2945,7 +2945,7 @@ var AbstractControl = /** @class */ (function () {
      * @param opts Configuration options that determine how the control propagates
      * changes and emits events after the control is disabled.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
-     * marks all direct ancestors. Default is false..
+     * marks all direct ancestors. Default is false.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges`
      * observables emit events with the latest status and value when the control is disabled.
@@ -2981,7 +2981,7 @@ var AbstractControl = /** @class */ (function () {
      * @param opts Configure options that control how the control propagates changes and
      * emits events when marked as untouched
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
-     * marks all direct ancestors. Default is false..
+     * marks all direct ancestors. Default is false.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges`
      * observables emit events with the latest status and value when the control is enabled.
@@ -3023,7 +3023,7 @@ var AbstractControl = /** @class */ (function () {
      * @param opts Configuration options determine how the control propagates changes and emits events
      * after updates and validity checks are applied.
      * * `onlySelf`: When true, only update this control. When false or not supplied,
-     * update all direct ancestors. Default is false..
+     * update all direct ancestors. Default is false.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges`
      * observables emit events with the latest status and value when the control is updated.
@@ -6945,7 +6945,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.1.0-rc.0+140.sha-7f28845');
+var VERSION = new Version('9.1.0-rc.0+141.sha-4a18428');
 
 /**
  * @license
