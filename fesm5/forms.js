@@ -1,5 +1,5 @@
 /**
- * @license Angular v9.1.1+17.sha-c8f9092
+ * @license Angular v9.1.1+19.sha-66724fd
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1052,7 +1052,11 @@ var Validators = /** @class */ (function () {
      * @description
      * Validator that requires the length of the control's value to be greater than or equal
      * to the provided minimum length. This validator is also provided by default if you use the
-     * the HTML5 `minlength` attribute.
+     * the HTML5 `minlength` attribute. Note that the `minLength` validator is intended to be used
+     * only for types that have a numeric `length` property, such as strings or arrays. The `minLength`
+     * validator logic is also not invoked for values when their `length` property is 0 (for example in
+     * case of an empty string or an empty array), to support optional controls. You can use
+     * the standard `required` validator if empty values should not be considered valid.
      *
      * @usageNotes
      *
@@ -1089,7 +1093,8 @@ var Validators = /** @class */ (function () {
      * @description
      * Validator that requires the length of the control's value to be less than or equal
      * to the provided maximum length. This validator is also provided by default if you use the
-     * the HTML5 `maxlength` attribute.
+     * the HTML5 `maxlength` attribute. Note that the `maxLength` validator is intended to be used
+     * only for types that have a numeric `length` property, such as strings or arrays.
      *
      * @usageNotes
      *
@@ -6817,7 +6822,7 @@ var FormBuilder = /** @class */ (function () {
 /**
  * @publicApi
  */
-var VERSION = new Version('9.1.1+17.sha-c8f9092');
+var VERSION = new Version('9.1.1+19.sha-66724fd');
 
 /**
  * @license
