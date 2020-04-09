@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.1+10.sha-80e6c07
+ * @license Angular v10.0.0-next.1+11.sha-99b93e5
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1403,7 +1403,11 @@ class Validators {
      * \@description
      * Validator that requires the length of the control's value to be greater than or equal
      * to the provided minimum length. This validator is also provided by default if you use the
-     * the HTML5 `minlength` attribute.
+     * the HTML5 `minlength` attribute. Note that the `minLength` validator is intended to be used
+     * only for types that have a numeric `length` property, such as strings or arrays. The `minLength`
+     * validator logic is also not invoked for values when their `length` property is 0 (for example in
+     * case of an empty string or an empty array), to support optional controls. You can use
+     * the standard `required` validator if empty values should not be considered valid.
      *
      * \@usageNotes
      *
@@ -1446,7 +1450,8 @@ class Validators {
      * \@description
      * Validator that requires the length of the control's value to be less than or equal
      * to the provided maximum length. This validator is also provided by default if you use the
-     * the HTML5 `maxlength` attribute.
+     * the HTML5 `maxlength` attribute. Note that the `maxLength` validator is intended to be used
+     * only for types that have a numeric `length` property, such as strings or arrays.
      *
      * \@usageNotes
      *
@@ -9857,7 +9862,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('10.0.0-next.1+10.sha-80e6c07');
+const VERSION = new Version('10.0.0-next.1+11.sha-99b93e5');
 
 /**
  * @fileoverview added by tsickle
