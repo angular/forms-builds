@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.1+31.sha-d50cb30
+ * @license Angular v10.0.0-next.1+32.sha-5e80e7e
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -9124,7 +9124,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('10.0.0-next.1+31.sha-d50cb30');
+const VERSION = new Version('10.0.0-next.1+32.sha-5e80e7e');
 
 /**
  * @fileoverview added by tsickle
