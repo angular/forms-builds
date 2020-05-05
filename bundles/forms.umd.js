@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.4+42.sha-b3713a1
+ * @license Angular v10.0.0-next.5+9.sha-70b25a3
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1040,6 +1040,10 @@
         // we don't check for string here so it also works with arrays
         return value == null || value.length === 0;
     }
+    function hasValidLength(value) {
+        // non-strict comparison is intentional, to check for both `null` and `undefined` values
+        return value != null && typeof value.length === 'number';
+    }
     /**
      * @description
      * An `InjectionToken` for registering additional synchronous validators used with
@@ -1309,12 +1313,13 @@
          */
         Validators.minLength = function (minLength) {
             return function (control) {
-                if (isEmptyInputValue(control.value)) {
-                    return null; // don't validate empty values to allow optional controls
+                if (isEmptyInputValue(control.value) || !hasValidLength(control.value)) {
+                    // don't validate empty values to allow optional controls
+                    // don't validate values without `length` property
+                    return null;
                 }
-                var length = control.value ? control.value.length : 0;
-                return length < minLength ?
-                    { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
+                return control.value.length < minLength ?
+                    { 'minlength': { 'requiredLength': minLength, 'actualLength': control.value.length } } :
                     null;
             };
         };
@@ -1347,9 +1352,8 @@
          */
         Validators.maxLength = function (maxLength) {
             return function (control) {
-                var length = control.value ? control.value.length : 0;
-                return length > maxLength ?
-                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
+                return hasValidLength(control.value) && control.value.length > maxLength ?
+                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': control.value.length } } :
                     null;
             };
         };
@@ -7173,7 +7177,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('10.0.0-next.4+42.sha-b3713a1');
+    var VERSION = new i0.Version('10.0.0-next.5+9.sha-70b25a3');
 
     /**
      * @license
