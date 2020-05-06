@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.5+55.sha-20cc3ab
+ * @license Angular v10.0.0-next.5+61.sha-f930e75
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5040,6 +5040,9 @@
         return AbstractFormGroupDirective;
     }(ControlContainer));
     var ɵAbstractFormGroupDirective_BaseFactory = i0.ɵɵgetInheritedFactory(AbstractFormGroupDirective);
+    /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(AbstractFormGroupDirective, [{
+            type: i0.Directive
+        }], null, null); })();
 
     /**
      * @license
@@ -7177,7 +7180,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('10.0.0-next.5+55.sha-20cc3ab');
+    var VERSION = new i0.Version('10.0.0-next.5+61.sha-f930e75');
 
     /**
      * @license

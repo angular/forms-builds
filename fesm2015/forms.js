@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.5+55.sha-20cc3ab
+ * @license Angular v10.0.0-next.5+61.sha-f930e75
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6770,9 +6770,15 @@ class AbstractFormGroupDirective extends ControlContainer {
      */
     _checkParentType() { }
 }
+AbstractFormGroupDirective.decorators = [
+    { type: Directive },
+];
 /** @nocollapse */ AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
 /** @nocollapse */ AbstractFormGroupDirective.ɵdir = ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [ɵɵInheritDefinitionFeature] });
 const ɵAbstractFormGroupDirective_BaseFactory = ɵɵgetInheritedFactory(AbstractFormGroupDirective);
+/*@__PURE__*/ (function () { ɵsetClassMetadata(AbstractFormGroupDirective, [{
+        type: Directive
+    }], null, null); })();
 if (false) {
     /**
      * \@description
@@ -9868,7 +9874,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('10.0.0-next.5+55.sha-20cc3ab');
+const VERSION = new Version('10.0.0-next.5+61.sha-f930e75');
 
 /**
  * @fileoverview added by tsickle
