@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.5+71.sha-f7815cf
+ * @license Angular v10.0.0-next.5+72.sha-97d6d90
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1760,11 +1760,7 @@ class NumberValueAccessor {
 NumberValueAccessor.decorators = [
     { type: Directive, args: [{
                 selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-                host: {
-                    '(change)': 'onChange($event.target.value)',
-                    '(input)': 'onChange($event.target.value)',
-                    '(blur)': 'onTouched()'
-                },
+                host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [NUMBER_VALUE_ACCESSOR]
             },] }
 ];
@@ -9133,7 +9129,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('10.0.0-next.5+71.sha-f7815cf');
+const VERSION = new Version('10.0.0-next.5+72.sha-97d6d90');
 
 /**
  * @fileoverview added by tsickle
