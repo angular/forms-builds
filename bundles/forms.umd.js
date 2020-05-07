@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.5+71.sha-f7815cf
+ * @license Angular v10.0.0-next.5+72.sha-97d6d90
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1600,7 +1600,7 @@
         };
         NumberValueAccessor.ɵfac = function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(i0.ɵɵdirectiveInject(i0.Renderer2), i0.ɵɵdirectiveInject(i0.ElementRef)); };
         NumberValueAccessor.ɵdir = i0.ɵɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], hostBindings: function NumberValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-                i0.ɵɵlistener("change", function NumberValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function NumberValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
+                i0.ɵɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function NumberValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
             } }, features: [i0.ɵɵProvidersFeature([NUMBER_VALUE_ACCESSOR])] });
         return NumberValueAccessor;
     }());
@@ -1608,11 +1608,7 @@
             type: i0.Directive,
             args: [{
                     selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-                    host: {
-                        '(change)': 'onChange($event.target.value)',
-                        '(input)': 'onChange($event.target.value)',
-                        '(blur)': 'onTouched()'
-                    },
+                    host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                     providers: [NUMBER_VALUE_ACCESSOR]
                 }]
         }], function () { return [{ type: i0.Renderer2 }, { type: i0.ElementRef }]; }, null); })();
@@ -7180,7 +7176,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('10.0.0-next.5+71.sha-f7815cf');
+    var VERSION = new i0.Version('10.0.0-next.5+72.sha-97d6d90');
 
     /**
      * @license

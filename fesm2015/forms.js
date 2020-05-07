@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.5+71.sha-f7815cf
+ * @license Angular v10.0.0-next.5+72.sha-97d6d90
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1848,11 +1848,7 @@ class NumberValueAccessor {
 NumberValueAccessor.decorators = [
     { type: Directive, args: [{
                 selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-                host: {
-                    '(change)': 'onChange($event.target.value)',
-                    '(input)': 'onChange($event.target.value)',
-                    '(blur)': 'onTouched()'
-                },
+                host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [NUMBER_VALUE_ACCESSOR]
             },] },
 ];
@@ -1863,17 +1859,13 @@ NumberValueAccessor.ctorParameters = () => [
 ];
 /** @nocollapse */ NumberValueAccessor.ɵfac = function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
 /** @nocollapse */ NumberValueAccessor.ɵdir = ɵɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], hostBindings: function NumberValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-        ɵɵlistener("change", function NumberValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function NumberValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
+        ɵɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function NumberValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
     } }, features: [ɵɵProvidersFeature([NUMBER_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(NumberValueAccessor, [{
         type: Directive,
         args: [{
                 selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-                host: {
-                    '(change)': 'onChange($event.target.value)',
-                    '(input)': 'onChange($event.target.value)',
-                    '(blur)': 'onTouched()'
-                },
+                host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [NUMBER_VALUE_ACCESSOR]
             }]
     }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, null); })();
@@ -9874,7 +9866,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('10.0.0-next.5+71.sha-f7815cf');
+const VERSION = new Version('10.0.0-next.5+72.sha-97d6d90');
 
 /**
  * @fileoverview added by tsickle
