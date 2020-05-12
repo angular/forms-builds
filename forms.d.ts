@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.6+28.sha-681741c
+ * @license Angular v10.0.0-next.6+25.sha-8d8e419
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -757,7 +757,7 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
  * async validator directive with a custom error key.
  *
  * ```typescript
- * import { of } from 'rxjs';
+ * import { of as observableOf } from 'rxjs';
  *
  * @Directive({
  *   selector: '[customAsyncValidator]',
@@ -766,7 +766,7 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
  * })
  * class CustomAsyncValidatorDirective implements AsyncValidator {
  *   validate(control: AbstractControl): Observable<ValidationErrors|null> {
- *     return of({'custom': true});
+ *     return observableOf({'custom': true});
  *   }
  * }
  * ```
