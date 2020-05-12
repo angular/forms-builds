@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.6+25.sha-8d8e419
+ * @license Angular v10.0.0-next.6+27.sha-8fe532e
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -8304,7 +8304,7 @@ if (false) {
  * async validator directive with a custom error key.
  *
  * ```typescript
- * import { of as observableOf } from 'rxjs';
+ * import { of } from 'rxjs';
  *
  * \@Directive({
  *   selector: '[customAsyncValidator]',
@@ -8313,7 +8313,7 @@ if (false) {
  * })
  * class CustomAsyncValidatorDirective implements AsyncValidator {
  *   validate(control: AbstractControl): Observable<ValidationErrors|null> {
- *     return observableOf({'custom': true});
+ *     return of({'custom': true});
  *   }
  * }
  * ```
@@ -9129,7 +9129,7 @@ FormBuilder.decorators = [
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('10.0.0-next.6+25.sha-8d8e419');
+const VERSION = new Version('10.0.0-next.6+27.sha-8fe532e');
 
 /**
  * @fileoverview added by tsickle
