@@ -74,7 +74,7 @@ export interface Validator {
  * async validator directive with a custom error key.
  *
  * ```typescript
- * import { of as observableOf } from 'rxjs';
+ * import { of } from 'rxjs';
  *
  * @Directive({
  *   selector: '[customAsyncValidator]',
@@ -83,7 +83,7 @@ export interface Validator {
  * })
  * class CustomAsyncValidatorDirective implements AsyncValidator {
  *   validate(control: AbstractControl): Observable<ValidationErrors|null> {
- *     return observableOf({'custom': true});
+ *     return of({'custom': true});
  *   }
  * }
  * ```
