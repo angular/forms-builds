@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.7+17.sha-2418c6a
+ * @license Angular v10.0.0-next.7+43.sha-f16ca1c
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -504,7 +504,7 @@
             get: function () {
                 return this.control ? this.control.value : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "valid", {
@@ -517,7 +517,7 @@
             get: function () {
                 return this.control ? this.control.valid : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "invalid", {
@@ -529,7 +529,7 @@
             get: function () {
                 return this.control ? this.control.invalid : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "pending", {
@@ -542,7 +542,7 @@
             get: function () {
                 return this.control ? this.control.pending : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "disabled", {
@@ -555,7 +555,7 @@
             get: function () {
                 return this.control ? this.control.disabled : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "enabled", {
@@ -567,7 +567,7 @@
             get: function () {
                 return this.control ? this.control.enabled : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "errors", {
@@ -578,7 +578,7 @@
             get: function () {
                 return this.control ? this.control.errors : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "pristine", {
@@ -590,7 +590,7 @@
             get: function () {
                 return this.control ? this.control.pristine : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "dirty", {
@@ -602,7 +602,7 @@
             get: function () {
                 return this.control ? this.control.dirty : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "touched", {
@@ -614,7 +614,7 @@
             get: function () {
                 return this.control ? this.control.touched : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "status", {
@@ -627,7 +627,7 @@
             get: function () {
                 return this.control ? this.control.status : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "untouched", {
@@ -639,7 +639,7 @@
             get: function () {
                 return this.control ? this.control.untouched : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "statusChanges", {
@@ -651,7 +651,7 @@
             get: function () {
                 return this.control ? this.control.statusChanges : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "valueChanges", {
@@ -664,7 +664,7 @@
             get: function () {
                 return this.control ? this.control.valueChanges : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlDirective.prototype, "path", {
@@ -676,7 +676,7 @@
             get: function () {
                 return null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -781,7 +781,7 @@
             get: function () {
                 return null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(ControlContainer.prototype, "path", {
@@ -792,7 +792,7 @@
             get: function () {
                 return null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         return ControlContainer;
@@ -862,7 +862,7 @@
             get: function () {
                 return unimplemented();
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(NgControl.prototype, "asyncValidator", {
@@ -875,7 +875,7 @@
             get: function () {
                 return unimplemented();
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         return NgControl;
@@ -896,49 +896,49 @@
             get: function () {
                 return this._cd.control ? this._cd.control.untouched : false;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
             get: function () {
                 return this._cd.control ? this._cd.control.touched : false;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
             get: function () {
                 return this._cd.control ? this._cd.control.pristine : false;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
             get: function () {
                 return this._cd.control ? this._cd.control.dirty : false;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
             get: function () {
                 return this._cd.control ? this._cd.control.valid : false;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
             get: function () {
                 return this._cd.control ? this._cd.control.invalid : false;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
             get: function () {
                 return this._cd.control ? this._cd.control.pending : false;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         return AbstractControlStatus;
@@ -1477,7 +1477,7 @@
      * found in the LICENSE file at https://angular.io/license
      */
     function normalizeValidator(validator) {
-        if (validator.validate) {
+        if (!!validator.validate) {
             return function (c) { return validator.validate(c); };
         }
         else {
@@ -1485,7 +1485,7 @@
         }
     }
     function normalizeAsyncValidator(validator) {
-        if (validator.validate) {
+        if (!!validator.validate) {
             return function (c) { return validator.validate(c); };
         }
         else {
@@ -2056,7 +2056,7 @@
                 }
                 this._compareWith = fn;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -2178,7 +2178,7 @@
                 this._setElementValue(_buildValueString(this.id, value));
                 this._select.writeValue(this._select.value);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(NgSelectOption.prototype, "value", {
@@ -2192,7 +2192,7 @@
                 if (this._select)
                     this._select.writeValue(this._select.value);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /** @internal */
@@ -2325,7 +2325,7 @@
                 }
                 this._compareWith = fn;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -2481,7 +2481,7 @@
                 this._setElementValue(_buildValueString$1(this.id, value));
                 this._select.writeValue(this._select.value);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(ɵNgSelectMultipleOption.prototype, "value", {
@@ -2500,7 +2500,7 @@
                     this._setElementValue(value);
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /** @internal */
@@ -2862,7 +2862,7 @@
             get: function () {
                 return this._parent;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControl.prototype, "valid", {
@@ -2877,7 +2877,7 @@
             get: function () {
                 return this.status === VALID;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControl.prototype, "invalid", {
@@ -2892,7 +2892,7 @@
             get: function () {
                 return this.status === INVALID;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControl.prototype, "pending", {
@@ -2907,7 +2907,7 @@
             get: function () {
                 return this.status == PENDING;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControl.prototype, "disabled", {
@@ -2925,7 +2925,7 @@
             get: function () {
                 return this.status === DISABLED;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControl.prototype, "enabled", {
@@ -2941,7 +2941,7 @@
             get: function () {
                 return this.status !== DISABLED;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControl.prototype, "dirty", {
@@ -2955,7 +2955,7 @@
             get: function () {
                 return !this.pristine;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControl.prototype, "untouched", {
@@ -2968,7 +2968,7 @@
             get: function () {
                 return !this.touched;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControl.prototype, "updateOn", {
@@ -2981,7 +2981,7 @@
             get: function () {
                 return this._updateOn ? this._updateOn : (this.parent ? this.parent.updateOn : 'change');
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -3417,7 +3417,7 @@
                 }
                 return x;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /** @internal */
@@ -4344,7 +4344,7 @@
             get: function () {
                 return this.controls.length;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -4725,7 +4725,7 @@
             get: function () {
                 return this;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(NgForm.prototype, "control", {
@@ -4736,7 +4736,7 @@
             get: function () {
                 return this.form;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(NgForm.prototype, "path", {
@@ -4748,7 +4748,7 @@
             get: function () {
                 return [];
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(NgForm.prototype, "controls", {
@@ -4759,7 +4759,7 @@
             get: function () {
                 return this.form.controls;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -4972,7 +4972,7 @@
             get: function () {
                 return this.formDirective.getFormGroup(this);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractFormGroupDirective.prototype, "path", {
@@ -4983,7 +4983,7 @@
             get: function () {
                 return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractFormGroupDirective.prototype, "formDirective", {
@@ -4994,7 +4994,7 @@
             get: function () {
                 return this._parent ? this._parent.formDirective : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractFormGroupDirective.prototype, "validator", {
@@ -5005,7 +5005,7 @@
             get: function () {
                 return composeValidators(this._validators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractFormGroupDirective.prototype, "asyncValidator", {
@@ -5016,7 +5016,7 @@
             get: function () {
                 return composeAsyncValidators(this._asyncValidators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /** @internal */
@@ -5288,7 +5288,7 @@
             get: function () {
                 return this._parent ? controlPath(this.name, this._parent) : [this.name];
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(NgModel.prototype, "formDirective", {
@@ -5299,7 +5299,7 @@
             get: function () {
                 return this._parent ? this._parent.formDirective : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(NgModel.prototype, "validator", {
@@ -5311,7 +5311,7 @@
             get: function () {
                 return composeValidators(this._rawValidators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(NgModel.prototype, "asyncValidator", {
@@ -5323,7 +5323,7 @@
             get: function () {
                 return composeAsyncValidators(this._rawAsyncValidators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -5533,7 +5533,7 @@
             set: function (isDisabled) {
                 ReactiveErrors.disabledAttrWarning();
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -5566,7 +5566,7 @@
             get: function () {
                 return [];
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormControlDirective.prototype, "validator", {
@@ -5578,7 +5578,7 @@
             get: function () {
                 return composeValidators(this._rawValidators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormControlDirective.prototype, "asyncValidator", {
@@ -5590,7 +5590,7 @@
             get: function () {
                 return composeAsyncValidators(this._rawAsyncValidators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormControlDirective.prototype, "control", {
@@ -5601,7 +5601,7 @@
             get: function () {
                 return this.form;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -5739,7 +5739,7 @@
             get: function () {
                 return this;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormGroupDirective.prototype, "control", {
@@ -5750,7 +5750,7 @@
             get: function () {
                 return this.form;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormGroupDirective.prototype, "path", {
@@ -5762,7 +5762,7 @@
             get: function () {
                 return [];
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -6092,7 +6092,7 @@
             get: function () {
                 return this.formDirective.getFormArray(this);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormArrayName.prototype, "formDirective", {
@@ -6103,7 +6103,7 @@
             get: function () {
                 return this._parent ? this._parent.formDirective : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormArrayName.prototype, "path", {
@@ -6115,7 +6115,7 @@
             get: function () {
                 return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormArrayName.prototype, "validator", {
@@ -6127,7 +6127,7 @@
             get: function () {
                 return composeValidators(this._validators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormArrayName.prototype, "asyncValidator", {
@@ -6138,7 +6138,7 @@
             get: function () {
                 return composeAsyncValidators(this._asyncValidators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         FormArrayName.prototype._checkParentType = function () {
@@ -6240,7 +6240,7 @@
             set: function (isDisabled) {
                 ReactiveErrors.disabledAttrWarning();
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -6286,7 +6286,7 @@
             get: function () {
                 return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormControlName.prototype, "formDirective", {
@@ -6297,7 +6297,7 @@
             get: function () {
                 return this._parent ? this._parent.formDirective : null;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormControlName.prototype, "validator", {
@@ -6309,7 +6309,7 @@
             get: function () {
                 return composeValidators(this._rawValidators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(FormControlName.prototype, "asyncValidator", {
@@ -6321,7 +6321,7 @@
             get: function () {
                 return composeAsyncValidators(this._rawAsyncValidators);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         FormControlName.prototype._checkParentType = function () {
@@ -6442,7 +6442,7 @@
                 if (this._onChange)
                     this._onChange();
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -6564,7 +6564,7 @@
                 if (this._onChange)
                     this._onChange();
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -7039,7 +7039,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.0.0-next.7+17.sha-2418c6a');
+    var VERSION = new core.Version('10.0.0-next.7+43.sha-f16ca1c');
 
     /**
      * @license
