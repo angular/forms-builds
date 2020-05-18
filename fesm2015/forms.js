@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-next.8+9.sha-593e07b
+ * @license Angular v10.0.0-next.8+10.sha-22d80a6
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -9974,7 +9974,7 @@ let FormBuilder = /** @class */ (() => {
  * \@publicApi
  * @type {?}
  */
-const VERSION = new Version('10.0.0-next.8+9.sha-593e07b');
+const VERSION = new Version('10.0.0-next.8+10.sha-22d80a6');
 
 /**
  * @fileoverview added by tsickle
