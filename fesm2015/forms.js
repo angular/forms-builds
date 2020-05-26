@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+14.sha-540c29c
+ * @license Angular v10.0.0-rc.0+17.sha-d1ea1f4
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -28,7 +28,7 @@ const NG_VALUE_ACCESSOR = new InjectionToken('NgValueAccessor');
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -125,7 +125,7 @@ let CheckboxControlValueAccessor = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -270,7 +270,7 @@ let DefaultValueAccessor = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -482,7 +482,7 @@ class AbstractControlDirective {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -513,7 +513,7 @@ class ControlContainer extends AbstractControlDirective {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -585,7 +585,7 @@ class NgControl extends AbstractControlDirective {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -691,7 +691,7 @@ let NgControlStatusGroup = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -1143,7 +1143,7 @@ function _mergeErrors(arrayOfErrors) {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -1167,7 +1167,7 @@ function normalizeAsyncValidator(validator) {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -1270,7 +1270,7 @@ let NumberValueAccessor = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -1473,7 +1473,7 @@ let RadioControlValueAccessor = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -1578,7 +1578,7 @@ let RangeValueAccessor = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -1637,7 +1637,7 @@ const FormErrorExamples = {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -1691,8 +1691,8 @@ class ReactiveErrors {
       It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
       when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
       you. We recommend using this approach to avoid 'changed after checked' errors.
-       
-      Example: 
+
+      Example:
       form = new FormGroup({
         first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
         last: new FormControl('Drew', Validators.required)
@@ -1701,11 +1701,11 @@ class ReactiveErrors {
     }
     static ngModelWarning(directiveName) {
         console.warn(`
-    It looks like you're using ngModel on the same form field as ${directiveName}. 
-    Support for using the ngModel input property and ngModelChange event with 
-    reactive form directives has been deprecated in Angular v6 and will be removed 
+    It looks like you're using ngModel on the same form field as ${directiveName}.
+    Support for using the ngModel input property and ngModelChange event with
+    reactive form directives has been deprecated in Angular v6 and will be removed
     in Angular v7.
-    
+
     For more information on this, see our API docs here:
     https://angular.io/api/forms/${directiveName === 'formControl' ? 'FormControlDirective' :
             'FormControlName'}#use-with-ngmodel
@@ -1715,7 +1715,7 @@ class ReactiveErrors {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -1978,7 +1978,7 @@ let NgSelectOption = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -2266,7 +2266,7 @@ let ɵNgSelectMultipleOption = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -2460,7 +2460,7 @@ function _ngModelWarning(name, type, instance, warningConfig) {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -4233,7 +4233,7 @@ class FormArray extends AbstractControl {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -4524,7 +4524,7 @@ let NgForm = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -4602,7 +4602,7 @@ let AbstractFormGroupDirective = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -4656,7 +4656,7 @@ class TemplateDrivenErrors {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -4723,7 +4723,7 @@ let NgModelGroup = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -5016,7 +5016,7 @@ let NgModel = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -5052,7 +5052,7 @@ let ɵNgNoValidate = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -5219,7 +5219,7 @@ let FormControlDirective = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -5491,7 +5491,7 @@ let FormGroupDirective = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -5693,7 +5693,7 @@ function _hasInvalidParent(parent) {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -5890,7 +5890,7 @@ let FormControlName = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -6338,7 +6338,7 @@ let PatternValidator = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -6382,7 +6382,7 @@ let ɵInternalFormsSharedModule = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -6524,7 +6524,7 @@ let FormBuilder = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -6532,11 +6532,11 @@ let FormBuilder = /** @class */ (() => {
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0-rc.0+14.sha-540c29c');
+const VERSION = new Version('10.0.0-rc.0+17.sha-d1ea1f4');
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -6603,7 +6603,7 @@ let ReactiveFormsModule = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -6611,7 +6611,7 @@ let ReactiveFormsModule = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
@@ -6620,7 +6620,7 @@ let ReactiveFormsModule = /** @class */ (() => {
 
 /**
  * @license
- * Copyright Google Inc. All Rights Reserved.
+ * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
