@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+34.sha-bd7393f
+ * @license Angular v10.0.0-rc.0+35.sha-4d0e175
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -9,6 +9,268 @@
     typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', '@angular/common', 'rxjs', 'rxjs/operators'], factory) :
     (global = global || self, factory((global.ng = global.ng || {}, global.ng.forms = {}), global.ng.core, global.ng.common, global.rxjs, global.rxjs.operators));
 }(this, (function (exports, core, common, rxjs, operators) { 'use strict';
+
+    /**
+     * @license
+     * Copyright Google LLC All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    /**
+     * Used to provide a `ControlValueAccessor` for form controls.
+     *
+     * See `DefaultValueAccessor` for how to implement one.
+     *
+     * @publicApi
+     */
+    var NG_VALUE_ACCESSOR = new core.InjectionToken('NgValueAccessor');
+
+    /**
+     * @license
+     * Copyright Google LLC All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    var CHECKBOX_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return CheckboxControlValueAccessor; }),
+        multi: true,
+    };
+    /**
+     * @description
+     * A `ControlValueAccessor` for writing a value and listening to changes on a checkbox input
+     * element.
+     *
+     * @usageNotes
+     *
+     * ### Using a checkbox with a reactive form.
+     *
+     * The following example shows how to use a checkbox with a reactive form.
+     *
+     * ```ts
+     * const rememberLoginControl = new FormControl();
+     * ```
+     *
+     * ```
+     * <input type="checkbox" [formControl]="rememberLoginControl">
+     * ```
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var CheckboxControlValueAccessor = /** @class */ (function () {
+        function CheckboxControlValueAccessor(_renderer, _elementRef) {
+            this._renderer = _renderer;
+            this._elementRef = _elementRef;
+            /**
+             * @description
+             * The registered callback function called when a change event occurs on the input element.
+             */
+            this.onChange = function (_) { };
+            /**
+             * @description
+             * The registered callback function called when a blur event occurs on the input element.
+             */
+            this.onTouched = function () { };
+        }
+        /**
+         * Sets the "checked" property on the input element.
+         *
+         * @param value The checked value
+         */
+        CheckboxControlValueAccessor.prototype.writeValue = function (value) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
+        };
+        /**
+         * @description
+         * Registers a function called when the control value changes.
+         *
+         * @param fn The callback function
+         */
+        CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) {
+            this.onChange = fn;
+        };
+        /**
+         * @description
+         * Registers a function called when the control is touched.
+         *
+         * @param fn The callback function
+         */
+        CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the input element.
+         *
+         * @param isDisabled The disabled value
+         */
+        CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        CheckboxControlValueAccessor.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
+                        host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
+                        providers: [CHECKBOX_VALUE_ACCESSOR]
+                    },] }
+        ];
+        /** @nocollapse */
+        CheckboxControlValueAccessor.ctorParameters = function () { return [
+            { type: core.Renderer2 },
+            { type: core.ElementRef }
+        ]; };
+        return CheckboxControlValueAccessor;
+    }());
+
+    /**
+     * @license
+     * Copyright Google LLC All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    var DEFAULT_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return DefaultValueAccessor; }),
+        multi: true
+    };
+    /**
+     * We must check whether the agent is Android because composition events
+     * behave differently between iOS and Android.
+     */
+    function _isAndroid() {
+        var userAgent = common.ɵgetDOM() ? common.ɵgetDOM().getUserAgent() : '';
+        return /android (\d+)/.test(userAgent.toLowerCase());
+    }
+    /**
+     * @description
+     * Provide this token to control if form directives buffer IME input until
+     * the "compositionend" event occurs.
+     * @publicApi
+     */
+    var COMPOSITION_BUFFER_MODE = new core.InjectionToken('CompositionEventMode');
+    /**
+     * @description
+     * The default `ControlValueAccessor` for writing a value and listening to changes on input
+     * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
+     * `NgModel` directives.
+     *
+     * @usageNotes
+     *
+     * ### Using the default value accessor
+     *
+     * The following example shows how to use an input element that activates the default value accessor
+     * (in this case, a text field).
+     *
+     * ```ts
+     * const firstNameControl = new FormControl();
+     * ```
+     *
+     * ```
+     * <input type="text" [formControl]="firstNameControl">
+     * ```
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var DefaultValueAccessor = /** @class */ (function () {
+        function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
+            this._renderer = _renderer;
+            this._elementRef = _elementRef;
+            this._compositionMode = _compositionMode;
+            /**
+             * @description
+             * The registered callback function called when an input event occurs on the input element.
+             */
+            this.onChange = function (_) { };
+            /**
+             * @description
+             * The registered callback function called when a blur event occurs on the input element.
+             */
+            this.onTouched = function () { };
+            /** Whether the user is creating a composition string (IME events). */
+            this._composing = false;
+            if (this._compositionMode == null) {
+                this._compositionMode = !_isAndroid();
+            }
+        }
+        /**
+         * Sets the "value" property on the input element.
+         *
+         * @param value The checked value
+         */
+        DefaultValueAccessor.prototype.writeValue = function (value) {
+            var normalizedValue = value == null ? '' : value;
+            this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+        };
+        /**
+         * @description
+         * Registers a function called when the control value changes.
+         *
+         * @param fn The callback function
+         */
+        DefaultValueAccessor.prototype.registerOnChange = function (fn) {
+            this.onChange = fn;
+        };
+        /**
+         * @description
+         * Registers a function called when the control is touched.
+         *
+         * @param fn The callback function
+         */
+        DefaultValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the input element.
+         *
+         * @param isDisabled The disabled value
+         */
+        DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        /** @internal */
+        DefaultValueAccessor.prototype._handleInput = function (value) {
+            if (!this._compositionMode || (this._compositionMode && !this._composing)) {
+                this.onChange(value);
+            }
+        };
+        /** @internal */
+        DefaultValueAccessor.prototype._compositionStart = function () {
+            this._composing = true;
+        };
+        /** @internal */
+        DefaultValueAccessor.prototype._compositionEnd = function (value) {
+            this._composing = false;
+            this._compositionMode && this.onChange(value);
+        };
+        DefaultValueAccessor.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
+                        // TODO: vsavkin replace the above selector with the one below it once
+                        // https://github.com/angular/angular/issues/3011 is implemented
+                        // selector: '[ngModel],[formControl],[formControlName]',
+                        host: {
+                            '(input)': '$any(this)._handleInput($event.target.value)',
+                            '(blur)': 'onTouched()',
+                            '(compositionstart)': '$any(this)._compositionStart()',
+                            '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
+                        },
+                        providers: [DEFAULT_VALUE_ACCESSOR]
+                    },] }
+        ];
+        /** @nocollapse */
+        DefaultValueAccessor.ctorParameters = function () { return [
+            { type: core.Renderer2 },
+            { type: core.ElementRef },
+            { type: Boolean, decorators: [{ type: core.Optional }, { type: core.Inject, args: [COMPOSITION_BUFFER_MODE,] }] }
+        ]; };
+        return DefaultValueAccessor;
+    }());
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -237,260 +499,6 @@
         privateMap.set(receiver, value);
         return value;
     }
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    /**
-     * Used to provide a `ControlValueAccessor` for form controls.
-     *
-     * See `DefaultValueAccessor` for how to implement one.
-     *
-     * @publicApi
-     */
-    var NG_VALUE_ACCESSOR = new core.InjectionToken('NgValueAccessor');
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    var CHECKBOX_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return CheckboxControlValueAccessor; }),
-        multi: true,
-    };
-    /**
-     * @description
-     * A `ControlValueAccessor` for writing a value and listening to changes on a checkbox input
-     * element.
-     *
-     * @usageNotes
-     *
-     * ### Using a checkbox with a reactive form.
-     *
-     * The following example shows how to use a checkbox with a reactive form.
-     *
-     * ```ts
-     * const rememberLoginControl = new FormControl();
-     * ```
-     *
-     * ```
-     * <input type="checkbox" [formControl]="rememberLoginControl">
-     * ```
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var CheckboxControlValueAccessor = /** @class */ (function () {
-        function CheckboxControlValueAccessor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /**
-             * @description
-             * The registered callback function called when a change event occurs on the input element.
-             */
-            this.onChange = function (_) { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = function () { };
-        }
-        /**
-         * Sets the "checked" property on the input element.
-         *
-         * @param value The checked value
-         */
-        CheckboxControlValueAccessor.prototype.writeValue = function (value) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
-        };
-        /**
-         * @description
-         * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
-         */
-        CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) {
-            this.onChange = fn;
-        };
-        /**
-         * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
-         */
-        CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        CheckboxControlValueAccessor = __decorate([
-            core.Directive({
-                selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
-                host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
-                providers: [CHECKBOX_VALUE_ACCESSOR]
-            }),
-            __metadata("design:paramtypes", [core.Renderer2, core.ElementRef])
-        ], CheckboxControlValueAccessor);
-        return CheckboxControlValueAccessor;
-    }());
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    var DEFAULT_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return DefaultValueAccessor; }),
-        multi: true
-    };
-    /**
-     * We must check whether the agent is Android because composition events
-     * behave differently between iOS and Android.
-     */
-    function _isAndroid() {
-        var userAgent = common.ɵgetDOM() ? common.ɵgetDOM().getUserAgent() : '';
-        return /android (\d+)/.test(userAgent.toLowerCase());
-    }
-    /**
-     * @description
-     * Provide this token to control if form directives buffer IME input until
-     * the "compositionend" event occurs.
-     * @publicApi
-     */
-    var COMPOSITION_BUFFER_MODE = new core.InjectionToken('CompositionEventMode');
-    /**
-     * @description
-     * The default `ControlValueAccessor` for writing a value and listening to changes on input
-     * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
-     * `NgModel` directives.
-     *
-     * @usageNotes
-     *
-     * ### Using the default value accessor
-     *
-     * The following example shows how to use an input element that activates the default value accessor
-     * (in this case, a text field).
-     *
-     * ```ts
-     * const firstNameControl = new FormControl();
-     * ```
-     *
-     * ```
-     * <input type="text" [formControl]="firstNameControl">
-     * ```
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var DefaultValueAccessor = /** @class */ (function () {
-        function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            this._compositionMode = _compositionMode;
-            /**
-             * @description
-             * The registered callback function called when an input event occurs on the input element.
-             */
-            this.onChange = function (_) { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = function () { };
-            /** Whether the user is creating a composition string (IME events). */
-            this._composing = false;
-            if (this._compositionMode == null) {
-                this._compositionMode = !_isAndroid();
-            }
-        }
-        /**
-         * Sets the "value" property on the input element.
-         *
-         * @param value The checked value
-         */
-        DefaultValueAccessor.prototype.writeValue = function (value) {
-            var normalizedValue = value == null ? '' : value;
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
-        };
-        /**
-         * @description
-         * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
-         */
-        DefaultValueAccessor.prototype.registerOnChange = function (fn) {
-            this.onChange = fn;
-        };
-        /**
-         * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
-         */
-        DefaultValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        /** @internal */
-        DefaultValueAccessor.prototype._handleInput = function (value) {
-            if (!this._compositionMode || (this._compositionMode && !this._composing)) {
-                this.onChange(value);
-            }
-        };
-        /** @internal */
-        DefaultValueAccessor.prototype._compositionStart = function () {
-            this._composing = true;
-        };
-        /** @internal */
-        DefaultValueAccessor.prototype._compositionEnd = function (value) {
-            this._composing = false;
-            this._compositionMode && this.onChange(value);
-        };
-        DefaultValueAccessor = __decorate([
-            core.Directive({
-                selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
-                // TODO: vsavkin replace the above selector with the one below it once
-                // https://github.com/angular/angular/issues/3011 is implemented
-                // selector: '[ngModel],[formControl],[formControlName]',
-                host: {
-                    '(input)': '$any(this)._handleInput($event.target.value)',
-                    '(blur)': 'onTouched()',
-                    '(compositionstart)': '$any(this)._compositionStart()',
-                    '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
-                },
-                providers: [DEFAULT_VALUE_ACCESSOR]
-            }),
-            __param(2, core.Optional()), __param(2, core.Inject(COMPOSITION_BUFFER_MODE)),
-            __metadata("design:paramtypes", [core.Renderer2, core.ElementRef, Boolean])
-        ], DefaultValueAccessor);
-        return DefaultValueAccessor;
-    }());
 
     /**
      * @license
@@ -994,11 +1002,13 @@
         function NgControlStatus(cd) {
             return _super.call(this, cd) || this;
         }
-        NgControlStatus = __decorate([
-            core.Directive({ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost }),
-            __param(0, core.Self()),
-            __metadata("design:paramtypes", [NgControl])
-        ], NgControlStatus);
+        NgControlStatus.decorators = [
+            { type: core.Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] }
+        ];
+        /** @nocollapse */
+        NgControlStatus.ctorParameters = function () { return [
+            { type: NgControl, decorators: [{ type: core.Self }] }
+        ]; };
         return NgControlStatus;
     }(AbstractControlStatus));
     /**
@@ -1017,14 +1027,16 @@
         function NgControlStatusGroup(cd) {
             return _super.call(this, cd) || this;
         }
-        NgControlStatusGroup = __decorate([
-            core.Directive({
-                selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-                host: ngControlStatusHost
-            }),
-            __param(0, core.Self()),
-            __metadata("design:paramtypes", [ControlContainer])
-        ], NgControlStatusGroup);
+        NgControlStatusGroup.decorators = [
+            { type: core.Directive, args: [{
+                        selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
+                        host: ngControlStatusHost
+                    },] }
+        ];
+        /** @nocollapse */
+        NgControlStatusGroup.ctorParameters = function () { return [
+            { type: ControlContainer, decorators: [{ type: core.Self }] }
+        ]; };
         return NgControlStatusGroup;
     }(AbstractControlStatus));
 
@@ -1597,14 +1609,18 @@
         NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         };
-        NumberValueAccessor = __decorate([
-            core.Directive({
-                selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-                host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
-                providers: [NUMBER_VALUE_ACCESSOR]
-            }),
-            __metadata("design:paramtypes", [core.Renderer2, core.ElementRef])
-        ], NumberValueAccessor);
+        NumberValueAccessor.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
+                        host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                        providers: [NUMBER_VALUE_ACCESSOR]
+                    },] }
+        ];
+        /** @nocollapse */
+        NumberValueAccessor.ctorParameters = function () { return [
+            { type: core.Renderer2 },
+            { type: core.ElementRef }
+        ]; };
         return NumberValueAccessor;
     }());
 
@@ -1665,9 +1681,9 @@
             return controlPair[0]._parent === accessor._control._parent &&
                 controlPair[1].name === accessor.name;
         };
-        RadioControlRegistry = __decorate([
-            core.Injectable()
-        ], RadioControlRegistry);
+        RadioControlRegistry.decorators = [
+            { type: core.Injectable }
+        ];
         return RadioControlRegistry;
     }());
     /**
@@ -1782,27 +1798,25 @@
         RadioControlValueAccessor.prototype._throwNameError = function () {
             throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", String)
-        ], RadioControlValueAccessor.prototype, "name", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", String)
-        ], RadioControlValueAccessor.prototype, "formControlName", void 0);
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], RadioControlValueAccessor.prototype, "value", void 0);
-        RadioControlValueAccessor = __decorate([
-            core.Directive({
-                selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
-                host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
-                providers: [RADIO_VALUE_ACCESSOR]
-            }),
-            __metadata("design:paramtypes", [core.Renderer2, core.ElementRef,
-                RadioControlRegistry, core.Injector])
-        ], RadioControlValueAccessor);
+        RadioControlValueAccessor.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
+                        host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
+                        providers: [RADIO_VALUE_ACCESSOR]
+                    },] }
+        ];
+        /** @nocollapse */
+        RadioControlValueAccessor.ctorParameters = function () { return [
+            { type: core.Renderer2 },
+            { type: core.ElementRef },
+            { type: RadioControlRegistry },
+            { type: core.Injector }
+        ]; };
+        RadioControlValueAccessor.propDecorators = {
+            name: [{ type: core.Input }],
+            formControlName: [{ type: core.Input }],
+            value: [{ type: core.Input }]
+        };
         return RadioControlValueAccessor;
     }());
 
@@ -1894,18 +1908,22 @@
         RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         };
-        RangeValueAccessor = __decorate([
-            core.Directive({
-                selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
-                host: {
-                    '(change)': 'onChange($event.target.value)',
-                    '(input)': 'onChange($event.target.value)',
-                    '(blur)': 'onTouched()'
-                },
-                providers: [RANGE_VALUE_ACCESSOR]
-            }),
-            __metadata("design:paramtypes", [core.Renderer2, core.ElementRef])
-        ], RangeValueAccessor);
+        RangeValueAccessor.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
+                        host: {
+                            '(change)': 'onChange($event.target.value)',
+                            '(input)': 'onChange($event.target.value)',
+                            '(blur)': 'onTouched()'
+                        },
+                        providers: [RANGE_VALUE_ACCESSOR]
+                    },] }
+        ];
+        /** @nocollapse */
+        RangeValueAccessor.ctorParameters = function () { return [
+            { type: core.Renderer2 },
+            { type: core.ElementRef }
+        ]; };
         return RangeValueAccessor;
     }());
 
@@ -2146,19 +2164,21 @@
             var id = _extractId(valueString);
             return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Function),
-            __metadata("design:paramtypes", [Function])
-        ], SelectControlValueAccessor.prototype, "compareWith", null);
-        SelectControlValueAccessor = __decorate([
-            core.Directive({
-                selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
-                host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
-                providers: [SELECT_VALUE_ACCESSOR]
-            }),
-            __metadata("design:paramtypes", [core.Renderer2, core.ElementRef])
-        ], SelectControlValueAccessor);
+        SelectControlValueAccessor.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
+                        host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                        providers: [SELECT_VALUE_ACCESSOR]
+                    },] }
+        ];
+        /** @nocollapse */
+        SelectControlValueAccessor.ctorParameters = function () { return [
+            { type: core.Renderer2 },
+            { type: core.ElementRef }
+        ]; };
+        SelectControlValueAccessor.propDecorators = {
+            compareWith: [{ type: core.Input }]
+        };
         return SelectControlValueAccessor;
     }());
     /**
@@ -2223,22 +2243,19 @@
                 this._select.writeValue(this._select.value);
             }
         };
-        __decorate([
-            core.Input('ngValue'),
-            __metadata("design:type", Object),
-            __metadata("design:paramtypes", [Object])
-        ], NgSelectOption.prototype, "ngValue", null);
-        __decorate([
-            core.Input('value'),
-            __metadata("design:type", Object),
-            __metadata("design:paramtypes", [Object])
-        ], NgSelectOption.prototype, "value", null);
-        NgSelectOption = __decorate([
-            core.Directive({ selector: 'option' }),
-            __param(2, core.Optional()), __param(2, core.Host()),
-            __metadata("design:paramtypes", [core.ElementRef, core.Renderer2,
-                SelectControlValueAccessor])
-        ], NgSelectOption);
+        NgSelectOption.decorators = [
+            { type: core.Directive, args: [{ selector: 'option' },] }
+        ];
+        /** @nocollapse */
+        NgSelectOption.ctorParameters = function () { return [
+            { type: core.ElementRef },
+            { type: core.Renderer2 },
+            { type: SelectControlValueAccessor, decorators: [{ type: core.Optional }, { type: core.Host }] }
+        ]; };
+        NgSelectOption.propDecorators = {
+            ngValue: [{ type: core.Input, args: ['ngValue',] }],
+            value: [{ type: core.Input, args: ['value',] }]
+        };
         return NgSelectOption;
     }());
 
@@ -2448,19 +2465,21 @@
             var id = _extractId$1(valueString);
             return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Function),
-            __metadata("design:paramtypes", [Function])
-        ], SelectMultipleControlValueAccessor.prototype, "compareWith", null);
-        SelectMultipleControlValueAccessor = __decorate([
-            core.Directive({
-                selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
-                host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
-                providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
-            }),
-            __metadata("design:paramtypes", [core.Renderer2, core.ElementRef])
-        ], SelectMultipleControlValueAccessor);
+        SelectMultipleControlValueAccessor.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
+                        host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
+                        providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
+                    },] }
+        ];
+        /** @nocollapse */
+        SelectMultipleControlValueAccessor.ctorParameters = function () { return [
+            { type: core.Renderer2 },
+            { type: core.ElementRef }
+        ]; };
+        SelectMultipleControlValueAccessor.propDecorators = {
+            compareWith: [{ type: core.Input }]
+        };
         return SelectMultipleControlValueAccessor;
     }());
     /**
@@ -2535,22 +2554,19 @@
                 this._select.writeValue(this._select.value);
             }
         };
-        __decorate([
-            core.Input('ngValue'),
-            __metadata("design:type", Object),
-            __metadata("design:paramtypes", [Object])
-        ], ɵNgSelectMultipleOption.prototype, "ngValue", null);
-        __decorate([
-            core.Input('value'),
-            __metadata("design:type", Object),
-            __metadata("design:paramtypes", [Object])
-        ], ɵNgSelectMultipleOption.prototype, "value", null);
-        ɵNgSelectMultipleOption = __decorate([
-            core.Directive({ selector: 'option' }),
-            __param(2, core.Optional()), __param(2, core.Host()),
-            __metadata("design:paramtypes", [core.ElementRef, core.Renderer2,
-                SelectMultipleControlValueAccessor])
-        ], ɵNgSelectMultipleOption);
+        ɵNgSelectMultipleOption.decorators = [
+            { type: core.Directive, args: [{ selector: 'option' },] }
+        ];
+        /** @nocollapse */
+        ɵNgSelectMultipleOption.ctorParameters = function () { return [
+            { type: core.ElementRef },
+            { type: core.Renderer2 },
+            { type: SelectMultipleControlValueAccessor, decorators: [{ type: core.Optional }, { type: core.Host }] }
+        ]; };
+        ɵNgSelectMultipleOption.propDecorators = {
+            ngValue: [{ type: core.Input, args: ['ngValue',] }],
+            value: [{ type: core.Input, args: ['value',] }]
+        };
         return ɵNgSelectMultipleOption;
     }());
 
@@ -4922,22 +4938,23 @@
             path.pop();
             return path.length ? this.form.get(path) : this.form;
         };
-        __decorate([
-            core.Input('ngFormOptions'),
-            __metadata("design:type", Object)
-        ], NgForm.prototype, "options", void 0);
-        NgForm = __decorate([
-            core.Directive({
-                selector: 'form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]',
-                providers: [formDirectiveProvider],
-                host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-                outputs: ['ngSubmit'],
-                exportAs: 'ngForm'
-            }),
-            __param(0, core.Optional()), __param(0, core.Self()), __param(0, core.Inject(NG_VALIDATORS)),
-            __param(1, core.Optional()), __param(1, core.Self()), __param(1, core.Inject(NG_ASYNC_VALIDATORS)),
-            __metadata("design:paramtypes", [Array, Array])
-        ], NgForm);
+        NgForm.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]',
+                        providers: [formDirectiveProvider],
+                        host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                        outputs: ['ngSubmit'],
+                        exportAs: 'ngForm'
+                    },] }
+        ];
+        /** @nocollapse */
+        NgForm.ctorParameters = function () { return [
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+        ]; };
+        NgForm.propDecorators = {
+            options: [{ type: core.Input, args: ['ngFormOptions',] }]
+        };
         return NgForm;
     }(ControlContainer));
 
@@ -5035,9 +5052,9 @@
         });
         /** @internal */
         AbstractFormGroupDirective.prototype._checkParentType = function () { };
-        AbstractFormGroupDirective = __decorate([
-            core.Directive()
-        ], AbstractFormGroupDirective);
+        AbstractFormGroupDirective.decorators = [
+            { type: core.Directive }
+        ];
         return AbstractFormGroupDirective;
     }(ControlContainer));
 
@@ -5112,25 +5129,24 @@
             _this._asyncValidators = asyncValidators;
             return _this;
         }
-        NgModelGroup_1 = NgModelGroup;
         /** @internal */
         NgModelGroup.prototype._checkParentType = function () {
-            if (!(this._parent instanceof NgModelGroup_1) && !(this._parent instanceof NgForm)) {
+            if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
                 TemplateDrivenErrors.modelGroupParentException();
             }
         };
-        var NgModelGroup_1;
-        __decorate([
-            core.Input('ngModelGroup'),
-            __metadata("design:type", String)
-        ], NgModelGroup.prototype, "name", void 0);
-        NgModelGroup = NgModelGroup_1 = __decorate([
-            core.Directive({ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' }),
-            __param(0, core.Host()), __param(0, core.SkipSelf()),
-            __param(1, core.Optional()), __param(1, core.Self()), __param(1, core.Inject(NG_VALIDATORS)),
-            __param(2, core.Optional()), __param(2, core.Self()), __param(2, core.Inject(NG_ASYNC_VALIDATORS)),
-            __metadata("design:paramtypes", [ControlContainer, Array, Array])
-        ], NgModelGroup);
+        NgModelGroup.decorators = [
+            { type: core.Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] }
+        ];
+        /** @nocollapse */
+        NgModelGroup.ctorParameters = function () { return [
+            { type: ControlContainer, decorators: [{ type: core.Host }, { type: core.SkipSelf }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+        ]; };
+        NgModelGroup.propDecorators = {
+            name: [{ type: core.Input, args: ['ngModelGroup',] }]
+        };
         return NgModelGroup;
     }(AbstractFormGroupDirective));
 
@@ -5408,40 +5424,27 @@
                 }
             });
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", String)
-        ], NgModel.prototype, "name", void 0);
-        __decorate([
-            core.Input('disabled'),
-            __metadata("design:type", Boolean)
-        ], NgModel.prototype, "isDisabled", void 0);
-        __decorate([
-            core.Input('ngModel'),
-            __metadata("design:type", Object)
-        ], NgModel.prototype, "model", void 0);
-        __decorate([
-            core.Input('ngModelOptions'),
-            __metadata("design:type", Object)
-        ], NgModel.prototype, "options", void 0);
-        __decorate([
-            core.Output('ngModelChange'),
-            __metadata("design:type", Object)
-        ], NgModel.prototype, "update", void 0);
-        NgModel = __decorate([
-            core.Directive({
-                selector: '[ngModel]:not([formControlName]):not([formControl])',
-                providers: [formControlBinding],
-                exportAs: 'ngModel'
-            }),
-            __param(0, core.Optional()), __param(0, core.Host()),
-            __param(1, core.Optional()), __param(1, core.Self()), __param(1, core.Inject(NG_VALIDATORS)),
-            __param(2, core.Optional()), __param(2, core.Self()), __param(2, core.Inject(NG_ASYNC_VALIDATORS)),
-            __param(3, core.Optional()), __param(3, core.Self()), __param(3, core.Inject(NG_VALUE_ACCESSOR)),
-            __metadata("design:paramtypes", [ControlContainer,
-                Array,
-                Array, Array])
-        ], NgModel);
+        NgModel.decorators = [
+            { type: core.Directive, args: [{
+                        selector: '[ngModel]:not([formControlName]):not([formControl])',
+                        providers: [formControlBinding],
+                        exportAs: 'ngModel'
+                    },] }
+        ];
+        /** @nocollapse */
+        NgModel.ctorParameters = function () { return [
+            { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALUE_ACCESSOR,] }] }
+        ]; };
+        NgModel.propDecorators = {
+            name: [{ type: core.Input }],
+            isDisabled: [{ type: core.Input, args: ['disabled',] }],
+            model: [{ type: core.Input, args: ['ngModel',] }],
+            options: [{ type: core.Input, args: ['ngModelOptions',] }],
+            update: [{ type: core.Output, args: ['ngModelChange',] }]
+        };
         return NgModel;
     }(NgControl));
 
@@ -5472,12 +5475,12 @@
     var ɵNgNoValidate = /** @class */ (function () {
         function ɵNgNoValidate() {
         }
-        ɵNgNoValidate = __decorate([
-            core.Directive({
-                selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
-                host: { 'novalidate': '' },
-            })
-        ], ɵNgNoValidate);
+        ɵNgNoValidate.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
+                        host: { 'novalidate': '' },
+                    },] }
+        ];
         return ɵNgNoValidate;
     }());
 
@@ -5538,7 +5541,6 @@
             _this.valueAccessor = selectValueAccessor(_this, valueAccessors);
             return _this;
         }
-        FormControlDirective_1 = FormControlDirective;
         Object.defineProperty(FormControlDirective.prototype, "isDisabled", {
             /**
              * @description
@@ -5566,7 +5568,7 @@
                 this.form.updateValueAndValidity({ emitEvent: false });
             }
             if (isPropertyUpdated(changes, this.viewModel)) {
-                _ngModelWarning('formControl', FormControlDirective_1, this, this._ngModelWarningConfig);
+                _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
                 this.form.setValue(this.model);
                 this.viewModel = this.model;
             }
@@ -5631,7 +5633,6 @@
         FormControlDirective.prototype._isControlChanged = function (changes) {
             return changes.hasOwnProperty('form');
         };
-        var FormControlDirective_1;
         /**
          * @description
          * Static property used to track whether any ngModel warnings have been sent across
@@ -5640,32 +5641,22 @@
          * @internal
          */
         FormControlDirective._ngModelWarningSentOnce = false;
-        __decorate([
-            core.Input('formControl'),
-            __metadata("design:type", FormControl)
-        ], FormControlDirective.prototype, "form", void 0);
-        __decorate([
-            core.Input('disabled'),
-            __metadata("design:type", Boolean),
-            __metadata("design:paramtypes", [Boolean])
-        ], FormControlDirective.prototype, "isDisabled", null);
-        __decorate([
-            core.Input('ngModel'),
-            __metadata("design:type", Object)
-        ], FormControlDirective.prototype, "model", void 0);
-        __decorate([
-            core.Output('ngModelChange'),
-            __metadata("design:type", Object)
-        ], FormControlDirective.prototype, "update", void 0);
-        FormControlDirective = FormControlDirective_1 = __decorate([
-            core.Directive({ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' }),
-            __param(0, core.Optional()), __param(0, core.Self()), __param(0, core.Inject(NG_VALIDATORS)),
-            __param(1, core.Optional()), __param(1, core.Self()), __param(1, core.Inject(NG_ASYNC_VALIDATORS)),
-            __param(2, core.Optional()), __param(2, core.Self()), __param(2, core.Inject(NG_VALUE_ACCESSOR)),
-            __param(3, core.Optional()), __param(3, core.Inject(NG_MODEL_WITH_FORM_CONTROL_WARNING)),
-            __metadata("design:paramtypes", [Array,
-                Array, Array, Object])
-        ], FormControlDirective);
+        FormControlDirective.decorators = [
+            { type: core.Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] }
+        ];
+        /** @nocollapse */
+        FormControlDirective.ctorParameters = function () { return [
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALUE_ACCESSOR,] }] },
+            { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
+        ]; };
+        FormControlDirective.propDecorators = {
+            form: [{ type: core.Input, args: ['formControl',] }],
+            isDisabled: [{ type: core.Input, args: ['disabled',] }],
+            model: [{ type: core.Input, args: ['ngModel',] }],
+            update: [{ type: core.Output, args: ['ngModelChange',] }]
+        };
         return FormControlDirective;
     }(NgControl));
 
@@ -5934,25 +5925,23 @@
                 ReactiveErrors.missingFormException();
             }
         };
-        __decorate([
-            core.Input('formGroup'),
-            __metadata("design:type", FormGroup)
-        ], FormGroupDirective.prototype, "form", void 0);
-        __decorate([
-            core.Output(),
-            __metadata("design:type", Object)
-        ], FormGroupDirective.prototype, "ngSubmit", void 0);
-        FormGroupDirective = __decorate([
-            core.Directive({
-                selector: '[formGroup]',
-                providers: [formDirectiveProvider$1],
-                host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-                exportAs: 'ngForm'
-            }),
-            __param(0, core.Optional()), __param(0, core.Self()), __param(0, core.Inject(NG_VALIDATORS)),
-            __param(1, core.Optional()), __param(1, core.Self()), __param(1, core.Inject(NG_ASYNC_VALIDATORS)),
-            __metadata("design:paramtypes", [Array, Array])
-        ], FormGroupDirective);
+        FormGroupDirective.decorators = [
+            { type: core.Directive, args: [{
+                        selector: '[formGroup]',
+                        providers: [formDirectiveProvider$1],
+                        host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                        exportAs: 'ngForm'
+                    },] }
+        ];
+        /** @nocollapse */
+        FormGroupDirective.ctorParameters = function () { return [
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+        ]; };
+        FormGroupDirective.propDecorators = {
+            form: [{ type: core.Input, args: ['formGroup',] }],
+            ngSubmit: [{ type: core.Output }]
+        };
         return FormGroupDirective;
     }(ControlContainer));
 
@@ -6029,17 +6018,18 @@
                 ReactiveErrors.groupParentException();
             }
         };
-        __decorate([
-            core.Input('formGroupName'),
-            __metadata("design:type", Object)
-        ], FormGroupName.prototype, "name", void 0);
-        FormGroupName = __decorate([
-            core.Directive({ selector: '[formGroupName]', providers: [formGroupNameProvider] }),
-            __param(0, core.Optional()), __param(0, core.Host()), __param(0, core.SkipSelf()),
-            __param(1, core.Optional()), __param(1, core.Self()), __param(1, core.Inject(NG_VALIDATORS)),
-            __param(2, core.Optional()), __param(2, core.Self()), __param(2, core.Inject(NG_ASYNC_VALIDATORS)),
-            __metadata("design:paramtypes", [ControlContainer, Array, Array])
-        ], FormGroupName);
+        FormGroupName.decorators = [
+            { type: core.Directive, args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] },] }
+        ];
+        /** @nocollapse */
+        FormGroupName.ctorParameters = function () { return [
+            { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+        ]; };
+        FormGroupName.propDecorators = {
+            name: [{ type: core.Input, args: ['formGroupName',] }]
+        };
         return FormGroupName;
     }(AbstractFormGroupDirective));
     var formArrayNameProvider = {
@@ -6160,17 +6150,18 @@
                 ReactiveErrors.arrayParentException();
             }
         };
-        __decorate([
-            core.Input('formArrayName'),
-            __metadata("design:type", Object)
-        ], FormArrayName.prototype, "name", void 0);
-        FormArrayName = __decorate([
-            core.Directive({ selector: '[formArrayName]', providers: [formArrayNameProvider] }),
-            __param(0, core.Optional()), __param(0, core.Host()), __param(0, core.SkipSelf()),
-            __param(1, core.Optional()), __param(1, core.Self()), __param(1, core.Inject(NG_VALIDATORS)),
-            __param(2, core.Optional()), __param(2, core.Self()), __param(2, core.Inject(NG_ASYNC_VALIDATORS)),
-            __metadata("design:paramtypes", [ControlContainer, Array, Array])
-        ], FormArrayName);
+        FormArrayName.decorators = [
+            { type: core.Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] }
+        ];
+        /** @nocollapse */
+        FormArrayName.ctorParameters = function () { return [
+            { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+        ]; };
+        FormArrayName.propDecorators = {
+            name: [{ type: core.Input, args: ['formArrayName',] }]
+        };
         return FormArrayName;
     }(ControlContainer));
     function _hasInvalidParent(parent) {
@@ -6245,7 +6236,6 @@
             _this.valueAccessor = selectValueAccessor(_this, valueAccessors);
             return _this;
         }
-        FormControlName_1 = FormControlName;
         Object.defineProperty(FormControlName.prototype, "isDisabled", {
             /**
              * @description
@@ -6267,7 +6257,7 @@
             if (!this._added)
                 this._setUpControl();
             if (isPropertyUpdated(changes, this.viewModel)) {
-                _ngModelWarning('formControlName', FormControlName_1, this, this._ngModelWarningConfig);
+                _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
                 this.viewModel = this.model;
                 this.formDirective.updateModel(this, this.model);
             }
@@ -6356,7 +6346,6 @@
             }
             this._added = true;
         };
-        var FormControlName_1;
         /**
          * @description
          * Static property used to track whether any ngModel warnings have been sent across
@@ -6365,34 +6354,23 @@
          * @internal
          */
         FormControlName._ngModelWarningSentOnce = false;
-        __decorate([
-            core.Input('formControlName'),
-            __metadata("design:type", Object)
-        ], FormControlName.prototype, "name", void 0);
-        __decorate([
-            core.Input('disabled'),
-            __metadata("design:type", Boolean),
-            __metadata("design:paramtypes", [Boolean])
-        ], FormControlName.prototype, "isDisabled", null);
-        __decorate([
-            core.Input('ngModel'),
-            __metadata("design:type", Object)
-        ], FormControlName.prototype, "model", void 0);
-        __decorate([
-            core.Output('ngModelChange'),
-            __metadata("design:type", Object)
-        ], FormControlName.prototype, "update", void 0);
-        FormControlName = FormControlName_1 = __decorate([
-            core.Directive({ selector: '[formControlName]', providers: [controlNameBinding] }),
-            __param(0, core.Optional()), __param(0, core.Host()), __param(0, core.SkipSelf()),
-            __param(1, core.Optional()), __param(1, core.Self()), __param(1, core.Inject(NG_VALIDATORS)),
-            __param(2, core.Optional()), __param(2, core.Self()), __param(2, core.Inject(NG_ASYNC_VALIDATORS)),
-            __param(3, core.Optional()), __param(3, core.Self()), __param(3, core.Inject(NG_VALUE_ACCESSOR)),
-            __param(4, core.Optional()), __param(4, core.Inject(NG_MODEL_WITH_FORM_CONTROL_WARNING)),
-            __metadata("design:paramtypes", [ControlContainer,
-                Array,
-                Array, Array, Object])
-        ], FormControlName);
+        FormControlName.decorators = [
+            { type: core.Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] }
+        ];
+        /** @nocollapse */
+        FormControlName.ctorParameters = function () { return [
+            { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] },
+            { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALUE_ACCESSOR,] }] },
+            { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
+        ]; };
+        FormControlName.propDecorators = {
+            name: [{ type: core.Input, args: ['formControlName',] }],
+            isDisabled: [{ type: core.Input, args: ['disabled',] }],
+            model: [{ type: core.Input, args: ['ngModel',] }],
+            update: [{ type: core.Output, args: ['ngModelChange',] }]
+        };
         return FormControlName;
     }(NgControl));
 
@@ -6476,18 +6454,16 @@
         RequiredValidator.prototype.registerOnValidatorChange = function (fn) {
             this._onChange = fn;
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object),
-            __metadata("design:paramtypes", [Object])
-        ], RequiredValidator.prototype, "required", null);
-        RequiredValidator = __decorate([
-            core.Directive({
-                selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
-                providers: [REQUIRED_VALIDATOR],
-                host: { '[attr.required]': 'required ? "" : null' }
-            })
-        ], RequiredValidator);
+        RequiredValidator.decorators = [
+            { type: core.Directive, args: [{
+                        selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
+                        providers: [REQUIRED_VALIDATOR],
+                        host: { '[attr.required]': 'required ? "" : null' }
+                    },] }
+        ];
+        RequiredValidator.propDecorators = {
+            required: [{ type: core.Input }]
+        };
         return RequiredValidator;
     }());
     /**
@@ -6524,13 +6500,13 @@
         CheckboxRequiredValidator.prototype.validate = function (control) {
             return this.required ? Validators.requiredTrue(control) : null;
         };
-        CheckboxRequiredValidator = __decorate([
-            core.Directive({
-                selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
-                providers: [CHECKBOX_REQUIRED_VALIDATOR],
-                host: { '[attr.required]': 'required ? "" : null' }
-            })
-        ], CheckboxRequiredValidator);
+        CheckboxRequiredValidator.decorators = [
+            { type: core.Directive, args: [{
+                        selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
+                        providers: [CHECKBOX_REQUIRED_VALIDATOR],
+                        host: { '[attr.required]': 'required ? "" : null' }
+                    },] }
+        ];
         return CheckboxRequiredValidator;
     }(RequiredValidator));
     /**
@@ -6598,17 +6574,15 @@
         EmailValidator.prototype.registerOnValidatorChange = function (fn) {
             this._onChange = fn;
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object),
-            __metadata("design:paramtypes", [Object])
-        ], EmailValidator.prototype, "email", null);
-        EmailValidator = __decorate([
-            core.Directive({
-                selector: '[email][formControlName],[email][formControl],[email][ngModel]',
-                providers: [EMAIL_VALIDATOR]
-            })
-        ], EmailValidator);
+        EmailValidator.decorators = [
+            { type: core.Directive, args: [{
+                        selector: '[email][formControlName],[email][formControl],[email][ngModel]',
+                        providers: [EMAIL_VALIDATOR]
+                    },] }
+        ];
+        EmailValidator.propDecorators = {
+            email: [{ type: core.Input }]
+        };
         return EmailValidator;
     }());
     /**
@@ -6678,17 +6652,16 @@
         MinLengthValidator.prototype._createValidator = function () {
             this._validator = Validators.minLength(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], MinLengthValidator.prototype, "minlength", void 0);
-        MinLengthValidator = __decorate([
-            core.Directive({
-                selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
-                providers: [MIN_LENGTH_VALIDATOR],
-                host: { '[attr.minlength]': 'minlength ? minlength : null' }
-            })
-        ], MinLengthValidator);
+        MinLengthValidator.decorators = [
+            { type: core.Directive, args: [{
+                        selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
+                        providers: [MIN_LENGTH_VALIDATOR],
+                        host: { '[attr.minlength]': 'minlength ? minlength : null' }
+                    },] }
+        ];
+        MinLengthValidator.propDecorators = {
+            minlength: [{ type: core.Input }]
+        };
         return MinLengthValidator;
     }());
     /**
@@ -6758,17 +6731,16 @@
         MaxLengthValidator.prototype._createValidator = function () {
             this._validator = Validators.maxLength(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], MaxLengthValidator.prototype, "maxlength", void 0);
-        MaxLengthValidator = __decorate([
-            core.Directive({
-                selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
-                providers: [MAX_LENGTH_VALIDATOR],
-                host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
-            })
-        ], MaxLengthValidator);
+        MaxLengthValidator.decorators = [
+            { type: core.Directive, args: [{
+                        selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
+                        providers: [MAX_LENGTH_VALIDATOR],
+                        host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
+                    },] }
+        ];
+        MaxLengthValidator.propDecorators = {
+            maxlength: [{ type: core.Input }]
+        };
         return MaxLengthValidator;
     }());
     /**
@@ -6840,17 +6812,16 @@
         PatternValidator.prototype._createValidator = function () {
             this._validator = Validators.pattern(this.pattern);
         };
-        __decorate([
-            core.Input(),
-            __metadata("design:type", Object)
-        ], PatternValidator.prototype, "pattern", void 0);
-        PatternValidator = __decorate([
-            core.Directive({
-                selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
-                providers: [PATTERN_VALIDATOR],
-                host: { '[attr.pattern]': 'pattern ? pattern : null' }
-            })
-        ], PatternValidator);
+        PatternValidator.decorators = [
+            { type: core.Directive, args: [{
+                        selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
+                        providers: [PATTERN_VALIDATOR],
+                        host: { '[attr.pattern]': 'pattern ? pattern : null' }
+                    },] }
+        ];
+        PatternValidator.propDecorators = {
+            pattern: [{ type: core.Input }]
+        };
         return PatternValidator;
     }());
 
@@ -6889,12 +6860,12 @@
     var ɵInternalFormsSharedModule = /** @class */ (function () {
         function ɵInternalFormsSharedModule() {
         }
-        ɵInternalFormsSharedModule = __decorate([
-            core.NgModule({
-                declarations: SHARED_FORM_DIRECTIVES,
-                exports: SHARED_FORM_DIRECTIVES,
-            })
-        ], ɵInternalFormsSharedModule);
+        ɵInternalFormsSharedModule.decorators = [
+            { type: core.NgModule, args: [{
+                        declarations: SHARED_FORM_DIRECTIVES,
+                        exports: SHARED_FORM_DIRECTIVES,
+                    },] }
+        ];
         return ɵInternalFormsSharedModule;
     }());
 
@@ -7037,9 +7008,9 @@
                 return this.control(controlConfig);
             }
         };
-        FormBuilder = __decorate([
-            core.Injectable()
-        ], FormBuilder);
+        FormBuilder.decorators = [
+            { type: core.Injectable }
+        ];
         return FormBuilder;
     }());
 
@@ -7053,7 +7024,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.0.0-rc.0+34.sha-bd7393f');
+    var VERSION = new core.Version('10.0.0-rc.0+35.sha-4d0e175');
 
     /**
      * @license
@@ -7074,13 +7045,13 @@
     var FormsModule = /** @class */ (function () {
         function FormsModule() {
         }
-        FormsModule = __decorate([
-            core.NgModule({
-                declarations: TEMPLATE_DRIVEN_DIRECTIVES,
-                providers: [RadioControlRegistry],
-                exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
-            })
-        ], FormsModule);
+        FormsModule.decorators = [
+            { type: core.NgModule, args: [{
+                        declarations: TEMPLATE_DRIVEN_DIRECTIVES,
+                        providers: [RadioControlRegistry],
+                        exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
+                    },] }
+        ];
         return FormsModule;
     }());
     /**
@@ -7095,7 +7066,6 @@
     var ReactiveFormsModule = /** @class */ (function () {
         function ReactiveFormsModule() {
         }
-        ReactiveFormsModule_1 = ReactiveFormsModule;
         /**
          * @description
          * Provides options for configuring the reactive forms module.
@@ -7106,20 +7076,19 @@
          */
         ReactiveFormsModule.withConfig = function (opts) {
             return {
-                ngModule: ReactiveFormsModule_1,
+                ngModule: ReactiveFormsModule,
                 providers: [
                     { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
                 ]
             };
         };
-        var ReactiveFormsModule_1;
-        ReactiveFormsModule = ReactiveFormsModule_1 = __decorate([
-            core.NgModule({
-                declarations: [REACTIVE_DRIVEN_DIRECTIVES],
-                providers: [FormBuilder, RadioControlRegistry],
-                exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
-            })
-        ], ReactiveFormsModule);
+        ReactiveFormsModule.decorators = [
+            { type: core.NgModule, args: [{
+                        declarations: [REACTIVE_DRIVEN_DIRECTIVES],
+                        providers: [FormBuilder, RadioControlRegistry],
+                        exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
+                    },] }
+        ];
         return ReactiveFormsModule;
     }());
 

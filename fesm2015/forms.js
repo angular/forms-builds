@@ -1,11 +1,10 @@
 /**
- * @license Angular v10.0.0-rc.0+34.sha-bd7393f
+ * @license Angular v10.0.0-rc.0+35.sha-4d0e175
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { __decorate, __metadata, __param } from 'tslib';
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, Self, ɵisPromise, ɵisObservable, Injectable, Input, Injector, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, Self, ɵisPromise, ɵisObservable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/common';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -62,7 +61,7 @@ const CHECKBOX_VALUE_ACCESSOR = {
  * @publicApi
  */
 let CheckboxControlValueAccessor = /** @class */ (() => {
-    let CheckboxControlValueAccessor = class CheckboxControlValueAccessor {
+    class CheckboxControlValueAccessor {
         constructor(_renderer, _elementRef) {
             this._renderer = _renderer;
             this._elementRef = _elementRef;
@@ -111,15 +110,19 @@ let CheckboxControlValueAccessor = /** @class */ (() => {
         setDisabledState(isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         }
-    };
-    CheckboxControlValueAccessor = __decorate([
-        Directive({
-            selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
-            host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
-            providers: [CHECKBOX_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [Renderer2, ElementRef])
-    ], CheckboxControlValueAccessor);
+    }
+    CheckboxControlValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
+                    host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
+                    providers: [CHECKBOX_VALUE_ACCESSOR]
+                },] }
+    ];
+    /** @nocollapse */
+    CheckboxControlValueAccessor.ctorParameters = () => [
+        { type: Renderer2 },
+        { type: ElementRef }
+    ];
     return CheckboxControlValueAccessor;
 })();
 
@@ -176,7 +179,7 @@ const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  * @publicApi
  */
 let DefaultValueAccessor = /** @class */ (() => {
-    let DefaultValueAccessor = class DefaultValueAccessor {
+    class DefaultValueAccessor {
         constructor(_renderer, _elementRef, _compositionMode) {
             this._renderer = _renderer;
             this._elementRef = _elementRef;
@@ -247,24 +250,28 @@ let DefaultValueAccessor = /** @class */ (() => {
             this._composing = false;
             this._compositionMode && this.onChange(value);
         }
-    };
-    DefaultValueAccessor = __decorate([
-        Directive({
-            selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
-            // TODO: vsavkin replace the above selector with the one below it once
-            // https://github.com/angular/angular/issues/3011 is implemented
-            // selector: '[ngModel],[formControl],[formControlName]',
-            host: {
-                '(input)': '$any(this)._handleInput($event.target.value)',
-                '(blur)': 'onTouched()',
-                '(compositionstart)': '$any(this)._compositionStart()',
-                '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
-            },
-            providers: [DEFAULT_VALUE_ACCESSOR]
-        }),
-        __param(2, Optional()), __param(2, Inject(COMPOSITION_BUFFER_MODE)),
-        __metadata("design:paramtypes", [Renderer2, ElementRef, Boolean])
-    ], DefaultValueAccessor);
+    }
+    DefaultValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
+                    // TODO: vsavkin replace the above selector with the one below it once
+                    // https://github.com/angular/angular/issues/3011 is implemented
+                    // selector: '[ngModel],[formControl],[formControlName]',
+                    host: {
+                        '(input)': '$any(this)._handleInput($event.target.value)',
+                        '(blur)': 'onTouched()',
+                        '(compositionstart)': '$any(this)._compositionStart()',
+                        '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
+                    },
+                    providers: [DEFAULT_VALUE_ACCESSOR]
+                },] }
+    ];
+    /** @nocollapse */
+    DefaultValueAccessor.ctorParameters = () => [
+        { type: Renderer2 },
+        { type: ElementRef },
+        { type: Boolean, decorators: [{ type: Optional }, { type: Inject, args: [COMPOSITION_BUFFER_MODE,] }] }
+    ];
     return DefaultValueAccessor;
 })();
 
@@ -649,16 +656,18 @@ const ngControlStatusHost = {
  * @publicApi
  */
 let NgControlStatus = /** @class */ (() => {
-    let NgControlStatus = class NgControlStatus extends AbstractControlStatus {
+    class NgControlStatus extends AbstractControlStatus {
         constructor(cd) {
             super(cd);
         }
-    };
-    NgControlStatus = __decorate([
-        Directive({ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost }),
-        __param(0, Self()),
-        __metadata("design:paramtypes", [NgControl])
-    ], NgControlStatus);
+    }
+    NgControlStatus.decorators = [
+        { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] }
+    ];
+    /** @nocollapse */
+    NgControlStatus.ctorParameters = () => [
+        { type: NgControl, decorators: [{ type: Self }] }
+    ];
     return NgControlStatus;
 })();
 /**
@@ -673,19 +682,21 @@ let NgControlStatus = /** @class */ (() => {
  * @publicApi
  */
 let NgControlStatusGroup = /** @class */ (() => {
-    let NgControlStatusGroup = class NgControlStatusGroup extends AbstractControlStatus {
+    class NgControlStatusGroup extends AbstractControlStatus {
         constructor(cd) {
             super(cd);
         }
-    };
-    NgControlStatusGroup = __decorate([
-        Directive({
-            selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-            host: ngControlStatusHost
-        }),
-        __param(0, Self()),
-        __metadata("design:paramtypes", [ControlContainer])
-    ], NgControlStatusGroup);
+    }
+    NgControlStatusGroup.decorators = [
+        { type: Directive, args: [{
+                    selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
+                    host: ngControlStatusHost
+                },] }
+    ];
+    /** @nocollapse */
+    NgControlStatusGroup.ctorParameters = () => [
+        { type: ControlContainer, decorators: [{ type: Self }] }
+    ];
     return NgControlStatusGroup;
 })();
 
@@ -1202,7 +1213,7 @@ const NUMBER_VALUE_ACCESSOR = {
  * @publicApi
  */
 let NumberValueAccessor = /** @class */ (() => {
-    let NumberValueAccessor = class NumberValueAccessor {
+    class NumberValueAccessor {
         constructor(_renderer, _elementRef) {
             this._renderer = _renderer;
             this._elementRef = _elementRef;
@@ -1256,15 +1267,19 @@ let NumberValueAccessor = /** @class */ (() => {
         setDisabledState(isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         }
-    };
-    NumberValueAccessor = __decorate([
-        Directive({
-            selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-            host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
-            providers: [NUMBER_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [Renderer2, ElementRef])
-    ], NumberValueAccessor);
+    }
+    NumberValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
+                    host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                    providers: [NUMBER_VALUE_ACCESSOR]
+                },] }
+    ];
+    /** @nocollapse */
+    NumberValueAccessor.ctorParameters = () => [
+        { type: Renderer2 },
+        { type: ElementRef }
+    ];
     return NumberValueAccessor;
 })();
 
@@ -1285,7 +1300,7 @@ const RADIO_VALUE_ACCESSOR = {
  * Class used by Angular to track radio buttons. For internal use only.
  */
 let RadioControlRegistry = /** @class */ (() => {
-    let RadioControlRegistry = class RadioControlRegistry {
+    class RadioControlRegistry {
         constructor() {
             this._accessors = [];
         }
@@ -1325,10 +1340,10 @@ let RadioControlRegistry = /** @class */ (() => {
             return controlPair[0]._parent === accessor._control._parent &&
                 controlPair[1].name === accessor.name;
         }
-    };
-    RadioControlRegistry = __decorate([
-        Injectable()
-    ], RadioControlRegistry);
+    }
+    RadioControlRegistry.decorators = [
+        { type: Injectable }
+    ];
     return RadioControlRegistry;
 })();
 /**
@@ -1352,7 +1367,7 @@ let RadioControlRegistry = /** @class */ (() => {
  * @publicApi
  */
 let RadioControlValueAccessor = /** @class */ (() => {
-    let RadioControlValueAccessor = class RadioControlValueAccessor {
+    class RadioControlValueAccessor {
         constructor(_renderer, _elementRef, _registry, _injector) {
             this._renderer = _renderer;
             this._elementRef = _elementRef;
@@ -1446,28 +1461,26 @@ let RadioControlValueAccessor = /** @class */ (() => {
       must match. Ex: <input type="radio" formControlName="food" name="food">
     `);
         }
+    }
+    RadioControlValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
+                    host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
+                    providers: [RADIO_VALUE_ACCESSOR]
+                },] }
+    ];
+    /** @nocollapse */
+    RadioControlValueAccessor.ctorParameters = () => [
+        { type: Renderer2 },
+        { type: ElementRef },
+        { type: RadioControlRegistry },
+        { type: Injector }
+    ];
+    RadioControlValueAccessor.propDecorators = {
+        name: [{ type: Input }],
+        formControlName: [{ type: Input }],
+        value: [{ type: Input }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], RadioControlValueAccessor.prototype, "name", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], RadioControlValueAccessor.prototype, "formControlName", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], RadioControlValueAccessor.prototype, "value", void 0);
-    RadioControlValueAccessor = __decorate([
-        Directive({
-            selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
-            host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
-            providers: [RADIO_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [Renderer2, ElementRef,
-            RadioControlRegistry, Injector])
-    ], RadioControlValueAccessor);
     return RadioControlValueAccessor;
 })();
 
@@ -1508,7 +1521,7 @@ const RANGE_VALUE_ACCESSOR = {
  * @publicApi
  */
 let RangeValueAccessor = /** @class */ (() => {
-    let RangeValueAccessor = class RangeValueAccessor {
+    class RangeValueAccessor {
         constructor(_renderer, _elementRef) {
             this._renderer = _renderer;
             this._elementRef = _elementRef;
@@ -1560,19 +1573,23 @@ let RangeValueAccessor = /** @class */ (() => {
         setDisabledState(isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         }
-    };
-    RangeValueAccessor = __decorate([
-        Directive({
-            selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
-            host: {
-                '(change)': 'onChange($event.target.value)',
-                '(input)': 'onChange($event.target.value)',
-                '(blur)': 'onTouched()'
-            },
-            providers: [RANGE_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [Renderer2, ElementRef])
-    ], RangeValueAccessor);
+    }
+    RangeValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
+                    host: {
+                        '(change)': 'onChange($event.target.value)',
+                        '(input)': 'onChange($event.target.value)',
+                        '(blur)': 'onTouched()'
+                    },
+                    providers: [RANGE_VALUE_ACCESSOR]
+                },] }
+    ];
+    /** @nocollapse */
+    RangeValueAccessor.ctorParameters = () => [
+        { type: Renderer2 },
+        { type: ElementRef }
+    ];
     return RangeValueAccessor;
 })();
 
@@ -1793,7 +1810,7 @@ function _extractId(valueString) {
  * @publicApi
  */
 let SelectControlValueAccessor = /** @class */ (() => {
-    let SelectControlValueAccessor = class SelectControlValueAccessor {
+    class SelectControlValueAccessor {
         constructor(_renderer, _elementRef) {
             this._renderer = _renderer;
             this._elementRef = _elementRef;
@@ -1885,20 +1902,22 @@ let SelectControlValueAccessor = /** @class */ (() => {
             const id = _extractId(valueString);
             return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
         }
+    }
+    SelectControlValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
+                    host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                    providers: [SELECT_VALUE_ACCESSOR]
+                },] }
+    ];
+    /** @nocollapse */
+    SelectControlValueAccessor.ctorParameters = () => [
+        { type: Renderer2 },
+        { type: ElementRef }
+    ];
+    SelectControlValueAccessor.propDecorators = {
+        compareWith: [{ type: Input }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Function])
-    ], SelectControlValueAccessor.prototype, "compareWith", null);
-    SelectControlValueAccessor = __decorate([
-        Directive({
-            selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
-            host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
-            providers: [SELECT_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [Renderer2, ElementRef])
-    ], SelectControlValueAccessor);
     return SelectControlValueAccessor;
 })();
 /**
@@ -1912,7 +1931,7 @@ let SelectControlValueAccessor = /** @class */ (() => {
  * @publicApi
  */
 let NgSelectOption = /** @class */ (() => {
-    let NgSelectOption = class NgSelectOption {
+    class NgSelectOption {
         constructor(_element, _renderer, _select) {
             this._element = _element;
             this._renderer = _renderer;
@@ -1956,23 +1975,20 @@ let NgSelectOption = /** @class */ (() => {
                 this._select.writeValue(this._select.value);
             }
         }
+    }
+    NgSelectOption.decorators = [
+        { type: Directive, args: [{ selector: 'option' },] }
+    ];
+    /** @nocollapse */
+    NgSelectOption.ctorParameters = () => [
+        { type: ElementRef },
+        { type: Renderer2 },
+        { type: SelectControlValueAccessor, decorators: [{ type: Optional }, { type: Host }] }
+    ];
+    NgSelectOption.propDecorators = {
+        ngValue: [{ type: Input, args: ['ngValue',] }],
+        value: [{ type: Input, args: ['value',] }]
     };
-    __decorate([
-        Input('ngValue'),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], NgSelectOption.prototype, "ngValue", null);
-    __decorate([
-        Input('value'),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], NgSelectOption.prototype, "value", null);
-    NgSelectOption = __decorate([
-        Directive({ selector: 'option' }),
-        __param(2, Optional()), __param(2, Host()),
-        __metadata("design:paramtypes", [ElementRef, Renderer2,
-            SelectControlValueAccessor])
-    ], NgSelectOption);
     return NgSelectOption;
 })();
 
@@ -2039,7 +2055,7 @@ class HTMLCollection {
  * @publicApi
  */
 let SelectMultipleControlValueAccessor = /** @class */ (() => {
-    let SelectMultipleControlValueAccessor = class SelectMultipleControlValueAccessor {
+    class SelectMultipleControlValueAccessor {
         constructor(_renderer, _elementRef) {
             this._renderer = _renderer;
             this._elementRef = _elementRef;
@@ -2163,20 +2179,22 @@ let SelectMultipleControlValueAccessor = /** @class */ (() => {
             const id = _extractId$1(valueString);
             return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
         }
+    }
+    SelectMultipleControlValueAccessor.decorators = [
+        { type: Directive, args: [{
+                    selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
+                    host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
+                    providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
+                },] }
+    ];
+    /** @nocollapse */
+    SelectMultipleControlValueAccessor.ctorParameters = () => [
+        { type: Renderer2 },
+        { type: ElementRef }
+    ];
+    SelectMultipleControlValueAccessor.propDecorators = {
+        compareWith: [{ type: Input }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Function])
-    ], SelectMultipleControlValueAccessor.prototype, "compareWith", null);
-    SelectMultipleControlValueAccessor = __decorate([
-        Directive({
-            selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
-            host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
-            providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [Renderer2, ElementRef])
-    ], SelectMultipleControlValueAccessor);
     return SelectMultipleControlValueAccessor;
 })();
 /**
@@ -2190,7 +2208,7 @@ let SelectMultipleControlValueAccessor = /** @class */ (() => {
  * @publicApi
  */
 let ɵNgSelectMultipleOption = /** @class */ (() => {
-    let ɵNgSelectMultipleOption = class ɵNgSelectMultipleOption {
+    class ɵNgSelectMultipleOption {
         constructor(_element, _renderer, _select) {
             this._element = _element;
             this._renderer = _renderer;
@@ -2244,23 +2262,20 @@ let ɵNgSelectMultipleOption = /** @class */ (() => {
                 this._select.writeValue(this._select.value);
             }
         }
+    }
+    ɵNgSelectMultipleOption.decorators = [
+        { type: Directive, args: [{ selector: 'option' },] }
+    ];
+    /** @nocollapse */
+    ɵNgSelectMultipleOption.ctorParameters = () => [
+        { type: ElementRef },
+        { type: Renderer2 },
+        { type: SelectMultipleControlValueAccessor, decorators: [{ type: Optional }, { type: Host }] }
+    ];
+    ɵNgSelectMultipleOption.propDecorators = {
+        ngValue: [{ type: Input, args: ['ngValue',] }],
+        value: [{ type: Input, args: ['value',] }]
     };
-    __decorate([
-        Input('ngValue'),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], ɵNgSelectMultipleOption.prototype, "ngValue", null);
-    __decorate([
-        Input('value'),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], ɵNgSelectMultipleOption.prototype, "value", null);
-    ɵNgSelectMultipleOption = __decorate([
-        Directive({ selector: 'option' }),
-        __param(2, Optional()), __param(2, Host()),
-        __metadata("design:paramtypes", [ElementRef, Renderer2,
-            SelectMultipleControlValueAccessor])
-    ], ɵNgSelectMultipleOption);
     return ɵNgSelectMultipleOption;
 })();
 
@@ -4309,7 +4324,7 @@ const resolvedPromise = (ɵ0)();
  * @publicApi
  */
 let NgForm = /** @class */ (() => {
-    let NgForm = class NgForm extends ControlContainer {
+    class NgForm extends ControlContainer {
         constructor(validators, asyncValidators) {
             super();
             /**
@@ -4502,23 +4517,24 @@ let NgForm = /** @class */ (() => {
             path.pop();
             return path.length ? this.form.get(path) : this.form;
         }
+    }
+    NgForm.decorators = [
+        { type: Directive, args: [{
+                    selector: 'form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]',
+                    providers: [formDirectiveProvider],
+                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                    outputs: ['ngSubmit'],
+                    exportAs: 'ngForm'
+                },] }
+    ];
+    /** @nocollapse */
+    NgForm.ctorParameters = () => [
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+    ];
+    NgForm.propDecorators = {
+        options: [{ type: Input, args: ['ngFormOptions',] }]
     };
-    __decorate([
-        Input('ngFormOptions'),
-        __metadata("design:type", Object)
-    ], NgForm.prototype, "options", void 0);
-    NgForm = __decorate([
-        Directive({
-            selector: 'form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]',
-            providers: [formDirectiveProvider],
-            host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-            outputs: ['ngSubmit'],
-            exportAs: 'ngForm'
-        }),
-        __param(0, Optional()), __param(0, Self()), __param(0, Inject(NG_VALIDATORS)),
-        __param(1, Optional()), __param(1, Self()), __param(1, Inject(NG_ASYNC_VALIDATORS)),
-        __metadata("design:paramtypes", [Array, Array])
-    ], NgForm);
     return NgForm;
 })();
 
@@ -4536,7 +4552,7 @@ let NgForm = /** @class */ (() => {
  * @publicApi
  */
 let AbstractFormGroupDirective = /** @class */ (() => {
-    let AbstractFormGroupDirective = class AbstractFormGroupDirective extends ControlContainer {
+    class AbstractFormGroupDirective extends ControlContainer {
         /**
          * @description
          * An internal callback method triggered on the instance after the inputs are set.
@@ -4593,10 +4609,10 @@ let AbstractFormGroupDirective = /** @class */ (() => {
         }
         /** @internal */
         _checkParentType() { }
-    };
-    AbstractFormGroupDirective = __decorate([
-        Directive()
-    ], AbstractFormGroupDirective);
+    }
+    AbstractFormGroupDirective.decorators = [
+        { type: Directive }
+    ];
     return AbstractFormGroupDirective;
 })();
 
@@ -4692,8 +4708,7 @@ const modelGroupProvider = {
  * @publicApi
  */
 let NgModelGroup = /** @class */ (() => {
-    var NgModelGroup_1;
-    let NgModelGroup = NgModelGroup_1 = class NgModelGroup extends AbstractFormGroupDirective {
+    class NgModelGroup extends AbstractFormGroupDirective {
         constructor(parent, validators, asyncValidators) {
             super();
             this._parent = parent;
@@ -4702,22 +4717,23 @@ let NgModelGroup = /** @class */ (() => {
         }
         /** @internal */
         _checkParentType() {
-            if (!(this._parent instanceof NgModelGroup_1) && !(this._parent instanceof NgForm)) {
+            if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
                 TemplateDrivenErrors.modelGroupParentException();
             }
         }
+    }
+    NgModelGroup.decorators = [
+        { type: Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] }
+    ];
+    /** @nocollapse */
+    NgModelGroup.ctorParameters = () => [
+        { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+    ];
+    NgModelGroup.propDecorators = {
+        name: [{ type: Input, args: ['ngModelGroup',] }]
     };
-    __decorate([
-        Input('ngModelGroup'),
-        __metadata("design:type", String)
-    ], NgModelGroup.prototype, "name", void 0);
-    NgModelGroup = NgModelGroup_1 = __decorate([
-        Directive({ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' }),
-        __param(0, Host()), __param(0, SkipSelf()),
-        __param(1, Optional()), __param(1, Self()), __param(1, Inject(NG_VALIDATORS)),
-        __param(2, Optional()), __param(2, Self()), __param(2, Inject(NG_ASYNC_VALIDATORS)),
-        __metadata("design:paramtypes", [ControlContainer, Array, Array])
-    ], NgModelGroup);
     return NgModelGroup;
 })();
 
@@ -4835,7 +4851,7 @@ const resolvedPromise$1 = (ɵ0$1)();
  * @publicApi
  */
 let NgModel = /** @class */ (() => {
-    let NgModel = class NgModel extends NgControl {
+    class NgModel extends NgControl {
         constructor(parent, validators, asyncValidators, valueAccessors) {
             super();
             this.control = new FormControl();
@@ -4976,41 +4992,28 @@ let NgModel = /** @class */ (() => {
                 }
             });
         }
+    }
+    NgModel.decorators = [
+        { type: Directive, args: [{
+                    selector: '[ngModel]:not([formControlName]):not([formControl])',
+                    providers: [formControlBinding],
+                    exportAs: 'ngModel'
+                },] }
+    ];
+    /** @nocollapse */
+    NgModel.ctorParameters = () => [
+        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] }] }
+    ];
+    NgModel.propDecorators = {
+        name: [{ type: Input }],
+        isDisabled: [{ type: Input, args: ['disabled',] }],
+        model: [{ type: Input, args: ['ngModel',] }],
+        options: [{ type: Input, args: ['ngModelOptions',] }],
+        update: [{ type: Output, args: ['ngModelChange',] }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], NgModel.prototype, "name", void 0);
-    __decorate([
-        Input('disabled'),
-        __metadata("design:type", Boolean)
-    ], NgModel.prototype, "isDisabled", void 0);
-    __decorate([
-        Input('ngModel'),
-        __metadata("design:type", Object)
-    ], NgModel.prototype, "model", void 0);
-    __decorate([
-        Input('ngModelOptions'),
-        __metadata("design:type", Object)
-    ], NgModel.prototype, "options", void 0);
-    __decorate([
-        Output('ngModelChange'),
-        __metadata("design:type", Object)
-    ], NgModel.prototype, "update", void 0);
-    NgModel = __decorate([
-        Directive({
-            selector: '[ngModel]:not([formControlName]):not([formControl])',
-            providers: [formControlBinding],
-            exportAs: 'ngModel'
-        }),
-        __param(0, Optional()), __param(0, Host()),
-        __param(1, Optional()), __param(1, Self()), __param(1, Inject(NG_VALIDATORS)),
-        __param(2, Optional()), __param(2, Self()), __param(2, Inject(NG_ASYNC_VALIDATORS)),
-        __param(3, Optional()), __param(3, Self()), __param(3, Inject(NG_VALUE_ACCESSOR)),
-        __metadata("design:paramtypes", [ControlContainer,
-            Array,
-            Array, Array])
-    ], NgModel);
     return NgModel;
 })();
 
@@ -5039,14 +5042,14 @@ let NgModel = /** @class */ (() => {
  * @ngModule FormsModule
  */
 let ɵNgNoValidate = /** @class */ (() => {
-    let ɵNgNoValidate = class ɵNgNoValidate {
-    };
-    ɵNgNoValidate = __decorate([
-        Directive({
-            selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
-            host: { 'novalidate': '' },
-        })
-    ], ɵNgNoValidate);
+    class ɵNgNoValidate {
+    }
+    ɵNgNoValidate.decorators = [
+        { type: Directive, args: [{
+                    selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
+                    host: { 'novalidate': '' },
+                },] }
+    ];
     return ɵNgNoValidate;
 })();
 
@@ -5088,8 +5091,7 @@ const formControlBinding$1 = {
  * @publicApi
  */
 let FormControlDirective = /** @class */ (() => {
-    var FormControlDirective_1;
-    let FormControlDirective = FormControlDirective_1 = class FormControlDirective extends NgControl {
+    class FormControlDirective extends NgControl {
         constructor(validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
             super();
             this._ngModelWarningConfig = _ngModelWarningConfig;
@@ -5130,7 +5132,7 @@ let FormControlDirective = /** @class */ (() => {
                 this.form.updateValueAndValidity({ emitEvent: false });
             }
             if (isPropertyUpdated(changes, this.viewModel)) {
-                _ngModelWarning('formControl', FormControlDirective_1, this, this._ngModelWarningConfig);
+                _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
                 this.form.setValue(this.model);
                 this.viewModel = this.model;
             }
@@ -5179,7 +5181,7 @@ let FormControlDirective = /** @class */ (() => {
         _isControlChanged(changes) {
             return changes.hasOwnProperty('form');
         }
-    };
+    }
     /**
      * @description
      * Static property used to track whether any ngModel warnings have been sent across
@@ -5188,32 +5190,22 @@ let FormControlDirective = /** @class */ (() => {
      * @internal
      */
     FormControlDirective._ngModelWarningSentOnce = false;
-    __decorate([
-        Input('formControl'),
-        __metadata("design:type", FormControl)
-    ], FormControlDirective.prototype, "form", void 0);
-    __decorate([
-        Input('disabled'),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], FormControlDirective.prototype, "isDisabled", null);
-    __decorate([
-        Input('ngModel'),
-        __metadata("design:type", Object)
-    ], FormControlDirective.prototype, "model", void 0);
-    __decorate([
-        Output('ngModelChange'),
-        __metadata("design:type", Object)
-    ], FormControlDirective.prototype, "update", void 0);
-    FormControlDirective = FormControlDirective_1 = __decorate([
-        Directive({ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' }),
-        __param(0, Optional()), __param(0, Self()), __param(0, Inject(NG_VALIDATORS)),
-        __param(1, Optional()), __param(1, Self()), __param(1, Inject(NG_ASYNC_VALIDATORS)),
-        __param(2, Optional()), __param(2, Self()), __param(2, Inject(NG_VALUE_ACCESSOR)),
-        __param(3, Optional()), __param(3, Inject(NG_MODEL_WITH_FORM_CONTROL_WARNING)),
-        __metadata("design:paramtypes", [Array,
-            Array, Array, Object])
-    ], FormControlDirective);
+    FormControlDirective.decorators = [
+        { type: Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] }
+    ];
+    /** @nocollapse */
+    FormControlDirective.ctorParameters = () => [
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] }] },
+        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
+    ];
+    FormControlDirective.propDecorators = {
+        form: [{ type: Input, args: ['formControl',] }],
+        isDisabled: [{ type: Input, args: ['disabled',] }],
+        model: [{ type: Input, args: ['ngModel',] }],
+        update: [{ type: Output, args: ['ngModelChange',] }]
+    };
     return FormControlDirective;
 })();
 
@@ -5252,7 +5244,7 @@ const formDirectiveProvider$1 = {
  * @publicApi
  */
 let FormGroupDirective = /** @class */ (() => {
-    let FormGroupDirective = class FormGroupDirective extends ControlContainer {
+    class FormGroupDirective extends ControlContainer {
         constructor(_validators, _asyncValidators) {
             super();
             this._validators = _validators;
@@ -5466,26 +5458,24 @@ let FormGroupDirective = /** @class */ (() => {
                 ReactiveErrors.missingFormException();
             }
         }
+    }
+    FormGroupDirective.decorators = [
+        { type: Directive, args: [{
+                    selector: '[formGroup]',
+                    providers: [formDirectiveProvider$1],
+                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                    exportAs: 'ngForm'
+                },] }
+    ];
+    /** @nocollapse */
+    FormGroupDirective.ctorParameters = () => [
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+    ];
+    FormGroupDirective.propDecorators = {
+        form: [{ type: Input, args: ['formGroup',] }],
+        ngSubmit: [{ type: Output }]
     };
-    __decorate([
-        Input('formGroup'),
-        __metadata("design:type", FormGroup)
-    ], FormGroupDirective.prototype, "form", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", Object)
-    ], FormGroupDirective.prototype, "ngSubmit", void 0);
-    FormGroupDirective = __decorate([
-        Directive({
-            selector: '[formGroup]',
-            providers: [formDirectiveProvider$1],
-            host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-            exportAs: 'ngForm'
-        }),
-        __param(0, Optional()), __param(0, Self()), __param(0, Inject(NG_VALIDATORS)),
-        __param(1, Optional()), __param(1, Self()), __param(1, Inject(NG_ASYNC_VALIDATORS)),
-        __metadata("design:paramtypes", [Array, Array])
-    ], FormGroupDirective);
     return FormGroupDirective;
 })();
 
@@ -5548,7 +5538,7 @@ const formGroupNameProvider = {
  * @publicApi
  */
 let FormGroupName = /** @class */ (() => {
-    let FormGroupName = class FormGroupName extends AbstractFormGroupDirective {
+    class FormGroupName extends AbstractFormGroupDirective {
         constructor(parent, validators, asyncValidators) {
             super();
             this._parent = parent;
@@ -5561,18 +5551,19 @@ let FormGroupName = /** @class */ (() => {
                 ReactiveErrors.groupParentException();
             }
         }
+    }
+    FormGroupName.decorators = [
+        { type: Directive, args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] },] }
+    ];
+    /** @nocollapse */
+    FormGroupName.ctorParameters = () => [
+        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+    ];
+    FormGroupName.propDecorators = {
+        name: [{ type: Input, args: ['formGroupName',] }]
     };
-    __decorate([
-        Input('formGroupName'),
-        __metadata("design:type", Object)
-    ], FormGroupName.prototype, "name", void 0);
-    FormGroupName = __decorate([
-        Directive({ selector: '[formGroupName]', providers: [formGroupNameProvider] }),
-        __param(0, Optional()), __param(0, Host()), __param(0, SkipSelf()),
-        __param(1, Optional()), __param(1, Self()), __param(1, Inject(NG_VALIDATORS)),
-        __param(2, Optional()), __param(2, Self()), __param(2, Inject(NG_ASYNC_VALIDATORS)),
-        __metadata("design:paramtypes", [ControlContainer, Array, Array])
-    ], FormGroupName);
     return FormGroupName;
 })();
 const formArrayNameProvider = {
@@ -5604,7 +5595,7 @@ const formArrayNameProvider = {
  * @publicApi
  */
 let FormArrayName = /** @class */ (() => {
-    let FormArrayName = class FormArrayName extends ControlContainer {
+    class FormArrayName extends ControlContainer {
         constructor(parent, validators, asyncValidators) {
             super();
             this._parent = parent;
@@ -5672,18 +5663,19 @@ let FormArrayName = /** @class */ (() => {
                 ReactiveErrors.arrayParentException();
             }
         }
+    }
+    FormArrayName.decorators = [
+        { type: Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] }
+    ];
+    /** @nocollapse */
+    FormArrayName.ctorParameters = () => [
+        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] }
+    ];
+    FormArrayName.propDecorators = {
+        name: [{ type: Input, args: ['formArrayName',] }]
     };
-    __decorate([
-        Input('formArrayName'),
-        __metadata("design:type", Object)
-    ], FormArrayName.prototype, "name", void 0);
-    FormArrayName = __decorate([
-        Directive({ selector: '[formArrayName]', providers: [formArrayNameProvider] }),
-        __param(0, Optional()), __param(0, Host()), __param(0, SkipSelf()),
-        __param(1, Optional()), __param(1, Self()), __param(1, Inject(NG_VALIDATORS)),
-        __param(2, Optional()), __param(2, Self()), __param(2, Inject(NG_ASYNC_VALIDATORS)),
-        __metadata("design:paramtypes", [ControlContainer, Array, Array])
-    ], FormArrayName);
     return FormArrayName;
 })();
 function _hasInvalidParent(parent) {
@@ -5737,8 +5729,7 @@ const controlNameBinding = {
  * @publicApi
  */
 let FormControlName = /** @class */ (() => {
-    var FormControlName_1;
-    let FormControlName = FormControlName_1 = class FormControlName extends NgControl {
+    class FormControlName extends NgControl {
         constructor(parent, validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
             super();
             this._ngModelWarningConfig = _ngModelWarningConfig;
@@ -5775,7 +5766,7 @@ let FormControlName = /** @class */ (() => {
             if (!this._added)
                 this._setUpControl();
             if (isPropertyUpdated(changes, this.viewModel)) {
-                _ngModelWarning('formControlName', FormControlName_1, this, this._ngModelWarningConfig);
+                _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
                 this.viewModel = this.model;
                 this.formDirective.updateModel(this, this.model);
             }
@@ -5848,7 +5839,7 @@ let FormControlName = /** @class */ (() => {
             }
             this._added = true;
         }
-    };
+    }
     /**
      * @description
      * Static property used to track whether any ngModel warnings have been sent across
@@ -5857,34 +5848,23 @@ let FormControlName = /** @class */ (() => {
      * @internal
      */
     FormControlName._ngModelWarningSentOnce = false;
-    __decorate([
-        Input('formControlName'),
-        __metadata("design:type", Object)
-    ], FormControlName.prototype, "name", void 0);
-    __decorate([
-        Input('disabled'),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], FormControlName.prototype, "isDisabled", null);
-    __decorate([
-        Input('ngModel'),
-        __metadata("design:type", Object)
-    ], FormControlName.prototype, "model", void 0);
-    __decorate([
-        Output('ngModelChange'),
-        __metadata("design:type", Object)
-    ], FormControlName.prototype, "update", void 0);
-    FormControlName = FormControlName_1 = __decorate([
-        Directive({ selector: '[formControlName]', providers: [controlNameBinding] }),
-        __param(0, Optional()), __param(0, Host()), __param(0, SkipSelf()),
-        __param(1, Optional()), __param(1, Self()), __param(1, Inject(NG_VALIDATORS)),
-        __param(2, Optional()), __param(2, Self()), __param(2, Inject(NG_ASYNC_VALIDATORS)),
-        __param(3, Optional()), __param(3, Self()), __param(3, Inject(NG_VALUE_ACCESSOR)),
-        __param(4, Optional()), __param(4, Inject(NG_MODEL_WITH_FORM_CONTROL_WARNING)),
-        __metadata("design:paramtypes", [ControlContainer,
-            Array,
-            Array, Array, Object])
-    ], FormControlName);
+    FormControlName.decorators = [
+        { type: Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] }
+    ];
+    /** @nocollapse */
+    FormControlName.ctorParameters = () => [
+        { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] },
+        { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] }] },
+        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
+    ];
+    FormControlName.propDecorators = {
+        name: [{ type: Input, args: ['formControlName',] }],
+        isDisabled: [{ type: Input, args: ['disabled',] }],
+        model: [{ type: Input, args: ['ngModel',] }],
+        update: [{ type: Output, args: ['ngModelChange',] }]
+    };
     return FormControlName;
 })();
 
@@ -5933,7 +5913,7 @@ const CHECKBOX_REQUIRED_VALIDATOR = {
  * @publicApi
  */
 let RequiredValidator = /** @class */ (() => {
-    let RequiredValidator = class RequiredValidator {
+    class RequiredValidator {
         /**
          * @description
          * Tracks changes to the required attribute bound to this directive.
@@ -5963,19 +5943,17 @@ let RequiredValidator = /** @class */ (() => {
         registerOnValidatorChange(fn) {
             this._onChange = fn;
         }
+    }
+    RequiredValidator.decorators = [
+        { type: Directive, args: [{
+                    selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
+                    providers: [REQUIRED_VALIDATOR],
+                    host: { '[attr.required]': 'required ? "" : null' }
+                },] }
+    ];
+    RequiredValidator.propDecorators = {
+        required: [{ type: Input }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], RequiredValidator.prototype, "required", null);
-    RequiredValidator = __decorate([
-        Directive({
-            selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
-            providers: [REQUIRED_VALIDATOR],
-            host: { '[attr.required]': 'required ? "" : null' }
-        })
-    ], RequiredValidator);
     return RequiredValidator;
 })();
 /**
@@ -6000,7 +5978,7 @@ let RequiredValidator = /** @class */ (() => {
  * @ngModule ReactiveFormsModule
  */
 let CheckboxRequiredValidator = /** @class */ (() => {
-    let CheckboxRequiredValidator = class CheckboxRequiredValidator extends RequiredValidator {
+    class CheckboxRequiredValidator extends RequiredValidator {
         /**
          * @description
          * Method that validates whether or not the checkbox has been checked.
@@ -6009,14 +5987,14 @@ let CheckboxRequiredValidator = /** @class */ (() => {
         validate(control) {
             return this.required ? Validators.requiredTrue(control) : null;
         }
-    };
-    CheckboxRequiredValidator = __decorate([
-        Directive({
-            selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
-            providers: [CHECKBOX_REQUIRED_VALIDATOR],
-            host: { '[attr.required]': 'required ? "" : null' }
-        })
-    ], CheckboxRequiredValidator);
+    }
+    CheckboxRequiredValidator.decorators = [
+        { type: Directive, args: [{
+                    selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
+                    providers: [CHECKBOX_REQUIRED_VALIDATOR],
+                    host: { '[attr.required]': 'required ? "" : null' }
+                },] }
+    ];
     return CheckboxRequiredValidator;
 })();
 /**
@@ -6052,7 +6030,7 @@ const EMAIL_VALIDATOR = {
  * @ngModule ReactiveFormsModule
  */
 let EmailValidator = /** @class */ (() => {
-    let EmailValidator = class EmailValidator {
+    class EmailValidator {
         /**
          * @description
          * Tracks changes to the email attribute bound to this directive.
@@ -6079,18 +6057,16 @@ let EmailValidator = /** @class */ (() => {
         registerOnValidatorChange(fn) {
             this._onChange = fn;
         }
+    }
+    EmailValidator.decorators = [
+        { type: Directive, args: [{
+                    selector: '[email][formControlName],[email][formControl],[email][ngModel]',
+                    providers: [EMAIL_VALIDATOR]
+                },] }
+    ];
+    EmailValidator.propDecorators = {
+        email: [{ type: Input }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], EmailValidator.prototype, "email", null);
-    EmailValidator = __decorate([
-        Directive({
-            selector: '[email][formControlName],[email][formControl],[email][ngModel]',
-            providers: [EMAIL_VALIDATOR]
-        })
-    ], EmailValidator);
     return EmailValidator;
 })();
 /**
@@ -6124,7 +6100,7 @@ const MIN_LENGTH_VALIDATOR = {
  * @publicApi
  */
 let MinLengthValidator = /** @class */ (() => {
-    let MinLengthValidator = class MinLengthValidator {
+    class MinLengthValidator {
         /**
          * @description
          * A lifecycle method called when the directive's inputs change. For internal use
@@ -6159,18 +6135,17 @@ let MinLengthValidator = /** @class */ (() => {
         _createValidator() {
             this._validator = Validators.minLength(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
         }
+    }
+    MinLengthValidator.decorators = [
+        { type: Directive, args: [{
+                    selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
+                    providers: [MIN_LENGTH_VALIDATOR],
+                    host: { '[attr.minlength]': 'minlength ? minlength : null' }
+                },] }
+    ];
+    MinLengthValidator.propDecorators = {
+        minlength: [{ type: Input }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], MinLengthValidator.prototype, "minlength", void 0);
-    MinLengthValidator = __decorate([
-        Directive({
-            selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
-            providers: [MIN_LENGTH_VALIDATOR],
-            host: { '[attr.minlength]': 'minlength ? minlength : null' }
-        })
-    ], MinLengthValidator);
     return MinLengthValidator;
 })();
 /**
@@ -6204,7 +6179,7 @@ const MAX_LENGTH_VALIDATOR = {
  * @publicApi
  */
 let MaxLengthValidator = /** @class */ (() => {
-    let MaxLengthValidator = class MaxLengthValidator {
+    class MaxLengthValidator {
         /**
          * @description
          * A lifecycle method called when the directive's inputs change. For internal use
@@ -6239,18 +6214,17 @@ let MaxLengthValidator = /** @class */ (() => {
         _createValidator() {
             this._validator = Validators.maxLength(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
         }
+    }
+    MaxLengthValidator.decorators = [
+        { type: Directive, args: [{
+                    selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
+                    providers: [MAX_LENGTH_VALIDATOR],
+                    host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
+                },] }
+    ];
+    MaxLengthValidator.propDecorators = {
+        maxlength: [{ type: Input }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], MaxLengthValidator.prototype, "maxlength", void 0);
-    MaxLengthValidator = __decorate([
-        Directive({
-            selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
-            providers: [MAX_LENGTH_VALIDATOR],
-            host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
-        })
-    ], MaxLengthValidator);
     return MaxLengthValidator;
 })();
 /**
@@ -6286,7 +6260,7 @@ const PATTERN_VALIDATOR = {
  * @publicApi
  */
 let PatternValidator = /** @class */ (() => {
-    let PatternValidator = class PatternValidator {
+    class PatternValidator {
         /**
          * @description
          * A lifecycle method called when the directive's inputs change. For internal use
@@ -6321,18 +6295,17 @@ let PatternValidator = /** @class */ (() => {
         _createValidator() {
             this._validator = Validators.pattern(this.pattern);
         }
+    }
+    PatternValidator.decorators = [
+        { type: Directive, args: [{
+                    selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
+                    providers: [PATTERN_VALIDATOR],
+                    host: { '[attr.pattern]': 'pattern ? pattern : null' }
+                },] }
+    ];
+    PatternValidator.propDecorators = {
+        pattern: [{ type: Input }]
     };
-    __decorate([
-        Input(),
-        __metadata("design:type", Object)
-    ], PatternValidator.prototype, "pattern", void 0);
-    PatternValidator = __decorate([
-        Directive({
-            selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
-            providers: [PATTERN_VALIDATOR],
-            host: { '[attr.pattern]': 'pattern ? pattern : null' }
-        })
-    ], PatternValidator);
     return PatternValidator;
 })();
 
@@ -6369,14 +6342,14 @@ const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, Fo
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
 let ɵInternalFormsSharedModule = /** @class */ (() => {
-    let ɵInternalFormsSharedModule = class ɵInternalFormsSharedModule {
-    };
-    ɵInternalFormsSharedModule = __decorate([
-        NgModule({
-            declarations: SHARED_FORM_DIRECTIVES,
-            exports: SHARED_FORM_DIRECTIVES,
-        })
-    ], ɵInternalFormsSharedModule);
+    class ɵInternalFormsSharedModule {
+    }
+    ɵInternalFormsSharedModule.decorators = [
+        { type: NgModule, args: [{
+                    declarations: SHARED_FORM_DIRECTIVES,
+                    exports: SHARED_FORM_DIRECTIVES,
+                },] }
+    ];
     return ɵInternalFormsSharedModule;
 })();
 
@@ -6405,7 +6378,7 @@ function isAbstractControlOptions(options) {
  * @publicApi
  */
 let FormBuilder = /** @class */ (() => {
-    let FormBuilder = class FormBuilder {
+    class FormBuilder {
         /**
          * @description
          * Construct a new `FormGroup` instance.
@@ -6515,10 +6488,10 @@ let FormBuilder = /** @class */ (() => {
                 return this.control(controlConfig);
             }
         }
-    };
-    FormBuilder = __decorate([
-        Injectable()
-    ], FormBuilder);
+    }
+    FormBuilder.decorators = [
+        { type: Injectable }
+    ];
     return FormBuilder;
 })();
 
@@ -6532,7 +6505,7 @@ let FormBuilder = /** @class */ (() => {
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0-rc.0+34.sha-bd7393f');
+const VERSION = new Version('10.0.0-rc.0+35.sha-4d0e175');
 
 /**
  * @license
@@ -6551,15 +6524,15 @@ const VERSION = new Version('10.0.0-rc.0+34.sha-bd7393f');
  * @publicApi
  */
 let FormsModule = /** @class */ (() => {
-    let FormsModule = class FormsModule {
-    };
-    FormsModule = __decorate([
-        NgModule({
-            declarations: TEMPLATE_DRIVEN_DIRECTIVES,
-            providers: [RadioControlRegistry],
-            exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
-        })
-    ], FormsModule);
+    class FormsModule {
+    }
+    FormsModule.decorators = [
+        { type: NgModule, args: [{
+                    declarations: TEMPLATE_DRIVEN_DIRECTIVES,
+                    providers: [RadioControlRegistry],
+                    exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
+                },] }
+    ];
     return FormsModule;
 })();
 /**
@@ -6572,8 +6545,7 @@ let FormsModule = /** @class */ (() => {
  * @publicApi
  */
 let ReactiveFormsModule = /** @class */ (() => {
-    var ReactiveFormsModule_1;
-    let ReactiveFormsModule = ReactiveFormsModule_1 = class ReactiveFormsModule {
+    class ReactiveFormsModule {
         /**
          * @description
          * Provides options for configuring the reactive forms module.
@@ -6584,20 +6556,20 @@ let ReactiveFormsModule = /** @class */ (() => {
          */
         static withConfig(opts) {
             return {
-                ngModule: ReactiveFormsModule_1,
+                ngModule: ReactiveFormsModule,
                 providers: [
                     { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
                 ]
             };
         }
-    };
-    ReactiveFormsModule = ReactiveFormsModule_1 = __decorate([
-        NgModule({
-            declarations: [REACTIVE_DRIVEN_DIRECTIVES],
-            providers: [FormBuilder, RadioControlRegistry],
-            exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
-        })
-    ], ReactiveFormsModule);
+    }
+    ReactiveFormsModule.decorators = [
+        { type: NgModule, args: [{
+                    declarations: [REACTIVE_DRIVEN_DIRECTIVES],
+                    providers: [FormBuilder, RadioControlRegistry],
+                    exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
+                },] }
+    ];
     return ReactiveFormsModule;
 })();
 
