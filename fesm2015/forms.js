@@ -1,10 +1,10 @@
 /**
- * @license Angular v10.0.0-rc.0+39.sha-c3651ce
+ * @license Angular v10.0.0-rc.0+44.sha-1b55da1
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵdefineDirective, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵɵclassProp, ɵɵInheritDefinitionFeature, Self, ɵisPromise, ɵisObservable, ɵɵdefineInjectable, Injectable, Injector, Input, ɵlooseIdentical, Host, isDevMode, EventEmitter, ɵɵgetInheritedFactory, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵattribute, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵdefineDirective, ɵɵlistener, ɵɵProvidersFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵɵclassProp, ɵɵInheritDefinitionFeature, Self, ɵisPromise, ɵisObservable, ɵɵdefineInjectable, Injectable, Injector, Input, Host, isDevMode, EventEmitter, ɵɵgetInheritedFactory, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵattribute, ɵɵdefineNgModule, ɵɵdefineInjector, ɵɵsetNgModuleScope, NgModule, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/common';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -1839,7 +1839,7 @@ let SelectControlValueAccessor = /** @class */ (() => {
              * The registered callback function called when a blur event occurs on the input element.
              */
             this.onTouched = () => { };
-            this._compareWith = ɵlooseIdentical;
+            this._compareWith = Object.is;
         }
         /**
          * @description
@@ -2086,7 +2086,7 @@ let SelectMultipleControlValueAccessor = /** @class */ (() => {
              * The registered callback function called when a blur event occurs on the input element.
              */
             this.onTouched = () => { };
-            this._compareWith = ɵlooseIdentical;
+            this._compareWith = Object.is;
         }
         /**
          * @description
@@ -2415,7 +2415,7 @@ function isPropertyUpdated(changes, viewModel) {
     const change = changes['model'];
     if (change.isFirstChange())
         return true;
-    return !ɵlooseIdentical(viewModel, change.currentValue);
+    return !Object.is(viewModel, change.currentValue);
 }
 const BUILTIN_ACCESSORS = [
     CheckboxControlValueAccessor,
@@ -6755,7 +6755,7 @@ let FormBuilder = /** @class */ (() => {
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0-rc.0+39.sha-c3651ce');
+const VERSION = new Version('10.0.0-rc.0+44.sha-1b55da1');
 
 /**
  * @license

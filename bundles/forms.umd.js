@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+39.sha-c3651ce
+ * @license Angular v10.0.0-rc.0+44.sha-1b55da1
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2071,7 +2071,7 @@
              * The registered callback function called when a blur event occurs on the input element.
              */
             this.onTouched = function () { };
-            this._compareWith = i0.ɵlooseIdentical;
+            this._compareWith = Object.is;
         }
         Object.defineProperty(SelectControlValueAccessor.prototype, "compareWith", {
             /**
@@ -2334,7 +2334,7 @@
              * The registered callback function called when a blur event occurs on the input element.
              */
             this.onTouched = function () { };
-            this._compareWith = i0.ɵlooseIdentical;
+            this._compareWith = Object.is;
         }
         Object.defineProperty(SelectMultipleControlValueAccessor.prototype, "compareWith", {
             /**
@@ -2685,7 +2685,7 @@
         var change = changes['model'];
         if (change.isFirstChange())
             return true;
-        return !i0.ɵlooseIdentical(viewModel, change.currentValue);
+        return !Object.is(viewModel, change.currentValue);
     }
     var BUILTIN_ACCESSORS = [
         CheckboxControlValueAccessor,
@@ -7190,7 +7190,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('10.0.0-rc.0+39.sha-c3651ce');
+    var VERSION = new i0.Version('10.0.0-rc.0+44.sha-1b55da1');
 
     /**
      * @license
