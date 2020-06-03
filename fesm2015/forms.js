@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.2+12.sha-2d86dbb
+ * @license Angular v10.0.0-rc.2+14.sha-c7c0c1f
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2535,13 +2535,11 @@ function _find(control, path, delimiter) {
     return controlToFind;
 }
 function coerceToValidator(validatorOrOpts) {
-    const validator = (isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators :
-        validatorOrOpts);
+    const validator = isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators : validatorOrOpts;
     return Array.isArray(validator) ? composeValidators(validator) : validator || null;
 }
 function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
-    const origAsyncValidator = (isOptionsObj(validatorOrOpts) ? validatorOrOpts.asyncValidators :
-        asyncValidator);
+    const origAsyncValidator = isOptionsObj(validatorOrOpts) ? validatorOrOpts.asyncValidators : asyncValidator;
     return Array.isArray(origAsyncValidator) ? composeAsyncValidators(origAsyncValidator) :
         origAsyncValidator || null;
 }
@@ -6505,7 +6503,7 @@ let FormBuilder = /** @class */ (() => {
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0-rc.2+12.sha-2d86dbb');
+const VERSION = new Version('10.0.0-rc.2+14.sha-c7c0c1f');
 
 /**
  * @license
