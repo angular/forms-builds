@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+49.sha-382aa50
+ * @license Angular v10.0.0-rc.0+50.sha-06a8ad2
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2826,13 +2826,11 @@
         return controlToFind;
     }
     function coerceToValidator(validatorOrOpts) {
-        var validator = (isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators :
-            validatorOrOpts);
+        var validator = isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators : validatorOrOpts;
         return Array.isArray(validator) ? composeValidators(validator) : validator || null;
     }
     function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
-        var origAsyncValidator = (isOptionsObj(validatorOrOpts) ? validatorOrOpts.asyncValidators :
-            asyncValidator);
+        var origAsyncValidator = isOptionsObj(validatorOrOpts) ? validatorOrOpts.asyncValidators : asyncValidator;
         return Array.isArray(origAsyncValidator) ? composeAsyncValidators(origAsyncValidator) :
             origAsyncValidator || null;
     }
@@ -7024,7 +7022,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.0.0-rc.0+49.sha-382aa50');
+    var VERSION = new core.Version('10.0.0-rc.0+50.sha-06a8ad2');
 
     /**
      * @license
