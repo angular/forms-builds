@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.3+14.sha-9d397eb
+ * @license Angular v10.0.0-rc.3+16.sha-742f3d6
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -117,7 +117,6 @@
                         providers: [CHECKBOX_VALUE_ACCESSOR]
                     },] }
         ];
-        /** @nocollapse */
         CheckboxControlValueAccessor.ctorParameters = function () { return [
             { type: core.Renderer2 },
             { type: core.ElementRef }
@@ -263,7 +262,6 @@
                         providers: [DEFAULT_VALUE_ACCESSOR]
                     },] }
         ];
-        /** @nocollapse */
         DefaultValueAccessor.ctorParameters = function () { return [
             { type: core.Renderer2 },
             { type: core.ElementRef },
@@ -1005,7 +1003,6 @@
         NgControlStatus.decorators = [
             { type: core.Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] }
         ];
-        /** @nocollapse */
         NgControlStatus.ctorParameters = function () { return [
             { type: NgControl, decorators: [{ type: core.Self }] }
         ]; };
@@ -1033,7 +1030,6 @@
                         host: ngControlStatusHost
                     },] }
         ];
-        /** @nocollapse */
         NgControlStatusGroup.ctorParameters = function () { return [
             { type: ControlContainer, decorators: [{ type: core.Self }] }
         ]; };
@@ -1616,7 +1612,6 @@
                         providers: [NUMBER_VALUE_ACCESSOR]
                     },] }
         ];
-        /** @nocollapse */
         NumberValueAccessor.ctorParameters = function () { return [
             { type: core.Renderer2 },
             { type: core.ElementRef }
@@ -1805,7 +1800,6 @@
                         providers: [RADIO_VALUE_ACCESSOR]
                     },] }
         ];
-        /** @nocollapse */
         RadioControlValueAccessor.ctorParameters = function () { return [
             { type: core.Renderer2 },
             { type: core.ElementRef },
@@ -1919,7 +1913,6 @@
                         providers: [RANGE_VALUE_ACCESSOR]
                     },] }
         ];
-        /** @nocollapse */
         RangeValueAccessor.ctorParameters = function () { return [
             { type: core.Renderer2 },
             { type: core.ElementRef }
@@ -2171,7 +2164,6 @@
                         providers: [SELECT_VALUE_ACCESSOR]
                     },] }
         ];
-        /** @nocollapse */
         SelectControlValueAccessor.ctorParameters = function () { return [
             { type: core.Renderer2 },
             { type: core.ElementRef }
@@ -2246,7 +2238,6 @@
         NgSelectOption.decorators = [
             { type: core.Directive, args: [{ selector: 'option' },] }
         ];
-        /** @nocollapse */
         NgSelectOption.ctorParameters = function () { return [
             { type: core.ElementRef },
             { type: core.Renderer2 },
@@ -2472,7 +2463,6 @@
                         providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
                     },] }
         ];
-        /** @nocollapse */
         SelectMultipleControlValueAccessor.ctorParameters = function () { return [
             { type: core.Renderer2 },
             { type: core.ElementRef }
@@ -2557,7 +2547,6 @@
         ɵNgSelectMultipleOption.decorators = [
             { type: core.Directive, args: [{ selector: 'option' },] }
         ];
-        /** @nocollapse */
         ɵNgSelectMultipleOption.ctorParameters = function () { return [
             { type: core.ElementRef },
             { type: core.Renderer2 },
@@ -4945,7 +4934,6 @@
                         exportAs: 'ngForm'
                     },] }
         ];
-        /** @nocollapse */
         NgForm.ctorParameters = function () { return [
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] }
@@ -5136,7 +5124,6 @@
         NgModelGroup.decorators = [
             { type: core.Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] }
         ];
-        /** @nocollapse */
         NgModelGroup.ctorParameters = function () { return [
             { type: ControlContainer, decorators: [{ type: core.Host }, { type: core.SkipSelf }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
@@ -5429,7 +5416,6 @@
                         exportAs: 'ngModel'
                     },] }
         ];
-        /** @nocollapse */
         NgModel.ctorParameters = function () { return [
             { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
@@ -5642,12 +5628,11 @@
         FormControlDirective.decorators = [
             { type: core.Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] }
         ];
-        /** @nocollapse */
         FormControlDirective.ctorParameters = function () { return [
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALUE_ACCESSOR,] }] },
-            { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
+            { type: String, decorators: [{ type: core.Optional }, { type: core.Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
         ]; };
         FormControlDirective.propDecorators = {
             form: [{ type: core.Input, args: ['formControl',] }],
@@ -5931,7 +5916,6 @@
                         exportAs: 'ngForm'
                     },] }
         ];
-        /** @nocollapse */
         FormGroupDirective.ctorParameters = function () { return [
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] }
@@ -6019,7 +6003,6 @@
         FormGroupName.decorators = [
             { type: core.Directive, args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] },] }
         ];
-        /** @nocollapse */
         FormGroupName.ctorParameters = function () { return [
             { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
@@ -6151,7 +6134,6 @@
         FormArrayName.decorators = [
             { type: core.Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] }
         ];
-        /** @nocollapse */
         FormArrayName.ctorParameters = function () { return [
             { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
@@ -6355,13 +6337,12 @@
         FormControlName.decorators = [
             { type: core.Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] }
         ];
-        /** @nocollapse */
         FormControlName.ctorParameters = function () { return [
             { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Host }, { type: core.SkipSelf }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALIDATORS,] }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_ASYNC_VALIDATORS,] }] },
             { type: Array, decorators: [{ type: core.Optional }, { type: core.Self }, { type: core.Inject, args: [NG_VALUE_ACCESSOR,] }] },
-            { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
+            { type: String, decorators: [{ type: core.Optional }, { type: core.Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
         ]; };
         FormControlName.propDecorators = {
             name: [{ type: core.Input, args: ['formControlName',] }],
@@ -7022,7 +7003,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.0.0-rc.3+14.sha-9d397eb');
+    var VERSION = new core.Version('10.0.0-rc.3+16.sha-742f3d6');
 
     /**
      * @license
