@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+113.sha-0a1d078
+ * @license Angular v10.0.0-rc.0+114.sha-401ef71
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -118,7 +118,6 @@ let CheckboxControlValueAccessor = /** @class */ (() => {
                     providers: [CHECKBOX_VALUE_ACCESSOR]
                 },] }
     ];
-    /** @nocollapse */
     CheckboxControlValueAccessor.ctorParameters = () => [
         { type: Renderer2 },
         { type: ElementRef }
@@ -266,7 +265,6 @@ let DefaultValueAccessor = /** @class */ (() => {
                     providers: [DEFAULT_VALUE_ACCESSOR]
                 },] }
     ];
-    /** @nocollapse */
     DefaultValueAccessor.ctorParameters = () => [
         { type: Renderer2 },
         { type: ElementRef },
@@ -664,7 +662,6 @@ let NgControlStatus = /** @class */ (() => {
     NgControlStatus.decorators = [
         { type: Directive, args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost },] }
     ];
-    /** @nocollapse */
     NgControlStatus.ctorParameters = () => [
         { type: NgControl, decorators: [{ type: Self }] }
     ];
@@ -693,7 +690,6 @@ let NgControlStatusGroup = /** @class */ (() => {
                     host: ngControlStatusHost
                 },] }
     ];
-    /** @nocollapse */
     NgControlStatusGroup.ctorParameters = () => [
         { type: ControlContainer, decorators: [{ type: Self }] }
     ];
@@ -1275,7 +1271,6 @@ let NumberValueAccessor = /** @class */ (() => {
                     providers: [NUMBER_VALUE_ACCESSOR]
                 },] }
     ];
-    /** @nocollapse */
     NumberValueAccessor.ctorParameters = () => [
         { type: Renderer2 },
         { type: ElementRef }
@@ -1469,7 +1464,6 @@ let RadioControlValueAccessor = /** @class */ (() => {
                     providers: [RADIO_VALUE_ACCESSOR]
                 },] }
     ];
-    /** @nocollapse */
     RadioControlValueAccessor.ctorParameters = () => [
         { type: Renderer2 },
         { type: ElementRef },
@@ -1585,7 +1579,6 @@ let RangeValueAccessor = /** @class */ (() => {
                     providers: [RANGE_VALUE_ACCESSOR]
                 },] }
     ];
-    /** @nocollapse */
     RangeValueAccessor.ctorParameters = () => [
         { type: Renderer2 },
         { type: ElementRef }
@@ -1910,7 +1903,6 @@ let SelectControlValueAccessor = /** @class */ (() => {
                     providers: [SELECT_VALUE_ACCESSOR]
                 },] }
     ];
-    /** @nocollapse */
     SelectControlValueAccessor.ctorParameters = () => [
         { type: Renderer2 },
         { type: ElementRef }
@@ -1979,7 +1971,6 @@ let NgSelectOption = /** @class */ (() => {
     NgSelectOption.decorators = [
         { type: Directive, args: [{ selector: 'option' },] }
     ];
-    /** @nocollapse */
     NgSelectOption.ctorParameters = () => [
         { type: ElementRef },
         { type: Renderer2 },
@@ -2187,7 +2178,6 @@ let SelectMultipleControlValueAccessor = /** @class */ (() => {
                     providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
                 },] }
     ];
-    /** @nocollapse */
     SelectMultipleControlValueAccessor.ctorParameters = () => [
         { type: Renderer2 },
         { type: ElementRef }
@@ -2266,7 +2256,6 @@ let ɵNgSelectMultipleOption = /** @class */ (() => {
     ɵNgSelectMultipleOption.decorators = [
         { type: Directive, args: [{ selector: 'option' },] }
     ];
-    /** @nocollapse */
     ɵNgSelectMultipleOption.ctorParameters = () => [
         { type: ElementRef },
         { type: Renderer2 },
@@ -4525,7 +4514,6 @@ let NgForm = /** @class */ (() => {
                     exportAs: 'ngForm'
                 },] }
     ];
-    /** @nocollapse */
     NgForm.ctorParameters = () => [
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] }
@@ -4723,7 +4711,6 @@ let NgModelGroup = /** @class */ (() => {
     NgModelGroup.decorators = [
         { type: Directive, args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' },] }
     ];
-    /** @nocollapse */
     NgModelGroup.ctorParameters = () => [
         { type: ControlContainer, decorators: [{ type: Host }, { type: SkipSelf }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
@@ -4998,7 +4985,6 @@ let NgModel = /** @class */ (() => {
                     exportAs: 'ngModel'
                 },] }
     ];
-    /** @nocollapse */
     NgModel.ctorParameters = () => [
         { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
@@ -5191,12 +5177,11 @@ let FormControlDirective = /** @class */ (() => {
     FormControlDirective.decorators = [
         { type: Directive, args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' },] }
     ];
-    /** @nocollapse */
     FormControlDirective.ctorParameters = () => [
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] }] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
+        { type: String, decorators: [{ type: Optional }, { type: Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
     ];
     FormControlDirective.propDecorators = {
         form: [{ type: Input, args: ['formControl',] }],
@@ -5465,7 +5450,6 @@ let FormGroupDirective = /** @class */ (() => {
                     exportAs: 'ngForm'
                 },] }
     ];
-    /** @nocollapse */
     FormGroupDirective.ctorParameters = () => [
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] }
@@ -5553,7 +5537,6 @@ let FormGroupName = /** @class */ (() => {
     FormGroupName.decorators = [
         { type: Directive, args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] },] }
     ];
-    /** @nocollapse */
     FormGroupName.ctorParameters = () => [
         { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
@@ -5665,7 +5648,6 @@ let FormArrayName = /** @class */ (() => {
     FormArrayName.decorators = [
         { type: Directive, args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] },] }
     ];
-    /** @nocollapse */
     FormArrayName.ctorParameters = () => [
         { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
@@ -5849,13 +5831,12 @@ let FormControlName = /** @class */ (() => {
     FormControlName.decorators = [
         { type: Directive, args: [{ selector: '[formControlName]', providers: [controlNameBinding] },] }
     ];
-    /** @nocollapse */
     FormControlName.ctorParameters = () => [
         { type: ControlContainer, decorators: [{ type: Optional }, { type: Host }, { type: SkipSelf }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALIDATORS,] }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_ASYNC_VALIDATORS,] }] },
         { type: Array, decorators: [{ type: Optional }, { type: Self }, { type: Inject, args: [NG_VALUE_ACCESSOR,] }] },
-        { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
+        { type: String, decorators: [{ type: Optional }, { type: Inject, args: [NG_MODEL_WITH_FORM_CONTROL_WARNING,] }] }
     ];
     FormControlName.propDecorators = {
         name: [{ type: Input, args: ['formControlName',] }],
@@ -6503,7 +6484,7 @@ let FormBuilder = /** @class */ (() => {
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0-rc.0+113.sha-0a1d078');
+const VERSION = new Version('10.0.0-rc.0+114.sha-401ef71');
 
 /**
  * @license
