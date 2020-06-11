@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+130.sha-8c682c5
+ * @license Angular v10.0.0-rc.0+134.sha-a937889
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -60,63 +60,60 @@ const CHECKBOX_VALUE_ACCESSOR = {
  * @ngModule FormsModule
  * @publicApi
  */
-let CheckboxControlValueAccessor = /** @class */ (() => {
-    class CheckboxControlValueAccessor {
-        constructor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /**
-             * @description
-             * The registered callback function called when a change event occurs on the input element.
-             */
-            this.onChange = (_) => { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = () => { };
-        }
-        /**
-         * Sets the "checked" property on the input element.
-         *
-         * @param value The checked value
-         */
-        writeValue(value) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
-        }
+class CheckboxControlValueAccessor {
+    constructor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
         /**
          * @description
-         * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * The registered callback function called when a change event occurs on the input element.
          */
-        registerOnChange(fn) {
-            this.onChange = fn;
-        }
+        this.onChange = (_) => { };
         /**
          * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * The registered callback function called when a blur event occurs on the input element.
          */
-        registerOnTouched(fn) {
-            this.onTouched = fn;
-        }
-        /**
-         * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        setDisabledState(isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        }
+        this.onTouched = () => { };
     }
-    CheckboxControlValueAccessor.ɵfac = function CheckboxControlValueAccessor_Factory(t) { return new (t || CheckboxControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
-    CheckboxControlValueAccessor.ɵdir = ɵɵdefineDirective({ type: CheckboxControlValueAccessor, selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]], hostBindings: function CheckboxControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("change", function CheckboxControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.checked); })("blur", function CheckboxControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
-        } }, features: [ɵɵProvidersFeature([CHECKBOX_VALUE_ACCESSOR])] });
-    return CheckboxControlValueAccessor;
-})();
+    /**
+     * Sets the "checked" property on the input element.
+     *
+     * @param value The checked value
+     */
+    writeValue(value) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
+    }
+    /**
+     * @description
+     * Registers a function called when the control value changes.
+     *
+     * @param fn The callback function
+     */
+    registerOnChange(fn) {
+        this.onChange = fn;
+    }
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+    /**
+     * Sets the "disabled" property on the input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    setDisabledState(isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
+}
+CheckboxControlValueAccessor.ɵfac = function CheckboxControlValueAccessor_Factory(t) { return new (t || CheckboxControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+CheckboxControlValueAccessor.ɵdir = ɵɵdefineDirective({ type: CheckboxControlValueAccessor, selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]], hostBindings: function CheckboxControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("change", function CheckboxControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.checked); })("blur", function CheckboxControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
+    } }, features: [ɵɵProvidersFeature([CHECKBOX_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(CheckboxControlValueAccessor, [{
         type: Directive,
         args: [{
@@ -178,85 +175,82 @@ const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  * @ngModule FormsModule
  * @publicApi
  */
-let DefaultValueAccessor = /** @class */ (() => {
-    class DefaultValueAccessor {
-        constructor(_renderer, _elementRef, _compositionMode) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            this._compositionMode = _compositionMode;
-            /**
-             * @description
-             * The registered callback function called when an input event occurs on the input element.
-             */
-            this.onChange = (_) => { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = () => { };
-            /** Whether the user is creating a composition string (IME events). */
-            this._composing = false;
-            if (this._compositionMode == null) {
-                this._compositionMode = !_isAndroid();
-            }
-        }
-        /**
-         * Sets the "value" property on the input element.
-         *
-         * @param value The checked value
-         */
-        writeValue(value) {
-            const normalizedValue = value == null ? '' : value;
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
-        }
+class DefaultValueAccessor {
+    constructor(_renderer, _elementRef, _compositionMode) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        this._compositionMode = _compositionMode;
         /**
          * @description
-         * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * The registered callback function called when an input event occurs on the input element.
          */
-        registerOnChange(fn) {
-            this.onChange = fn;
-        }
+        this.onChange = (_) => { };
         /**
          * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * The registered callback function called when a blur event occurs on the input element.
          */
-        registerOnTouched(fn) {
-            this.onTouched = fn;
-        }
-        /**
-         * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        setDisabledState(isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        }
-        /** @internal */
-        _handleInput(value) {
-            if (!this._compositionMode || (this._compositionMode && !this._composing)) {
-                this.onChange(value);
-            }
-        }
-        /** @internal */
-        _compositionStart() {
-            this._composing = true;
-        }
-        /** @internal */
-        _compositionEnd(value) {
-            this._composing = false;
-            this._compositionMode && this.onChange(value);
+        this.onTouched = () => { };
+        /** Whether the user is creating a composition string (IME events). */
+        this._composing = false;
+        if (this._compositionMode == null) {
+            this._compositionMode = !_isAndroid();
         }
     }
-    DefaultValueAccessor.ɵfac = function DefaultValueAccessor_Factory(t) { return new (t || DefaultValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(COMPOSITION_BUFFER_MODE, 8)); };
-    DefaultValueAccessor.ɵdir = ɵɵdefineDirective({ type: DefaultValueAccessor, selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]], hostBindings: function DefaultValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("input", function DefaultValueAccessor_input_HostBindingHandler($event) { return ctx._handleInput($event.target.value); })("blur", function DefaultValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); })("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler() { return ctx._compositionStart(); })("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) { return ctx._compositionEnd($event.target.value); });
-        } }, features: [ɵɵProvidersFeature([DEFAULT_VALUE_ACCESSOR])] });
-    return DefaultValueAccessor;
-})();
+    /**
+     * Sets the "value" property on the input element.
+     *
+     * @param value The checked value
+     */
+    writeValue(value) {
+        const normalizedValue = value == null ? '' : value;
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+    }
+    /**
+     * @description
+     * Registers a function called when the control value changes.
+     *
+     * @param fn The callback function
+     */
+    registerOnChange(fn) {
+        this.onChange = fn;
+    }
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+    /**
+     * Sets the "disabled" property on the input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    setDisabledState(isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
+    /** @internal */
+    _handleInput(value) {
+        if (!this._compositionMode || (this._compositionMode && !this._composing)) {
+            this.onChange(value);
+        }
+    }
+    /** @internal */
+    _compositionStart() {
+        this._composing = true;
+    }
+    /** @internal */
+    _compositionEnd(value) {
+        this._composing = false;
+        this._compositionMode && this.onChange(value);
+    }
+}
+DefaultValueAccessor.ɵfac = function DefaultValueAccessor_Factory(t) { return new (t || DefaultValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(COMPOSITION_BUFFER_MODE, 8)); };
+DefaultValueAccessor.ɵdir = ɵɵdefineDirective({ type: DefaultValueAccessor, selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]], hostBindings: function DefaultValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("input", function DefaultValueAccessor_input_HostBindingHandler($event) { return ctx._handleInput($event.target.value); })("blur", function DefaultValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); })("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler() { return ctx._compositionStart(); })("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) { return ctx._compositionEnd($event.target.value); });
+    } }, features: [ɵɵProvidersFeature([DEFAULT_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(DefaultValueAccessor, [{
         type: Directive,
         args: [{
@@ -659,18 +653,15 @@ const ngControlStatusHost = {
  * @ngModule FormsModule
  * @publicApi
  */
-let NgControlStatus = /** @class */ (() => {
-    class NgControlStatus extends AbstractControlStatus {
-        constructor(cd) {
-            super(cd);
-        }
+class NgControlStatus extends AbstractControlStatus {
+    constructor(cd) {
+        super(cd);
     }
-    NgControlStatus.ɵfac = function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(ɵɵdirectiveInject(NgControl, 2)); };
-    NgControlStatus.ɵdir = ɵɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], hostVars: 14, hostBindings: function NgControlStatus_HostBindings(rf, ctx) { if (rf & 2) {
-            ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
-        } }, features: [ɵɵInheritDefinitionFeature] });
-    return NgControlStatus;
-})();
+}
+NgControlStatus.ɵfac = function NgControlStatus_Factory(t) { return new (t || NgControlStatus)(ɵɵdirectiveInject(NgControl, 2)); };
+NgControlStatus.ɵdir = ɵɵdefineDirective({ type: NgControlStatus, selectors: [["", "formControlName", ""], ["", "ngModel", ""], ["", "formControl", ""]], hostVars: 14, hostBindings: function NgControlStatus_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
+    } }, features: [ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(NgControlStatus, [{
         type: Directive,
         args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost }]
@@ -688,18 +679,15 @@ let NgControlStatus = /** @class */ (() => {
  * @ngModule FormsModule
  * @publicApi
  */
-let NgControlStatusGroup = /** @class */ (() => {
-    class NgControlStatusGroup extends AbstractControlStatus {
-        constructor(cd) {
-            super(cd);
-        }
+class NgControlStatusGroup extends AbstractControlStatus {
+    constructor(cd) {
+        super(cd);
     }
-    NgControlStatusGroup.ɵfac = function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(ɵɵdirectiveInject(ControlContainer, 2)); };
-    NgControlStatusGroup.ɵdir = ɵɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], hostVars: 14, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx) { if (rf & 2) {
-            ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
-        } }, features: [ɵɵInheritDefinitionFeature] });
-    return NgControlStatusGroup;
-})();
+}
+NgControlStatusGroup.ɵfac = function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(ɵɵdirectiveInject(ControlContainer, 2)); };
+NgControlStatusGroup.ɵdir = ɵɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], hostVars: 14, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
+    } }, features: [ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(NgControlStatusGroup, [{
         type: Directive,
         args: [{
@@ -1222,68 +1210,65 @@ const NUMBER_VALUE_ACCESSOR = {
  * @ngModule FormsModule
  * @publicApi
  */
-let NumberValueAccessor = /** @class */ (() => {
-    class NumberValueAccessor {
-        constructor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /**
-             * @description
-             * The registered callback function called when a change or input event occurs on the input
-             * element.
-             */
-            this.onChange = (_) => { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = () => { };
-        }
-        /**
-         * Sets the "value" property on the input element.
-         *
-         * @param value The checked value
-         */
-        writeValue(value) {
-            // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
-            const normalizedValue = value == null ? '' : value;
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
-        }
+class NumberValueAccessor {
+    constructor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
         /**
          * @description
-         * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * The registered callback function called when a change or input event occurs on the input
+         * element.
          */
-        registerOnChange(fn) {
-            this.onChange = (value) => {
-                fn(value == '' ? null : parseFloat(value));
-            };
-        }
+        this.onChange = (_) => { };
         /**
          * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * The registered callback function called when a blur event occurs on the input element.
          */
-        registerOnTouched(fn) {
-            this.onTouched = fn;
-        }
-        /**
-         * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        setDisabledState(isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        }
+        this.onTouched = () => { };
     }
-    NumberValueAccessor.ɵfac = function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
-    NumberValueAccessor.ɵdir = ɵɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], hostBindings: function NumberValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function NumberValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
-        } }, features: [ɵɵProvidersFeature([NUMBER_VALUE_ACCESSOR])] });
-    return NumberValueAccessor;
-})();
+    /**
+     * Sets the "value" property on the input element.
+     *
+     * @param value The checked value
+     */
+    writeValue(value) {
+        // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
+        const normalizedValue = value == null ? '' : value;
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+    }
+    /**
+     * @description
+     * Registers a function called when the control value changes.
+     *
+     * @param fn The callback function
+     */
+    registerOnChange(fn) {
+        this.onChange = (value) => {
+            fn(value == '' ? null : parseFloat(value));
+        };
+    }
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+    /**
+     * Sets the "disabled" property on the input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    setDisabledState(isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
+}
+NumberValueAccessor.ɵfac = function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+NumberValueAccessor.ɵdir = ɵɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], hostBindings: function NumberValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function NumberValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
+    } }, features: [ɵɵProvidersFeature([NUMBER_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(NumberValueAccessor, [{
         type: Directive,
         args: [{
@@ -1309,52 +1294,49 @@ const RADIO_VALUE_ACCESSOR = {
  * @description
  * Class used by Angular to track radio buttons. For internal use only.
  */
-let RadioControlRegistry = /** @class */ (() => {
-    class RadioControlRegistry {
-        constructor() {
-            this._accessors = [];
-        }
-        /**
-         * @description
-         * Adds a control to the internal registry. For internal use only.
-         */
-        add(control, accessor) {
-            this._accessors.push([control, accessor]);
-        }
-        /**
-         * @description
-         * Removes a control from the internal registry. For internal use only.
-         */
-        remove(accessor) {
-            for (let i = this._accessors.length - 1; i >= 0; --i) {
-                if (this._accessors[i][1] === accessor) {
-                    this._accessors.splice(i, 1);
-                    return;
-                }
+class RadioControlRegistry {
+    constructor() {
+        this._accessors = [];
+    }
+    /**
+     * @description
+     * Adds a control to the internal registry. For internal use only.
+     */
+    add(control, accessor) {
+        this._accessors.push([control, accessor]);
+    }
+    /**
+     * @description
+     * Removes a control from the internal registry. For internal use only.
+     */
+    remove(accessor) {
+        for (let i = this._accessors.length - 1; i >= 0; --i) {
+            if (this._accessors[i][1] === accessor) {
+                this._accessors.splice(i, 1);
+                return;
             }
         }
-        /**
-         * @description
-         * Selects a radio button. For internal use only.
-         */
-        select(accessor) {
-            this._accessors.forEach((c) => {
-                if (this._isSameGroup(c, accessor) && c[1] !== accessor) {
-                    c[1].fireUncheck(accessor.value);
-                }
-            });
-        }
-        _isSameGroup(controlPair, accessor) {
-            if (!controlPair[0].control)
-                return false;
-            return controlPair[0]._parent === accessor._control._parent &&
-                controlPair[1].name === accessor.name;
-        }
     }
-    RadioControlRegistry.ɵfac = function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); };
-    RadioControlRegistry.ɵprov = ɵɵdefineInjectable({ token: RadioControlRegistry, factory: RadioControlRegistry.ɵfac });
-    return RadioControlRegistry;
-})();
+    /**
+     * @description
+     * Selects a radio button. For internal use only.
+     */
+    select(accessor) {
+        this._accessors.forEach((c) => {
+            if (this._isSameGroup(c, accessor) && c[1] !== accessor) {
+                c[1].fireUncheck(accessor.value);
+            }
+        });
+    }
+    _isSameGroup(controlPair, accessor) {
+        if (!controlPair[0].control)
+            return false;
+        return controlPair[0]._parent === accessor._control._parent &&
+            controlPair[1].name === accessor.name;
+    }
+}
+RadioControlRegistry.ɵfac = function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); };
+RadioControlRegistry.ɵprov = ɵɵdefineInjectable({ token: RadioControlRegistry, factory: RadioControlRegistry.ɵfac });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(RadioControlRegistry, [{
         type: Injectable
     }], null, null); })();
@@ -1378,108 +1360,105 @@ let RadioControlRegistry = /** @class */ (() => {
  * @ngModule FormsModule
  * @publicApi
  */
-let RadioControlValueAccessor = /** @class */ (() => {
-    class RadioControlValueAccessor {
-        constructor(_renderer, _elementRef, _registry, _injector) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            this._registry = _registry;
-            this._injector = _injector;
-            /**
-             * @description
-             * The registered callback function called when a change event occurs on the input element.
-             */
-            this.onChange = () => { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = () => { };
-        }
+class RadioControlValueAccessor {
+    constructor(_renderer, _elementRef, _registry, _injector) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        this._registry = _registry;
+        this._injector = _injector;
         /**
          * @description
-         * A lifecycle method called when the directive is initialized. For internal use only.
+         * The registered callback function called when a change event occurs on the input element.
          */
-        ngOnInit() {
-            this._control = this._injector.get(NgControl);
-            this._checkName();
-            this._registry.add(this._control, this);
-        }
+        this.onChange = () => { };
         /**
          * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal use only.
+         * The registered callback function called when a blur event occurs on the input element.
          */
-        ngOnDestroy() {
-            this._registry.remove(this);
+        this.onTouched = () => { };
+    }
+    /**
+     * @description
+     * A lifecycle method called when the directive is initialized. For internal use only.
+     */
+    ngOnInit() {
+        this._control = this._injector.get(NgControl);
+        this._checkName();
+        this._registry.add(this._control, this);
+    }
+    /**
+     * @description
+     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
+     */
+    ngOnDestroy() {
+        this._registry.remove(this);
+    }
+    /**
+     * @description
+     * Sets the "checked" property value on the radio input element.
+     *
+     * @param value The checked value
+     */
+    writeValue(value) {
+        this._state = value === this.value;
+        this._renderer.setProperty(this._elementRef.nativeElement, 'checked', this._state);
+    }
+    /**
+     * @description
+     * Registers a function called when the control value changes.
+     *
+     * @param fn The callback function
+     */
+    registerOnChange(fn) {
+        this._fn = fn;
+        this.onChange = () => {
+            fn(this.value);
+            this._registry.select(this);
+        };
+    }
+    /**
+     * Sets the "value" on the radio input element and unchecks it.
+     *
+     * @param value
+     */
+    fireUncheck(value) {
+        this.writeValue(value);
+    }
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+    /**
+     * Sets the "disabled" property on the input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    setDisabledState(isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
+    _checkName() {
+        if (this.name && this.formControlName && this.name !== this.formControlName) {
+            this._throwNameError();
         }
-        /**
-         * @description
-         * Sets the "checked" property value on the radio input element.
-         *
-         * @param value The checked value
-         */
-        writeValue(value) {
-            this._state = value === this.value;
-            this._renderer.setProperty(this._elementRef.nativeElement, 'checked', this._state);
-        }
-        /**
-         * @description
-         * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
-         */
-        registerOnChange(fn) {
-            this._fn = fn;
-            this.onChange = () => {
-                fn(this.value);
-                this._registry.select(this);
-            };
-        }
-        /**
-         * Sets the "value" on the radio input element and unchecks it.
-         *
-         * @param value
-         */
-        fireUncheck(value) {
-            this.writeValue(value);
-        }
-        /**
-         * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
-         */
-        registerOnTouched(fn) {
-            this.onTouched = fn;
-        }
-        /**
-         * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        setDisabledState(isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        }
-        _checkName() {
-            if (this.name && this.formControlName && this.name !== this.formControlName) {
-                this._throwNameError();
-            }
-            if (!this.name && this.formControlName)
-                this.name = this.formControlName;
-        }
-        _throwNameError() {
-            throw new Error(`
+        if (!this.name && this.formControlName)
+            this.name = this.formControlName;
+    }
+    _throwNameError() {
+        throw new Error(`
       If you define both a name and a formControlName attribute on your radio button, their values
       must match. Ex: <input type="radio" formControlName="food" name="food">
     `);
-        }
     }
-    RadioControlValueAccessor.ɵfac = function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(RadioControlRegistry), ɵɵdirectiveInject(Injector)); };
-    RadioControlValueAccessor.ɵdir = ɵɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], hostBindings: function RadioControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler() { return ctx.onChange(); })("blur", function RadioControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
-        } }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [ɵɵProvidersFeature([RADIO_VALUE_ACCESSOR])] });
-    return RadioControlValueAccessor;
-})();
+}
+RadioControlValueAccessor.ɵfac = function RadioControlValueAccessor_Factory(t) { return new (t || RadioControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(RadioControlRegistry), ɵɵdirectiveInject(Injector)); };
+RadioControlValueAccessor.ɵdir = ɵɵdefineDirective({ type: RadioControlValueAccessor, selectors: [["input", "type", "radio", "formControlName", ""], ["input", "type", "radio", "formControl", ""], ["input", "type", "radio", "ngModel", ""]], hostBindings: function RadioControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("change", function RadioControlValueAccessor_change_HostBindingHandler() { return ctx.onChange(); })("blur", function RadioControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
+    } }, inputs: { name: "name", formControlName: "formControlName", value: "value" }, features: [ɵɵProvidersFeature([RADIO_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(RadioControlValueAccessor, [{
         type: Directive,
         args: [{
@@ -1531,66 +1510,63 @@ const RANGE_VALUE_ACCESSOR = {
  * @ngModule FormsModule
  * @publicApi
  */
-let RangeValueAccessor = /** @class */ (() => {
-    class RangeValueAccessor {
-        constructor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /**
-             * @description
-             * The registered callback function called when a change or input event occurs on the input
-             * element.
-             */
-            this.onChange = (_) => { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = () => { };
-        }
-        /**
-         * Sets the "value" property on the input element.
-         *
-         * @param value The checked value
-         */
-        writeValue(value) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
-        }
+class RangeValueAccessor {
+    constructor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
         /**
          * @description
-         * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * The registered callback function called when a change or input event occurs on the input
+         * element.
          */
-        registerOnChange(fn) {
-            this.onChange = (value) => {
-                fn(value == '' ? null : parseFloat(value));
-            };
-        }
+        this.onChange = (_) => { };
         /**
          * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * The registered callback function called when a blur event occurs on the input element.
          */
-        registerOnTouched(fn) {
-            this.onTouched = fn;
-        }
-        /**
-         * Sets the "disabled" property on the range input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        setDisabledState(isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        }
+        this.onTouched = () => { };
     }
-    RangeValueAccessor.ɵfac = function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
-    RangeValueAccessor.ɵdir = ɵɵdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], hostBindings: function RangeValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("change", function RangeValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("input", function RangeValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function RangeValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
-        } }, features: [ɵɵProvidersFeature([RANGE_VALUE_ACCESSOR])] });
-    return RangeValueAccessor;
-})();
+    /**
+     * Sets the "value" property on the input element.
+     *
+     * @param value The checked value
+     */
+    writeValue(value) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
+    }
+    /**
+     * @description
+     * Registers a function called when the control value changes.
+     *
+     * @param fn The callback function
+     */
+    registerOnChange(fn) {
+        this.onChange = (value) => {
+            fn(value == '' ? null : parseFloat(value));
+        };
+    }
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+    /**
+     * Sets the "disabled" property on the range input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    setDisabledState(isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
+}
+RangeValueAccessor.ɵfac = function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+RangeValueAccessor.ɵdir = ɵɵdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], hostBindings: function RangeValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("change", function RangeValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("input", function RangeValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function RangeValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
+    } }, features: [ɵɵProvidersFeature([RANGE_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(RangeValueAccessor, [{
         type: Directive,
         args: [{
@@ -1820,106 +1796,103 @@ function _extractId(valueString) {
  * @ngModule FormsModule
  * @publicApi
  */
-let SelectControlValueAccessor = /** @class */ (() => {
-    class SelectControlValueAccessor {
-        constructor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /** @internal */
-            this._optionMap = new Map();
-            /** @internal */
-            this._idCounter = 0;
-            /**
-             * @description
-             * The registered callback function called when a change event occurs on the input element.
-             */
-            this.onChange = (_) => { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = () => { };
-            this._compareWith = Object.is;
-        }
+class SelectControlValueAccessor {
+    constructor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        /** @internal */
+        this._optionMap = new Map();
+        /** @internal */
+        this._idCounter = 0;
         /**
          * @description
-         * Tracks the option comparison algorithm for tracking identities when
-         * checking for changes.
+         * The registered callback function called when a change event occurs on the input element.
          */
-        set compareWith(fn) {
-            if (typeof fn !== 'function') {
-                throw new Error(`compareWith must be a function, but received ${JSON.stringify(fn)}`);
-            }
-            this._compareWith = fn;
-        }
-        /**
-         * Sets the "value" property on the input element. The "selectedIndex"
-         * property is also set if an ID is provided on the option element.
-         *
-         * @param value The checked value
-         */
-        writeValue(value) {
-            this.value = value;
-            const id = this._getOptionId(value);
-            if (id == null) {
-                this._renderer.setProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
-            }
-            const valueString = _buildValueString(id, value);
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', valueString);
-        }
+        this.onChange = (_) => { };
         /**
          * @description
-         * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * The registered callback function called when a blur event occurs on the input element.
          */
-        registerOnChange(fn) {
-            this.onChange = (valueString) => {
-                this.value = this._getOptionValue(valueString);
-                fn(this.value);
-            };
-        }
-        /**
-         * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
-         */
-        registerOnTouched(fn) {
-            this.onTouched = fn;
-        }
-        /**
-         * Sets the "disabled" property on the select input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        setDisabledState(isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        }
-        /** @internal */
-        _registerOption() {
-            return (this._idCounter++).toString();
-        }
-        /** @internal */
-        _getOptionId(value) {
-            for (const id of Array.from(this._optionMap.keys())) {
-                if (this._compareWith(this._optionMap.get(id), value))
-                    return id;
-            }
-            return null;
-        }
-        /** @internal */
-        _getOptionValue(valueString) {
-            const id = _extractId(valueString);
-            return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
-        }
+        this.onTouched = () => { };
+        this._compareWith = Object.is;
     }
-    SelectControlValueAccessor.ɵfac = function SelectControlValueAccessor_Factory(t) { return new (t || SelectControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
-    SelectControlValueAccessor.ɵdir = ɵɵdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("change", function SelectControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function SelectControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
-        } }, inputs: { compareWith: "compareWith" }, features: [ɵɵProvidersFeature([SELECT_VALUE_ACCESSOR])] });
-    return SelectControlValueAccessor;
-})();
+    /**
+     * @description
+     * Tracks the option comparison algorithm for tracking identities when
+     * checking for changes.
+     */
+    set compareWith(fn) {
+        if (typeof fn !== 'function') {
+            throw new Error(`compareWith must be a function, but received ${JSON.stringify(fn)}`);
+        }
+        this._compareWith = fn;
+    }
+    /**
+     * Sets the "value" property on the input element. The "selectedIndex"
+     * property is also set if an ID is provided on the option element.
+     *
+     * @param value The checked value
+     */
+    writeValue(value) {
+        this.value = value;
+        const id = this._getOptionId(value);
+        if (id == null) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
+        }
+        const valueString = _buildValueString(id, value);
+        this._renderer.setProperty(this._elementRef.nativeElement, 'value', valueString);
+    }
+    /**
+     * @description
+     * Registers a function called when the control value changes.
+     *
+     * @param fn The callback function
+     */
+    registerOnChange(fn) {
+        this.onChange = (valueString) => {
+            this.value = this._getOptionValue(valueString);
+            fn(this.value);
+        };
+    }
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+    /**
+     * Sets the "disabled" property on the select input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    setDisabledState(isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
+    /** @internal */
+    _registerOption() {
+        return (this._idCounter++).toString();
+    }
+    /** @internal */
+    _getOptionId(value) {
+        for (const id of Array.from(this._optionMap.keys())) {
+            if (this._compareWith(this._optionMap.get(id), value))
+                return id;
+        }
+        return null;
+    }
+    /** @internal */
+    _getOptionValue(valueString) {
+        const id = _extractId(valueString);
+        return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
+    }
+}
+SelectControlValueAccessor.ɵfac = function SelectControlValueAccessor_Factory(t) { return new (t || SelectControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+SelectControlValueAccessor.ɵdir = ɵɵdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("change", function SelectControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function SelectControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
+    } }, inputs: { compareWith: "compareWith" }, features: [ɵɵProvidersFeature([SELECT_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(SelectControlValueAccessor, [{
         type: Directive,
         args: [{
@@ -1940,56 +1913,53 @@ let SelectControlValueAccessor = /** @class */ (() => {
  * @ngModule FormsModule
  * @publicApi
  */
-let NgSelectOption = /** @class */ (() => {
-    class NgSelectOption {
-        constructor(_element, _renderer, _select) {
-            this._element = _element;
-            this._renderer = _renderer;
-            this._select = _select;
-            if (this._select)
-                this.id = this._select._registerOption();
-        }
-        /**
-         * @description
-         * Tracks the value bound to the option element. Unlike the value binding,
-         * ngValue supports binding to objects.
-         */
-        set ngValue(value) {
-            if (this._select == null)
-                return;
-            this._select._optionMap.set(this.id, value);
-            this._setElementValue(_buildValueString(this.id, value));
+class NgSelectOption {
+    constructor(_element, _renderer, _select) {
+        this._element = _element;
+        this._renderer = _renderer;
+        this._select = _select;
+        if (this._select)
+            this.id = this._select._registerOption();
+    }
+    /**
+     * @description
+     * Tracks the value bound to the option element. Unlike the value binding,
+     * ngValue supports binding to objects.
+     */
+    set ngValue(value) {
+        if (this._select == null)
+            return;
+        this._select._optionMap.set(this.id, value);
+        this._setElementValue(_buildValueString(this.id, value));
+        this._select.writeValue(this._select.value);
+    }
+    /**
+     * @description
+     * Tracks simple string values bound to the option element.
+     * For objects, use the `ngValue` input binding.
+     */
+    set value(value) {
+        this._setElementValue(value);
+        if (this._select)
+            this._select.writeValue(this._select.value);
+    }
+    /** @internal */
+    _setElementValue(value) {
+        this._renderer.setProperty(this._element.nativeElement, 'value', value);
+    }
+    /**
+     * @description
+     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
+     */
+    ngOnDestroy() {
+        if (this._select) {
+            this._select._optionMap.delete(this.id);
             this._select.writeValue(this._select.value);
         }
-        /**
-         * @description
-         * Tracks simple string values bound to the option element.
-         * For objects, use the `ngValue` input binding.
-         */
-        set value(value) {
-            this._setElementValue(value);
-            if (this._select)
-                this._select.writeValue(this._select.value);
-        }
-        /** @internal */
-        _setElementValue(value) {
-            this._renderer.setProperty(this._element.nativeElement, 'value', value);
-        }
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-         */
-        ngOnDestroy() {
-            if (this._select) {
-                this._select._optionMap.delete(this.id);
-                this._select.writeValue(this._select.value);
-            }
-        }
     }
-    NgSelectOption.ɵfac = function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(SelectControlValueAccessor, 9)); };
-    NgSelectOption.ɵdir = ɵɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], inputs: { ngValue: "ngValue", value: "value" } });
-    return NgSelectOption;
-})();
+}
+NgSelectOption.ɵfac = function NgSelectOption_Factory(t) { return new (t || NgSelectOption)(ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(SelectControlValueAccessor, 9)); };
+NgSelectOption.ɵdir = ɵɵdefineDirective({ type: NgSelectOption, selectors: [["option"]], inputs: { ngValue: "ngValue", value: "value" } });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(NgSelectOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
@@ -2067,138 +2037,135 @@ class HTMLCollection {
  * @ngModule FormsModule
  * @publicApi
  */
-let SelectMultipleControlValueAccessor = /** @class */ (() => {
-    class SelectMultipleControlValueAccessor {
-        constructor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /** @internal */
-            this._optionMap = new Map();
-            /** @internal */
-            this._idCounter = 0;
-            /**
-             * @description
-             * The registered callback function called when a change event occurs on the input element.
-             */
-            this.onChange = (_) => { };
-            /**
-             * @description
-             * The registered callback function called when a blur event occurs on the input element.
-             */
-            this.onTouched = () => { };
-            this._compareWith = Object.is;
-        }
+class SelectMultipleControlValueAccessor {
+    constructor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        /** @internal */
+        this._optionMap = new Map();
+        /** @internal */
+        this._idCounter = 0;
         /**
          * @description
-         * Tracks the option comparison algorithm for tracking identities when
-         * checking for changes.
+         * The registered callback function called when a change event occurs on the input element.
          */
-        set compareWith(fn) {
-            if (typeof fn !== 'function') {
-                throw new Error(`compareWith must be a function, but received ${JSON.stringify(fn)}`);
-            }
-            this._compareWith = fn;
-        }
+        this.onChange = (_) => { };
         /**
          * @description
-         * Sets the "value" property on one or of more
-         * of the select's options.
-         *
-         * @param value The value
+         * The registered callback function called when a blur event occurs on the input element.
          */
-        writeValue(value) {
-            this.value = value;
-            let optionSelectedStateSetter;
-            if (Array.isArray(value)) {
-                // convert values to ids
-                const ids = value.map((v) => this._getOptionId(v));
-                optionSelectedStateSetter = (opt, o) => {
-                    opt._setSelected(ids.indexOf(o.toString()) > -1);
-                };
+        this.onTouched = () => { };
+        this._compareWith = Object.is;
+    }
+    /**
+     * @description
+     * Tracks the option comparison algorithm for tracking identities when
+     * checking for changes.
+     */
+    set compareWith(fn) {
+        if (typeof fn !== 'function') {
+            throw new Error(`compareWith must be a function, but received ${JSON.stringify(fn)}`);
+        }
+        this._compareWith = fn;
+    }
+    /**
+     * @description
+     * Sets the "value" property on one or of more
+     * of the select's options.
+     *
+     * @param value The value
+     */
+    writeValue(value) {
+        this.value = value;
+        let optionSelectedStateSetter;
+        if (Array.isArray(value)) {
+            // convert values to ids
+            const ids = value.map((v) => this._getOptionId(v));
+            optionSelectedStateSetter = (opt, o) => {
+                opt._setSelected(ids.indexOf(o.toString()) > -1);
+            };
+        }
+        else {
+            optionSelectedStateSetter = (opt, o) => {
+                opt._setSelected(false);
+            };
+        }
+        this._optionMap.forEach(optionSelectedStateSetter);
+    }
+    /**
+     * @description
+     * Registers a function called when the control value changes
+     * and writes an array of the selected options.
+     *
+     * @param fn The callback function
+     */
+    registerOnChange(fn) {
+        this.onChange = (_) => {
+            const selected = [];
+            if (_.hasOwnProperty('selectedOptions')) {
+                const options = _.selectedOptions;
+                for (let i = 0; i < options.length; i++) {
+                    const opt = options.item(i);
+                    const val = this._getOptionValue(opt.value);
+                    selected.push(val);
+                }
             }
+            // Degrade on IE
             else {
-                optionSelectedStateSetter = (opt, o) => {
-                    opt._setSelected(false);
-                };
-            }
-            this._optionMap.forEach(optionSelectedStateSetter);
-        }
-        /**
-         * @description
-         * Registers a function called when the control value changes
-         * and writes an array of the selected options.
-         *
-         * @param fn The callback function
-         */
-        registerOnChange(fn) {
-            this.onChange = (_) => {
-                const selected = [];
-                if (_.hasOwnProperty('selectedOptions')) {
-                    const options = _.selectedOptions;
-                    for (let i = 0; i < options.length; i++) {
-                        const opt = options.item(i);
+                const options = _.options;
+                for (let i = 0; i < options.length; i++) {
+                    const opt = options.item(i);
+                    if (opt.selected) {
                         const val = this._getOptionValue(opt.value);
                         selected.push(val);
                     }
                 }
-                // Degrade on IE
-                else {
-                    const options = _.options;
-                    for (let i = 0; i < options.length; i++) {
-                        const opt = options.item(i);
-                        if (opt.selected) {
-                            const val = this._getOptionValue(opt.value);
-                            selected.push(val);
-                        }
-                    }
-                }
-                this.value = selected;
-                fn(selected);
-            };
-        }
-        /**
-         * @description
-         * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
-         */
-        registerOnTouched(fn) {
-            this.onTouched = fn;
-        }
-        /**
-         * Sets the "disabled" property on the select input element.
-         *
-         * @param isDisabled The disabled value
-         */
-        setDisabledState(isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        }
-        /** @internal */
-        _registerOption(value) {
-            const id = (this._idCounter++).toString();
-            this._optionMap.set(id, value);
-            return id;
-        }
-        /** @internal */
-        _getOptionId(value) {
-            for (const id of Array.from(this._optionMap.keys())) {
-                if (this._compareWith(this._optionMap.get(id)._value, value))
-                    return id;
             }
-            return null;
-        }
-        /** @internal */
-        _getOptionValue(valueString) {
-            const id = _extractId$1(valueString);
-            return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
-        }
+            this.value = selected;
+            fn(selected);
+        };
     }
-    SelectMultipleControlValueAccessor.ɵfac = function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
-    SelectMultipleControlValueAccessor.ɵdir = ɵɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target); })("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
-        } }, inputs: { compareWith: "compareWith" }, features: [ɵɵProvidersFeature([SELECT_MULTIPLE_VALUE_ACCESSOR])] });
-    return SelectMultipleControlValueAccessor;
-})();
+    /**
+     * @description
+     * Registers a function called when the control is touched.
+     *
+     * @param fn The callback function
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+    /**
+     * Sets the "disabled" property on the select input element.
+     *
+     * @param isDisabled The disabled value
+     */
+    setDisabledState(isDisabled) {
+        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    }
+    /** @internal */
+    _registerOption(value) {
+        const id = (this._idCounter++).toString();
+        this._optionMap.set(id, value);
+        return id;
+    }
+    /** @internal */
+    _getOptionId(value) {
+        for (const id of Array.from(this._optionMap.keys())) {
+            if (this._compareWith(this._optionMap.get(id)._value, value))
+                return id;
+        }
+        return null;
+    }
+    /** @internal */
+    _getOptionValue(valueString) {
+        const id = _extractId$1(valueString);
+        return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
+    }
+}
+SelectMultipleControlValueAccessor.ɵfac = function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+SelectMultipleControlValueAccessor.ɵdir = ɵɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target); })("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
+    } }, inputs: { compareWith: "compareWith" }, features: [ɵɵProvidersFeature([SELECT_MULTIPLE_VALUE_ACCESSOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(SelectMultipleControlValueAccessor, [{
         type: Directive,
         args: [{
@@ -2219,66 +2186,63 @@ let SelectMultipleControlValueAccessor = /** @class */ (() => {
  * @ngModule FormsModule
  * @publicApi
  */
-let ɵNgSelectMultipleOption = /** @class */ (() => {
-    class ɵNgSelectMultipleOption {
-        constructor(_element, _renderer, _select) {
-            this._element = _element;
-            this._renderer = _renderer;
-            this._select = _select;
-            if (this._select) {
-                this.id = this._select._registerOption(this);
-            }
+class ɵNgSelectMultipleOption {
+    constructor(_element, _renderer, _select) {
+        this._element = _element;
+        this._renderer = _renderer;
+        this._select = _select;
+        if (this._select) {
+            this.id = this._select._registerOption(this);
         }
-        /**
-         * @description
-         * Tracks the value bound to the option element. Unlike the value binding,
-         * ngValue supports binding to objects.
-         */
-        set ngValue(value) {
-            if (this._select == null)
-                return;
+    }
+    /**
+     * @description
+     * Tracks the value bound to the option element. Unlike the value binding,
+     * ngValue supports binding to objects.
+     */
+    set ngValue(value) {
+        if (this._select == null)
+            return;
+        this._value = value;
+        this._setElementValue(_buildValueString$1(this.id, value));
+        this._select.writeValue(this._select.value);
+    }
+    /**
+     * @description
+     * Tracks simple string values bound to the option element.
+     * For objects, use the `ngValue` input binding.
+     */
+    set value(value) {
+        if (this._select) {
             this._value = value;
             this._setElementValue(_buildValueString$1(this.id, value));
             this._select.writeValue(this._select.value);
         }
-        /**
-         * @description
-         * Tracks simple string values bound to the option element.
-         * For objects, use the `ngValue` input binding.
-         */
-        set value(value) {
-            if (this._select) {
-                this._value = value;
-                this._setElementValue(_buildValueString$1(this.id, value));
-                this._select.writeValue(this._select.value);
-            }
-            else {
-                this._setElementValue(value);
-            }
-        }
-        /** @internal */
-        _setElementValue(value) {
-            this._renderer.setProperty(this._element.nativeElement, 'value', value);
-        }
-        /** @internal */
-        _setSelected(selected) {
-            this._renderer.setProperty(this._element.nativeElement, 'selected', selected);
-        }
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-         */
-        ngOnDestroy() {
-            if (this._select) {
-                this._select._optionMap.delete(this.id);
-                this._select.writeValue(this._select.value);
-            }
+        else {
+            this._setElementValue(value);
         }
     }
-    ɵNgSelectMultipleOption.ɵfac = function ɵNgSelectMultipleOption_Factory(t) { return new (t || ɵNgSelectMultipleOption)(ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); };
-    ɵNgSelectMultipleOption.ɵdir = ɵɵdefineDirective({ type: ɵNgSelectMultipleOption, selectors: [["option"]], inputs: { ngValue: "ngValue", value: "value" } });
-    return ɵNgSelectMultipleOption;
-})();
+    /** @internal */
+    _setElementValue(value) {
+        this._renderer.setProperty(this._element.nativeElement, 'value', value);
+    }
+    /** @internal */
+    _setSelected(selected) {
+        this._renderer.setProperty(this._element.nativeElement, 'selected', selected);
+    }
+    /**
+     * @description
+     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
+     */
+    ngOnDestroy() {
+        if (this._select) {
+            this._select._optionMap.delete(this.id);
+            this._select.writeValue(this._select.value);
+        }
+    }
+}
+ɵNgSelectMultipleOption.ɵfac = function ɵNgSelectMultipleOption_Factory(t) { return new (t || ɵNgSelectMultipleOption)(ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(SelectMultipleControlValueAccessor, 9)); };
+ɵNgSelectMultipleOption.ɵdir = ɵɵdefineDirective({ type: ɵNgSelectMultipleOption, selectors: [["option"]], inputs: { ngValue: "ngValue", value: "value" } });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(ɵNgSelectMultipleOption, [{
         type: Directive,
         args: [{ selector: 'option' }]
@@ -4335,207 +4299,204 @@ const resolvedPromise = (() => Promise.resolve(null))();
  * @ngModule FormsModule
  * @publicApi
  */
-let NgForm = /** @class */ (() => {
-    class NgForm extends ControlContainer {
-        constructor(validators, asyncValidators) {
-            super();
-            /**
-             * @description
-             * Returns whether the form submission has been triggered.
-             */
-            this.submitted = false;
-            this._directives = [];
-            /**
-             * @description
-             * Event emitter for the "ngSubmit" event
-             */
-            this.ngSubmit = new EventEmitter();
-            this.form =
-                new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
-        }
+class NgForm extends ControlContainer {
+    constructor(validators, asyncValidators) {
+        super();
         /**
          * @description
-         * Lifecycle method called after the view is initialized. For internal use only.
+         * Returns whether the form submission has been triggered.
          */
-        ngAfterViewInit() {
-            this._setUpdateStrategy();
-        }
+        this.submitted = false;
+        this._directives = [];
         /**
          * @description
-         * The directive instance.
+         * Event emitter for the "ngSubmit" event
          */
-        get formDirective() {
-            return this;
-        }
-        /**
-         * @description
-         * The internal `FormGroup` instance.
-         */
-        get control() {
-            return this.form;
-        }
-        /**
-         * @description
-         * Returns an array representing the path to this group. Because this directive
-         * always lives at the top level of a form, it is always an empty array.
-         */
-        get path() {
-            return [];
-        }
-        /**
-         * @description
-         * Returns a map of the controls in this group.
-         */
-        get controls() {
-            return this.form.controls;
-        }
-        /**
-         * @description
-         * Method that sets up the control directive in this group, re-calculates its value
-         * and validity, and adds the instance to the internal list of directives.
-         *
-         * @param dir The `NgModel` directive instance.
-         */
-        addControl(dir) {
-            resolvedPromise.then(() => {
-                const container = this._findContainer(dir.path);
-                dir.control =
-                    container.registerControl(dir.name, dir.control);
-                setUpControl(dir.control, dir);
-                dir.control.updateValueAndValidity({ emitEvent: false });
-                this._directives.push(dir);
-            });
-        }
-        /**
-         * @description
-         * Retrieves the `FormControl` instance from the provided `NgModel` directive.
-         *
-         * @param dir The `NgModel` directive instance.
-         */
-        getControl(dir) {
-            return this.form.get(dir.path);
-        }
-        /**
-         * @description
-         * Removes the `NgModel` instance from the internal list of directives
-         *
-         * @param dir The `NgModel` directive instance.
-         */
-        removeControl(dir) {
-            resolvedPromise.then(() => {
-                const container = this._findContainer(dir.path);
-                if (container) {
-                    container.removeControl(dir.name);
-                }
-                removeDir(this._directives, dir);
-            });
-        }
-        /**
-         * @description
-         * Adds a new `NgModelGroup` directive instance to the form.
-         *
-         * @param dir The `NgModelGroup` directive instance.
-         */
-        addFormGroup(dir) {
-            resolvedPromise.then(() => {
-                const container = this._findContainer(dir.path);
-                const group = new FormGroup({});
-                setUpFormContainer(group, dir);
-                container.registerControl(dir.name, group);
-                group.updateValueAndValidity({ emitEvent: false });
-            });
-        }
-        /**
-         * @description
-         * Removes the `NgModelGroup` directive instance from the form.
-         *
-         * @param dir The `NgModelGroup` directive instance.
-         */
-        removeFormGroup(dir) {
-            resolvedPromise.then(() => {
-                const container = this._findContainer(dir.path);
-                if (container) {
-                    container.removeControl(dir.name);
-                }
-            });
-        }
-        /**
-         * @description
-         * Retrieves the `FormGroup` for a provided `NgModelGroup` directive instance
-         *
-         * @param dir The `NgModelGroup` directive instance.
-         */
-        getFormGroup(dir) {
-            return this.form.get(dir.path);
-        }
-        /**
-         * Sets the new value for the provided `NgControl` directive.
-         *
-         * @param dir The `NgControl` directive instance.
-         * @param value The new value for the directive's control.
-         */
-        updateModel(dir, value) {
-            resolvedPromise.then(() => {
-                const ctrl = this.form.get(dir.path);
-                ctrl.setValue(value);
-            });
-        }
-        /**
-         * @description
-         * Sets the value for this `FormGroup`.
-         *
-         * @param value The new value
-         */
-        setValue(value) {
-            this.control.setValue(value);
-        }
-        /**
-         * @description
-         * Method called when the "submit" event is triggered on the form.
-         * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
-         *
-         * @param $event The "submit" event object
-         */
-        onSubmit($event) {
-            this.submitted = true;
-            syncPendingControls(this.form, this._directives);
-            this.ngSubmit.emit($event);
-            return false;
-        }
-        /**
-         * @description
-         * Method called when the "reset" event is triggered on the form.
-         */
-        onReset() {
-            this.resetForm();
-        }
-        /**
-         * @description
-         * Resets the form to an initial value and resets its submitted status.
-         *
-         * @param value The new value for the form.
-         */
-        resetForm(value = undefined) {
-            this.form.reset(value);
-            this.submitted = false;
-        }
-        _setUpdateStrategy() {
-            if (this.options && this.options.updateOn != null) {
-                this.form._updateOn = this.options.updateOn;
+        this.ngSubmit = new EventEmitter();
+        this.form =
+            new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
+    }
+    /**
+     * @description
+     * Lifecycle method called after the view is initialized. For internal use only.
+     */
+    ngAfterViewInit() {
+        this._setUpdateStrategy();
+    }
+    /**
+     * @description
+     * The directive instance.
+     */
+    get formDirective() {
+        return this;
+    }
+    /**
+     * @description
+     * The internal `FormGroup` instance.
+     */
+    get control() {
+        return this.form;
+    }
+    /**
+     * @description
+     * Returns an array representing the path to this group. Because this directive
+     * always lives at the top level of a form, it is always an empty array.
+     */
+    get path() {
+        return [];
+    }
+    /**
+     * @description
+     * Returns a map of the controls in this group.
+     */
+    get controls() {
+        return this.form.controls;
+    }
+    /**
+     * @description
+     * Method that sets up the control directive in this group, re-calculates its value
+     * and validity, and adds the instance to the internal list of directives.
+     *
+     * @param dir The `NgModel` directive instance.
+     */
+    addControl(dir) {
+        resolvedPromise.then(() => {
+            const container = this._findContainer(dir.path);
+            dir.control =
+                container.registerControl(dir.name, dir.control);
+            setUpControl(dir.control, dir);
+            dir.control.updateValueAndValidity({ emitEvent: false });
+            this._directives.push(dir);
+        });
+    }
+    /**
+     * @description
+     * Retrieves the `FormControl` instance from the provided `NgModel` directive.
+     *
+     * @param dir The `NgModel` directive instance.
+     */
+    getControl(dir) {
+        return this.form.get(dir.path);
+    }
+    /**
+     * @description
+     * Removes the `NgModel` instance from the internal list of directives
+     *
+     * @param dir The `NgModel` directive instance.
+     */
+    removeControl(dir) {
+        resolvedPromise.then(() => {
+            const container = this._findContainer(dir.path);
+            if (container) {
+                container.removeControl(dir.name);
             }
-        }
-        /** @internal */
-        _findContainer(path) {
-            path.pop();
-            return path.length ? this.form.get(path) : this.form;
+            removeDir(this._directives, dir);
+        });
+    }
+    /**
+     * @description
+     * Adds a new `NgModelGroup` directive instance to the form.
+     *
+     * @param dir The `NgModelGroup` directive instance.
+     */
+    addFormGroup(dir) {
+        resolvedPromise.then(() => {
+            const container = this._findContainer(dir.path);
+            const group = new FormGroup({});
+            setUpFormContainer(group, dir);
+            container.registerControl(dir.name, group);
+            group.updateValueAndValidity({ emitEvent: false });
+        });
+    }
+    /**
+     * @description
+     * Removes the `NgModelGroup` directive instance from the form.
+     *
+     * @param dir The `NgModelGroup` directive instance.
+     */
+    removeFormGroup(dir) {
+        resolvedPromise.then(() => {
+            const container = this._findContainer(dir.path);
+            if (container) {
+                container.removeControl(dir.name);
+            }
+        });
+    }
+    /**
+     * @description
+     * Retrieves the `FormGroup` for a provided `NgModelGroup` directive instance
+     *
+     * @param dir The `NgModelGroup` directive instance.
+     */
+    getFormGroup(dir) {
+        return this.form.get(dir.path);
+    }
+    /**
+     * Sets the new value for the provided `NgControl` directive.
+     *
+     * @param dir The `NgControl` directive instance.
+     * @param value The new value for the directive's control.
+     */
+    updateModel(dir, value) {
+        resolvedPromise.then(() => {
+            const ctrl = this.form.get(dir.path);
+            ctrl.setValue(value);
+        });
+    }
+    /**
+     * @description
+     * Sets the value for this `FormGroup`.
+     *
+     * @param value The new value
+     */
+    setValue(value) {
+        this.control.setValue(value);
+    }
+    /**
+     * @description
+     * Method called when the "submit" event is triggered on the form.
+     * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
+     *
+     * @param $event The "submit" event object
+     */
+    onSubmit($event) {
+        this.submitted = true;
+        syncPendingControls(this.form, this._directives);
+        this.ngSubmit.emit($event);
+        return false;
+    }
+    /**
+     * @description
+     * Method called when the "reset" event is triggered on the form.
+     */
+    onReset() {
+        this.resetForm();
+    }
+    /**
+     * @description
+     * Resets the form to an initial value and resets its submitted status.
+     *
+     * @param value The new value for the form.
+     */
+    resetForm(value = undefined) {
+        this.form.reset(value);
+        this.submitted = false;
+    }
+    _setUpdateStrategy() {
+        if (this.options && this.options.updateOn != null) {
+            this.form._updateOn = this.options.updateOn;
         }
     }
-    NgForm.ɵfac = function NgForm_Factory(t) { return new (t || NgForm)(ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
-    NgForm.ɵdir = ɵɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ng-form"], ["", "ngForm", ""]], hostBindings: function NgForm_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("submit", function NgForm_submit_HostBindingHandler($event) { return ctx.onSubmit($event); })("reset", function NgForm_reset_HostBindingHandler() { return ctx.onReset(); });
-        } }, inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [ɵɵProvidersFeature([formDirectiveProvider]), ɵɵInheritDefinitionFeature] });
-    return NgForm;
-})();
+    /** @internal */
+    _findContainer(path) {
+        path.pop();
+        return path.length ? this.form.get(path) : this.form;
+    }
+}
+NgForm.ɵfac = function NgForm_Factory(t) { return new (t || NgForm)(ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
+NgForm.ɵdir = ɵɵdefineDirective({ type: NgForm, selectors: [["form", 3, "ngNoForm", "", 3, "formGroup", ""], ["ng-form"], ["", "ngForm", ""]], hostBindings: function NgForm_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("submit", function NgForm_submit_HostBindingHandler($event) { return ctx.onSubmit($event); })("reset", function NgForm_reset_HostBindingHandler() { return ctx.onReset(); });
+    } }, inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [ɵɵProvidersFeature([formDirectiveProvider]), ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(NgForm, [{
         type: Directive,
         args: [{
@@ -4577,69 +4538,66 @@ let NgForm = /** @class */ (() => {
  *
  * @publicApi
  */
-let AbstractFormGroupDirective = /** @class */ (() => {
-    class AbstractFormGroupDirective extends ControlContainer {
-        /**
-         * @description
-         * An internal callback method triggered on the instance after the inputs are set.
-         * Registers the group with its parent group.
-         */
-        ngOnInit() {
-            this._checkParentType();
-            this.formDirective.addFormGroup(this);
-        }
-        /**
-         * @description
-         * An internal callback method triggered before the instance is destroyed.
-         * Removes the group from its parent group.
-         */
-        ngOnDestroy() {
-            if (this.formDirective) {
-                this.formDirective.removeFormGroup(this);
-            }
-        }
-        /**
-         * @description
-         * The `FormGroup` bound to this directive.
-         */
-        get control() {
-            return this.formDirective.getFormGroup(this);
-        }
-        /**
-         * @description
-         * The path to this group from the top-level directive.
-         */
-        get path() {
-            return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
-        }
-        /**
-         * @description
-         * The top-level directive for this group if present, otherwise null.
-         */
-        get formDirective() {
-            return this._parent ? this._parent.formDirective : null;
-        }
-        /**
-         * @description
-         * The synchronous validators registered with this group.
-         */
-        get validator() {
-            return composeValidators(this._validators);
-        }
-        /**
-         * @description
-         * The async validators registered with this group.
-         */
-        get asyncValidator() {
-            return composeAsyncValidators(this._asyncValidators);
-        }
-        /** @internal */
-        _checkParentType() { }
+class AbstractFormGroupDirective extends ControlContainer {
+    /**
+     * @description
+     * An internal callback method triggered on the instance after the inputs are set.
+     * Registers the group with its parent group.
+     */
+    ngOnInit() {
+        this._checkParentType();
+        this.formDirective.addFormGroup(this);
     }
-    AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
-    AbstractFormGroupDirective.ɵdir = ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [ɵɵInheritDefinitionFeature] });
-    return AbstractFormGroupDirective;
-})();
+    /**
+     * @description
+     * An internal callback method triggered before the instance is destroyed.
+     * Removes the group from its parent group.
+     */
+    ngOnDestroy() {
+        if (this.formDirective) {
+            this.formDirective.removeFormGroup(this);
+        }
+    }
+    /**
+     * @description
+     * The `FormGroup` bound to this directive.
+     */
+    get control() {
+        return this.formDirective.getFormGroup(this);
+    }
+    /**
+     * @description
+     * The path to this group from the top-level directive.
+     */
+    get path() {
+        return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
+    }
+    /**
+     * @description
+     * The top-level directive for this group if present, otherwise null.
+     */
+    get formDirective() {
+        return this._parent ? this._parent.formDirective : null;
+    }
+    /**
+     * @description
+     * The synchronous validators registered with this group.
+     */
+    get validator() {
+        return composeValidators(this._validators);
+    }
+    /**
+     * @description
+     * The async validators registered with this group.
+     */
+    get asyncValidator() {
+        return composeAsyncValidators(this._asyncValidators);
+    }
+    /** @internal */
+    _checkParentType() { }
+}
+AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
+AbstractFormGroupDirective.ɵdir = ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [ɵɵInheritDefinitionFeature] });
 const ɵAbstractFormGroupDirective_BaseFactory = ɵɵgetInheritedFactory(AbstractFormGroupDirective);
 /*@__PURE__*/ (function () { ɵsetClassMetadata(AbstractFormGroupDirective, [{
         type: Directive
@@ -4736,25 +4694,22 @@ const modelGroupProvider = {
  * @ngModule FormsModule
  * @publicApi
  */
-let NgModelGroup = /** @class */ (() => {
-    class NgModelGroup extends AbstractFormGroupDirective {
-        constructor(parent, validators, asyncValidators) {
-            super();
-            this._parent = parent;
-            this._validators = validators;
-            this._asyncValidators = asyncValidators;
-        }
-        /** @internal */
-        _checkParentType() {
-            if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
-                TemplateDrivenErrors.modelGroupParentException();
-            }
+class NgModelGroup extends AbstractFormGroupDirective {
+    constructor(parent, validators, asyncValidators) {
+        super();
+        this._parent = parent;
+        this._validators = validators;
+        this._asyncValidators = asyncValidators;
+    }
+    /** @internal */
+    _checkParentType() {
+        if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
+            TemplateDrivenErrors.modelGroupParentException();
         }
     }
-    NgModelGroup.ɵfac = function NgModelGroup_Factory(t) { return new (t || NgModelGroup)(ɵɵdirectiveInject(ControlContainer, 5), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
-    NgModelGroup.ɵdir = ɵɵdefineDirective({ type: NgModelGroup, selectors: [["", "ngModelGroup", ""]], inputs: { name: ["ngModelGroup", "name"] }, exportAs: ["ngModelGroup"], features: [ɵɵProvidersFeature([modelGroupProvider]), ɵɵInheritDefinitionFeature] });
-    return NgModelGroup;
-})();
+}
+NgModelGroup.ɵfac = function NgModelGroup_Factory(t) { return new (t || NgModelGroup)(ɵɵdirectiveInject(ControlContainer, 5), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
+NgModelGroup.ɵdir = ɵɵdefineDirective({ type: NgModelGroup, selectors: [["", "ngModelGroup", ""]], inputs: { name: ["ngModelGroup", "name"] }, exportAs: ["ngModelGroup"], features: [ɵɵProvidersFeature([modelGroupProvider]), ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(NgModelGroup, [{
         type: Directive,
         args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' }]
@@ -4893,153 +4848,150 @@ const resolvedPromise$1 = (() => Promise.resolve(null))();
  * @ngModule FormsModule
  * @publicApi
  */
-let NgModel = /** @class */ (() => {
-    class NgModel extends NgControl {
-        constructor(parent, validators, asyncValidators, valueAccessors) {
-            super();
-            this.control = new FormControl();
-            /** @internal */
-            this._registered = false;
-            /**
-             * @description
-             * Event emitter for producing the `ngModelChange` event after
-             * the view model updates.
-             */
-            this.update = new EventEmitter();
-            this._parent = parent;
-            this._rawValidators = validators || [];
-            this._rawAsyncValidators = asyncValidators || [];
-            this.valueAccessor = selectValueAccessor(this, valueAccessors);
-        }
+class NgModel extends NgControl {
+    constructor(parent, validators, asyncValidators, valueAccessors) {
+        super();
+        this.control = new FormControl();
+        /** @internal */
+        this._registered = false;
         /**
          * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
+         * Event emitter for producing the `ngModelChange` event after
+         * the view model updates.
          */
-        ngOnChanges(changes) {
-            this._checkForErrors();
-            if (!this._registered)
-                this._setUpControl();
-            if ('isDisabled' in changes) {
-                this._updateDisabled(changes);
-            }
-            if (isPropertyUpdated(changes, this.viewModel)) {
-                this._updateValue(this.model);
-                this.viewModel = this.model;
-            }
+        this.update = new EventEmitter();
+        this._parent = parent;
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
+        this.valueAccessor = selectValueAccessor(this, valueAccessors);
+    }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
+    ngOnChanges(changes) {
+        this._checkForErrors();
+        if (!this._registered)
+            this._setUpControl();
+        if ('isDisabled' in changes) {
+            this._updateDisabled(changes);
         }
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal
-         * use only.
-         */
-        ngOnDestroy() {
-            this.formDirective && this.formDirective.removeControl(this);
-        }
-        /**
-         * @description
-         * Returns an array that represents the path from the top-level form to this control.
-         * Each index is the string name of the control on that level.
-         */
-        get path() {
-            return this._parent ? controlPath(this.name, this._parent) : [this.name];
-        }
-        /**
-         * @description
-         * The top-level directive for this control if present, otherwise null.
-         */
-        get formDirective() {
-            return this._parent ? this._parent.formDirective : null;
-        }
-        /**
-         * @description
-         * Synchronous validator function composed of all the synchronous validators
-         * registered with this directive.
-         */
-        get validator() {
-            return composeValidators(this._rawValidators);
-        }
-        /**
-         * @description
-         * Async validator function composed of all the async validators registered with this
-         * directive.
-         */
-        get asyncValidator() {
-            return composeAsyncValidators(this._rawAsyncValidators);
-        }
-        /**
-         * @description
-         * Sets the new value for the view model and emits an `ngModelChange` event.
-         *
-         * @param newValue The new value emitted by `ngModelChange`.
-         */
-        viewToModelUpdate(newValue) {
-            this.viewModel = newValue;
-            this.update.emit(newValue);
-        }
-        _setUpControl() {
-            this._setUpdateStrategy();
-            this._isStandalone() ? this._setUpStandalone() : this.formDirective.addControl(this);
-            this._registered = true;
-        }
-        _setUpdateStrategy() {
-            if (this.options && this.options.updateOn != null) {
-                this.control._updateOn = this.options.updateOn;
-            }
-        }
-        _isStandalone() {
-            return !this._parent || !!(this.options && this.options.standalone);
-        }
-        _setUpStandalone() {
-            setUpControl(this.control, this);
-            this.control.updateValueAndValidity({ emitEvent: false });
-        }
-        _checkForErrors() {
-            if (!this._isStandalone()) {
-                this._checkParentType();
-            }
-            this._checkName();
-        }
-        _checkParentType() {
-            if (!(this._parent instanceof NgModelGroup) &&
-                this._parent instanceof AbstractFormGroupDirective) {
-                TemplateDrivenErrors.formGroupNameException();
-            }
-            else if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
-                TemplateDrivenErrors.modelParentException();
-            }
-        }
-        _checkName() {
-            if (this.options && this.options.name)
-                this.name = this.options.name;
-            if (!this._isStandalone() && !this.name) {
-                TemplateDrivenErrors.missingNameException();
-            }
-        }
-        _updateValue(value) {
-            resolvedPromise$1.then(() => {
-                this.control.setValue(value, { emitViewToModelChange: false });
-            });
-        }
-        _updateDisabled(changes) {
-            const disabledValue = changes['isDisabled'].currentValue;
-            const isDisabled = disabledValue === '' || (disabledValue && disabledValue !== 'false');
-            resolvedPromise$1.then(() => {
-                if (isDisabled && !this.control.disabled) {
-                    this.control.disable();
-                }
-                else if (!isDisabled && this.control.disabled) {
-                    this.control.enable();
-                }
-            });
+        if (isPropertyUpdated(changes, this.viewModel)) {
+            this._updateValue(this.model);
+            this.viewModel = this.model;
         }
     }
-    NgModel.ɵfac = function NgModel_Factory(t) { return new (t || NgModel)(ɵɵdirectiveInject(ControlContainer, 9), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵɵdirectiveInject(NG_VALUE_ACCESSOR, 10)); };
-    NgModel.ɵdir = ɵɵdefineDirective({ type: NgModel, selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]], inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngModel"], features: [ɵɵProvidersFeature([formControlBinding]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
-    return NgModel;
-})();
+    /**
+     * @description
+     * Lifecycle method called before the directive's instance is destroyed. For internal
+     * use only.
+     */
+    ngOnDestroy() {
+        this.formDirective && this.formDirective.removeControl(this);
+    }
+    /**
+     * @description
+     * Returns an array that represents the path from the top-level form to this control.
+     * Each index is the string name of the control on that level.
+     */
+    get path() {
+        return this._parent ? controlPath(this.name, this._parent) : [this.name];
+    }
+    /**
+     * @description
+     * The top-level directive for this control if present, otherwise null.
+     */
+    get formDirective() {
+        return this._parent ? this._parent.formDirective : null;
+    }
+    /**
+     * @description
+     * Synchronous validator function composed of all the synchronous validators
+     * registered with this directive.
+     */
+    get validator() {
+        return composeValidators(this._rawValidators);
+    }
+    /**
+     * @description
+     * Async validator function composed of all the async validators registered with this
+     * directive.
+     */
+    get asyncValidator() {
+        return composeAsyncValidators(this._rawAsyncValidators);
+    }
+    /**
+     * @description
+     * Sets the new value for the view model and emits an `ngModelChange` event.
+     *
+     * @param newValue The new value emitted by `ngModelChange`.
+     */
+    viewToModelUpdate(newValue) {
+        this.viewModel = newValue;
+        this.update.emit(newValue);
+    }
+    _setUpControl() {
+        this._setUpdateStrategy();
+        this._isStandalone() ? this._setUpStandalone() : this.formDirective.addControl(this);
+        this._registered = true;
+    }
+    _setUpdateStrategy() {
+        if (this.options && this.options.updateOn != null) {
+            this.control._updateOn = this.options.updateOn;
+        }
+    }
+    _isStandalone() {
+        return !this._parent || !!(this.options && this.options.standalone);
+    }
+    _setUpStandalone() {
+        setUpControl(this.control, this);
+        this.control.updateValueAndValidity({ emitEvent: false });
+    }
+    _checkForErrors() {
+        if (!this._isStandalone()) {
+            this._checkParentType();
+        }
+        this._checkName();
+    }
+    _checkParentType() {
+        if (!(this._parent instanceof NgModelGroup) &&
+            this._parent instanceof AbstractFormGroupDirective) {
+            TemplateDrivenErrors.formGroupNameException();
+        }
+        else if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
+            TemplateDrivenErrors.modelParentException();
+        }
+    }
+    _checkName() {
+        if (this.options && this.options.name)
+            this.name = this.options.name;
+        if (!this._isStandalone() && !this.name) {
+            TemplateDrivenErrors.missingNameException();
+        }
+    }
+    _updateValue(value) {
+        resolvedPromise$1.then(() => {
+            this.control.setValue(value, { emitViewToModelChange: false });
+        });
+    }
+    _updateDisabled(changes) {
+        const disabledValue = changes['isDisabled'].currentValue;
+        const isDisabled = disabledValue === '' || (disabledValue && disabledValue !== 'false');
+        resolvedPromise$1.then(() => {
+            if (isDisabled && !this.control.disabled) {
+                this.control.disable();
+            }
+            else if (!isDisabled && this.control.disabled) {
+                this.control.enable();
+            }
+        });
+    }
+}
+NgModel.ɵfac = function NgModel_Factory(t) { return new (t || NgModel)(ɵɵdirectiveInject(ControlContainer, 9), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵɵdirectiveInject(NG_VALUE_ACCESSOR, 10)); };
+NgModel.ɵdir = ɵɵdefineDirective({ type: NgModel, selectors: [["", "ngModel", "", 3, "formControlName", "", 3, "formControl", ""]], inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngModel"], features: [ɵɵProvidersFeature([formControlBinding]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(NgModel, [{
         type: Directive,
         args: [{
@@ -5112,13 +5064,10 @@ let NgModel = /** @class */ (() => {
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
  */
-let ɵNgNoValidate = /** @class */ (() => {
-    class ɵNgNoValidate {
-    }
-    ɵNgNoValidate.ɵfac = function ɵNgNoValidate_Factory(t) { return new (t || ɵNgNoValidate)(); };
-    ɵNgNoValidate.ɵdir = ɵɵdefineDirective({ type: ɵNgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], hostAttrs: ["novalidate", ""] });
-    return ɵNgNoValidate;
-})();
+class ɵNgNoValidate {
+}
+ɵNgNoValidate.ɵfac = function ɵNgNoValidate_Factory(t) { return new (t || ɵNgNoValidate)(); };
+ɵNgNoValidate.ɵdir = ɵɵdefineDirective({ type: ɵNgNoValidate, selectors: [["form", 3, "ngNoForm", "", 3, "ngNativeValidate", ""]], hostAttrs: ["novalidate", ""] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(ɵNgNoValidate, [{
         type: Directive,
         args: [{
@@ -5164,110 +5113,107 @@ const formControlBinding$1 = {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-let FormControlDirective = /** @class */ (() => {
-    class FormControlDirective extends NgControl {
-        constructor(validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
-            super();
-            this._ngModelWarningConfig = _ngModelWarningConfig;
-            /** @deprecated as of v6 */
-            this.update = new EventEmitter();
-            /**
-             * @description
-             * Instance property used to track whether an ngModel warning has been sent out for this
-             * particular `FormControlDirective` instance. Used to support warning config of "always".
-             *
-             * @internal
-             */
-            this._ngModelWarningSent = false;
-            this._rawValidators = validators || [];
-            this._rawAsyncValidators = asyncValidators || [];
-            this.valueAccessor = selectValueAccessor(this, valueAccessors);
-        }
+class FormControlDirective extends NgControl {
+    constructor(validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
+        super();
+        this._ngModelWarningConfig = _ngModelWarningConfig;
+        /** @deprecated as of v6 */
+        this.update = new EventEmitter();
         /**
          * @description
-         * Triggers a warning that this input should not be used with reactive forms.
-         */
-        set isDisabled(isDisabled) {
-            ReactiveErrors.disabledAttrWarning();
-        }
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
+         * Instance property used to track whether an ngModel warning has been sent out for this
+         * particular `FormControlDirective` instance. Used to support warning config of "always".
          *
-         * @param changes A object of key/value pairs for the set of changed inputs.
+         * @internal
          */
-        ngOnChanges(changes) {
-            if (this._isControlChanged(changes)) {
-                setUpControl(this.form, this);
-                if (this.control.disabled && this.valueAccessor.setDisabledState) {
-                    this.valueAccessor.setDisabledState(true);
-                }
-                this.form.updateValueAndValidity({ emitEvent: false });
+        this._ngModelWarningSent = false;
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
+        this.valueAccessor = selectValueAccessor(this, valueAccessors);
+    }
+    /**
+     * @description
+     * Triggers a warning that this input should not be used with reactive forms.
+     */
+    set isDisabled(isDisabled) {
+        ReactiveErrors.disabledAttrWarning();
+    }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
+    ngOnChanges(changes) {
+        if (this._isControlChanged(changes)) {
+            setUpControl(this.form, this);
+            if (this.control.disabled && this.valueAccessor.setDisabledState) {
+                this.valueAccessor.setDisabledState(true);
             }
-            if (isPropertyUpdated(changes, this.viewModel)) {
-                _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
-                this.form.setValue(this.model);
-                this.viewModel = this.model;
-            }
+            this.form.updateValueAndValidity({ emitEvent: false });
         }
-        /**
-         * @description
-         * Returns an array that represents the path from the top-level form to this control.
-         * Each index is the string name of the control on that level.
-         */
-        get path() {
-            return [];
-        }
-        /**
-         * @description
-         * Synchronous validator function composed of all the synchronous validators
-         * registered with this directive.
-         */
-        get validator() {
-            return composeValidators(this._rawValidators);
-        }
-        /**
-         * @description
-         * Async validator function composed of all the async validators registered with this
-         * directive.
-         */
-        get asyncValidator() {
-            return composeAsyncValidators(this._rawAsyncValidators);
-        }
-        /**
-         * @description
-         * The `FormControl` bound to this directive.
-         */
-        get control() {
-            return this.form;
-        }
-        /**
-         * @description
-         * Sets the new value for the view model and emits an `ngModelChange` event.
-         *
-         * @param newValue The new value for the view model.
-         */
-        viewToModelUpdate(newValue) {
-            this.viewModel = newValue;
-            this.update.emit(newValue);
-        }
-        _isControlChanged(changes) {
-            return changes.hasOwnProperty('form');
+        if (isPropertyUpdated(changes, this.viewModel)) {
+            _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
+            this.form.setValue(this.model);
+            this.viewModel = this.model;
         }
     }
     /**
      * @description
-     * Static property used to track whether any ngModel warnings have been sent across
-     * all instances of FormControlDirective. Used to support warning config of "once".
-     *
-     * @internal
+     * Returns an array that represents the path from the top-level form to this control.
+     * Each index is the string name of the control on that level.
      */
-    FormControlDirective._ngModelWarningSentOnce = false;
-    FormControlDirective.ɵfac = function FormControlDirective_Factory(t) { return new (t || FormControlDirective)(ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵɵdirectiveInject(NG_VALUE_ACCESSOR, 10), ɵɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); };
-    FormControlDirective.ɵdir = ɵɵdefineDirective({ type: FormControlDirective, selectors: [["", "formControl", ""]], inputs: { form: ["formControl", "form"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngForm"], features: [ɵɵProvidersFeature([formControlBinding$1]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
-    return FormControlDirective;
-})();
+    get path() {
+        return [];
+    }
+    /**
+     * @description
+     * Synchronous validator function composed of all the synchronous validators
+     * registered with this directive.
+     */
+    get validator() {
+        return composeValidators(this._rawValidators);
+    }
+    /**
+     * @description
+     * Async validator function composed of all the async validators registered with this
+     * directive.
+     */
+    get asyncValidator() {
+        return composeAsyncValidators(this._rawAsyncValidators);
+    }
+    /**
+     * @description
+     * The `FormControl` bound to this directive.
+     */
+    get control() {
+        return this.form;
+    }
+    /**
+     * @description
+     * Sets the new value for the view model and emits an `ngModelChange` event.
+     *
+     * @param newValue The new value for the view model.
+     */
+    viewToModelUpdate(newValue) {
+        this.viewModel = newValue;
+        this.update.emit(newValue);
+    }
+    _isControlChanged(changes) {
+        return changes.hasOwnProperty('form');
+    }
+}
+/**
+ * @description
+ * Static property used to track whether any ngModel warnings have been sent across
+ * all instances of FormControlDirective. Used to support warning config of "once".
+ *
+ * @internal
+ */
+FormControlDirective._ngModelWarningSentOnce = false;
+FormControlDirective.ɵfac = function FormControlDirective_Factory(t) { return new (t || FormControlDirective)(ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵɵdirectiveInject(NG_VALUE_ACCESSOR, 10), ɵɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); };
+FormControlDirective.ɵdir = ɵɵdefineDirective({ type: FormControlDirective, selectors: [["", "formControl", ""]], inputs: { form: ["formControl", "form"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, exportAs: ["ngForm"], features: [ɵɵProvidersFeature([formControlBinding$1]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(FormControlDirective, [{
         type: Directive,
         args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' }]
@@ -5345,228 +5291,225 @@ const formDirectiveProvider$1 = {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-let FormGroupDirective = /** @class */ (() => {
-    class FormGroupDirective extends ControlContainer {
-        constructor(_validators, _asyncValidators) {
-            super();
-            this._validators = _validators;
-            this._asyncValidators = _asyncValidators;
-            /**
-             * @description
-             * Reports whether the form submission has been triggered.
-             */
-            this.submitted = false;
-            /**
-             * @description
-             * Tracks the list of added `FormControlName` instances
-             */
-            this.directives = [];
-            /**
-             * @description
-             * Tracks the `FormGroup` bound to this directive.
-             */
-            this.form = null;
-            /**
-             * @description
-             * Emits an event when the form submission has been triggered.
-             */
-            this.ngSubmit = new EventEmitter();
-        }
+class FormGroupDirective extends ControlContainer {
+    constructor(_validators, _asyncValidators) {
+        super();
+        this._validators = _validators;
+        this._asyncValidators = _asyncValidators;
         /**
          * @description
-         * A lifecycle method called when the directive's inputs change. For internal use only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
+         * Reports whether the form submission has been triggered.
          */
-        ngOnChanges(changes) {
-            this._checkFormPresent();
-            if (changes.hasOwnProperty('form')) {
-                this._updateValidators();
-                this._updateDomValue();
-                this._updateRegistrations();
-            }
-        }
+        this.submitted = false;
         /**
          * @description
-         * Returns this directive's instance.
+         * Tracks the list of added `FormControlName` instances
          */
-        get formDirective() {
-            return this;
-        }
+        this.directives = [];
         /**
          * @description
-         * Returns the `FormGroup` bound to this directive.
+         * Tracks the `FormGroup` bound to this directive.
          */
-        get control() {
-            return this.form;
-        }
+        this.form = null;
         /**
          * @description
-         * Returns an array representing the path to this group. Because this directive
-         * always lives at the top level of a form, it always an empty array.
+         * Emits an event when the form submission has been triggered.
          */
-        get path() {
-            return [];
-        }
-        /**
-         * @description
-         * Method that sets up the control directive in this group, re-calculates its value
-         * and validity, and adds the instance to the internal list of directives.
-         *
-         * @param dir The `FormControlName` directive instance.
-         */
-        addControl(dir) {
-            const ctrl = this.form.get(dir.path);
-            setUpControl(ctrl, dir);
-            ctrl.updateValueAndValidity({ emitEvent: false });
-            this.directives.push(dir);
-            return ctrl;
-        }
-        /**
-         * @description
-         * Retrieves the `FormControl` instance from the provided `FormControlName` directive
-         *
-         * @param dir The `FormControlName` directive instance.
-         */
-        getControl(dir) {
-            return this.form.get(dir.path);
-        }
-        /**
-         * @description
-         * Removes the `FormControlName` instance from the internal list of directives
-         *
-         * @param dir The `FormControlName` directive instance.
-         */
-        removeControl(dir) {
-            removeDir(this.directives, dir);
-        }
-        /**
-         * Adds a new `FormGroupName` directive instance to the form.
-         *
-         * @param dir The `FormGroupName` directive instance.
-         */
-        addFormGroup(dir) {
-            const ctrl = this.form.get(dir.path);
-            setUpFormContainer(ctrl, dir);
-            ctrl.updateValueAndValidity({ emitEvent: false });
-        }
-        /**
-         * No-op method to remove the form group.
-         *
-         * @param dir The `FormGroupName` directive instance.
-         */
-        removeFormGroup(dir) { }
-        /**
-         * @description
-         * Retrieves the `FormGroup` for a provided `FormGroupName` directive instance
-         *
-         * @param dir The `FormGroupName` directive instance.
-         */
-        getFormGroup(dir) {
-            return this.form.get(dir.path);
-        }
-        /**
-         * Adds a new `FormArrayName` directive instance to the form.
-         *
-         * @param dir The `FormArrayName` directive instance.
-         */
-        addFormArray(dir) {
-            const ctrl = this.form.get(dir.path);
-            setUpFormContainer(ctrl, dir);
-            ctrl.updateValueAndValidity({ emitEvent: false });
-        }
-        /**
-         * No-op method to remove the form array.
-         *
-         * @param dir The `FormArrayName` directive instance.
-         */
-        removeFormArray(dir) { }
-        /**
-         * @description
-         * Retrieves the `FormArray` for a provided `FormArrayName` directive instance.
-         *
-         * @param dir The `FormArrayName` directive instance.
-         */
-        getFormArray(dir) {
-            return this.form.get(dir.path);
-        }
-        /**
-         * Sets the new value for the provided `FormControlName` directive.
-         *
-         * @param dir The `FormControlName` directive instance.
-         * @param value The new value for the directive's control.
-         */
-        updateModel(dir, value) {
-            const ctrl = this.form.get(dir.path);
-            ctrl.setValue(value);
-        }
-        /**
-         * @description
-         * Method called with the "submit" event is triggered on the form.
-         * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
-         *
-         * @param $event The "submit" event object
-         */
-        onSubmit($event) {
-            this.submitted = true;
-            syncPendingControls(this.form, this.directives);
-            this.ngSubmit.emit($event);
-            return false;
-        }
-        /**
-         * @description
-         * Method called when the "reset" event is triggered on the form.
-         */
-        onReset() {
-            this.resetForm();
-        }
-        /**
-         * @description
-         * Resets the form to an initial value and resets its submitted status.
-         *
-         * @param value The new value for the form.
-         */
-        resetForm(value = undefined) {
-            this.form.reset(value);
-            this.submitted = false;
-        }
-        /** @internal */
-        _updateDomValue() {
-            this.directives.forEach(dir => {
-                const newCtrl = this.form.get(dir.path);
-                if (dir.control !== newCtrl) {
-                    cleanUpControl(dir.control, dir);
-                    if (newCtrl)
-                        setUpControl(newCtrl, dir);
-                    dir.control = newCtrl;
-                }
-            });
-            this.form._updateTreeValidity({ emitEvent: false });
-        }
-        _updateRegistrations() {
-            this.form._registerOnCollectionChange(() => this._updateDomValue());
-            if (this._oldForm)
-                this._oldForm._registerOnCollectionChange(() => { });
-            this._oldForm = this.form;
-        }
-        _updateValidators() {
-            const sync = composeValidators(this._validators);
-            this.form.validator = Validators.compose([this.form.validator, sync]);
-            const async = composeAsyncValidators(this._asyncValidators);
-            this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
-        }
-        _checkFormPresent() {
-            if (!this.form) {
-                ReactiveErrors.missingFormException();
-            }
+        this.ngSubmit = new EventEmitter();
+    }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
+    ngOnChanges(changes) {
+        this._checkFormPresent();
+        if (changes.hasOwnProperty('form')) {
+            this._updateValidators();
+            this._updateDomValue();
+            this._updateRegistrations();
         }
     }
-    FormGroupDirective.ɵfac = function FormGroupDirective_Factory(t) { return new (t || FormGroupDirective)(ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
-    FormGroupDirective.ɵdir = ɵɵdefineDirective({ type: FormGroupDirective, selectors: [["", "formGroup", ""]], hostBindings: function FormGroupDirective_HostBindings(rf, ctx) { if (rf & 1) {
-            ɵɵlistener("submit", function FormGroupDirective_submit_HostBindingHandler($event) { return ctx.onSubmit($event); })("reset", function FormGroupDirective_reset_HostBindingHandler() { return ctx.onReset(); });
-        } }, inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [ɵɵProvidersFeature([formDirectiveProvider$1]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
-    return FormGroupDirective;
-})();
+    /**
+     * @description
+     * Returns this directive's instance.
+     */
+    get formDirective() {
+        return this;
+    }
+    /**
+     * @description
+     * Returns the `FormGroup` bound to this directive.
+     */
+    get control() {
+        return this.form;
+    }
+    /**
+     * @description
+     * Returns an array representing the path to this group. Because this directive
+     * always lives at the top level of a form, it always an empty array.
+     */
+    get path() {
+        return [];
+    }
+    /**
+     * @description
+     * Method that sets up the control directive in this group, re-calculates its value
+     * and validity, and adds the instance to the internal list of directives.
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
+    addControl(dir) {
+        const ctrl = this.form.get(dir.path);
+        setUpControl(ctrl, dir);
+        ctrl.updateValueAndValidity({ emitEvent: false });
+        this.directives.push(dir);
+        return ctrl;
+    }
+    /**
+     * @description
+     * Retrieves the `FormControl` instance from the provided `FormControlName` directive
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
+    getControl(dir) {
+        return this.form.get(dir.path);
+    }
+    /**
+     * @description
+     * Removes the `FormControlName` instance from the internal list of directives
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
+    removeControl(dir) {
+        removeDir(this.directives, dir);
+    }
+    /**
+     * Adds a new `FormGroupName` directive instance to the form.
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
+    addFormGroup(dir) {
+        const ctrl = this.form.get(dir.path);
+        setUpFormContainer(ctrl, dir);
+        ctrl.updateValueAndValidity({ emitEvent: false });
+    }
+    /**
+     * No-op method to remove the form group.
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
+    removeFormGroup(dir) { }
+    /**
+     * @description
+     * Retrieves the `FormGroup` for a provided `FormGroupName` directive instance
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
+    getFormGroup(dir) {
+        return this.form.get(dir.path);
+    }
+    /**
+     * Adds a new `FormArrayName` directive instance to the form.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
+    addFormArray(dir) {
+        const ctrl = this.form.get(dir.path);
+        setUpFormContainer(ctrl, dir);
+        ctrl.updateValueAndValidity({ emitEvent: false });
+    }
+    /**
+     * No-op method to remove the form array.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
+    removeFormArray(dir) { }
+    /**
+     * @description
+     * Retrieves the `FormArray` for a provided `FormArrayName` directive instance.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
+    getFormArray(dir) {
+        return this.form.get(dir.path);
+    }
+    /**
+     * Sets the new value for the provided `FormControlName` directive.
+     *
+     * @param dir The `FormControlName` directive instance.
+     * @param value The new value for the directive's control.
+     */
+    updateModel(dir, value) {
+        const ctrl = this.form.get(dir.path);
+        ctrl.setValue(value);
+    }
+    /**
+     * @description
+     * Method called with the "submit" event is triggered on the form.
+     * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
+     *
+     * @param $event The "submit" event object
+     */
+    onSubmit($event) {
+        this.submitted = true;
+        syncPendingControls(this.form, this.directives);
+        this.ngSubmit.emit($event);
+        return false;
+    }
+    /**
+     * @description
+     * Method called when the "reset" event is triggered on the form.
+     */
+    onReset() {
+        this.resetForm();
+    }
+    /**
+     * @description
+     * Resets the form to an initial value and resets its submitted status.
+     *
+     * @param value The new value for the form.
+     */
+    resetForm(value = undefined) {
+        this.form.reset(value);
+        this.submitted = false;
+    }
+    /** @internal */
+    _updateDomValue() {
+        this.directives.forEach(dir => {
+            const newCtrl = this.form.get(dir.path);
+            if (dir.control !== newCtrl) {
+                cleanUpControl(dir.control, dir);
+                if (newCtrl)
+                    setUpControl(newCtrl, dir);
+                dir.control = newCtrl;
+            }
+        });
+        this.form._updateTreeValidity({ emitEvent: false });
+    }
+    _updateRegistrations() {
+        this.form._registerOnCollectionChange(() => this._updateDomValue());
+        if (this._oldForm)
+            this._oldForm._registerOnCollectionChange(() => { });
+        this._oldForm = this.form;
+    }
+    _updateValidators() {
+        const sync = composeValidators(this._validators);
+        this.form.validator = Validators.compose([this.form.validator, sync]);
+        const async = composeAsyncValidators(this._asyncValidators);
+        this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
+    }
+    _checkFormPresent() {
+        if (!this.form) {
+            ReactiveErrors.missingFormException();
+        }
+    }
+}
+FormGroupDirective.ɵfac = function FormGroupDirective_Factory(t) { return new (t || FormGroupDirective)(ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
+FormGroupDirective.ɵdir = ɵɵdefineDirective({ type: FormGroupDirective, selectors: [["", "formGroup", ""]], hostBindings: function FormGroupDirective_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵɵlistener("submit", function FormGroupDirective_submit_HostBindingHandler($event) { return ctx.onSubmit($event); })("reset", function FormGroupDirective_reset_HostBindingHandler() { return ctx.onReset(); });
+    } }, inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, exportAs: ["ngForm"], features: [ɵɵProvidersFeature([formDirectiveProvider$1]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(FormGroupDirective, [{
         type: Directive,
         args: [{
@@ -5654,25 +5597,22 @@ const formGroupNameProvider = {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-let FormGroupName = /** @class */ (() => {
-    class FormGroupName extends AbstractFormGroupDirective {
-        constructor(parent, validators, asyncValidators) {
-            super();
-            this._parent = parent;
-            this._validators = validators;
-            this._asyncValidators = asyncValidators;
-        }
-        /** @internal */
-        _checkParentType() {
-            if (_hasInvalidParent(this._parent)) {
-                ReactiveErrors.groupParentException();
-            }
+class FormGroupName extends AbstractFormGroupDirective {
+    constructor(parent, validators, asyncValidators) {
+        super();
+        this._parent = parent;
+        this._validators = validators;
+        this._asyncValidators = asyncValidators;
+    }
+    /** @internal */
+    _checkParentType() {
+        if (_hasInvalidParent(this._parent)) {
+            ReactiveErrors.groupParentException();
         }
     }
-    FormGroupName.ɵfac = function FormGroupName_Factory(t) { return new (t || FormGroupName)(ɵɵdirectiveInject(ControlContainer, 13), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
-    FormGroupName.ɵdir = ɵɵdefineDirective({ type: FormGroupName, selectors: [["", "formGroupName", ""]], inputs: { name: ["formGroupName", "name"] }, features: [ɵɵProvidersFeature([formGroupNameProvider]), ɵɵInheritDefinitionFeature] });
-    return FormGroupName;
-})();
+}
+FormGroupName.ɵfac = function FormGroupName_Factory(t) { return new (t || FormGroupName)(ɵɵdirectiveInject(ControlContainer, 13), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
+FormGroupName.ɵdir = ɵɵdefineDirective({ type: FormGroupName, selectors: [["", "formGroupName", ""]], inputs: { name: ["formGroupName", "name"] }, features: [ɵɵProvidersFeature([formGroupNameProvider]), ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(FormGroupName, [{
         type: Directive,
         args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] }]
@@ -5728,80 +5668,77 @@ const formArrayNameProvider = {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-let FormArrayName = /** @class */ (() => {
-    class FormArrayName extends ControlContainer {
-        constructor(parent, validators, asyncValidators) {
-            super();
-            this._parent = parent;
-            this._validators = validators;
-            this._asyncValidators = asyncValidators;
-        }
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs are initialized. For internal use only.
-         *
-         * @throws If the directive does not have a valid parent.
-         */
-        ngOnInit() {
-            this._checkParentType();
-            this.formDirective.addFormArray(this);
-        }
-        /**
-         * @description
-         * A lifecycle method called before the directive's instance is destroyed. For internal use only.
-         */
-        ngOnDestroy() {
-            if (this.formDirective) {
-                this.formDirective.removeFormArray(this);
-            }
-        }
-        /**
-         * @description
-         * The `FormArray` bound to this directive.
-         */
-        get control() {
-            return this.formDirective.getFormArray(this);
-        }
-        /**
-         * @description
-         * The top-level directive for this group if present, otherwise null.
-         */
-        get formDirective() {
-            return this._parent ? this._parent.formDirective : null;
-        }
-        /**
-         * @description
-         * Returns an array that represents the path from the top-level form to this control.
-         * Each index is the string name of the control on that level.
-         */
-        get path() {
-            return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
-        }
-        /**
-         * @description
-         * Synchronous validator function composed of all the synchronous validators registered with this
-         * directive.
-         */
-        get validator() {
-            return composeValidators(this._validators);
-        }
-        /**
-         * @description
-         * Async validator function composed of all the async validators registered with this directive.
-         */
-        get asyncValidator() {
-            return composeAsyncValidators(this._asyncValidators);
-        }
-        _checkParentType() {
-            if (_hasInvalidParent(this._parent)) {
-                ReactiveErrors.arrayParentException();
-            }
+class FormArrayName extends ControlContainer {
+    constructor(parent, validators, asyncValidators) {
+        super();
+        this._parent = parent;
+        this._validators = validators;
+        this._asyncValidators = asyncValidators;
+    }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs are initialized. For internal use only.
+     *
+     * @throws If the directive does not have a valid parent.
+     */
+    ngOnInit() {
+        this._checkParentType();
+        this.formDirective.addFormArray(this);
+    }
+    /**
+     * @description
+     * A lifecycle method called before the directive's instance is destroyed. For internal use only.
+     */
+    ngOnDestroy() {
+        if (this.formDirective) {
+            this.formDirective.removeFormArray(this);
         }
     }
-    FormArrayName.ɵfac = function FormArrayName_Factory(t) { return new (t || FormArrayName)(ɵɵdirectiveInject(ControlContainer, 13), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
-    FormArrayName.ɵdir = ɵɵdefineDirective({ type: FormArrayName, selectors: [["", "formArrayName", ""]], inputs: { name: ["formArrayName", "name"] }, features: [ɵɵProvidersFeature([formArrayNameProvider]), ɵɵInheritDefinitionFeature] });
-    return FormArrayName;
-})();
+    /**
+     * @description
+     * The `FormArray` bound to this directive.
+     */
+    get control() {
+        return this.formDirective.getFormArray(this);
+    }
+    /**
+     * @description
+     * The top-level directive for this group if present, otherwise null.
+     */
+    get formDirective() {
+        return this._parent ? this._parent.formDirective : null;
+    }
+    /**
+     * @description
+     * Returns an array that represents the path from the top-level form to this control.
+     * Each index is the string name of the control on that level.
+     */
+    get path() {
+        return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
+    }
+    /**
+     * @description
+     * Synchronous validator function composed of all the synchronous validators registered with this
+     * directive.
+     */
+    get validator() {
+        return composeValidators(this._validators);
+    }
+    /**
+     * @description
+     * Async validator function composed of all the async validators registered with this directive.
+     */
+    get asyncValidator() {
+        return composeAsyncValidators(this._asyncValidators);
+    }
+    _checkParentType() {
+        if (_hasInvalidParent(this._parent)) {
+            ReactiveErrors.arrayParentException();
+        }
+    }
+}
+FormArrayName.ɵfac = function FormArrayName_Factory(t) { return new (t || FormArrayName)(ɵɵdirectiveInject(ControlContainer, 13), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10)); };
+FormArrayName.ɵdir = ɵɵdefineDirective({ type: FormArrayName, selectors: [["", "formArrayName", ""]], inputs: { name: ["formArrayName", "name"] }, features: [ɵɵProvidersFeature([formArrayNameProvider]), ɵɵInheritDefinitionFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(FormArrayName, [{
         type: Directive,
         args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] }]
@@ -5879,130 +5816,127 @@ const controlNameBinding = {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-let FormControlName = /** @class */ (() => {
-    class FormControlName extends NgControl {
-        constructor(parent, validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
-            super();
-            this._ngModelWarningConfig = _ngModelWarningConfig;
-            this._added = false;
-            /** @deprecated as of v6 */
-            this.update = new EventEmitter();
-            /**
-             * @description
-             * Instance property used to track whether an ngModel warning has been sent out for this
-             * particular FormControlName instance. Used to support warning config of "always".
-             *
-             * @internal
-             */
-            this._ngModelWarningSent = false;
-            this._parent = parent;
-            this._rawValidators = validators || [];
-            this._rawAsyncValidators = asyncValidators || [];
-            this.valueAccessor = selectValueAccessor(this, valueAccessors);
-        }
+class FormControlName extends NgControl {
+    constructor(parent, validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
+        super();
+        this._ngModelWarningConfig = _ngModelWarningConfig;
+        this._added = false;
+        /** @deprecated as of v6 */
+        this.update = new EventEmitter();
         /**
          * @description
-         * Triggers a warning that this input should not be used with reactive forms.
-         */
-        set isDisabled(isDisabled) {
-            ReactiveErrors.disabledAttrWarning();
-        }
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use only.
+         * Instance property used to track whether an ngModel warning has been sent out for this
+         * particular FormControlName instance. Used to support warning config of "always".
          *
-         * @param changes A object of key/value pairs for the set of changed inputs.
+         * @internal
          */
-        ngOnChanges(changes) {
-            if (!this._added)
-                this._setUpControl();
-            if (isPropertyUpdated(changes, this.viewModel)) {
-                _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
-                this.viewModel = this.model;
-                this.formDirective.updateModel(this, this.model);
-            }
-        }
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-         */
-        ngOnDestroy() {
-            if (this.formDirective) {
-                this.formDirective.removeControl(this);
-            }
-        }
-        /**
-         * @description
-         * Sets the new value for the view model and emits an `ngModelChange` event.
-         *
-         * @param newValue The new value for the view model.
-         */
-        viewToModelUpdate(newValue) {
-            this.viewModel = newValue;
-            this.update.emit(newValue);
-        }
-        /**
-         * @description
-         * Returns an array that represents the path from the top-level form to this control.
-         * Each index is the string name of the control on that level.
-         */
-        get path() {
-            return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
-        }
-        /**
-         * @description
-         * The top-level directive for this group if present, otherwise null.
-         */
-        get formDirective() {
-            return this._parent ? this._parent.formDirective : null;
-        }
-        /**
-         * @description
-         * Synchronous validator function composed of all the synchronous validators
-         * registered with this directive.
-         */
-        get validator() {
-            return composeValidators(this._rawValidators);
-        }
-        /**
-         * @description
-         * Async validator function composed of all the async validators registered with this
-         * directive.
-         */
-        get asyncValidator() {
-            return composeAsyncValidators(this._rawAsyncValidators);
-        }
-        _checkParentType() {
-            if (!(this._parent instanceof FormGroupName) &&
-                this._parent instanceof AbstractFormGroupDirective) {
-                ReactiveErrors.ngModelGroupException();
-            }
-            else if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective) &&
-                !(this._parent instanceof FormArrayName)) {
-                ReactiveErrors.controlParentException();
-            }
-        }
-        _setUpControl() {
-            this._checkParentType();
-            this.control = this.formDirective.addControl(this);
-            if (this.control.disabled && this.valueAccessor.setDisabledState) {
-                this.valueAccessor.setDisabledState(true);
-            }
-            this._added = true;
+        this._ngModelWarningSent = false;
+        this._parent = parent;
+        this._rawValidators = validators || [];
+        this._rawAsyncValidators = asyncValidators || [];
+        this.valueAccessor = selectValueAccessor(this, valueAccessors);
+    }
+    /**
+     * @description
+     * Triggers a warning that this input should not be used with reactive forms.
+     */
+    set isDisabled(isDisabled) {
+        ReactiveErrors.disabledAttrWarning();
+    }
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
+    ngOnChanges(changes) {
+        if (!this._added)
+            this._setUpControl();
+        if (isPropertyUpdated(changes, this.viewModel)) {
+            _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
+            this.viewModel = this.model;
+            this.formDirective.updateModel(this, this.model);
         }
     }
     /**
      * @description
-     * Static property used to track whether any ngModel warnings have been sent across
-     * all instances of FormControlName. Used to support warning config of "once".
-     *
-     * @internal
+     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
      */
-    FormControlName._ngModelWarningSentOnce = false;
-    FormControlName.ɵfac = function FormControlName_Factory(t) { return new (t || FormControlName)(ɵɵdirectiveInject(ControlContainer, 13), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵɵdirectiveInject(NG_VALUE_ACCESSOR, 10), ɵɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); };
-    FormControlName.ɵdir = ɵɵdefineDirective({ type: FormControlName, selectors: [["", "formControlName", ""]], inputs: { name: ["formControlName", "name"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, features: [ɵɵProvidersFeature([controlNameBinding]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
-    return FormControlName;
-})();
+    ngOnDestroy() {
+        if (this.formDirective) {
+            this.formDirective.removeControl(this);
+        }
+    }
+    /**
+     * @description
+     * Sets the new value for the view model and emits an `ngModelChange` event.
+     *
+     * @param newValue The new value for the view model.
+     */
+    viewToModelUpdate(newValue) {
+        this.viewModel = newValue;
+        this.update.emit(newValue);
+    }
+    /**
+     * @description
+     * Returns an array that represents the path from the top-level form to this control.
+     * Each index is the string name of the control on that level.
+     */
+    get path() {
+        return controlPath(this.name == null ? this.name : this.name.toString(), this._parent);
+    }
+    /**
+     * @description
+     * The top-level directive for this group if present, otherwise null.
+     */
+    get formDirective() {
+        return this._parent ? this._parent.formDirective : null;
+    }
+    /**
+     * @description
+     * Synchronous validator function composed of all the synchronous validators
+     * registered with this directive.
+     */
+    get validator() {
+        return composeValidators(this._rawValidators);
+    }
+    /**
+     * @description
+     * Async validator function composed of all the async validators registered with this
+     * directive.
+     */
+    get asyncValidator() {
+        return composeAsyncValidators(this._rawAsyncValidators);
+    }
+    _checkParentType() {
+        if (!(this._parent instanceof FormGroupName) &&
+            this._parent instanceof AbstractFormGroupDirective) {
+            ReactiveErrors.ngModelGroupException();
+        }
+        else if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective) &&
+            !(this._parent instanceof FormArrayName)) {
+            ReactiveErrors.controlParentException();
+        }
+    }
+    _setUpControl() {
+        this._checkParentType();
+        this.control = this.formDirective.addControl(this);
+        if (this.control.disabled && this.valueAccessor.setDisabledState) {
+            this.valueAccessor.setDisabledState(true);
+        }
+        this._added = true;
+    }
+}
+/**
+ * @description
+ * Static property used to track whether any ngModel warnings have been sent across
+ * all instances of FormControlName. Used to support warning config of "once".
+ *
+ * @internal
+ */
+FormControlName._ngModelWarningSentOnce = false;
+FormControlName.ɵfac = function FormControlName_Factory(t) { return new (t || FormControlName)(ɵɵdirectiveInject(ControlContainer, 13), ɵɵdirectiveInject(NG_VALIDATORS, 10), ɵɵdirectiveInject(NG_ASYNC_VALIDATORS, 10), ɵɵdirectiveInject(NG_VALUE_ACCESSOR, 10), ɵɵdirectiveInject(NG_MODEL_WITH_FORM_CONTROL_WARNING, 8)); };
+FormControlName.ɵdir = ɵɵdefineDirective({ type: FormControlName, selectors: [["", "formControlName", ""]], inputs: { name: ["formControlName", "name"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, features: [ɵɵProvidersFeature([controlNameBinding]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(FormControlName, [{
         type: Directive,
         args: [{ selector: '[formControlName]', providers: [controlNameBinding] }]
@@ -6096,44 +6030,41 @@ const CHECKBOX_REQUIRED_VALIDATOR = {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-let RequiredValidator = /** @class */ (() => {
-    class RequiredValidator {
-        /**
-         * @description
-         * Tracks changes to the required attribute bound to this directive.
-         */
-        get required() {
-            return this._required;
-        }
-        set required(value) {
-            this._required = value != null && value !== false && `${value}` !== 'false';
-            if (this._onChange)
-                this._onChange();
-        }
-        /**
-         * @description
-         * Method that validates whether the control is empty.
-         * Returns the validation result if enabled, otherwise null.
-         */
-        validate(control) {
-            return this.required ? Validators.required(control) : null;
-        }
-        /**
-         * @description
-         * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
-         */
-        registerOnValidatorChange(fn) {
-            this._onChange = fn;
-        }
+class RequiredValidator {
+    /**
+     * @description
+     * Tracks changes to the required attribute bound to this directive.
+     */
+    get required() {
+        return this._required;
     }
-    RequiredValidator.ɵfac = function RequiredValidator_Factory(t) { return new (t || RequiredValidator)(); };
-    RequiredValidator.ɵdir = ɵɵdefineDirective({ type: RequiredValidator, selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]], hostVars: 1, hostBindings: function RequiredValidator_HostBindings(rf, ctx) { if (rf & 2) {
-            ɵɵattribute("required", ctx.required ? "" : null);
-        } }, inputs: { required: "required" }, features: [ɵɵProvidersFeature([REQUIRED_VALIDATOR])] });
-    return RequiredValidator;
-})();
+    set required(value) {
+        this._required = value != null && value !== false && `${value}` !== 'false';
+        if (this._onChange)
+            this._onChange();
+    }
+    /**
+     * @description
+     * Method that validates whether the control is empty.
+     * Returns the validation result if enabled, otherwise null.
+     */
+    validate(control) {
+        return this.required ? Validators.required(control) : null;
+    }
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
+}
+RequiredValidator.ɵfac = function RequiredValidator_Factory(t) { return new (t || RequiredValidator)(); };
+RequiredValidator.ɵdir = ɵɵdefineDirective({ type: RequiredValidator, selectors: [["", "required", "", "formControlName", "", 3, "type", "checkbox"], ["", "required", "", "formControl", "", 3, "type", "checkbox"], ["", "required", "", "ngModel", "", 3, "type", "checkbox"]], hostVars: 1, hostBindings: function RequiredValidator_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵattribute("required", ctx.required ? "" : null);
+    } }, inputs: { required: "required" }, features: [ɵɵProvidersFeature([REQUIRED_VALIDATOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(RequiredValidator, [{
         type: Directive,
         args: [{
@@ -6165,23 +6096,20 @@ let RequiredValidator = /** @class */ (() => {
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
  */
-let CheckboxRequiredValidator = /** @class */ (() => {
-    class CheckboxRequiredValidator extends RequiredValidator {
-        /**
-         * @description
-         * Method that validates whether or not the checkbox has been checked.
-         * Returns the validation result if enabled, otherwise null.
-         */
-        validate(control) {
-            return this.required ? Validators.requiredTrue(control) : null;
-        }
+class CheckboxRequiredValidator extends RequiredValidator {
+    /**
+     * @description
+     * Method that validates whether or not the checkbox has been checked.
+     * Returns the validation result if enabled, otherwise null.
+     */
+    validate(control) {
+        return this.required ? Validators.requiredTrue(control) : null;
     }
-    CheckboxRequiredValidator.ɵfac = function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory(t || CheckboxRequiredValidator); };
-    CheckboxRequiredValidator.ɵdir = ɵɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], hostVars: 1, hostBindings: function CheckboxRequiredValidator_HostBindings(rf, ctx) { if (rf & 2) {
-            ɵɵattribute("required", ctx.required ? "" : null);
-        } }, features: [ɵɵProvidersFeature([CHECKBOX_REQUIRED_VALIDATOR]), ɵɵInheritDefinitionFeature] });
-    return CheckboxRequiredValidator;
-})();
+}
+CheckboxRequiredValidator.ɵfac = function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory(t || CheckboxRequiredValidator); };
+CheckboxRequiredValidator.ɵdir = ɵɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], hostVars: 1, hostBindings: function CheckboxRequiredValidator_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵattribute("required", ctx.required ? "" : null);
+    } }, features: [ɵɵProvidersFeature([CHECKBOX_REQUIRED_VALIDATOR]), ɵɵInheritDefinitionFeature] });
 const ɵCheckboxRequiredValidator_BaseFactory = ɵɵgetInheritedFactory(CheckboxRequiredValidator);
 /*@__PURE__*/ (function () { ɵsetClassMetadata(CheckboxRequiredValidator, [{
         type: Directive,
@@ -6223,39 +6151,36 @@ const EMAIL_VALIDATOR = {
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
  */
-let EmailValidator = /** @class */ (() => {
-    class EmailValidator {
-        /**
-         * @description
-         * Tracks changes to the email attribute bound to this directive.
-         */
-        set email(value) {
-            this._enabled = value === '' || value === true || value === 'true';
-            if (this._onChange)
-                this._onChange();
-        }
-        /**
-         * @description
-         * Method that validates whether an email address is valid.
-         * Returns the validation result if enabled, otherwise null.
-         */
-        validate(control) {
-            return this._enabled ? Validators.email(control) : null;
-        }
-        /**
-         * @description
-         * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
-         */
-        registerOnValidatorChange(fn) {
-            this._onChange = fn;
-        }
+class EmailValidator {
+    /**
+     * @description
+     * Tracks changes to the email attribute bound to this directive.
+     */
+    set email(value) {
+        this._enabled = value === '' || value === true || value === 'true';
+        if (this._onChange)
+            this._onChange();
     }
-    EmailValidator.ɵfac = function EmailValidator_Factory(t) { return new (t || EmailValidator)(); };
-    EmailValidator.ɵdir = ɵɵdefineDirective({ type: EmailValidator, selectors: [["", "email", "", "formControlName", ""], ["", "email", "", "formControl", ""], ["", "email", "", "ngModel", ""]], inputs: { email: "email" }, features: [ɵɵProvidersFeature([EMAIL_VALIDATOR])] });
-    return EmailValidator;
-})();
+    /**
+     * @description
+     * Method that validates whether an email address is valid.
+     * Returns the validation result if enabled, otherwise null.
+     */
+    validate(control) {
+        return this._enabled ? Validators.email(control) : null;
+    }
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
+}
+EmailValidator.ɵfac = function EmailValidator_Factory(t) { return new (t || EmailValidator)(); };
+EmailValidator.ɵdir = ɵɵdefineDirective({ type: EmailValidator, selectors: [["", "email", "", "formControlName", ""], ["", "email", "", "formControl", ""], ["", "email", "", "ngModel", ""]], inputs: { email: "email" }, features: [ɵɵProvidersFeature([EMAIL_VALIDATOR])] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(EmailValidator, [{
         type: Directive,
         args: [{
@@ -6295,49 +6220,46 @@ const MIN_LENGTH_VALIDATOR = {
  * @ngModule FormsModule
  * @publicApi
  */
-let MinLengthValidator = /** @class */ (() => {
-    class MinLengthValidator {
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
-        ngOnChanges(changes) {
-            if ('minlength' in changes) {
-                this._createValidator();
-                if (this._onChange)
-                    this._onChange();
-            }
-        }
-        /**
-         * @description
-         * Method that validates whether the value meets a minimum length
-         * requirement. Returns the validation result if enabled, otherwise null.
-         */
-        validate(control) {
-            return this.minlength == null ? null : this._validator(control);
-        }
-        /**
-         * @description
-         * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
-         */
-        registerOnValidatorChange(fn) {
-            this._onChange = fn;
-        }
-        _createValidator() {
-            this._validator = Validators.minLength(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
+class MinLengthValidator {
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
+    ngOnChanges(changes) {
+        if ('minlength' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
         }
     }
-    MinLengthValidator.ɵfac = function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); };
-    MinLengthValidator.ɵdir = ɵɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], hostVars: 1, hostBindings: function MinLengthValidator_HostBindings(rf, ctx) { if (rf & 2) {
-            ɵɵattribute("minlength", ctx.minlength ? ctx.minlength : null);
-        } }, inputs: { minlength: "minlength" }, features: [ɵɵProvidersFeature([MIN_LENGTH_VALIDATOR]), ɵɵNgOnChangesFeature] });
-    return MinLengthValidator;
-})();
+    /**
+     * @description
+     * Method that validates whether the value meets a minimum length
+     * requirement. Returns the validation result if enabled, otherwise null.
+     */
+    validate(control) {
+        return this.minlength == null ? null : this._validator(control);
+    }
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
+    _createValidator() {
+        this._validator = Validators.minLength(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
+    }
+}
+MinLengthValidator.ɵfac = function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); };
+MinLengthValidator.ɵdir = ɵɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], hostVars: 1, hostBindings: function MinLengthValidator_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵattribute("minlength", ctx.minlength ? ctx.minlength : null);
+    } }, inputs: { minlength: "minlength" }, features: [ɵɵProvidersFeature([MIN_LENGTH_VALIDATOR]), ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(MinLengthValidator, [{
         type: Directive,
         args: [{
@@ -6378,49 +6300,46 @@ const MAX_LENGTH_VALIDATOR = {
  * @ngModule FormsModule
  * @publicApi
  */
-let MaxLengthValidator = /** @class */ (() => {
-    class MaxLengthValidator {
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
-        ngOnChanges(changes) {
-            if ('maxlength' in changes) {
-                this._createValidator();
-                if (this._onChange)
-                    this._onChange();
-            }
-        }
-        /**
-         * @description
-         * Method that validates whether the value exceeds
-         * the maximum length requirement.
-         */
-        validate(control) {
-            return this.maxlength != null ? this._validator(control) : null;
-        }
-        /**
-         * @description
-         * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
-         */
-        registerOnValidatorChange(fn) {
-            this._onChange = fn;
-        }
-        _createValidator() {
-            this._validator = Validators.maxLength(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
+class MaxLengthValidator {
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
+    ngOnChanges(changes) {
+        if ('maxlength' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
         }
     }
-    MaxLengthValidator.ɵfac = function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); };
-    MaxLengthValidator.ɵdir = ɵɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], hostVars: 1, hostBindings: function MaxLengthValidator_HostBindings(rf, ctx) { if (rf & 2) {
-            ɵɵattribute("maxlength", ctx.maxlength ? ctx.maxlength : null);
-        } }, inputs: { maxlength: "maxlength" }, features: [ɵɵProvidersFeature([MAX_LENGTH_VALIDATOR]), ɵɵNgOnChangesFeature] });
-    return MaxLengthValidator;
-})();
+    /**
+     * @description
+     * Method that validates whether the value exceeds
+     * the maximum length requirement.
+     */
+    validate(control) {
+        return this.maxlength != null ? this._validator(control) : null;
+    }
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
+    _createValidator() {
+        this._validator = Validators.maxLength(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
+    }
+}
+MaxLengthValidator.ɵfac = function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); };
+MaxLengthValidator.ɵdir = ɵɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], hostVars: 1, hostBindings: function MaxLengthValidator_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵattribute("maxlength", ctx.maxlength ? ctx.maxlength : null);
+    } }, inputs: { maxlength: "maxlength" }, features: [ɵɵProvidersFeature([MAX_LENGTH_VALIDATOR]), ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(MaxLengthValidator, [{
         type: Directive,
         args: [{
@@ -6463,49 +6382,46 @@ const PATTERN_VALIDATOR = {
  * @ngModule FormsModule
  * @publicApi
  */
-let PatternValidator = /** @class */ (() => {
-    class PatternValidator {
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
-        ngOnChanges(changes) {
-            if ('pattern' in changes) {
-                this._createValidator();
-                if (this._onChange)
-                    this._onChange();
-            }
-        }
-        /**
-         * @description
-         * Method that validates whether the value matches the
-         * the pattern requirement.
-         */
-        validate(control) {
-            return this._validator(control);
-        }
-        /**
-         * @description
-         * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
-         */
-        registerOnValidatorChange(fn) {
-            this._onChange = fn;
-        }
-        _createValidator() {
-            this._validator = Validators.pattern(this.pattern);
+class PatternValidator {
+    /**
+     * @description
+     * A lifecycle method called when the directive's inputs change. For internal use
+     * only.
+     *
+     * @param changes A object of key/value pairs for the set of changed inputs.
+     */
+    ngOnChanges(changes) {
+        if ('pattern' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
         }
     }
-    PatternValidator.ɵfac = function PatternValidator_Factory(t) { return new (t || PatternValidator)(); };
-    PatternValidator.ɵdir = ɵɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], hostVars: 1, hostBindings: function PatternValidator_HostBindings(rf, ctx) { if (rf & 2) {
-            ɵɵattribute("pattern", ctx.pattern ? ctx.pattern : null);
-        } }, inputs: { pattern: "pattern" }, features: [ɵɵProvidersFeature([PATTERN_VALIDATOR]), ɵɵNgOnChangesFeature] });
-    return PatternValidator;
-})();
+    /**
+     * @description
+     * Method that validates whether the value matches the
+     * the pattern requirement.
+     */
+    validate(control) {
+        return this._validator(control);
+    }
+    /**
+     * @description
+     * Registers a callback function to call when the validator inputs change.
+     *
+     * @param fn The callback function
+     */
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
+    _createValidator() {
+        this._validator = Validators.pattern(this.pattern);
+    }
+}
+PatternValidator.ɵfac = function PatternValidator_Factory(t) { return new (t || PatternValidator)(); };
+PatternValidator.ɵdir = ɵɵdefineDirective({ type: PatternValidator, selectors: [["", "pattern", "", "formControlName", ""], ["", "pattern", "", "formControl", ""], ["", "pattern", "", "ngModel", ""]], hostVars: 1, hostBindings: function PatternValidator_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵattribute("pattern", ctx.pattern ? ctx.pattern : null);
+    } }, inputs: { pattern: "pattern" }, features: [ɵɵProvidersFeature([PATTERN_VALIDATOR]), ɵɵNgOnChangesFeature] });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(PatternValidator, [{
         type: Directive,
         args: [{
@@ -6549,13 +6465,10 @@ const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, Fo
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
-let ɵInternalFormsSharedModule = /** @class */ (() => {
-    class ɵInternalFormsSharedModule {
-    }
-    ɵInternalFormsSharedModule.ɵmod = ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
-    ɵInternalFormsSharedModule.ɵinj = ɵɵdefineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
-    return ɵInternalFormsSharedModule;
-})();
+class ɵInternalFormsSharedModule {
+}
+ɵInternalFormsSharedModule.ɵmod = ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
+ɵInternalFormsSharedModule.ɵinj = ɵɵdefineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
 (function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(ɵInternalFormsSharedModule, { declarations: [ɵNgNoValidate,
         NgSelectOption,
         ɵNgSelectMultipleOption,
@@ -6623,122 +6536,119 @@ function isAbstractControlOptions(options) {
  *
  * @publicApi
  */
-let FormBuilder = /** @class */ (() => {
-    class FormBuilder {
-        /**
-         * @description
-         * Construct a new `FormGroup` instance.
-         *
-         * @param controlsConfig A collection of child controls. The key for each child is the name
-         * under which it is registered.
-         *
-         * @param options Configuration options object for the `FormGroup`. The object can
-         * have two shapes:
-         *
-         * 1) `AbstractControlOptions` object (preferred), which consists of:
-         * * `validators`: A synchronous validator function, or an array of validator functions
-         * * `asyncValidators`: A single async validator or array of async validator functions
-         * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur' |
-         * submit')
-         *
-         * 2) Legacy configuration object, which consists of:
-         * * `validator`: A synchronous validator function, or an array of validator functions
-         * * `asyncValidator`: A single async validator or array of async validator functions
-         *
-         */
-        group(controlsConfig, options = null) {
-            const controls = this._reduceControls(controlsConfig);
-            let validators = null;
-            let asyncValidators = null;
-            let updateOn = undefined;
-            if (options != null) {
-                if (isAbstractControlOptions(options)) {
-                    // `options` are `AbstractControlOptions`
-                    validators = options.validators != null ? options.validators : null;
-                    asyncValidators = options.asyncValidators != null ? options.asyncValidators : null;
-                    updateOn = options.updateOn != null ? options.updateOn : undefined;
-                }
-                else {
-                    // `options` are legacy form group options
-                    validators = options['validator'] != null ? options['validator'] : null;
-                    asyncValidators = options['asyncValidator'] != null ? options['asyncValidator'] : null;
-                }
-            }
-            return new FormGroup(controls, { asyncValidators, updateOn, validators });
-        }
-        /**
-         * @description
-         * Construct a new `FormControl` with the given state, validators and options.
-         *
-         * @param formState Initializes the control with an initial state value, or
-         * with an object that contains both a value and a disabled status.
-         *
-         * @param validatorOrOpts A synchronous validator function, or an array of
-         * such functions, or an `AbstractControlOptions` object that contains
-         * validation functions and a validation trigger.
-         *
-         * @param asyncValidator A single async validator or array of async validator
-         * functions.
-         *
-         * @usageNotes
-         *
-         * ### Initialize a control as disabled
-         *
-         * The following example returns a control with an initial value in a disabled state.
-         *
-         * <code-example path="forms/ts/formBuilder/form_builder_example.ts" region="disabled-control">
-         * </code-example>
-         */
-        control(formState, validatorOrOpts, asyncValidator) {
-            return new FormControl(formState, validatorOrOpts, asyncValidator);
-        }
-        /**
-         * Constructs a new `FormArray` from the given array of configurations,
-         * validators and options.
-         *
-         * @param controlsConfig An array of child controls or control configs. Each
-         * child control is given an index when it is registered.
-         *
-         * @param validatorOrOpts A synchronous validator function, or an array of
-         * such functions, or an `AbstractControlOptions` object that contains
-         * validation functions and a validation trigger.
-         *
-         * @param asyncValidator A single async validator or array of async validator
-         * functions.
-         */
-        array(controlsConfig, validatorOrOpts, asyncValidator) {
-            const controls = controlsConfig.map(c => this._createControl(c));
-            return new FormArray(controls, validatorOrOpts, asyncValidator);
-        }
-        /** @internal */
-        _reduceControls(controlsConfig) {
-            const controls = {};
-            Object.keys(controlsConfig).forEach(controlName => {
-                controls[controlName] = this._createControl(controlsConfig[controlName]);
-            });
-            return controls;
-        }
-        /** @internal */
-        _createControl(controlConfig) {
-            if (controlConfig instanceof FormControl || controlConfig instanceof FormGroup ||
-                controlConfig instanceof FormArray) {
-                return controlConfig;
-            }
-            else if (Array.isArray(controlConfig)) {
-                const value = controlConfig[0];
-                const validator = controlConfig.length > 1 ? controlConfig[1] : null;
-                const asyncValidator = controlConfig.length > 2 ? controlConfig[2] : null;
-                return this.control(value, validator, asyncValidator);
+class FormBuilder {
+    /**
+     * @description
+     * Construct a new `FormGroup` instance.
+     *
+     * @param controlsConfig A collection of child controls. The key for each child is the name
+     * under which it is registered.
+     *
+     * @param options Configuration options object for the `FormGroup`. The object can
+     * have two shapes:
+     *
+     * 1) `AbstractControlOptions` object (preferred), which consists of:
+     * * `validators`: A synchronous validator function, or an array of validator functions
+     * * `asyncValidators`: A single async validator or array of async validator functions
+     * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur' |
+     * submit')
+     *
+     * 2) Legacy configuration object, which consists of:
+     * * `validator`: A synchronous validator function, or an array of validator functions
+     * * `asyncValidator`: A single async validator or array of async validator functions
+     *
+     */
+    group(controlsConfig, options = null) {
+        const controls = this._reduceControls(controlsConfig);
+        let validators = null;
+        let asyncValidators = null;
+        let updateOn = undefined;
+        if (options != null) {
+            if (isAbstractControlOptions(options)) {
+                // `options` are `AbstractControlOptions`
+                validators = options.validators != null ? options.validators : null;
+                asyncValidators = options.asyncValidators != null ? options.asyncValidators : null;
+                updateOn = options.updateOn != null ? options.updateOn : undefined;
             }
             else {
-                return this.control(controlConfig);
+                // `options` are legacy form group options
+                validators = options['validator'] != null ? options['validator'] : null;
+                asyncValidators = options['asyncValidator'] != null ? options['asyncValidator'] : null;
             }
         }
+        return new FormGroup(controls, { asyncValidators, updateOn, validators });
     }
-    FormBuilder.ɵfac = function FormBuilder_Factory(t) { return new (t || FormBuilder)(); };
-    FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBuilder.ɵfac });
-    return FormBuilder;
-})();
+    /**
+     * @description
+     * Construct a new `FormControl` with the given state, validators and options.
+     *
+     * @param formState Initializes the control with an initial state value, or
+     * with an object that contains both a value and a disabled status.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains
+     * validation functions and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator
+     * functions.
+     *
+     * @usageNotes
+     *
+     * ### Initialize a control as disabled
+     *
+     * The following example returns a control with an initial value in a disabled state.
+     *
+     * <code-example path="forms/ts/formBuilder/form_builder_example.ts" region="disabled-control">
+     * </code-example>
+     */
+    control(formState, validatorOrOpts, asyncValidator) {
+        return new FormControl(formState, validatorOrOpts, asyncValidator);
+    }
+    /**
+     * Constructs a new `FormArray` from the given array of configurations,
+     * validators and options.
+     *
+     * @param controlsConfig An array of child controls or control configs. Each
+     * child control is given an index when it is registered.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains
+     * validation functions and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator
+     * functions.
+     */
+    array(controlsConfig, validatorOrOpts, asyncValidator) {
+        const controls = controlsConfig.map(c => this._createControl(c));
+        return new FormArray(controls, validatorOrOpts, asyncValidator);
+    }
+    /** @internal */
+    _reduceControls(controlsConfig) {
+        const controls = {};
+        Object.keys(controlsConfig).forEach(controlName => {
+            controls[controlName] = this._createControl(controlsConfig[controlName]);
+        });
+        return controls;
+    }
+    /** @internal */
+    _createControl(controlConfig) {
+        if (controlConfig instanceof FormControl || controlConfig instanceof FormGroup ||
+            controlConfig instanceof FormArray) {
+            return controlConfig;
+        }
+        else if (Array.isArray(controlConfig)) {
+            const value = controlConfig[0];
+            const validator = controlConfig.length > 1 ? controlConfig[1] : null;
+            const asyncValidator = controlConfig.length > 2 ? controlConfig[2] : null;
+            return this.control(value, validator, asyncValidator);
+        }
+        else {
+            return this.control(controlConfig);
+        }
+    }
+}
+FormBuilder.ɵfac = function FormBuilder_Factory(t) { return new (t || FormBuilder)(); };
+FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBuilder.ɵfac });
 /*@__PURE__*/ (function () { ɵsetClassMetadata(FormBuilder, [{
         type: Injectable
     }], null, null); })();
@@ -6753,7 +6663,7 @@ let FormBuilder = /** @class */ (() => {
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0-rc.0+130.sha-8c682c5');
+const VERSION = new Version('10.0.0-rc.0+134.sha-a937889');
 
 /**
  * @license
@@ -6771,13 +6681,10 @@ const VERSION = new Version('10.0.0-rc.0+130.sha-8c682c5');
  *
  * @publicApi
  */
-let FormsModule = /** @class */ (() => {
-    class FormsModule {
-    }
-    FormsModule.ɵmod = ɵɵdefineNgModule({ type: FormsModule });
-    FormsModule.ɵinj = ɵɵdefineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
-    return FormsModule;
-})();
+class FormsModule {
+}
+FormsModule.ɵmod = ɵɵdefineNgModule({ type: FormsModule });
+FormsModule.ɵinj = ɵɵdefineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
 (function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] }); })();
 /*@__PURE__*/ (function () { ɵsetClassMetadata(FormsModule, [{
         type: NgModule,
@@ -6796,29 +6703,26 @@ let FormsModule = /** @class */ (() => {
  *
  * @publicApi
  */
-let ReactiveFormsModule = /** @class */ (() => {
-    class ReactiveFormsModule {
-        /**
-         * @description
-         * Provides options for configuring the reactive forms module.
-         *
-         * @param opts An object of configuration options
-         * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
-         * binding is used with reactive form directives.
-         */
-        static withConfig(opts) {
-            return {
-                ngModule: ReactiveFormsModule,
-                providers: [
-                    { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
-                ]
-            };
-        }
+class ReactiveFormsModule {
+    /**
+     * @description
+     * Provides options for configuring the reactive forms module.
+     *
+     * @param opts An object of configuration options
+     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
+     * binding is used with reactive form directives.
+     */
+    static withConfig(opts) {
+        return {
+            ngModule: ReactiveFormsModule,
+            providers: [
+                { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
+            ]
+        };
     }
-    ReactiveFormsModule.ɵmod = ɵɵdefineNgModule({ type: ReactiveFormsModule });
-    ReactiveFormsModule.ɵinj = ɵɵdefineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
-    return ReactiveFormsModule;
-})();
+}
+ReactiveFormsModule.ɵmod = ɵɵdefineNgModule({ type: ReactiveFormsModule });
+ReactiveFormsModule.ɵinj = ɵɵdefineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
 (function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] }); })();
 /*@__PURE__*/ (function () { ɵsetClassMetadata(ReactiveFormsModule, [{
         type: NgModule,
