@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+168.sha-62e4acc
+ * @license Angular v10.0.0-rc.0+167.sha-1091ddb
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -995,7 +995,7 @@ export declare interface ControlValueAccessor {
     registerOnChange(fn: any): void;
     /**
      * @description
-     * Registers a callback function that is called by the forms API on initialization
+     * Registers a callback function is called by the forms API on initialization
      * to update the form model on blur.
      *
      * When implementing `registerOnTouched` in your own value accessor, save the given
