@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+185.sha-2a145f2
+ * @license Angular v10.0.0-rc.0+182.sha-87a679b
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4153,24 +4153,12 @@
         };
         /** @internal */
         FormGroup.prototype._anyControls = function (condition) {
-            var e_1, _a;
-            try {
-                for (var _b = __values(Object.keys(this.controls)), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var controlName = _c.value;
-                    var control = this.controls[controlName];
-                    if (this.contains(controlName) && condition(control)) {
-                        return true;
-                    }
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            return false;
+            var _this = this;
+            var res = false;
+            this._forEachChild(function (control, name) {
+                res = res || (_this.contains(name) && condition(control));
+            });
+            return res;
         };
         /** @internal */
         FormGroup.prototype._reduceValue = function () {
@@ -4192,7 +4180,7 @@
         };
         /** @internal */
         FormGroup.prototype._allControlsDisabled = function () {
-            var e_2, _a;
+            var e_1, _a;
             try {
                 for (var _b = __values(Object.keys(this.controls)), _c = _b.next(); !_c.done; _c = _b.next()) {
                     var controlName = _c.value;
@@ -4201,12 +4189,12 @@
                     }
                 }
             }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_2) throw e_2.error; }
+                finally { if (e_1) throw e_1.error; }
             }
             return Object.keys(this.controls).length > 0 || this.disabled;
         };
@@ -4619,7 +4607,7 @@
         };
         /** @internal */
         FormArray.prototype._allControlsDisabled = function () {
-            var e_3, _a;
+            var e_2, _a;
             try {
                 for (var _b = __values(this.controls), _c = _b.next(); !_c.done; _c = _b.next()) {
                     var control = _c.value;
@@ -4627,12 +4615,12 @@
                         return false;
                 }
             }
-            catch (e_3_1) { e_3 = { error: e_3_1 }; }
+            catch (e_2_1) { e_2 = { error: e_2_1 }; }
             finally {
                 try {
                     if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-                finally { if (e_3) throw e_3.error; }
+                finally { if (e_2) throw e_2.error; }
             }
             return this.controls.length > 0 || this.disabled;
         };
@@ -7015,7 +7003,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.0.0-rc.0+185.sha-2a145f2');
+    var VERSION = new core.Version('10.0.0-rc.0+182.sha-87a679b');
 
     /**
      * @license

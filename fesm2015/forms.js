@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+185.sha-2a145f2
+ * @license Angular v10.0.0-rc.0+182.sha-87a679b
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3756,13 +3756,11 @@ class FormGroup extends AbstractControl {
     }
     /** @internal */
     _anyControls(condition) {
-        for (const controlName of Object.keys(this.controls)) {
-            const control = this.controls[controlName];
-            if (this.contains(controlName) && condition(control)) {
-                return true;
-            }
-        }
-        return false;
+        let res = false;
+        this._forEachChild((control, name) => {
+            res = res || (this.contains(name) && condition(control));
+        });
+        return res;
     }
     /** @internal */
     _reduceValue() {
@@ -6396,7 +6394,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0-rc.0+185.sha-2a145f2');
+const VERSION = new Version('10.0.0-rc.0+182.sha-87a679b');
 
 /**
  * @license
