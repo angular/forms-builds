@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+242.sha-77b62a5
+ * @license Angular v10.0.0-rc.0+245.sha-8a74508
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2490,7 +2490,7 @@
             var _this = this;
             this.onChange = function (_) {
                 var selected = [];
-                if (_.hasOwnProperty('selectedOptions')) {
+                if (_.selectedOptions !== undefined) {
                     var options = _.selectedOptions;
                     for (var i = 0; i < options.length; i++) {
                         var opt = options.item(i);
@@ -7378,7 +7378,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('10.0.0-rc.0+242.sha-77b62a5');
+    var VERSION = new i0.Version('10.0.0-rc.0+245.sha-8a74508');
 
     /**
      * @license
