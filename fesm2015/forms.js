@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0+4.sha-0d2cdf6
+ * @license Angular v10.0.0+15.sha-a5d5f67
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1690,7 +1690,7 @@ class ReactiveErrors {
     It looks like you're using ngModel on the same form field as ${directiveName}.
     Support for using the ngModel input property and ngModelChange event with
     reactive form directives has been deprecated in Angular v6 and will be removed
-    in Angular v7.
+    in a future version of Angular.
 
     For more information on this, see our API docs here:
     https://angular.io/api/forms/${directiveName === 'formControl' ? 'FormControlDirective' :
@@ -2080,7 +2080,7 @@ class SelectMultipleControlValueAccessor {
     registerOnChange(fn) {
         this.onChange = (_) => {
             const selected = [];
-            if (_.hasOwnProperty('selectedOptions')) {
+            if (_.selectedOptions !== undefined) {
                 const options = _.selectedOptions;
                 for (let i = 0; i < options.length; i++) {
                     const opt = options.item(i);
@@ -6396,7 +6396,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0+4.sha-0d2cdf6');
+const VERSION = new Version('10.0.0+15.sha-a5d5f67');
 
 /**
  * @license
