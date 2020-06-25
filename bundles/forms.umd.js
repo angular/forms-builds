@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+241.sha-616543d
+ * @license Angular v10.0.0-rc.0+242.sha-77b62a5
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2876,6 +2876,12 @@
         function AbstractControl(validator, asyncValidator) {
             this.validator = validator;
             this.asyncValidator = asyncValidator;
+            /**
+             * Indicates that a control has its own pending asynchronous validation in progress.
+             *
+             * @internal
+             */
+            this._hasOwnPendingAsyncValidator = false;
             /** @internal */
             this._onCollectionChange = function () { };
             /**
@@ -3325,14 +3331,21 @@
             var _this = this;
             if (this.asyncValidator) {
                 this.status = PENDING;
+                this._hasOwnPendingAsyncValidator = true;
                 var obs = toObservable(this.asyncValidator(this));
-                this._asyncValidationSubscription =
-                    obs.subscribe(function (errors) { return _this.setErrors(errors, { emitEvent: emitEvent }); });
+                this._asyncValidationSubscription = obs.subscribe(function (errors) {
+                    _this._hasOwnPendingAsyncValidator = false;
+                    // This will trigger the recalculation of the validation status, which depends on
+                    // the state of the asynchronous validation (whether it is in progress or not). So, it is
+                    // necessary that we have updated the `_hasOwnPendingAsyncValidator` boolean flag first.
+                    _this.setErrors(errors, { emitEvent: emitEvent });
+                });
             }
         };
         AbstractControl.prototype._cancelExistingSubscription = function () {
             if (this._asyncValidationSubscription) {
                 this._asyncValidationSubscription.unsubscribe();
+                this._hasOwnPendingAsyncValidator = false;
             }
         };
         /**
@@ -3481,7 +3494,7 @@
                 return DISABLED;
             if (this.errors)
                 return INVALID;
-            if (this._anyControlsHaveStatus(PENDING))
+            if (this._hasOwnPendingAsyncValidator || this._anyControlsHaveStatus(PENDING))
                 return PENDING;
             if (this._anyControlsHaveStatus(INVALID))
                 return INVALID;
@@ -6976,7 +6989,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.0.0-rc.0+241.sha-616543d');
+    var VERSION = new core.Version('10.0.0-rc.0+242.sha-77b62a5');
 
     /**
      * @license
