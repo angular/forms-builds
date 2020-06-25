@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.0-rc.0+241.sha-616543d
+ * @license Angular v10.0.0-rc.0+242.sha-77b62a5
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2551,6 +2551,12 @@ class AbstractControl {
     constructor(validator, asyncValidator) {
         this.validator = validator;
         this.asyncValidator = asyncValidator;
+        /**
+         * Indicates that a control has its own pending asynchronous validation in progress.
+         *
+         * @internal
+         */
+        this._hasOwnPendingAsyncValidator = false;
         /** @internal */
         this._onCollectionChange = () => { };
         /**
@@ -2954,14 +2960,21 @@ class AbstractControl {
     _runAsyncValidator(emitEvent) {
         if (this.asyncValidator) {
             this.status = PENDING;
+            this._hasOwnPendingAsyncValidator = true;
             const obs = toObservable(this.asyncValidator(this));
-            this._asyncValidationSubscription =
-                obs.subscribe((errors) => this.setErrors(errors, { emitEvent }));
+            this._asyncValidationSubscription = obs.subscribe((errors) => {
+                this._hasOwnPendingAsyncValidator = false;
+                // This will trigger the recalculation of the validation status, which depends on
+                // the state of the asynchronous validation (whether it is in progress or not). So, it is
+                // necessary that we have updated the `_hasOwnPendingAsyncValidator` boolean flag first.
+                this.setErrors(errors, { emitEvent });
+            });
         }
     }
     _cancelExistingSubscription() {
         if (this._asyncValidationSubscription) {
             this._asyncValidationSubscription.unsubscribe();
+            this._hasOwnPendingAsyncValidator = false;
         }
     }
     /**
@@ -3105,7 +3118,7 @@ class AbstractControl {
             return DISABLED;
         if (this.errors)
             return INVALID;
-        if (this._anyControlsHaveStatus(PENDING))
+        if (this._hasOwnPendingAsyncValidator || this._anyControlsHaveStatus(PENDING))
             return PENDING;
         if (this._anyControlsHaveStatus(INVALID))
             return INVALID;
@@ -6665,7 +6678,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.0-rc.0+241.sha-616543d');
+const VERSION = new Version('10.0.0-rc.0+242.sha-77b62a5');
 
 /**
  * @license
