@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.0+18.sha-c40cbec
+ * @license Angular v10.1.0-next.0+19.sha-1550663
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6678,7 +6678,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('10.1.0-next.0+18.sha-c40cbec');
+const VERSION = new Version('10.1.0-next.0+19.sha-1550663');
 
 /**
  * @license
@@ -6771,6 +6771,10 @@ ReactiveFormsModule.ɵinj = ɵɵdefineInjector({ factory: function ReactiveForms
  *
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
+ */
+
+/**
+ * Generated bundle index. Do not edit.
  */
 
 export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, MaxLengthValidator, MinLengthValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NumberValueAccessor, PatternValidator, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, VERSION, Validators, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption };
