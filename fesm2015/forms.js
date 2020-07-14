@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.0+46.sha-421e807
+ * @license Angular v10.1.0-next.0+48.sha-f4fac40
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6046,6 +6046,9 @@ const CHECKBOX_REQUIRED_VALIDATOR = {
  * @publicApi
  */
 class RequiredValidator {
+    constructor() {
+        this._required = false;
+    }
     /**
      * @description
      * Tracks changes to the required attribute bound to this directive.
@@ -6167,6 +6170,9 @@ const EMAIL_VALIDATOR = {
  * @ngModule ReactiveFormsModule
  */
 class EmailValidator {
+    constructor() {
+        this._enabled = false;
+    }
     /**
      * @description
      * Tracks changes to the email attribute bound to this directive.
@@ -6236,6 +6242,9 @@ const MIN_LENGTH_VALIDATOR = {
  * @publicApi
  */
 class MinLengthValidator {
+    constructor() {
+        this._validator = Validators.nullValidator;
+    }
     /**
      * @description
      * A lifecycle method called when the directive's inputs change. For internal use
@@ -6316,6 +6325,9 @@ const MAX_LENGTH_VALIDATOR = {
  * @publicApi
  */
 class MaxLengthValidator {
+    constructor() {
+        this._validator = Validators.nullValidator;
+    }
     /**
      * @description
      * A lifecycle method called when the directive's inputs change. For internal use
@@ -6398,6 +6410,9 @@ const PATTERN_VALIDATOR = {
  * @publicApi
  */
 class PatternValidator {
+    constructor() {
+        this._validator = Validators.nullValidator;
+    }
     /**
      * @description
      * A lifecycle method called when the directive's inputs change. For internal use
@@ -6678,7 +6693,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('10.1.0-next.0+46.sha-421e807');
+const VERSION = new Version('10.1.0-next.0+48.sha-f4fac40');
 
 /**
  * @license
