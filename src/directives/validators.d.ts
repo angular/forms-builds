@@ -133,7 +133,7 @@ export declare const CHECKBOX_REQUIRED_VALIDATOR: StaticProvider;
  */
 export declare class RequiredValidator implements Validator {
     private _required;
-    private _onChange?;
+    private _onChange;
     /**
      * @description
      * Tracks changes to the required attribute bound to this directive.
@@ -217,7 +217,7 @@ export declare const EMAIL_VALIDATOR: any;
  */
 export declare class EmailValidator implements Validator {
     private _enabled;
-    private _onChange?;
+    private _onChange;
     /**
      * @description
      * Tracks changes to the email attribute bound to this directive.
@@ -287,7 +287,7 @@ export declare const MIN_LENGTH_VALIDATOR: any;
  */
 export declare class MinLengthValidator implements Validator, OnChanges {
     private _validator;
-    private _onChange?;
+    private _onChange;
     /**
      * @description
      * Tracks changes to the the minimum length bound to this directive.
@@ -346,7 +346,7 @@ export declare const MAX_LENGTH_VALIDATOR: any;
  */
 export declare class MaxLengthValidator implements Validator, OnChanges {
     private _validator;
-    private _onChange?;
+    private _onChange;
     /**
      * @description
      * Tracks changes to the the maximum length bound to this directive.
@@ -407,7 +407,7 @@ export declare const PATTERN_VALIDATOR: any;
  */
 export declare class PatternValidator implements Validator, OnChanges {
     private _validator;
-    private _onChange?;
+    private _onChange;
     /**
      * @description
      * Tracks changes to the pattern bound to this directive.
