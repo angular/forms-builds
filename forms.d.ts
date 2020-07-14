@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.3+55.sha-d690eec
+ * @license Angular v10.0.3+58.sha-396033d
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1140,7 +1140,7 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
  */
 export declare class EmailValidator implements Validator {
     private _enabled;
-    private _onChange;
+    private _onChange?;
     /**
      * @description
      * Tracks changes to the email attribute bound to this directive.
@@ -2597,7 +2597,7 @@ export declare class FormsModule {
  */
 export declare class MaxLengthValidator implements Validator, OnChanges {
     private _validator;
-    private _onChange;
+    private _onChange?;
     /**
      * @description
      * Tracks changes to the the maximum length bound to this directive.
@@ -2650,7 +2650,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
  */
 export declare class MinLengthValidator implements Validator, OnChanges {
     private _validator;
-    private _onChange;
+    private _onChange?;
     /**
      * @description
      * Tracks changes to the the minimum length bound to this directive.
@@ -3374,7 +3374,7 @@ export declare class NumberValueAccessor implements ControlValueAccessor {
  */
 export declare class PatternValidator implements Validator, OnChanges {
     private _validator;
-    private _onChange;
+    private _onChange?;
     /**
      * @description
      * Tracks changes to the pattern bound to this directive.
@@ -3614,7 +3614,7 @@ export declare class ReactiveFormsModule {
  */
 export declare class RequiredValidator implements Validator {
     private _required;
-    private _onChange;
+    private _onChange?;
     /**
      * @description
      * Tracks changes to the required attribute bound to this directive.

@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.3+55.sha-d690eec
+ * @license Angular v10.0.3+58.sha-396033d
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6372,6 +6372,7 @@
      */
     var RequiredValidator = /** @class */ (function () {
         function RequiredValidator() {
+            this._required = false;
         }
         Object.defineProperty(RequiredValidator.prototype, "required", {
             /**
@@ -6495,6 +6496,7 @@
      */
     var EmailValidator = /** @class */ (function () {
         function EmailValidator() {
+            this._enabled = false;
         }
         Object.defineProperty(EmailValidator.prototype, "email", {
             /**
@@ -6569,6 +6571,7 @@
      */
     var MinLengthValidator = /** @class */ (function () {
         function MinLengthValidator() {
+            this._validator = Validators.nullValidator;
         }
         /**
          * @description
@@ -6648,6 +6651,7 @@
      */
     var MaxLengthValidator = /** @class */ (function () {
         function MaxLengthValidator() {
+            this._validator = Validators.nullValidator;
         }
         /**
          * @description
@@ -6729,6 +6733,7 @@
      */
     var PatternValidator = /** @class */ (function () {
         function PatternValidator() {
+            this._validator = Validators.nullValidator;
         }
         /**
          * @description
@@ -6976,7 +6981,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.0.3+55.sha-d690eec');
+    var VERSION = new core.Version('10.0.3+58.sha-396033d');
 
     /**
      * @license
