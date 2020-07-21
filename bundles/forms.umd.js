@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.1+42.sha-d72b1e4
+ * @license Angular v10.1.0-next.1+43.sha-ad7046b
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2838,14 +2838,30 @@
         });
         return controlToFind;
     }
-    function coerceToValidator(validatorOrOpts) {
-        var validator = isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators : validatorOrOpts;
+    /**
+     * Gets validators from either an options object or given validators.
+     */
+    function pickValidators(validatorOrOpts) {
+        return (isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators : validatorOrOpts) || null;
+    }
+    /**
+     * Creates validator function by combining provided validators.
+     */
+    function coerceToValidator(validator) {
         return Array.isArray(validator) ? composeValidators(validator) : validator || null;
     }
-    function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
-        var origAsyncValidator = isOptionsObj(validatorOrOpts) ? validatorOrOpts.asyncValidators : asyncValidator;
-        return Array.isArray(origAsyncValidator) ? composeAsyncValidators(origAsyncValidator) :
-            origAsyncValidator || null;
+    /**
+     * Gets async validators from either an options object or given validators.
+     */
+    function pickAsyncValidators(asyncValidator, validatorOrOpts) {
+        return (isOptionsObj(validatorOrOpts) ? validatorOrOpts.asyncValidators : asyncValidator) || null;
+    }
+    /**
+     * Creates async validator function by combining provided async validators.
+     */
+    function coerceToAsyncValidator(asyncValidator) {
+        return Array.isArray(asyncValidator) ? composeAsyncValidators(asyncValidator) :
+            asyncValidator || null;
     }
     function isOptionsObj(validatorOrOpts) {
         return validatorOrOpts != null && !Array.isArray(validatorOrOpts) &&
@@ -2869,13 +2885,12 @@
         /**
          * Initialize the AbstractControl instance.
          *
-         * @param validator The function that determines the synchronous validity of this control.
-         * @param asyncValidator The function that determines the asynchronous validity of this
-         * control.
+         * @param validators The function or array of functions that is used to determine the validity of
+         *     this control synchronously.
+         * @param asyncValidators The function or array of functions that is used to determine validity of
+         *     this control asynchronously.
          */
-        function AbstractControl(validator, asyncValidator) {
-            this.validator = validator;
-            this.asyncValidator = asyncValidator;
+        function AbstractControl(validators, asyncValidators) {
             /**
              * Indicates that a control has its own pending asynchronous validation in progress.
              *
@@ -2901,7 +2916,37 @@
             this.touched = false;
             /** @internal */
             this._onDisabledChange = [];
+            this._rawValidators = validators;
+            this._rawAsyncValidators = asyncValidators;
+            this._composedValidatorFn = coerceToValidator(this._rawValidators);
+            this._composedAsyncValidatorFn = coerceToAsyncValidator(this._rawAsyncValidators);
         }
+        Object.defineProperty(AbstractControl.prototype, "validator", {
+            /**
+             * The function that is used to determine the validity of this control synchronously.
+             */
+            get: function () {
+                return this._composedValidatorFn;
+            },
+            set: function (validatorFn) {
+                this._rawValidators = this._composedValidatorFn = validatorFn;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(AbstractControl.prototype, "asyncValidator", {
+            /**
+             * The function that is used to determine the validity of this control asynchronously.
+             */
+            get: function () {
+                return this._composedAsyncValidatorFn;
+            },
+            set: function (asyncValidatorFn) {
+                this._rawAsyncValidators = this._composedAsyncValidatorFn = asyncValidatorFn;
+            },
+            enumerable: false,
+            configurable: true
+        });
         Object.defineProperty(AbstractControl.prototype, "parent", {
             /**
              * The parent control.
@@ -3040,7 +3085,8 @@
          *
          */
         AbstractControl.prototype.setValidators = function (newValidator) {
-            this.validator = coerceToValidator(newValidator);
+            this._rawValidators = newValidator;
+            this._composedValidatorFn = coerceToValidator(newValidator);
         };
         /**
          * Sets the async validators that are active on this control. Calling this
@@ -3051,7 +3097,8 @@
          *
          */
         AbstractControl.prototype.setAsyncValidators = function (newValidator) {
-            this.asyncValidator = coerceToAsyncValidator(newValidator);
+            this._rawAsyncValidators = newValidator;
+            this._composedAsyncValidatorFn = coerceToAsyncValidator(newValidator);
         };
         /**
          * Empties out the sync validator list.
@@ -3668,7 +3715,7 @@
          */
         function FormControl(formState, validatorOrOpts, asyncValidator) {
             if (formState === void 0) { formState = null; }
-            var _this = _super.call(this, coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts)) || this;
+            var _this = _super.call(this, pickValidators(validatorOrOpts), pickAsyncValidators(asyncValidator, validatorOrOpts)) || this;
             /** @internal */
             _this._onChange = [];
             _this._applyFormState(formState);
@@ -3907,7 +3954,7 @@
          *
          */
         function FormGroup(controls, validatorOrOpts, asyncValidator) {
-            var _this = _super.call(this, coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts)) || this;
+            var _this = _super.call(this, pickValidators(validatorOrOpts), pickAsyncValidators(asyncValidator, validatorOrOpts)) || this;
             _this.controls = controls;
             _this._initObservables();
             _this._setUpdateStrategy(validatorOrOpts);
@@ -4337,7 +4384,7 @@
          *
          */
         function FormArray(controls, validatorOrOpts, asyncValidator) {
-            var _this = _super.call(this, coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts)) || this;
+            var _this = _super.call(this, pickValidators(validatorOrOpts), pickAsyncValidators(asyncValidator, validatorOrOpts)) || this;
             _this.controls = controls;
             _this._initObservables();
             _this._setUpdateStrategy(validatorOrOpts);
@@ -6994,7 +7041,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.1.0-next.1+42.sha-d72b1e4');
+    var VERSION = new core.Version('10.1.0-next.1+43.sha-ad7046b');
 
     /**
      * @license

@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.1+42.sha-d72b1e4
+ * @license Angular v10.1.0-next.1+43.sha-ad7046b
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -35,8 +35,6 @@ import { Version } from '@angular/core';
  * @publicApi
  */
 export declare abstract class AbstractControl {
-    validator: ValidatorFn | null;
-    asyncValidator: AsyncValidatorFn | null;
     private _parent;
     private _asyncValidationSubscription;
     /**
@@ -54,11 +52,22 @@ export declare abstract class AbstractControl {
     /**
      * Initialize the AbstractControl instance.
      *
-     * @param validator The function that determines the synchronous validity of this control.
-     * @param asyncValidator The function that determines the asynchronous validity of this
-     * control.
+     * @param validators The function or array of functions that is used to determine the validity of
+     *     this control synchronously.
+     * @param asyncValidators The function or array of functions that is used to determine validity of
+     *     this control asynchronously.
      */
-    constructor(validator: ValidatorFn | null, asyncValidator: AsyncValidatorFn | null);
+    constructor(validators: ValidatorFn | ValidatorFn[] | null, asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] | null);
+    /**
+     * The function that is used to determine the validity of this control synchronously.
+     */
+    get validator(): ValidatorFn | null;
+    set validator(validatorFn: ValidatorFn | null);
+    /**
+     * The function that is used to determine the validity of this control asynchronously.
+     */
+    get asyncValidator(): AsyncValidatorFn | null;
+    set asyncValidator(asyncValidatorFn: AsyncValidatorFn | null);
     /**
      * The parent control.
      */
