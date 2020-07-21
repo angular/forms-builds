@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.1+42.sha-d72b1e4
+ * @license Angular v10.1.0-next.1+43.sha-ad7046b
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2513,14 +2513,30 @@ function _find(control, path, delimiter) {
     });
     return controlToFind;
 }
-function coerceToValidator(validatorOrOpts) {
-    const validator = isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators : validatorOrOpts;
+/**
+ * Gets validators from either an options object or given validators.
+ */
+function pickValidators(validatorOrOpts) {
+    return (isOptionsObj(validatorOrOpts) ? validatorOrOpts.validators : validatorOrOpts) || null;
+}
+/**
+ * Creates validator function by combining provided validators.
+ */
+function coerceToValidator(validator) {
     return Array.isArray(validator) ? composeValidators(validator) : validator || null;
 }
-function coerceToAsyncValidator(asyncValidator, validatorOrOpts) {
-    const origAsyncValidator = isOptionsObj(validatorOrOpts) ? validatorOrOpts.asyncValidators : asyncValidator;
-    return Array.isArray(origAsyncValidator) ? composeAsyncValidators(origAsyncValidator) :
-        origAsyncValidator || null;
+/**
+ * Gets async validators from either an options object or given validators.
+ */
+function pickAsyncValidators(asyncValidator, validatorOrOpts) {
+    return (isOptionsObj(validatorOrOpts) ? validatorOrOpts.asyncValidators : asyncValidator) || null;
+}
+/**
+ * Creates async validator function by combining provided async validators.
+ */
+function coerceToAsyncValidator(asyncValidator) {
+    return Array.isArray(asyncValidator) ? composeAsyncValidators(asyncValidator) :
+        asyncValidator || null;
 }
 function isOptionsObj(validatorOrOpts) {
     return validatorOrOpts != null && !Array.isArray(validatorOrOpts) &&
@@ -2544,13 +2560,12 @@ class AbstractControl {
     /**
      * Initialize the AbstractControl instance.
      *
-     * @param validator The function that determines the synchronous validity of this control.
-     * @param asyncValidator The function that determines the asynchronous validity of this
-     * control.
+     * @param validators The function or array of functions that is used to determine the validity of
+     *     this control synchronously.
+     * @param asyncValidators The function or array of functions that is used to determine validity of
+     *     this control asynchronously.
      */
-    constructor(validator, asyncValidator) {
-        this.validator = validator;
-        this.asyncValidator = asyncValidator;
+    constructor(validators, asyncValidators) {
         /**
          * Indicates that a control has its own pending asynchronous validation in progress.
          *
@@ -2576,6 +2591,28 @@ class AbstractControl {
         this.touched = false;
         /** @internal */
         this._onDisabledChange = [];
+        this._rawValidators = validators;
+        this._rawAsyncValidators = asyncValidators;
+        this._composedValidatorFn = coerceToValidator(this._rawValidators);
+        this._composedAsyncValidatorFn = coerceToAsyncValidator(this._rawAsyncValidators);
+    }
+    /**
+     * The function that is used to determine the validity of this control synchronously.
+     */
+    get validator() {
+        return this._composedValidatorFn;
+    }
+    set validator(validatorFn) {
+        this._rawValidators = this._composedValidatorFn = validatorFn;
+    }
+    /**
+     * The function that is used to determine the validity of this control asynchronously.
+     */
+    get asyncValidator() {
+        return this._composedAsyncValidatorFn;
+    }
+    set asyncValidator(asyncValidatorFn) {
+        this._rawAsyncValidators = this._composedAsyncValidatorFn = asyncValidatorFn;
     }
     /**
      * The parent control.
@@ -2679,7 +2716,8 @@ class AbstractControl {
      *
      */
     setValidators(newValidator) {
-        this.validator = coerceToValidator(newValidator);
+        this._rawValidators = newValidator;
+        this._composedValidatorFn = coerceToValidator(newValidator);
     }
     /**
      * Sets the async validators that are active on this control. Calling this
@@ -2690,7 +2728,8 @@ class AbstractControl {
      *
      */
     setAsyncValidators(newValidator) {
-        this.asyncValidator = coerceToAsyncValidator(newValidator);
+        this._rawAsyncValidators = newValidator;
+        this._composedAsyncValidatorFn = coerceToAsyncValidator(newValidator);
     }
     /**
      * Empties out the sync validator list.
@@ -3287,7 +3326,7 @@ class FormControl extends AbstractControl {
      *
      */
     constructor(formState = null, validatorOrOpts, asyncValidator) {
-        super(coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts));
+        super(pickValidators(validatorOrOpts), pickAsyncValidators(asyncValidator, validatorOrOpts));
         /** @internal */
         this._onChange = [];
         this._applyFormState(formState);
@@ -3518,7 +3557,7 @@ class FormGroup extends AbstractControl {
      *
      */
     constructor(controls, validatorOrOpts, asyncValidator) {
-        super(coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts));
+        super(pickValidators(validatorOrOpts), pickAsyncValidators(asyncValidator, validatorOrOpts));
         this.controls = controls;
         this._initObservables();
         this._setUpdateStrategy(validatorOrOpts);
@@ -3917,7 +3956,7 @@ class FormArray extends AbstractControl {
      *
      */
     constructor(controls, validatorOrOpts, asyncValidator) {
-        super(coerceToValidator(validatorOrOpts), coerceToAsyncValidator(asyncValidator, validatorOrOpts));
+        super(pickValidators(validatorOrOpts), pickAsyncValidators(asyncValidator, validatorOrOpts));
         this.controls = controls;
         this._initObservables();
         this._setUpdateStrategy(validatorOrOpts);
@@ -6693,7 +6732,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('10.1.0-next.1+42.sha-d72b1e4');
+const VERSION = new Version('10.1.0-next.1+43.sha-ad7046b');
 
 /**
  * @license
