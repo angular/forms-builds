@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.5
+ * @license Angular v10.0.5+7.sha-6ec7297
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2732,7 +2732,7 @@ export declare const NG_VALUE_ACCESSOR: InjectionToken<ControlValueAccessor>;
 
 /**
  * @description
- * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
+ * A base class that all `FormControl`-based directives extend. It binds a `FormControl`
  * object to a DOM element.
  *
  * @publicApi
