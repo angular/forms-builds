@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.2+1.sha-5e742d2
+ * @license Angular v10.1.0-next.2+8.sha-5a73362
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -889,7 +889,7 @@
     }
     /**
      * @description
-     * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
+     * A base class that all `FormControl`-based directives extend. It binds a `FormControl`
      * object to a DOM element.
      *
      * @publicApi
@@ -7041,7 +7041,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.1.0-next.2+1.sha-5e742d2');
+    var VERSION = new core.Version('10.1.0-next.2+8.sha-5a73362');
 
     /**
      * @license
