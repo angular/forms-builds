@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.2+2.sha-d88711c
+ * @license Angular v10.1.0-next.2+9.sha-778ad37
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -528,7 +528,7 @@ function unimplemented() {
 }
 /**
  * @description
- * A base class that all control `FormControl`-based directives extend. It binds a `FormControl`
+ * A base class that all `FormControl`-based directives extend. It binds a `FormControl`
  * object to a DOM element.
  *
  * @publicApi
@@ -6732,7 +6732,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('10.1.0-next.2+2.sha-d88711c');
+const VERSION = new Version('10.1.0-next.2+9.sha-778ad37');
 
 /**
  * @license
