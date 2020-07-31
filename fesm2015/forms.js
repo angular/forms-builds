@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.3+21.sha-4c7f233
+ * @license Angular v10.1.0-next.3+22.sha-6f6102d
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4652,7 +4652,7 @@ class AbstractFormGroupDirective extends ControlContainer {
 }
 AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
 AbstractFormGroupDirective.ɵdir = ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [ɵɵInheritDefinitionFeature] });
-const ɵAbstractFormGroupDirective_BaseFactory = ɵɵgetInheritedFactory(AbstractFormGroupDirective);
+const ɵAbstractFormGroupDirective_BaseFactory = /*@__PURE__*/ ɵɵgetInheritedFactory(AbstractFormGroupDirective);
 /*@__PURE__*/ (function () { ɵsetClassMetadata(AbstractFormGroupDirective, [{
         type: Directive
     }], null, null); })();
@@ -6167,7 +6167,7 @@ CheckboxRequiredValidator.ɵfac = function CheckboxRequiredValidator_Factory(t) 
 CheckboxRequiredValidator.ɵdir = ɵɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], hostVars: 1, hostBindings: function CheckboxRequiredValidator_HostBindings(rf, ctx) { if (rf & 2) {
         ɵɵattribute("required", ctx.required ? "" : null);
     } }, features: [ɵɵProvidersFeature([CHECKBOX_REQUIRED_VALIDATOR]), ɵɵInheritDefinitionFeature] });
-const ɵCheckboxRequiredValidator_BaseFactory = ɵɵgetInheritedFactory(CheckboxRequiredValidator);
+const ɵCheckboxRequiredValidator_BaseFactory = /*@__PURE__*/ ɵɵgetInheritedFactory(CheckboxRequiredValidator);
 /*@__PURE__*/ (function () { ɵsetClassMetadata(CheckboxRequiredValidator, [{
         type: Directive,
         args: [{
@@ -6732,7 +6732,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('10.1.0-next.3+21.sha-4c7f233');
+const VERSION = new Version('10.1.0-next.3+22.sha-6f6102d');
 
 /**
  * @license

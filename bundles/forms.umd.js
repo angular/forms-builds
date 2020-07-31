@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.3+21.sha-4c7f233
+ * @license Angular v10.1.0-next.3+22.sha-6f6102d
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5222,7 +5222,7 @@
     }(ControlContainer));
     AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
     AbstractFormGroupDirective.ɵdir = i0.ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [i0.ɵɵInheritDefinitionFeature] });
-    var ɵAbstractFormGroupDirective_BaseFactory = i0.ɵɵgetInheritedFactory(AbstractFormGroupDirective);
+    var ɵAbstractFormGroupDirective_BaseFactory = /*@__PURE__*/ i0.ɵɵgetInheritedFactory(AbstractFormGroupDirective);
     /*@__PURE__*/ (function () {
         i0.ɵsetClassMetadata(AbstractFormGroupDirective, [{
                 type: i0.Directive
@@ -6826,7 +6826,7 @@
                 i0.ɵɵattribute("required", ctx.required ? "" : null);
             }
         }, features: [i0.ɵɵProvidersFeature([CHECKBOX_REQUIRED_VALIDATOR]), i0.ɵɵInheritDefinitionFeature] });
-    var ɵCheckboxRequiredValidator_BaseFactory = i0.ɵɵgetInheritedFactory(CheckboxRequiredValidator);
+    var ɵCheckboxRequiredValidator_BaseFactory = /*@__PURE__*/ i0.ɵɵgetInheritedFactory(CheckboxRequiredValidator);
     /*@__PURE__*/ (function () {
         i0.ɵsetClassMetadata(CheckboxRequiredValidator, [{
                 type: i0.Directive,
@@ -7430,7 +7430,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('10.1.0-next.3+21.sha-4c7f233');
+    var VERSION = new i0.Version('10.1.0-next.3+22.sha-6f6102d');
 
     /**
      * @license
