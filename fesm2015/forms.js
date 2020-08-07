@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.8+22.sha-4107abb
+ * @license Angular v10.0.8+23.sha-47fbfb3
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1084,7 +1084,7 @@ class Validators {
         if (presentValidators.length == 0)
             return null;
         return function (control) {
-            return _mergeErrors(_executeValidators(control, presentValidators));
+            return mergeErrors(executeValidators(control, presentValidators));
         };
     }
     /**
@@ -1105,8 +1105,8 @@ class Validators {
         if (presentValidators.length == 0)
             return null;
         return function (control) {
-            const observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
-            return forkJoin(observables).pipe(map(_mergeErrors));
+            const observables = executeValidators(control, presentValidators).map(toObservable);
+            return forkJoin(observables).pipe(map(mergeErrors));
         };
     }
 }
@@ -1120,13 +1120,7 @@ function toObservable(r) {
     }
     return obs;
 }
-function _executeValidators(control, validators) {
-    return validators.map(v => v(control));
-}
-function _executeAsyncValidators(control, validators) {
-    return validators.map(v => v(control));
-}
-function _mergeErrors(arrayOfErrors) {
+function mergeErrors(arrayOfErrors) {
     let res = {};
     // Not using Array.reduce here due to a Chrome 80 bug
     // https://bugs.chromium.org/p/chromium/issues/detail?id=1049982
@@ -1135,29 +1129,26 @@ function _mergeErrors(arrayOfErrors) {
     });
     return Object.keys(res).length === 0 ? null : res;
 }
-
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-function normalizeValidator(validator) {
-    if (!!validator.validate) {
-        return (c) => validator.validate(c);
-    }
-    else {
-        return validator;
-    }
+function executeValidators(control, validators) {
+    return validators.map(validator => validator(control));
 }
-function normalizeAsyncValidator(validator) {
-    if (!!validator.validate) {
-        return (c) => validator.validate(c);
-    }
-    else {
-        return validator;
-    }
+function isValidatorFn(validator) {
+    return !validator.validate;
+}
+/**
+ * Given the list of validators that may contain both functions as well as classes, return the list
+ * of validator functions (convert validator classes into validator functions). This is needed to
+ * have consistent structure in validators list before composing them.
+ *
+ * @param validators The set of validators that may contain validators both in plain function form
+ *     as well as represented as a validator class.
+ */
+function normalizeValidators(validators) {
+    return validators.map(validator => {
+        return isValidatorFn(validator) ?
+            validator :
+            ((c) => validator.validate(c));
+    });
 }
 
 /**
@@ -2341,10 +2332,12 @@ function _throwError(dir, message) {
     throw new Error(`${message} ${messageEnd}`);
 }
 function composeValidators(validators) {
-    return validators != null ? Validators.compose(validators.map(normalizeValidator)) : null;
+    return validators != null ? Validators.compose(normalizeValidators(validators)) :
+        null;
 }
 function composeAsyncValidators(validators) {
-    return validators != null ? Validators.composeAsync(validators.map(normalizeAsyncValidator)) :
+    return validators != null ?
+        Validators.composeAsync(normalizeValidators(validators)) :
         null;
 }
 function isPropertyUpdated(changes, viewModel) {
@@ -6411,7 +6404,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.8+22.sha-4107abb');
+const VERSION = new Version('10.0.8+23.sha-47fbfb3');
 
 /**
  * @license
