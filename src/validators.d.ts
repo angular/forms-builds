@@ -7,7 +7,7 @@
  */
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AsyncValidatorFn, ValidationErrors, Validator, ValidatorFn } from './directives/validators';
+import { AsyncValidator, AsyncValidatorFn, ValidationErrors, Validator, ValidatorFn } from './directives/validators';
 import { AbstractControl } from './model';
 /**
  * @description
@@ -309,3 +309,12 @@ export declare class Validators {
     static composeAsync(validators: (AsyncValidatorFn | null)[]): AsyncValidatorFn | null;
 }
 export declare function toObservable(r: any): Observable<any>;
+/**
+ * Given the list of validators that may contain both functions as well as classes, return the list
+ * of validator functions (convert validator classes into validator functions). This is needed to
+ * have consistent structure in validators list before composing them.
+ *
+ * @param validators The set of validators that may contain validators both in plain function form
+ *     as well as represented as a validator class.
+ */
+export declare function normalizeValidators<V>(validators: (V | Validator | AsyncValidator)[]): V[];

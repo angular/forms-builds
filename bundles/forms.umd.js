@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.4+24.sha-354e66e
+ * @license Angular v10.1.0-next.4+25.sha-856db56
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1526,7 +1526,7 @@
             if (presentValidators.length == 0)
                 return null;
             return function (control) {
-                return _mergeErrors(_executeValidators(control, presentValidators));
+                return mergeErrors(executeValidators(control, presentValidators));
             };
         };
         /**
@@ -1547,8 +1547,8 @@
             if (presentValidators.length == 0)
                 return null;
             return function (control) {
-                var observables = _executeAsyncValidators(control, presentValidators).map(toObservable);
-                return rxjs.forkJoin(observables).pipe(operators.map(_mergeErrors));
+                var observables = executeValidators(control, presentValidators).map(toObservable);
+                return rxjs.forkJoin(observables).pipe(operators.map(mergeErrors));
             };
         };
         return Validators;
@@ -1563,13 +1563,7 @@
         }
         return obs;
     }
-    function _executeValidators(control, validators) {
-        return validators.map(function (v) { return v(control); });
-    }
-    function _executeAsyncValidators(control, validators) {
-        return validators.map(function (v) { return v(control); });
-    }
-    function _mergeErrors(arrayOfErrors) {
+    function mergeErrors(arrayOfErrors) {
         var res = {};
         // Not using Array.reduce here due to a Chrome 80 bug
         // https://bugs.chromium.org/p/chromium/issues/detail?id=1049982
@@ -1578,29 +1572,26 @@
         });
         return Object.keys(res).length === 0 ? null : res;
     }
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    function normalizeValidator(validator) {
-        if (!!validator.validate) {
-            return function (c) { return validator.validate(c); };
-        }
-        else {
-            return validator;
-        }
+    function executeValidators(control, validators) {
+        return validators.map(function (validator) { return validator(control); });
     }
-    function normalizeAsyncValidator(validator) {
-        if (!!validator.validate) {
-            return function (c) { return validator.validate(c); };
-        }
-        else {
-            return validator;
-        }
+    function isValidatorFn(validator) {
+        return !validator.validate;
+    }
+    /**
+     * Given the list of validators that may contain both functions as well as classes, return the list
+     * of validator functions (convert validator classes into validator functions). This is needed to
+     * have consistent structure in validators list before composing them.
+     *
+     * @param validators The set of validators that may contain validators both in plain function form
+     *     as well as represented as a validator class.
+     */
+    function normalizeValidators(validators) {
+        return validators.map(function (validator) {
+            return isValidatorFn(validator) ?
+                validator :
+                (function (c) { return validator.validate(c); });
+        });
     }
 
     /**
@@ -2777,10 +2768,12 @@
         throw new Error(message + " " + messageEnd);
     }
     function composeValidators(validators) {
-        return validators != null ? Validators.compose(validators.map(normalizeValidator)) : null;
+        return validators != null ? Validators.compose(normalizeValidators(validators)) :
+            null;
     }
     function composeAsyncValidators(validators) {
-        return validators != null ? Validators.composeAsync(validators.map(normalizeAsyncValidator)) :
+        return validators != null ?
+            Validators.composeAsync(normalizeValidators(validators)) :
             null;
     }
     function isPropertyUpdated(changes, viewModel) {
@@ -7430,7 +7423,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('10.1.0-next.4+24.sha-354e66e');
+    var VERSION = new i0.Version('10.1.0-next.4+25.sha-856db56');
 
     /**
      * @license
