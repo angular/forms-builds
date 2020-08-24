@@ -67,7 +67,7 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     name: string | number | null;
     /**
      * @description
-     * Triggers a warning in dev mode that this input should not be used with reactive forms.
+     * Triggers a warning that this input should not be used with reactive forms.
      */
     set isDisabled(isDisabled: boolean);
     /** @deprecated as of v6 */
