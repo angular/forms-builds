@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-next.7+19.sha-b48cc6e
+ * @license Angular v10.1.0-next.7+25.sha-375f0a6
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -885,7 +885,9 @@
     }(AbstractControlDirective));
 
     function unimplemented() {
-        throw new Error('unimplemented');
+        if (typeof ngDevMode === 'undefined' || ngDevMode) {
+            throw new Error('unimplemented');
+        }
     }
     /**
      * @description
@@ -1522,7 +1524,7 @@
     }
     function toObservable(r) {
         var obs = core.ɵisPromise(r) ? rxjs.from(r) : r;
-        if (!(core.ɵisObservable(obs))) {
+        if (!(core.ɵisObservable(obs)) && (typeof ngDevMode === 'undefined' || ngDevMode)) {
             throw new Error("Expected validator to return Promise or Observable.");
         }
         return obs;
@@ -1674,6 +1676,9 @@
         useExisting: core.forwardRef(function () { return RadioControlValueAccessor; }),
         multi: true
     };
+    function throwNameError() {
+        throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
+    }
     /**
      * @description
      * Class used by Angular to track radio buttons. For internal use only.
@@ -1827,14 +1832,12 @@
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
         };
         RadioControlValueAccessor.prototype._checkName = function () {
-            if (this.name && this.formControlName && this.name !== this.formControlName) {
-                this._throwNameError();
+            if (this.name && this.formControlName && this.name !== this.formControlName &&
+                (typeof ngDevMode === 'undefined' || ngDevMode)) {
+                throwNameError();
             }
             if (!this.name && this.formControlName)
                 this.name = this.formControlName;
-        };
-        RadioControlValueAccessor.prototype._throwNameError = function () {
-            throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
         };
         return RadioControlValueAccessor;
     }());
@@ -2112,7 +2115,7 @@
              * checking for changes.
              */
             set: function (fn) {
-                if (typeof fn !== 'function') {
+                if (typeof fn !== 'function' && (typeof ngDevMode === 'undefined' || ngDevMode)) {
                     throw new Error("compareWith must be a function, but received " + JSON.stringify(fn));
                 }
                 this._compareWith = fn;
@@ -2371,7 +2374,7 @@
              * checking for changes.
              */
             set: function (fn) {
-                if (typeof fn !== 'function') {
+                if (typeof fn !== 'function' && (typeof ngDevMode === 'undefined' || ngDevMode)) {
                     throw new Error("compareWith must be a function, but received " + JSON.stringify(fn));
                 }
                 this._compareWith = fn;
@@ -2592,10 +2595,12 @@
         return __spread(parent.path, [name]);
     }
     function setUpControl(control, dir) {
-        if (!control)
-            _throwError(dir, 'Cannot find control with');
-        if (!dir.valueAccessor)
-            _throwError(dir, 'No value accessor for form control with');
+        if (typeof ngDevMode === 'undefined' || ngDevMode) {
+            if (!control)
+                _throwError(dir, 'Cannot find control with');
+            if (!dir.valueAccessor)
+                _throwError(dir, 'No value accessor for form control with');
+        }
         control.validator = Validators.compose([control.validator, dir.validator]);
         control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
         dir.valueAccessor.writeValue(control.value);
@@ -2618,8 +2623,13 @@
         });
     }
     function cleanUpControl(control, dir) {
-        dir.valueAccessor.registerOnChange(function () { return _noControlError(dir); });
-        dir.valueAccessor.registerOnTouched(function () { return _noControlError(dir); });
+        var noop = function () {
+            if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                _noControlError(dir);
+            }
+        };
+        dir.valueAccessor.registerOnChange(noop);
+        dir.valueAccessor.registerOnTouched(noop);
         dir._rawValidators.forEach(function (validator) {
             if (validator.registerOnValidatorChange) {
                 validator.registerOnValidatorChange(null);
@@ -2668,7 +2678,7 @@
         });
     }
     function setUpFormContainer(control, dir) {
-        if (control == null)
+        if (control == null && (typeof ngDevMode === 'undefined' || ngDevMode))
             _throwError(dir, 'Cannot find control with');
         control.validator = Validators.compose([control.validator, dir.validator]);
         control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
@@ -2731,7 +2741,7 @@
     function selectValueAccessor(dir, valueAccessors) {
         if (!valueAccessors)
             return null;
-        if (!Array.isArray(valueAccessors))
+        if (!Array.isArray(valueAccessors) && (typeof ngDevMode === 'undefined' || ngDevMode))
             _throwError(dir, 'Value accessor was not provided as an array for form control with');
         var defaultAccessor = undefined;
         var builtinAccessor = undefined;
@@ -2741,12 +2751,12 @@
                 defaultAccessor = v;
             }
             else if (isBuiltInAccessor(v)) {
-                if (builtinAccessor)
+                if (builtinAccessor && (typeof ngDevMode === 'undefined' || ngDevMode))
                     _throwError(dir, 'More than one built-in value accessor matches form control with');
                 builtinAccessor = v;
             }
             else {
-                if (customAccessor)
+                if (customAccessor && (typeof ngDevMode === 'undefined' || ngDevMode))
                     _throwError(dir, 'More than one custom value accessor matches form control with');
                 customAccessor = v;
             }
@@ -2757,7 +2767,9 @@
             return builtinAccessor;
         if (defaultAccessor)
             return defaultAccessor;
-        _throwError(dir, 'No valid value accessor for form control with');
+        if (typeof ngDevMode === 'undefined' || ngDevMode) {
+            _throwError(dir, 'No valid value accessor for form control with');
+        }
         return null;
     }
     function removeDir(list, el) {
@@ -2771,7 +2783,9 @@
             return;
         if (((warningConfig === null || warningConfig === 'once') && !type._ngModelWarningSentOnce) ||
             (warningConfig === 'always' && !instance._ngModelWarningSent)) {
-            ReactiveErrors.ngModelWarning(name);
+            if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                ReactiveErrors.ngModelWarning(name);
+            }
             type._ngModelWarningSentOnce = true;
             instance._ngModelWarningSent = true;
         }
@@ -5185,7 +5199,8 @@
         }
         /** @internal */
         NgModelGroup.prototype._checkParentType = function () {
-            if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
+            if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm) &&
+                (typeof ngDevMode === 'undefined' || ngDevMode)) {
                 TemplateDrivenErrors.modelGroupParentException();
             }
         };
@@ -5436,18 +5451,20 @@
             this._checkName();
         };
         NgModel.prototype._checkParentType = function () {
-            if (!(this._parent instanceof NgModelGroup) &&
-                this._parent instanceof AbstractFormGroupDirective) {
-                TemplateDrivenErrors.formGroupNameException();
-            }
-            else if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
-                TemplateDrivenErrors.modelParentException();
+            if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                if (!(this._parent instanceof NgModelGroup) &&
+                    this._parent instanceof AbstractFormGroupDirective) {
+                    TemplateDrivenErrors.formGroupNameException();
+                }
+                else if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
+                    TemplateDrivenErrors.modelParentException();
+                }
             }
         };
         NgModel.prototype._checkName = function () {
             if (this.options && this.options.name)
                 this.name = this.options.name;
-            if (!this._isStandalone() && !this.name) {
+            if (!this._isStandalone() && !this.name && (typeof ngDevMode === 'undefined' || ngDevMode)) {
                 TemplateDrivenErrors.missingNameException();
             }
         };
@@ -5582,10 +5599,12 @@
         Object.defineProperty(FormControlDirective.prototype, "isDisabled", {
             /**
              * @description
-             * Triggers a warning that this input should not be used with reactive forms.
+             * Triggers a warning in dev mode that this input should not be used with reactive forms.
              */
             set: function (isDisabled) {
-                ReactiveErrors.disabledAttrWarning();
+                if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                    ReactiveErrors.disabledAttrWarning();
+                }
             },
             enumerable: false,
             configurable: true
@@ -5951,7 +5970,7 @@
             this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
         };
         FormGroupDirective.prototype._checkFormPresent = function () {
-            if (!this.form) {
+            if (!this.form && (typeof ngDevMode === 'undefined' || ngDevMode)) {
                 ReactiveErrors.missingFormException();
             }
         };
@@ -6036,7 +6055,7 @@
         }
         /** @internal */
         FormGroupName.prototype._checkParentType = function () {
-            if (_hasInvalidParent(this._parent)) {
+            if (_hasInvalidParent(this._parent) && (typeof ngDevMode === 'undefined' || ngDevMode)) {
                 ReactiveErrors.groupParentException();
             }
         };
@@ -6167,7 +6186,7 @@
             configurable: true
         });
         FormArrayName.prototype._checkParentType = function () {
-            if (_hasInvalidParent(this._parent)) {
+            if (_hasInvalidParent(this._parent) && (typeof ngDevMode === 'undefined' || ngDevMode)) {
                 ReactiveErrors.arrayParentException();
             }
         };
@@ -6252,10 +6271,12 @@
         Object.defineProperty(FormControlName.prototype, "isDisabled", {
             /**
              * @description
-             * Triggers a warning that this input should not be used with reactive forms.
+             * Triggers a warning in dev mode that this input should not be used with reactive forms.
              */
             set: function (isDisabled) {
-                ReactiveErrors.disabledAttrWarning();
+                if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                    ReactiveErrors.disabledAttrWarning();
+                }
             },
             enumerable: false,
             configurable: true
@@ -6342,13 +6363,16 @@
             configurable: true
         });
         FormControlName.prototype._checkParentType = function () {
-            if (!(this._parent instanceof FormGroupName) &&
-                this._parent instanceof AbstractFormGroupDirective) {
-                ReactiveErrors.ngModelGroupException();
-            }
-            else if (!(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective) &&
-                !(this._parent instanceof FormArrayName)) {
-                ReactiveErrors.controlParentException();
+            if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                if (!(this._parent instanceof FormGroupName) &&
+                    this._parent instanceof AbstractFormGroupDirective) {
+                    ReactiveErrors.ngModelGroupException();
+                }
+                else if (!(this._parent instanceof FormGroupName) &&
+                    !(this._parent instanceof FormGroupDirective) &&
+                    !(this._parent instanceof FormArrayName)) {
+                    ReactiveErrors.controlParentException();
+                }
             }
         };
         FormControlName.prototype._setUpControl = function () {
@@ -7034,7 +7058,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.1.0-next.7+19.sha-b48cc6e');
+    var VERSION = new core.Version('10.1.0-next.7+25.sha-375f0a6');
 
     /**
      * @license
