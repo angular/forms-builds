@@ -52,7 +52,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     form: FormControl;
     /**
      * @description
-     * Triggers a warning that this input should not be used with reactive forms.
+     * Triggers a warning in dev mode that this input should not be used with reactive forms.
      */
     set isDisabled(isDisabled: boolean);
     /** @deprecated as of v6 */
