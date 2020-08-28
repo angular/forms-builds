@@ -36,40 +36,34 @@ export declare class CheckboxControlValueAccessor implements ControlValueAccesso
     private _renderer;
     private _elementRef;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "checked" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => {}): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => {}): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDef<CheckboxControlValueAccessor, never>;

@@ -41,8 +41,8 @@ export declare const formControlBinding: any;
 export declare class FormControlDirective extends NgControl implements OnChanges {
     private _ngModelWarningConfig;
     /**
-     * @description
      * Internal reference to the view model value.
+     * @nodoc
      */
     viewModel: any;
     /**
@@ -60,13 +60,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
     constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
      * @description

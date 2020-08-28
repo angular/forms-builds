@@ -108,10 +108,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
         updateOn?: FormHooks;
     };
     constructor(validators: any[], asyncValidators: any[]);
-    /**
-     * @description
-     * Lifecycle method called after the view is initialized. For internal use only.
-     */
+    /** @nodoc */
     ngAfterViewInit(): void;
     /**
      * @description

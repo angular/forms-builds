@@ -69,15 +69,16 @@ export declare const SELECT_VALUE_ACCESSOR: StaticProvider;
 export declare class SelectControlValueAccessor implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
+    /** @nodoc */
     value: any;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /**
@@ -91,28 +92,22 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
     /**
      * Sets the "value" property on the input element. The "selectedIndex"
      * property is also set if an ID is provided on the option element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (value: any) => any): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => any): void;
     /**
      * Sets the "disabled" property on the select input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDef<SelectControlValueAccessor, never>;
@@ -150,10 +145,7 @@ export declare class NgSelectOption implements OnDestroy {
      * For objects, use the `ngValue` input binding.
      */
     set value(value: any);
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     static ɵfac: i0.ɵɵFactoryDef<NgSelectOption, [null, null, { optional: true; host: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgSelectOption, "option", never, { "ngValue": "ngValue"; "value": "value"; }, {}, never>;

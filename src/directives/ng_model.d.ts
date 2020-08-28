@@ -101,8 +101,8 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     /** @nodoc */
     static ngAcceptInputType_isDisabled: boolean | string;
     /**
-     * @description
      * Internal reference to the view model value.
+     * @nodoc
      */
     viewModel: any;
     /**
@@ -148,19 +148,9 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      */
     update: EventEmitter<any>;
     constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal
-     * use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
      * @description

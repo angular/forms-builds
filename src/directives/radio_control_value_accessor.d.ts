@@ -61,13 +61,13 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     private _registry;
     private _injector;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: () => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /**
@@ -87,28 +87,18 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
      */
     value: any;
     constructor(_renderer: Renderer2, _elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
-    /**
-     * @description
-     * A lifecycle method called when the directive is initialized. For internal use only.
-     */
+    /** @nodoc */
     ngOnInit(): void;
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
-     * @description
      * Sets the "checked" property value on the radio input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => {}): void;
     /**
@@ -118,16 +108,13 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
      */
     fireUncheck(value: any): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => {}): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
     private _checkName;

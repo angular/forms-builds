@@ -61,12 +61,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      */
     ngSubmit: EventEmitter<any>;
     constructor(_validators: any[], _asyncValidators: any[]);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
      * @description

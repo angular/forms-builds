@@ -18,17 +18,9 @@ import * as i0 from "@angular/core";
  * @publicApi
  */
 export declare class AbstractFormGroupDirective extends ControlContainer implements OnInit, OnDestroy {
-    /**
-     * @description
-     * An internal callback method triggered on the instance after the inputs are set.
-     * Registers the group with its parent group.
-     */
+    /** @nodoc */
     ngOnInit(): void;
-    /**
-     * @description
-     * An internal callback method triggered before the instance is destroyed.
-     * Removes the group from its parent group.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
      * @description

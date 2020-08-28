@@ -113,15 +113,14 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
     name: string | number | null;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
     /**
-     * @description
      * A lifecycle method called when the directive's inputs are initialized. For internal use only.
-     *
      * @throws If the directive does not have a valid parent.
+     * @nodoc
      */
     ngOnInit(): void;
     /**
-     * @description
      * A lifecycle method called before the directive's instance is destroyed. For internal use only.
+     * @nodoc
      */
     ngOnDestroy(): void;
     /**

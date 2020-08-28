@@ -39,13 +39,13 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
     private _elementRef;
     private _compositionMode;
     /**
-     * @description
      * The registered callback function called when an input event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /** Whether the user is creating a composition string (IME events). */
@@ -53,28 +53,22 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
     constructor(_renderer: Renderer2, _elementRef: ElementRef, _compositionMode: boolean);
     /**
      * Sets the "value" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => void): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => void): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDef<DefaultValueAccessor, [null, null, { optional: true; }]>;

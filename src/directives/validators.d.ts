@@ -141,16 +141,14 @@ export declare class RequiredValidator implements Validator {
     get required(): boolean | string;
     set required(value: boolean | string);
     /**
-     * @description
      * Method that validates whether the control is empty.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     static ɵfac: i0.ɵɵFactoryDef<RequiredValidator, never>;
@@ -179,9 +177,9 @@ export declare class RequiredValidator implements Validator {
  */
 export declare class CheckboxRequiredValidator extends RequiredValidator {
     /**
-     * @description
      * Method that validates whether or not the checkbox has been checked.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     static ɵfac: i0.ɵɵFactoryDef<CheckboxRequiredValidator, never>;
@@ -224,16 +222,14 @@ export declare class EmailValidator implements Validator {
      */
     set email(value: boolean | string);
     /**
-     * @description
      * Method that validates whether an email address is valid.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     static ɵfac: i0.ɵɵFactoryDef<EmailValidator, never>;
@@ -293,25 +289,17 @@ export declare class MinLengthValidator implements Validator, OnChanges {
      * Tracks changes to the the minimum length bound to this directive.
      */
     minlength: string | number;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value meets a minimum length
-     * requirement. Returns the validation result if enabled, otherwise null.
+     * Method that validates whether the value meets a minimum length requirement.
+     * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
@@ -352,25 +340,16 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
      * Tracks changes to the the maximum length bound to this directive.
      */
     maxlength: string | number;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value exceeds
-     * the maximum length requirement.
+     * Method that validates whether the value exceeds the maximum length requirement.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
@@ -413,25 +392,16 @@ export declare class PatternValidator implements Validator, OnChanges {
      * Tracks changes to the pattern bound to this directive.
      */
     pattern: string | RegExp;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value matches the
-     * the pattern requirement.
+     * Method that validates whether the value matches the the pattern requirement.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
