@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-rc.0+7.sha-90cec40
+ * @license Angular v10.1.0-rc.0+15.sha-930eeaf
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -715,17 +715,9 @@ export declare interface AbstractControlOptions {
  * @publicApi
  */
 export declare class AbstractFormGroupDirective extends ControlContainer implements OnInit, OnDestroy {
-    /**
-     * @description
-     * An internal callback method triggered on the instance after the inputs are set.
-     * Registers the group with its parent group.
-     */
+    /** @nodoc */
     ngOnInit(): void;
-    /**
-     * @description
-     * An internal callback method triggered before the instance is destroyed.
-     * Removes the group from its parent group.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
      * @description
@@ -833,40 +825,34 @@ export declare class CheckboxControlValueAccessor implements ControlValueAccesso
     private _renderer;
     private _elementRef;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "checked" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => {}): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => {}): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -894,9 +880,9 @@ export declare class CheckboxControlValueAccessor implements ControlValueAccesso
  */
 export declare class CheckboxRequiredValidator extends RequiredValidator {
     /**
-     * @description
      * Method that validates whether or not the checkbox has been checked.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
 }
@@ -1084,13 +1070,13 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
     private _elementRef;
     private _compositionMode;
     /**
-     * @description
      * The registered callback function called when an input event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /** Whether the user is creating a composition string (IME events). */
@@ -1098,28 +1084,22 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
     constructor(_renderer: Renderer2, _elementRef: ElementRef, _compositionMode: boolean);
     /**
      * Sets the "value" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => void): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => void): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -1156,16 +1136,14 @@ export declare class EmailValidator implements Validator {
      */
     set email(value: boolean | string);
     /**
-     * @description
      * Method that validates whether an email address is valid.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
 }
@@ -1552,15 +1530,14 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
     name: string | number | null;
     constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
     /**
-     * @description
      * A lifecycle method called when the directive's inputs are initialized. For internal use only.
-     *
      * @throws If the directive does not have a valid parent.
+     * @nodoc
      */
     ngOnInit(): void;
     /**
-     * @description
      * A lifecycle method called before the directive's instance is destroyed. For internal use only.
+     * @nodoc
      */
     ngOnDestroy(): void;
     /**
@@ -1891,8 +1868,8 @@ export declare class FormControl extends AbstractControl {
 export declare class FormControlDirective extends NgControl implements OnChanges {
     private _ngModelWarningConfig;
     /**
-     * @description
      * Internal reference to the view model value.
+     * @nodoc
      */
     viewModel: any;
     /**
@@ -1910,13 +1887,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
     constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
      * @description
@@ -2013,17 +1984,9 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
     constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
      * @description
@@ -2393,12 +2356,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      */
     ngSubmit: EventEmitter<any>;
     constructor(_validators: any[], _asyncValidators: any[]);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
      * @description
@@ -2612,25 +2570,16 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
      * Tracks changes to the the maximum length bound to this directive.
      */
     maxlength: string | number;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value exceeds
-     * the maximum length requirement.
+     * Method that validates whether the value exceeds the maximum length requirement.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
@@ -2665,25 +2614,17 @@ export declare class MinLengthValidator implements Validator, OnChanges {
      * Tracks changes to the the minimum length bound to this directive.
      */
     minlength: string | number;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value meets a minimum length
-     * requirement. Returns the validation result if enabled, otherwise null.
+     * Method that validates whether the value meets a minimum length requirement.
+     * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
@@ -2916,10 +2857,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
         updateOn?: FormHooks;
     };
     constructor(validators: any[], asyncValidators: any[]);
-    /**
-     * @description
-     * Lifecycle method called after the view is initialized. For internal use only.
-     */
+    /** @nodoc */
     ngAfterViewInit(): void;
     /**
      * @description
@@ -3114,8 +3052,8 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     /** @nodoc */
     static ngAcceptInputType_isDisabled: boolean | string;
     /**
-     * @description
      * Internal reference to the view model value.
+     * @nodoc
      */
     viewModel: any;
     /**
@@ -3161,19 +3099,9 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      */
     update: EventEmitter<any>;
     constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal
-     * use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
      * @description
@@ -3284,17 +3212,14 @@ export declare class NgSelectOption implements OnDestroy {
      * For objects, use the `ngValue` input binding.
      */
     set value(value: any);
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
 }
 
 /**
  * @description
  * The `ControlValueAccessor` for writing a number value and listening to number input changes.
- * The value accessor is used by the `FormControlDirective`, `FormControlName`, and  `NgModel`
+ * The value accessor is used by the `FormControlDirective`, `FormControlName`, and `NgModel`
  * directives.
  *
  * @usageNotes
@@ -3319,41 +3244,35 @@ export declare class NumberValueAccessor implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**
-     * @description
      * The registered callback function called when a change or input event occurs on the input
      * element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "value" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: number): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: number | null) => void): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => void): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -3389,25 +3308,16 @@ export declare class PatternValidator implements Validator, OnChanges {
      * Tracks changes to the pattern bound to this directive.
      */
     pattern: string | RegExp;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value matches the
-     * the pattern requirement.
+     * Method that validates whether the value matches the the pattern requirement.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
@@ -3439,13 +3349,13 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
     private _registry;
     private _injector;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: () => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /**
@@ -3465,28 +3375,18 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
      */
     value: any;
     constructor(_renderer: Renderer2, _elementRef: ElementRef, _registry: ɵangular_packages_forms_forms_n, _injector: Injector);
-    /**
-     * @description
-     * A lifecycle method called when the directive is initialized. For internal use only.
-     */
+    /** @nodoc */
     ngOnInit(): void;
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
-     * @description
      * Sets the "checked" property value on the radio input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => {}): void;
     /**
@@ -3496,16 +3396,13 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
      */
     fireUncheck(value: any): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => {}): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
     private _checkName;
@@ -3539,41 +3436,35 @@ export declare class RangeValueAccessor implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**
-     * @description
      * The registered callback function called when a change or input event occurs on the input
      * element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "value" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: number | null) => void): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => void): void;
     /**
      * Sets the "disabled" property on the range input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -3630,16 +3521,14 @@ export declare class RequiredValidator implements Validator {
     get required(): boolean | string;
     set required(value: boolean | string);
     /**
-     * @description
      * Method that validates whether the control is empty.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
 }
@@ -3704,15 +3593,16 @@ export declare class RequiredValidator implements Validator {
 export declare class SelectControlValueAccessor implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
+    /** @nodoc */
     value: any;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /**
@@ -3726,28 +3616,22 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
     /**
      * Sets the "value" property on the input element. The "selectedIndex"
      * property is also set if an ID is provided on the option element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (value: any) => any): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => any): void;
     /**
      * Sets the "disabled" property on the select input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -3791,18 +3675,18 @@ export declare class SelectMultipleControlValueAccessor implements ControlValueA
     private _renderer;
     private _elementRef;
     /**
-     * @description
-     * The current value
+     * The current value.
+     * @nodoc
      */
     value: any;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /**
@@ -3814,32 +3698,24 @@ export declare class SelectMultipleControlValueAccessor implements ControlValueA
     private _compareWith;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
-     * @description
-     * Sets the "value" property on one or of more
-     * of the select's options.
-     *
-     * @param value The value
+     * Sets the "value" property on one or of more of the select's options.
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes
      * and writes an array of the selected options.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (value: any) => any): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => any): void;
     /**
      * Sets the "disabled" property on the select input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -4358,10 +4234,7 @@ declare class ɵNgSelectMultipleOption implements OnDestroy {
      * For objects, use the `ngValue` input binding.
      */
     set value(value: any);
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
 }
 export { ɵNgSelectMultipleOption }
