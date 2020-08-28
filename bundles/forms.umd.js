@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.14+6.sha-43ddfba
+ * @license Angular v10.0.14+13.sha-cb6bf40
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -66,46 +66,40 @@
             this._renderer = _renderer;
             this._elementRef = _elementRef;
             /**
-             * @description
              * The registered callback function called when a change event occurs on the input element.
+             * @nodoc
              */
             this.onChange = function (_) { };
             /**
-             * @description
              * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
              */
             this.onTouched = function () { };
         }
         /**
          * Sets the "checked" property on the input element.
-         *
-         * @param value The checked value
+         * @nodoc
          */
         CheckboxControlValueAccessor.prototype.writeValue = function (value) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
         };
         /**
-         * @description
          * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) {
             this.onChange = fn;
         };
         /**
-         * @description
          * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) {
             this.onTouched = fn;
         };
         /**
          * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
+         * @nodoc
          */
         CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
@@ -182,13 +176,13 @@
             this._elementRef = _elementRef;
             this._compositionMode = _compositionMode;
             /**
-             * @description
              * The registered callback function called when an input event occurs on the input element.
+             * @nodoc
              */
             this.onChange = function (_) { };
             /**
-             * @description
              * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
              */
             this.onTouched = function () { };
             /** Whether the user is creating a composition string (IME events). */
@@ -199,35 +193,29 @@
         }
         /**
          * Sets the "value" property on the input element.
-         *
-         * @param value The checked value
+         * @nodoc
          */
         DefaultValueAccessor.prototype.writeValue = function (value) {
             var normalizedValue = value == null ? '' : value;
             this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
         };
         /**
-         * @description
          * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         DefaultValueAccessor.prototype.registerOnChange = function (fn) {
             this.onChange = fn;
         };
         /**
-         * @description
          * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         DefaultValueAccessor.prototype.registerOnTouched = function (fn) {
             this.onTouched = fn;
         };
         /**
          * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
+         * @nodoc
          */
         DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
@@ -1573,7 +1561,7 @@
     /**
      * @description
      * The `ControlValueAccessor` for writing a number value and listening to number input changes.
-     * The value accessor is used by the `FormControlDirective`, `FormControlName`, and  `NgModel`
+     * The value accessor is used by the `FormControlDirective`, `FormControlName`, and `NgModel`
      * directives.
      *
      * @usageNotes
@@ -1599,21 +1587,20 @@
             this._renderer = _renderer;
             this._elementRef = _elementRef;
             /**
-             * @description
              * The registered callback function called when a change or input event occurs on the input
              * element.
+             * @nodoc
              */
             this.onChange = function (_) { };
             /**
-             * @description
              * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
              */
             this.onTouched = function () { };
         }
         /**
          * Sets the "value" property on the input element.
-         *
-         * @param value The checked value
+         * @nodoc
          */
         NumberValueAccessor.prototype.writeValue = function (value) {
             // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
@@ -1621,10 +1608,8 @@
             this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
         };
         /**
-         * @description
          * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         NumberValueAccessor.prototype.registerOnChange = function (fn) {
             this.onChange = function (value) {
@@ -1632,18 +1617,15 @@
             };
         };
         /**
-         * @description
          * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         NumberValueAccessor.prototype.registerOnTouched = function (fn) {
             this.onTouched = fn;
         };
         /**
          * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
+         * @nodoc
          */
         NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
@@ -1751,47 +1733,37 @@
             this._registry = _registry;
             this._injector = _injector;
             /**
-             * @description
              * The registered callback function called when a change event occurs on the input element.
+             * @nodoc
              */
             this.onChange = function () { };
             /**
-             * @description
              * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
              */
             this.onTouched = function () { };
         }
-        /**
-         * @description
-         * A lifecycle method called when the directive is initialized. For internal use only.
-         */
+        /** @nodoc */
         RadioControlValueAccessor.prototype.ngOnInit = function () {
             this._control = this._injector.get(NgControl);
             this._checkName();
             this._registry.add(this._control, this);
         };
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-         */
+        /** @nodoc */
         RadioControlValueAccessor.prototype.ngOnDestroy = function () {
             this._registry.remove(this);
         };
         /**
-         * @description
          * Sets the "checked" property value on the radio input element.
-         *
-         * @param value The checked value
+         * @nodoc
          */
         RadioControlValueAccessor.prototype.writeValue = function (value) {
             this._state = value === this.value;
             this._renderer.setProperty(this._elementRef.nativeElement, 'checked', this._state);
         };
         /**
-         * @description
          * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         RadioControlValueAccessor.prototype.registerOnChange = function (fn) {
             var _this = this;
@@ -1810,18 +1782,15 @@
             this.writeValue(value);
         };
         /**
-         * @description
          * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         RadioControlValueAccessor.prototype.registerOnTouched = function (fn) {
             this.onTouched = fn;
         };
         /**
          * Sets the "disabled" property on the input element.
-         *
-         * @param isDisabled The disabled value
+         * @nodoc
          */
         RadioControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
@@ -1898,30 +1867,27 @@
             this._renderer = _renderer;
             this._elementRef = _elementRef;
             /**
-             * @description
              * The registered callback function called when a change or input event occurs on the input
              * element.
+             * @nodoc
              */
             this.onChange = function (_) { };
             /**
-             * @description
              * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
              */
             this.onTouched = function () { };
         }
         /**
          * Sets the "value" property on the input element.
-         *
-         * @param value The checked value
+         * @nodoc
          */
         RangeValueAccessor.prototype.writeValue = function (value) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
         };
         /**
-         * @description
          * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         RangeValueAccessor.prototype.registerOnChange = function (fn) {
             this.onChange = function (value) {
@@ -1929,18 +1895,15 @@
             };
         };
         /**
-         * @description
          * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         RangeValueAccessor.prototype.registerOnTouched = function (fn) {
             this.onTouched = fn;
         };
         /**
          * Sets the "disabled" property on the range input element.
-         *
-         * @param isDisabled The disabled value
+         * @nodoc
          */
         RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
@@ -2094,13 +2057,13 @@
             /** @internal */
             this._idCounter = 0;
             /**
-             * @description
              * The registered callback function called when a change event occurs on the input element.
+             * @nodoc
              */
             this.onChange = function (_) { };
             /**
-             * @description
              * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
              */
             this.onTouched = function () { };
             this._compareWith = Object.is;
@@ -2123,8 +2086,7 @@
         /**
          * Sets the "value" property on the input element. The "selectedIndex"
          * property is also set if an ID is provided on the option element.
-         *
-         * @param value The checked value
+         * @nodoc
          */
         SelectControlValueAccessor.prototype.writeValue = function (value) {
             this.value = value;
@@ -2136,10 +2098,8 @@
             this._renderer.setProperty(this._elementRef.nativeElement, 'value', valueString);
         };
         /**
-         * @description
          * Registers a function called when the control value changes.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         SelectControlValueAccessor.prototype.registerOnChange = function (fn) {
             var _this = this;
@@ -2149,18 +2109,15 @@
             };
         };
         /**
-         * @description
          * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         SelectControlValueAccessor.prototype.registerOnTouched = function (fn) {
             this.onTouched = fn;
         };
         /**
          * Sets the "disabled" property on the select input element.
-         *
-         * @param isDisabled The disabled value
+         * @nodoc
          */
         SelectControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
@@ -2261,10 +2218,7 @@
         NgSelectOption.prototype._setElementValue = function (value) {
             this._renderer.setProperty(this._element.nativeElement, 'value', value);
         };
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-         */
+        /** @nodoc */
         NgSelectOption.prototype.ngOnDestroy = function () {
             if (this._select) {
                 this._select._optionMap.delete(this.id);
@@ -2353,13 +2307,13 @@
             /** @internal */
             this._idCounter = 0;
             /**
-             * @description
              * The registered callback function called when a change event occurs on the input element.
+             * @nodoc
              */
             this.onChange = function (_) { };
             /**
-             * @description
              * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
              */
             this.onTouched = function () { };
             this._compareWith = Object.is;
@@ -2380,11 +2334,8 @@
             configurable: true
         });
         /**
-         * @description
-         * Sets the "value" property on one or of more
-         * of the select's options.
-         *
-         * @param value The value
+         * Sets the "value" property on one or of more of the select's options.
+         * @nodoc
          */
         SelectMultipleControlValueAccessor.prototype.writeValue = function (value) {
             var _this = this;
@@ -2405,11 +2356,9 @@
             this._optionMap.forEach(optionSelectedStateSetter);
         };
         /**
-         * @description
          * Registers a function called when the control value changes
          * and writes an array of the selected options.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         SelectMultipleControlValueAccessor.prototype.registerOnChange = function (fn) {
             var _this = this;
@@ -2439,18 +2388,15 @@
             };
         };
         /**
-         * @description
          * Registers a function called when the control is touched.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         SelectMultipleControlValueAccessor.prototype.registerOnTouched = function (fn) {
             this.onTouched = fn;
         };
         /**
          * Sets the "disabled" property on the select input element.
-         *
-         * @param isDisabled The disabled value
+         * @nodoc
          */
         SelectMultipleControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
             this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
@@ -2563,10 +2509,7 @@
         ɵNgSelectMultipleOption.prototype._setSelected = function (selected) {
             this._renderer.setProperty(this._element.nativeElement, 'selected', selected);
         };
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-         */
+        /** @nodoc */
         ɵNgSelectMultipleOption.prototype.ngOnDestroy = function () {
             if (this._select) {
                 this._select._optionMap.delete(this.id);
@@ -4749,10 +4692,7 @@
                 new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
             return _this;
         }
-        /**
-         * @description
-         * Lifecycle method called after the view is initialized. For internal use only.
-         */
+        /** @nodoc */
         NgForm.prototype.ngAfterViewInit = function () {
             this._setUpdateStrategy();
         };
@@ -4977,22 +4917,16 @@
         function AbstractFormGroupDirective() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        /**
-         * @description
-         * An internal callback method triggered on the instance after the inputs are set.
-         * Registers the group with its parent group.
-         */
+        /** @nodoc */
         AbstractFormGroupDirective.prototype.ngOnInit = function () {
             this._checkParentType();
+            // Register the group with its parent group.
             this.formDirective.addFormGroup(this);
         };
-        /**
-         * @description
-         * An internal callback method triggered before the instance is destroyed.
-         * Removes the group from its parent group.
-         */
+        /** @nodoc */
         AbstractFormGroupDirective.prototype.ngOnDestroy = function () {
             if (this.formDirective) {
+                // Remove the group from its parent group.
                 this.formDirective.removeFormGroup(this);
             }
         };
@@ -5268,13 +5202,7 @@
             _this.valueAccessor = selectValueAccessor(_this, valueAccessors);
             return _this;
         }
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
+        /** @nodoc */
         NgModel.prototype.ngOnChanges = function (changes) {
             this._checkForErrors();
             if (!this._registered)
@@ -5287,11 +5215,7 @@
                 this.viewModel = this.model;
             }
         };
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal
-         * use only.
-         */
+        /** @nodoc */
         NgModel.prototype.ngOnDestroy = function () {
             this.formDirective && this.formDirective.removeControl(this);
         };
@@ -5530,13 +5454,7 @@
             enumerable: false,
             configurable: true
         });
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
+        /** @nodoc */
         FormControlDirective.prototype.ngOnChanges = function (changes) {
             if (this._isControlChanged(changes)) {
                 setUpControl(this.form, this);
@@ -5692,12 +5610,7 @@
             _this.ngSubmit = new core.EventEmitter();
             return _this;
         }
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
+        /** @nodoc */
         FormGroupDirective.prototype.ngOnChanges = function (changes) {
             this._checkFormPresent();
             if (changes.hasOwnProperty('form')) {
@@ -6031,18 +5944,17 @@
             return _this;
         }
         /**
-         * @description
          * A lifecycle method called when the directive's inputs are initialized. For internal use only.
-         *
          * @throws If the directive does not have a valid parent.
+         * @nodoc
          */
         FormArrayName.prototype.ngOnInit = function () {
             this._checkParentType();
             this.formDirective.addFormArray(this);
         };
         /**
-         * @description
          * A lifecycle method called before the directive's instance is destroyed. For internal use only.
+         * @nodoc
          */
         FormArrayName.prototype.ngOnDestroy = function () {
             if (this.formDirective) {
@@ -6200,12 +6112,7 @@
             enumerable: false,
             configurable: true
         });
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
+        /** @nodoc */
         FormControlName.prototype.ngOnChanges = function (changes) {
             if (!this._added)
                 this._setUpControl();
@@ -6215,10 +6122,7 @@
                 this.formDirective.updateModel(this, this.model);
             }
         };
-        /**
-         * @description
-         * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-         */
+        /** @nodoc */
         FormControlName.prototype.ngOnDestroy = function () {
             if (this.formDirective) {
                 this.formDirective.removeControl(this);
@@ -6384,18 +6288,16 @@
             configurable: true
         });
         /**
-         * @description
          * Method that validates whether the control is empty.
          * Returns the validation result if enabled, otherwise null.
+         * @nodoc
          */
         RequiredValidator.prototype.validate = function (control) {
             return this.required ? Validators.required(control) : null;
         };
         /**
-         * @description
          * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         RequiredValidator.prototype.registerOnValidatorChange = function (fn) {
             this._onChange = fn;
@@ -6439,9 +6341,9 @@
             return _super !== null && _super.apply(this, arguments) || this;
         }
         /**
-         * @description
          * Method that validates whether or not the checkbox has been checked.
          * Returns the validation result if enabled, otherwise null.
+         * @nodoc
          */
         CheckboxRequiredValidator.prototype.validate = function (control) {
             return this.required ? Validators.requiredTrue(control) : null;
@@ -6505,18 +6407,16 @@
             configurable: true
         });
         /**
-         * @description
          * Method that validates whether an email address is valid.
          * Returns the validation result if enabled, otherwise null.
+         * @nodoc
          */
         EmailValidator.prototype.validate = function (control) {
             return this._enabled ? Validators.email(control) : null;
         };
         /**
-         * @description
          * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         EmailValidator.prototype.registerOnValidatorChange = function (fn) {
             this._onChange = fn;
@@ -6566,13 +6466,7 @@
         function MinLengthValidator() {
             this._validator = Validators.nullValidator;
         }
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
+        /** @nodoc */
         MinLengthValidator.prototype.ngOnChanges = function (changes) {
             if ('minlength' in changes) {
                 this._createValidator();
@@ -6581,18 +6475,16 @@
             }
         };
         /**
-         * @description
-         * Method that validates whether the value meets a minimum length
-         * requirement. Returns the validation result if enabled, otherwise null.
+         * Method that validates whether the value meets a minimum length requirement.
+         * Returns the validation result if enabled, otherwise null.
+         * @nodoc
          */
         MinLengthValidator.prototype.validate = function (control) {
             return this.minlength == null ? null : this._validator(control);
         };
         /**
-         * @description
          * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         MinLengthValidator.prototype.registerOnValidatorChange = function (fn) {
             this._onChange = fn;
@@ -6646,13 +6538,7 @@
         function MaxLengthValidator() {
             this._validator = Validators.nullValidator;
         }
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
+        /** @nodoc */
         MaxLengthValidator.prototype.ngOnChanges = function (changes) {
             if ('maxlength' in changes) {
                 this._createValidator();
@@ -6661,18 +6547,15 @@
             }
         };
         /**
-         * @description
-         * Method that validates whether the value exceeds
-         * the maximum length requirement.
+         * Method that validates whether the value exceeds the maximum length requirement.
+         * @nodoc
          */
         MaxLengthValidator.prototype.validate = function (control) {
             return this.maxlength != null ? this._validator(control) : null;
         };
         /**
-         * @description
          * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         MaxLengthValidator.prototype.registerOnValidatorChange = function (fn) {
             this._onChange = fn;
@@ -6728,13 +6611,7 @@
         function PatternValidator() {
             this._validator = Validators.nullValidator;
         }
-        /**
-         * @description
-         * A lifecycle method called when the directive's inputs change. For internal use
-         * only.
-         *
-         * @param changes A object of key/value pairs for the set of changed inputs.
-         */
+        /** @nodoc */
         PatternValidator.prototype.ngOnChanges = function (changes) {
             if ('pattern' in changes) {
                 this._createValidator();
@@ -6743,18 +6620,15 @@
             }
         };
         /**
-         * @description
-         * Method that validates whether the value matches the
-         * the pattern requirement.
+         * Method that validates whether the value matches the the pattern requirement.
+         * @nodoc
          */
         PatternValidator.prototype.validate = function (control) {
             return this._validator(control);
         };
         /**
-         * @description
          * Registers a callback function to call when the validator inputs change.
-         *
-         * @param fn The callback function
+         * @nodoc
          */
         PatternValidator.prototype.registerOnValidatorChange = function (fn) {
             this._onChange = fn;
@@ -6974,7 +6848,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('10.0.14+6.sha-43ddfba');
+    var VERSION = new core.Version('10.0.14+13.sha-cb6bf40');
 
     /**
      * @license
