@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.0.14+19.sha-4e8592e
+ * @license Angular v10.0.14+21.sha-9a64980
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3667,7 +3667,7 @@ class FormGroup extends AbstractControl {
     _throwIfControlMissing(name) {
         if (!Object.keys(this.controls).length) {
             throw new Error(`
-        There are no form controls registered with this group yet.  If you're using ngModel,
+        There are no form controls registered with this group yet. If you're using ngModel,
         you may want to check next tick (e.g. use setTimeout).
       `);
         }
@@ -4085,7 +4085,7 @@ class FormArray extends AbstractControl {
     _throwIfControlMissing(index) {
         if (!this.controls.length) {
             throw new Error(`
-        There are no form controls registered with this array yet.  If you're using ngModel,
+        There are no form controls registered with this array yet. If you're using ngModel,
         you may want to check next tick (e.g. use setTimeout).
       `);
         }
@@ -6278,7 +6278,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('10.0.14+19.sha-4e8592e');
+const VERSION = new Version('10.0.14+21.sha-9a64980');
 
 /**
  * @license
