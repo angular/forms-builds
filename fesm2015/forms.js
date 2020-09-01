@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-rc.0+34.sha-03dbcc7
+ * @license Angular v10.1.0-rc.0+35.sha-d9fea85
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3255,8 +3255,15 @@ class FormControl extends AbstractControl {
         this._onChange = [];
         this._applyFormState(formState);
         this._setUpdateStrategy(validatorOrOpts);
-        this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
         this._initObservables();
+        this.updateValueAndValidity({
+            onlySelf: true,
+            // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
+            // `VALID` or `INVALID`.
+            // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
+            // to `true` to allow that during the control creation process.
+            emitEvent: !!asyncValidator
+        });
     }
     /**
      * Sets a new value for the form control.
@@ -3486,7 +3493,13 @@ class FormGroup extends AbstractControl {
         this._initObservables();
         this._setUpdateStrategy(validatorOrOpts);
         this._setUpControls();
-        this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+        this.updateValueAndValidity({
+            onlySelf: true,
+            // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
+            // `VALID` or `INVALID`. The status should be broadcasted via the `statusChanges` observable,
+            // so we set `emitEvent` to `true` to allow that during the control creation process.
+            emitEvent: !!asyncValidator
+        });
     }
     /**
      * Registers a control with the group's list of controls.
@@ -3885,7 +3898,14 @@ class FormArray extends AbstractControl {
         this._initObservables();
         this._setUpdateStrategy(validatorOrOpts);
         this._setUpControls();
-        this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+        this.updateValueAndValidity({
+            onlySelf: true,
+            // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
+            // `VALID` or `INVALID`.
+            // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
+            // to `true` to allow that during the control creation process.
+            emitEvent: !!asyncValidator
+        });
     }
     /**
      * Get the `AbstractControl` at the given `index` in the array.
@@ -6354,7 +6374,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('10.1.0-rc.0+34.sha-03dbcc7');
+const VERSION = new Version('10.1.0-rc.0+35.sha-d9fea85');
 
 /**
  * @license
