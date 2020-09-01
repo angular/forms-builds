@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.0-rc.0+34.sha-03dbcc7
+ * @license Angular v10.1.0-rc.0+35.sha-d9fea85
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3748,8 +3748,15 @@
             _this._onChange = [];
             _this._applyFormState(formState);
             _this._setUpdateStrategy(validatorOrOpts);
-            _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
             _this._initObservables();
+            _this.updateValueAndValidity({
+                onlySelf: true,
+                // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
+                // `VALID` or `INVALID`.
+                // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
+                // to `true` to allow that during the control creation process.
+                emitEvent: !!asyncValidator
+            });
             return _this;
         }
         /**
@@ -3987,7 +3994,13 @@
             _this._initObservables();
             _this._setUpdateStrategy(validatorOrOpts);
             _this._setUpControls();
-            _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+            _this.updateValueAndValidity({
+                onlySelf: true,
+                // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
+                // `VALID` or `INVALID`. The status should be broadcasted via the `statusChanges` observable,
+                // so we set `emitEvent` to `true` to allow that during the control creation process.
+                emitEvent: !!asyncValidator
+            });
             return _this;
         }
         /**
@@ -4417,7 +4430,14 @@
             _this._initObservables();
             _this._setUpdateStrategy(validatorOrOpts);
             _this._setUpControls();
-            _this.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+            _this.updateValueAndValidity({
+                onlySelf: true,
+                // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
+                // `VALID` or `INVALID`.
+                // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
+                // to `true` to allow that during the control creation process.
+                emitEvent: !!asyncValidator
+            });
             return _this;
         }
         /**
@@ -7321,7 +7341,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('10.1.0-rc.0+34.sha-03dbcc7');
+    var VERSION = new i0.Version('10.1.0-rc.0+35.sha-d9fea85');
 
     /**
      * @license
