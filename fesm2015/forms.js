@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.1+44.sha-171a0d0
+ * @license Angular v11.0.0-next.1+45.sha-3817e5f
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6643,7 +6643,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('11.0.0-next.1+44.sha-171a0d0');
+const VERSION = new Version('11.0.0-next.1+45.sha-3817e5f');
 
 /**
  * @license
