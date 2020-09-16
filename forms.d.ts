@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.2+7.sha-7849fdd
+ * @license Angular v11.0.0-next.2+9.sha-e62a918
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2238,7 +2238,7 @@ export declare class FormGroup extends AbstractControl {
         emitEvent?: boolean;
     }): void;
     /**
-     * Resets the `FormGroup`, marks all descendants are marked `pristine` and `untouched`, and
+     * Resets the `FormGroup`, marks all descendants `pristine` and `untouched` and sets
      * the value of all descendants to null.
      *
      * You reset to a specific form state by passing in a map of states
