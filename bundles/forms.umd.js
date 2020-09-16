@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.1+47.sha-956e4f2
+ * @license Angular v11.0.0-next.2+12.sha-4a21eb8
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4084,7 +4084,7 @@
             this.updateValueAndValidity(options);
         };
         /**
-         * Resets the `FormGroup`, marks all descendants are marked `pristine` and `untouched`, and
+         * Resets the `FormGroup`, marks all descendants `pristine` and `untouched` and sets
          * the value of all descendants to null.
          *
          * You reset to a specific form state by passing in a map of states
@@ -6952,7 +6952,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('11.0.0-next.1+47.sha-956e4f2');
+    var VERSION = new core.Version('11.0.0-next.2+12.sha-4a21eb8');
 
     /**
      * @license
