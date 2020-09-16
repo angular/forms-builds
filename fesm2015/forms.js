@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.1.1+33.sha-3d94919
+ * @license Angular v10.1.2+9.sha-e64c0c3
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3643,7 +3643,7 @@ class FormGroup extends AbstractControl {
         this.updateValueAndValidity(options);
     }
     /**
-     * Resets the `FormGroup`, marks all descendants are marked `pristine` and `untouched`, and
+     * Resets the `FormGroup`, marks all descendants `pristine` and `untouched` and sets
      * the value of all descendants to null.
      *
      * You reset to a specific form state by passing in a map of states
@@ -6354,7 +6354,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('10.1.1+33.sha-3d94919');
+const VERSION = new Version('10.1.2+9.sha-e64c0c3');
 
 /**
  * @license
