@@ -955,7 +955,7 @@ export declare class FormGroup extends AbstractControl {
         emitEvent?: boolean;
     }): void;
     /**
-     * Resets the `FormGroup`, marks all descendants are marked `pristine` and `untouched`, and
+     * Resets the `FormGroup`, marks all descendants `pristine` and `untouched` and sets
      * the value of all descendants to null.
      *
      * You reset to a specific form state by passing in a map of states
