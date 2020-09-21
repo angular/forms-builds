@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.2+37.sha-2b1b718
+ * @license Angular v11.0.0-next.2+35.sha-984ed39
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2678,7 +2678,7 @@ export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
  *
  * @publicApi
  */
-export declare const NG_VALUE_ACCESSOR: InjectionToken<readonly ControlValueAccessor[]>;
+export declare const NG_VALUE_ACCESSOR: InjectionToken<ControlValueAccessor>;
 
 /**
  * @description
