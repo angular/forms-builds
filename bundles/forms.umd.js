@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.4+37.sha-4beaddc
+ * @license Angular v11.0.0-next.4+38.sha-f4f1bcc
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2927,6 +2927,7 @@
             this._hasOwnPendingAsyncValidator = false;
             /** @internal */
             this._onCollectionChange = function () { };
+            this._parent = null;
             /**
              * A control is `pristine` if the user has not yet changed
              * the value in the UI.
@@ -3625,7 +3626,7 @@
          */
         AbstractControl.prototype._parentMarkedDirty = function (onlySelf) {
             var parentDirty = this._parent && this._parent.dirty;
-            return !onlySelf && parentDirty && !this._parent._anyControlsDirty();
+            return !onlySelf && !!parentDirty && !this._parent._anyControlsDirty();
         };
         return AbstractControl;
     }());
@@ -7341,7 +7342,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('11.0.0-next.4+37.sha-4beaddc');
+    var VERSION = new i0.Version('11.0.0-next.4+38.sha-f4f1bcc');
 
     /**
      * @license
