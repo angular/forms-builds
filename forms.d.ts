@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.4+37.sha-4beaddc
+ * @license Angular v11.0.0-next.4+38.sha-f4f1bcc
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -71,7 +71,7 @@ export declare abstract class AbstractControl {
     /**
      * The parent control.
      */
-    get parent(): FormGroup | FormArray;
+    get parent(): FormGroup | FormArray | null;
     /**
      * The validation status of the control. There are four possible
      * validation status values:

@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.4+37.sha-4beaddc
+ * @license Angular v11.0.0-next.4+38.sha-f4f1bcc
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2498,6 +2498,7 @@ class AbstractControl {
         this._hasOwnPendingAsyncValidator = false;
         /** @internal */
         this._onCollectionChange = () => { };
+        this._parent = null;
         /**
          * A control is `pristine` if the user has not yet changed
          * the value in the UI.
@@ -3135,7 +3136,7 @@ class AbstractControl {
      */
     _parentMarkedDirty(onlySelf) {
         const parentDirty = this._parent && this._parent.dirty;
-        return !onlySelf && parentDirty && !this._parent._anyControlsDirty();
+        return !onlySelf && !!parentDirty && !this._parent._anyControlsDirty();
     }
 }
 /**
@@ -6374,7 +6375,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('11.0.0-next.4+37.sha-4beaddc');
+const VERSION = new Version('11.0.0-next.4+38.sha-f4f1bcc');
 
 /**
  * @license
