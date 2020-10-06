@@ -8,6 +8,7 @@
 import { OnDestroy, OnInit } from '@angular/core';
 import { AbstractFormGroupDirective } from './abstract_form_group_directive';
 import { ControlContainer } from './control_container';
+import { AsyncValidator, AsyncValidatorFn, Validator, ValidatorFn } from './validators';
 import * as i0 from "@angular/core";
 export declare const modelGroupProvider: any;
 /**
@@ -43,7 +44,7 @@ export declare class NgModelGroup extends AbstractFormGroupDirective implements 
      * to a key in the parent `NgForm`.
      */
     name: string;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     static ɵfac: i0.ɵɵFactoryDef<NgModelGroup, [{ host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgModelGroup, "[ngModelGroup]", ["ngModelGroup"], { "name": "ngModelGroup"; }, {}, never>;
 }

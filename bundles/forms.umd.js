@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.4+53.sha-07a66fc
+ * @license Angular v11.0.0-next.4+54.sha-246de9a
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5571,14 +5571,14 @@
                             type: i0.Optional
                         }, {
                             type: i0.Host
-                        }] }, { type: Array, decorators: [{
+                        }] }, { type: undefined, decorators: [{
                             type: i0.Optional
                         }, {
                             type: i0.Self
                         }, {
                             type: i0.Inject,
                             args: [NG_VALIDATORS]
-                        }] }, { type: Array, decorators: [{
+                        }] }, { type: undefined, decorators: [{
                             type: i0.Optional
                         }, {
                             type: i0.Self
@@ -5806,14 +5806,14 @@
                 type: i0.Directive,
                 args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' }]
             }], function () {
-            return [{ type: Array, decorators: [{
+            return [{ type: undefined, decorators: [{
                             type: i0.Optional
                         }, {
                             type: i0.Self
                         }, {
                             type: i0.Inject,
                             args: [NG_VALIDATORS]
-                        }] }, { type: Array, decorators: [{
+                        }] }, { type: undefined, decorators: [{
                             type: i0.Optional
                         }, {
                             type: i0.Self
@@ -6590,14 +6590,14 @@
                             type: i0.Host
                         }, {
                             type: i0.SkipSelf
-                        }] }, { type: Array, decorators: [{
+                        }] }, { type: undefined, decorators: [{
                             type: i0.Optional
                         }, {
                             type: i0.Self
                         }, {
                             type: i0.Inject,
                             args: [NG_VALIDATORS]
-                        }] }, { type: Array, decorators: [{
+                        }] }, { type: undefined, decorators: [{
                             type: i0.Optional
                         }, {
                             type: i0.Self
@@ -7342,7 +7342,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('11.0.0-next.4+53.sha-07a66fc');
+    var VERSION = new i0.Version('11.0.0-next.4+54.sha-246de9a');
 
     /**
      * @license

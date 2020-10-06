@@ -59,7 +59,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     model: any;
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
-    constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**

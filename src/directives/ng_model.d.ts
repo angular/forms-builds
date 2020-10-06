@@ -147,7 +147,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * the view model updates.
      */
     update: EventEmitter<any>;
-    constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[]);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */

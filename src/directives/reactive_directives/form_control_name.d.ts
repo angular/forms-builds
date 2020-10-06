@@ -74,7 +74,7 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     model: any;
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
-    constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */

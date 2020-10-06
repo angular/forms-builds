@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.4+53.sha-07a66fc
+ * @license Angular v11.0.0-next.4+54.sha-246de9a
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5012,14 +5012,14 @@ NgModel.ɵdir = ɵɵdefineDirective({ type: NgModel, selectors: [["", "ngModel",
                 type: Optional
             }, {
                 type: Host
-            }] }, { type: Array, decorators: [{
+            }] }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Self
             }, {
                 type: Inject,
                 args: [NG_VALIDATORS]
-            }] }, { type: Array, decorators: [{
+            }] }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Self
@@ -5222,14 +5222,14 @@ FormControlDirective.ɵdir = ɵɵdefineDirective({ type: FormControlDirective, s
 /*@__PURE__*/ (function () { ɵsetClassMetadata(FormControlDirective, [{
         type: Directive,
         args: [{ selector: '[formControl]', providers: [formControlBinding$1], exportAs: 'ngForm' }]
-    }], function () { return [{ type: Array, decorators: [{
+    }], function () { return [{ type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Self
             }, {
                 type: Inject,
                 args: [NG_VALIDATORS]
-            }] }, { type: Array, decorators: [{
+            }] }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Self
@@ -5942,14 +5942,14 @@ FormControlName.ɵdir = ɵɵdefineDirective({ type: FormControlName, selectors: 
                 type: Host
             }, {
                 type: SkipSelf
-            }] }, { type: Array, decorators: [{
+            }] }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Self
             }, {
                 type: Inject,
                 args: [NG_VALIDATORS]
-            }] }, { type: Array, decorators: [{
+            }] }, { type: undefined, decorators: [{
                 type: Optional
             }, {
                 type: Self
@@ -6644,7 +6644,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('11.0.0-next.4+53.sha-07a66fc');
+const VERSION = new Version('11.0.0-next.4+54.sha-246de9a');
 
 /**
  * @license

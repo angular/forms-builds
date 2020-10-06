@@ -12,6 +12,7 @@ import { Form } from './form_interface';
 import { NgControl } from './ng_control';
 import { NgModel } from './ng_model';
 import { NgModelGroup } from './ng_model_group';
+import { AsyncValidator, AsyncValidatorFn, Validator, ValidatorFn } from './validators';
 import * as i0 from "@angular/core";
 export declare const formDirectiveProvider: any;
 /**
@@ -107,7 +108,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     options: {
         updateOn?: FormHooks;
     };
-    constructor(validators: any[], asyncValidators: any[]);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /** @nodoc */
     ngAfterViewInit(): void;
     /**

@@ -9,7 +9,7 @@ import { OnDestroy, OnInit } from '@angular/core';
 import { FormArray } from '../../model';
 import { AbstractFormGroupDirective } from '../abstract_form_group_directive';
 import { ControlContainer } from '../control_container';
-import { AsyncValidatorFn, ValidatorFn } from '../validators';
+import { AsyncValidator, AsyncValidatorFn, Validator, ValidatorFn } from '../validators';
 import { FormGroupDirective } from './form_group_directive';
 import * as i0 from "@angular/core";
 export declare const formGroupNameProvider: any;
@@ -71,7 +71,7 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      * to indices when iterating over groups in a `FormArray`.
      */
     name: string | number | null;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     static ɵfac: i0.ɵɵFactoryDef<FormGroupName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormGroupName, "[formGroupName]", never, { "name": "formGroupName"; }, {}, never>;
 }
@@ -111,7 +111,7 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * to indices when iterating over arrays in a `FormArray`.
      */
     name: string | number | null;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /**
      * A lifecycle method called when the directive's inputs are initialized. For internal use only.
      * @throws If the directive does not have a valid parent.

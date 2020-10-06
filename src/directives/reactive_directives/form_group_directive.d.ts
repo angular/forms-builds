@@ -9,6 +9,7 @@ import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '../../model';
 import { ControlContainer } from '../control_container';
 import { Form } from '../form_interface';
+import { AsyncValidator, AsyncValidatorFn, Validator, ValidatorFn } from '../validators';
 import { FormControlName } from './form_control_name';
 import { FormArrayName, FormGroupName } from './form_group_name';
 import * as i0 from "@angular/core";
@@ -60,7 +61,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * Emits an event when the form submission has been triggered.
      */
     ngSubmit: EventEmitter<any>;
-    constructor(_validators: any[], _asyncValidators: any[]);
+    constructor(_validators: (Validator | ValidatorFn)[], _asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
