@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.4+53.sha-07a66fc
+ * @license Angular v11.0.0-next.4+54.sha-246de9a
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1528,7 +1528,7 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * to indices when iterating over arrays in a `FormArray`.
      */
     name: string | number | null;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /**
      * A lifecycle method called when the directive's inputs are initialized. For internal use only.
      * @throws If the directive does not have a valid parent.
@@ -1886,7 +1886,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     model: any;
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
-    constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
@@ -1983,7 +1983,7 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     model: any;
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
-    constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */
@@ -2355,7 +2355,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * Emits an event when the form submission has been triggered.
      */
     ngSubmit: EventEmitter<any>;
-    constructor(_validators: any[], _asyncValidators: any[]);
+    constructor(_validators: (Validator | ValidatorFn)[], _asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
@@ -2524,7 +2524,7 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      * to indices when iterating over groups in a `FormArray`.
      */
     name: string | number | null;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
 }
 
 declare type FormHooks = 'change' | 'blur' | 'submit';
@@ -2856,7 +2856,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     options: {
         updateOn?: FormHooks;
     };
-    constructor(validators: any[], asyncValidators: any[]);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /** @nodoc */
     ngAfterViewInit(): void;
     /**
@@ -3098,7 +3098,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * the view model updates.
      */
     update: EventEmitter<any>;
-    constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[]);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */
@@ -3177,7 +3177,7 @@ export declare class NgModelGroup extends AbstractFormGroupDirective implements 
      * to a key in the parent `NgForm`.
      */
     name: string;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
 }
 
 /**
