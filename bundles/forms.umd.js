@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.6+100.sha-cf60e0e
+ * @license Angular v11.0.0-next.6+103.sha-35fdc6d
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -152,6 +152,9 @@
     var COMPOSITION_BUFFER_MODE = new i0.InjectionToken('CompositionEventMode');
     /**
      * @description
+     *
+     * {@searchKeywords ngDefaultControl}
+     *
      * The default `ControlValueAccessor` for writing a value and listening to changes on input
      * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
      * `NgModel` directives.
@@ -169,6 +172,15 @@
      *
      * ```
      * <input type="text" [formControl]="firstNameControl">
+     * ```
+     *
+     * This value accessor is used by default for `<input type="text">` and `<textarea>` elements, but
+     * you could also use it for custom components that have similar behavior and do not require special
+     * processing. In order to attach the default value accessor to a custom element, add the
+     * `ngDefaultControl` attribute as shown below.
+     *
+     * ```
+     * <custom-input-component ngDefaultControl [(ngModel)]="value"></custom-input-component>
      * ```
      *
      * @ngModule ReactiveFormsModule
@@ -7342,7 +7354,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('11.0.0-next.6+100.sha-cf60e0e');
+    var VERSION = new i0.Version('11.0.0-next.6+103.sha-35fdc6d');
 
     /**
      * @license
