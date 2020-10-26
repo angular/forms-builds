@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-rc.0+29.sha-6669571
+ * @license Angular v11.0.0-rc.0+35.sha-3fbf325
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -145,6 +145,9 @@ function _isAndroid() {
 const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
 /**
  * @description
+ *
+ * {@searchKeywords ngDefaultControl}
+ *
  * The default `ControlValueAccessor` for writing a value and listening to changes on input
  * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
  * `NgModel` directives.
@@ -162,6 +165,15 @@ const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  *
  * ```
  * <input type="text" [formControl]="firstNameControl">
+ * ```
+ *
+ * This value accessor is used by default for `<input type="text">` and `<textarea>` elements, but
+ * you could also use it for custom components that have similar behavior and do not require special
+ * processing. In order to attach the default value accessor to a custom element, add the
+ * `ngDefaultControl` attribute as shown below.
+ *
+ * ```
+ * <custom-input-component ngDefaultControl [(ngModel)]="value"></custom-input-component>
  * ```
  *
  * @ngModule ReactiveFormsModule
@@ -6375,7 +6387,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('11.0.0-rc.0+29.sha-6669571');
+const VERSION = new Version('11.0.0-rc.0+35.sha-3fbf325');
 
 /**
  * @license
