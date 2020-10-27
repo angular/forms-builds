@@ -1,5 +1,5 @@
 /**
- * @license Angular v10.2.0+17.sha-308b930
+ * @license Angular v10.2.0+31.sha-055f7eb
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4010,6 +4010,25 @@ export declare class Validators {
      *
      * ```html
      * <input pattern="[a-zA-Z ]*">
+     * ```
+     *
+     * ### Pattern matching with the global or sticky flag
+     *
+     * `RegExp` objects created with the `g` or `y` flags that are passed into `Validators.pattern`
+     * can produce different results on the same input when validations are run consecutively. This is
+     * due to how the behavior of `RegExp.prototype.test` is
+     * specified in [ECMA-262](https://tc39.es/ecma262/#sec-regexpbuiltinexec)
+     * (`RegExp` preserves the index of the last match when the global or sticky flag is used).
+     * Due to this behavior, it is recommended that when using
+     * `Validators.pattern` you **do not** pass in a `RegExp` object with either the global or sticky
+     * flag enabled.
+     *
+     * ```typescript
+     * // Not recommended (since the `g` flag is used)
+     * const controlOne = new FormControl('1', Validators.pattern(/foo/g));
+     *
+     * // Good
+     * const controlTwo = new FormControl('1', Validators.pattern(/foo/));
      * ```
      *
      * @param pattern A regular expression to be used as is to test the values, or a string.
