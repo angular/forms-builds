@@ -165,18 +165,6 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     get formDirective(): any;
     /**
      * @description
-     * Synchronous validator function composed of all the synchronous validators
-     * registered with this directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this
-     * directive.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
-    /**
-     * @description
      * Sets the new value for the view model and emits an `ngModelChange` event.
      *
      * @param newValue The new value emitted by `ngModelChange`.

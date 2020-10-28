@@ -38,8 +38,8 @@ export declare const formDirectiveProvider: any;
  * @publicApi
  */
 export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges {
-    private _validators;
-    private _asyncValidators;
+    private validators;
+    private asyncValidators;
     /**
      * @description
      * Reports whether the form submission has been triggered.
@@ -61,7 +61,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * Emits an event when the form submission has been triggered.
      */
     ngSubmit: EventEmitter<any>;
-    constructor(_validators: (Validator | ValidatorFn)[], _asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**

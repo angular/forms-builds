@@ -7,7 +7,6 @@
  */
 import { AbstractControlDirective } from './abstract_control_directive';
 import { ControlValueAccessor } from './control_value_accessor';
-import { AsyncValidatorFn, ValidatorFn } from './validators';
 /**
  * @description
  * A base class that all `FormControl`-based directives extend. It binds a `FormControl`
@@ -26,20 +25,6 @@ export declare abstract class NgControl extends AbstractControlDirective {
      * The value accessor for the control
      */
     valueAccessor: ControlValueAccessor | null;
-    /**
-     * @description
-     * The registered synchronous validator function for the control
-     *
-     * @throws An exception that this method is not implemented
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * The registered async validator function for the control
-     *
-     * @throws An exception that this method is not implemented
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * The callback method to update the model from the view when requested

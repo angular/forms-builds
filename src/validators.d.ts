@@ -337,3 +337,13 @@ export declare function toObservable(r: any): Observable<any>;
  *     as well as represented as a validator class.
  */
 export declare function normalizeValidators<V>(validators: (V | Validator | AsyncValidator)[]): V[];
+/**
+ * Merges synchronous validators into a single validator function (combined using
+ * `Validators.compose`).
+ */
+export declare function composeValidators(validators: Array<Validator | ValidatorFn>): ValidatorFn | null;
+/**
+ * Merges asynchronous validators into a single validator function (combined using
+ * `Validators.composeAsync`).
+ */
+export declare function composeAsyncValidators(validators: Array<AsyncValidator | AsyncValidatorFn>): AsyncValidatorFn | null;

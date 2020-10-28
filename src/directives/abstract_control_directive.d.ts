@@ -7,7 +7,7 @@
  */
 import { Observable } from 'rxjs';
 import { AbstractControl } from '../model';
-import { ValidationErrors } from './validators';
+import { AsyncValidatorFn, ValidationErrors, ValidatorFn } from './validators';
 /**
  * @description
  * Base class for control directives.
@@ -117,6 +117,28 @@ export declare abstract class AbstractControlDirective {
      * Each index is the string name of the control on that level.
      */
     get path(): string[] | null;
+    /**
+     * Contains the result of merging synchronous validators into a single validator function
+     * (combined using `Validators.compose`).
+     */
+    private _composedValidatorFn;
+    /**
+     * Contains the result of merging asynchronous validators into a single validator function
+     * (combined using `Validators.composeAsync`).
+     */
+    private _composedAsyncValidatorFn;
+    /**
+     * @description
+     * Synchronous validator function composed of all the synchronous validators registered with this
+     * directive.
+     */
+    get validator(): ValidatorFn | null;
+    /**
+     * @description
+     * Asynchronous validator function composed of all the asynchronous validators registered with
+     * this directive.
+     */
+    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * Resets the control with the provided value if the control is present.

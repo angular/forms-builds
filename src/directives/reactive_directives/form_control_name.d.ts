@@ -97,18 +97,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): any;
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators
-     * registered with this directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this
-     * directive.
-     */
-    get asyncValidator(): AsyncValidatorFn;
     private _checkParentType;
     private _setUpControl;
     static ɵfac: i0.ɵɵFactoryDef<FormControlName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;

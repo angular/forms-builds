@@ -9,7 +9,6 @@ import { OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '../model';
 import { ControlContainer } from './control_container';
 import { Form } from './form_interface';
-import { AsyncValidatorFn, ValidatorFn } from './validators';
 import * as i0 from "@angular/core";
 /**
  * @description
@@ -37,16 +36,6 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): Form | null;
-    /**
-     * @description
-     * The synchronous validators registered with this group.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * The async validators registered with this group.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     static ɵfac: i0.ɵɵFactoryDef<AbstractFormGroupDirective, never>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<AbstractFormGroupDirective, never, never, {}, {}, never>;
 }

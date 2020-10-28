@@ -139,17 +139,6 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * Each index is the string name of the control on that level.
      */
     get path(): string[];
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators registered with this
-     * directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this directive.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     private _checkParentType;
     static ɵfac: i0.ɵɵFactoryDef<FormArrayName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<FormArrayName, "[formArrayName]", never, { "name": "formArrayName"; }, {}, never>;
