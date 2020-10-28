@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.6+130.sha-e649f1d
+ * @license Angular v11.0.0-next.6+131.sha-0723331
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -620,6 +620,28 @@ export declare abstract class AbstractControlDirective {
      */
     get path(): string[] | null;
     /**
+     * Contains the result of merging synchronous validators into a single validator function
+     * (combined using `Validators.compose`).
+     */
+    private _composedValidatorFn;
+    /**
+     * Contains the result of merging asynchronous validators into a single validator function
+     * (combined using `Validators.composeAsync`).
+     */
+    private _composedAsyncValidatorFn;
+    /**
+     * @description
+     * Synchronous validator function composed of all the synchronous validators registered with this
+     * directive.
+     */
+    get validator(): ValidatorFn | null;
+    /**
+     * @description
+     * Asynchronous validator function composed of all the asynchronous validators registered with
+     * this directive.
+     */
+    get asyncValidator(): AsyncValidatorFn | null;
+    /**
      * @description
      * Resets the control with the provided value if the control is present.
      */
@@ -734,16 +756,6 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): Form | null;
-    /**
-     * @description
-     * The synchronous validators registered with this group.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * The async validators registered with this group.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
 }
 
 /**
@@ -1568,17 +1580,6 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * Each index is the string name of the control on that level.
      */
     get path(): string[];
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators registered with this
-     * directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this directive.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     private _checkParentType;
 }
 
@@ -1909,18 +1910,6 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     get path(): string[];
     /**
      * @description
-     * Synchronous validator function composed of all the synchronous validators
-     * registered with this directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this
-     * directive.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
-    /**
-     * @description
      * The `FormControl` bound to this directive.
      */
     get control(): FormControl;
@@ -2018,18 +2007,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): any;
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators
-     * registered with this directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this
-     * directive.
-     */
-    get asyncValidator(): AsyncValidatorFn;
     private _checkParentType;
     private _setUpControl;
 }
@@ -2344,8 +2321,8 @@ export declare class FormGroup extends AbstractControl {
  * @publicApi
  */
 export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges {
-    private _validators;
-    private _asyncValidators;
+    private validators;
+    private asyncValidators;
     /**
      * @description
      * Reports whether the form submission has been triggered.
@@ -2367,7 +2344,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * Emits an event when the form submission has been triggered.
      */
     ngSubmit: EventEmitter<any>;
-    constructor(_validators: (Validator | ValidatorFn)[], _asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
@@ -2710,20 +2687,6 @@ export declare abstract class NgControl extends AbstractControlDirective {
      * The value accessor for the control
      */
     valueAccessor: ControlValueAccessor | null;
-    /**
-     * @description
-     * The registered synchronous validator function for the control
-     *
-     * @throws An exception that this method is not implemented
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * The registered async validator function for the control
-     *
-     * @throws An exception that this method is not implemented
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * The callback method to update the model from the view when requested
@@ -3126,18 +3089,6 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * The top-level directive for this control if present, otherwise null.
      */
     get formDirective(): any;
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators
-     * registered with this directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this
-     * directive.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * Sets the new value for the view model and emits an `ngModelChange` event.
