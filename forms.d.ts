@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-rc.1+8.sha-8ea0ee9
+ * @license Angular v11.0.0-rc.1+9.sha-e7f262d
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2953,16 +2953,17 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
  * `ngModel` selector to activate it.
  *
  * It accepts a domain model as an optional `Input`. If you have a one-way binding
- * to `ngModel` with `[]` syntax, changing the value of the domain model in the component
+ * to `ngModel` with `[]` syntax, changing the domain model's value in the component
  * class sets the value in the view. If you have a two-way binding with `[()]` syntax
- * (also known as 'banana-box syntax'), the value in the UI always syncs back to
+ * (also known as 'banana-in-a-box syntax'), the value in the UI always syncs back to
  * the domain model in your class.
  *
- * To inspect the properties of the associated `FormControl` (like validity state),
+ * To inspect the properties of the associated `FormControl` (like the validity state),
  * export the directive into a local template variable using `ngModel` as the key (ex:
- * `#myVar="ngModel"`). You then access the control using the directive's `control` property, but
- * most properties used (like `valid` and `dirty`) fall through to the control anyway for direct
- * access. See a full list of properties directly available in `AbstractControlDirective`.
+ * `#myVar="ngModel"`). You can then access the control using the directive's `control` property.
+ * However, the most commonly used properties (like `valid` and `dirty`) also exist on the control
+ * for direct access. See a full list of properties directly available in
+ * `AbstractControlDirective`.
  *
  * @see `RadioControlValueAccessor`
  * @see `SelectControlValueAccessor`
@@ -3006,15 +3007,16 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
  * <!-- form value: {login: ''} -->
  * ```
  *
- * ### Setting the ngModel name attribute through options
+ * ### Setting the ngModel `name` attribute through options
  *
- * The following example shows you an alternate way to set the name attribute. The name attribute is
- * used within a custom form component, and the name `@Input` property serves a different purpose.
+ * The following example shows you an alternate way to set the name attribute. Here,
+ * an attribute identified as name is used within a custom form control component. To still be able
+ * to specify the NgModel's name, you must specify it using the `ngModelOptions` input instead.
  *
  * ```html
  * <form>
- *   <my-person-control name="Nancy" ngModel [ngModelOptions]="{name: 'user'}">
- *   </my-person-control>
+ *   <my-custom-form-control name="Nancy" ngModel [ngModelOptions]="{name: 'user'}">
+ *   </my-custom-form-control>
  * </form>
  * <!-- form value: {user: ''} -->
  * ```
@@ -3033,7 +3035,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     viewModel: any;
     /**
      * @description
-     * Tracks the name bound to the directive. The parent form
+     * Tracks the name bound to the directive. If a parent form exists, it
      * uses this name as a key to retrieve this control's value.
      */
     name: string;
@@ -3056,7 +3058,8 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * as a standalone control.
      *
      * **standalone**: When set to true, the `ngModel` will not register itself with its parent form,
-     * and acts as if it's not in the form. Defaults to false.
+     * and acts as if it's not in the form. Defaults to false. If no parent form exists, this option
+     * has no effect.
      *
      * **updateOn**: Defines the event upon which the form control value and validity update.
      * Defaults to 'change'. Possible values: `'change'` | `'blur'` | `'submit'`.
