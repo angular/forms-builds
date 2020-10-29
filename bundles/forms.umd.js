@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.6+155.sha-d6a7659
+ * @license Angular v11.0.0-next.6+156.sha-8af32fc
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5332,12 +5332,12 @@
      * ```
      * I.e. `ngModel` can export itself on the element and then be used in the template.
      * Normally, this would result in expressions before the `input` that use the exported directive
-     * to have and old value as they have been
+     * to have an old value as they have been
      * dirty checked before. As this is a very common case for `ngModel`, we added this second change
      * detection run.
      *
      * Notes:
-     * - this is just one extra run no matter how many `ngModel` have been changed.
+     * - this is just one extra run no matter how many `ngModel`s have been changed.
      * - this is a general problem when using `exportAs` for directives!
      */
     var resolvedPromise$1 = (function () { return Promise.resolve(null); })();
@@ -5355,16 +5355,17 @@
      * `ngModel` selector to activate it.
      *
      * It accepts a domain model as an optional `Input`. If you have a one-way binding
-     * to `ngModel` with `[]` syntax, changing the value of the domain model in the component
+     * to `ngModel` with `[]` syntax, changing the domain model's value in the component
      * class sets the value in the view. If you have a two-way binding with `[()]` syntax
-     * (also known as 'banana-box syntax'), the value in the UI always syncs back to
+     * (also known as 'banana-in-a-box syntax'), the value in the UI always syncs back to
      * the domain model in your class.
      *
-     * To inspect the properties of the associated `FormControl` (like validity state),
+     * To inspect the properties of the associated `FormControl` (like the validity state),
      * export the directive into a local template variable using `ngModel` as the key (ex:
-     * `#myVar="ngModel"`). You then access the control using the directive's `control` property, but
-     * most properties used (like `valid` and `dirty`) fall through to the control anyway for direct
-     * access. See a full list of properties directly available in `AbstractControlDirective`.
+     * `#myVar="ngModel"`). You can then access the control using the directive's `control` property.
+     * However, the most commonly used properties (like `valid` and `dirty`) also exist on the control
+     * for direct access. See a full list of properties directly available in
+     * `AbstractControlDirective`.
      *
      * @see `RadioControlValueAccessor`
      * @see `SelectControlValueAccessor`
@@ -5408,15 +5409,16 @@
      * <!-- form value: {login: ''} -->
      * ```
      *
-     * ### Setting the ngModel name attribute through options
+     * ### Setting the ngModel `name` attribute through options
      *
-     * The following example shows you an alternate way to set the name attribute. The name attribute is
-     * used within a custom form component, and the name `@Input` property serves a different purpose.
+     * The following example shows you an alternate way to set the name attribute. Here,
+     * an attribute identified as name is used within a custom form control component. To still be able
+     * to specify the NgModel's name, you must specify it using the `ngModelOptions` input instead.
      *
      * ```html
      * <form>
-     *   <my-person-control name="Nancy" ngModel [ngModelOptions]="{name: 'user'}">
-     *   </my-person-control>
+     *   <my-custom-form-control name="Nancy" ngModel [ngModelOptions]="{name: 'user'}">
+     *   </my-custom-form-control>
      * </form>
      * <!-- form value: {user: ''} -->
      * ```
@@ -7271,7 +7273,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('11.0.0-next.6+155.sha-d6a7659');
+    var VERSION = new i0.Version('11.0.0-next.6+156.sha-8af32fc');
 
     /**
      * @license
