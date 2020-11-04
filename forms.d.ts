@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-rc.1+42.sha-450830c
+ * @license Angular v11.0.0-rc.1+44.sha-43b4940
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2328,6 +2328,10 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * Reports whether the form submission has been triggered.
      */
     readonly submitted: boolean;
+    /**
+     * Reference to an old form group input value, which is needed to cleanup old instance in case it
+     * was replaced with a new one.
+     */
     private _oldForm;
     /**
      * @description
