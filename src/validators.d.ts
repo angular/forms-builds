@@ -347,3 +347,16 @@ export declare function composeValidators(validators: Array<Validator | Validato
  * `Validators.composeAsync`).
  */
 export declare function composeAsyncValidators(validators: Array<AsyncValidator | AsyncValidatorFn>): AsyncValidatorFn | null;
+/**
+ * Merges raw control validators with a given directive validator and returns the combined list of
+ * validators as an array.
+ */
+export declare function mergeValidators<V>(controlValidators: V | V[] | null, dirValidator: V): V[];
+/**
+ * Retrieves the list of raw synchronous validators attached to a given control.
+ */
+export declare function getControlValidators(control: AbstractControl): ValidatorFn | ValidatorFn[] | null;
+/**
+ * Retrieves the list of raw asynchronous validators attached to a given control.
+ */
+export declare function getControlAsyncValidators(control: AbstractControl): AsyncValidatorFn | AsyncValidatorFn[] | null;

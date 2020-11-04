@@ -45,6 +45,10 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * Reports whether the form submission has been triggered.
      */
     readonly submitted: boolean;
+    /**
+     * Reference to an old form group input value, which is needed to cleanup old instance in case it
+     * was replaced with a new one.
+     */
     private _oldForm;
     /**
      * @description

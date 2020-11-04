@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.0-next.6+195.sha-2d79780
+ * @license Angular v11.0.0-next.6+205.sha-27ae060
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -587,13 +587,6 @@
         return value;
     }
 
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
     function isEmptyInputValue(value) {
         // we don't check for string here so it also works with arrays
         return value == null || value.length === 0;
@@ -1091,6 +1084,28 @@
         return validators != null ?
             Validators.composeAsync(normalizeValidators(validators)) :
             null;
+    }
+    /**
+     * Merges raw control validators with a given directive validator and returns the combined list of
+     * validators as an array.
+     */
+    function mergeValidators(controlValidators, dirValidator) {
+        if (controlValidators === null)
+            return [dirValidator];
+        return Array.isArray(controlValidators) ? __spread(controlValidators, [dirValidator]) :
+            [controlValidators, dirValidator];
+    }
+    /**
+     * Retrieves the list of raw synchronous validators attached to a given control.
+     */
+    function getControlValidators(control) {
+        return control._rawValidators;
+    }
+    /**
+     * Retrieves the list of raw asynchronous validators attached to a given control.
+     */
+    function getControlAsyncValidators(control) {
+        return control._rawAsyncValidators;
     }
 
     /**
@@ -4640,8 +4655,7 @@
             if (!dir.valueAccessor)
                 _throwError(dir, 'No value accessor for form control with');
         }
-        control.validator = Validators.compose([control.validator, dir.validator]);
-        control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
+        setUpValidators(control, dir, /* handleOnValidatorChange */ true);
         dir.valueAccessor.writeValue(control.value);
         setUpViewChangePipeline(control, dir);
         setUpModelChangePipeline(control, dir);
@@ -4651,15 +4665,6 @@
                 dir.valueAccessor.setDisabledState(isDisabled);
             });
         }
-        // re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
-        dir._rawValidators.forEach(function (validator) {
-            if (validator.registerOnValidatorChange)
-                validator.registerOnValidatorChange(function () { return control.updateValueAndValidity(); });
-        });
-        dir._rawAsyncValidators.forEach(function (validator) {
-            if (validator.registerOnValidatorChange)
-                validator.registerOnValidatorChange(function () { return control.updateValueAndValidity(); });
-        });
     }
     function cleanUpControl(control, dir) {
         var noop = function () {
@@ -4669,18 +4674,87 @@
         };
         dir.valueAccessor.registerOnChange(noop);
         dir.valueAccessor.registerOnTouched(noop);
-        dir._rawValidators.forEach(function (validator) {
-            if (validator.registerOnValidatorChange) {
-                validator.registerOnValidatorChange(null);
-            }
-        });
-        dir._rawAsyncValidators.forEach(function (validator) {
-            if (validator.registerOnValidatorChange) {
-                validator.registerOnValidatorChange(null);
-            }
-        });
+        cleanUpValidators(control, dir, /* handleOnValidatorChange */ true);
         if (control)
             control._clearChangeFns();
+    }
+    function registerOnValidatorChange(validators, onChange) {
+        validators.forEach(function (validator) {
+            if (validator.registerOnValidatorChange)
+                validator.registerOnValidatorChange(onChange);
+        });
+    }
+    /**
+     * Sets up sync and async directive validators on provided form control.
+     * This function merges validators from the directive into the validators of the control.
+     *
+     * @param control Form control where directive validators should be setup.
+     * @param dir Directive instance that contains validators to be setup.
+     * @param handleOnValidatorChange Flag that determines whether directive validators should be setup
+     *     to handle validator input change.
+     */
+    function setUpValidators(control, dir, handleOnValidatorChange) {
+        var validators = getControlValidators(control);
+        if (dir.validator !== null) {
+            control.setValidators(mergeValidators(validators, dir.validator));
+        }
+        else if (typeof validators === 'function') {
+            // If sync validators are represented by a single validator function, we force the
+            // `Validators.compose` call to happen by executing the `setValidators` function with
+            // an array that contains that function. We need this to avoid possible discrepancies in
+            // validators behavior, so sync validators are always processed by the `Validators.compose`.
+            // Note: we should consider moving this logic inside the `setValidators` function itself, so we
+            // have consistent behavior on AbstractControl API level. The same applies to the async
+            // validators logic below.
+            control.setValidators([validators]);
+        }
+        var asyncValidators = getControlAsyncValidators(control);
+        if (dir.asyncValidator !== null) {
+            control.setAsyncValidators(mergeValidators(asyncValidators, dir.asyncValidator));
+        }
+        else if (typeof asyncValidators === 'function') {
+            control.setAsyncValidators([asyncValidators]);
+        }
+        // Re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
+        if (handleOnValidatorChange) {
+            var onValidatorChange = function () { return control.updateValueAndValidity(); };
+            registerOnValidatorChange(dir._rawValidators, onValidatorChange);
+            registerOnValidatorChange(dir._rawAsyncValidators, onValidatorChange);
+        }
+    }
+    /**
+     * Cleans up sync and async directive validators on provided form control.
+     * This function reverts the setup performed by the `setUpValidators` function, i.e.
+     * removes directive-specific validators from a given control instance.
+     *
+     * @param control Form control from where directive validators should be removed.
+     * @param dir Directive instance that contains validators to be removed.
+     * @param handleOnValidatorChange Flag that determines whether directive validators should also be
+     *     cleaned up to stop handling validator input change (if previously configured to do so).
+     */
+    function cleanUpValidators(control, dir, handleOnValidatorChange) {
+        if (control !== null) {
+            if (dir.validator !== null) {
+                var validators = getControlValidators(control);
+                if (Array.isArray(validators) && validators.length > 0) {
+                    // Filter out directive validator function.
+                    control.setValidators(validators.filter(function (validator) { return validator !== dir.validator; }));
+                }
+            }
+            if (dir.asyncValidator !== null) {
+                var asyncValidators = getControlAsyncValidators(control);
+                if (Array.isArray(asyncValidators) && asyncValidators.length > 0) {
+                    // Filter out directive async validator function.
+                    control.setAsyncValidators(asyncValidators.filter(function (asyncValidator) { return asyncValidator !== dir.asyncValidator; }));
+                }
+            }
+        }
+        if (handleOnValidatorChange) {
+            // Clear onValidatorChange callbacks by providing a noop function.
+            var noop = function () { };
+            registerOnValidatorChange(dir._rawValidators, noop);
+            registerOnValidatorChange(dir._rawAsyncValidators, noop);
+        }
     }
     function setUpViewChangePipeline(control, dir) {
         dir.valueAccessor.registerOnChange(function (newValue) {
@@ -4719,8 +4793,7 @@
     function setUpFormContainer(control, dir) {
         if (control == null && (typeof ngDevMode === 'undefined' || ngDevMode))
             _throwError(dir, 'Cannot find control with');
-        control.validator = Validators.compose([control.validator, dir.validator]);
-        control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
+        setUpValidators(control, dir, /* handleOnValidatorChange */ false);
     }
     function _noControlError(dir) {
         return _throwError(dir, 'There is no FormControl instance attached to form control element with');
@@ -5889,6 +5962,7 @@
                 this._updateValidators();
                 this._updateDomValue();
                 this._updateRegistrations();
+                this._oldForm = this.form;
             }
         };
         Object.defineProperty(FormGroupDirective.prototype, "formDirective", {
@@ -6054,7 +6128,9 @@
             this.directives.forEach(function (dir) {
                 var newCtrl = _this.form.get(dir.path);
                 if (dir.control !== newCtrl) {
-                    cleanUpControl(dir.control, dir);
+                    // Note: the value of the `dir.control` may not be defined, for example when it's a first
+                    // `FormControl` that is added to a `FormGroup` instance (via `addControl` call).
+                    cleanUpControl(dir.control || null, dir);
                     if (newCtrl)
                         setUpControl(newCtrl, dir);
                     dir.control = newCtrl;
@@ -6065,14 +6141,15 @@
         FormGroupDirective.prototype._updateRegistrations = function () {
             var _this = this;
             this.form._registerOnCollectionChange(function () { return _this._updateDomValue(); });
-            if (this._oldForm)
+            if (this._oldForm) {
                 this._oldForm._registerOnCollectionChange(function () { });
-            this._oldForm = this.form;
+            }
         };
         FormGroupDirective.prototype._updateValidators = function () {
-            this.form.validator = Validators.compose([this.form.validator, this.validator]);
-            this.form.asyncValidator =
-                Validators.composeAsync([this.form.asyncValidator, this.asyncValidator]);
+            setUpValidators(this.form, this, /* handleOnValidatorChange */ false);
+            if (this._oldForm) {
+                cleanUpValidators(this._oldForm, this, /* handleOnValidatorChange */ false);
+            }
         };
         FormGroupDirective.prototype._checkFormPresent = function () {
             if (!this.form && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -7273,7 +7350,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('11.0.0-next.6+195.sha-2d79780');
+    var VERSION = new i0.Version('11.0.0-next.6+205.sha-27ae060');
 
     /**
      * @license
