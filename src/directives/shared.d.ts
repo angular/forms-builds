@@ -16,6 +16,14 @@ export declare function controlPath(name: string | null, parent: ControlContaine
 export declare function setUpControl(control: FormControl, dir: NgControl): void;
 export declare function cleanUpControl(control: FormControl | null, dir: NgControl): void;
 /**
+ * Sets up disabled change handler function on a given form control if ControlValueAccessor
+ * associated with a given directive instance supports the `setDisabledState` call.
+ *
+ * @param control Form control where disabled change handler should be setup.
+ * @param dir Corresponding directive instance associated with this control.
+ */
+export declare function setUpDisabledChangeHandler(control: FormControl, dir: NgControl): void;
+/**
  * Sets up sync and async directive validators on provided form control.
  * This function merges validators from the directive into the validators of the control.
  *
@@ -43,7 +51,7 @@ export declare function isPropertyUpdated(changes: {
 export declare function isBuiltInAccessor(valueAccessor: ControlValueAccessor): boolean;
 export declare function syncPendingControls(form: FormGroup, directives: NgControl[]): void;
 export declare function selectValueAccessor(dir: NgControl, valueAccessors: ControlValueAccessor[]): ControlValueAccessor | null;
-export declare function removeDir<T>(list: T[], el: T): void;
+export declare function removeListItem<T>(list: T[], el: T): void;
 export declare function _ngModelWarning(name: string, type: {
     _ngModelWarningSentOnce: boolean;
 }, instance: {
