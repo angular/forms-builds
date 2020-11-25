@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.0+102.sha-c43267b
+ * @license Angular v11.1.0-next.0+103.sha-e148382
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6626,27 +6626,6 @@ function isAbstractControlOptions(options) {
  * @publicApi
  */
 class FormBuilder {
-    /**
-     * @description
-     * Construct a new `FormGroup` instance.
-     *
-     * @param controlsConfig A collection of child controls. The key for each child is the name
-     * under which it is registered.
-     *
-     * @param options Configuration options object for the `FormGroup`. The object can
-     * have two shapes:
-     *
-     * 1) `AbstractControlOptions` object (preferred), which consists of:
-     * * `validators`: A synchronous validator function, or an array of validator functions
-     * * `asyncValidators`: A single async validator or array of async validator functions
-     * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur' |
-     * submit')
-     *
-     * 2) Legacy configuration object, which consists of:
-     * * `validator`: A synchronous validator function, or an array of validator functions
-     * * `asyncValidator`: A single async validator or array of async validator functions
-     *
-     */
     group(controlsConfig, options = null) {
         const controls = this._reduceControls(controlsConfig);
         let validators = null;
@@ -6752,7 +6731,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('11.1.0-next.0+102.sha-c43267b');
+const VERSION = new Version('11.1.0-next.0+103.sha-e148382');
 
 /**
  * @license
