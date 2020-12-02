@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.2+78.sha-7001ef6
+ * @license Angular v11.0.3+5.sha-57642e8
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2293,8 +2293,8 @@ export declare class FormGroup extends AbstractControl {
      *   last: 'last'
      * });
      *
-     * console.log(this.form.value);  // {first: 'name', last: 'last name'}
-     * console.log(this.form.get('first').status);  // 'DISABLED'
+     * console.log(form.value);  // {last: 'last'}
+     * console.log(form.get('first').status);  // 'DISABLED'
      * ```
      */
     reset(value?: any, options?: {
