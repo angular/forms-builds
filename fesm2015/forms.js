@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.0+127.sha-784667c
+ * @license Angular v11.1.0-next.1+3.sha-7851a25
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3913,8 +3913,8 @@ class FormGroup extends AbstractControl {
      *   last: 'last'
      * });
      *
-     * console.log(this.form.value);  // {first: 'name', last: 'last name'}
-     * console.log(this.form.get('first').status);  // 'DISABLED'
+     * console.log(form.value);  // {last: 'last'}
+     * console.log(form.get('first').status);  // 'DISABLED'
      * ```
      */
     reset(value = {}, options = {}) {
@@ -6731,7 +6731,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('11.1.0-next.0+127.sha-784667c');
+const VERSION = new Version('11.1.0-next.1+3.sha-7851a25');
 
 /**
  * @license
