@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.3+26.sha-1e3534f
+ * @license Angular v11.0.3+39.sha-6d62971
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2885,13 +2885,11 @@
     }
     // TODO(kara): remove after deprecation period
     function _ngModelWarning(name, type, instance, warningConfig) {
-        if (!core.isDevMode() || warningConfig === 'never')
+        if (warningConfig === 'never')
             return;
         if (((warningConfig === null || warningConfig === 'once') && !type._ngModelWarningSentOnce) ||
             (warningConfig === 'always' && !instance._ngModelWarningSent)) {
-            if (typeof ngDevMode === 'undefined' || ngDevMode) {
-                ReactiveErrors.ngModelWarning(name);
-            }
+            ReactiveErrors.ngModelWarning(name);
             type._ngModelWarningSentOnce = true;
             instance._ngModelWarningSent = true;
         }
@@ -5689,7 +5687,9 @@
                 this.form.updateValueAndValidity({ emitEvent: false });
             }
             if (isPropertyUpdated(changes, this.viewModel)) {
-                _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
+                if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                    _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
+                }
                 this.form.setValue(this.model);
                 this.viewModel = this.model;
             }
@@ -6302,7 +6302,9 @@
             if (!this._added)
                 this._setUpControl();
             if (isPropertyUpdated(changes, this.viewModel)) {
-                _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
+                if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                    _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
+                }
                 this.viewModel = this.model;
                 this.formDirective.updateModel(this, this.model);
             }
@@ -6991,7 +6993,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('11.0.3+26.sha-1e3534f');
+    var VERSION = new core.Version('11.0.3+39.sha-6d62971');
 
     /**
      * @license

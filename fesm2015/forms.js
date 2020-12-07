@@ -1,10 +1,10 @@
 /**
- * @license Angular v11.0.3+26.sha-1e3534f
+ * @license Angular v11.0.3+39.sha-6d62971
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, ɵisPromise, ɵisObservable, Self, Injectable, Injector, Input, Host, isDevMode, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, ɵisPromise, ɵisObservable, Self, Injectable, Injector, Input, Host, EventEmitter, SkipSelf, Output, NgModule, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/common';
 import { forkJoin, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -2536,13 +2536,11 @@ function removeListItem(list, el) {
 }
 // TODO(kara): remove after deprecation period
 function _ngModelWarning(name, type, instance, warningConfig) {
-    if (!isDevMode() || warningConfig === 'never')
+    if (warningConfig === 'never')
         return;
     if (((warningConfig === null || warningConfig === 'once') && !type._ngModelWarningSentOnce) ||
         (warningConfig === 'always' && !instance._ngModelWarningSent)) {
-        if (typeof ngDevMode === 'undefined' || ngDevMode) {
-            ReactiveErrors.ngModelWarning(name);
-        }
+        ReactiveErrors.ngModelWarning(name);
         type._ngModelWarningSentOnce = true;
         instance._ngModelWarningSent = true;
     }
@@ -5219,7 +5217,9 @@ class FormControlDirective extends NgControl {
             this.form.updateValueAndValidity({ emitEvent: false });
         }
         if (isPropertyUpdated(changes, this.viewModel)) {
-            _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
+            if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                _ngModelWarning('formControl', FormControlDirective, this, this._ngModelWarningConfig);
+            }
             this.form.setValue(this.model);
             this.viewModel = this.model;
         }
@@ -5802,7 +5802,9 @@ class FormControlName extends NgControl {
         if (!this._added)
             this._setUpControl();
         if (isPropertyUpdated(changes, this.viewModel)) {
-            _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
+            if (typeof ngDevMode === 'undefined' || ngDevMode) {
+                _ngModelWarning('formControlName', FormControlName, this, this._ngModelWarningConfig);
+            }
             this.viewModel = this.model;
             this.formDirective.updateModel(this, this.model);
         }
@@ -6462,7 +6464,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('11.0.3+26.sha-1e3534f');
+const VERSION = new Version('11.0.3+39.sha-6d62971');
 
 /**
  * @license
