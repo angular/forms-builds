@@ -13,8 +13,26 @@ import { ControlValueAccessor } from './control_value_accessor';
 import { NgControl } from './ng_control';
 import { FormArrayName } from './reactive_directives/form_group_name';
 export declare function controlPath(name: string | null, parent: ControlContainer): string[];
+/**
+ * Links a Form control and a Form directive by setting up callbacks (such as `onChange`) on both
+ * instances. This function is typically invoked when form directive is being initialized.
+ *
+ * @param control Form control instance that should be linked.
+ * @param dir Directive that should be linked with a given control.
+ */
 export declare function setUpControl(control: FormControl, dir: NgControl): void;
-export declare function cleanUpControl(control: FormControl | null, dir: NgControl): void;
+/**
+ * Reverts configuration performed by the `setUpControl` control function.
+ * Effectively disconnects form control with a given form directive.
+ * This function is typically invoked when corresponding form directive is being destroyed.
+ *
+ * @param control Form control which should be cleaned up.
+ * @param dir Directive that should be disconnected from a given control.
+ * @param validateControlPresenceOnChange Flag that indicates whether onChange handler should
+ *     contain asserts to verify that it's not called once directive is destroyed. We need this flag
+ *     to avoid potentially breaking changes caused by better control cleanup introduced in #39235.
+ */
+export declare function cleanUpControl(control: FormControl | null, dir: NgControl, validateControlPresenceOnChange?: boolean): void;
 /**
  * Sets up disabled change handler function on a given form control if ControlValueAccessor
  * associated with a given directive instance supports the `setDisabledState` call.
@@ -42,9 +60,25 @@ export declare function setUpValidators(control: AbstractControl, dir: AbstractC
  * @param dir Directive instance that contains validators to be removed.
  * @param handleOnValidatorChange Flag that determines whether directive validators should also be
  *     cleaned up to stop handling validator input change (if previously configured to do so).
+ * @returns true if a control was updated as a result of this action.
  */
-export declare function cleanUpValidators(control: AbstractControl | null, dir: AbstractControlDirective, handleOnValidatorChange: boolean): void;
+export declare function cleanUpValidators(control: AbstractControl | null, dir: AbstractControlDirective, handleOnValidatorChange: boolean): boolean;
+/**
+ * Links a FormGroup or FormArray instance and corresponding Form directive by setting up validators
+ * present in the view.
+ *
+ * @param control FormGroup or FormArray instance that should be linked.
+ * @param dir Directive that provides view validators.
+ */
 export declare function setUpFormContainer(control: FormGroup | FormArray, dir: AbstractFormGroupDirective | FormArrayName): void;
+/**
+ * Reverts the setup performed by the `setUpFormContainer` function.
+ *
+ * @param control FormGroup or FormArray instance that should be cleaned up.
+ * @param dir Directive that provided view validators.
+ * @returns true if a control was updated as a result of this action.
+ */
+export declare function cleanUpFormContainer(control: FormGroup | FormArray, dir: AbstractFormGroupDirective | FormArrayName): boolean;
 export declare function isPropertyUpdated(changes: {
     [key: string]: any;
 }, viewModel: any): boolean;

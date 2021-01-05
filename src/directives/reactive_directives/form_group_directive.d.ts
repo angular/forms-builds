@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { EventEmitter, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '../../model';
 import { ControlContainer } from '../control_container';
 import { Form } from '../form_interface';
@@ -37,7 +37,7 @@ export declare const formDirectiveProvider: any;
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges {
+export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges, OnDestroy {
     private validators;
     private asyncValidators;
     /**
@@ -50,6 +50,11 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * was replaced with a new one.
      */
     private _oldForm;
+    /**
+     * Callback that should be invoked when controls in FormGroup or FormArray collection change
+     * (added or removed). This callback triggers corresponding DOM updates.
+     */
+    private readonly _onCollectionChange;
     /**
      * @description
      * Tracks the list of added `FormControlName` instances
@@ -68,6 +73,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    ngOnDestroy(): void;
     /**
      * @description
      * Returns this directive's instance.
@@ -113,7 +120,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      */
     addFormGroup(dir: FormGroupName): void;
     /**
-     * No-op method to remove the form group.
+     * Performs the necessary cleanup when a `FormGroupName` directive instance is removed from the
+     * view.
      *
      * @param dir The `FormGroupName` directive instance.
      */
@@ -126,13 +134,14 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      */
     getFormGroup(dir: FormGroupName): FormGroup;
     /**
-     * Adds a new `FormArrayName` directive instance to the form.
+     * Performs the necessary setup when a `FormArrayName` directive instance is added to the view.
      *
      * @param dir The `FormArrayName` directive instance.
      */
     addFormArray(dir: FormArrayName): void;
     /**
-     * No-op method to remove the form array.
+     * Performs the necessary cleanup when a `FormArrayName` directive instance is removed from the
+     * view.
      *
      * @param dir The `FormArrayName` directive instance.
      */
@@ -171,6 +180,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * @param value The new value for the form.
      */
     resetForm(value?: any): void;
+    private _setUpFormContainer;
+    private _cleanUpFormContainer;
     private _updateRegistrations;
     private _updateValidators;
     private _checkFormPresent;

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { EventEmitter, InjectionToken, OnChanges, SimpleChanges } from '@angular/core';
+import { EventEmitter, InjectionToken, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormControl } from '../../model';
 import { ControlValueAccessor } from '../control_value_accessor';
 import { NgControl } from '../ng_control';
@@ -38,7 +38,7 @@ export declare const formControlBinding: any;
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-export declare class FormControlDirective extends NgControl implements OnChanges {
+export declare class FormControlDirective extends NgControl implements OnChanges, OnDestroy {
     private _ngModelWarningConfig;
     /**
      * Internal reference to the view model value.
@@ -62,6 +62,8 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    ngOnDestroy(): void;
     /**
      * @description
      * Returns an array that represents the path from the top-level form to this control.
