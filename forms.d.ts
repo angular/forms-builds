@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.3+42.sha-3735633
+ * @license Angular v11.1.0-next.3+43.sha-a384961
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1898,7 +1898,7 @@ export declare class FormControl extends AbstractControl {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-export declare class FormControlDirective extends NgControl implements OnChanges {
+export declare class FormControlDirective extends NgControl implements OnChanges, OnDestroy {
     private _ngModelWarningConfig;
     /**
      * Internal reference to the view model value.
@@ -1922,6 +1922,8 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    ngOnDestroy(): void;
     /**
      * @description
      * Returns an array that represents the path from the top-level form to this control.
@@ -2340,7 +2342,7 @@ export declare class FormGroup extends AbstractControl {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges {
+export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges, OnDestroy {
     private validators;
     private asyncValidators;
     /**
@@ -2353,6 +2355,11 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * was replaced with a new one.
      */
     private _oldForm;
+    /**
+     * Callback that should be invoked when controls in FormGroup or FormArray collection change
+     * (added or removed). This callback triggers corresponding DOM updates.
+     */
+    private readonly _onCollectionChange;
     /**
      * @description
      * Tracks the list of added `FormControlName` instances
@@ -2371,6 +2378,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    ngOnDestroy(): void;
     /**
      * @description
      * Returns this directive's instance.
@@ -2416,7 +2425,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      */
     addFormGroup(dir: FormGroupName): void;
     /**
-     * No-op method to remove the form group.
+     * Performs the necessary cleanup when a `FormGroupName` directive instance is removed from the
+     * view.
      *
      * @param dir The `FormGroupName` directive instance.
      */
@@ -2429,13 +2439,14 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      */
     getFormGroup(dir: FormGroupName): FormGroup;
     /**
-     * Adds a new `FormArrayName` directive instance to the form.
+     * Performs the necessary setup when a `FormArrayName` directive instance is added to the view.
      *
      * @param dir The `FormArrayName` directive instance.
      */
     addFormArray(dir: FormArrayName): void;
     /**
-     * No-op method to remove the form array.
+     * Performs the necessary cleanup when a `FormArrayName` directive instance is removed from the
+     * view.
      *
      * @param dir The `FormArrayName` directive instance.
      */
@@ -2474,6 +2485,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * @param value The new value for the form.
      */
     resetForm(value?: any): void;
+    private _setUpFormContainer;
+    private _cleanUpFormContainer;
     private _updateRegistrations;
     private _updateValidators;
     private _checkFormPresent;

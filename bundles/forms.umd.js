@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.3+42.sha-3735633
+ * @license Angular v11.1.0-next.3+43.sha-a384961
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2627,6 +2627,13 @@
     function controlPath(name, parent) {
         return __spread(parent.path, [name]);
     }
+    /**
+     * Links a Form control and a Form directive by setting up callbacks (such as `onChange`) on both
+     * instances. This function is typically invoked when form directive is being initialized.
+     *
+     * @param control Form control instance that should be linked.
+     * @param dir Directive that should be linked with a given control.
+     */
     function setUpControl(control, dir) {
         if (typeof ngDevMode === 'undefined' || ngDevMode) {
             if (!control)
@@ -2641,9 +2648,21 @@
         setUpBlurPipeline(control, dir);
         setUpDisabledChangeHandler(control, dir);
     }
-    function cleanUpControl(control, dir) {
+    /**
+     * Reverts configuration performed by the `setUpControl` control function.
+     * Effectively disconnects form control with a given form directive.
+     * This function is typically invoked when corresponding form directive is being destroyed.
+     *
+     * @param control Form control which should be cleaned up.
+     * @param dir Directive that should be disconnected from a given control.
+     * @param validateControlPresenceOnChange Flag that indicates whether onChange handler should
+     *     contain asserts to verify that it's not called once directive is destroyed. We need this flag
+     *     to avoid potentially breaking changes caused by better control cleanup introduced in #39235.
+     */
+    function cleanUpControl(control, dir, validateControlPresenceOnChange) {
+        if (validateControlPresenceOnChange === void 0) { validateControlPresenceOnChange = true; }
         var noop = function () {
-            if (typeof ngDevMode === 'undefined' || ngDevMode) {
+            if (validateControlPresenceOnChange && (typeof ngDevMode === 'undefined' || ngDevMode)) {
                 _noControlError(dir);
             }
         };
@@ -2728,21 +2747,31 @@
      * @param dir Directive instance that contains validators to be removed.
      * @param handleOnValidatorChange Flag that determines whether directive validators should also be
      *     cleaned up to stop handling validator input change (if previously configured to do so).
+     * @returns true if a control was updated as a result of this action.
      */
     function cleanUpValidators(control, dir, handleOnValidatorChange) {
+        var isControlUpdated = false;
         if (control !== null) {
             if (dir.validator !== null) {
                 var validators = getControlValidators(control);
                 if (Array.isArray(validators) && validators.length > 0) {
                     // Filter out directive validator function.
-                    control.setValidators(validators.filter(function (validator) { return validator !== dir.validator; }));
+                    var updatedValidators = validators.filter(function (validator) { return validator !== dir.validator; });
+                    if (updatedValidators.length !== validators.length) {
+                        isControlUpdated = true;
+                        control.setValidators(updatedValidators);
+                    }
                 }
             }
             if (dir.asyncValidator !== null) {
                 var asyncValidators = getControlAsyncValidators(control);
                 if (Array.isArray(asyncValidators) && asyncValidators.length > 0) {
                     // Filter out directive async validator function.
-                    control.setAsyncValidators(asyncValidators.filter(function (asyncValidator) { return asyncValidator !== dir.asyncValidator; }));
+                    var updatedAsyncValidators = asyncValidators.filter(function (asyncValidator) { return asyncValidator !== dir.asyncValidator; });
+                    if (updatedAsyncValidators.length !== asyncValidators.length) {
+                        isControlUpdated = true;
+                        control.setAsyncValidators(updatedAsyncValidators);
+                    }
                 }
             }
         }
@@ -2752,6 +2781,7 @@
             registerOnValidatorChange(dir._rawValidators, noop);
             registerOnValidatorChange(dir._rawAsyncValidators, noop);
         }
+        return isControlUpdated;
     }
     function setUpViewChangePipeline(control, dir) {
         dir.valueAccessor.registerOnChange(function (newValue) {
@@ -2793,10 +2823,27 @@
             control._unregisterOnChange(onChange);
         });
     }
+    /**
+     * Links a FormGroup or FormArray instance and corresponding Form directive by setting up validators
+     * present in the view.
+     *
+     * @param control FormGroup or FormArray instance that should be linked.
+     * @param dir Directive that provides view validators.
+     */
     function setUpFormContainer(control, dir) {
         if (control == null && (typeof ngDevMode === 'undefined' || ngDevMode))
             _throwError(dir, 'Cannot find control with');
         setUpValidators(control, dir, /* handleOnValidatorChange */ false);
+    }
+    /**
+     * Reverts the setup performed by the `setUpFormContainer` function.
+     *
+     * @param control FormGroup or FormArray instance that should be cleaned up.
+     * @param dir Directive that provided view validators.
+     * @returns true if a control was updated as a result of this action.
+     */
+    function cleanUpFormContainer(control, dir) {
+        return cleanUpValidators(control, dir, /* handleOnValidatorChange */ false);
     }
     function _noControlError(dir) {
         return _throwError(dir, 'There is no FormControl instance attached to form control element with');
@@ -5680,6 +5727,10 @@
         /** @nodoc */
         FormControlDirective.prototype.ngOnChanges = function (changes) {
             if (this._isControlChanged(changes)) {
+                var previousForm = changes['form'].previousValue;
+                if (previousForm) {
+                    cleanUpControl(previousForm, this, /* validateControlPresenceOnChange */ false);
+                }
                 setUpControl(this.form, this);
                 if (this.control.disabled && this.valueAccessor.setDisabledState) {
                     this.valueAccessor.setDisabledState(true);
@@ -5692,6 +5743,12 @@
                 }
                 this.form.setValue(this.model);
                 this.viewModel = this.model;
+            }
+        };
+        /** @nodoc */
+        FormControlDirective.prototype.ngOnDestroy = function () {
+            if (this.form) {
+                cleanUpControl(this.form, this, /* validateControlPresenceOnChange */ false);
             }
         };
         Object.defineProperty(FormControlDirective.prototype, "path", {
@@ -5795,6 +5852,11 @@
              */
             _this.submitted = false;
             /**
+             * Callback that should be invoked when controls in FormGroup or FormArray collection change
+             * (added or removed). This callback triggers corresponding DOM updates.
+             */
+            _this._onCollectionChange = function () { return _this._updateDomValue(); };
+            /**
              * @description
              * Tracks the list of added `FormControlName` instances
              */
@@ -5821,6 +5883,21 @@
                 this._updateDomValue();
                 this._updateRegistrations();
                 this._oldForm = this.form;
+            }
+        };
+        /** @nodoc */
+        FormGroupDirective.prototype.ngOnDestroy = function () {
+            if (this.form) {
+                cleanUpValidators(this.form, this, /* handleOnValidatorChange */ false);
+                // Currently the `onCollectionChange` callback is rewritten each time the
+                // `_registerOnCollectionChange` function is invoked. The implication is that cleanup should
+                // happen *only* when the `onCollectionChange` callback was set by this directive instance.
+                // Otherwise it might cause overriding a callback of some other directive instances. We should
+                // consider updating this logic later to make it similar to how `onChange` callbacks are
+                // handled, see https://github.com/angular/angular/issues/39732 for additional info.
+                if (this.form._onCollectionChange === this._onCollectionChange) {
+                    this.form._registerOnCollectionChange(function () { });
+                }
             }
         };
         Object.defineProperty(FormGroupDirective.prototype, "formDirective", {
@@ -5887,6 +5964,7 @@
          * @param dir The `FormControlName` directive instance.
          */
         FormGroupDirective.prototype.removeControl = function (dir) {
+            cleanUpControl(dir.control || null, dir, /* validateControlPresenceOnChange */ false);
             removeListItem(this.directives, dir);
         };
         /**
@@ -5895,16 +5973,17 @@
          * @param dir The `FormGroupName` directive instance.
          */
         FormGroupDirective.prototype.addFormGroup = function (dir) {
-            var ctrl = this.form.get(dir.path);
-            setUpFormContainer(ctrl, dir);
-            ctrl.updateValueAndValidity({ emitEvent: false });
+            this._setUpFormContainer(dir);
         };
         /**
-         * No-op method to remove the form group.
+         * Performs the necessary cleanup when a `FormGroupName` directive instance is removed from the
+         * view.
          *
          * @param dir The `FormGroupName` directive instance.
          */
-        FormGroupDirective.prototype.removeFormGroup = function (dir) { };
+        FormGroupDirective.prototype.removeFormGroup = function (dir) {
+            this._cleanUpFormContainer(dir);
+        };
         /**
          * @description
          * Retrieves the `FormGroup` for a provided `FormGroupName` directive instance
@@ -5915,21 +5994,22 @@
             return this.form.get(dir.path);
         };
         /**
-         * Adds a new `FormArrayName` directive instance to the form.
+         * Performs the necessary setup when a `FormArrayName` directive instance is added to the view.
          *
          * @param dir The `FormArrayName` directive instance.
          */
         FormGroupDirective.prototype.addFormArray = function (dir) {
-            var ctrl = this.form.get(dir.path);
-            setUpFormContainer(ctrl, dir);
-            ctrl.updateValueAndValidity({ emitEvent: false });
+            this._setUpFormContainer(dir);
         };
         /**
-         * No-op method to remove the form array.
+         * Performs the necessary cleanup when a `FormArrayName` directive instance is removed from the
+         * view.
          *
          * @param dir The `FormArrayName` directive instance.
          */
-        FormGroupDirective.prototype.removeFormArray = function (dir) { };
+        FormGroupDirective.prototype.removeFormArray = function (dir) {
+            this._cleanUpFormContainer(dir);
+        };
         /**
          * @description
          * Retrieves the `FormArray` for a provided `FormArrayName` directive instance.
@@ -5996,9 +6076,29 @@
             });
             this.form._updateTreeValidity({ emitEvent: false });
         };
+        FormGroupDirective.prototype._setUpFormContainer = function (dir) {
+            var ctrl = this.form.get(dir.path);
+            setUpFormContainer(ctrl, dir);
+            // NOTE: this operation looks unnecessary in case no new validators were added in
+            // `setUpFormContainer` call. Consider updating this code to match the logic in
+            // `_cleanUpFormContainer` function.
+            ctrl.updateValueAndValidity({ emitEvent: false });
+        };
+        FormGroupDirective.prototype._cleanUpFormContainer = function (dir) {
+            if (this.form) {
+                var ctrl = this.form.get(dir.path);
+                if (ctrl) {
+                    var isControlUpdated = cleanUpFormContainer(ctrl, dir);
+                    if (isControlUpdated) {
+                        // Run validity check only in case a control was updated (i.e. view validators were
+                        // removed) as removing view validators might cause validity to change.
+                        ctrl.updateValueAndValidity({ emitEvent: false });
+                    }
+                }
+            }
+        };
         FormGroupDirective.prototype._updateRegistrations = function () {
-            var _this = this;
-            this.form._registerOnCollectionChange(function () { return _this._updateDomValue(); });
+            this.form._registerOnCollectionChange(this._onCollectionChange);
             if (this._oldForm) {
                 this._oldForm._registerOnCollectionChange(function () { });
             }
@@ -6993,7 +7093,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('11.1.0-next.3+42.sha-3735633');
+    var VERSION = new core.Version('11.1.0-next.3+43.sha-a384961');
 
     /**
      * @license
