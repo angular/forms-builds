@@ -209,7 +209,7 @@ export declare class Validators {
      * ```
      *
      * @returns A validator function that returns an error map with the
-     * `minlength` if the validation check fails, otherwise `null`.
+     * `minlength` property if the validation check fails, otherwise `null`.
      *
      * @see `updateValueAndValidity()`
      *
