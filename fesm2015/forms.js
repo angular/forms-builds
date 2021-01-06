@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.5+50.sha-67ab59b
+ * @license Angular v11.0.5+51.sha-bad1717
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -542,7 +542,7 @@ class Validators {
      * ```
      *
      * @returns A validator function that returns an error map with the
-     * `minlength` if the validation check fails, otherwise `null`.
+     * `minlength` property if the validation check fails, otherwise `null`.
      *
      * @see `updateValueAndValidity()`
      *
@@ -6464,7 +6464,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('11.0.5+50.sha-67ab59b');
+const VERSION = new Version('11.0.5+51.sha-bad1717');
 
 /**
  * @license
