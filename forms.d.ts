@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.3+64.sha-d4327d5
+ * @license Angular v11.1.0-next.3+65.sha-fdec650
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3950,7 +3950,7 @@ export declare class Validators {
      * ```
      *
      * @returns A validator function that returns an error map with the
-     * `minlength` if the validation check fails, otherwise `null`.
+     * `minlength` property if the validation check fails, otherwise `null`.
      *
      * @see `updateValueAndValidity()`
      *
