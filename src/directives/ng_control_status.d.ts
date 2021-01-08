@@ -4,7 +4,7 @@ import { NgControl } from './ng_control';
 import * as i0 from "@angular/core";
 export declare class AbstractControlStatus {
     private _cd;
-    constructor(cd: AbstractControlDirective);
+    constructor(cd: AbstractControlDirective | null);
     get ngClassUntouched(): boolean;
     get ngClassTouched(): boolean;
     get ngClassPristine(): boolean;
@@ -63,6 +63,6 @@ export declare class NgControlStatus extends AbstractControlStatus {
  */
 export declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);
-    static ɵfac: i0.ɵɵFactoryDef<NgControlStatusGroup, [{ self: true; }]>;
+    static ɵfac: i0.ɵɵFactoryDef<NgControlStatusGroup, [{ optional: true; self: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgControlStatusGroup, "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", never, {}, {}, never>;
 }

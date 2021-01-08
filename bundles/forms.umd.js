@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.4+37.sha-7a819ca
+ * @license Angular v11.1.0-next.4+38.sha-fdbd3ca
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1532,49 +1532,56 @@
         }
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassUntouched", {
             get: function () {
-                return this._cd.control ? this._cd.control.untouched : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.untouched) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
             get: function () {
-                return this._cd.control ? this._cd.control.touched : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.touched) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
             get: function () {
-                return this._cd.control ? this._cd.control.pristine : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pristine) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
             get: function () {
-                return this._cd.control ? this._cd.control.dirty : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.dirty) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
             get: function () {
-                return this._cd.control ? this._cd.control.valid : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.valid) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
             get: function () {
-                return this._cd.control ? this._cd.control.invalid : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.invalid) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
             get: function () {
-                return this._cd.control ? this._cd.control.pending : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pending) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
@@ -1654,7 +1661,7 @@
         }
         return NgControlStatusGroup;
     }(AbstractControlStatus));
-    NgControlStatusGroup.ɵfac = function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵɵdirectiveInject(ControlContainer, 2)); };
+    NgControlStatusGroup.ɵfac = function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵɵdirectiveInject(ControlContainer, 10)); };
     NgControlStatusGroup.ɵdir = i0.ɵɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], hostVars: 14, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx) {
             if (rf & 2) {
                 i0.ɵɵclassProp("ng-untouched", ctx.ngClassUntouched)("ng-touched", ctx.ngClassTouched)("ng-pristine", ctx.ngClassPristine)("ng-dirty", ctx.ngClassDirty)("ng-valid", ctx.ngClassValid)("ng-invalid", ctx.ngClassInvalid)("ng-pending", ctx.ngClassPending);
@@ -1669,6 +1676,8 @@
                     }]
             }], function () {
             return [{ type: ControlContainer, decorators: [{
+                            type: i0.Optional
+                        }, {
                             type: i0.Self
                         }] }];
         }, null);
@@ -7482,7 +7491,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('11.1.0-next.4+37.sha-7a819ca');
+    var VERSION = new i0.Version('11.1.0-next.4+38.sha-fdbd3ca');
 
     /**
      * @license
