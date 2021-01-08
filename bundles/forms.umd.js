@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.7+4.sha-40a03f0
+ * @license Angular v11.0.7+11.sha-6ccdb2d
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1516,49 +1516,56 @@
         }
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassUntouched", {
             get: function () {
-                return this._cd.control ? this._cd.control.untouched : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.untouched) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
             get: function () {
-                return this._cd.control ? this._cd.control.touched : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.touched) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
             get: function () {
-                return this._cd.control ? this._cd.control.pristine : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pristine) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
             get: function () {
-                return this._cd.control ? this._cd.control.dirty : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.dirty) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
             get: function () {
-                return this._cd.control ? this._cd.control.valid : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.valid) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
             get: function () {
-                return this._cd.control ? this._cd.control.invalid : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.invalid) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
             get: function () {
-                return this._cd.control ? this._cd.control.pending : false;
+                var _a, _b, _c;
+                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pending) !== null && _c !== void 0 ? _c : false;
             },
             enumerable: false,
             configurable: true
@@ -1635,7 +1642,7 @@
                 },] }
     ];
     NgControlStatusGroup.ctorParameters = function () { return [
-        { type: ControlContainer, decorators: [{ type: core.Self }] }
+        { type: ControlContainer, decorators: [{ type: core.Optional }, { type: core.Self }] }
     ]; };
 
     /**
@@ -6993,7 +7000,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('11.0.7+4.sha-40a03f0');
+    var VERSION = new core.Version('11.0.7+11.sha-6ccdb2d');
 
     /**
      * @license

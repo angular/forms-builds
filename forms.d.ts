@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.0.7+4.sha-40a03f0
+ * @license Angular v11.0.7+11.sha-6ccdb2d
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4103,7 +4103,7 @@ export declare const ɵangular_packages_forms_forms_f: any;
 
 export declare class ɵangular_packages_forms_forms_g {
     private _cd;
-    constructor(cd: AbstractControlDirective);
+    constructor(cd: AbstractControlDirective | null);
     get ngClassUntouched(): boolean;
     get ngClassTouched(): boolean;
     get ngClassPristine(): boolean;
