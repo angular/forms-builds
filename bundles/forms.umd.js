@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.4+101.sha-9b0b2dd
+ * @license Angular v11.1.0-next.4+104.sha-cf02cf1
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6893,7 +6893,7 @@
             }
         };
         /**
-         * Method that validates whether the value matches the the pattern requirement.
+         * Method that validates whether the value matches the pattern requirement.
          * @nodoc
          */
         PatternValidator.prototype.validate = function (control) {
@@ -7100,7 +7100,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('11.1.0-next.4+101.sha-9b0b2dd');
+    var VERSION = new core.Version('11.1.0-next.4+104.sha-cf02cf1');
 
     /**
      * @license
