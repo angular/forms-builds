@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-rc.0+12.sha-968b2bb
+ * @license Angular v11.1.0-rc.0+19.sha-63bf613
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2593,7 +2593,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
     private _onChange?;
     /**
      * @description
-     * Tracks changes to the the maximum length bound to this directive.
+     * Tracks changes to the maximum length bound to this directive.
      */
     maxlength: string | number;
     /** @nodoc */
@@ -2637,7 +2637,7 @@ export declare class MinLengthValidator implements Validator, OnChanges {
     private _onChange?;
     /**
      * @description
-     * Tracks changes to the the minimum length bound to this directive.
+     * Tracks changes to the minimum length bound to this directive.
      */
     minlength: string | number;
     /** @nodoc */
@@ -3314,7 +3314,7 @@ export declare class PatternValidator implements Validator, OnChanges {
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * Method that validates whether the value matches the the pattern requirement.
+     * Method that validates whether the value matches the pattern requirement.
      * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
