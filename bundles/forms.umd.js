@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.4+123.sha-afabb83
+ * @license Angular v11.1.0-next.4+124.sha-1d1304c
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4406,7 +4406,13 @@
         /** @internal */
         FormGroup.prototype._forEachChild = function (cb) {
             var _this = this;
-            Object.keys(this.controls).forEach(function (k) { return cb(_this.controls[k], k); });
+            Object.keys(this.controls).forEach(function (key) {
+                // The list of controls can change (for ex. controls might be removed) while the loop
+                // is running (as a result of invoking Forms API in `valueChanges` subscription), so we
+                // have to null check before invoking the callback.
+                var control = _this.controls[key];
+                control && cb(control, key);
+            });
         };
         /** @internal */
         FormGroup.prototype._setUpControls = function () {
@@ -7100,7 +7106,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('11.1.0-next.4+123.sha-afabb83');
+    var VERSION = new core.Version('11.1.0-next.4+124.sha-1d1304c');
 
     /**
      * @license
