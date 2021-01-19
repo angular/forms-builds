@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-rc.0+34.sha-106df61
+ * @license Angular v11.1.0-rc.0+35.sha-2c5ad5c
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3986,7 +3986,13 @@ class FormGroup extends AbstractControl {
     }
     /** @internal */
     _forEachChild(cb) {
-        Object.keys(this.controls).forEach(k => cb(this.controls[k], k));
+        Object.keys(this.controls).forEach(key => {
+            // The list of controls can change (for ex. controls might be removed) while the loop
+            // is running (as a result of invoking Forms API in `valueChanges` subscription), so we
+            // have to null check before invoking the callback.
+            const control = this.controls[key];
+            control && cb(control, key);
+        });
     }
     /** @internal */
     _setUpControls() {
@@ -6571,7 +6577,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('11.1.0-rc.0+34.sha-106df61');
+const VERSION = new Version('11.1.0-rc.0+35.sha-2c5ad5c');
 
 /**
  * @license
