@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.4+171.sha-8b9f6b5
+ * @license Angular v11.1.0-next.4+173.sha-c9fe455
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2351,8 +2351,15 @@ function cleanUpControl(control, dir, validateControlPresenceOnChange = true) {
             _noControlError(dir);
         }
     };
-    dir.valueAccessor.registerOnChange(noop);
-    dir.valueAccessor.registerOnTouched(noop);
+    // The `valueAccessor` field is typically defined on FromControl and FormControlName directive
+    // instances and there is a logic in `selectValueAccessor` function that throws if it's not the
+    // case. We still check the presence of `valueAccessor` before invoking its methods to make sure
+    // that cleanup works correctly if app code or tests are setup to ignore the error thrown from
+    // `selectValueAccessor`. See https://github.com/angular/angular/issues/40521.
+    if (dir.valueAccessor) {
+        dir.valueAccessor.registerOnChange(noop);
+        dir.valueAccessor.registerOnTouched(noop);
+    }
     cleanUpValidators(control, dir, /* handleOnValidatorChange */ true);
     if (control) {
         dir._invokeOnDestroyCallbacks();
@@ -3899,13 +3906,17 @@ class FormGroup extends AbstractControl {
      * * `onlySelf`: When true, each change only affects this control and not its parent. Default is
      * true.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
-     * observables emit events with the latest status and value when the control value is updated.
-     * When false, no events are emitted.
-     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
-     * updateValueAndValidity} method.
+     * `valueChanges` observables emit events with the latest status and value when the control value
+     * is updated. When false, no events are emitted. The configuration options are passed to
+     * the {@link AbstractControl#updateValueAndValidity updateValueAndValidity} method.
      */
     patchValue(value, options = {}) {
+        // Even though the `value` argument type doesn't allow `null` and `undefined` values, the
+        // `patchValue` can be called recursively and inner data structures might have these values, so
+        // we just ignore such cases when a field containing FormGroup instance receives `null` or
+        // `undefined` as a value.
+        if (value == null /* both `null` and `undefined` */)
+            return;
         Object.keys(value).forEach(name => {
             if (this.controls[name]) {
                 this.controls[name].patchValue(value[name], { onlySelf: true, emitEvent: options.emitEvent });
@@ -4306,13 +4317,17 @@ class FormArray extends AbstractControl {
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
      * is false.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
-     * observables emit events with the latest status and value when the control value is updated.
-     * When false, no events are emitted.
-     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
-     * updateValueAndValidity} method.
+     * `valueChanges` observables emit events with the latest status and value when the control value
+     * is updated. When false, no events are emitted. The configuration options are passed to
+     * the {@link AbstractControl#updateValueAndValidity updateValueAndValidity} method.
      */
     patchValue(value, options = {}) {
+        // Even though the `value` argument type doesn't allow `null` and `undefined` values, the
+        // `patchValue` can be called recursively and inner data structures might have these values, so
+        // we just ignore such cases when a field containing FormArray instance receives `null` or
+        // `undefined` as a value.
+        if (value == null /* both `null` and `undefined` */)
+            return;
         value.forEach((newValue, index) => {
             if (this.at(index)) {
                 this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
@@ -6848,7 +6863,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('11.1.0-next.4+171.sha-8b9f6b5');
+const VERSION = new Version('11.1.0-next.4+173.sha-c9fe455');
 
 /**
  * @license
