@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.2.0-next.0+32.sha-4cc15fe
+ * @license Angular v11.2.0-next.0+37.sha-7c38a4a
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1149,43 +1149,19 @@ class AbstractControlStatus {
     constructor(cd) {
         this._cd = cd;
     }
-    get ngClassUntouched() {
-        var _a, _b, _c;
-        return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.untouched) !== null && _c !== void 0 ? _c : false;
-    }
-    get ngClassTouched() {
-        var _a, _b, _c;
-        return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.touched) !== null && _c !== void 0 ? _c : false;
-    }
-    get ngClassPristine() {
-        var _a, _b, _c;
-        return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pristine) !== null && _c !== void 0 ? _c : false;
-    }
-    get ngClassDirty() {
-        var _a, _b, _c;
-        return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.dirty) !== null && _c !== void 0 ? _c : false;
-    }
-    get ngClassValid() {
-        var _a, _b, _c;
-        return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.valid) !== null && _c !== void 0 ? _c : false;
-    }
-    get ngClassInvalid() {
-        var _a, _b, _c;
-        return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.invalid) !== null && _c !== void 0 ? _c : false;
-    }
-    get ngClassPending() {
-        var _a, _b, _c;
-        return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pending) !== null && _c !== void 0 ? _c : false;
+    is(status) {
+        var _a, _b;
+        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b[status]);
     }
 }
 const ngControlStatusHost = {
-    '[class.ng-untouched]': 'ngClassUntouched',
-    '[class.ng-touched]': 'ngClassTouched',
-    '[class.ng-pristine]': 'ngClassPristine',
-    '[class.ng-dirty]': 'ngClassDirty',
-    '[class.ng-valid]': 'ngClassValid',
-    '[class.ng-invalid]': 'ngClassInvalid',
-    '[class.ng-pending]': 'ngClassPending',
+    '[class.ng-untouched]': 'is("untouched")',
+    '[class.ng-touched]': 'is("touched")',
+    '[class.ng-pristine]': 'is("pristine")',
+    '[class.ng-dirty]': 'is("dirty")',
+    '[class.ng-valid]': 'is("valid")',
+    '[class.ng-invalid]': 'is("invalid")',
+    '[class.ng-pending]': 'is("pending")',
 };
 /**
  * @description
@@ -6592,7 +6568,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('11.2.0-next.0+32.sha-4cc15fe');
+const VERSION = new Version('11.2.0-next.0+37.sha-7c38a4a');
 
 /**
  * @license
