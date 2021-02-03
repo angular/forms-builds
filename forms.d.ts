@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.1+29.sha-20654c9
+ * @license Angular v11.1.1+37.sha-0ee9ea8
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -758,6 +758,8 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      */
     get formDirective(): Form | null;
 }
+
+declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending';
 
 /**
  * @description
@@ -4113,13 +4115,7 @@ export declare const ɵangular_packages_forms_forms_f: any;
 export declare class ɵangular_packages_forms_forms_g {
     private _cd;
     constructor(cd: AbstractControlDirective | null);
-    get ngClassUntouched(): boolean;
-    get ngClassTouched(): boolean;
-    get ngClassPristine(): boolean;
-    get ngClassDirty(): boolean;
-    get ngClassValid(): boolean;
-    get ngClassInvalid(): boolean;
-    get ngClassPending(): boolean;
+    is(status: AnyControlStatus): boolean;
 }
 
 export declare const ɵangular_packages_forms_forms_h: {

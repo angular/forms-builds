@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.1+29.sha-20654c9
+ * @license Angular v11.1.1+37.sha-0ee9ea8
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1514,72 +1514,20 @@
         function AbstractControlStatus(cd) {
             this._cd = cd;
         }
-        Object.defineProperty(AbstractControlStatus.prototype, "ngClassUntouched", {
-            get: function () {
-                var _a, _b, _c;
-                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.untouched) !== null && _c !== void 0 ? _c : false;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AbstractControlStatus.prototype, "ngClassTouched", {
-            get: function () {
-                var _a, _b, _c;
-                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.touched) !== null && _c !== void 0 ? _c : false;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AbstractControlStatus.prototype, "ngClassPristine", {
-            get: function () {
-                var _a, _b, _c;
-                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pristine) !== null && _c !== void 0 ? _c : false;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AbstractControlStatus.prototype, "ngClassDirty", {
-            get: function () {
-                var _a, _b, _c;
-                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.dirty) !== null && _c !== void 0 ? _c : false;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AbstractControlStatus.prototype, "ngClassValid", {
-            get: function () {
-                var _a, _b, _c;
-                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.valid) !== null && _c !== void 0 ? _c : false;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AbstractControlStatus.prototype, "ngClassInvalid", {
-            get: function () {
-                var _a, _b, _c;
-                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.invalid) !== null && _c !== void 0 ? _c : false;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AbstractControlStatus.prototype, "ngClassPending", {
-            get: function () {
-                var _a, _b, _c;
-                return (_c = (_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pending) !== null && _c !== void 0 ? _c : false;
-            },
-            enumerable: false,
-            configurable: true
-        });
+        AbstractControlStatus.prototype.is = function (status) {
+            var _a, _b;
+            return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b[status]);
+        };
         return AbstractControlStatus;
     }());
     var ngControlStatusHost = {
-        '[class.ng-untouched]': 'ngClassUntouched',
-        '[class.ng-touched]': 'ngClassTouched',
-        '[class.ng-pristine]': 'ngClassPristine',
-        '[class.ng-dirty]': 'ngClassDirty',
-        '[class.ng-valid]': 'ngClassValid',
-        '[class.ng-invalid]': 'ngClassInvalid',
-        '[class.ng-pending]': 'ngClassPending',
+        '[class.ng-untouched]': 'is("untouched")',
+        '[class.ng-touched]': 'is("touched")',
+        '[class.ng-pristine]': 'is("pristine")',
+        '[class.ng-dirty]': 'is("dirty")',
+        '[class.ng-valid]': 'is("valid")',
+        '[class.ng-invalid]': 'is("invalid")',
+        '[class.ng-pending]': 'is("pending")',
     };
     /**
      * @description
@@ -7121,7 +7069,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('11.1.1+29.sha-20654c9');
+    var VERSION = new core.Version('11.1.1+37.sha-0ee9ea8');
 
     /**
      * @license
