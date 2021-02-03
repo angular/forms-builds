@@ -2,16 +2,11 @@ import { AbstractControlDirective } from './abstract_control_directive';
 import { ControlContainer } from './control_container';
 import { NgControl } from './ng_control';
 import * as i0 from "@angular/core";
+declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending';
 export declare class AbstractControlStatus {
     private _cd;
     constructor(cd: AbstractControlDirective | null);
-    get ngClassUntouched(): boolean;
-    get ngClassTouched(): boolean;
-    get ngClassPristine(): boolean;
-    get ngClassDirty(): boolean;
-    get ngClassValid(): boolean;
-    get ngClassInvalid(): boolean;
-    get ngClassPending(): boolean;
+    is(status: AnyControlStatus): boolean;
 }
 export declare const ngControlStatusHost: {
     '[class.ng-untouched]': string;
@@ -66,3 +61,4 @@ export declare class NgControlStatusGroup extends AbstractControlStatus {
     static ɵfac: i0.ɵɵFactoryDef<NgControlStatusGroup, [{ optional: true; self: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgControlStatusGroup, "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", never, {}, {}, never>;
 }
+export {};
