@@ -63,6 +63,111 @@ export interface Validator {
     registerOnValidatorChange?(fn: () => void): void;
 }
 /**
+ * A base class for Validator-based Directives. The class contains common logic shared across such
+ * Directives.
+ *
+ * For internal use only, this class is not intended for use outside of the Forms package.
+ */
+declare abstract class AbstractValidatorDirective implements Validator {
+    private _validator;
+    private _onChange;
+    /**
+     * Helper function invoked from child classes to process changes (from `ngOnChanges` hook).
+     * @nodoc
+     */
+    handleChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    validate(control: AbstractControl): ValidationErrors | null;
+    /** @nodoc */
+    registerOnValidatorChange(fn: () => void): void;
+    static ɵfac: i0.ɵɵFactoryDef<AbstractValidatorDirective, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<AbstractValidatorDirective, never, never, {}, {}, never>;
+}
+/**
+ * @description
+ * Provider which adds `MaxValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const MAX_VALIDATOR: StaticProvider;
+/**
+ * A directive which installs the {@link MaxValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `max` attribute.
+ *
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a max validator
+ *
+ * The following example shows how to add a max validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input type="number" ngModel max="4">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+export declare class MaxValidator extends AbstractValidatorDirective implements OnChanges {
+    /**
+     * @description
+     * Tracks changes to the max bound to this directive.
+     */
+    max: string | number;
+    /**
+     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
+     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
+     * AOT mode. This could be refactored once ViewEngine is removed.
+     * @nodoc
+     */
+    ngOnChanges(changes: SimpleChanges): void;
+    static ɵfac: i0.ɵɵFactoryDef<MaxValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MaxValidator, "input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]", never, { "max": "max"; }, {}, never>;
+}
+/**
+ * @description
+ * Provider which adds `MinValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const MIN_VALIDATOR: StaticProvider;
+/**
+ * A directive which installs the {@link MinValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a min validator
+ *
+ * The following example shows how to add a min validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input type="number" ngModel min="4">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+export declare class MinValidator extends AbstractValidatorDirective implements OnChanges {
+    /**
+     * @description
+     * Tracks changes to the min bound to this directive.
+     */
+    min: string | number;
+    /**
+     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
+     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
+     * AOT mode. This could be refactored once ViewEngine is removed.
+     * @nodoc
+     */
+    ngOnChanges(changes: SimpleChanges): void;
+    static ɵfac: i0.ɵɵFactoryDef<MinValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MinValidator, "input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]", never, { "min": "min"; }, {}, never>;
+}
+/**
  * @description
  * An interface implemented by classes that perform asynchronous validation.
  *
@@ -408,3 +513,4 @@ export declare class PatternValidator implements Validator, OnChanges {
     static ɵfac: i0.ɵɵFactoryDef<PatternValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDefWithMeta<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { "pattern": "pattern"; }, {}, never>;
 }
+export {};

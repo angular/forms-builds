@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.4+244.sha-c9fa59a
+ * @license Angular v11.1.0-next.4+246.sha-8fb83ea
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6206,6 +6206,173 @@ FormControlName.ɵdir = ɵɵdefineDirective({ type: FormControlName, selectors: 
  * found in the LICENSE file at https://angular.io/license
  */
 /**
+ * A base class for Validator-based Directives. The class contains common logic shared across such
+ * Directives.
+ *
+ * For internal use only, this class is not intended for use outside of the Forms package.
+ */
+class AbstractValidatorDirective {
+    constructor() {
+        this._validator = Validators.nullValidator;
+    }
+    /**
+     * Helper function invoked from child classes to process changes (from `ngOnChanges` hook).
+     * @nodoc
+     */
+    handleChanges(changes) {
+        if (this.inputName in changes) {
+            const input = this.normalizeInput(changes[this.inputName].currentValue);
+            this._validator = this.createValidator(input);
+            if (this._onChange) {
+                this._onChange();
+            }
+        }
+    }
+    /** @nodoc */
+    validate(control) {
+        return this._validator(control);
+    }
+    /** @nodoc */
+    registerOnValidatorChange(fn) {
+        this._onChange = fn;
+    }
+}
+AbstractValidatorDirective.ɵfac = function AbstractValidatorDirective_Factory(t) { return new (t || AbstractValidatorDirective)(); };
+AbstractValidatorDirective.ɵdir = ɵɵdefineDirective({ type: AbstractValidatorDirective });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(AbstractValidatorDirective, [{
+        type: Directive
+    }], null, null); })();
+/**
+ * @description
+ * Provider which adds `MaxValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+const MAX_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(() => MaxValidator),
+    multi: true
+};
+/**
+ * A directive which installs the {@link MaxValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `max` attribute.
+ *
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a max validator
+ *
+ * The following example shows how to add a max validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input type="number" ngModel max="4">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+class MaxValidator extends AbstractValidatorDirective {
+    constructor() {
+        super(...arguments);
+        /** @internal */
+        this.inputName = 'max';
+        /** @internal */
+        this.normalizeInput = (input) => parseInt(input, 10);
+        /** @internal */
+        this.createValidator = (max) => Validators.max(max);
+    }
+    /**
+     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
+     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
+     * AOT mode. This could be refactored once ViewEngine is removed.
+     * @nodoc
+     */
+    ngOnChanges(changes) {
+        this.handleChanges(changes);
+    }
+}
+MaxValidator.ɵfac = function MaxValidator_Factory(t) { return ɵMaxValidator_BaseFactory(t || MaxValidator); };
+MaxValidator.ɵdir = ɵɵdefineDirective({ type: MaxValidator, selectors: [["input", "type", "number", "max", "", "formControlName", ""], ["input", "type", "number", "max", "", "formControl", ""], ["input", "type", "number", "max", "", "ngModel", ""]], hostVars: 1, hostBindings: function MaxValidator_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵattribute("max", ctx.max ? ctx.max : null);
+    } }, inputs: { max: "max" }, features: [ɵɵProvidersFeature([MAX_VALIDATOR]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
+const ɵMaxValidator_BaseFactory = /*@__PURE__*/ ɵɵgetInheritedFactory(MaxValidator);
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(MaxValidator, [{
+        type: Directive,
+        args: [{
+                selector: 'input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]',
+                providers: [MAX_VALIDATOR],
+                host: { '[attr.max]': 'max ? max : null' }
+            }]
+    }], null, { max: [{
+            type: Input
+        }] }); })();
+/**
+ * @description
+ * Provider which adds `MinValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+const MIN_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(() => MinValidator),
+    multi: true
+};
+/**
+ * A directive which installs the {@link MinValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a min validator
+ *
+ * The following example shows how to add a min validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input type="number" ngModel min="4">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+class MinValidator extends AbstractValidatorDirective {
+    constructor() {
+        super(...arguments);
+        /** @internal */
+        this.inputName = 'min';
+        /** @internal */
+        this.normalizeInput = (input) => parseInt(input, 10);
+        /** @internal */
+        this.createValidator = (min) => Validators.min(min);
+    }
+    /**
+     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
+     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
+     * AOT mode. This could be refactored once ViewEngine is removed.
+     * @nodoc
+     */
+    ngOnChanges(changes) {
+        this.handleChanges(changes);
+    }
+}
+MinValidator.ɵfac = function MinValidator_Factory(t) { return ɵMinValidator_BaseFactory(t || MinValidator); };
+MinValidator.ɵdir = ɵɵdefineDirective({ type: MinValidator, selectors: [["input", "type", "number", "min", "", "formControlName", ""], ["input", "type", "number", "min", "", "formControl", ""], ["input", "type", "number", "min", "", "ngModel", ""]], hostVars: 1, hostBindings: function MinValidator_HostBindings(rf, ctx) { if (rf & 2) {
+        ɵɵattribute("min", ctx.min ? ctx.min : null);
+    } }, inputs: { min: "min" }, features: [ɵɵProvidersFeature([MIN_VALIDATOR]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
+const ɵMinValidator_BaseFactory = /*@__PURE__*/ ɵɵgetInheritedFactory(MinValidator);
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(MinValidator, [{
+        type: Directive,
+        args: [{
+                selector: 'input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]',
+                providers: [MIN_VALIDATOR],
+                host: { '[attr.min]': 'min ? min : null' }
+            }]
+    }], null, { min: [{
+            type: Input
+        }] }); })();
+/**
  * @description
  * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
  */
@@ -6656,6 +6823,8 @@ const SHARED_FORM_DIRECTIVES = [
     PatternValidator,
     CheckboxRequiredValidator,
     EmailValidator,
+    MinValidator,
+    MaxValidator,
 ];
 const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
 const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
@@ -6683,7 +6852,9 @@ class ɵInternalFormsSharedModule {
         MaxLengthValidator,
         PatternValidator,
         CheckboxRequiredValidator,
-        EmailValidator], exports: [ɵNgNoValidate,
+        EmailValidator,
+        MinValidator,
+        MaxValidator], exports: [ɵNgNoValidate,
         NgSelectOption,
         ɵNgSelectMultipleOption,
         DefaultValueAccessor,
@@ -6700,7 +6871,9 @@ class ɵInternalFormsSharedModule {
         MaxLengthValidator,
         PatternValidator,
         CheckboxRequiredValidator,
-        EmailValidator] }); })();
+        EmailValidator,
+        MinValidator,
+        MaxValidator] }); })();
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(ɵInternalFormsSharedModule, [{
         type: NgModule,
         args: [{
@@ -6839,7 +7012,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('11.1.0-next.4+244.sha-c9fa59a');
+const VERSION = new Version('11.1.0-next.4+246.sha-8fb83ea');
 
 /**
  * @license
@@ -6938,5 +7111,5 @@ ReactiveFormsModule.ɵinj = ɵɵdefineInjector({ factory: function ReactiveForms
  * Generated bundle index. Do not edit.
  */
 
-export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, MaxLengthValidator, MinLengthValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NumberValueAccessor, PatternValidator, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, VERSION, Validators, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption };
+export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NumberValueAccessor, PatternValidator, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, VERSION, Validators, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption };
 //# sourceMappingURL=forms.js.map
