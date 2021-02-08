@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.1.0-next.4+244.sha-c9fa59a
+ * @license Angular v11.1.0-next.4+246.sha-8fb83ea
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -757,6 +757,26 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): Form | null;
+}
+
+/**
+ * A base class for Validator-based Directives. The class contains common logic shared across such
+ * Directives.
+ *
+ * For internal use only, this class is not intended for use outside of the Forms package.
+ */
+declare abstract class AbstractValidatorDirective implements Validator {
+    private _validator;
+    private _onChange;
+    /**
+     * Helper function invoked from child classes to process changes (from `ngOnChanges` hook).
+     * @nodoc
+     */
+    handleChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    validate(control: AbstractControl): ValidationErrors | null;
+    /** @nodoc */
+    registerOnValidatorChange(fn: () => void): void;
 }
 
 declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending';
@@ -2610,6 +2630,42 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
 }
 
 /**
+ * A directive which installs the {@link MaxValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `max` attribute.
+ *
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a max validator
+ *
+ * The following example shows how to add a max validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input type="number" ngModel max="4">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+export declare class MaxValidator extends AbstractValidatorDirective implements OnChanges {
+    /**
+     * @description
+     * Tracks changes to the max bound to this directive.
+     */
+    max: string | number;
+    /**
+     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
+     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
+     * AOT mode. This could be refactored once ViewEngine is removed.
+     * @nodoc
+     */
+    ngOnChanges(changes: SimpleChanges): void;
+}
+
+/**
  * A directive that adds minimum length validation to controls marked with the
  * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
@@ -2652,6 +2708,42 @@ export declare class MinLengthValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
+}
+
+/**
+ * A directive which installs the {@link MinValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a min validator
+ *
+ * The following example shows how to add a min validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input type="number" ngModel min="4">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+export declare class MinValidator extends AbstractValidatorDirective implements OnChanges {
+    /**
+     * @description
+     * Tracks changes to the min bound to this directive.
+     */
+    min: string | number;
+    /**
+     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
+     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
+     * AOT mode. This could be refactored once ViewEngine is removed.
+     * @nodoc
+     */
+    ngOnChanges(changes: SimpleChanges): void;
 }
 
 /**
@@ -4078,33 +4170,45 @@ export declare const ɵangular_packages_forms_forms_b: Type<any>[];
 
 /**
  * @description
- * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `MinValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_ba: StaticProvider;
 
 /**
  * @description
+ * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_bb: StaticProvider;
+
+/**
+ * @description
+ * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_bc: StaticProvider;
+
+/**
+ * @description
  * Provider which adds `EmailValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bb: any;
-
-/**
- * @description
- * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bc: any;
-
-/**
- * @description
- * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_bd: any;
 
 /**
  * @description
- * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_be: any;
+
+/**
+ * @description
+ * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_bf: any;
+
+/**
+ * @description
+ * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_bg: any;
 
 export declare const ɵangular_packages_forms_forms_c: Type<any>[];
 
@@ -4185,7 +4289,7 @@ export declare const ɵangular_packages_forms_forms_w: StaticProvider;
 
 /**
  * @description
- * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `MaxValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_z: StaticProvider;
 
