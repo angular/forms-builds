@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.0+67.sha-75db0c7
+ * @license Angular v12.0.0-next.0+69.sha-12f7101
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3734,9 +3734,8 @@ export declare class RequiredValidator implements Validator {
  * ```
  *
  * **Note:** We listen to the 'change' event because 'input' events aren't fired
- * for selects in Firefox and IE:
- * https://bugzilla.mozilla.org/show_bug.cgi?id=1024350
- * https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
+ * for selects in IE, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event#browser_compatibility
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
