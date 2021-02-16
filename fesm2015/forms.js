@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.0+44.sha-7fa8819
+ * @license Angular v12.0.0-next.0+66.sha-95ad452
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3766,22 +3766,34 @@ class FormGroup extends AbstractControl {
      *
      * @param name The control name to add to the collection
      * @param control Provides the control for the given name
+     * @param options Specifies whether this FormGroup instance should emit events after a new
+     *     control is added.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * added. When false, no events are emitted.
      */
-    addControl(name, control) {
+    addControl(name, control, options = {}) {
         this.registerControl(name, control);
-        this.updateValueAndValidity();
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
         this._onCollectionChange();
     }
     /**
      * Remove a control from this group.
      *
+     * This method also updates the value and validity of the control.
+     *
      * @param name The control name to remove from the collection
+     * @param options Specifies whether this FormGroup instance should emit events after a
+     *     control is removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * removed. When false, no events are emitted.
      */
-    removeControl(name) {
+    removeControl(name, options = {}) {
         if (this.controls[name])
             this.controls[name]._registerOnCollectionChange(() => { });
         delete (this.controls[name]);
-        this.updateValueAndValidity();
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
         this._onCollectionChange();
     }
     /**
@@ -3789,14 +3801,19 @@ class FormGroup extends AbstractControl {
      *
      * @param name The control name to replace in the collection
      * @param control Provides the control for the given name
+     * @param options Specifies whether this FormGroup instance should emit events after an
+     *     existing control is replaced.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * replaced with a new one. When false, no events are emitted.
      */
-    setControl(name, control) {
+    setControl(name, control, options = {}) {
         if (this.controls[name])
             this.controls[name]._registerOnCollectionChange(() => { });
         delete (this.controls[name]);
         if (control)
             this.registerControl(name, control);
-        this.updateValueAndValidity();
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
         this._onCollectionChange();
     }
     /**
@@ -4170,11 +4187,16 @@ class FormArray extends AbstractControl {
      * Insert a new `AbstractControl` at the end of the array.
      *
      * @param control Form control to be inserted
+     * @param options Specifies whether this FormArray instance should emit events after a new
+     *     control is added.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * inserted. When false, no events are emitted.
      */
-    push(control) {
+    push(control, options = {}) {
         this.controls.push(control);
         this._registerControl(control);
-        this.updateValueAndValidity();
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
         this._onCollectionChange();
     }
     /**
@@ -4182,30 +4204,45 @@ class FormArray extends AbstractControl {
      *
      * @param index Index in the array to insert the control
      * @param control Form control to be inserted
+     * @param options Specifies whether this FormArray instance should emit events after a new
+     *     control is inserted.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * inserted. When false, no events are emitted.
      */
-    insert(index, control) {
+    insert(index, control, options = {}) {
         this.controls.splice(index, 0, control);
         this._registerControl(control);
-        this.updateValueAndValidity();
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
     }
     /**
      * Remove the control at the given `index` in the array.
      *
      * @param index Index in the array to remove the control
+     * @param options Specifies whether this FormArray instance should emit events after a
+     *     control is removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * removed. When false, no events are emitted.
      */
-    removeAt(index) {
+    removeAt(index, options = {}) {
         if (this.controls[index])
             this.controls[index]._registerOnCollectionChange(() => { });
         this.controls.splice(index, 1);
-        this.updateValueAndValidity();
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
     }
     /**
      * Replace an existing control.
      *
      * @param index Index in the array to replace the control
      * @param control The `AbstractControl` control to replace the existing control
+     * @param options Specifies whether this FormArray instance should emit events after an
+     *     existing control is replaced with a new one.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * replaced with a new one. When false, no events are emitted.
      */
-    setControl(index, control) {
+    setControl(index, control, options = {}) {
         if (this.controls[index])
             this.controls[index]._registerOnCollectionChange(() => { });
         this.controls.splice(index, 1);
@@ -4213,7 +4250,7 @@ class FormArray extends AbstractControl {
             this.controls.splice(index, 0, control);
             this._registerControl(control);
         }
-        this.updateValueAndValidity();
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
         this._onCollectionChange();
     }
     /**
@@ -4379,6 +4416,12 @@ class FormArray extends AbstractControl {
     /**
      * Remove all controls in the `FormArray`.
      *
+     * @param options Specifies whether this FormArray instance should emit events after all
+     *     controls are removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when all controls
+     * in this FormArray instance are removed. When false, no events are emitted.
+     *
      * @usageNotes
      * ### Remove all elements from a FormArray
      *
@@ -4406,12 +4449,12 @@ class FormArray extends AbstractControl {
      * }
      * ```
      */
-    clear() {
+    clear(options = {}) {
         if (this.controls.length < 1)
             return;
         this._forEachChild((control) => control._registerOnCollectionChange(() => { }));
         this.controls.splice(0);
-        this.updateValueAndValidity();
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
     }
     /** @internal */
     _syncPendingControls() {
@@ -7012,7 +7055,7 @@ FormBuilder.ɵprov = ɵɵdefineInjectable({ token: FormBuilder, factory: FormBui
 /**
  * @publicApi
  */
-const VERSION = new Version('12.0.0-next.0+44.sha-7fa8819');
+const VERSION = new Version('12.0.0-next.0+66.sha-95ad452');
 
 /**
  * @license

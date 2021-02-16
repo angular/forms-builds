@@ -848,21 +848,44 @@ export declare class FormGroup extends AbstractControl {
      *
      * @param name The control name to add to the collection
      * @param control Provides the control for the given name
+     * @param options Specifies whether this FormGroup instance should emit events after a new
+     *     control is added.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * added. When false, no events are emitted.
      */
-    addControl(name: string, control: AbstractControl): void;
+    addControl(name: string, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Remove a control from this group.
      *
+     * This method also updates the value and validity of the control.
+     *
      * @param name The control name to remove from the collection
+     * @param options Specifies whether this FormGroup instance should emit events after a
+     *     control is removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * removed. When false, no events are emitted.
      */
-    removeControl(name: string): void;
+    removeControl(name: string, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Replace an existing control.
      *
      * @param name The control name to replace in the collection
      * @param control Provides the control for the given name
+     * @param options Specifies whether this FormGroup instance should emit events after an
+     *     existing control is replaced.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * replaced with a new one. When false, no events are emitted.
      */
-    setControl(name: string, control: AbstractControl): void;
+    setControl(name: string, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
@@ -1112,28 +1135,56 @@ export declare class FormArray extends AbstractControl {
      * Insert a new `AbstractControl` at the end of the array.
      *
      * @param control Form control to be inserted
+     * @param options Specifies whether this FormArray instance should emit events after a new
+     *     control is added.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * inserted. When false, no events are emitted.
      */
-    push(control: AbstractControl): void;
+    push(control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Insert a new `AbstractControl` at the given `index` in the array.
      *
      * @param index Index in the array to insert the control
      * @param control Form control to be inserted
+     * @param options Specifies whether this FormArray instance should emit events after a new
+     *     control is inserted.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * inserted. When false, no events are emitted.
      */
-    insert(index: number, control: AbstractControl): void;
+    insert(index: number, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Remove the control at the given `index` in the array.
      *
      * @param index Index in the array to remove the control
+     * @param options Specifies whether this FormArray instance should emit events after a
+     *     control is removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * removed. When false, no events are emitted.
      */
-    removeAt(index: number): void;
+    removeAt(index: number, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Replace an existing control.
      *
      * @param index Index in the array to replace the control
      * @param control The `AbstractControl` control to replace the existing control
+     * @param options Specifies whether this FormArray instance should emit events after an
+     *     existing control is replaced with a new one.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * replaced with a new one. When false, no events are emitted.
      */
-    setControl(index: number, control: AbstractControl): void;
+    setControl(index: number, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Length of the control array.
      */
@@ -1273,6 +1324,12 @@ export declare class FormArray extends AbstractControl {
     /**
      * Remove all controls in the `FormArray`.
      *
+     * @param options Specifies whether this FormArray instance should emit events after all
+     *     controls are removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when all controls
+     * in this FormArray instance are removed. When false, no events are emitted.
+     *
      * @usageNotes
      * ### Remove all elements from a FormArray
      *
@@ -1300,6 +1357,8 @@ export declare class FormArray extends AbstractControl {
      * }
      * ```
      */
-    clear(): void;
+    clear(options?: {
+        emitEvent?: boolean;
+    }): void;
     private _registerControl;
 }
