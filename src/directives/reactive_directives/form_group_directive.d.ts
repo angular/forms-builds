@@ -27,6 +27,7 @@ export declare const formDirectiveProvider: any;
  * @see [Reactive Forms Guide](guide/reactive-forms)
  * @see `AbstractControl`
  *
+ * @usageNotes
  * ### Register Form Group
  *
  * The following example registers a `FormGroup` with first name and last name controls,
