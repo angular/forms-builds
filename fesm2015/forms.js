@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.1+12.sha-aed2782
+ * @license Angular v12.0.0-next.1+15.sha-d0b6270
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5403,6 +5403,7 @@ const formDirectiveProvider$1 = {
  * @see [Reactive Forms Guide](guide/reactive-forms)
  * @see `AbstractControl`
  *
+ * @usageNotes
  * ### Register Form Group
  *
  * The following example registers a `FormGroup` with first name and last name controls,
@@ -6767,7 +6768,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('12.0.0-next.1+12.sha-aed2782');
+const VERSION = new Version('12.0.0-next.1+15.sha-d0b6270');
 
 /**
  * @license
