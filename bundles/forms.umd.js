@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.0+37.sha-1646f8d
+ * @license Angular v12.0.0-next.1+38.sha-44ffa8c
  * (c) 2010-2020 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2088,9 +2088,8 @@
      * ```
      *
      * **Note:** We listen to the 'change' event because 'input' events aren't fired
-     * for selects in Firefox and IE:
-     * https://bugzilla.mozilla.org/show_bug.cgi?id=1024350
-     * https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
+     * for selects in IE, see:
+     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event#browser_compatibility
      *
      * @ngModule ReactiveFormsModule
      * @ngModule FormsModule
@@ -4126,22 +4125,36 @@
          *
          * @param name The control name to add to the collection
          * @param control Provides the control for the given name
+         * @param options Specifies whether this FormGroup instance should emit events after a new
+         *     control is added.
+         * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+         * `valueChanges` observables emit events with the latest status and value when the control is
+         * added. When false, no events are emitted.
          */
-        FormGroup.prototype.addControl = function (name, control) {
+        FormGroup.prototype.addControl = function (name, control, options) {
+            if (options === void 0) { options = {}; }
             this.registerControl(name, control);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: options.emitEvent });
             this._onCollectionChange();
         };
         /**
          * Remove a control from this group.
          *
+         * This method also updates the value and validity of the control.
+         *
          * @param name The control name to remove from the collection
+         * @param options Specifies whether this FormGroup instance should emit events after a
+         *     control is removed.
+         * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+         * `valueChanges` observables emit events with the latest status and value when the control is
+         * removed. When false, no events are emitted.
          */
-        FormGroup.prototype.removeControl = function (name) {
+        FormGroup.prototype.removeControl = function (name, options) {
+            if (options === void 0) { options = {}; }
             if (this.controls[name])
                 this.controls[name]._registerOnCollectionChange(function () { });
             delete (this.controls[name]);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: options.emitEvent });
             this._onCollectionChange();
         };
         /**
@@ -4149,14 +4162,20 @@
          *
          * @param name The control name to replace in the collection
          * @param control Provides the control for the given name
+         * @param options Specifies whether this FormGroup instance should emit events after an
+         *     existing control is replaced.
+         * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+         * `valueChanges` observables emit events with the latest status and value when the control is
+         * replaced with a new one. When false, no events are emitted.
          */
-        FormGroup.prototype.setControl = function (name, control) {
+        FormGroup.prototype.setControl = function (name, control, options) {
+            if (options === void 0) { options = {}; }
             if (this.controls[name])
                 this.controls[name]._registerOnCollectionChange(function () { });
             delete (this.controls[name]);
             if (control)
                 this.registerControl(name, control);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: options.emitEvent });
             this._onCollectionChange();
         };
         /**
@@ -4561,11 +4580,17 @@
          * Insert a new `AbstractControl` at the end of the array.
          *
          * @param control Form control to be inserted
+         * @param options Specifies whether this FormArray instance should emit events after a new
+         *     control is added.
+         * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+         * `valueChanges` observables emit events with the latest status and value when the control is
+         * inserted. When false, no events are emitted.
          */
-        FormArray.prototype.push = function (control) {
+        FormArray.prototype.push = function (control, options) {
+            if (options === void 0) { options = {}; }
             this.controls.push(control);
             this._registerControl(control);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: options.emitEvent });
             this._onCollectionChange();
         };
         /**
@@ -4573,30 +4598,48 @@
          *
          * @param index Index in the array to insert the control
          * @param control Form control to be inserted
+         * @param options Specifies whether this FormArray instance should emit events after a new
+         *     control is inserted.
+         * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+         * `valueChanges` observables emit events with the latest status and value when the control is
+         * inserted. When false, no events are emitted.
          */
-        FormArray.prototype.insert = function (index, control) {
+        FormArray.prototype.insert = function (index, control, options) {
+            if (options === void 0) { options = {}; }
             this.controls.splice(index, 0, control);
             this._registerControl(control);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: options.emitEvent });
         };
         /**
          * Remove the control at the given `index` in the array.
          *
          * @param index Index in the array to remove the control
+         * @param options Specifies whether this FormArray instance should emit events after a
+         *     control is removed.
+         * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+         * `valueChanges` observables emit events with the latest status and value when the control is
+         * removed. When false, no events are emitted.
          */
-        FormArray.prototype.removeAt = function (index) {
+        FormArray.prototype.removeAt = function (index, options) {
+            if (options === void 0) { options = {}; }
             if (this.controls[index])
                 this.controls[index]._registerOnCollectionChange(function () { });
             this.controls.splice(index, 1);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: options.emitEvent });
         };
         /**
          * Replace an existing control.
          *
          * @param index Index in the array to replace the control
          * @param control The `AbstractControl` control to replace the existing control
+         * @param options Specifies whether this FormArray instance should emit events after an
+         *     existing control is replaced with a new one.
+         * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+         * `valueChanges` observables emit events with the latest status and value when the control is
+         * replaced with a new one. When false, no events are emitted.
          */
-        FormArray.prototype.setControl = function (index, control) {
+        FormArray.prototype.setControl = function (index, control, options) {
+            if (options === void 0) { options = {}; }
             if (this.controls[index])
                 this.controls[index]._registerOnCollectionChange(function () { });
             this.controls.splice(index, 1);
@@ -4604,7 +4647,7 @@
                 this.controls.splice(index, 0, control);
                 this._registerControl(control);
             }
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: options.emitEvent });
             this._onCollectionChange();
         };
         Object.defineProperty(FormArray.prototype, "length", {
@@ -4780,6 +4823,12 @@
         /**
          * Remove all controls in the `FormArray`.
          *
+         * @param options Specifies whether this FormArray instance should emit events after all
+         *     controls are removed.
+         * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+         * `valueChanges` observables emit events with the latest status and value when all controls
+         * in this FormArray instance are removed. When false, no events are emitted.
+         *
          * @usageNotes
          * ### Remove all elements from a FormArray
          *
@@ -4807,12 +4856,13 @@
          * }
          * ```
          */
-        FormArray.prototype.clear = function () {
+        FormArray.prototype.clear = function (options) {
+            if (options === void 0) { options = {}; }
             if (this.controls.length < 1)
                 return;
             this._forEachChild(function (control) { return control._registerOnCollectionChange(function () { }); });
             this.controls.splice(0);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: options.emitEvent });
         };
         /** @internal */
         FormArray.prototype._syncPendingControls = function () {
@@ -5806,6 +5856,7 @@
      * @see [Reactive Forms Guide](guide/reactive-forms)
      * @see `AbstractControl`
      *
+     * @usageNotes
      * ### Register Form Group
      *
      * The following example registers a `FormGroup` with first name and last name controls,
@@ -7233,7 +7284,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('12.0.0-next.0+37.sha-1646f8d');
+    var VERSION = new core.Version('12.0.0-next.1+38.sha-44ffa8c');
 
     /**
      * @license
