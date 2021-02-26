@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.2+7.sha-6c05c80
+ * @license Angular v12.0.0-next.2+9.sha-953e98e
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3559,6 +3559,17 @@
          * -OR-
          *
          * * `this.form.get(['person', 'name']);`
+         *
+         * ### Retrieve a control in a FormArray
+         *
+         * When accessing an element inside a FormArray, you can use an element index.
+         * For example, to get a `price` control from the first element in an `items` array you can use:
+         *
+         * * `this.form.get('items.0.price');`
+         *
+         * -OR-
+         *
+         * * `this.form.get(['items', 0, 'price']);`
          */
         AbstractControl.prototype.get = function (path) {
             return _find(this, path, '.');
@@ -7284,7 +7295,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('12.0.0-next.2+7.sha-6c05c80');
+    var VERSION = new core.Version('12.0.0-next.2+9.sha-953e98e');
 
     /**
      * @license
