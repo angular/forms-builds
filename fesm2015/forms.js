@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.3+40.sha-bdf13fe
+ * @license Angular v12.0.0-next.3+42.sha-2ebe2bc
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6887,8 +6887,9 @@ const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, Fo
  */
 class ɵInternalFormsSharedModule {
 }
+ɵInternalFormsSharedModule.ɵfac = function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); };
 ɵInternalFormsSharedModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
-ɵInternalFormsSharedModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
+ɵInternalFormsSharedModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({});
 (function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(ɵInternalFormsSharedModule, { declarations: [ɵNgNoValidate,
         NgSelectOption,
         ɵNgSelectMultipleOption,
@@ -7066,7 +7067,7 @@ FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, fa
 /**
  * @publicApi
  */
-const VERSION = new Version('12.0.0-next.3+40.sha-bdf13fe');
+const VERSION = new Version('12.0.0-next.3+42.sha-2ebe2bc');
 
 /**
  * @license
@@ -7086,8 +7087,9 @@ const VERSION = new Version('12.0.0-next.3+40.sha-bdf13fe');
  */
 class FormsModule {
 }
+FormsModule.ɵfac = function FormsModule_Factory(t) { return new (t || FormsModule)(); };
 FormsModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: FormsModule });
-FormsModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
+FormsModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
 (function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] }); })();
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(FormsModule, [{
         type: NgModule,
@@ -7124,8 +7126,9 @@ class ReactiveFormsModule {
         };
     }
 }
+ReactiveFormsModule.ɵfac = function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); };
 ReactiveFormsModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: ReactiveFormsModule });
-ReactiveFormsModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
+ReactiveFormsModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
 (function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] }); })();
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(ReactiveFormsModule, [{
         type: NgModule,

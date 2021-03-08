@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.3+40.sha-bdf13fe
+ * @license Angular v12.0.0-next.3+42.sha-2ebe2bc
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -7521,8 +7521,9 @@
         }
         return ɵInternalFormsSharedModule;
     }());
+    ɵInternalFormsSharedModule.ɵfac = function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); };
     ɵInternalFormsSharedModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
-    ɵInternalFormsSharedModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ factory: function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); } });
+    ɵInternalFormsSharedModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({});
     (function () {
         (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(ɵInternalFormsSharedModule, { declarations: [ɵNgNoValidate,
                 NgSelectOption,
@@ -7712,7 +7713,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.0.0-next.3+40.sha-bdf13fe');
+    var VERSION = new i0.Version('12.0.0-next.3+42.sha-2ebe2bc');
 
     /**
      * @license
@@ -7735,8 +7736,9 @@
         }
         return FormsModule;
     }());
+    FormsModule.ɵfac = function FormsModule_Factory(t) { return new (t || FormsModule)(); };
     FormsModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: FormsModule });
-    FormsModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ factory: function FormsModule_Factory(t) { return new (t || FormsModule)(); }, providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
+    FormsModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
     (function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] }); })();
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(FormsModule, [{
@@ -7778,8 +7780,9 @@
         };
         return ReactiveFormsModule;
     }());
+    ReactiveFormsModule.ɵfac = function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); };
     ReactiveFormsModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: ReactiveFormsModule });
-    ReactiveFormsModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ factory: function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); }, providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
+    ReactiveFormsModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
     (function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] }); })();
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ReactiveFormsModule, [{
