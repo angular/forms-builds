@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.4+20.sha-e3ea863
+ * @license Angular v12.0.0-next.4+21.sha-8a9fe49
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6102,14 +6102,21 @@
         FormGroupDirective.prototype._updateDomValue = function () {
             var _this = this;
             this.directives.forEach(function (dir) {
+                var oldCtrl = dir.control;
                 var newCtrl = _this.form.get(dir.path);
-                if (dir.control !== newCtrl) {
+                if (oldCtrl !== newCtrl) {
                     // Note: the value of the `dir.control` may not be defined, for example when it's a first
                     // `FormControl` that is added to a `FormGroup` instance (via `addControl` call).
-                    cleanUpControl(dir.control || null, dir);
-                    if (newCtrl)
+                    cleanUpControl(oldCtrl || null, dir);
+                    // Check whether new control at the same location inside the corresponding `FormGroup` is an
+                    // instance of `FormControl` and perform control setup only if that's the case.
+                    // Note: we don't need to clear the list of directives (`this.directives`) here, it would be
+                    // taken care of in the `removeControl` method invoked when corresponding `formControlName`
+                    // directive instance is being removed (invoked from `FormControlName.ngOnDestroy`).
+                    if (newCtrl instanceof FormControl) {
                         setUpControl(newCtrl, dir);
-                    dir.control = newCtrl;
+                        dir.control = newCtrl;
+                    }
                 }
             });
             this.form._updateTreeValidity({ emitEvent: false });
@@ -7295,7 +7302,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('12.0.0-next.4+20.sha-e3ea863');
+    var VERSION = new core.Version('12.0.0-next.4+21.sha-8a9fe49');
 
     /**
      * @license
