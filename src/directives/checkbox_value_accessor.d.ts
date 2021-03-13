@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { ElementRef, Renderer2 } from '@angular/core';
-import { ControlValueAccessor } from './control_value_accessor';
+import { BuiltInControlValueAccessor, ControlValueAccessor } from './control_value_accessor';
 import * as i0 from "@angular/core";
 export declare const CHECKBOX_VALUE_ACCESSOR: any;
 /**
@@ -32,7 +32,7 @@ export declare const CHECKBOX_VALUE_ACCESSOR: any;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class CheckboxControlValueAccessor implements ControlValueAccessor {
+export declare class CheckboxControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**

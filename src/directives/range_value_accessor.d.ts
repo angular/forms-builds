@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { ElementRef, Renderer2, StaticProvider } from '@angular/core';
-import { ControlValueAccessor } from './control_value_accessor';
+import { BuiltInControlValueAccessor, ControlValueAccessor } from './control_value_accessor';
 import * as i0 from "@angular/core";
 export declare const RANGE_VALUE_ACCESSOR: StaticProvider;
 /**
@@ -33,7 +33,7 @@ export declare const RANGE_VALUE_ACCESSOR: StaticProvider;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class RangeValueAccessor implements ControlValueAccessor {
+export declare class RangeValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**

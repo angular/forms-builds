@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { ElementRef, OnDestroy, Renderer2, StaticProvider } from '@angular/core';
-import { ControlValueAccessor } from './control_value_accessor';
+import { BuiltInControlValueAccessor, ControlValueAccessor } from './control_value_accessor';
 import * as i0 from "@angular/core";
 export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
 /**
@@ -44,7 +44,7 @@ export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
+export declare class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**

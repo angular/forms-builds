@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { ElementRef, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { ControlValueAccessor } from './control_value_accessor';
+import { BuiltInControlValueAccessor, ControlValueAccessor } from './control_value_accessor';
 import { NgControl } from './ng_control';
 import * as i0 from "@angular/core";
 export declare const RADIO_VALUE_ACCESSOR: any;
@@ -55,7 +55,7 @@ export declare class RadioControlRegistry {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class RadioControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
+export declare class RadioControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
     private _renderer;
     private _elementRef;
     private _registry;
