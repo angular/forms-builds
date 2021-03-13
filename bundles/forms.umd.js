@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.4+21.sha-8a9fe49
+ * @license Angular v12.0.0-next.4+22.sha-937e90c
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -9,266 +9,6 @@
     typeof define === 'function' && define.amd ? define('@angular/forms', ['exports', '@angular/core', '@angular/common', 'rxjs', 'rxjs/operators'], factory) :
     (global = global || self, factory((global.ng = global.ng || {}, global.ng.forms = {}), global.ng.core, global.ng.common, global.rxjs, global.rxjs.operators));
 }(this, (function (exports, core, common, rxjs, operators) { 'use strict';
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    /**
-     * Used to provide a `ControlValueAccessor` for form controls.
-     *
-     * See `DefaultValueAccessor` for how to implement one.
-     *
-     * @publicApi
-     */
-    var NG_VALUE_ACCESSOR = new core.InjectionToken('NgValueAccessor');
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    var CHECKBOX_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return CheckboxControlValueAccessor; }),
-        multi: true,
-    };
-    /**
-     * @description
-     * A `ControlValueAccessor` for writing a value and listening to changes on a checkbox input
-     * element.
-     *
-     * @usageNotes
-     *
-     * ### Using a checkbox with a reactive form.
-     *
-     * The following example shows how to use a checkbox with a reactive form.
-     *
-     * ```ts
-     * const rememberLoginControl = new FormControl();
-     * ```
-     *
-     * ```
-     * <input type="checkbox" [formControl]="rememberLoginControl">
-     * ```
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var CheckboxControlValueAccessor = /** @class */ (function () {
-        function CheckboxControlValueAccessor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /**
-             * The registered callback function called when a change event occurs on the input element.
-             * @nodoc
-             */
-            this.onChange = function (_) { };
-            /**
-             * The registered callback function called when a blur event occurs on the input element.
-             * @nodoc
-             */
-            this.onTouched = function () { };
-        }
-        /**
-         * Sets the "checked" property on the input element.
-         * @nodoc
-         */
-        CheckboxControlValueAccessor.prototype.writeValue = function (value) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
-        };
-        /**
-         * Registers a function called when the control value changes.
-         * @nodoc
-         */
-        CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) {
-            this.onChange = fn;
-        };
-        /**
-         * Registers a function called when the control is touched.
-         * @nodoc
-         */
-        CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the input element.
-         * @nodoc
-         */
-        CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        return CheckboxControlValueAccessor;
-    }());
-    CheckboxControlValueAccessor.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
-                    host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
-                    providers: [CHECKBOX_VALUE_ACCESSOR]
-                },] }
-    ];
-    CheckboxControlValueAccessor.ctorParameters = function () { return [
-        { type: core.Renderer2 },
-        { type: core.ElementRef }
-    ]; };
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    var DEFAULT_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return DefaultValueAccessor; }),
-        multi: true
-    };
-    /**
-     * We must check whether the agent is Android because composition events
-     * behave differently between iOS and Android.
-     */
-    function _isAndroid() {
-        var userAgent = common.ɵgetDOM() ? common.ɵgetDOM().getUserAgent() : '';
-        return /android (\d+)/.test(userAgent.toLowerCase());
-    }
-    /**
-     * @description
-     * Provide this token to control if form directives buffer IME input until
-     * the "compositionend" event occurs.
-     * @publicApi
-     */
-    var COMPOSITION_BUFFER_MODE = new core.InjectionToken('CompositionEventMode');
-    /**
-     * @description
-     *
-     * {@searchKeywords ngDefaultControl}
-     *
-     * The default `ControlValueAccessor` for writing a value and listening to changes on input
-     * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
-     * `NgModel` directives.
-     *
-     * @usageNotes
-     *
-     * ### Using the default value accessor
-     *
-     * The following example shows how to use an input element that activates the default value accessor
-     * (in this case, a text field).
-     *
-     * ```ts
-     * const firstNameControl = new FormControl();
-     * ```
-     *
-     * ```
-     * <input type="text" [formControl]="firstNameControl">
-     * ```
-     *
-     * This value accessor is used by default for `<input type="text">` and `<textarea>` elements, but
-     * you could also use it for custom components that have similar behavior and do not require special
-     * processing. In order to attach the default value accessor to a custom element, add the
-     * `ngDefaultControl` attribute as shown below.
-     *
-     * ```
-     * <custom-input-component ngDefaultControl [(ngModel)]="value"></custom-input-component>
-     * ```
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var DefaultValueAccessor = /** @class */ (function () {
-        function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            this._compositionMode = _compositionMode;
-            /**
-             * The registered callback function called when an input event occurs on the input element.
-             * @nodoc
-             */
-            this.onChange = function (_) { };
-            /**
-             * The registered callback function called when a blur event occurs on the input element.
-             * @nodoc
-             */
-            this.onTouched = function () { };
-            /** Whether the user is creating a composition string (IME events). */
-            this._composing = false;
-            if (this._compositionMode == null) {
-                this._compositionMode = !_isAndroid();
-            }
-        }
-        /**
-         * Sets the "value" property on the input element.
-         * @nodoc
-         */
-        DefaultValueAccessor.prototype.writeValue = function (value) {
-            var normalizedValue = value == null ? '' : value;
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
-        };
-        /**
-         * Registers a function called when the control value changes.
-         * @nodoc
-         */
-        DefaultValueAccessor.prototype.registerOnChange = function (fn) {
-            this.onChange = fn;
-        };
-        /**
-         * Registers a function called when the control is touched.
-         * @nodoc
-         */
-        DefaultValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the input element.
-         * @nodoc
-         */
-        DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        /** @internal */
-        DefaultValueAccessor.prototype._handleInput = function (value) {
-            if (!this._compositionMode || (this._compositionMode && !this._composing)) {
-                this.onChange(value);
-            }
-        };
-        /** @internal */
-        DefaultValueAccessor.prototype._compositionStart = function () {
-            this._composing = true;
-        };
-        /** @internal */
-        DefaultValueAccessor.prototype._compositionEnd = function (value) {
-            this._composing = false;
-            this._compositionMode && this.onChange(value);
-        };
-        return DefaultValueAccessor;
-    }());
-    DefaultValueAccessor.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
-                    // TODO: vsavkin replace the above selector with the one below it once
-                    // https://github.com/angular/angular/issues/3011 is implemented
-                    // selector: '[ngModel],[formControl],[formControlName]',
-                    host: {
-                        '(input)': '$any(this)._handleInput($event.target.value)',
-                        '(blur)': 'onTouched()',
-                        '(compositionstart)': '$any(this)._compositionStart()',
-                        '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
-                    },
-                    providers: [DEFAULT_VALUE_ACCESSOR]
-                },] }
-    ];
-    DefaultValueAccessor.ctorParameters = function () { return [
-        { type: core.Renderer2 },
-        { type: core.ElementRef },
-        { type: Boolean, decorators: [{ type: core.Optional }, { type: core.Inject, args: [COMPOSITION_BUFFER_MODE,] }] }
-    ]; };
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -570,6 +310,274 @@
         privateMap.set(receiver, value);
         return value;
     }
+
+    /**
+     * @license
+     * Copyright Google LLC All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    /**
+     * Base class for all built-in ControlValueAccessor classes. We use this class to distinguish
+     * between built-in and custom CVAs, so that Forms logic can recognize built-in CVAs and treat
+     * custom ones with higher priority (when both built-in and custom CVAs are present).
+     * Note: this is an *internal-only* class and should not be extended or used directly in
+     * applications code.
+     */
+    var BuiltInControlValueAccessor = /** @class */ (function () {
+        function BuiltInControlValueAccessor() {
+        }
+        return BuiltInControlValueAccessor;
+    }());
+    /**
+     * Used to provide a `ControlValueAccessor` for form controls.
+     *
+     * See `DefaultValueAccessor` for how to implement one.
+     *
+     * @publicApi
+     */
+    var NG_VALUE_ACCESSOR = new core.InjectionToken('NgValueAccessor');
+
+    var CHECKBOX_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return CheckboxControlValueAccessor; }),
+        multi: true,
+    };
+    /**
+     * @description
+     * A `ControlValueAccessor` for writing a value and listening to changes on a checkbox input
+     * element.
+     *
+     * @usageNotes
+     *
+     * ### Using a checkbox with a reactive form.
+     *
+     * The following example shows how to use a checkbox with a reactive form.
+     *
+     * ```ts
+     * const rememberLoginControl = new FormControl();
+     * ```
+     *
+     * ```
+     * <input type="checkbox" [formControl]="rememberLoginControl">
+     * ```
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var CheckboxControlValueAccessor = /** @class */ (function (_super) {
+        __extends(CheckboxControlValueAccessor, _super);
+        function CheckboxControlValueAccessor(_renderer, _elementRef) {
+            var _this = _super.call(this) || this;
+            _this._renderer = _renderer;
+            _this._elementRef = _elementRef;
+            /**
+             * The registered callback function called when a change event occurs on the input element.
+             * @nodoc
+             */
+            _this.onChange = function (_) { };
+            /**
+             * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
+             */
+            _this.onTouched = function () { };
+            return _this;
+        }
+        /**
+         * Sets the "checked" property on the input element.
+         * @nodoc
+         */
+        CheckboxControlValueAccessor.prototype.writeValue = function (value) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
+        };
+        /**
+         * Registers a function called when the control value changes.
+         * @nodoc
+         */
+        CheckboxControlValueAccessor.prototype.registerOnChange = function (fn) {
+            this.onChange = fn;
+        };
+        /**
+         * Registers a function called when the control is touched.
+         * @nodoc
+         */
+        CheckboxControlValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the input element.
+         * @nodoc
+         */
+        CheckboxControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        return CheckboxControlValueAccessor;
+    }(BuiltInControlValueAccessor));
+    CheckboxControlValueAccessor.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
+                    host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
+                    providers: [CHECKBOX_VALUE_ACCESSOR]
+                },] }
+    ];
+    CheckboxControlValueAccessor.ctorParameters = function () { return [
+        { type: core.Renderer2 },
+        { type: core.ElementRef }
+    ]; };
+
+    /**
+     * @license
+     * Copyright Google LLC All Rights Reserved.
+     *
+     * Use of this source code is governed by an MIT-style license that can be
+     * found in the LICENSE file at https://angular.io/license
+     */
+    var DEFAULT_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return DefaultValueAccessor; }),
+        multi: true
+    };
+    /**
+     * We must check whether the agent is Android because composition events
+     * behave differently between iOS and Android.
+     */
+    function _isAndroid() {
+        var userAgent = common.ɵgetDOM() ? common.ɵgetDOM().getUserAgent() : '';
+        return /android (\d+)/.test(userAgent.toLowerCase());
+    }
+    /**
+     * @description
+     * Provide this token to control if form directives buffer IME input until
+     * the "compositionend" event occurs.
+     * @publicApi
+     */
+    var COMPOSITION_BUFFER_MODE = new core.InjectionToken('CompositionEventMode');
+    /**
+     * @description
+     *
+     * {@searchKeywords ngDefaultControl}
+     *
+     * The default `ControlValueAccessor` for writing a value and listening to changes on input
+     * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
+     * `NgModel` directives.
+     *
+     * @usageNotes
+     *
+     * ### Using the default value accessor
+     *
+     * The following example shows how to use an input element that activates the default value accessor
+     * (in this case, a text field).
+     *
+     * ```ts
+     * const firstNameControl = new FormControl();
+     * ```
+     *
+     * ```
+     * <input type="text" [formControl]="firstNameControl">
+     * ```
+     *
+     * This value accessor is used by default for `<input type="text">` and `<textarea>` elements, but
+     * you could also use it for custom components that have similar behavior and do not require special
+     * processing. In order to attach the default value accessor to a custom element, add the
+     * `ngDefaultControl` attribute as shown below.
+     *
+     * ```
+     * <custom-input-component ngDefaultControl [(ngModel)]="value"></custom-input-component>
+     * ```
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var DefaultValueAccessor = /** @class */ (function () {
+        function DefaultValueAccessor(_renderer, _elementRef, _compositionMode) {
+            this._renderer = _renderer;
+            this._elementRef = _elementRef;
+            this._compositionMode = _compositionMode;
+            /**
+             * The registered callback function called when an input event occurs on the input element.
+             * @nodoc
+             */
+            this.onChange = function (_) { };
+            /**
+             * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
+             */
+            this.onTouched = function () { };
+            /** Whether the user is creating a composition string (IME events). */
+            this._composing = false;
+            if (this._compositionMode == null) {
+                this._compositionMode = !_isAndroid();
+            }
+        }
+        /**
+         * Sets the "value" property on the input element.
+         * @nodoc
+         */
+        DefaultValueAccessor.prototype.writeValue = function (value) {
+            var normalizedValue = value == null ? '' : value;
+            this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+        };
+        /**
+         * Registers a function called when the control value changes.
+         * @nodoc
+         */
+        DefaultValueAccessor.prototype.registerOnChange = function (fn) {
+            this.onChange = fn;
+        };
+        /**
+         * Registers a function called when the control is touched.
+         * @nodoc
+         */
+        DefaultValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the input element.
+         * @nodoc
+         */
+        DefaultValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        /** @internal */
+        DefaultValueAccessor.prototype._handleInput = function (value) {
+            if (!this._compositionMode || (this._compositionMode && !this._composing)) {
+                this.onChange(value);
+            }
+        };
+        /** @internal */
+        DefaultValueAccessor.prototype._compositionStart = function () {
+            this._composing = true;
+        };
+        /** @internal */
+        DefaultValueAccessor.prototype._compositionEnd = function (value) {
+            this._composing = false;
+            this._compositionMode && this.onChange(value);
+        };
+        return DefaultValueAccessor;
+    }());
+    DefaultValueAccessor.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
+                    // TODO: vsavkin replace the above selector with the one below it once
+                    // https://github.com/angular/angular/issues/3011 is implemented
+                    // selector: '[ngModel],[formControl],[formControlName]',
+                    host: {
+                        '(input)': '$any(this)._handleInput($event.target.value)',
+                        '(blur)': 'onTouched()',
+                        '(compositionstart)': '$any(this)._compositionStart()',
+                        '(compositionend)': '$any(this)._compositionEnd($event.target.value)'
+                    },
+                    providers: [DEFAULT_VALUE_ACCESSOR]
+                },] }
+    ];
+    DefaultValueAccessor.ctorParameters = function () { return [
+        { type: core.Renderer2 },
+        { type: core.ElementRef },
+        { type: Boolean, decorators: [{ type: core.Optional }, { type: core.Inject, args: [COMPOSITION_BUFFER_MODE,] }] }
+    ]; };
 
     function isEmptyInputValue(value) {
         // we don't check for string here so it also works with arrays
@@ -1600,387 +1608,6 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var NUMBER_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return NumberValueAccessor; }),
-        multi: true
-    };
-    /**
-     * @description
-     * The `ControlValueAccessor` for writing a number value and listening to number input changes.
-     * The value accessor is used by the `FormControlDirective`, `FormControlName`, and `NgModel`
-     * directives.
-     *
-     * @usageNotes
-     *
-     * ### Using a number input with a reactive form.
-     *
-     * The following example shows how to use a number input with a reactive form.
-     *
-     * ```ts
-     * const totalCountControl = new FormControl();
-     * ```
-     *
-     * ```
-     * <input type="number" [formControl]="totalCountControl">
-     * ```
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var NumberValueAccessor = /** @class */ (function () {
-        function NumberValueAccessor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /**
-             * The registered callback function called when a change or input event occurs on the input
-             * element.
-             * @nodoc
-             */
-            this.onChange = function (_) { };
-            /**
-             * The registered callback function called when a blur event occurs on the input element.
-             * @nodoc
-             */
-            this.onTouched = function () { };
-        }
-        /**
-         * Sets the "value" property on the input element.
-         * @nodoc
-         */
-        NumberValueAccessor.prototype.writeValue = function (value) {
-            // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
-            var normalizedValue = value == null ? '' : value;
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
-        };
-        /**
-         * Registers a function called when the control value changes.
-         * @nodoc
-         */
-        NumberValueAccessor.prototype.registerOnChange = function (fn) {
-            this.onChange = function (value) {
-                fn(value == '' ? null : parseFloat(value));
-            };
-        };
-        /**
-         * Registers a function called when the control is touched.
-         * @nodoc
-         */
-        NumberValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the input element.
-         * @nodoc
-         */
-        NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        return NumberValueAccessor;
-    }());
-    NumberValueAccessor.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
-                    host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
-                    providers: [NUMBER_VALUE_ACCESSOR]
-                },] }
-    ];
-    NumberValueAccessor.ctorParameters = function () { return [
-        { type: core.Renderer2 },
-        { type: core.ElementRef }
-    ]; };
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    var RADIO_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return RadioControlValueAccessor; }),
-        multi: true
-    };
-    function throwNameError() {
-        throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
-    }
-    /**
-     * @description
-     * Class used by Angular to track radio buttons. For internal use only.
-     */
-    var RadioControlRegistry = /** @class */ (function () {
-        function RadioControlRegistry() {
-            this._accessors = [];
-        }
-        /**
-         * @description
-         * Adds a control to the internal registry. For internal use only.
-         */
-        RadioControlRegistry.prototype.add = function (control, accessor) {
-            this._accessors.push([control, accessor]);
-        };
-        /**
-         * @description
-         * Removes a control from the internal registry. For internal use only.
-         */
-        RadioControlRegistry.prototype.remove = function (accessor) {
-            for (var i = this._accessors.length - 1; i >= 0; --i) {
-                if (this._accessors[i][1] === accessor) {
-                    this._accessors.splice(i, 1);
-                    return;
-                }
-            }
-        };
-        /**
-         * @description
-         * Selects a radio button. For internal use only.
-         */
-        RadioControlRegistry.prototype.select = function (accessor) {
-            var _this = this;
-            this._accessors.forEach(function (c) {
-                if (_this._isSameGroup(c, accessor) && c[1] !== accessor) {
-                    c[1].fireUncheck(accessor.value);
-                }
-            });
-        };
-        RadioControlRegistry.prototype._isSameGroup = function (controlPair, accessor) {
-            if (!controlPair[0].control)
-                return false;
-            return controlPair[0]._parent === accessor._control._parent &&
-                controlPair[1].name === accessor.name;
-        };
-        return RadioControlRegistry;
-    }());
-    RadioControlRegistry.decorators = [
-        { type: core.Injectable }
-    ];
-    /**
-     * @description
-     * The `ControlValueAccessor` for writing radio control values and listening to radio control
-     * changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
-     * `NgModel` directives.
-     *
-     * @usageNotes
-     *
-     * ### Using radio buttons with reactive form directives
-     *
-     * The follow example shows how to use radio buttons in a reactive form. When using radio buttons in
-     * a reactive form, radio buttons in the same group should have the same `formControlName`.
-     * Providing a `name` attribute is optional.
-     *
-     * {@example forms/ts/reactiveRadioButtons/reactive_radio_button_example.ts region='Reactive'}
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var RadioControlValueAccessor = /** @class */ (function () {
-        function RadioControlValueAccessor(_renderer, _elementRef, _registry, _injector) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            this._registry = _registry;
-            this._injector = _injector;
-            /**
-             * The registered callback function called when a change event occurs on the input element.
-             * @nodoc
-             */
-            this.onChange = function () { };
-            /**
-             * The registered callback function called when a blur event occurs on the input element.
-             * @nodoc
-             */
-            this.onTouched = function () { };
-        }
-        /** @nodoc */
-        RadioControlValueAccessor.prototype.ngOnInit = function () {
-            this._control = this._injector.get(NgControl);
-            this._checkName();
-            this._registry.add(this._control, this);
-        };
-        /** @nodoc */
-        RadioControlValueAccessor.prototype.ngOnDestroy = function () {
-            this._registry.remove(this);
-        };
-        /**
-         * Sets the "checked" property value on the radio input element.
-         * @nodoc
-         */
-        RadioControlValueAccessor.prototype.writeValue = function (value) {
-            this._state = value === this.value;
-            this._renderer.setProperty(this._elementRef.nativeElement, 'checked', this._state);
-        };
-        /**
-         * Registers a function called when the control value changes.
-         * @nodoc
-         */
-        RadioControlValueAccessor.prototype.registerOnChange = function (fn) {
-            var _this = this;
-            this._fn = fn;
-            this.onChange = function () {
-                fn(_this.value);
-                _this._registry.select(_this);
-            };
-        };
-        /**
-         * Sets the "value" on the radio input element and unchecks it.
-         *
-         * @param value
-         */
-        RadioControlValueAccessor.prototype.fireUncheck = function (value) {
-            this.writeValue(value);
-        };
-        /**
-         * Registers a function called when the control is touched.
-         * @nodoc
-         */
-        RadioControlValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the input element.
-         * @nodoc
-         */
-        RadioControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        RadioControlValueAccessor.prototype._checkName = function () {
-            if (this.name && this.formControlName && this.name !== this.formControlName &&
-                (typeof ngDevMode === 'undefined' || ngDevMode)) {
-                throwNameError();
-            }
-            if (!this.name && this.formControlName)
-                this.name = this.formControlName;
-        };
-        return RadioControlValueAccessor;
-    }());
-    RadioControlValueAccessor.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
-                    host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
-                    providers: [RADIO_VALUE_ACCESSOR]
-                },] }
-    ];
-    RadioControlValueAccessor.ctorParameters = function () { return [
-        { type: core.Renderer2 },
-        { type: core.ElementRef },
-        { type: RadioControlRegistry },
-        { type: core.Injector }
-    ]; };
-    RadioControlValueAccessor.propDecorators = {
-        name: [{ type: core.Input }],
-        formControlName: [{ type: core.Input }],
-        value: [{ type: core.Input }]
-    };
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
-    var RANGE_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return RangeValueAccessor; }),
-        multi: true
-    };
-    /**
-     * @description
-     * The `ControlValueAccessor` for writing a range value and listening to range input changes.
-     * The value accessor is used by the `FormControlDirective`, `FormControlName`, and  `NgModel`
-     * directives.
-     *
-     * @usageNotes
-     *
-     * ### Using a range input with a reactive form
-     *
-     * The following example shows how to use a range input with a reactive form.
-     *
-     * ```ts
-     * const ageControl = new FormControl();
-     * ```
-     *
-     * ```
-     * <input type="range" [formControl]="ageControl">
-     * ```
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var RangeValueAccessor = /** @class */ (function () {
-        function RangeValueAccessor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /**
-             * The registered callback function called when a change or input event occurs on the input
-             * element.
-             * @nodoc
-             */
-            this.onChange = function (_) { };
-            /**
-             * The registered callback function called when a blur event occurs on the input element.
-             * @nodoc
-             */
-            this.onTouched = function () { };
-        }
-        /**
-         * Sets the "value" property on the input element.
-         * @nodoc
-         */
-        RangeValueAccessor.prototype.writeValue = function (value) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
-        };
-        /**
-         * Registers a function called when the control value changes.
-         * @nodoc
-         */
-        RangeValueAccessor.prototype.registerOnChange = function (fn) {
-            this.onChange = function (value) {
-                fn(value == '' ? null : parseFloat(value));
-            };
-        };
-        /**
-         * Registers a function called when the control is touched.
-         * @nodoc
-         */
-        RangeValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the range input element.
-         * @nodoc
-         */
-        RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        return RangeValueAccessor;
-    }());
-    RangeValueAccessor.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
-                    host: {
-                        '(change)': 'onChange($event.target.value)',
-                        '(input)': 'onChange($event.target.value)',
-                        '(blur)': 'onTouched()'
-                    },
-                    providers: [RANGE_VALUE_ACCESSOR]
-                },] }
-    ];
-    RangeValueAccessor.ctorParameters = function () { return [
-        { type: core.Renderer2 },
-        { type: core.ElementRef }
-    ]; };
-
-    /**
-     * @license
-     * Copyright Google LLC All Rights Reserved.
-     *
-     * Use of this source code is governed by an MIT-style license that can be
-     * found in the LICENSE file at https://angular.io/license
-     */
     var FormErrorExamples = {
         formControlName: "\n    <div [formGroup]=\"myGroup\">\n      <input formControlName=\"firstName\">\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       firstName: new FormControl()\n    });",
         formGroupName: "\n    <div [formGroup]=\"myGroup\">\n       <div formGroupName=\"person\">\n          <input formControlName=\"firstName\">\n       </div>\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       person: new FormGroup({ firstName: new FormControl() })\n    });",
@@ -2023,560 +1650,6 @@
         };
         return ReactiveErrors;
     }());
-
-    var SELECT_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return SelectControlValueAccessor; }),
-        multi: true
-    };
-    function _buildValueString(id, value) {
-        if (id == null)
-            return "" + value;
-        if (value && typeof value === 'object')
-            value = 'Object';
-        return (id + ": " + value).slice(0, 50);
-    }
-    function _extractId(valueString) {
-        return valueString.split(':')[0];
-    }
-    /**
-     * @description
-     * The `ControlValueAccessor` for writing select control values and listening to select control
-     * changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
-     * `NgModel` directives.
-     *
-     * @usageNotes
-     *
-     * ### Using select controls in a reactive form
-     *
-     * The following examples show how to use a select control in a reactive form.
-     *
-     * {@example forms/ts/reactiveSelectControl/reactive_select_control_example.ts region='Component'}
-     *
-     * ### Using select controls in a template-driven form
-     *
-     * To use a select in a template-driven form, simply add an `ngModel` and a `name`
-     * attribute to the main `<select>` tag.
-     *
-     * {@example forms/ts/selectControl/select_control_example.ts region='Component'}
-     *
-     * ### Customizing option selection
-     *
-     * Angular uses object identity to select option. It's possible for the identities of items
-     * to change while the data does not. This can happen, for example, if the items are produced
-     * from an RPC to the server, and that RPC is re-run. Even if the data hasn't changed, the
-     * second response will produce objects with different identities.
-     *
-     * To customize the default option comparison algorithm, `<select>` supports `compareWith` input.
-     * `compareWith` takes a **function** which has two arguments: `option1` and `option2`.
-     * If `compareWith` is given, Angular selects option by the return value of the function.
-     *
-     * ```ts
-     * const selectedCountriesControl = new FormControl();
-     * ```
-     *
-     * ```
-     * <select [compareWith]="compareFn"  [formControl]="selectedCountriesControl">
-     *     <option *ngFor="let country of countries" [ngValue]="country">
-     *         {{country.name}}
-     *     </option>
-     * </select>
-     *
-     * compareFn(c1: Country, c2: Country): boolean {
-     *     return c1 && c2 ? c1.id === c2.id : c1 === c2;
-     * }
-     * ```
-     *
-     * **Note:** We listen to the 'change' event because 'input' events aren't fired
-     * for selects in IE, see:
-     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event#browser_compatibility
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var SelectControlValueAccessor = /** @class */ (function () {
-        function SelectControlValueAccessor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /** @internal */
-            this._optionMap = new Map();
-            /** @internal */
-            this._idCounter = 0;
-            /**
-             * The registered callback function called when a change event occurs on the input element.
-             * @nodoc
-             */
-            this.onChange = function (_) { };
-            /**
-             * The registered callback function called when a blur event occurs on the input element.
-             * @nodoc
-             */
-            this.onTouched = function () { };
-            this._compareWith = Object.is;
-        }
-        Object.defineProperty(SelectControlValueAccessor.prototype, "compareWith", {
-            /**
-             * @description
-             * Tracks the option comparison algorithm for tracking identities when
-             * checking for changes.
-             */
-            set: function (fn) {
-                if (typeof fn !== 'function' && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-                    throw new Error("compareWith must be a function, but received " + JSON.stringify(fn));
-                }
-                this._compareWith = fn;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         * Sets the "value" property on the input element. The "selectedIndex"
-         * property is also set if an ID is provided on the option element.
-         * @nodoc
-         */
-        SelectControlValueAccessor.prototype.writeValue = function (value) {
-            this.value = value;
-            var id = this._getOptionId(value);
-            if (id == null) {
-                this._renderer.setProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
-            }
-            var valueString = _buildValueString(id, value);
-            this._renderer.setProperty(this._elementRef.nativeElement, 'value', valueString);
-        };
-        /**
-         * Registers a function called when the control value changes.
-         * @nodoc
-         */
-        SelectControlValueAccessor.prototype.registerOnChange = function (fn) {
-            var _this = this;
-            this.onChange = function (valueString) {
-                _this.value = _this._getOptionValue(valueString);
-                fn(_this.value);
-            };
-        };
-        /**
-         * Registers a function called when the control is touched.
-         * @nodoc
-         */
-        SelectControlValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the select input element.
-         * @nodoc
-         */
-        SelectControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        /** @internal */
-        SelectControlValueAccessor.prototype._registerOption = function () {
-            return (this._idCounter++).toString();
-        };
-        /** @internal */
-        SelectControlValueAccessor.prototype._getOptionId = function (value) {
-            var e_1, _a;
-            try {
-                for (var _b = __values(Array.from(this._optionMap.keys())), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var id = _c.value;
-                    if (this._compareWith(this._optionMap.get(id), value))
-                        return id;
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            return null;
-        };
-        /** @internal */
-        SelectControlValueAccessor.prototype._getOptionValue = function (valueString) {
-            var id = _extractId(valueString);
-            return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
-        };
-        return SelectControlValueAccessor;
-    }());
-    SelectControlValueAccessor.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
-                    host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
-                    providers: [SELECT_VALUE_ACCESSOR]
-                },] }
-    ];
-    SelectControlValueAccessor.ctorParameters = function () { return [
-        { type: core.Renderer2 },
-        { type: core.ElementRef }
-    ]; };
-    SelectControlValueAccessor.propDecorators = {
-        compareWith: [{ type: core.Input }]
-    };
-    /**
-     * @description
-     * Marks `<option>` as dynamic, so Angular can be notified when options change.
-     *
-     * @see `SelectControlValueAccessor`
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var NgSelectOption = /** @class */ (function () {
-        function NgSelectOption(_element, _renderer, _select) {
-            this._element = _element;
-            this._renderer = _renderer;
-            this._select = _select;
-            if (this._select)
-                this.id = this._select._registerOption();
-        }
-        Object.defineProperty(NgSelectOption.prototype, "ngValue", {
-            /**
-             * @description
-             * Tracks the value bound to the option element. Unlike the value binding,
-             * ngValue supports binding to objects.
-             */
-            set: function (value) {
-                if (this._select == null)
-                    return;
-                this._select._optionMap.set(this.id, value);
-                this._setElementValue(_buildValueString(this.id, value));
-                this._select.writeValue(this._select.value);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(NgSelectOption.prototype, "value", {
-            /**
-             * @description
-             * Tracks simple string values bound to the option element.
-             * For objects, use the `ngValue` input binding.
-             */
-            set: function (value) {
-                this._setElementValue(value);
-                if (this._select)
-                    this._select.writeValue(this._select.value);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /** @internal */
-        NgSelectOption.prototype._setElementValue = function (value) {
-            this._renderer.setProperty(this._element.nativeElement, 'value', value);
-        };
-        /** @nodoc */
-        NgSelectOption.prototype.ngOnDestroy = function () {
-            if (this._select) {
-                this._select._optionMap.delete(this.id);
-                this._select.writeValue(this._select.value);
-            }
-        };
-        return NgSelectOption;
-    }());
-    NgSelectOption.decorators = [
-        { type: core.Directive, args: [{ selector: 'option' },] }
-    ];
-    NgSelectOption.ctorParameters = function () { return [
-        { type: core.ElementRef },
-        { type: core.Renderer2 },
-        { type: SelectControlValueAccessor, decorators: [{ type: core.Optional }, { type: core.Host }] }
-    ]; };
-    NgSelectOption.propDecorators = {
-        ngValue: [{ type: core.Input, args: ['ngValue',] }],
-        value: [{ type: core.Input, args: ['value',] }]
-    };
-
-    var SELECT_MULTIPLE_VALUE_ACCESSOR = {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return SelectMultipleControlValueAccessor; }),
-        multi: true
-    };
-    function _buildValueString$1(id, value) {
-        if (id == null)
-            return "" + value;
-        if (typeof value === 'string')
-            value = "'" + value + "'";
-        if (value && typeof value === 'object')
-            value = 'Object';
-        return (id + ": " + value).slice(0, 50);
-    }
-    function _extractId$1(valueString) {
-        return valueString.split(':')[0];
-    }
-    /** Mock interface for HTMLCollection */
-    var HTMLCollection = /** @class */ (function () {
-        function HTMLCollection() {
-        }
-        return HTMLCollection;
-    }());
-    /**
-     * @description
-     * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select
-     * control changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
-     * `NgModel` directives.
-     *
-     * @see `SelectControlValueAccessor`
-     *
-     * @usageNotes
-     *
-     * ### Using a multi-select control
-     *
-     * The follow example shows you how to use a multi-select control with a reactive form.
-     *
-     * ```ts
-     * const countryControl = new FormControl();
-     * ```
-     *
-     * ```
-     * <select multiple name="countries" [formControl]="countryControl">
-     *   <option *ngFor="let country of countries" [ngValue]="country">
-     *     {{ country.name }}
-     *   </option>
-     * </select>
-     * ```
-     *
-     * ### Customizing option selection
-     *
-     * To customize the default option comparison algorithm, `<select>` supports `compareWith` input.
-     * See the `SelectControlValueAccessor` for usage.
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var SelectMultipleControlValueAccessor = /** @class */ (function () {
-        function SelectMultipleControlValueAccessor(_renderer, _elementRef) {
-            this._renderer = _renderer;
-            this._elementRef = _elementRef;
-            /** @internal */
-            this._optionMap = new Map();
-            /** @internal */
-            this._idCounter = 0;
-            /**
-             * The registered callback function called when a change event occurs on the input element.
-             * @nodoc
-             */
-            this.onChange = function (_) { };
-            /**
-             * The registered callback function called when a blur event occurs on the input element.
-             * @nodoc
-             */
-            this.onTouched = function () { };
-            this._compareWith = Object.is;
-        }
-        Object.defineProperty(SelectMultipleControlValueAccessor.prototype, "compareWith", {
-            /**
-             * @description
-             * Tracks the option comparison algorithm for tracking identities when
-             * checking for changes.
-             */
-            set: function (fn) {
-                if (typeof fn !== 'function' && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-                    throw new Error("compareWith must be a function, but received " + JSON.stringify(fn));
-                }
-                this._compareWith = fn;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         * Sets the "value" property on one or of more of the select's options.
-         * @nodoc
-         */
-        SelectMultipleControlValueAccessor.prototype.writeValue = function (value) {
-            var _this = this;
-            this.value = value;
-            var optionSelectedStateSetter;
-            if (Array.isArray(value)) {
-                // convert values to ids
-                var ids_1 = value.map(function (v) { return _this._getOptionId(v); });
-                optionSelectedStateSetter = function (opt, o) {
-                    opt._setSelected(ids_1.indexOf(o.toString()) > -1);
-                };
-            }
-            else {
-                optionSelectedStateSetter = function (opt, o) {
-                    opt._setSelected(false);
-                };
-            }
-            this._optionMap.forEach(optionSelectedStateSetter);
-        };
-        /**
-         * Registers a function called when the control value changes
-         * and writes an array of the selected options.
-         * @nodoc
-         */
-        SelectMultipleControlValueAccessor.prototype.registerOnChange = function (fn) {
-            var _this = this;
-            this.onChange = function (_) {
-                var selected = [];
-                if (_.selectedOptions !== undefined) {
-                    var options = _.selectedOptions;
-                    for (var i = 0; i < options.length; i++) {
-                        var opt = options.item(i);
-                        var val = _this._getOptionValue(opt.value);
-                        selected.push(val);
-                    }
-                }
-                // Degrade on IE
-                else {
-                    var options = _.options;
-                    for (var i = 0; i < options.length; i++) {
-                        var opt = options.item(i);
-                        if (opt.selected) {
-                            var val = _this._getOptionValue(opt.value);
-                            selected.push(val);
-                        }
-                    }
-                }
-                _this.value = selected;
-                fn(selected);
-            };
-        };
-        /**
-         * Registers a function called when the control is touched.
-         * @nodoc
-         */
-        SelectMultipleControlValueAccessor.prototype.registerOnTouched = function (fn) {
-            this.onTouched = fn;
-        };
-        /**
-         * Sets the "disabled" property on the select input element.
-         * @nodoc
-         */
-        SelectMultipleControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-        };
-        /** @internal */
-        SelectMultipleControlValueAccessor.prototype._registerOption = function (value) {
-            var id = (this._idCounter++).toString();
-            this._optionMap.set(id, value);
-            return id;
-        };
-        /** @internal */
-        SelectMultipleControlValueAccessor.prototype._getOptionId = function (value) {
-            var e_1, _a;
-            try {
-                for (var _b = __values(Array.from(this._optionMap.keys())), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var id = _c.value;
-                    if (this._compareWith(this._optionMap.get(id)._value, value))
-                        return id;
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            return null;
-        };
-        /** @internal */
-        SelectMultipleControlValueAccessor.prototype._getOptionValue = function (valueString) {
-            var id = _extractId$1(valueString);
-            return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
-        };
-        return SelectMultipleControlValueAccessor;
-    }());
-    SelectMultipleControlValueAccessor.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
-                    host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
-                    providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
-                },] }
-    ];
-    SelectMultipleControlValueAccessor.ctorParameters = function () { return [
-        { type: core.Renderer2 },
-        { type: core.ElementRef }
-    ]; };
-    SelectMultipleControlValueAccessor.propDecorators = {
-        compareWith: [{ type: core.Input }]
-    };
-    /**
-     * @description
-     * Marks `<option>` as dynamic, so Angular can be notified when options change.
-     *
-     * @see `SelectMultipleControlValueAccessor`
-     *
-     * @ngModule ReactiveFormsModule
-     * @ngModule FormsModule
-     * @publicApi
-     */
-    var ɵNgSelectMultipleOption = /** @class */ (function () {
-        function ɵNgSelectMultipleOption(_element, _renderer, _select) {
-            this._element = _element;
-            this._renderer = _renderer;
-            this._select = _select;
-            if (this._select) {
-                this.id = this._select._registerOption(this);
-            }
-        }
-        Object.defineProperty(ɵNgSelectMultipleOption.prototype, "ngValue", {
-            /**
-             * @description
-             * Tracks the value bound to the option element. Unlike the value binding,
-             * ngValue supports binding to objects.
-             */
-            set: function (value) {
-                if (this._select == null)
-                    return;
-                this._value = value;
-                this._setElementValue(_buildValueString$1(this.id, value));
-                this._select.writeValue(this._select.value);
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(ɵNgSelectMultipleOption.prototype, "value", {
-            /**
-             * @description
-             * Tracks simple string values bound to the option element.
-             * For objects, use the `ngValue` input binding.
-             */
-            set: function (value) {
-                if (this._select) {
-                    this._value = value;
-                    this._setElementValue(_buildValueString$1(this.id, value));
-                    this._select.writeValue(this._select.value);
-                }
-                else {
-                    this._setElementValue(value);
-                }
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /** @internal */
-        ɵNgSelectMultipleOption.prototype._setElementValue = function (value) {
-            this._renderer.setProperty(this._element.nativeElement, 'value', value);
-        };
-        /** @internal */
-        ɵNgSelectMultipleOption.prototype._setSelected = function (selected) {
-            this._renderer.setProperty(this._element.nativeElement, 'selected', selected);
-        };
-        /** @nodoc */
-        ɵNgSelectMultipleOption.prototype.ngOnDestroy = function () {
-            if (this._select) {
-                this._select._optionMap.delete(this.id);
-                this._select.writeValue(this._select.value);
-            }
-        };
-        return ɵNgSelectMultipleOption;
-    }());
-    ɵNgSelectMultipleOption.decorators = [
-        { type: core.Directive, args: [{ selector: 'option' },] }
-    ];
-    ɵNgSelectMultipleOption.ctorParameters = function () { return [
-        { type: core.ElementRef },
-        { type: core.Renderer2 },
-        { type: SelectMultipleControlValueAccessor, decorators: [{ type: core.Optional }, { type: core.Host }] }
-    ]; };
-    ɵNgSelectMultipleOption.propDecorators = {
-        ngValue: [{ type: core.Input, args: ['ngValue',] }],
-        value: [{ type: core.Input, args: ['value',] }]
-    };
 
     function controlPath(name, parent) {
         return __spread(parent.path, [name]);
@@ -2830,16 +1903,10 @@
             return true;
         return !Object.is(viewModel, change.currentValue);
     }
-    var BUILTIN_ACCESSORS = [
-        CheckboxControlValueAccessor,
-        RangeValueAccessor,
-        NumberValueAccessor,
-        SelectControlValueAccessor,
-        SelectMultipleControlValueAccessor,
-        RadioControlValueAccessor,
-    ];
     function isBuiltInAccessor(valueAccessor) {
-        return BUILTIN_ACCESSORS.some(function (a) { return valueAccessor.constructor === a; });
+        // Check if a given value accessor is an instance of a class that directly extends
+        // `BuiltInControlValueAccessor` one.
+        return Object.getPrototypeOf(valueAccessor.constructor) === BuiltInControlValueAccessor;
     }
     function syncPendingControls(form, directives) {
         form._syncPendingControls();
@@ -5698,6 +4765,375 @@
                 },] }
     ];
 
+    var NUMBER_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return NumberValueAccessor; }),
+        multi: true
+    };
+    /**
+     * @description
+     * The `ControlValueAccessor` for writing a number value and listening to number input changes.
+     * The value accessor is used by the `FormControlDirective`, `FormControlName`, and `NgModel`
+     * directives.
+     *
+     * @usageNotes
+     *
+     * ### Using a number input with a reactive form.
+     *
+     * The following example shows how to use a number input with a reactive form.
+     *
+     * ```ts
+     * const totalCountControl = new FormControl();
+     * ```
+     *
+     * ```
+     * <input type="number" [formControl]="totalCountControl">
+     * ```
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var NumberValueAccessor = /** @class */ (function (_super) {
+        __extends(NumberValueAccessor, _super);
+        function NumberValueAccessor(_renderer, _elementRef) {
+            var _this = _super.call(this) || this;
+            _this._renderer = _renderer;
+            _this._elementRef = _elementRef;
+            /**
+             * The registered callback function called when a change or input event occurs on the input
+             * element.
+             * @nodoc
+             */
+            _this.onChange = function (_) { };
+            /**
+             * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
+             */
+            _this.onTouched = function () { };
+            return _this;
+        }
+        /**
+         * Sets the "value" property on the input element.
+         * @nodoc
+         */
+        NumberValueAccessor.prototype.writeValue = function (value) {
+            // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
+            var normalizedValue = value == null ? '' : value;
+            this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+        };
+        /**
+         * Registers a function called when the control value changes.
+         * @nodoc
+         */
+        NumberValueAccessor.prototype.registerOnChange = function (fn) {
+            this.onChange = function (value) {
+                fn(value == '' ? null : parseFloat(value));
+            };
+        };
+        /**
+         * Registers a function called when the control is touched.
+         * @nodoc
+         */
+        NumberValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the input element.
+         * @nodoc
+         */
+        NumberValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        return NumberValueAccessor;
+    }(BuiltInControlValueAccessor));
+    NumberValueAccessor.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
+                    host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                    providers: [NUMBER_VALUE_ACCESSOR]
+                },] }
+    ];
+    NumberValueAccessor.ctorParameters = function () { return [
+        { type: core.Renderer2 },
+        { type: core.ElementRef }
+    ]; };
+
+    var RADIO_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return RadioControlValueAccessor; }),
+        multi: true
+    };
+    function throwNameError() {
+        throw new Error("\n      If you define both a name and a formControlName attribute on your radio button, their values\n      must match. Ex: <input type=\"radio\" formControlName=\"food\" name=\"food\">\n    ");
+    }
+    /**
+     * @description
+     * Class used by Angular to track radio buttons. For internal use only.
+     */
+    var RadioControlRegistry = /** @class */ (function () {
+        function RadioControlRegistry() {
+            this._accessors = [];
+        }
+        /**
+         * @description
+         * Adds a control to the internal registry. For internal use only.
+         */
+        RadioControlRegistry.prototype.add = function (control, accessor) {
+            this._accessors.push([control, accessor]);
+        };
+        /**
+         * @description
+         * Removes a control from the internal registry. For internal use only.
+         */
+        RadioControlRegistry.prototype.remove = function (accessor) {
+            for (var i = this._accessors.length - 1; i >= 0; --i) {
+                if (this._accessors[i][1] === accessor) {
+                    this._accessors.splice(i, 1);
+                    return;
+                }
+            }
+        };
+        /**
+         * @description
+         * Selects a radio button. For internal use only.
+         */
+        RadioControlRegistry.prototype.select = function (accessor) {
+            var _this = this;
+            this._accessors.forEach(function (c) {
+                if (_this._isSameGroup(c, accessor) && c[1] !== accessor) {
+                    c[1].fireUncheck(accessor.value);
+                }
+            });
+        };
+        RadioControlRegistry.prototype._isSameGroup = function (controlPair, accessor) {
+            if (!controlPair[0].control)
+                return false;
+            return controlPair[0]._parent === accessor._control._parent &&
+                controlPair[1].name === accessor.name;
+        };
+        return RadioControlRegistry;
+    }());
+    RadioControlRegistry.decorators = [
+        { type: core.Injectable }
+    ];
+    /**
+     * @description
+     * The `ControlValueAccessor` for writing radio control values and listening to radio control
+     * changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
+     * `NgModel` directives.
+     *
+     * @usageNotes
+     *
+     * ### Using radio buttons with reactive form directives
+     *
+     * The follow example shows how to use radio buttons in a reactive form. When using radio buttons in
+     * a reactive form, radio buttons in the same group should have the same `formControlName`.
+     * Providing a `name` attribute is optional.
+     *
+     * {@example forms/ts/reactiveRadioButtons/reactive_radio_button_example.ts region='Reactive'}
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var RadioControlValueAccessor = /** @class */ (function (_super) {
+        __extends(RadioControlValueAccessor, _super);
+        function RadioControlValueAccessor(_renderer, _elementRef, _registry, _injector) {
+            var _this = _super.call(this) || this;
+            _this._renderer = _renderer;
+            _this._elementRef = _elementRef;
+            _this._registry = _registry;
+            _this._injector = _injector;
+            /**
+             * The registered callback function called when a change event occurs on the input element.
+             * @nodoc
+             */
+            _this.onChange = function () { };
+            /**
+             * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
+             */
+            _this.onTouched = function () { };
+            return _this;
+        }
+        /** @nodoc */
+        RadioControlValueAccessor.prototype.ngOnInit = function () {
+            this._control = this._injector.get(NgControl);
+            this._checkName();
+            this._registry.add(this._control, this);
+        };
+        /** @nodoc */
+        RadioControlValueAccessor.prototype.ngOnDestroy = function () {
+            this._registry.remove(this);
+        };
+        /**
+         * Sets the "checked" property value on the radio input element.
+         * @nodoc
+         */
+        RadioControlValueAccessor.prototype.writeValue = function (value) {
+            this._state = value === this.value;
+            this._renderer.setProperty(this._elementRef.nativeElement, 'checked', this._state);
+        };
+        /**
+         * Registers a function called when the control value changes.
+         * @nodoc
+         */
+        RadioControlValueAccessor.prototype.registerOnChange = function (fn) {
+            var _this = this;
+            this._fn = fn;
+            this.onChange = function () {
+                fn(_this.value);
+                _this._registry.select(_this);
+            };
+        };
+        /**
+         * Sets the "value" on the radio input element and unchecks it.
+         *
+         * @param value
+         */
+        RadioControlValueAccessor.prototype.fireUncheck = function (value) {
+            this.writeValue(value);
+        };
+        /**
+         * Registers a function called when the control is touched.
+         * @nodoc
+         */
+        RadioControlValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the input element.
+         * @nodoc
+         */
+        RadioControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        RadioControlValueAccessor.prototype._checkName = function () {
+            if (this.name && this.formControlName && this.name !== this.formControlName &&
+                (typeof ngDevMode === 'undefined' || ngDevMode)) {
+                throwNameError();
+            }
+            if (!this.name && this.formControlName)
+                this.name = this.formControlName;
+        };
+        return RadioControlValueAccessor;
+    }(BuiltInControlValueAccessor));
+    RadioControlValueAccessor.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
+                    host: { '(change)': 'onChange()', '(blur)': 'onTouched()' },
+                    providers: [RADIO_VALUE_ACCESSOR]
+                },] }
+    ];
+    RadioControlValueAccessor.ctorParameters = function () { return [
+        { type: core.Renderer2 },
+        { type: core.ElementRef },
+        { type: RadioControlRegistry },
+        { type: core.Injector }
+    ]; };
+    RadioControlValueAccessor.propDecorators = {
+        name: [{ type: core.Input }],
+        formControlName: [{ type: core.Input }],
+        value: [{ type: core.Input }]
+    };
+
+    var RANGE_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return RangeValueAccessor; }),
+        multi: true
+    };
+    /**
+     * @description
+     * The `ControlValueAccessor` for writing a range value and listening to range input changes.
+     * The value accessor is used by the `FormControlDirective`, `FormControlName`, and  `NgModel`
+     * directives.
+     *
+     * @usageNotes
+     *
+     * ### Using a range input with a reactive form
+     *
+     * The following example shows how to use a range input with a reactive form.
+     *
+     * ```ts
+     * const ageControl = new FormControl();
+     * ```
+     *
+     * ```
+     * <input type="range" [formControl]="ageControl">
+     * ```
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var RangeValueAccessor = /** @class */ (function (_super) {
+        __extends(RangeValueAccessor, _super);
+        function RangeValueAccessor(_renderer, _elementRef) {
+            var _this = _super.call(this) || this;
+            _this._renderer = _renderer;
+            _this._elementRef = _elementRef;
+            /**
+             * The registered callback function called when a change or input event occurs on the input
+             * element.
+             * @nodoc
+             */
+            _this.onChange = function (_) { };
+            /**
+             * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
+             */
+            _this.onTouched = function () { };
+            return _this;
+        }
+        /**
+         * Sets the "value" property on the input element.
+         * @nodoc
+         */
+        RangeValueAccessor.prototype.writeValue = function (value) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
+        };
+        /**
+         * Registers a function called when the control value changes.
+         * @nodoc
+         */
+        RangeValueAccessor.prototype.registerOnChange = function (fn) {
+            this.onChange = function (value) {
+                fn(value == '' ? null : parseFloat(value));
+            };
+        };
+        /**
+         * Registers a function called when the control is touched.
+         * @nodoc
+         */
+        RangeValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the range input element.
+         * @nodoc
+         */
+        RangeValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        return RangeValueAccessor;
+    }(BuiltInControlValueAccessor));
+    RangeValueAccessor.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
+                    host: {
+                        '(change)': 'onChange($event.target.value)',
+                        '(input)': 'onChange($event.target.value)',
+                        '(blur)': 'onTouched()'
+                    },
+                    providers: [RANGE_VALUE_ACCESSOR]
+                },] }
+    ];
+    RangeValueAccessor.ctorParameters = function () { return [
+        { type: core.Renderer2 },
+        { type: core.ElementRef }
+    ]; };
+
     /**
      * Token to provide to turn off the ngModel warning on formControl and formControlName.
      */
@@ -6541,6 +5977,566 @@
         update: [{ type: core.Output, args: ['ngModelChange',] }]
     };
 
+    var SELECT_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return SelectControlValueAccessor; }),
+        multi: true
+    };
+    function _buildValueString(id, value) {
+        if (id == null)
+            return "" + value;
+        if (value && typeof value === 'object')
+            value = 'Object';
+        return (id + ": " + value).slice(0, 50);
+    }
+    function _extractId(valueString) {
+        return valueString.split(':')[0];
+    }
+    /**
+     * @description
+     * The `ControlValueAccessor` for writing select control values and listening to select control
+     * changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
+     * `NgModel` directives.
+     *
+     * @usageNotes
+     *
+     * ### Using select controls in a reactive form
+     *
+     * The following examples show how to use a select control in a reactive form.
+     *
+     * {@example forms/ts/reactiveSelectControl/reactive_select_control_example.ts region='Component'}
+     *
+     * ### Using select controls in a template-driven form
+     *
+     * To use a select in a template-driven form, simply add an `ngModel` and a `name`
+     * attribute to the main `<select>` tag.
+     *
+     * {@example forms/ts/selectControl/select_control_example.ts region='Component'}
+     *
+     * ### Customizing option selection
+     *
+     * Angular uses object identity to select option. It's possible for the identities of items
+     * to change while the data does not. This can happen, for example, if the items are produced
+     * from an RPC to the server, and that RPC is re-run. Even if the data hasn't changed, the
+     * second response will produce objects with different identities.
+     *
+     * To customize the default option comparison algorithm, `<select>` supports `compareWith` input.
+     * `compareWith` takes a **function** which has two arguments: `option1` and `option2`.
+     * If `compareWith` is given, Angular selects option by the return value of the function.
+     *
+     * ```ts
+     * const selectedCountriesControl = new FormControl();
+     * ```
+     *
+     * ```
+     * <select [compareWith]="compareFn"  [formControl]="selectedCountriesControl">
+     *     <option *ngFor="let country of countries" [ngValue]="country">
+     *         {{country.name}}
+     *     </option>
+     * </select>
+     *
+     * compareFn(c1: Country, c2: Country): boolean {
+     *     return c1 && c2 ? c1.id === c2.id : c1 === c2;
+     * }
+     * ```
+     *
+     * **Note:** We listen to the 'change' event because 'input' events aren't fired
+     * for selects in IE, see:
+     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event#browser_compatibility
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var SelectControlValueAccessor = /** @class */ (function (_super) {
+        __extends(SelectControlValueAccessor, _super);
+        function SelectControlValueAccessor(_renderer, _elementRef) {
+            var _this = _super.call(this) || this;
+            _this._renderer = _renderer;
+            _this._elementRef = _elementRef;
+            /** @internal */
+            _this._optionMap = new Map();
+            /** @internal */
+            _this._idCounter = 0;
+            /**
+             * The registered callback function called when a change event occurs on the input element.
+             * @nodoc
+             */
+            _this.onChange = function (_) { };
+            /**
+             * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
+             */
+            _this.onTouched = function () { };
+            _this._compareWith = Object.is;
+            return _this;
+        }
+        Object.defineProperty(SelectControlValueAccessor.prototype, "compareWith", {
+            /**
+             * @description
+             * Tracks the option comparison algorithm for tracking identities when
+             * checking for changes.
+             */
+            set: function (fn) {
+                if (typeof fn !== 'function' && (typeof ngDevMode === 'undefined' || ngDevMode)) {
+                    throw new Error("compareWith must be a function, but received " + JSON.stringify(fn));
+                }
+                this._compareWith = fn;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         * Sets the "value" property on the input element. The "selectedIndex"
+         * property is also set if an ID is provided on the option element.
+         * @nodoc
+         */
+        SelectControlValueAccessor.prototype.writeValue = function (value) {
+            this.value = value;
+            var id = this._getOptionId(value);
+            if (id == null) {
+                this._renderer.setProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
+            }
+            var valueString = _buildValueString(id, value);
+            this._renderer.setProperty(this._elementRef.nativeElement, 'value', valueString);
+        };
+        /**
+         * Registers a function called when the control value changes.
+         * @nodoc
+         */
+        SelectControlValueAccessor.prototype.registerOnChange = function (fn) {
+            var _this = this;
+            this.onChange = function (valueString) {
+                _this.value = _this._getOptionValue(valueString);
+                fn(_this.value);
+            };
+        };
+        /**
+         * Registers a function called when the control is touched.
+         * @nodoc
+         */
+        SelectControlValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the select input element.
+         * @nodoc
+         */
+        SelectControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        /** @internal */
+        SelectControlValueAccessor.prototype._registerOption = function () {
+            return (this._idCounter++).toString();
+        };
+        /** @internal */
+        SelectControlValueAccessor.prototype._getOptionId = function (value) {
+            var e_1, _a;
+            try {
+                for (var _b = __values(Array.from(this._optionMap.keys())), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var id = _c.value;
+                    if (this._compareWith(this._optionMap.get(id), value))
+                        return id;
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+            return null;
+        };
+        /** @internal */
+        SelectControlValueAccessor.prototype._getOptionValue = function (valueString) {
+            var id = _extractId(valueString);
+            return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
+        };
+        return SelectControlValueAccessor;
+    }(BuiltInControlValueAccessor));
+    SelectControlValueAccessor.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
+                    host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
+                    providers: [SELECT_VALUE_ACCESSOR]
+                },] }
+    ];
+    SelectControlValueAccessor.ctorParameters = function () { return [
+        { type: core.Renderer2 },
+        { type: core.ElementRef }
+    ]; };
+    SelectControlValueAccessor.propDecorators = {
+        compareWith: [{ type: core.Input }]
+    };
+    /**
+     * @description
+     * Marks `<option>` as dynamic, so Angular can be notified when options change.
+     *
+     * @see `SelectControlValueAccessor`
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var NgSelectOption = /** @class */ (function () {
+        function NgSelectOption(_element, _renderer, _select) {
+            this._element = _element;
+            this._renderer = _renderer;
+            this._select = _select;
+            if (this._select)
+                this.id = this._select._registerOption();
+        }
+        Object.defineProperty(NgSelectOption.prototype, "ngValue", {
+            /**
+             * @description
+             * Tracks the value bound to the option element. Unlike the value binding,
+             * ngValue supports binding to objects.
+             */
+            set: function (value) {
+                if (this._select == null)
+                    return;
+                this._select._optionMap.set(this.id, value);
+                this._setElementValue(_buildValueString(this.id, value));
+                this._select.writeValue(this._select.value);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(NgSelectOption.prototype, "value", {
+            /**
+             * @description
+             * Tracks simple string values bound to the option element.
+             * For objects, use the `ngValue` input binding.
+             */
+            set: function (value) {
+                this._setElementValue(value);
+                if (this._select)
+                    this._select.writeValue(this._select.value);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /** @internal */
+        NgSelectOption.prototype._setElementValue = function (value) {
+            this._renderer.setProperty(this._element.nativeElement, 'value', value);
+        };
+        /** @nodoc */
+        NgSelectOption.prototype.ngOnDestroy = function () {
+            if (this._select) {
+                this._select._optionMap.delete(this.id);
+                this._select.writeValue(this._select.value);
+            }
+        };
+        return NgSelectOption;
+    }());
+    NgSelectOption.decorators = [
+        { type: core.Directive, args: [{ selector: 'option' },] }
+    ];
+    NgSelectOption.ctorParameters = function () { return [
+        { type: core.ElementRef },
+        { type: core.Renderer2 },
+        { type: SelectControlValueAccessor, decorators: [{ type: core.Optional }, { type: core.Host }] }
+    ]; };
+    NgSelectOption.propDecorators = {
+        ngValue: [{ type: core.Input, args: ['ngValue',] }],
+        value: [{ type: core.Input, args: ['value',] }]
+    };
+
+    var SELECT_MULTIPLE_VALUE_ACCESSOR = {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: core.forwardRef(function () { return SelectMultipleControlValueAccessor; }),
+        multi: true
+    };
+    function _buildValueString$1(id, value) {
+        if (id == null)
+            return "" + value;
+        if (typeof value === 'string')
+            value = "'" + value + "'";
+        if (value && typeof value === 'object')
+            value = 'Object';
+        return (id + ": " + value).slice(0, 50);
+    }
+    function _extractId$1(valueString) {
+        return valueString.split(':')[0];
+    }
+    /** Mock interface for HTMLCollection */
+    var HTMLCollection = /** @class */ (function () {
+        function HTMLCollection() {
+        }
+        return HTMLCollection;
+    }());
+    /**
+     * @description
+     * The `ControlValueAccessor` for writing multi-select control values and listening to multi-select
+     * control changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
+     * `NgModel` directives.
+     *
+     * @see `SelectControlValueAccessor`
+     *
+     * @usageNotes
+     *
+     * ### Using a multi-select control
+     *
+     * The follow example shows you how to use a multi-select control with a reactive form.
+     *
+     * ```ts
+     * const countryControl = new FormControl();
+     * ```
+     *
+     * ```
+     * <select multiple name="countries" [formControl]="countryControl">
+     *   <option *ngFor="let country of countries" [ngValue]="country">
+     *     {{ country.name }}
+     *   </option>
+     * </select>
+     * ```
+     *
+     * ### Customizing option selection
+     *
+     * To customize the default option comparison algorithm, `<select>` supports `compareWith` input.
+     * See the `SelectControlValueAccessor` for usage.
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var SelectMultipleControlValueAccessor = /** @class */ (function (_super) {
+        __extends(SelectMultipleControlValueAccessor, _super);
+        function SelectMultipleControlValueAccessor(_renderer, _elementRef) {
+            var _this = _super.call(this) || this;
+            _this._renderer = _renderer;
+            _this._elementRef = _elementRef;
+            /** @internal */
+            _this._optionMap = new Map();
+            /** @internal */
+            _this._idCounter = 0;
+            /**
+             * The registered callback function called when a change event occurs on the input element.
+             * @nodoc
+             */
+            _this.onChange = function (_) { };
+            /**
+             * The registered callback function called when a blur event occurs on the input element.
+             * @nodoc
+             */
+            _this.onTouched = function () { };
+            _this._compareWith = Object.is;
+            return _this;
+        }
+        Object.defineProperty(SelectMultipleControlValueAccessor.prototype, "compareWith", {
+            /**
+             * @description
+             * Tracks the option comparison algorithm for tracking identities when
+             * checking for changes.
+             */
+            set: function (fn) {
+                if (typeof fn !== 'function' && (typeof ngDevMode === 'undefined' || ngDevMode)) {
+                    throw new Error("compareWith must be a function, but received " + JSON.stringify(fn));
+                }
+                this._compareWith = fn;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /**
+         * Sets the "value" property on one or of more of the select's options.
+         * @nodoc
+         */
+        SelectMultipleControlValueAccessor.prototype.writeValue = function (value) {
+            var _this = this;
+            this.value = value;
+            var optionSelectedStateSetter;
+            if (Array.isArray(value)) {
+                // convert values to ids
+                var ids_1 = value.map(function (v) { return _this._getOptionId(v); });
+                optionSelectedStateSetter = function (opt, o) {
+                    opt._setSelected(ids_1.indexOf(o.toString()) > -1);
+                };
+            }
+            else {
+                optionSelectedStateSetter = function (opt, o) {
+                    opt._setSelected(false);
+                };
+            }
+            this._optionMap.forEach(optionSelectedStateSetter);
+        };
+        /**
+         * Registers a function called when the control value changes
+         * and writes an array of the selected options.
+         * @nodoc
+         */
+        SelectMultipleControlValueAccessor.prototype.registerOnChange = function (fn) {
+            var _this = this;
+            this.onChange = function (_) {
+                var selected = [];
+                if (_.selectedOptions !== undefined) {
+                    var options = _.selectedOptions;
+                    for (var i = 0; i < options.length; i++) {
+                        var opt = options.item(i);
+                        var val = _this._getOptionValue(opt.value);
+                        selected.push(val);
+                    }
+                }
+                // Degrade on IE
+                else {
+                    var options = _.options;
+                    for (var i = 0; i < options.length; i++) {
+                        var opt = options.item(i);
+                        if (opt.selected) {
+                            var val = _this._getOptionValue(opt.value);
+                            selected.push(val);
+                        }
+                    }
+                }
+                _this.value = selected;
+                fn(selected);
+            };
+        };
+        /**
+         * Registers a function called when the control is touched.
+         * @nodoc
+         */
+        SelectMultipleControlValueAccessor.prototype.registerOnTouched = function (fn) {
+            this.onTouched = fn;
+        };
+        /**
+         * Sets the "disabled" property on the select input element.
+         * @nodoc
+         */
+        SelectMultipleControlValueAccessor.prototype.setDisabledState = function (isDisabled) {
+            this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        };
+        /** @internal */
+        SelectMultipleControlValueAccessor.prototype._registerOption = function (value) {
+            var id = (this._idCounter++).toString();
+            this._optionMap.set(id, value);
+            return id;
+        };
+        /** @internal */
+        SelectMultipleControlValueAccessor.prototype._getOptionId = function (value) {
+            var e_1, _a;
+            try {
+                for (var _b = __values(Array.from(this._optionMap.keys())), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var id = _c.value;
+                    if (this._compareWith(this._optionMap.get(id)._value, value))
+                        return id;
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+            return null;
+        };
+        /** @internal */
+        SelectMultipleControlValueAccessor.prototype._getOptionValue = function (valueString) {
+            var id = _extractId$1(valueString);
+            return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
+        };
+        return SelectMultipleControlValueAccessor;
+    }(BuiltInControlValueAccessor));
+    SelectMultipleControlValueAccessor.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
+                    host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
+                    providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
+                },] }
+    ];
+    SelectMultipleControlValueAccessor.ctorParameters = function () { return [
+        { type: core.Renderer2 },
+        { type: core.ElementRef }
+    ]; };
+    SelectMultipleControlValueAccessor.propDecorators = {
+        compareWith: [{ type: core.Input }]
+    };
+    /**
+     * @description
+     * Marks `<option>` as dynamic, so Angular can be notified when options change.
+     *
+     * @see `SelectMultipleControlValueAccessor`
+     *
+     * @ngModule ReactiveFormsModule
+     * @ngModule FormsModule
+     * @publicApi
+     */
+    var ɵNgSelectMultipleOption = /** @class */ (function () {
+        function ɵNgSelectMultipleOption(_element, _renderer, _select) {
+            this._element = _element;
+            this._renderer = _renderer;
+            this._select = _select;
+            if (this._select) {
+                this.id = this._select._registerOption(this);
+            }
+        }
+        Object.defineProperty(ɵNgSelectMultipleOption.prototype, "ngValue", {
+            /**
+             * @description
+             * Tracks the value bound to the option element. Unlike the value binding,
+             * ngValue supports binding to objects.
+             */
+            set: function (value) {
+                if (this._select == null)
+                    return;
+                this._value = value;
+                this._setElementValue(_buildValueString$1(this.id, value));
+                this._select.writeValue(this._select.value);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ɵNgSelectMultipleOption.prototype, "value", {
+            /**
+             * @description
+             * Tracks simple string values bound to the option element.
+             * For objects, use the `ngValue` input binding.
+             */
+            set: function (value) {
+                if (this._select) {
+                    this._value = value;
+                    this._setElementValue(_buildValueString$1(this.id, value));
+                    this._select.writeValue(this._select.value);
+                }
+                else {
+                    this._setElementValue(value);
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        /** @internal */
+        ɵNgSelectMultipleOption.prototype._setElementValue = function (value) {
+            this._renderer.setProperty(this._element.nativeElement, 'value', value);
+        };
+        /** @internal */
+        ɵNgSelectMultipleOption.prototype._setSelected = function (selected) {
+            this._renderer.setProperty(this._element.nativeElement, 'selected', selected);
+        };
+        /** @nodoc */
+        ɵNgSelectMultipleOption.prototype.ngOnDestroy = function () {
+            if (this._select) {
+                this._select._optionMap.delete(this.id);
+                this._select.writeValue(this._select.value);
+            }
+        };
+        return ɵNgSelectMultipleOption;
+    }());
+    ɵNgSelectMultipleOption.decorators = [
+        { type: core.Directive, args: [{ selector: 'option' },] }
+    ];
+    ɵNgSelectMultipleOption.ctorParameters = function () { return [
+        { type: core.ElementRef },
+        { type: core.Renderer2 },
+        { type: SelectMultipleControlValueAccessor, decorators: [{ type: core.Optional }, { type: core.Host }] }
+    ]; };
+    ɵNgSelectMultipleOption.propDecorators = {
+        ngValue: [{ type: core.Input, args: ['ngValue',] }],
+        value: [{ type: core.Input, args: ['value',] }]
+    };
+
     /**
      * A base class for Validator-based Directives. The class contains common logic shared across such
      * Directives.
@@ -7302,7 +7298,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('12.0.0-next.4+21.sha-8a9fe49');
+    var VERSION = new core.Version('12.0.0-next.4+22.sha-937e90c');
 
     /**
      * @license
@@ -7447,37 +7443,38 @@
     exports.ɵNgSelectMultipleOption = ɵNgSelectMultipleOption;
     exports.ɵangular_packages_forms_forms_a = SHARED_FORM_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_b = TEMPLATE_DRIVEN_DIRECTIVES;
-    exports.ɵangular_packages_forms_forms_ba = MIN_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bb = REQUIRED_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bc = CHECKBOX_REQUIRED_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bd = EMAIL_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_be = MIN_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bf = MAX_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bg = PATTERN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_ba = MAX_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bb = MIN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bc = REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bd = CHECKBOX_REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_be = EMAIL_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bf = MIN_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bg = MAX_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bh = PATTERN_VALIDATOR;
     exports.ɵangular_packages_forms_forms_c = REACTIVE_DRIVEN_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_d = ɵInternalFormsSharedModule;
     exports.ɵangular_packages_forms_forms_e = CHECKBOX_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_f = DEFAULT_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_g = AbstractControlStatus;
-    exports.ɵangular_packages_forms_forms_h = ngControlStatusHost;
-    exports.ɵangular_packages_forms_forms_i = formDirectiveProvider;
-    exports.ɵangular_packages_forms_forms_j = formControlBinding;
-    exports.ɵangular_packages_forms_forms_k = modelGroupProvider;
-    exports.ɵangular_packages_forms_forms_l = NUMBER_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_m = RADIO_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_n = RadioControlRegistry;
-    exports.ɵangular_packages_forms_forms_o = RANGE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_p = NG_MODEL_WITH_FORM_CONTROL_WARNING;
-    exports.ɵangular_packages_forms_forms_q = formControlBinding$1;
-    exports.ɵangular_packages_forms_forms_r = controlNameBinding;
-    exports.ɵangular_packages_forms_forms_s = formDirectiveProvider$1;
-    exports.ɵangular_packages_forms_forms_t = formGroupNameProvider;
-    exports.ɵangular_packages_forms_forms_u = formArrayNameProvider;
-    exports.ɵangular_packages_forms_forms_v = SELECT_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_w = SELECT_MULTIPLE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_x = ɵNgSelectMultipleOption;
-    exports.ɵangular_packages_forms_forms_y = ɵNgNoValidate;
-    exports.ɵangular_packages_forms_forms_z = MAX_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_f = BuiltInControlValueAccessor;
+    exports.ɵangular_packages_forms_forms_g = DEFAULT_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_h = AbstractControlStatus;
+    exports.ɵangular_packages_forms_forms_i = ngControlStatusHost;
+    exports.ɵangular_packages_forms_forms_j = formDirectiveProvider;
+    exports.ɵangular_packages_forms_forms_k = formControlBinding;
+    exports.ɵangular_packages_forms_forms_l = modelGroupProvider;
+    exports.ɵangular_packages_forms_forms_m = NUMBER_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_n = RADIO_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_o = RadioControlRegistry;
+    exports.ɵangular_packages_forms_forms_p = RANGE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_q = NG_MODEL_WITH_FORM_CONTROL_WARNING;
+    exports.ɵangular_packages_forms_forms_r = formControlBinding$1;
+    exports.ɵangular_packages_forms_forms_s = controlNameBinding;
+    exports.ɵangular_packages_forms_forms_t = formDirectiveProvider$1;
+    exports.ɵangular_packages_forms_forms_u = formGroupNameProvider;
+    exports.ɵangular_packages_forms_forms_v = formArrayNameProvider;
+    exports.ɵangular_packages_forms_forms_w = SELECT_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_x = SELECT_MULTIPLE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_y = ɵNgSelectMultipleOption;
+    exports.ɵangular_packages_forms_forms_z = ɵNgNoValidate;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
