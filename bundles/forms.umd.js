@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.4+24.sha-1644d64
+ * @license Angular v12.0.0-next.4+25.sha-3bd1992
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -674,7 +674,6 @@
         /**
          * @description
          * Validator that requires the control's value to be greater than or equal to the provided number.
-         * The validator exists only as a function and not as a directive.
          *
          * @usageNotes
          *
@@ -693,20 +692,11 @@
          *
          */
         Validators.min = function (min) {
-            return function (control) {
-                if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
-                    return null; // don't validate empty values to allow optional controls
-                }
-                var value = parseFloat(control.value);
-                // Controls with NaN values after parsing should be treated as not having a
-                // minimum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-min
-                return !isNaN(value) && value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
-            };
+            return minValidator(min);
         };
         /**
          * @description
          * Validator that requires the control's value to be less than or equal to the provided number.
-         * The validator exists only as a function and not as a directive.
          *
          * @usageNotes
          *
@@ -725,15 +715,7 @@
          *
          */
         Validators.max = function (max) {
-            return function (control) {
-                if (isEmptyInputValue(control.value) || isEmptyInputValue(max)) {
-                    return null; // don't validate empty values to allow optional controls
-                }
-                var value = parseFloat(control.value);
-                // Controls with NaN values after parsing should be treated as not having a
-                // maximum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-max
-                return !isNaN(value) && value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
-            };
+            return maxValidator(max);
         };
         /**
          * @description
@@ -756,7 +738,7 @@
          *
          */
         Validators.required = function (control) {
-            return isEmptyInputValue(control.value) ? { 'required': true } : null;
+            return requiredValidator(control);
         };
         /**
          * @description
@@ -780,7 +762,7 @@
          *
          */
         Validators.requiredTrue = function (control) {
-            return control.value === true ? null : { 'required': true };
+            return requiredTrueValidator(control);
         };
         /**
          * @description
@@ -819,10 +801,7 @@
          *
          */
         Validators.email = function (control) {
-            if (isEmptyInputValue(control.value)) {
-                return null; // don't validate empty values to allow optional controls
-            }
-            return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
+            return emailValidator(control);
         };
         /**
          * @description
@@ -855,16 +834,7 @@
          *
          */
         Validators.minLength = function (minLength) {
-            return function (control) {
-                if (isEmptyInputValue(control.value) || !hasValidLength(control.value)) {
-                    // don't validate empty values to allow optional controls
-                    // don't validate values without `length` property
-                    return null;
-                }
-                return control.value.length < minLength ?
-                    { 'minlength': { 'requiredLength': minLength, 'actualLength': control.value.length } } :
-                    null;
-            };
+            return minLengthValidator(minLength);
         };
         /**
          * @description
@@ -894,11 +864,7 @@
          *
          */
         Validators.maxLength = function (maxLength) {
-            return function (control) {
-                return hasValidLength(control.value) && control.value.length > maxLength ?
-                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': control.value.length } } :
-                    null;
-            };
+            return maxLengthValidator(maxLength);
         };
         /**
          * @description
@@ -950,31 +916,7 @@
          *
          */
         Validators.pattern = function (pattern) {
-            if (!pattern)
-                return Validators.nullValidator;
-            var regex;
-            var regexStr;
-            if (typeof pattern === 'string') {
-                regexStr = '';
-                if (pattern.charAt(0) !== '^')
-                    regexStr += '^';
-                regexStr += pattern;
-                if (pattern.charAt(pattern.length - 1) !== '$')
-                    regexStr += '$';
-                regex = new RegExp(regexStr);
-            }
-            else {
-                regexStr = pattern.toString();
-                regex = pattern;
-            }
-            return function (control) {
-                if (isEmptyInputValue(control.value)) {
-                    return null; // don't validate empty values to allow optional controls
-                }
-                var value = control.value;
-                return regex.test(value) ? null :
-                    { 'pattern': { 'requiredPattern': regexStr, 'actualValue': value } };
-            };
+            return patternValidator(pattern);
         };
         /**
          * @description
@@ -984,17 +926,10 @@
          *
          */
         Validators.nullValidator = function (control) {
-            return null;
+            return nullValidator(control);
         };
         Validators.compose = function (validators) {
-            if (!validators)
-                return null;
-            var presentValidators = validators.filter(isPresent);
-            if (presentValidators.length == 0)
-                return null;
-            return function (control) {
-                return mergeErrors(executeValidators(control, presentValidators));
-            };
+            return compose(validators);
         };
         /**
          * @description
@@ -1008,18 +943,129 @@
          *
          */
         Validators.composeAsync = function (validators) {
-            if (!validators)
-                return null;
-            var presentValidators = validators.filter(isPresent);
-            if (presentValidators.length == 0)
-                return null;
-            return function (control) {
-                var observables = executeValidators(control, presentValidators).map(toObservable);
-                return rxjs.forkJoin(observables).pipe(operators.map(mergeErrors));
-            };
+            return composeAsync(validators);
         };
         return Validators;
     }());
+    /**
+     * Validator that requires the control's value to be greater than or equal to the provided number.
+     * See `Validators.min` for additional information.
+     */
+    function minValidator(min) {
+        return function (control) {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            var value = parseFloat(control.value);
+            // Controls with NaN values after parsing should be treated as not having a
+            // minimum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-min
+            return !isNaN(value) && value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
+        };
+    }
+    /**
+     * Validator that requires the control's value to be less than or equal to the provided number.
+     * See `Validators.max` for additional information.
+     */
+    function maxValidator(max) {
+        return function (control) {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(max)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            var value = parseFloat(control.value);
+            // Controls with NaN values after parsing should be treated as not having a
+            // maximum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-max
+            return !isNaN(value) && value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
+        };
+    }
+    /**
+     * Validator that requires the control have a non-empty value.
+     * See `Validators.required` for additional information.
+     */
+    function requiredValidator(control) {
+        return isEmptyInputValue(control.value) ? { 'required': true } : null;
+    }
+    /**
+     * Validator that requires the control's value be true. This validator is commonly
+     * used for required checkboxes.
+     * See `Validators.requiredTrue` for additional information.
+     */
+    function requiredTrueValidator(control) {
+        return control.value === true ? null : { 'required': true };
+    }
+    /**
+     * Validator that requires the control's value pass an email validation test.
+     * See `Validators.email` for additional information.
+     */
+    function emailValidator(control) {
+        if (isEmptyInputValue(control.value)) {
+            return null; // don't validate empty values to allow optional controls
+        }
+        return EMAIL_REGEXP.test(control.value) ? null : { 'email': true };
+    }
+    /**
+     * Validator that requires the length of the control's value to be greater than or equal
+     * to the provided minimum length. See `Validators.minLength` for additional information.
+     */
+    function minLengthValidator(minLength) {
+        return function (control) {
+            if (isEmptyInputValue(control.value) || !hasValidLength(control.value)) {
+                // don't validate empty values to allow optional controls
+                // don't validate values without `length` property
+                return null;
+            }
+            return control.value.length < minLength ?
+                { 'minlength': { 'requiredLength': minLength, 'actualLength': control.value.length } } :
+                null;
+        };
+    }
+    /**
+     * Validator that requires the length of the control's value to be less than or equal
+     * to the provided maximum length. See `Validators.maxLength` for additional information.
+     */
+    function maxLengthValidator(maxLength) {
+        return function (control) {
+            return hasValidLength(control.value) && control.value.length > maxLength ?
+                { 'maxlength': { 'requiredLength': maxLength, 'actualLength': control.value.length } } :
+                null;
+        };
+    }
+    /**
+     * Validator that requires the control's value to match a regex pattern.
+     * See `Validators.pattern` for additional information.
+     */
+    function patternValidator(pattern) {
+        if (!pattern)
+            return nullValidator;
+        var regex;
+        var regexStr;
+        if (typeof pattern === 'string') {
+            regexStr = '';
+            if (pattern.charAt(0) !== '^')
+                regexStr += '^';
+            regexStr += pattern;
+            if (pattern.charAt(pattern.length - 1) !== '$')
+                regexStr += '$';
+            regex = new RegExp(regexStr);
+        }
+        else {
+            regexStr = pattern.toString();
+            regex = pattern;
+        }
+        return function (control) {
+            if (isEmptyInputValue(control.value)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            var value = control.value;
+            return regex.test(value) ? null :
+                { 'pattern': { 'requiredPattern': regexStr, 'actualValue': value } };
+        };
+    }
+    /**
+     * Function that has `ValidatorFn` shape, but performs no operation.
+     */
+    function nullValidator(control) {
+        return null;
+    }
     function isPresent(o) {
         return o != null;
     }
@@ -1061,20 +1107,49 @@
         });
     }
     /**
-     * Merges synchronous validators into a single validator function (combined using
-     * `Validators.compose`).
+     * Merges synchronous validators into a single validator function.
+     * See `Validators.compose` for additional information.
      */
-    function composeValidators(validators) {
-        return validators != null ? Validators.compose(normalizeValidators(validators)) :
-            null;
+    function compose(validators) {
+        if (!validators)
+            return null;
+        var presentValidators = validators.filter(isPresent);
+        if (presentValidators.length == 0)
+            return null;
+        return function (control) {
+            return mergeErrors(executeValidators(control, presentValidators));
+        };
     }
     /**
-     * Merges asynchronous validators into a single validator function (combined using
-     * `Validators.composeAsync`).
+     * Accepts a list of validators of different possible shapes (`Validator` and `ValidatorFn`),
+     * normalizes the list (converts everything to `ValidatorFn`) and merges them into a single
+     * validator function.
+     */
+    function composeValidators(validators) {
+        return validators != null ? compose(normalizeValidators(validators)) : null;
+    }
+    /**
+     * Merges asynchronous validators into a single validator function.
+     * See `Validators.composeAsync` for additional information.
+     */
+    function composeAsync(validators) {
+        if (!validators)
+            return null;
+        var presentValidators = validators.filter(isPresent);
+        if (presentValidators.length == 0)
+            return null;
+        return function (control) {
+            var observables = executeValidators(control, presentValidators).map(toObservable);
+            return rxjs.forkJoin(observables).pipe(operators.map(mergeErrors));
+        };
+    }
+    /**
+     * Accepts a list of async validators of different possible shapes (`AsyncValidator` and
+     * `AsyncValidatorFn`), normalizes the list (converts everything to `AsyncValidatorFn`) and merges
+     * them into a single validator function.
      */
     function composeAsyncValidators(validators) {
-        return validators != null ?
-            Validators.composeAsync(normalizeValidators(validators)) :
+        return validators != null ? composeAsync(normalizeValidators(validators)) :
             null;
     }
     /**
@@ -6545,7 +6620,7 @@
      */
     var AbstractValidatorDirective = /** @class */ (function () {
         function AbstractValidatorDirective() {
-            this._validator = Validators.nullValidator;
+            this._validator = nullValidator;
         }
         /**
          * Helper function invoked from child classes to process changes (from `ngOnChanges` hook).
@@ -6612,7 +6687,7 @@
             /** @internal */
             _this.normalizeInput = function (input) { return parseInt(input, 10); };
             /** @internal */
-            _this.createValidator = function (max) { return Validators.max(max); };
+            _this.createValidator = function (max) { return maxValidator(max); };
             return _this;
         }
         /**
@@ -6675,7 +6750,7 @@
             /** @internal */
             _this.normalizeInput = function (input) { return parseInt(input, 10); };
             /** @internal */
-            _this.createValidator = function (min) { return Validators.min(min); };
+            _this.createValidator = function (min) { return minValidator(min); };
             return _this;
         }
         /**
@@ -6762,7 +6837,7 @@
          * @nodoc
          */
         RequiredValidator.prototype.validate = function (control) {
-            return this.required ? Validators.required(control) : null;
+            return this.required ? requiredValidator(control) : null;
         };
         /**
          * Registers a callback function to call when the validator inputs change.
@@ -6815,7 +6890,7 @@
          * @nodoc
          */
         CheckboxRequiredValidator.prototype.validate = function (control) {
-            return this.required ? Validators.requiredTrue(control) : null;
+            return this.required ? requiredTrueValidator(control) : null;
         };
         return CheckboxRequiredValidator;
     }(RequiredValidator));
@@ -6881,7 +6956,7 @@
          * @nodoc
          */
         EmailValidator.prototype.validate = function (control) {
-            return this._enabled ? Validators.email(control) : null;
+            return this._enabled ? emailValidator(control) : null;
         };
         /**
          * Registers a callback function to call when the validator inputs change.
@@ -6933,7 +7008,7 @@
      */
     var MinLengthValidator = /** @class */ (function () {
         function MinLengthValidator() {
-            this._validator = Validators.nullValidator;
+            this._validator = nullValidator;
         }
         /** @nodoc */
         MinLengthValidator.prototype.ngOnChanges = function (changes) {
@@ -6959,7 +7034,7 @@
             this._onChange = fn;
         };
         MinLengthValidator.prototype._createValidator = function () {
-            this._validator = Validators.minLength(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
+            this._validator = minLengthValidator(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
         };
         return MinLengthValidator;
     }());
@@ -7005,7 +7080,7 @@
      */
     var MaxLengthValidator = /** @class */ (function () {
         function MaxLengthValidator() {
-            this._validator = Validators.nullValidator;
+            this._validator = nullValidator;
         }
         /** @nodoc */
         MaxLengthValidator.prototype.ngOnChanges = function (changes) {
@@ -7030,7 +7105,7 @@
             this._onChange = fn;
         };
         MaxLengthValidator.prototype._createValidator = function () {
-            this._validator = Validators.maxLength(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
+            this._validator = maxLengthValidator(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
         };
         return MaxLengthValidator;
     }());
@@ -7078,7 +7153,7 @@
      */
     var PatternValidator = /** @class */ (function () {
         function PatternValidator() {
-            this._validator = Validators.nullValidator;
+            this._validator = nullValidator;
         }
         /** @nodoc */
         PatternValidator.prototype.ngOnChanges = function (changes) {
@@ -7103,7 +7178,7 @@
             this._onChange = fn;
         };
         PatternValidator.prototype._createValidator = function () {
-            this._validator = Validators.pattern(this.pattern);
+            this._validator = patternValidator(this.pattern);
         };
         return PatternValidator;
     }());
@@ -7298,7 +7373,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new core.Version('12.0.0-next.4+24.sha-1644d64');
+    var VERSION = new core.Version('12.0.0-next.4+25.sha-3bd1992');
 
     /**
      * @license
@@ -7451,6 +7526,15 @@
     exports.ɵangular_packages_forms_forms_bf = MIN_LENGTH_VALIDATOR;
     exports.ɵangular_packages_forms_forms_bg = MAX_LENGTH_VALIDATOR;
     exports.ɵangular_packages_forms_forms_bh = PATTERN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bi = minValidator;
+    exports.ɵangular_packages_forms_forms_bj = maxValidator;
+    exports.ɵangular_packages_forms_forms_bk = requiredValidator;
+    exports.ɵangular_packages_forms_forms_bl = requiredTrueValidator;
+    exports.ɵangular_packages_forms_forms_bm = emailValidator;
+    exports.ɵangular_packages_forms_forms_bn = minLengthValidator;
+    exports.ɵangular_packages_forms_forms_bo = maxLengthValidator;
+    exports.ɵangular_packages_forms_forms_bp = patternValidator;
+    exports.ɵangular_packages_forms_forms_bq = nullValidator;
     exports.ɵangular_packages_forms_forms_c = REACTIVE_DRIVEN_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_d = ɵInternalFormsSharedModule;
     exports.ɵangular_packages_forms_forms_e = CHECKBOX_VALUE_ACCESSOR;

@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.4+24.sha-1644d64
+ * @license Angular v12.0.0-next.4+25.sha-3bd1992
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3964,7 +3964,6 @@ export declare class Validators {
     /**
      * @description
      * Validator that requires the control's value to be greater than or equal to the provided number.
-     * The validator exists only as a function and not as a directive.
      *
      * @usageNotes
      *
@@ -3986,7 +3985,6 @@ export declare class Validators {
     /**
      * @description
      * Validator that requires the control's value to be less than or equal to the provided number.
-     * The validator exists only as a function and not as a directive.
      *
      * @usageNotes
      *
@@ -4285,6 +4283,60 @@ export declare const ɵangular_packages_forms_forms_bg: any;
  * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_bh: any;
+
+/**
+ * Validator that requires the control's value to be greater than or equal to the provided number.
+ * See `Validators.min` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bi(min: number): ValidatorFn;
+
+/**
+ * Validator that requires the control's value to be less than or equal to the provided number.
+ * See `Validators.max` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bj(max: number): ValidatorFn;
+
+/**
+ * Validator that requires the control have a non-empty value.
+ * See `Validators.required` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bk(control: AbstractControl): ValidationErrors | null;
+
+/**
+ * Validator that requires the control's value be true. This validator is commonly
+ * used for required checkboxes.
+ * See `Validators.requiredTrue` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bl(control: AbstractControl): ValidationErrors | null;
+
+/**
+ * Validator that requires the control's value pass an email validation test.
+ * See `Validators.email` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bm(control: AbstractControl): ValidationErrors | null;
+
+/**
+ * Validator that requires the length of the control's value to be greater than or equal
+ * to the provided minimum length. See `Validators.minLength` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bn(minLength: number): ValidatorFn;
+
+/**
+ * Validator that requires the length of the control's value to be less than or equal
+ * to the provided maximum length. See `Validators.maxLength` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bo(maxLength: number): ValidatorFn;
+
+/**
+ * Validator that requires the control's value to match a regex pattern.
+ * See `Validators.pattern` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bp(pattern: string | RegExp): ValidatorFn;
+
+/**
+ * Function that has `ValidatorFn` shape, but performs no operation.
+ */
+export declare function ɵangular_packages_forms_forms_bq(control: AbstractControl): ValidationErrors | null;
 
 export declare const ɵangular_packages_forms_forms_c: Type<any>[];
 
