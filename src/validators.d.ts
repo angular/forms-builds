@@ -63,7 +63,6 @@ export declare class Validators {
     /**
      * @description
      * Validator that requires the control's value to be greater than or equal to the provided number.
-     * The validator exists only as a function and not as a directive.
      *
      * @usageNotes
      *
@@ -85,7 +84,6 @@ export declare class Validators {
     /**
      * @description
      * Validator that requires the control's value to be less than or equal to the provided number.
-     * The validator exists only as a function and not as a directive.
      *
      * @usageNotes
      *
@@ -327,6 +325,51 @@ export declare class Validators {
      */
     static composeAsync(validators: (AsyncValidatorFn | null)[]): AsyncValidatorFn | null;
 }
+/**
+ * Validator that requires the control's value to be greater than or equal to the provided number.
+ * See `Validators.min` for additional information.
+ */
+export declare function minValidator(min: number): ValidatorFn;
+/**
+ * Validator that requires the control's value to be less than or equal to the provided number.
+ * See `Validators.max` for additional information.
+ */
+export declare function maxValidator(max: number): ValidatorFn;
+/**
+ * Validator that requires the control have a non-empty value.
+ * See `Validators.required` for additional information.
+ */
+export declare function requiredValidator(control: AbstractControl): ValidationErrors | null;
+/**
+ * Validator that requires the control's value be true. This validator is commonly
+ * used for required checkboxes.
+ * See `Validators.requiredTrue` for additional information.
+ */
+export declare function requiredTrueValidator(control: AbstractControl): ValidationErrors | null;
+/**
+ * Validator that requires the control's value pass an email validation test.
+ * See `Validators.email` for additional information.
+ */
+export declare function emailValidator(control: AbstractControl): ValidationErrors | null;
+/**
+ * Validator that requires the length of the control's value to be greater than or equal
+ * to the provided minimum length. See `Validators.minLength` for additional information.
+ */
+export declare function minLengthValidator(minLength: number): ValidatorFn;
+/**
+ * Validator that requires the length of the control's value to be less than or equal
+ * to the provided maximum length. See `Validators.maxLength` for additional information.
+ */
+export declare function maxLengthValidator(maxLength: number): ValidatorFn;
+/**
+ * Validator that requires the control's value to match a regex pattern.
+ * See `Validators.pattern` for additional information.
+ */
+export declare function patternValidator(pattern: string | RegExp): ValidatorFn;
+/**
+ * Function that has `ValidatorFn` shape, but performs no operation.
+ */
+export declare function nullValidator(control: AbstractControl): ValidationErrors | null;
 export declare function toObservable(r: any): Observable<any>;
 /**
  * Given the list of validators that may contain both functions as well as classes, return the list
@@ -338,13 +381,15 @@ export declare function toObservable(r: any): Observable<any>;
  */
 export declare function normalizeValidators<V>(validators: (V | Validator | AsyncValidator)[]): V[];
 /**
- * Merges synchronous validators into a single validator function (combined using
- * `Validators.compose`).
+ * Accepts a list of validators of different possible shapes (`Validator` and `ValidatorFn`),
+ * normalizes the list (converts everything to `ValidatorFn`) and merges them into a single
+ * validator function.
  */
 export declare function composeValidators(validators: Array<Validator | ValidatorFn>): ValidatorFn | null;
 /**
- * Merges asynchronous validators into a single validator function (combined using
- * `Validators.composeAsync`).
+ * Accepts a list of async validators of different possible shapes (`AsyncValidator` and
+ * `AsyncValidatorFn`), normalizes the list (converts everything to `AsyncValidatorFn`) and merges
+ * them into a single validator function.
  */
 export declare function composeAsyncValidators(validators: Array<AsyncValidator | AsyncValidatorFn>): AsyncValidatorFn | null;
 /**
