@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.4+26.sha-cc75e1d
+ * @license Angular v12.0.0-next.4+34.sha-1a9f526
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -7603,6 +7603,15 @@
     ɵInternalFormsSharedModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
     ɵInternalFormsSharedModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({});
     (function () {
+        (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ɵInternalFormsSharedModule, [{
+                type: i0.NgModule,
+                args: [{
+                        declarations: SHARED_FORM_DIRECTIVES,
+                        exports: SHARED_FORM_DIRECTIVES,
+                    }]
+            }], null, null);
+    })();
+    (function () {
         (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(ɵInternalFormsSharedModule, { declarations: [ɵNgNoValidate,
                 NgSelectOption,
                 ɵNgSelectMultipleOption,
@@ -7642,15 +7651,6 @@
                 EmailValidator,
                 MinValidator,
                 MaxValidator] });
-    })();
-    (function () {
-        (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ɵInternalFormsSharedModule, [{
-                type: i0.NgModule,
-                args: [{
-                        declarations: SHARED_FORM_DIRECTIVES,
-                        exports: SHARED_FORM_DIRECTIVES,
-                    }]
-            }], null, null);
     })();
 
     /**
@@ -7791,7 +7791,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.0.0-next.4+26.sha-cc75e1d');
+    var VERSION = new i0.Version('12.0.0-next.4+34.sha-1a9f526');
 
     /**
      * @license
@@ -7817,7 +7817,6 @@
     FormsModule.ɵfac = function FormsModule_Factory(t) { return new (t || FormsModule)(); };
     FormsModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: FormsModule });
     FormsModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
-    (function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] }); })();
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(FormsModule, [{
                 type: i0.NgModule,
@@ -7828,6 +7827,7 @@
                     }]
             }], null, null);
     })();
+    (function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] }); })();
     /**
      * Exports the required infrastructure and directives for reactive forms,
      * making them available for import by NgModules that import this module.
@@ -7861,7 +7861,6 @@
     ReactiveFormsModule.ɵfac = function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); };
     ReactiveFormsModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: ReactiveFormsModule });
     ReactiveFormsModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
-    (function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] }); })();
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ReactiveFormsModule, [{
                 type: i0.NgModule,
@@ -7872,6 +7871,7 @@
                     }]
             }], null, null);
     })();
+    (function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] }); })();
 
     /**
      * @license
