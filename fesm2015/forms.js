@@ -1,10 +1,10 @@
 /**
- * @license Angular v12.0.0-next.4+35.sha-7d6db00
+ * @license Angular v12.0.0-next.4+38.sha-e88a9c6
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵdefineDirective, ɵɵlistener, ɵɵProvidersFeature, ɵɵInheritDefinitionFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵisPromise, ɵisObservable, ɵɵclassProp, Self, EventEmitter, Input, ɵɵgetInheritedFactory, Host, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵdefineInjectable, Injectable, Injector, ɵɵattribute, ɵɵdefineNgModule, ɵɵdefineInjector, NgModule, ɵɵsetNgModuleScope, Version } from '@angular/core';
+import { InjectionToken, forwardRef, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵdefineDirective, ɵɵlistener, ɵɵProvidersFeature, ɵɵInheritDefinitionFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵisPromise, ɵisObservable, ɵɵclassProp, Self, EventEmitter, Input, ɵɵgetInheritedFactory, Host, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵdefineNgModule, ɵɵdefineInjector, NgModule, ɵɵdefineInjectable, Injectable, Injector, ɵɵattribute, ɵɵsetNgModuleScope, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/common';
 import { from, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -4633,6 +4633,20 @@ function throwNameError() {
     `);
 }
 /**
+ * Internal-only NgModule that works as a host for the `RadioControlRegistry` tree-shakable
+ * provider. Note: the `InternalFormsSharedModule` can not be used here directly, since it's
+ * declared *after* the `RadioControlRegistry` class and the `providedIn` doesn't support
+ * `forwardRef` logic.
+ */
+class RadioControlRegistryModule {
+}
+RadioControlRegistryModule.ɵfac = function RadioControlRegistryModule_Factory(t) { return new (t || RadioControlRegistryModule)(); };
+RadioControlRegistryModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: RadioControlRegistryModule });
+RadioControlRegistryModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({});
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(RadioControlRegistryModule, [{
+        type: NgModule
+    }], null, null); })();
+/**
  * @description
  * Class used by Angular to track radio buttons. For internal use only.
  */
@@ -4678,9 +4692,10 @@ class RadioControlRegistry {
     }
 }
 RadioControlRegistry.ɵfac = function RadioControlRegistry_Factory(t) { return new (t || RadioControlRegistry)(); };
-RadioControlRegistry.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: RadioControlRegistry, factory: RadioControlRegistry.ɵfac });
+RadioControlRegistry.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: RadioControlRegistry, factory: RadioControlRegistry.ɵfac, providedIn: RadioControlRegistryModule });
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(RadioControlRegistry, [{
-        type: Injectable
+        type: Injectable,
+        args: [{ providedIn: RadioControlRegistryModule }]
     }], null, null); })();
 /**
  * @description
@@ -6980,11 +6995,12 @@ class ɵInternalFormsSharedModule {
 }
 ɵInternalFormsSharedModule.ɵfac = function ɵInternalFormsSharedModule_Factory(t) { return new (t || ɵInternalFormsSharedModule)(); };
 ɵInternalFormsSharedModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: ɵInternalFormsSharedModule });
-ɵInternalFormsSharedModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({});
+ɵInternalFormsSharedModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ imports: [[RadioControlRegistryModule]] });
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(ɵInternalFormsSharedModule, [{
         type: NgModule,
         args: [{
                 declarations: SHARED_FORM_DIRECTIVES,
+                imports: [RadioControlRegistryModule],
                 exports: SHARED_FORM_DIRECTIVES,
             }]
     }], null, null); })();
@@ -7007,7 +7023,7 @@ class ɵInternalFormsSharedModule {
         CheckboxRequiredValidator,
         EmailValidator,
         MinValidator,
-        MaxValidator], exports: [ɵNgNoValidate,
+        MaxValidator], imports: [RadioControlRegistryModule], exports: [ɵNgNoValidate,
         NgSelectOption,
         ɵNgSelectMultipleOption,
         DefaultValueAccessor,
@@ -7027,6 +7043,81 @@ class ɵInternalFormsSharedModule {
         EmailValidator,
         MinValidator,
         MaxValidator] }); })();
+
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * Exports the required providers and directives for template-driven forms,
+ * making them available for import by NgModules that import this module.
+ *
+ * Providers associated with this module:
+ * * `RadioControlRegistry`
+ *
+ * @see [Forms Overview](/guide/forms-overview)
+ * @see [Template-driven Forms Guide](/guide/forms)
+ *
+ * @publicApi
+ */
+class FormsModule {
+}
+FormsModule.ɵfac = function FormsModule_Factory(t) { return new (t || FormsModule)(); };
+FormsModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: FormsModule });
+FormsModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ imports: [ɵInternalFormsSharedModule] });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(FormsModule, [{
+        type: NgModule,
+        args: [{
+                declarations: TEMPLATE_DRIVEN_DIRECTIVES,
+                exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
+            }]
+    }], null, null); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] }); })();
+/**
+ * Exports the required infrastructure and directives for reactive forms,
+ * making them available for import by NgModules that import this module.
+ *
+ * Providers associated with this module:
+ * * `FormBuilder`
+ * * `RadioControlRegistry`
+ *
+ * @see [Forms Overview](guide/forms-overview)
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ *
+ * @publicApi
+ */
+class ReactiveFormsModule {
+    /**
+     * @description
+     * Provides options for configuring the reactive forms module.
+     *
+     * @param opts An object of configuration options
+     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
+     * binding is used with reactive form directives.
+     */
+    static withConfig(opts) {
+        return {
+            ngModule: ReactiveFormsModule,
+            providers: [
+                { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
+            ]
+        };
+    }
+}
+ReactiveFormsModule.ɵfac = function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); };
+ReactiveFormsModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: ReactiveFormsModule });
+ReactiveFormsModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ imports: [ɵInternalFormsSharedModule] });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(ReactiveFormsModule, [{
+        type: NgModule,
+        args: [{
+                declarations: [REACTIVE_DRIVEN_DIRECTIVES],
+                exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
+            }]
+    }], null, null); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] }); })();
 
 /**
  * @license
@@ -7143,9 +7234,10 @@ class FormBuilder {
     }
 }
 FormBuilder.ɵfac = function FormBuilder_Factory(t) { return new (t || FormBuilder)(); };
-FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, factory: FormBuilder.ɵfac });
+FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, factory: FormBuilder.ɵfac, providedIn: ReactiveFormsModule });
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(FormBuilder, [{
-        type: Injectable
+        type: Injectable,
+        args: [{ providedIn: ReactiveFormsModule }]
     }], null, null); })();
 
 /**
@@ -7158,77 +7250,7 @@ FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, fa
 /**
  * @publicApi
  */
-const VERSION = new Version('12.0.0-next.4+35.sha-7d6db00');
-
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * Exports the required providers and directives for template-driven forms,
- * making them available for import by NgModules that import this module.
- *
- * @see [Forms Overview](/guide/forms-overview)
- * @see [Template-driven Forms Guide](/guide/forms)
- *
- * @publicApi
- */
-class FormsModule {
-}
-FormsModule.ɵfac = function FormsModule_Factory(t) { return new (t || FormsModule)(); };
-FormsModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: FormsModule });
-FormsModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ providers: [RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(FormsModule, [{
-        type: NgModule,
-        args: [{
-                declarations: TEMPLATE_DRIVEN_DIRECTIVES,
-                providers: [RadioControlRegistry],
-                exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
-            }]
-    }], null, null); })();
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(FormsModule, { declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] }); })();
-/**
- * Exports the required infrastructure and directives for reactive forms,
- * making them available for import by NgModules that import this module.
- *
- * @see [Forms Overview](guide/forms-overview)
- * @see [Reactive Forms Guide](guide/reactive-forms)
- *
- * @publicApi
- */
-class ReactiveFormsModule {
-    /**
-     * @description
-     * Provides options for configuring the reactive forms module.
-     *
-     * @param opts An object of configuration options
-     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
-     * binding is used with reactive form directives.
-     */
-    static withConfig(opts) {
-        return {
-            ngModule: ReactiveFormsModule,
-            providers: [
-                { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
-            ]
-        };
-    }
-}
-ReactiveFormsModule.ɵfac = function ReactiveFormsModule_Factory(t) { return new (t || ReactiveFormsModule)(); };
-ReactiveFormsModule.ɵmod = /*@__PURE__*/ ɵɵdefineNgModule({ type: ReactiveFormsModule });
-ReactiveFormsModule.ɵinj = /*@__PURE__*/ ɵɵdefineInjector({ providers: [FormBuilder, RadioControlRegistry], imports: [ɵInternalFormsSharedModule] });
-(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(ReactiveFormsModule, [{
-        type: NgModule,
-        args: [{
-                declarations: [REACTIVE_DRIVEN_DIRECTIVES],
-                providers: [FormBuilder, RadioControlRegistry],
-                exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
-            }]
-    }], null, null); })();
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵɵsetNgModuleScope(ReactiveFormsModule, { declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] }); })();
+const VERSION = new Version('12.0.0-next.4+38.sha-e88a9c6');
 
 /**
  * @license

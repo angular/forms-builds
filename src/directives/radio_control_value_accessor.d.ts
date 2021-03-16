@@ -11,6 +11,17 @@ import { NgControl } from './ng_control';
 import * as i0 from "@angular/core";
 export declare const RADIO_VALUE_ACCESSOR: any;
 /**
+ * Internal-only NgModule that works as a host for the `RadioControlRegistry` tree-shakable
+ * provider. Note: the `InternalFormsSharedModule` can not be used here directly, since it's
+ * declared *after* the `RadioControlRegistry` class and the `providedIn` doesn't support
+ * `forwardRef` logic.
+ */
+export declare class RadioControlRegistryModule {
+    static ɵfac: i0.ɵɵFactoryDef<RadioControlRegistryModule, never>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<RadioControlRegistryModule, never, never, never>;
+    static ɵinj: i0.ɵɵInjectorDef<RadioControlRegistryModule>;
+}
+/**
  * @description
  * Class used by Angular to track radio buttons. For internal use only.
  */
