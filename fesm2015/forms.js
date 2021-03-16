@@ -1,10 +1,10 @@
 /**
- * @license Angular v11.2.5+22.sha-bec919a
+ * @license Angular v11.2.5+25.sha-6414590
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, ɵisPromise, ɵisObservable, Self, EventEmitter, Input, Host, SkipSelf, Output, Injectable, Injector, NgModule, Version } from '@angular/core';
+import { InjectionToken, forwardRef, Directive, Renderer2, ElementRef, Optional, Inject, ɵisPromise, ɵisObservable, Self, EventEmitter, Input, Host, SkipSelf, Output, NgModule, ɵɵdefineInjectable, Injectable, Injector, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/common';
 import { from, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -4509,6 +4509,17 @@ function throwNameError() {
     `);
 }
 /**
+ * Internal-only NgModule that works as a host for the `RadioControlRegistry` tree-shakable
+ * provider. Note: the `InternalFormsSharedModule` can not be used here directly, since it's
+ * declared *after* the `RadioControlRegistry` class and the `providedIn` doesn't support
+ * `forwardRef` logic.
+ */
+class RadioControlRegistryModule {
+}
+RadioControlRegistryModule.decorators = [
+    { type: NgModule }
+];
+/**
  * @description
  * Class used by Angular to track radio buttons. For internal use only.
  */
@@ -4553,8 +4564,9 @@ class RadioControlRegistry {
             controlPair[1].name === accessor.name;
     }
 }
+RadioControlRegistry.ɵprov = ɵɵdefineInjectable({ factory: function RadioControlRegistry_Factory() { return new RadioControlRegistry(); }, token: RadioControlRegistry, providedIn: RadioControlRegistryModule });
 RadioControlRegistry.decorators = [
-    { type: Injectable }
+    { type: Injectable, args: [{ providedIn: RadioControlRegistryModule },] }
 ];
 /**
  * @description
@@ -6538,7 +6550,73 @@ class ɵInternalFormsSharedModule {
 ɵInternalFormsSharedModule.decorators = [
     { type: NgModule, args: [{
                 declarations: SHARED_FORM_DIRECTIVES,
+                imports: [RadioControlRegistryModule],
                 exports: SHARED_FORM_DIRECTIVES,
+            },] }
+];
+
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * Exports the required providers and directives for template-driven forms,
+ * making them available for import by NgModules that import this module.
+ *
+ * Providers associated with this module:
+ * * `RadioControlRegistry`
+ *
+ * @see [Forms Overview](/guide/forms-overview)
+ * @see [Template-driven Forms Guide](/guide/forms)
+ *
+ * @publicApi
+ */
+class FormsModule {
+}
+FormsModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: TEMPLATE_DRIVEN_DIRECTIVES,
+                exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
+            },] }
+];
+/**
+ * Exports the required infrastructure and directives for reactive forms,
+ * making them available for import by NgModules that import this module.
+ *
+ * Providers associated with this module:
+ * * `FormBuilder`
+ * * `RadioControlRegistry`
+ *
+ * @see [Forms Overview](guide/forms-overview)
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ *
+ * @publicApi
+ */
+class ReactiveFormsModule {
+    /**
+     * @description
+     * Provides options for configuring the reactive forms module.
+     *
+     * @param opts An object of configuration options
+     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
+     * binding is used with reactive form directives.
+     */
+    static withConfig(opts) {
+        return {
+            ngModule: ReactiveFormsModule,
+            providers: [
+                { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
+            ]
+        };
+    }
+}
+ReactiveFormsModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [REACTIVE_DRIVEN_DIRECTIVES],
+                exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
             },] }
 ];
 
@@ -6656,8 +6734,9 @@ class FormBuilder {
         }
     }
 }
+FormBuilder.ɵprov = ɵɵdefineInjectable({ factory: function FormBuilder_Factory() { return new FormBuilder(); }, token: FormBuilder, providedIn: ReactiveFormsModule });
 FormBuilder.decorators = [
-    { type: Injectable }
+    { type: Injectable, args: [{ providedIn: ReactiveFormsModule },] }
 ];
 
 /**
@@ -6670,67 +6749,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('11.2.5+22.sha-bec919a');
-
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * Exports the required providers and directives for template-driven forms,
- * making them available for import by NgModules that import this module.
- *
- * @see [Forms Overview](/guide/forms-overview)
- * @see [Template-driven Forms Guide](/guide/forms)
- *
- * @publicApi
- */
-class FormsModule {
-}
-FormsModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: TEMPLATE_DRIVEN_DIRECTIVES,
-                providers: [RadioControlRegistry],
-                exports: [ɵInternalFormsSharedModule, TEMPLATE_DRIVEN_DIRECTIVES]
-            },] }
-];
-/**
- * Exports the required infrastructure and directives for reactive forms,
- * making them available for import by NgModules that import this module.
- *
- * @see [Forms Overview](guide/forms-overview)
- * @see [Reactive Forms Guide](guide/reactive-forms)
- *
- * @publicApi
- */
-class ReactiveFormsModule {
-    /**
-     * @description
-     * Provides options for configuring the reactive forms module.
-     *
-     * @param opts An object of configuration options
-     * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
-     * binding is used with reactive form directives.
-     */
-    static withConfig(opts) {
-        return {
-            ngModule: ReactiveFormsModule,
-            providers: [
-                { provide: NG_MODEL_WITH_FORM_CONTROL_WARNING, useValue: opts.warnOnNgModelWithFormControl }
-            ]
-        };
-    }
-}
-ReactiveFormsModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [REACTIVE_DRIVEN_DIRECTIVES],
-                providers: [FormBuilder, RadioControlRegistry],
-                exports: [ɵInternalFormsSharedModule, REACTIVE_DRIVEN_DIRECTIVES]
-            },] }
-];
+const VERSION = new Version('11.2.5+25.sha-6414590');
 
 /**
  * @license
@@ -6761,5 +6780,5 @@ ReactiveFormsModule.decorators = [
  * Generated bundle index. Do not edit.
  */
 
-export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, MaxLengthValidator, MinLengthValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NumberValueAccessor, PatternValidator, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, VERSION, Validators, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_ba, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_bb, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_bc, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bd, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_be, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_bf, minValidator as ɵangular_packages_forms_forms_bg, maxValidator as ɵangular_packages_forms_forms_bh, requiredValidator as ɵangular_packages_forms_forms_bi, requiredTrueValidator as ɵangular_packages_forms_forms_bj, emailValidator as ɵangular_packages_forms_forms_bk, minLengthValidator as ɵangular_packages_forms_forms_bl, maxLengthValidator as ɵangular_packages_forms_forms_bm, patternValidator as ɵangular_packages_forms_forms_bn, nullValidator as ɵangular_packages_forms_forms_bo, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, BuiltInControlValueAccessor as ɵangular_packages_forms_forms_f, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_g, AbstractControlStatus as ɵangular_packages_forms_forms_h, ngControlStatusHost as ɵangular_packages_forms_forms_i, formDirectiveProvider as ɵangular_packages_forms_forms_j, formControlBinding as ɵangular_packages_forms_forms_k, modelGroupProvider as ɵangular_packages_forms_forms_l, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_m, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_n, RadioControlRegistry as ɵangular_packages_forms_forms_o, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_p, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_q, formControlBinding$1 as ɵangular_packages_forms_forms_r, controlNameBinding as ɵangular_packages_forms_forms_s, formDirectiveProvider$1 as ɵangular_packages_forms_forms_t, formGroupNameProvider as ɵangular_packages_forms_forms_u, formArrayNameProvider as ɵangular_packages_forms_forms_v, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_w, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_x, ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_y, ɵNgNoValidate as ɵangular_packages_forms_forms_z };
+export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, MaxLengthValidator, MinLengthValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NumberValueAccessor, PatternValidator, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, VERSION, Validators, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, ɵNgNoValidate as ɵangular_packages_forms_forms_ba, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_bb, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_bc, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_bd, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_be, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bf, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_bg, minValidator as ɵangular_packages_forms_forms_bh, maxValidator as ɵangular_packages_forms_forms_bi, requiredValidator as ɵangular_packages_forms_forms_bj, requiredTrueValidator as ɵangular_packages_forms_forms_bk, emailValidator as ɵangular_packages_forms_forms_bl, minLengthValidator as ɵangular_packages_forms_forms_bm, maxLengthValidator as ɵangular_packages_forms_forms_bn, patternValidator as ɵangular_packages_forms_forms_bo, nullValidator as ɵangular_packages_forms_forms_bp, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, BuiltInControlValueAccessor as ɵangular_packages_forms_forms_f, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_g, AbstractControlStatus as ɵangular_packages_forms_forms_h, ngControlStatusHost as ɵangular_packages_forms_forms_i, formDirectiveProvider as ɵangular_packages_forms_forms_j, formControlBinding as ɵangular_packages_forms_forms_k, modelGroupProvider as ɵangular_packages_forms_forms_l, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_m, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_n, RadioControlRegistryModule as ɵangular_packages_forms_forms_o, RadioControlRegistry as ɵangular_packages_forms_forms_p, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_q, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_r, formControlBinding$1 as ɵangular_packages_forms_forms_s, controlNameBinding as ɵangular_packages_forms_forms_t, formDirectiveProvider$1 as ɵangular_packages_forms_forms_u, formGroupNameProvider as ɵangular_packages_forms_forms_v, formArrayNameProvider as ɵangular_packages_forms_forms_w, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_x, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_y, ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_z };
 //# sourceMappingURL=forms.js.map
