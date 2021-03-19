@@ -1,6 +1,6 @@
 /**
- * @license Angular v10.1.0-next.4+26.sha-6248d6c
- * (c) 2010-2020 Google LLC. https://angular.io/
+ * @license Angular v12.0.0-next.5+9.sha-bff0d8f
+ * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
 
@@ -71,7 +71,7 @@ export declare abstract class AbstractControl {
     /**
      * The parent control.
      */
-    get parent(): FormGroup | FormArray;
+    get parent(): FormGroup | FormArray | null;
     /**
      * The validation status of the control. There are four possible
      * validation status values:
@@ -442,6 +442,17 @@ export declare abstract class AbstractControl {
      * -OR-
      *
      * * `this.form.get(['person', 'name']);`
+     *
+     * ### Retrieve a control in a FormArray
+     *
+     * When accessing an element inside a FormArray, you can use an element index.
+     * For example, to get a `price` control from the first element in an `items` array you can use:
+     *
+     * * `this.form.get('items.0.price');`
+     *
+     * -OR-
+     *
+     * * `this.form.get(['items', 0, 'price']);`
      */
     get(path: Array<string | number> | string): AbstractControl | null;
     /**
@@ -620,6 +631,29 @@ export declare abstract class AbstractControlDirective {
      */
     get path(): string[] | null;
     /**
+     * Contains the result of merging synchronous validators into a single validator function
+     * (combined using `Validators.compose`).
+     */
+    private _composedValidatorFn;
+    /**
+     * Contains the result of merging asynchronous validators into a single validator function
+     * (combined using `Validators.composeAsync`).
+     */
+    private _composedAsyncValidatorFn;
+    /**
+     * @description
+     * Synchronous validator function composed of all the synchronous validators registered with this
+     * directive.
+     */
+    get validator(): ValidatorFn | null;
+    /**
+     * @description
+     * Asynchronous validator function composed of all the asynchronous validators registered with
+     * this directive.
+     */
+    get asyncValidator(): AsyncValidatorFn | null;
+    private _onDestroyCallbacks;
+    /**
      * @description
      * Resets the control with the provided value if the control is present.
      */
@@ -715,17 +749,9 @@ export declare interface AbstractControlOptions {
  * @publicApi
  */
 export declare class AbstractFormGroupDirective extends ControlContainer implements OnInit, OnDestroy {
-    /**
-     * @description
-     * An internal callback method triggered on the instance after the inputs are set.
-     * Registers the group with its parent group.
-     */
+    /** @nodoc */
     ngOnInit(): void;
-    /**
-     * @description
-     * An internal callback method triggered before the instance is destroyed.
-     * Removes the group from its parent group.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
      * @description
@@ -742,17 +768,29 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): Form | null;
-    /**
-     * @description
-     * The synchronous validators registered with this group.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * The async validators registered with this group.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
 }
+
+/**
+ * A base class for Validator-based Directives. The class contains common logic shared across such
+ * Directives.
+ *
+ * For internal use only, this class is not intended for use outside of the Forms package.
+ */
+declare abstract class AbstractValidatorDirective implements Validator {
+    private _validator;
+    private _onChange;
+    /**
+     * Helper function invoked from child classes to process changes (from `ngOnChanges` hook).
+     * @nodoc
+     */
+    handleChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    validate(control: AbstractControl): ValidationErrors | null;
+    /** @nodoc */
+    registerOnValidatorChange(fn: () => void): void;
+}
+
+declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending';
 
 /**
  * @description
@@ -829,44 +867,38 @@ export declare interface AsyncValidatorFn {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class CheckboxControlValueAccessor implements ControlValueAccessor {
+export declare class CheckboxControlValueAccessor extends ɵangular_packages_forms_forms_f implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "checked" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => {}): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => {}): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -894,9 +926,9 @@ export declare class CheckboxControlValueAccessor implements ControlValueAccesso
  */
 export declare class CheckboxRequiredValidator extends RequiredValidator {
     /**
-     * @description
      * Method that validates whether or not the checkbox has been checked.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
 }
@@ -1056,6 +1088,9 @@ export declare interface ControlValueAccessor {
 
 /**
  * @description
+ *
+ * {@searchKeywords ngDefaultControl}
+ *
  * The default `ControlValueAccessor` for writing a value and listening to changes on input
  * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
  * `NgModel` directives.
@@ -1075,6 +1110,15 @@ export declare interface ControlValueAccessor {
  * <input type="text" [formControl]="firstNameControl">
  * ```
  *
+ * This value accessor is used by default for `<input type="text">` and `<textarea>` elements, but
+ * you could also use it for custom components that have similar behavior and do not require special
+ * processing. In order to attach the default value accessor to a custom element, add the
+ * `ngDefaultControl` attribute as shown below.
+ *
+ * ```
+ * <custom-input-component ngDefaultControl [(ngModel)]="value"></custom-input-component>
+ * ```
+ *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
  * @publicApi
@@ -1084,13 +1128,13 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
     private _elementRef;
     private _compositionMode;
     /**
-     * @description
      * The registered callback function called when an input event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /** Whether the user is creating a composition string (IME events). */
@@ -1098,28 +1142,22 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
     constructor(_renderer: Renderer2, _elementRef: ElementRef, _compositionMode: boolean);
     /**
      * Sets the "value" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => void): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => void): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -1156,16 +1194,14 @@ export declare class EmailValidator implements Validator {
      */
     set email(value: boolean | string);
     /**
-     * @description
      * Method that validates whether an email address is valid.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
 }
@@ -1321,28 +1357,56 @@ export declare class FormArray extends AbstractControl {
      * Insert a new `AbstractControl` at the end of the array.
      *
      * @param control Form control to be inserted
+     * @param options Specifies whether this FormArray instance should emit events after a new
+     *     control is added.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * inserted. When false, no events are emitted.
      */
-    push(control: AbstractControl): void;
+    push(control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Insert a new `AbstractControl` at the given `index` in the array.
      *
      * @param index Index in the array to insert the control
      * @param control Form control to be inserted
+     * @param options Specifies whether this FormArray instance should emit events after a new
+     *     control is inserted.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * inserted. When false, no events are emitted.
      */
-    insert(index: number, control: AbstractControl): void;
+    insert(index: number, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Remove the control at the given `index` in the array.
      *
      * @param index Index in the array to remove the control
+     * @param options Specifies whether this FormArray instance should emit events after a
+     *     control is removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * removed. When false, no events are emitted.
      */
-    removeAt(index: number): void;
+    removeAt(index: number, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Replace an existing control.
      *
      * @param index Index in the array to replace the control
      * @param control The `AbstractControl` control to replace the existing control
+     * @param options Specifies whether this FormArray instance should emit events after an
+     *     existing control is replaced with a new one.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * replaced with a new one. When false, no events are emitted.
      */
-    setControl(index: number, control: AbstractControl): void;
+    setControl(index: number, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Length of the control array.
      */
@@ -1414,11 +1478,9 @@ export declare class FormArray extends AbstractControl {
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
      * is false.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
-     * observables emit events with the latest status and value when the control value is updated.
-     * When false, no events are emitted.
-     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
-     * updateValueAndValidity} method.
+     * `valueChanges` observables emit events with the latest status and value when the control value
+     * is updated. When false, no events are emitted. The configuration options are passed to
+     * the {@link AbstractControl#updateValueAndValidity updateValueAndValidity} method.
      */
     patchValue(value: any[], options?: {
         onlySelf?: boolean;
@@ -1484,6 +1546,12 @@ export declare class FormArray extends AbstractControl {
     /**
      * Remove all controls in the `FormArray`.
      *
+     * @param options Specifies whether this FormArray instance should emit events after all
+     *     controls are removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when all controls
+     * in this FormArray instance are removed. When false, no events are emitted.
+     *
      * @usageNotes
      * ### Remove all elements from a FormArray
      *
@@ -1511,7 +1579,9 @@ export declare class FormArray extends AbstractControl {
      * }
      * ```
      */
-    clear(): void;
+    clear(options?: {
+        emitEvent?: boolean;
+    }): void;
     private _registerControl;
 }
 
@@ -1550,17 +1620,16 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * to indices when iterating over arrays in a `FormArray`.
      */
     name: string | number | null;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
     /**
-     * @description
      * A lifecycle method called when the directive's inputs are initialized. For internal use only.
-     *
      * @throws If the directive does not have a valid parent.
+     * @nodoc
      */
     ngOnInit(): void;
     /**
-     * @description
      * A lifecycle method called before the directive's instance is destroyed. For internal use only.
+     * @nodoc
      */
     ngOnDestroy(): void;
     /**
@@ -1579,17 +1648,6 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * Each index is the string name of the control on that level.
      */
     get path(): string[];
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators registered with this
-     * directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this directive.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     private _checkParentType;
 }
 
@@ -1613,25 +1671,44 @@ export declare class FormBuilder {
      * @param controlsConfig A collection of child controls. The key for each child is the name
      * under which it is registered.
      *
-     * @param options Configuration options object for the `FormGroup`. The object can
-     * have two shapes:
-     *
-     * 1) `AbstractControlOptions` object (preferred), which consists of:
+     * @param options Configuration options object for the `FormGroup`. The object should have the
+     * the `AbstractControlOptions` type and might contain the following fields:
      * * `validators`: A synchronous validator function, or an array of validator functions
      * * `asyncValidators`: A single async validator or array of async validator functions
      * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur' |
      * submit')
-     *
-     * 2) Legacy configuration object, which consists of:
-     * * `validator`: A synchronous validator function, or an array of validator functions
-     * * `asyncValidator`: A single async validator or array of async validator functions
-     *
      */
     group(controlsConfig: {
         [key: string]: any;
-    }, options?: AbstractControlOptions | {
+    }, options?: AbstractControlOptions | null): FormGroup;
+    /**
+     * @description
+     * Construct a new `FormGroup` instance.
+     *
+     * @deprecated This API is not typesafe and can result in issues with Closure Compiler renaming.
+     * Use the `FormBuilder#group` overload with `AbstractControlOptions` instead.
+     * Note that `AbstractControlOptions` expects `validators` and `asyncValidators` to be valid
+     * validators. If you have custom validators, make sure their validation function parameter is
+     * `AbstractControl` and not a sub-class, such as `FormGroup`. These functions will be called with
+     * an object of type `AbstractControl` and that cannot be automatically downcast to a subclass, so
+     * TypeScript sees this as an error. For example, change the `(group: FormGroup) =>
+     * ValidationErrors|null` signature to be `(group: AbstractControl) => ValidationErrors|null`.
+     *
+     * @param controlsConfig A collection of child controls. The key for each child is the name
+     * under which it is registered.
+     *
+     * @param options Configuration options object for the `FormGroup`. The legacy configuration
+     * object consists of:
+     * * `validator`: A synchronous validator function, or an array of validator functions
+     * * `asyncValidator`: A single async validator or array of async validator functions
+     * Note: the legacy format is deprecated and might be removed in one of the next major versions
+     * of Angular.
+     */
+    group(controlsConfig: {
         [key: string]: any;
-    } | null): FormGroup;
+    }, options: {
+        [key: string]: any;
+    }): FormGroup;
     /**
      * @description
      * Construct a new `FormControl` with the given state, validators and options.
@@ -1888,11 +1965,11 @@ export declare class FormControl extends AbstractControl {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-export declare class FormControlDirective extends NgControl implements OnChanges {
+export declare class FormControlDirective extends NgControl implements OnChanges, OnDestroy {
     private _ngModelWarningConfig;
     /**
-     * @description
      * Internal reference to the view model value.
+     * @nodoc
      */
     viewModel: any;
     /**
@@ -1902,40 +1979,24 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     form: FormControl;
     /**
      * @description
-     * Triggers a warning that this input should not be used with reactive forms.
+     * Triggers a warning in dev mode that this input should not be used with reactive forms.
      */
     set isDisabled(isDisabled: boolean);
     /** @deprecated as of v6 */
     model: any;
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
-    constructor(validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    ngOnDestroy(): void;
     /**
      * @description
      * Returns an array that represents the path from the top-level form to this control.
      * Each index is the string name of the control on that level.
      */
     get path(): string[];
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators
-     * registered with this directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this
-     * directive.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * The `FormControl` bound to this directive.
@@ -2005,25 +2066,17 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     name: string | number | null;
     /**
      * @description
-     * Triggers a warning that this input should not be used with reactive forms.
+     * Triggers a warning in dev mode that this input should not be used with reactive forms.
      */
     set isDisabled(isDisabled: boolean);
     /** @deprecated as of v6 */
     model: any;
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
-    constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
      * @description
@@ -2043,18 +2096,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): any;
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators
-     * registered with this directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this
-     * directive.
-     */
-    get asyncValidator(): AsyncValidatorFn;
     private _checkParentType;
     private _setUpControl;
 }
@@ -2168,21 +2209,44 @@ export declare class FormGroup extends AbstractControl {
      *
      * @param name The control name to add to the collection
      * @param control Provides the control for the given name
+     * @param options Specifies whether this FormGroup instance should emit events after a new
+     *     control is added.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * added. When false, no events are emitted.
      */
-    addControl(name: string, control: AbstractControl): void;
+    addControl(name: string, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Remove a control from this group.
      *
+     * This method also updates the value and validity of the control.
+     *
      * @param name The control name to remove from the collection
+     * @param options Specifies whether this FormGroup instance should emit events after a
+     *     control is removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * removed. When false, no events are emitted.
      */
-    removeControl(name: string): void;
+    removeControl(name: string, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Replace an existing control.
      *
      * @param name The control name to replace in the collection
      * @param control Provides the control for the given name
+     * @param options Specifies whether this FormGroup instance should emit events after an
+     *     existing control is replaced.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * replaced with a new one. When false, no events are emitted.
      */
-    setControl(name: string, control: AbstractControl): void;
+    setControl(name: string, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
@@ -2262,11 +2326,9 @@ export declare class FormGroup extends AbstractControl {
      * * `onlySelf`: When true, each change only affects this control and not its parent. Default is
      * true.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
-     * observables emit events with the latest status and value when the control value is updated.
-     * When false, no events are emitted.
-     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
-     * updateValueAndValidity} method.
+     * `valueChanges` observables emit events with the latest status and value when the control value
+     * is updated. When false, no events are emitted. The configuration options are passed to
+     * the {@link AbstractControl#updateValueAndValidity updateValueAndValidity} method.
      */
     patchValue(value: {
         [key: string]: any;
@@ -2275,7 +2337,7 @@ export declare class FormGroup extends AbstractControl {
         emitEvent?: boolean;
     }): void;
     /**
-     * Resets the `FormGroup`, marks all descendants are marked `pristine` and `untouched`, and
+     * Resets the `FormGroup`, marks all descendants `pristine` and `untouched` and sets
      * the value of all descendants to null.
      *
      * You reset to a specific form state by passing in a map of states
@@ -2327,8 +2389,8 @@ export declare class FormGroup extends AbstractControl {
      *   last: 'last'
      * });
      *
-     * console.log(this.form.value);  // {first: 'name', last: 'last name'}
-     * console.log(this.form.get('first').status);  // 'DISABLED'
+     * console.log(form.value);  // {last: 'last'}
+     * console.log(form.get('first').status);  // 'DISABLED'
      * ```
      */
     reset(value?: any, options?: {
@@ -2358,6 +2420,7 @@ export declare class FormGroup extends AbstractControl {
  * @see [Reactive Forms Guide](guide/reactive-forms)
  * @see `AbstractControl`
  *
+ * @usageNotes
  * ### Register Form Group
  *
  * The following example registers a `FormGroup` with first name and last name controls,
@@ -2368,15 +2431,24 @@ export declare class FormGroup extends AbstractControl {
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges {
-    private _validators;
-    private _asyncValidators;
+export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges, OnDestroy {
+    private validators;
+    private asyncValidators;
     /**
      * @description
      * Reports whether the form submission has been triggered.
      */
     readonly submitted: boolean;
+    /**
+     * Reference to an old form group input value, which is needed to cleanup old instance in case it
+     * was replaced with a new one.
+     */
     private _oldForm;
+    /**
+     * Callback that should be invoked when controls in FormGroup or FormArray collection change
+     * (added or removed). This callback triggers corresponding DOM updates.
+     */
+    private readonly _onCollectionChange;
     /**
      * @description
      * Tracks the list of added `FormControlName` instances
@@ -2392,14 +2464,11 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * Emits an event when the form submission has been triggered.
      */
     ngSubmit: EventEmitter<any>;
-    constructor(_validators: any[], _asyncValidators: any[]);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    ngOnDestroy(): void;
     /**
      * @description
      * Returns this directive's instance.
@@ -2445,7 +2514,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      */
     addFormGroup(dir: FormGroupName): void;
     /**
-     * No-op method to remove the form group.
+     * Performs the necessary cleanup when a `FormGroupName` directive instance is removed from the
+     * view.
      *
      * @param dir The `FormGroupName` directive instance.
      */
@@ -2458,13 +2528,14 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      */
     getFormGroup(dir: FormGroupName): FormGroup;
     /**
-     * Adds a new `FormArrayName` directive instance to the form.
+     * Performs the necessary setup when a `FormArrayName` directive instance is added to the view.
      *
      * @param dir The `FormArrayName` directive instance.
      */
     addFormArray(dir: FormArrayName): void;
     /**
-     * No-op method to remove the form array.
+     * Performs the necessary cleanup when a `FormArrayName` directive instance is removed from the
+     * view.
      *
      * @param dir The `FormArrayName` directive instance.
      */
@@ -2503,6 +2574,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * @param value The new value for the form.
      */
     resetForm(value?: any): void;
+    private _setUpFormContainer;
+    private _cleanUpFormContainer;
     private _updateRegistrations;
     private _updateValidators;
     private _checkFormPresent;
@@ -2566,7 +2639,7 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      * to indices when iterating over groups in a `FormArray`.
      */
     name: string | number | null;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
 }
 
 declare type FormHooks = 'change' | 'blur' | 'submit';
@@ -2574,6 +2647,9 @@ declare type FormHooks = 'change' | 'blur' | 'submit';
 /**
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
+ *
+ * Providers associated with this module:
+ * * `RadioControlRegistry`
  *
  * @see [Forms Overview](/guide/forms-overview)
  * @see [Template-driven Forms Guide](/guide/forms)
@@ -2609,31 +2685,58 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
     private _onChange?;
     /**
      * @description
-     * Tracks changes to the the maximum length bound to this directive.
+     * Tracks changes to the maximum length bound to this directive.
      */
     maxlength: string | number;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value exceeds
-     * the maximum length requirement.
+     * Method that validates whether the value exceeds the maximum length requirement.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
+}
+
+/**
+ * A directive which installs the {@link MaxValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `max` attribute.
+ *
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a max validator
+ *
+ * The following example shows how to add a max validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input type="number" ngModel max="4">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+export declare class MaxValidator extends AbstractValidatorDirective implements OnChanges {
+    /**
+     * @description
+     * Tracks changes to the max bound to this directive.
+     */
+    max: string | number;
+    /**
+     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
+     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
+     * AOT mode. This could be refactored once ViewEngine is removed.
+     * @nodoc
+     */
+    ngOnChanges(changes: SimpleChanges): void;
 }
 
 /**
@@ -2662,31 +2765,59 @@ export declare class MinLengthValidator implements Validator, OnChanges {
     private _onChange?;
     /**
      * @description
-     * Tracks changes to the the minimum length bound to this directive.
+     * Tracks changes to the minimum length bound to this directive.
      */
     minlength: string | number;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value meets a minimum length
-     * requirement. Returns the validation result if enabled, otherwise null.
+     * Method that validates whether the value meets a minimum length requirement.
+     * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
+}
+
+/**
+ * A directive which installs the {@link MinValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * @see [Form Validation](guide/form-validation)
+ *
+ * @usageNotes
+ *
+ * ### Adding a min validator
+ *
+ * The following example shows how to add a min validator to an input attached to an
+ * ngModel binding.
+ *
+ * ```html
+ * <input type="number" ngModel min="4">
+ * ```
+ *
+ * @ngModule ReactiveFormsModule
+ * @ngModule FormsModule
+ * @publicApi
+ */
+export declare class MinValidator extends AbstractValidatorDirective implements OnChanges {
+    /**
+     * @description
+     * Tracks changes to the min bound to this directive.
+     */
+    min: string | number;
+    /**
+     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
+     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
+     * AOT mode. This could be refactored once ViewEngine is removed.
+     * @nodoc
+     */
+    ngOnChanges(changes: SimpleChanges): void;
 }
 
 /**
@@ -2737,7 +2868,7 @@ export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
  *
  * @publicApi
  */
-export declare const NG_VALUE_ACCESSOR: InjectionToken<ControlValueAccessor>;
+export declare const NG_VALUE_ACCESSOR: InjectionToken<readonly ControlValueAccessor[]>;
 
 /**
  * @description
@@ -2757,20 +2888,6 @@ export declare abstract class NgControl extends AbstractControlDirective {
      * The value accessor for the control
      */
     valueAccessor: ControlValueAccessor | null;
-    /**
-     * @description
-     * The registered synchronous validator function for the control
-     *
-     * @throws An exception that this method is not implemented
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * The registered async validator function for the control
-     *
-     * @throws An exception that this method is not implemented
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * The callback method to update the model from the view when requested
@@ -2803,7 +2920,7 @@ export declare abstract class NgControl extends AbstractControlDirective {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class NgControlStatus extends ɵangular_packages_forms_forms_g {
+export declare class NgControlStatus extends ɵangular_packages_forms_forms_h {
     constructor(cd: NgControl);
 }
 
@@ -2818,7 +2935,7 @@ export declare class NgControlStatus extends ɵangular_packages_forms_forms_g {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class NgControlStatusGroup extends ɵangular_packages_forms_forms_g {
+export declare class NgControlStatusGroup extends ɵangular_packages_forms_forms_h {
     constructor(cd: ControlContainer);
 }
 
@@ -2915,11 +3032,8 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     options: {
         updateOn?: FormHooks;
     };
-    constructor(validators: any[], asyncValidators: any[]);
-    /**
-     * @description
-     * Lifecycle method called after the view is initialized. For internal use only.
-     */
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
+    /** @nodoc */
     ngAfterViewInit(): void;
     /**
      * @description
@@ -3040,16 +3154,17 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
  * `ngModel` selector to activate it.
  *
  * It accepts a domain model as an optional `Input`. If you have a one-way binding
- * to `ngModel` with `[]` syntax, changing the value of the domain model in the component
+ * to `ngModel` with `[]` syntax, changing the domain model's value in the component
  * class sets the value in the view. If you have a two-way binding with `[()]` syntax
- * (also known as 'banana-box syntax'), the value in the UI always syncs back to
+ * (also known as 'banana-in-a-box syntax'), the value in the UI always syncs back to
  * the domain model in your class.
  *
- * To inspect the properties of the associated `FormControl` (like validity state),
+ * To inspect the properties of the associated `FormControl` (like the validity state),
  * export the directive into a local template variable using `ngModel` as the key (ex:
- * `#myVar="ngModel"`). You then access the control using the directive's `control` property, but
- * most properties used (like `valid` and `dirty`) fall through to the control anyway for direct
- * access. See a full list of properties directly available in `AbstractControlDirective`.
+ * `#myVar="ngModel"`). You can then access the control using the directive's `control` property.
+ * However, the most commonly used properties (like `valid` and `dirty`) also exist on the control
+ * for direct access. See a full list of properties directly available in
+ * `AbstractControlDirective`.
  *
  * @see `RadioControlValueAccessor`
  * @see `SelectControlValueAccessor`
@@ -3093,15 +3208,16 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
  * <!-- form value: {login: ''} -->
  * ```
  *
- * ### Setting the ngModel name attribute through options
+ * ### Setting the ngModel `name` attribute through options
  *
- * The following example shows you an alternate way to set the name attribute. The name attribute is
- * used within a custom form component, and the name `@Input` property serves a different purpose.
+ * The following example shows you an alternate way to set the name attribute. Here,
+ * an attribute identified as name is used within a custom form control component. To still be able
+ * to specify the NgModel's name, you must specify it using the `ngModelOptions` input instead.
  *
  * ```html
  * <form>
- *   <my-person-control name="Nancy" ngModel [ngModelOptions]="{name: 'user'}">
- *   </my-person-control>
+ *   <my-custom-form-control name="Nancy" ngModel [ngModelOptions]="{name: 'user'}">
+ *   </my-custom-form-control>
  * </form>
  * <!-- form value: {user: ''} -->
  * ```
@@ -3114,13 +3230,13 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     /** @nodoc */
     static ngAcceptInputType_isDisabled: boolean | string;
     /**
-     * @description
      * Internal reference to the view model value.
+     * @nodoc
      */
     viewModel: any;
     /**
      * @description
-     * Tracks the name bound to the directive. The parent form
+     * Tracks the name bound to the directive. If a parent form exists, it
      * uses this name as a key to retrieve this control's value.
      */
     name: string;
@@ -3143,7 +3259,8 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * as a standalone control.
      *
      * **standalone**: When set to true, the `ngModel` will not register itself with its parent form,
-     * and acts as if it's not in the form. Defaults to false.
+     * and acts as if it's not in the form. Defaults to false. If no parent form exists, this option
+     * has no effect.
      *
      * **updateOn**: Defines the event upon which the form control value and validity update.
      * Defaults to 'change'. Possible values: `'change'` | `'blur'` | `'submit'`.
@@ -3160,20 +3277,10 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * the view model updates.
      */
     update: EventEmitter<any>;
-    constructor(parent: ControlContainer, validators: Array<Validator | ValidatorFn>, asyncValidators: Array<AsyncValidator | AsyncValidatorFn>, valueAccessors: ControlValueAccessor[]);
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[]);
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal
-     * use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
      * @description
@@ -3186,18 +3293,6 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * The top-level directive for this control if present, otherwise null.
      */
     get formDirective(): any;
-    /**
-     * @description
-     * Synchronous validator function composed of all the synchronous validators
-     * registered with this directive.
-     */
-    get validator(): ValidatorFn | null;
-    /**
-     * @description
-     * Async validator function composed of all the async validators registered with this
-     * directive.
-     */
-    get asyncValidator(): AsyncValidatorFn | null;
     /**
      * @description
      * Sets the new value for the view model and emits an `ngModelChange` event.
@@ -3249,7 +3344,7 @@ export declare class NgModelGroup extends AbstractFormGroupDirective implements 
      * to a key in the parent `NgForm`.
      */
     name: string;
-    constructor(parent: ControlContainer, validators: any[], asyncValidators: any[]);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
 }
 
 /**
@@ -3284,17 +3379,14 @@ export declare class NgSelectOption implements OnDestroy {
      * For objects, use the `ngValue` input binding.
      */
     set value(value: any);
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
 }
 
 /**
  * @description
  * The `ControlValueAccessor` for writing a number value and listening to number input changes.
- * The value accessor is used by the `FormControlDirective`, `FormControlName`, and  `NgModel`
+ * The value accessor is used by the `FormControlDirective`, `FormControlName`, and `NgModel`
  * directives.
  *
  * @usageNotes
@@ -3315,45 +3407,39 @@ export declare class NgSelectOption implements OnDestroy {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class NumberValueAccessor implements ControlValueAccessor {
+export declare class NumberValueAccessor extends ɵangular_packages_forms_forms_f implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**
-     * @description
      * The registered callback function called when a change or input event occurs on the input
      * element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "value" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: number): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: number | null) => void): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => void): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -3389,25 +3475,16 @@ export declare class PatternValidator implements Validator, OnChanges {
      * Tracks changes to the pattern bound to this directive.
      */
     pattern: string | RegExp;
-    /**
-     * @description
-     * A lifecycle method called when the directive's inputs change. For internal use
-     * only.
-     *
-     * @param changes A object of key/value pairs for the set of changed inputs.
-     */
+    /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
-     * @description
-     * Method that validates whether the value matches the
-     * the pattern requirement.
+     * Method that validates whether the value matches the pattern requirement.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
@@ -3433,19 +3510,19 @@ export declare class PatternValidator implements Validator, OnChanges {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class RadioControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
+export declare class RadioControlValueAccessor extends ɵangular_packages_forms_forms_f implements ControlValueAccessor, OnDestroy, OnInit {
     private _renderer;
     private _elementRef;
     private _registry;
     private _injector;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: () => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /**
@@ -3464,29 +3541,19 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
      * Tracks the value of the radio input element
      */
     value: any;
-    constructor(_renderer: Renderer2, _elementRef: ElementRef, _registry: ɵangular_packages_forms_forms_n, _injector: Injector);
-    /**
-     * @description
-     * A lifecycle method called when the directive is initialized. For internal use only.
-     */
+    constructor(_renderer: Renderer2, _elementRef: ElementRef, _registry: ɵangular_packages_forms_forms_p, _injector: Injector);
+    /** @nodoc */
     ngOnInit(): void;
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
     /**
-     * @description
      * Sets the "checked" property value on the radio input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: any) => {}): void;
     /**
@@ -3496,20 +3563,16 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
      */
     fireUncheck(value: any): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => {}): void;
     /**
      * Sets the "disabled" property on the input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
     private _checkName;
-    private _throwNameError;
 }
 
 /**
@@ -3536,45 +3599,39 @@ export declare class RadioControlValueAccessor implements ControlValueAccessor, 
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class RangeValueAccessor implements ControlValueAccessor {
+export declare class RangeValueAccessor extends ɵangular_packages_forms_forms_f implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**
-     * @description
      * The registered callback function called when a change or input event occurs on the input
      * element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "value" property on the input element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (_: number | null) => void): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => void): void;
     /**
      * Sets the "disabled" property on the range input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -3582,6 +3639,10 @@ export declare class RangeValueAccessor implements ControlValueAccessor {
 /**
  * Exports the required infrastructure and directives for reactive forms,
  * making them available for import by NgModules that import this module.
+ *
+ * Providers associated with this module:
+ * * `FormBuilder`
+ * * `RadioControlRegistry`
  *
  * @see [Forms Overview](guide/forms-overview)
  * @see [Reactive Forms Guide](guide/reactive-forms)
@@ -3631,16 +3692,14 @@ export declare class RequiredValidator implements Validator {
     get required(): boolean | string;
     set required(value: boolean | string);
     /**
-     * @description
      * Method that validates whether the control is empty.
      * Returns the validation result if enabled, otherwise null.
+     * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
     /**
-     * @description
      * Registers a callback function to call when the validator inputs change.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
 }
@@ -3694,26 +3753,26 @@ export declare class RequiredValidator implements Validator {
  * ```
  *
  * **Note:** We listen to the 'change' event because 'input' events aren't fired
- * for selects in Firefox and IE:
- * https://bugzilla.mozilla.org/show_bug.cgi?id=1024350
- * https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
+ * for selects in IE, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event#browser_compatibility
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class SelectControlValueAccessor implements ControlValueAccessor {
+export declare class SelectControlValueAccessor extends ɵangular_packages_forms_forms_f implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
+    /** @nodoc */
     value: any;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /**
@@ -3727,28 +3786,22 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
     /**
      * Sets the "value" property on the input element. The "selectedIndex"
      * property is also set if an ID is provided on the option element.
-     *
-     * @param value The checked value
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (value: any) => any): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => any): void;
     /**
      * Sets the "disabled" property on the select input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -3788,22 +3841,22 @@ export declare class SelectControlValueAccessor implements ControlValueAccessor 
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class SelectMultipleControlValueAccessor implements ControlValueAccessor {
+export declare class SelectMultipleControlValueAccessor extends ɵangular_packages_forms_forms_f implements ControlValueAccessor {
     private _renderer;
     private _elementRef;
     /**
-     * @description
-     * The current value
+     * The current value.
+     * @nodoc
      */
     value: any;
     /**
-     * @description
      * The registered callback function called when a change event occurs on the input element.
+     * @nodoc
      */
     onChange: (_: any) => void;
     /**
-     * @description
      * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
      */
     onTouched: () => void;
     /**
@@ -3815,32 +3868,24 @@ export declare class SelectMultipleControlValueAccessor implements ControlValueA
     private _compareWith;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
-     * @description
-     * Sets the "value" property on one or of more
-     * of the select's options.
-     *
-     * @param value The value
+     * Sets the "value" property on one or of more of the select's options.
+     * @nodoc
      */
     writeValue(value: any): void;
     /**
-     * @description
      * Registers a function called when the control value changes
      * and writes an array of the selected options.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnChange(fn: (value: any) => any): void;
     /**
-     * @description
      * Registers a function called when the control is touched.
-     *
-     * @param fn The callback function
+     * @nodoc
      */
     registerOnTouched(fn: () => any): void;
     /**
      * Sets the "disabled" property on the select input element.
-     *
-     * @param isDisabled The disabled value
+     * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
 }
@@ -3926,7 +3971,6 @@ export declare class Validators {
     /**
      * @description
      * Validator that requires the control's value to be greater than or equal to the provided number.
-     * The validator exists only as a function and not as a directive.
      *
      * @usageNotes
      *
@@ -3948,7 +3992,6 @@ export declare class Validators {
     /**
      * @description
      * Validator that requires the control's value to be less than or equal to the provided number.
-     * The validator exists only as a function and not as a directive.
      *
      * @usageNotes
      *
@@ -4072,7 +4115,7 @@ export declare class Validators {
      * ```
      *
      * @returns A validator function that returns an error map with the
-     * `minlength` if the validation check fails, otherwise `null`.
+     * `minlength` property if the validation check fails, otherwise `null`.
      *
      * @see `updateValueAndValidity()`
      *
@@ -4123,6 +4166,25 @@ export declare class Validators {
      *
      * ```html
      * <input pattern="[a-zA-Z ]*">
+     * ```
+     *
+     * ### Pattern matching with the global or sticky flag
+     *
+     * `RegExp` objects created with the `g` or `y` flags that are passed into `Validators.pattern`
+     * can produce different results on the same input when validations are run consecutively. This is
+     * due to how the behavior of `RegExp.prototype.test` is
+     * specified in [ECMA-262](https://tc39.es/ecma262/#sec-regexpbuiltinexec)
+     * (`RegExp` preserves the index of the last match when the global or sticky flag is used).
+     * Due to this behavior, it is recommended that when using
+     * `Validators.pattern` you **do not** pass in a `RegExp` object with either the global or sticky
+     * flag enabled.
+     *
+     * ```typescript
+     * // Not recommended (since the `g` flag is used)
+     * const controlOne = new FormControl('1', Validators.pattern(/foo/g));
+     *
+     * // Good
+     * const controlTwo = new FormControl('1', Validators.pattern(/foo/));
      * ```
      *
      * @param pattern A regular expression to be used as is to test the values, or a string.
@@ -4183,53 +4245,129 @@ export declare const ɵangular_packages_forms_forms_b: Type<any>[];
 
 /**
  * @description
+ * Provider which adds `MaxValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_bb: StaticProvider;
+
+/**
+ * @description
+ * Provider which adds `MinValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_bc: StaticProvider;
+
+/**
+ * @description
+ * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_bd: StaticProvider;
+
+/**
+ * @description
  * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_ba: StaticProvider;
+export declare const ɵangular_packages_forms_forms_be: StaticProvider;
 
 /**
  * @description
  * Provider which adds `EmailValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_bb: any;
+export declare const ɵangular_packages_forms_forms_bf: any;
 
 /**
  * @description
  * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_bc: any;
+export declare const ɵangular_packages_forms_forms_bg: any;
 
 /**
  * @description
  * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_bd: any;
+export declare const ɵangular_packages_forms_forms_bh: any;
 
 /**
  * @description
  * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_be: any;
+export declare const ɵangular_packages_forms_forms_bi: any;
+
+/**
+ * Validator that requires the control's value to be greater than or equal to the provided number.
+ * See `Validators.min` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bj(min: number): ValidatorFn;
+
+/**
+ * Validator that requires the control's value to be less than or equal to the provided number.
+ * See `Validators.max` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bk(max: number): ValidatorFn;
+
+/**
+ * Validator that requires the control have a non-empty value.
+ * See `Validators.required` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bl(control: AbstractControl): ValidationErrors | null;
+
+/**
+ * Validator that requires the control's value be true. This validator is commonly
+ * used for required checkboxes.
+ * See `Validators.requiredTrue` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bm(control: AbstractControl): ValidationErrors | null;
+
+/**
+ * Validator that requires the control's value pass an email validation test.
+ * See `Validators.email` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bn(control: AbstractControl): ValidationErrors | null;
+
+/**
+ * Validator that requires the length of the control's value to be greater than or equal
+ * to the provided minimum length. See `Validators.minLength` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bo(minLength: number): ValidatorFn;
+
+/**
+ * Validator that requires the length of the control's value to be less than or equal
+ * to the provided maximum length. See `Validators.maxLength` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bp(maxLength: number): ValidatorFn;
+
+/**
+ * Validator that requires the control's value to match a regex pattern.
+ * See `Validators.pattern` for additional information.
+ */
+export declare function ɵangular_packages_forms_forms_bq(pattern: string | RegExp): ValidatorFn;
+
+/**
+ * Function that has `ValidatorFn` shape, but performs no operation.
+ */
+export declare function ɵangular_packages_forms_forms_br(control: AbstractControl): ValidationErrors | null;
 
 export declare const ɵangular_packages_forms_forms_c: Type<any>[];
 
 export declare const ɵangular_packages_forms_forms_e: any;
 
-export declare const ɵangular_packages_forms_forms_f: any;
-
-export declare class ɵangular_packages_forms_forms_g {
-    private _cd;
-    constructor(cd: AbstractControlDirective);
-    get ngClassUntouched(): boolean;
-    get ngClassTouched(): boolean;
-    get ngClassPristine(): boolean;
-    get ngClassDirty(): boolean;
-    get ngClassValid(): boolean;
-    get ngClassInvalid(): boolean;
-    get ngClassPending(): boolean;
+/**
+ * Base class for all built-in ControlValueAccessor classes. We use this class to distinguish
+ * between built-in and custom CVAs, so that Forms logic can recognize built-in CVAs and treat
+ * custom ones with higher priority (when both built-in and custom CVAs are present).
+ * Note: this is an *internal-only* class and should not be extended or used directly in
+ * applications code.
+ */
+export declare class ɵangular_packages_forms_forms_f {
 }
 
-export declare const ɵangular_packages_forms_forms_h: {
+export declare const ɵangular_packages_forms_forms_g: any;
+
+export declare class ɵangular_packages_forms_forms_h {
+    private _cd;
+    constructor(cd: AbstractControlDirective | null);
+    is(status: AnyControlStatus): boolean;
+}
+
+export declare const ɵangular_packages_forms_forms_i: {
     '[class.ng-untouched]': string;
     '[class.ng-touched]': string;
     '[class.ng-pristine]': string;
@@ -4239,8 +4377,6 @@ export declare const ɵangular_packages_forms_forms_h: {
     '[class.ng-pending]': string;
 };
 
-export declare const ɵangular_packages_forms_forms_i: any;
-
 export declare const ɵangular_packages_forms_forms_j: any;
 
 export declare const ɵangular_packages_forms_forms_k: any;
@@ -4249,11 +4385,22 @@ export declare const ɵangular_packages_forms_forms_l: any;
 
 export declare const ɵangular_packages_forms_forms_m: any;
 
+export declare const ɵangular_packages_forms_forms_n: any;
+
+/**
+ * Internal-only NgModule that works as a host for the `RadioControlRegistry` tree-shakable
+ * provider. Note: the `InternalFormsSharedModule` can not be used here directly, since it's
+ * declared *after* the `RadioControlRegistry` class and the `providedIn` doesn't support
+ * `forwardRef` logic.
+ */
+export declare class ɵangular_packages_forms_forms_o {
+}
+
 /**
  * @description
  * Class used by Angular to track radio buttons. For internal use only.
  */
-export declare class ɵangular_packages_forms_forms_n {
+export declare class ɵangular_packages_forms_forms_p {
     private _accessors;
     /**
      * @description
@@ -4273,16 +4420,12 @@ export declare class ɵangular_packages_forms_forms_n {
     private _isSameGroup;
 }
 
-export declare const ɵangular_packages_forms_forms_o: StaticProvider;
+export declare const ɵangular_packages_forms_forms_q: StaticProvider;
 
 /**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
-export declare const ɵangular_packages_forms_forms_p: InjectionToken<unknown>;
-
-export declare const ɵangular_packages_forms_forms_q: any;
-
-export declare const ɵangular_packages_forms_forms_r: any;
+export declare const ɵangular_packages_forms_forms_r: InjectionToken<unknown>;
 
 export declare const ɵangular_packages_forms_forms_s: any;
 
@@ -4290,15 +4433,13 @@ export declare const ɵangular_packages_forms_forms_t: any;
 
 export declare const ɵangular_packages_forms_forms_u: any;
 
-export declare const ɵangular_packages_forms_forms_v: StaticProvider;
+export declare const ɵangular_packages_forms_forms_v: any;
 
-export declare const ɵangular_packages_forms_forms_w: StaticProvider;
+export declare const ɵangular_packages_forms_forms_w: any;
 
-/**
- * @description
- * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_z: StaticProvider;
+export declare const ɵangular_packages_forms_forms_x: StaticProvider;
+
+export declare const ɵangular_packages_forms_forms_y: StaticProvider;
 
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
@@ -4329,7 +4470,7 @@ export { ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d }
 declare class ɵNgNoValidate {
 }
 export { ɵNgNoValidate }
-export { ɵNgNoValidate as ɵangular_packages_forms_forms_y }
+export { ɵNgNoValidate as ɵangular_packages_forms_forms_ba }
 
 /**
  * @description
@@ -4359,13 +4500,10 @@ declare class ɵNgSelectMultipleOption implements OnDestroy {
      * For objects, use the `ngValue` input binding.
      */
     set value(value: any);
-    /**
-     * @description
-     * Lifecycle method called before the directive's instance is destroyed. For internal use only.
-     */
+    /** @nodoc */
     ngOnDestroy(): void;
 }
 export { ɵNgSelectMultipleOption }
-export { ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_x }
+export { ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_z }
 
 export { }
