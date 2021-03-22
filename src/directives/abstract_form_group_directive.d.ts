@@ -36,6 +36,6 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): Form | null;
-    static ɵfac: i0.ɵɵFactoryDef<AbstractFormGroupDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<AbstractFormGroupDirective, never, never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AbstractFormGroupDirective, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractFormGroupDirective, never, never, {}, {}, never>;
 }

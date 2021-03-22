@@ -83,6 +83,6 @@ export declare class DefaultValueAccessor implements ControlValueAccessor {
      * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
-    static ɵfac: i0.ɵɵFactoryDef<DefaultValueAccessor, [null, null, { optional: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<DefaultValueAccessor, "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]", never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<DefaultValueAccessor, [null, null, { optional: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultValueAccessor, "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]", never, {}, {}, never>;
 }

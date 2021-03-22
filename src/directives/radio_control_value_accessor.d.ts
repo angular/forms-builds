@@ -17,9 +17,9 @@ export declare const RADIO_VALUE_ACCESSOR: any;
  * `forwardRef` logic.
  */
 export declare class RadioControlRegistryModule {
-    static ɵfac: i0.ɵɵFactoryDef<RadioControlRegistryModule, never>;
-    static ɵmod: i0.ɵɵNgModuleDefWithMeta<RadioControlRegistryModule, never, never, never>;
-    static ɵinj: i0.ɵɵInjectorDef<RadioControlRegistryModule>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlRegistryModule, never>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<RadioControlRegistryModule, never, never, never>;
+    static ɵinj: i0.ɵɵInjectorDeclaration<RadioControlRegistryModule>;
 }
 /**
  * @description
@@ -43,7 +43,7 @@ export declare class RadioControlRegistry {
      */
     select(accessor: RadioControlValueAccessor): void;
     private _isSameGroup;
-    static ɵfac: i0.ɵɵFactoryDef<RadioControlRegistry, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlRegistry, never>;
     static ɵprov: i0.ɵɵInjectableDef<RadioControlRegistry>;
 }
 /**
@@ -129,6 +129,6 @@ export declare class RadioControlValueAccessor extends BuiltInControlValueAccess
      */
     setDisabledState(isDisabled: boolean): void;
     private _checkName;
-    static ɵfac: i0.ɵɵFactoryDef<RadioControlValueAccessor, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<RadioControlValueAccessor, "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", never, { "name": "name"; "formControlName": "formControlName"; "value": "value"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RadioControlValueAccessor, "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", never, { "name": "name"; "formControlName": "formControlName"; "value": "value"; }, {}, never>;
 }

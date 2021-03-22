@@ -66,6 +66,6 @@ export declare class CheckboxControlValueAccessor extends BuiltInControlValueAcc
      * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
-    static ɵfac: i0.ɵɵFactoryDef<CheckboxControlValueAccessor, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<CheckboxControlValueAccessor, "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CheckboxControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CheckboxControlValueAccessor, "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", never, {}, {}, never>;
 }

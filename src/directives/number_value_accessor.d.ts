@@ -68,6 +68,6 @@ export declare class NumberValueAccessor extends BuiltInControlValueAccessor imp
      * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
-    static ɵfac: i0.ɵɵFactoryDef<NumberValueAccessor, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<NumberValueAccessor, "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NumberValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NumberValueAccessor, "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", never, {}, {}, never>;
 }

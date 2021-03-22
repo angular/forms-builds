@@ -68,6 +68,6 @@ export declare class RangeValueAccessor extends BuiltInControlValueAccessor impl
      * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
-    static ɵfac: i0.ɵɵFactoryDef<RangeValueAccessor, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<RangeValueAccessor, "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RangeValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RangeValueAccessor, "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", never, {}, {}, never>;
 }

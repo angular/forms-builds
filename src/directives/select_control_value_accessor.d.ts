@@ -109,8 +109,8 @@ export declare class SelectControlValueAccessor extends BuiltInControlValueAcces
      * @nodoc
      */
     setDisabledState(isDisabled: boolean): void;
-    static ɵfac: i0.ɵɵFactoryDef<SelectControlValueAccessor, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<SelectControlValueAccessor, "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", never, { "compareWith": "compareWith"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<SelectControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<SelectControlValueAccessor, "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", never, { "compareWith": "compareWith"; }, {}, never>;
 }
 /**
  * @description
@@ -146,6 +146,6 @@ export declare class NgSelectOption implements OnDestroy {
     set value(value: any);
     /** @nodoc */
     ngOnDestroy(): void;
-    static ɵfac: i0.ɵɵFactoryDef<NgSelectOption, [null, null, { optional: true; host: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgSelectOption, "option", never, { "ngValue": "ngValue"; "value": "value"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgSelectOption, [null, null, { optional: true; host: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgSelectOption, "option", never, { "ngValue": "ngValue"; "value": "value"; }, {}, never>;
 }

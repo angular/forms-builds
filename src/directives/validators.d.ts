@@ -80,8 +80,8 @@ declare abstract class AbstractValidatorDirective implements Validator {
     validate(control: AbstractControl): ValidationErrors | null;
     /** @nodoc */
     registerOnValidatorChange(fn: () => void): void;
-    static ɵfac: i0.ɵɵFactoryDef<AbstractValidatorDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<AbstractValidatorDirective, never, never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AbstractValidatorDirective, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractValidatorDirective, never, never, {}, {}, never>;
 }
 /**
  * @description
@@ -122,8 +122,8 @@ export declare class MaxValidator extends AbstractValidatorDirective implements 
      * @nodoc
      */
     ngOnChanges(changes: SimpleChanges): void;
-    static ɵfac: i0.ɵɵFactoryDef<MaxValidator, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MaxValidator, "input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]", never, { "max": "max"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MaxValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MaxValidator, "input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]", never, { "max": "max"; }, {}, never>;
 }
 /**
  * @description
@@ -164,8 +164,8 @@ export declare class MinValidator extends AbstractValidatorDirective implements 
      * @nodoc
      */
     ngOnChanges(changes: SimpleChanges): void;
-    static ɵfac: i0.ɵɵFactoryDef<MinValidator, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MinValidator, "input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]", never, { "min": "min"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MinValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MinValidator, "input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]", never, { "min": "min"; }, {}, never>;
 }
 /**
  * @description
@@ -256,8 +256,8 @@ export declare class RequiredValidator implements Validator {
      * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
-    static ɵfac: i0.ɵɵFactoryDef<RequiredValidator, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { "required": "required"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RequiredValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { "required": "required"; }, {}, never>;
 }
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
@@ -287,8 +287,8 @@ export declare class CheckboxRequiredValidator extends RequiredValidator {
      * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
-    static ɵfac: i0.ɵɵFactoryDef<CheckboxRequiredValidator, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<CheckboxRequiredValidator, "input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]", never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CheckboxRequiredValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CheckboxRequiredValidator, "input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]", never, {}, {}, never>;
 }
 /**
  * @description
@@ -337,8 +337,8 @@ export declare class EmailValidator implements Validator {
      * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
-    static ɵfac: i0.ɵɵFactoryDef<EmailValidator, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { "email": "email"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<EmailValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { "email": "email"; }, {}, never>;
 }
 /**
  * @description
@@ -408,8 +408,8 @@ export declare class MinLengthValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
-    static ɵfac: i0.ɵɵFactoryDef<MinLengthValidator, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { "minlength": "minlength"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MinLengthValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { "minlength": "minlength"; }, {}, never>;
 }
 /**
  * @description
@@ -458,8 +458,8 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
-    static ɵfac: i0.ɵɵFactoryDef<MaxLengthValidator, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { "maxlength": "maxlength"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MaxLengthValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { "maxlength": "maxlength"; }, {}, never>;
 }
 /**
  * @description
@@ -510,7 +510,7 @@ export declare class PatternValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
-    static ɵfac: i0.ɵɵFactoryDef<PatternValidator, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { "pattern": "pattern"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<PatternValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { "pattern": "pattern"; }, {}, never>;
 }
 export {};

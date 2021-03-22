@@ -42,8 +42,8 @@ export declare const ngControlStatusHost: {
  */
 export declare class NgControlStatus extends AbstractControlStatus {
     constructor(cd: NgControl);
-    static ɵfac: i0.ɵɵFactoryDef<NgControlStatus, [{ self: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgControlStatus, "[formControlName],[ngModel],[formControl]", never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgControlStatus, [{ self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgControlStatus, "[formControlName],[ngModel],[formControl]", never, {}, {}, never>;
 }
 /**
  * @description
@@ -58,7 +58,7 @@ export declare class NgControlStatus extends AbstractControlStatus {
  */
 export declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);
-    static ɵfac: i0.ɵɵFactoryDef<NgControlStatusGroup, [{ optional: true; self: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<NgControlStatusGroup, "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", never, {}, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgControlStatusGroup, [{ optional: true; self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgControlStatusGroup, "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", never, {}, {}, never>;
 }
 export {};
