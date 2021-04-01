@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.2.7+13.sha-723bfc7
+ * @license Angular v11.2.7+31.sha-bef92f9
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -154,13 +154,11 @@ function _isAndroid() {
  */
 const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
 /**
- * @description
- *
- * {@searchKeywords ngDefaultControl}
- *
  * The default `ControlValueAccessor` for writing a value and listening to changes on input
  * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
  * `NgModel` directives.
+ *
+ * {@searchKeywords ngDefaultControl}
  *
  * @usageNotes
  *
@@ -6749,7 +6747,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('11.2.7+13.sha-723bfc7');
+const VERSION = new Version('11.2.7+31.sha-bef92f9');
 
 /**
  * @license

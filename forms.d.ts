@@ -1,5 +1,5 @@
 /**
- * @license Angular v11.2.7+13.sha-723bfc7
+ * @license Angular v11.2.7+31.sha-bef92f9
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1067,13 +1067,11 @@ export declare interface ControlValueAccessor {
 }
 
 /**
- * @description
- *
- * {@searchKeywords ngDefaultControl}
- *
  * The default `ControlValueAccessor` for writing a value and listening to changes on input
  * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
  * `NgModel` directives.
+ *
+ * {@searchKeywords ngDefaultControl}
  *
  * @usageNotes
  *
