@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.6+3.sha-b61c009
+ * @license Angular v12.0.0-next.6+36.sha-18bc9ff
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4521,9 +4521,8 @@
         AbstractFormGroupDirective.prototype._checkParentType = function () { };
         return AbstractFormGroupDirective;
     }(ControlContainer));
-    AbstractFormGroupDirective.ɵfac = function AbstractFormGroupDirective_Factory(t) { return ɵAbstractFormGroupDirective_BaseFactory(t || AbstractFormGroupDirective); };
+    AbstractFormGroupDirective.ɵfac = /*@__PURE__*/ function () { var ɵAbstractFormGroupDirective_BaseFactory; return function AbstractFormGroupDirective_Factory(t) { return (ɵAbstractFormGroupDirective_BaseFactory || (ɵAbstractFormGroupDirective_BaseFactory = i0.ɵɵgetInheritedFactory(AbstractFormGroupDirective)))(t || AbstractFormGroupDirective); }; }();
     AbstractFormGroupDirective.ɵdir = /*@__PURE__*/ i0.ɵɵdefineDirective({ type: AbstractFormGroupDirective, features: [i0.ɵɵInheritDefinitionFeature] });
-    var ɵAbstractFormGroupDirective_BaseFactory = /*@__PURE__*/ i0.ɵɵgetInheritedFactory(AbstractFormGroupDirective);
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(AbstractFormGroupDirective, [{
                 type: i0.Directive
@@ -7032,13 +7031,12 @@
         };
         return MaxValidator;
     }(AbstractValidatorDirective));
-    MaxValidator.ɵfac = function MaxValidator_Factory(t) { return ɵMaxValidator_BaseFactory(t || MaxValidator); };
+    MaxValidator.ɵfac = /*@__PURE__*/ function () { var ɵMaxValidator_BaseFactory; return function MaxValidator_Factory(t) { return (ɵMaxValidator_BaseFactory || (ɵMaxValidator_BaseFactory = i0.ɵɵgetInheritedFactory(MaxValidator)))(t || MaxValidator); }; }();
     MaxValidator.ɵdir = /*@__PURE__*/ i0.ɵɵdefineDirective({ type: MaxValidator, selectors: [["input", "type", "number", "max", "", "formControlName", ""], ["input", "type", "number", "max", "", "formControl", ""], ["input", "type", "number", "max", "", "ngModel", ""]], hostVars: 1, hostBindings: function MaxValidator_HostBindings(rf, ctx) {
             if (rf & 2) {
                 i0.ɵɵattribute("max", ctx.max ? ctx.max : null);
             }
         }, inputs: { max: "max" }, features: [i0.ɵɵProvidersFeature([MAX_VALIDATOR]), i0.ɵɵInheritDefinitionFeature, i0.ɵɵNgOnChangesFeature] });
-    var ɵMaxValidator_BaseFactory = /*@__PURE__*/ i0.ɵɵgetInheritedFactory(MaxValidator);
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(MaxValidator, [{
                 type: i0.Directive,
@@ -7104,13 +7102,12 @@
         };
         return MinValidator;
     }(AbstractValidatorDirective));
-    MinValidator.ɵfac = function MinValidator_Factory(t) { return ɵMinValidator_BaseFactory(t || MinValidator); };
+    MinValidator.ɵfac = /*@__PURE__*/ function () { var ɵMinValidator_BaseFactory; return function MinValidator_Factory(t) { return (ɵMinValidator_BaseFactory || (ɵMinValidator_BaseFactory = i0.ɵɵgetInheritedFactory(MinValidator)))(t || MinValidator); }; }();
     MinValidator.ɵdir = /*@__PURE__*/ i0.ɵɵdefineDirective({ type: MinValidator, selectors: [["input", "type", "number", "min", "", "formControlName", ""], ["input", "type", "number", "min", "", "formControl", ""], ["input", "type", "number", "min", "", "ngModel", ""]], hostVars: 1, hostBindings: function MinValidator_HostBindings(rf, ctx) {
             if (rf & 2) {
                 i0.ɵɵattribute("min", ctx.min ? ctx.min : null);
             }
         }, inputs: { min: "min" }, features: [i0.ɵɵProvidersFeature([MIN_VALIDATOR]), i0.ɵɵInheritDefinitionFeature, i0.ɵɵNgOnChangesFeature] });
-    var ɵMinValidator_BaseFactory = /*@__PURE__*/ i0.ɵɵgetInheritedFactory(MinValidator);
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(MinValidator, [{
                 type: i0.Directive,
@@ -7251,13 +7248,12 @@
         };
         return CheckboxRequiredValidator;
     }(RequiredValidator));
-    CheckboxRequiredValidator.ɵfac = function CheckboxRequiredValidator_Factory(t) { return ɵCheckboxRequiredValidator_BaseFactory(t || CheckboxRequiredValidator); };
+    CheckboxRequiredValidator.ɵfac = /*@__PURE__*/ function () { var ɵCheckboxRequiredValidator_BaseFactory; return function CheckboxRequiredValidator_Factory(t) { return (ɵCheckboxRequiredValidator_BaseFactory || (ɵCheckboxRequiredValidator_BaseFactory = i0.ɵɵgetInheritedFactory(CheckboxRequiredValidator)))(t || CheckboxRequiredValidator); }; }();
     CheckboxRequiredValidator.ɵdir = /*@__PURE__*/ i0.ɵɵdefineDirective({ type: CheckboxRequiredValidator, selectors: [["input", "type", "checkbox", "required", "", "formControlName", ""], ["input", "type", "checkbox", "required", "", "formControl", ""], ["input", "type", "checkbox", "required", "", "ngModel", ""]], hostVars: 1, hostBindings: function CheckboxRequiredValidator_HostBindings(rf, ctx) {
             if (rf & 2) {
                 i0.ɵɵattribute("required", ctx.required ? "" : null);
             }
         }, features: [i0.ɵɵProvidersFeature([CHECKBOX_REQUIRED_VALIDATOR]), i0.ɵɵInheritDefinitionFeature] });
-    var ɵCheckboxRequiredValidator_BaseFactory = /*@__PURE__*/ i0.ɵɵgetInheritedFactory(CheckboxRequiredValidator);
     (function () {
         (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(CheckboxRequiredValidator, [{
                 type: i0.Directive,
@@ -7906,7 +7902,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.0.0-next.6+3.sha-b61c009');
+    var VERSION = new i0.Version('12.0.0-next.6+36.sha-18bc9ff');
 
     /**
      * @license
