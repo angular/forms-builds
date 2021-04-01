@@ -10,13 +10,11 @@ export declare const DEFAULT_VALUE_ACCESSOR: any;
  */
 export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
 /**
- * @description
- *
- * {@searchKeywords ngDefaultControl}
- *
  * The default `ControlValueAccessor` for writing a value and listening to changes on input
  * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
  * `NgModel` directives.
+ *
+ * {@searchKeywords ngDefaultControl}
  *
  * @usageNotes
  *
