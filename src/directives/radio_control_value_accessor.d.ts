@@ -44,7 +44,7 @@ export declare class RadioControlRegistry {
     select(accessor: RadioControlValueAccessor): void;
     private _isSameGroup;
     static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlRegistry, never>;
-    static ɵprov: i0.ɵɵInjectableDef<RadioControlRegistry>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<RadioControlRegistry>;
 }
 /**
  * @description
