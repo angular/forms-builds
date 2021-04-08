@@ -1,5 +1,5 @@
 import { ElementRef, InjectionToken, Renderer2 } from '@angular/core';
-import { ControlValueAccessor } from './control_value_accessor';
+import { BaseControlValueAccessor, ControlValueAccessor } from './control_value_accessor';
 import * as i0 from "@angular/core";
 export declare const DEFAULT_VALUE_ACCESSOR: any;
 /**
@@ -44,43 +44,16 @@ export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class DefaultValueAccessor implements ControlValueAccessor {
-    private _renderer;
-    private _elementRef;
+export declare class DefaultValueAccessor extends BaseControlValueAccessor implements ControlValueAccessor {
     private _compositionMode;
-    /**
-     * The registered callback function called when an input event occurs on the input element.
-     * @nodoc
-     */
-    onChange: (_: any) => void;
-    /**
-     * The registered callback function called when a blur event occurs on the input element.
-     * @nodoc
-     */
-    onTouched: () => void;
     /** Whether the user is creating a composition string (IME events). */
     private _composing;
-    constructor(_renderer: Renderer2, _elementRef: ElementRef, _compositionMode: boolean);
+    constructor(renderer: Renderer2, elementRef: ElementRef, _compositionMode: boolean);
     /**
      * Sets the "value" property on the input element.
      * @nodoc
      */
     writeValue(value: any): void;
-    /**
-     * Registers a function called when the control value changes.
-     * @nodoc
-     */
-    registerOnChange(fn: (_: any) => void): void;
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn: () => void): void;
-    /**
-     * Sets the "disabled" property on the input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DefaultValueAccessor, [null, null, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultValueAccessor, "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]", never, {}, {}, never>;
 }

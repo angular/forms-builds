@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-import { ElementRef, Renderer2 } from '@angular/core';
 import { BuiltInControlValueAccessor, ControlValueAccessor } from './control_value_accessor';
 import * as i0 from "@angular/core";
 export declare const CHECKBOX_VALUE_ACCESSOR: any;
@@ -33,39 +25,11 @@ export declare const CHECKBOX_VALUE_ACCESSOR: any;
  * @publicApi
  */
 export declare class CheckboxControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
-    private _renderer;
-    private _elementRef;
-    /**
-     * The registered callback function called when a change event occurs on the input element.
-     * @nodoc
-     */
-    onChange: (_: any) => void;
-    /**
-     * The registered callback function called when a blur event occurs on the input element.
-     * @nodoc
-     */
-    onTouched: () => void;
-    constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "checked" property on the input element.
      * @nodoc
      */
     writeValue(value: any): void;
-    /**
-     * Registers a function called when the control value changes.
-     * @nodoc
-     */
-    registerOnChange(fn: (_: any) => {}): void;
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn: () => {}): void;
-    /**
-     * Sets the "disabled" property on the input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CheckboxControlValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<CheckboxControlValueAccessor, "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", never, {}, {}, never>;
 }

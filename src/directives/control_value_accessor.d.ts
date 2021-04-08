@@ -5,7 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { InjectionToken } from '@angular/core';
+import { ElementRef, InjectionToken, Renderer2 } from '@angular/core';
+import * as i0 from "@angular/core";
 /**
  * @description
  * Defines an interface that acts as a bridge between the Angular forms API and a
@@ -126,13 +127,63 @@ export interface ControlValueAccessor {
     setDisabledState?(isDisabled: boolean): void;
 }
 /**
- * Base class for all built-in ControlValueAccessor classes. We use this class to distinguish
- * between built-in and custom CVAs, so that Forms logic can recognize built-in CVAs and treat
- * custom ones with higher priority (when both built-in and custom CVAs are present).
+ * Base class for all ControlValueAccessor classes defined in Forms package.
+ * Contains common logic and utility functions.
+ *
  * Note: this is an *internal-only* class and should not be extended or used directly in
  * applications code.
  */
-export declare class BuiltInControlValueAccessor {
+export declare class BaseControlValueAccessor {
+    private _renderer;
+    private _elementRef;
+    /**
+     * The registered callback function called when a change or input event occurs on the input
+     * element.
+     * @nodoc
+     */
+    onChange: (_: any) => void;
+    /**
+     * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
+     */
+    onTouched: () => void;
+    constructor(_renderer: Renderer2, _elementRef: ElementRef);
+    /**
+     * Helper method that sets a property on a target element using the current Renderer
+     * implementation.
+     * @nodoc
+     */
+    protected setProperty(key: string, value: any): void;
+    /**
+     * Registers a function called when the control is touched.
+     * @nodoc
+     */
+    registerOnTouched(fn: () => void): void;
+    /**
+     * Registers a function called when the control value changes.
+     * @nodoc
+     */
+    registerOnChange(fn: (_: any) => {}): void;
+    /**
+     * Sets the "disabled" property on the range input element.
+     * @nodoc
+     */
+    setDisabledState(isDisabled: boolean): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<BaseControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<BaseControlValueAccessor, never, never, {}, {}, never>;
+}
+/**
+ * Base class for all built-in ControlValueAccessor classes (except DefaultValueAccessor, which is
+ * used in case no other CVAs can be found). We use this class to distinguish between default CVA,
+ * built-in CVAs and custom CVAs, so that Forms logic can recognize built-in CVAs and treat custom
+ * ones with higher priority (when both built-in and custom CVAs are present).
+ *
+ * Note: this is an *internal-only* class and should not be extended or used directly in
+ * applications code.
+ */
+export declare class BuiltInControlValueAccessor extends BaseControlValueAccessor {
+    static ɵfac: i0.ɵɵFactoryDeclaration<BuiltInControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<BuiltInControlValueAccessor, never, never, {}, {}, never>;
 }
 /**
  * Used to provide a `ControlValueAccessor` for form controls.

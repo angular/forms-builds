@@ -1,10 +1,10 @@
 /**
- * @license Angular v12.0.0-next.8+17.sha-deacc74
+ * @license Angular v12.0.0-next.8+19.sha-51bb922
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
 
-import { InjectionToken, forwardRef, ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵdefineDirective, ɵɵlistener, ɵɵProvidersFeature, ɵɵInheritDefinitionFeature, ɵsetClassMetadata, Directive, Optional, Inject, ɵisPromise, ɵisObservable, ɵɵclassProp, Self, EventEmitter, Input, ɵɵgetInheritedFactory, Host, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵdefineNgModule, ɵɵdefineInjector, NgModule, ɵɵdefineInjectable, Injectable, Injector, ɵɵattribute, ɵɵsetNgModuleScope, Version } from '@angular/core';
+import { ɵɵdirectiveInject, Renderer2, ElementRef, ɵɵdefineDirective, ɵsetClassMetadata, Directive, ɵɵgetInheritedFactory, ɵɵInheritDefinitionFeature, InjectionToken, forwardRef, ɵɵlistener, ɵɵProvidersFeature, Optional, Inject, ɵisPromise, ɵisObservable, ɵɵclassProp, Self, EventEmitter, Input, Host, SkipSelf, ɵɵNgOnChangesFeature, Output, ɵɵdefineNgModule, ɵɵdefineInjector, NgModule, ɵɵdefineInjectable, Injectable, Injector, ɵɵattribute, ɵɵsetNgModuleScope, Version } from '@angular/core';
 import { ɵgetDOM } from '@angular/common';
 import { from, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,14 +17,79 @@ import { map } from 'rxjs/operators';
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * Base class for all built-in ControlValueAccessor classes. We use this class to distinguish
- * between built-in and custom CVAs, so that Forms logic can recognize built-in CVAs and treat
- * custom ones with higher priority (when both built-in and custom CVAs are present).
+ * Base class for all ControlValueAccessor classes defined in Forms package.
+ * Contains common logic and utility functions.
+ *
  * Note: this is an *internal-only* class and should not be extended or used directly in
  * applications code.
  */
-class BuiltInControlValueAccessor {
+class BaseControlValueAccessor {
+    constructor(_renderer, _elementRef) {
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        /**
+         * The registered callback function called when a change or input event occurs on the input
+         * element.
+         * @nodoc
+         */
+        this.onChange = (_) => { };
+        /**
+         * The registered callback function called when a blur event occurs on the input element.
+         * @nodoc
+         */
+        this.onTouched = () => { };
+    }
+    /**
+     * Helper method that sets a property on a target element using the current Renderer
+     * implementation.
+     * @nodoc
+     */
+    setProperty(key, value) {
+        this._renderer.setProperty(this._elementRef.nativeElement, key, value);
+    }
+    /**
+     * Registers a function called when the control is touched.
+     * @nodoc
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+    /**
+     * Registers a function called when the control value changes.
+     * @nodoc
+     */
+    registerOnChange(fn) {
+        this.onChange = fn;
+    }
+    /**
+     * Sets the "disabled" property on the range input element.
+     * @nodoc
+     */
+    setDisabledState(isDisabled) {
+        this.setProperty('disabled', isDisabled);
+    }
 }
+BaseControlValueAccessor.ɵfac = function BaseControlValueAccessor_Factory(t) { return new (t || BaseControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+BaseControlValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: BaseControlValueAccessor });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(BaseControlValueAccessor, [{
+        type: Directive
+    }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, null); })();
+/**
+ * Base class for all built-in ControlValueAccessor classes (except DefaultValueAccessor, which is
+ * used in case no other CVAs can be found). We use this class to distinguish between default CVA,
+ * built-in CVAs and custom CVAs, so that Forms logic can recognize built-in CVAs and treat custom
+ * ones with higher priority (when both built-in and custom CVAs are present).
+ *
+ * Note: this is an *internal-only* class and should not be extended or used directly in
+ * applications code.
+ */
+class BuiltInControlValueAccessor extends BaseControlValueAccessor {
+}
+BuiltInControlValueAccessor.ɵfac = /*@__PURE__*/ function () { let ɵBuiltInControlValueAccessor_BaseFactory; return function BuiltInControlValueAccessor_Factory(t) { return (ɵBuiltInControlValueAccessor_BaseFactory || (ɵBuiltInControlValueAccessor_BaseFactory = ɵɵgetInheritedFactory(BuiltInControlValueAccessor)))(t || BuiltInControlValueAccessor); }; }();
+BuiltInControlValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: BuiltInControlValueAccessor, features: [ɵɵInheritDefinitionFeature] });
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(BuiltInControlValueAccessor, [{
+        type: Directive
+    }], null, null); })();
 /**
  * Used to provide a `ControlValueAccessor` for form controls.
  *
@@ -70,51 +135,15 @@ const CHECKBOX_VALUE_ACCESSOR = {
  * @publicApi
  */
 class CheckboxControlValueAccessor extends BuiltInControlValueAccessor {
-    constructor(_renderer, _elementRef) {
-        super();
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
-        /**
-         * The registered callback function called when a change event occurs on the input element.
-         * @nodoc
-         */
-        this.onChange = (_) => { };
-        /**
-         * The registered callback function called when a blur event occurs on the input element.
-         * @nodoc
-         */
-        this.onTouched = () => { };
-    }
     /**
      * Sets the "checked" property on the input element.
      * @nodoc
      */
     writeValue(value) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'checked', value);
-    }
-    /**
-     * Registers a function called when the control value changes.
-     * @nodoc
-     */
-    registerOnChange(fn) {
-        this.onChange = fn;
-    }
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn) {
-        this.onTouched = fn;
-    }
-    /**
-     * Sets the "disabled" property on the input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this.setProperty('checked', value);
     }
 }
-CheckboxControlValueAccessor.ɵfac = function CheckboxControlValueAccessor_Factory(t) { return new (t || CheckboxControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+CheckboxControlValueAccessor.ɵfac = /*@__PURE__*/ function () { let ɵCheckboxControlValueAccessor_BaseFactory; return function CheckboxControlValueAccessor_Factory(t) { return (ɵCheckboxControlValueAccessor_BaseFactory || (ɵCheckboxControlValueAccessor_BaseFactory = ɵɵgetInheritedFactory(CheckboxControlValueAccessor)))(t || CheckboxControlValueAccessor); }; }();
 CheckboxControlValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: CheckboxControlValueAccessor, selectors: [["input", "type", "checkbox", "formControlName", ""], ["input", "type", "checkbox", "formControl", ""], ["input", "type", "checkbox", "ngModel", ""]], hostBindings: function CheckboxControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         ɵɵlistener("change", function CheckboxControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.checked); })("blur", function CheckboxControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
     } }, features: [ɵɵProvidersFeature([CHECKBOX_VALUE_ACCESSOR]), ɵɵInheritDefinitionFeature] });
@@ -125,7 +154,7 @@ CheckboxControlValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: C
                 host: { '(change)': 'onChange($event.target.checked)', '(blur)': 'onTouched()' },
                 providers: [CHECKBOX_VALUE_ACCESSOR]
             }]
-    }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, null); })();
+    }], null, null); })();
 
 /**
  * @license
@@ -189,21 +218,10 @@ const COMPOSITION_BUFFER_MODE = new InjectionToken('CompositionEventMode');
  * @ngModule FormsModule
  * @publicApi
  */
-class DefaultValueAccessor {
-    constructor(_renderer, _elementRef, _compositionMode) {
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
+class DefaultValueAccessor extends BaseControlValueAccessor {
+    constructor(renderer, elementRef, _compositionMode) {
+        super(renderer, elementRef);
         this._compositionMode = _compositionMode;
-        /**
-         * The registered callback function called when an input event occurs on the input element.
-         * @nodoc
-         */
-        this.onChange = (_) => { };
-        /**
-         * The registered callback function called when a blur event occurs on the input element.
-         * @nodoc
-         */
-        this.onTouched = () => { };
         /** Whether the user is creating a composition string (IME events). */
         this._composing = false;
         if (this._compositionMode == null) {
@@ -216,28 +234,7 @@ class DefaultValueAccessor {
      */
     writeValue(value) {
         const normalizedValue = value == null ? '' : value;
-        this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
-    }
-    /**
-     * Registers a function called when the control value changes.
-     * @nodoc
-     */
-    registerOnChange(fn) {
-        this.onChange = fn;
-    }
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn) {
-        this.onTouched = fn;
-    }
-    /**
-     * Sets the "disabled" property on the input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+        this.setProperty('value', normalizedValue);
     }
     /** @internal */
     _handleInput(value) {
@@ -258,7 +255,7 @@ class DefaultValueAccessor {
 DefaultValueAccessor.ɵfac = function DefaultValueAccessor_Factory(t) { return new (t || DefaultValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(COMPOSITION_BUFFER_MODE, 8)); };
 DefaultValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: DefaultValueAccessor, selectors: [["input", "formControlName", "", 3, "type", "checkbox"], ["textarea", "formControlName", ""], ["input", "formControl", "", 3, "type", "checkbox"], ["textarea", "formControl", ""], ["input", "ngModel", "", 3, "type", "checkbox"], ["textarea", "ngModel", ""], ["", "ngDefaultControl", ""]], hostBindings: function DefaultValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         ɵɵlistener("input", function DefaultValueAccessor_input_HostBindingHandler($event) { return ctx._handleInput($event.target.value); })("blur", function DefaultValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); })("compositionstart", function DefaultValueAccessor_compositionstart_HostBindingHandler() { return ctx._compositionStart(); })("compositionend", function DefaultValueAccessor_compositionend_HostBindingHandler($event) { return ctx._compositionEnd($event.target.value); });
-    } }, features: [ɵɵProvidersFeature([DEFAULT_VALUE_ACCESSOR])] });
+    } }, features: [ɵɵProvidersFeature([DEFAULT_VALUE_ACCESSOR]), ɵɵInheritDefinitionFeature] });
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(DefaultValueAccessor, [{
         type: Directive,
         args: [{
@@ -4549,22 +4546,6 @@ const NUMBER_VALUE_ACCESSOR = {
  * @publicApi
  */
 class NumberValueAccessor extends BuiltInControlValueAccessor {
-    constructor(_renderer, _elementRef) {
-        super();
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
-        /**
-         * The registered callback function called when a change or input event occurs on the input
-         * element.
-         * @nodoc
-         */
-        this.onChange = (_) => { };
-        /**
-         * The registered callback function called when a blur event occurs on the input element.
-         * @nodoc
-         */
-        this.onTouched = () => { };
-    }
     /**
      * Sets the "value" property on the input element.
      * @nodoc
@@ -4572,7 +4553,7 @@ class NumberValueAccessor extends BuiltInControlValueAccessor {
     writeValue(value) {
         // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
         const normalizedValue = value == null ? '' : value;
-        this._renderer.setProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+        this.setProperty('value', normalizedValue);
     }
     /**
      * Registers a function called when the control value changes.
@@ -4583,22 +4564,8 @@ class NumberValueAccessor extends BuiltInControlValueAccessor {
             fn(value == '' ? null : parseFloat(value));
         };
     }
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn) {
-        this.onTouched = fn;
-    }
-    /**
-     * Sets the "disabled" property on the input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    }
 }
-NumberValueAccessor.ɵfac = function NumberValueAccessor_Factory(t) { return new (t || NumberValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+NumberValueAccessor.ɵfac = /*@__PURE__*/ function () { let ɵNumberValueAccessor_BaseFactory; return function NumberValueAccessor_Factory(t) { return (ɵNumberValueAccessor_BaseFactory || (ɵNumberValueAccessor_BaseFactory = ɵɵgetInheritedFactory(NumberValueAccessor)))(t || NumberValueAccessor); }; }();
 NumberValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: NumberValueAccessor, selectors: [["input", "type", "number", "formControlName", ""], ["input", "type", "number", "formControl", ""], ["input", "type", "number", "ngModel", ""]], hostBindings: function NumberValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         ɵɵlistener("input", function NumberValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function NumberValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
     } }, features: [ɵɵProvidersFeature([NUMBER_VALUE_ACCESSOR]), ɵɵInheritDefinitionFeature] });
@@ -4609,7 +4576,7 @@ NumberValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: NumberValu
                 host: { '(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [NUMBER_VALUE_ACCESSOR]
             }]
-    }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, null); })();
+    }], null, null); })();
 
 /**
  * @license
@@ -4715,22 +4682,18 @@ RadioControlRegistry.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: RadioC
  * @publicApi
  */
 class RadioControlValueAccessor extends BuiltInControlValueAccessor {
-    constructor(_renderer, _elementRef, _registry, _injector) {
-        super();
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
+    constructor(renderer, elementRef, _registry, _injector) {
+        super(renderer, elementRef);
         this._registry = _registry;
         this._injector = _injector;
         /**
          * The registered callback function called when a change event occurs on the input element.
+         * Note: we declare `onChange` here (also used as host listener) as a function with no arguments
+         * to override the `onChange` function (which expects 1 argument) in the parent
+         * `BaseControlValueAccessor` class.
          * @nodoc
          */
         this.onChange = () => { };
-        /**
-         * The registered callback function called when a blur event occurs on the input element.
-         * @nodoc
-         */
-        this.onTouched = () => { };
     }
     /** @nodoc */
     ngOnInit() {
@@ -4748,7 +4711,7 @@ class RadioControlValueAccessor extends BuiltInControlValueAccessor {
      */
     writeValue(value) {
         this._state = value === this.value;
-        this._renderer.setProperty(this._elementRef.nativeElement, 'checked', this._state);
+        this.setProperty('checked', this._state);
     }
     /**
      * Registers a function called when the control value changes.
@@ -4768,20 +4731,6 @@ class RadioControlValueAccessor extends BuiltInControlValueAccessor {
      */
     fireUncheck(value) {
         this.writeValue(value);
-    }
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn) {
-        this.onTouched = fn;
-    }
-    /**
-     * Sets the "disabled" property on the input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
     _checkName() {
         if (this.name && this.formControlName && this.name !== this.formControlName &&
@@ -4848,28 +4797,12 @@ const RANGE_VALUE_ACCESSOR = {
  * @publicApi
  */
 class RangeValueAccessor extends BuiltInControlValueAccessor {
-    constructor(_renderer, _elementRef) {
-        super();
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
-        /**
-         * The registered callback function called when a change or input event occurs on the input
-         * element.
-         * @nodoc
-         */
-        this.onChange = (_) => { };
-        /**
-         * The registered callback function called when a blur event occurs on the input element.
-         * @nodoc
-         */
-        this.onTouched = () => { };
-    }
     /**
      * Sets the "value" property on the input element.
      * @nodoc
      */
     writeValue(value) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'value', parseFloat(value));
+        this.setProperty('value', parseFloat(value));
     }
     /**
      * Registers a function called when the control value changes.
@@ -4880,22 +4813,8 @@ class RangeValueAccessor extends BuiltInControlValueAccessor {
             fn(value == '' ? null : parseFloat(value));
         };
     }
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn) {
-        this.onTouched = fn;
-    }
-    /**
-     * Sets the "disabled" property on the range input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    }
 }
-RangeValueAccessor.ɵfac = function RangeValueAccessor_Factory(t) { return new (t || RangeValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+RangeValueAccessor.ɵfac = /*@__PURE__*/ function () { let ɵRangeValueAccessor_BaseFactory; return function RangeValueAccessor_Factory(t) { return (ɵRangeValueAccessor_BaseFactory || (ɵRangeValueAccessor_BaseFactory = ɵɵgetInheritedFactory(RangeValueAccessor)))(t || RangeValueAccessor); }; }();
 RangeValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: RangeValueAccessor, selectors: [["input", "type", "range", "formControlName", ""], ["input", "type", "range", "formControl", ""], ["input", "type", "range", "ngModel", ""]], hostBindings: function RangeValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         ɵɵlistener("change", function RangeValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("input", function RangeValueAccessor_input_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function RangeValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
     } }, features: [ɵɵProvidersFeature([RANGE_VALUE_ACCESSOR]), ɵɵInheritDefinitionFeature] });
@@ -4910,7 +4829,7 @@ RangeValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: RangeValueA
                 },
                 providers: [RANGE_VALUE_ACCESSOR]
             }]
-    }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, null); })();
+    }], null, null); })();
 
 /**
  * @license
@@ -5912,24 +5831,12 @@ function _extractId(valueString) {
  * @publicApi
  */
 class SelectControlValueAccessor extends BuiltInControlValueAccessor {
-    constructor(_renderer, _elementRef) {
-        super();
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
+    constructor() {
+        super(...arguments);
         /** @internal */
         this._optionMap = new Map();
         /** @internal */
         this._idCounter = 0;
-        /**
-         * The registered callback function called when a change event occurs on the input element.
-         * @nodoc
-         */
-        this.onChange = (_) => { };
-        /**
-         * The registered callback function called when a blur event occurs on the input element.
-         * @nodoc
-         */
-        this.onTouched = () => { };
         this._compareWith = Object.is;
     }
     /**
@@ -5952,10 +5859,10 @@ class SelectControlValueAccessor extends BuiltInControlValueAccessor {
         this.value = value;
         const id = this._getOptionId(value);
         if (id == null) {
-            this._renderer.setProperty(this._elementRef.nativeElement, 'selectedIndex', -1);
+            this.setProperty('selectedIndex', -1);
         }
         const valueString = _buildValueString(id, value);
-        this._renderer.setProperty(this._elementRef.nativeElement, 'value', valueString);
+        this.setProperty('value', valueString);
     }
     /**
      * Registers a function called when the control value changes.
@@ -5966,20 +5873,6 @@ class SelectControlValueAccessor extends BuiltInControlValueAccessor {
             this.value = this._getOptionValue(valueString);
             fn(this.value);
         };
-    }
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn) {
-        this.onTouched = fn;
-    }
-    /**
-     * Sets the "disabled" property on the select input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
     }
     /** @internal */
     _registerOption() {
@@ -5999,7 +5892,7 @@ class SelectControlValueAccessor extends BuiltInControlValueAccessor {
         return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
     }
 }
-SelectControlValueAccessor.ɵfac = function SelectControlValueAccessor_Factory(t) { return new (t || SelectControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+SelectControlValueAccessor.ɵfac = /*@__PURE__*/ function () { let ɵSelectControlValueAccessor_BaseFactory; return function SelectControlValueAccessor_Factory(t) { return (ɵSelectControlValueAccessor_BaseFactory || (ɵSelectControlValueAccessor_BaseFactory = ɵɵgetInheritedFactory(SelectControlValueAccessor)))(t || SelectControlValueAccessor); }; }();
 SelectControlValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: SelectControlValueAccessor, selectors: [["select", "formControlName", "", 3, "multiple", ""], ["select", "formControl", "", 3, "multiple", ""], ["select", "ngModel", "", 3, "multiple", ""]], hostBindings: function SelectControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         ɵɵlistener("change", function SelectControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target.value); })("blur", function SelectControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
     } }, inputs: { compareWith: "compareWith" }, features: [ɵɵProvidersFeature([SELECT_VALUE_ACCESSOR]), ɵɵInheritDefinitionFeature] });
@@ -6010,7 +5903,7 @@ SelectControlValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: Sel
                 host: { '(change)': 'onChange($event.target.value)', '(blur)': 'onTouched()' },
                 providers: [SELECT_VALUE_ACCESSOR]
             }]
-    }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, { compareWith: [{
+    }], null, { compareWith: [{
             type: Input
         }] }); })();
 /**
@@ -6145,24 +6038,12 @@ class HTMLCollection {
  * @publicApi
  */
 class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor {
-    constructor(_renderer, _elementRef) {
-        super();
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
+    constructor() {
+        super(...arguments);
         /** @internal */
         this._optionMap = new Map();
         /** @internal */
         this._idCounter = 0;
-        /**
-         * The registered callback function called when a change event occurs on the input element.
-         * @nodoc
-         */
-        this.onChange = (_) => { };
-        /**
-         * The registered callback function called when a blur event occurs on the input element.
-         * @nodoc
-         */
-        this.onTouched = () => { };
         this._compareWith = Object.is;
     }
     /**
@@ -6228,20 +6109,6 @@ class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor {
             fn(selected);
         };
     }
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn) {
-        this.onTouched = fn;
-    }
-    /**
-     * Sets the "disabled" property on the select input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
-    }
     /** @internal */
     _registerOption(value) {
         const id = (this._idCounter++).toString();
@@ -6262,7 +6129,7 @@ class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor {
         return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
     }
 }
-SelectMultipleControlValueAccessor.ɵfac = function SelectMultipleControlValueAccessor_Factory(t) { return new (t || SelectMultipleControlValueAccessor)(ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef)); };
+SelectMultipleControlValueAccessor.ɵfac = /*@__PURE__*/ function () { let ɵSelectMultipleControlValueAccessor_BaseFactory; return function SelectMultipleControlValueAccessor_Factory(t) { return (ɵSelectMultipleControlValueAccessor_BaseFactory || (ɵSelectMultipleControlValueAccessor_BaseFactory = ɵɵgetInheritedFactory(SelectMultipleControlValueAccessor)))(t || SelectMultipleControlValueAccessor); }; }();
 SelectMultipleControlValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: SelectMultipleControlValueAccessor, selectors: [["select", "multiple", "", "formControlName", ""], ["select", "multiple", "", "formControl", ""], ["select", "multiple", "", "ngModel", ""]], hostBindings: function SelectMultipleControlValueAccessor_HostBindings(rf, ctx) { if (rf & 1) {
         ɵɵlistener("change", function SelectMultipleControlValueAccessor_change_HostBindingHandler($event) { return ctx.onChange($event.target); })("blur", function SelectMultipleControlValueAccessor_blur_HostBindingHandler() { return ctx.onTouched(); });
     } }, inputs: { compareWith: "compareWith" }, features: [ɵɵProvidersFeature([SELECT_MULTIPLE_VALUE_ACCESSOR]), ɵɵInheritDefinitionFeature] });
@@ -6273,7 +6140,7 @@ SelectMultipleControlValueAccessor.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ t
                 host: { '(change)': 'onChange($event.target)', '(blur)': 'onTouched()' },
                 providers: [SELECT_MULTIPLE_VALUE_ACCESSOR]
             }]
-    }], function () { return [{ type: Renderer2 }, { type: ElementRef }]; }, { compareWith: [{
+    }], null, { compareWith: [{
             type: Input
         }] }); })();
 /**
@@ -7244,7 +7111,7 @@ FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, fa
 /**
  * @publicApi
  */
-const VERSION = new Version('12.0.0-next.8+17.sha-deacc74');
+const VERSION = new Version('12.0.0-next.8+19.sha-51bb922');
 
 /**
  * @license

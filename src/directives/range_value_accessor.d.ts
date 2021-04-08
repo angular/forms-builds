@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { ElementRef, Renderer2, StaticProvider } from '@angular/core';
+import { StaticProvider } from '@angular/core';
 import { BuiltInControlValueAccessor, ControlValueAccessor } from './control_value_accessor';
 import * as i0 from "@angular/core";
 export declare const RANGE_VALUE_ACCESSOR: StaticProvider;
@@ -34,20 +34,6 @@ export declare const RANGE_VALUE_ACCESSOR: StaticProvider;
  * @publicApi
  */
 export declare class RangeValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
-    private _renderer;
-    private _elementRef;
-    /**
-     * The registered callback function called when a change or input event occurs on the input
-     * element.
-     * @nodoc
-     */
-    onChange: (_: any) => void;
-    /**
-     * The registered callback function called when a blur event occurs on the input element.
-     * @nodoc
-     */
-    onTouched: () => void;
-    constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "value" property on the input element.
      * @nodoc
@@ -58,16 +44,6 @@ export declare class RangeValueAccessor extends BuiltInControlValueAccessor impl
      * @nodoc
      */
     registerOnChange(fn: (_: number | null) => void): void;
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn: () => void): void;
-    /**
-     * Sets the "disabled" property on the range input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<RangeValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<RangeValueAccessor, "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", never, {}, {}, never>;
 }

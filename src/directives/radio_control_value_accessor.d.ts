@@ -67,20 +67,16 @@ export declare class RadioControlRegistry {
  * @publicApi
  */
 export declare class RadioControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
-    private _renderer;
-    private _elementRef;
     private _registry;
     private _injector;
     /**
      * The registered callback function called when a change event occurs on the input element.
+     * Note: we declare `onChange` here (also used as host listener) as a function with no arguments
+     * to override the `onChange` function (which expects 1 argument) in the parent
+     * `BaseControlValueAccessor` class.
      * @nodoc
      */
     onChange: () => void;
-    /**
-     * The registered callback function called when a blur event occurs on the input element.
-     * @nodoc
-     */
-    onTouched: () => void;
     /**
      * @description
      * Tracks the name of the radio input element.
@@ -97,7 +93,7 @@ export declare class RadioControlValueAccessor extends BuiltInControlValueAccess
      * Tracks the value of the radio input element
      */
     value: any;
-    constructor(_renderer: Renderer2, _elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
+    constructor(renderer: Renderer2, elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
     /** @nodoc */
     ngOnInit(): void;
     /** @nodoc */
@@ -118,16 +114,6 @@ export declare class RadioControlValueAccessor extends BuiltInControlValueAccess
      * @param value
      */
     fireUncheck(value: any): void;
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn: () => {}): void;
-    /**
-     * Sets the "disabled" property on the input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled: boolean): void;
     private _checkName;
     static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<RadioControlValueAccessor, "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", never, { "name": "name"; "formControlName": "formControlName"; "value": "value"; }, {}, never>;

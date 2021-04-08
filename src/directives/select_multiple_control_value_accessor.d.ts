@@ -45,23 +45,11 @@ export declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
  * @publicApi
  */
 export declare class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
-    private _renderer;
-    private _elementRef;
     /**
      * The current value.
      * @nodoc
      */
     value: any;
-    /**
-     * The registered callback function called when a change event occurs on the input element.
-     * @nodoc
-     */
-    onChange: (_: any) => void;
-    /**
-     * The registered callback function called when a blur event occurs on the input element.
-     * @nodoc
-     */
-    onTouched: () => void;
     /**
      * @description
      * Tracks the option comparison algorithm for tracking identities when
@@ -69,7 +57,6 @@ export declare class SelectMultipleControlValueAccessor extends BuiltInControlVa
      */
     set compareWith(fn: (o1: any, o2: any) => boolean);
     private _compareWith;
-    constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Sets the "value" property on one or of more of the select's options.
      * @nodoc
@@ -81,16 +68,6 @@ export declare class SelectMultipleControlValueAccessor extends BuiltInControlVa
      * @nodoc
      */
     registerOnChange(fn: (value: any) => any): void;
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn: () => any): void;
-    /**
-     * Sets the "disabled" property on the select input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<SelectMultipleControlValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<SelectMultipleControlValueAccessor, "select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]", never, { "compareWith": "compareWith"; }, {}, never>;
 }
