@@ -1,27 +1,25 @@
 {
   "name": "@angular/forms",
-  "version": "9.0.0-next.12+69.sha-1f498ab.with-local-changes",
+  "version": "12.0.0-next.8+121.sha-72c4288",
   "description": "Angular - directives and services for creating forms",
-  "main": "./bundles/forms.umd.js",
-  "module": "./fesm5/forms.js",
-  "es2015": "./fesm2015/forms.js",
-  "esm5": "./esm5/forms.js",
-  "esm2015": "./esm2015/forms.js",
-  "fesm5": "./fesm5/forms.js",
-  "fesm2015": "./fesm2015/forms.js",
-  "typings": "./forms.d.ts",
   "author": "angular",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.14.1 <16.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.1.0"
+  },
   "peerDependencies": {
-    "@angular/core": "9.0.0-next.12+69.sha-1f498ab.with-local-changes",
-    "@angular/common": "9.0.0-next.12+69.sha-1f498ab.with-local-changes",
-    "@angular/platform-browser": "9.0.0-next.12+69.sha-1f498ab.with-local-changes",
-    "rxjs": "^6.5.3",
-    "tslib": "^1.10.0"
+    "@angular/core": "12.0.0-next.8+121.sha-72c4288",
+    "@angular/common": "12.0.0-next.8+121.sha-72c4288",
+    "@angular/platform-browser": "12.0.0-next.8+121.sha-72c4288",
+    "rxjs": "^6.5.3"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/angular/angular.git"
+    "url": "https://github.com/angular/angular.git",
+    "directory": "packages/forms"
   },
   "ng-update": {
     "packageGroup": [
@@ -36,13 +34,21 @@
       "@angular/platform-browser-dynamic",
       "@angular/forms",
       "@angular/platform-server",
-      "@angular/platform-webworker",
-      "@angular/platform-webworker-dynamic",
       "@angular/upgrade",
       "@angular/router",
       "@angular/language-service",
+      "@angular/localize",
       "@angular/service-worker"
     ]
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://wombat-dressing-room.appspot.com"
+  },
+  "main": "./bundles/forms.umd.js",
+  "fesm2015": "./fesm2015/forms.js",
+  "esm2015": "./esm2015/forms.js",
+  "typings": "./forms.d.ts",
+  "module": "./fesm2015/forms.js",
+  "es2015": "./fesm2015/forms.js"
 }
