@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.0-next.8+403.sha-45083bc
+ * @license Angular v12.0.0-next.8+409.sha-fdb3d30
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1480,7 +1480,7 @@ function setUpControl(control, dir) {
         if (!dir.valueAccessor)
             _throwError(dir, 'No value accessor for form control with');
     }
-    setUpValidators(control, dir, /* handleOnValidatorChange */ true);
+    setUpValidators(control, dir);
     dir.valueAccessor.writeValue(control.value);
     setUpViewChangePipeline(control, dir);
     setUpModelChangePipeline(control, dir);
@@ -1513,7 +1513,7 @@ function cleanUpControl(control, dir, validateControlPresenceOnChange = true) {
         dir.valueAccessor.registerOnChange(noop);
         dir.valueAccessor.registerOnTouched(noop);
     }
-    cleanUpValidators(control, dir, /* handleOnValidatorChange */ true);
+    cleanUpValidators(control, dir);
     if (control) {
         dir._invokeOnDestroyCallbacks();
         control._registerOnCollectionChange(() => { });
@@ -1551,10 +1551,8 @@ function setUpDisabledChangeHandler(control, dir) {
  *
  * @param control Form control where directive validators should be setup.
  * @param dir Directive instance that contains validators to be setup.
- * @param handleOnValidatorChange Flag that determines whether directive validators should be setup
- *     to handle validator input change.
  */
-function setUpValidators(control, dir, handleOnValidatorChange) {
+function setUpValidators(control, dir) {
     const validators = getControlValidators(control);
     if (dir.validator !== null) {
         control.setValidators(mergeValidators(validators, dir.validator));
@@ -1577,11 +1575,9 @@ function setUpValidators(control, dir, handleOnValidatorChange) {
         control.setAsyncValidators([asyncValidators]);
     }
     // Re-run validation when validator binding changes, e.g. minlength=3 -> minlength=4
-    if (handleOnValidatorChange) {
-        const onValidatorChange = () => control.updateValueAndValidity();
-        registerOnValidatorChange(dir._rawValidators, onValidatorChange);
-        registerOnValidatorChange(dir._rawAsyncValidators, onValidatorChange);
-    }
+    const onValidatorChange = () => control.updateValueAndValidity();
+    registerOnValidatorChange(dir._rawValidators, onValidatorChange);
+    registerOnValidatorChange(dir._rawAsyncValidators, onValidatorChange);
 }
 /**
  * Cleans up sync and async directive validators on provided form control.
@@ -1590,11 +1586,9 @@ function setUpValidators(control, dir, handleOnValidatorChange) {
  *
  * @param control Form control from where directive validators should be removed.
  * @param dir Directive instance that contains validators to be removed.
- * @param handleOnValidatorChange Flag that determines whether directive validators should also be
- *     cleaned up to stop handling validator input change (if previously configured to do so).
  * @returns true if a control was updated as a result of this action.
  */
-function cleanUpValidators(control, dir, handleOnValidatorChange) {
+function cleanUpValidators(control, dir) {
     let isControlUpdated = false;
     if (control !== null) {
         if (dir.validator !== null) {
@@ -1620,12 +1614,10 @@ function cleanUpValidators(control, dir, handleOnValidatorChange) {
             }
         }
     }
-    if (handleOnValidatorChange) {
-        // Clear onValidatorChange callbacks by providing a noop function.
-        const noop = () => { };
-        registerOnValidatorChange(dir._rawValidators, noop);
-        registerOnValidatorChange(dir._rawAsyncValidators, noop);
-    }
+    // Clear onValidatorChange callbacks by providing a noop function.
+    const noop = () => { };
+    registerOnValidatorChange(dir._rawValidators, noop);
+    registerOnValidatorChange(dir._rawAsyncValidators, noop);
     return isControlUpdated;
 }
 function setUpViewChangePipeline(control, dir) {
@@ -1678,7 +1670,7 @@ function setUpModelChangePipeline(control, dir) {
 function setUpFormContainer(control, dir) {
     if (control == null && (typeof ngDevMode === 'undefined' || ngDevMode))
         _throwError(dir, 'Cannot find control with');
-    setUpValidators(control, dir, /* handleOnValidatorChange */ false);
+    setUpValidators(control, dir);
 }
 /**
  * Reverts the setup performed by the `setUpFormContainer` function.
@@ -1688,7 +1680,7 @@ function setUpFormContainer(control, dir) {
  * @returns true if a control was updated as a result of this action.
  */
 function cleanUpFormContainer(control, dir) {
-    return cleanUpValidators(control, dir, /* handleOnValidatorChange */ false);
+    return cleanUpValidators(control, dir);
 }
 function _noControlError(dir) {
     return _throwError(dir, 'There is no FormControl instance attached to form control element with');
@@ -5085,7 +5077,7 @@ class FormGroupDirective extends ControlContainer {
     /** @nodoc */
     ngOnDestroy() {
         if (this.form) {
-            cleanUpValidators(this.form, this, /* handleOnValidatorChange */ false);
+            cleanUpValidators(this.form, this);
             // Currently the `onCollectionChange` callback is rewritten each time the
             // `_registerOnCollectionChange` function is invoked. The implication is that cleanup should
             // happen *only* when the `onCollectionChange` callback was set by this directive instance.
@@ -5294,9 +5286,9 @@ class FormGroupDirective extends ControlContainer {
         }
     }
     _updateValidators() {
-        setUpValidators(this.form, this, /* handleOnValidatorChange */ false);
+        setUpValidators(this.form, this);
         if (this._oldForm) {
-            cleanUpValidators(this._oldForm, this, /* handleOnValidatorChange */ false);
+            cleanUpValidators(this._oldForm, this);
         }
     }
     _checkFormPresent() {
@@ -7111,7 +7103,7 @@ FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, fa
 /**
  * @publicApi
  */
-const VERSION = new Version('12.0.0-next.8+403.sha-45083bc');
+const VERSION = new Version('12.0.0-next.8+409.sha-fdb3d30');
 
 /**
  * @license

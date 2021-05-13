@@ -47,10 +47,8 @@ export declare function setUpDisabledChangeHandler(control: FormControl, dir: Ng
  *
  * @param control Form control where directive validators should be setup.
  * @param dir Directive instance that contains validators to be setup.
- * @param handleOnValidatorChange Flag that determines whether directive validators should be setup
- *     to handle validator input change.
  */
-export declare function setUpValidators(control: AbstractControl, dir: AbstractControlDirective, handleOnValidatorChange: boolean): void;
+export declare function setUpValidators(control: AbstractControl, dir: AbstractControlDirective): void;
 /**
  * Cleans up sync and async directive validators on provided form control.
  * This function reverts the setup performed by the `setUpValidators` function, i.e.
@@ -58,11 +56,9 @@ export declare function setUpValidators(control: AbstractControl, dir: AbstractC
  *
  * @param control Form control from where directive validators should be removed.
  * @param dir Directive instance that contains validators to be removed.
- * @param handleOnValidatorChange Flag that determines whether directive validators should also be
- *     cleaned up to stop handling validator input change (if previously configured to do so).
  * @returns true if a control was updated as a result of this action.
  */
-export declare function cleanUpValidators(control: AbstractControl | null, dir: AbstractControlDirective, handleOnValidatorChange: boolean): boolean;
+export declare function cleanUpValidators(control: AbstractControl | null, dir: AbstractControlDirective): boolean;
 /**
  * Links a FormGroup or FormArray instance and corresponding Form directive by setting up validators
  * present in the view.
