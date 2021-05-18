@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "12.0.0-next.8+437.sha-ec78e68",
+  "version": "12.0.0-next.8+438.sha-2dd9564",
   "description": "Angular - directives and services for creating forms",
   "author": "angular",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "tslib": "^2.1.0"
   },
   "peerDependencies": {
-    "@angular/core": "12.0.0-next.8+437.sha-ec78e68",
-    "@angular/common": "12.0.0-next.8+437.sha-ec78e68",
-    "@angular/platform-browser": "12.0.0-next.8+437.sha-ec78e68",
+    "@angular/core": "12.0.0-next.8+438.sha-2dd9564",
+    "@angular/common": "12.0.0-next.8+438.sha-2dd9564",
+    "@angular/platform-browser": "12.0.0-next.8+438.sha-2dd9564",
     "rxjs": "^6.5.3"
   },
   "repository": {
@@ -42,9 +42,6 @@
     ]
   },
   "sideEffects": false,
-  "publishConfig": {
-    "registry": "https://wombat-dressing-room.appspot.com"
-  },
   "main": "./bundles/forms.umd.js",
   "fesm2015": "./fesm2015/forms.js",
   "esm2015": "./esm2015/forms.js",
