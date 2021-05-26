@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.1+66.sha-c01da21
+ * @license Angular v12.0.1+83.sha-54b23ae
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6545,7 +6545,7 @@
             /** @internal */
             _this.inputName = 'max';
             /** @internal */
-            _this.normalizeInput = function (input) { return parseInt(input, 10); };
+            _this.normalizeInput = function (input) { return parseFloat(input); };
             /** @internal */
             _this.createValidator = function (max) { return maxValidator(max); };
             return _this;
@@ -6608,7 +6608,7 @@
             /** @internal */
             _this.inputName = 'min';
             /** @internal */
-            _this.normalizeInput = function (input) { return parseInt(input, 10); };
+            _this.normalizeInput = function (input) { return parseFloat(input); };
             /** @internal */
             _this.createValidator = function (min) { return minValidator(min); };
             return _this;
@@ -7306,7 +7306,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.0.1+66.sha-c01da21');
+    var VERSION = new i0.Version('12.0.1+83.sha-54b23ae');
 
     /**
      * @license

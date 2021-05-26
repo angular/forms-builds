@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.1+66.sha-c01da21
+ * @license Angular v12.0.1+83.sha-54b23ae
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6063,7 +6063,7 @@ class MaxValidator extends AbstractValidatorDirective {
         /** @internal */
         this.inputName = 'max';
         /** @internal */
-        this.normalizeInput = (input) => parseInt(input, 10);
+        this.normalizeInput = (input) => parseFloat(input);
         /** @internal */
         this.createValidator = (max) => maxValidator(max);
     }
@@ -6123,7 +6123,7 @@ class MinValidator extends AbstractValidatorDirective {
         /** @internal */
         this.inputName = 'min';
         /** @internal */
-        this.normalizeInput = (input) => parseInt(input, 10);
+        this.normalizeInput = (input) => parseFloat(input);
         /** @internal */
         this.createValidator = (min) => minValidator(min);
     }
@@ -6786,7 +6786,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('12.0.1+66.sha-c01da21');
+const VERSION = new Version('12.0.1+83.sha-54b23ae');
 
 /**
  * @license
