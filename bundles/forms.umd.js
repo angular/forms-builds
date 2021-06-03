@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.1.0-next.4+32.sha-fa84d19
+ * @license Angular v12.1.0-next.4+33.sha-47270d9
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1617,8 +1617,19 @@
             this._cd = cd;
         }
         AbstractControlStatus.prototype.is = function (status) {
-            var _a, _b;
-            return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b[status]);
+            var _a, _b, _c;
+            // Currently with ViewEngine (in AOT mode) it's not possible to use private methods in host
+            // bindings.
+            // TODO: once ViewEngine is removed, this function should be refactored:
+            //  - make the `is` method `protected`, so it's not accessible publicly
+            //  - move the `submitted` status logic to the `NgControlStatusGroup` class
+            //    and make it `private` or `protected` too.
+            if (status === 'submitted') {
+                // We check for the `submitted` field from `NgForm` and `FormGroupDirective` classes, but
+                // we avoid instanceof checks to prevent non-tree-shakable references to those types.
+                return !!((_a = this._cd) === null || _a === void 0 ? void 0 : _a.submitted);
+            }
+            return !!((_c = (_b = this._cd) === null || _b === void 0 ? void 0 : _b.control) === null || _c === void 0 ? void 0 : _c[status]);
         };
         return AbstractControlStatus;
     }());
@@ -1631,6 +1642,7 @@
         '[class.ng-invalid]': 'is("invalid")',
         '[class.ng-pending]': 'is("pending")',
     };
+    var ngGroupStatusHost = Object.assign(Object.assign({}, ngControlStatusHost), { '[class.ng-submitted]': 'is("submitted")' });
     /**
      * @description
      * Directive automatically applied to Angular form controls that sets CSS classes
@@ -1680,7 +1692,8 @@
     /**
      * @description
      * Directive automatically applied to Angular form groups that sets CSS classes
-     * based on control status (valid/invalid/dirty/etc).
+     * based on control status (valid/invalid/dirty/etc). On groups, this includes the additional
+     * class ng-submitted.
      *
      * @see `NgControlStatus`
      *
@@ -1696,9 +1709,9 @@
         return NgControlStatusGroup;
     }(AbstractControlStatus));
     NgControlStatusGroup.ɵfac = function NgControlStatusGroup_Factory(t) { return new (t || NgControlStatusGroup)(i0.ɵɵdirectiveInject(ControlContainer, 10)); };
-    NgControlStatusGroup.ɵdir = /*@__PURE__*/ i0.ɵɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], hostVars: 14, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx) {
+    NgControlStatusGroup.ɵdir = /*@__PURE__*/ i0.ɵɵdefineDirective({ type: NgControlStatusGroup, selectors: [["", "formGroupName", ""], ["", "formArrayName", ""], ["", "ngModelGroup", ""], ["", "formGroup", ""], ["form", 3, "ngNoForm", ""], ["", "ngForm", ""]], hostVars: 16, hostBindings: function NgControlStatusGroup_HostBindings(rf, ctx) {
             if (rf & 2) {
-                i0.ɵɵclassProp("ng-untouched", ctx.is("untouched"))("ng-touched", ctx.is("touched"))("ng-pristine", ctx.is("pristine"))("ng-dirty", ctx.is("dirty"))("ng-valid", ctx.is("valid"))("ng-invalid", ctx.is("invalid"))("ng-pending", ctx.is("pending"));
+                i0.ɵɵclassProp("ng-untouched", ctx.is("untouched"))("ng-touched", ctx.is("touched"))("ng-pristine", ctx.is("pristine"))("ng-dirty", ctx.is("dirty"))("ng-valid", ctx.is("valid"))("ng-invalid", ctx.is("invalid"))("ng-pending", ctx.is("pending"))("ng-submitted", ctx.is("submitted"));
             }
         }, features: [i0.ɵɵInheritDefinitionFeature] });
     (function () {
@@ -1706,7 +1719,7 @@
                 type: i0.Directive,
                 args: [{
                         selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-                        host: ngControlStatusHost
+                        host: ngGroupStatusHost
                     }]
             }], function () {
             return [{ type: ControlContainer, decorators: [{
@@ -7765,7 +7778,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.1.0-next.4+32.sha-fa84d19');
+    var VERSION = new i0.Version('12.1.0-next.4+33.sha-47270d9');
 
     /**
      * @license
