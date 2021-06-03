@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.1.0-next.4+24.sha-bd1836b
+ * @license Angular v12.1.0-next.4+30.sha-69e5782
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6310,14 +6310,15 @@ class MaxValidator extends AbstractValidatorDirective {
 }
 MaxValidator.ɵfac = /*@__PURE__*/ function () { let ɵMaxValidator_BaseFactory; return function MaxValidator_Factory(t) { return (ɵMaxValidator_BaseFactory || (ɵMaxValidator_BaseFactory = ɵɵgetInheritedFactory(MaxValidator)))(t || MaxValidator); }; }();
 MaxValidator.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: MaxValidator, selectors: [["input", "type", "number", "max", "", "formControlName", ""], ["input", "type", "number", "max", "", "formControl", ""], ["input", "type", "number", "max", "", "ngModel", ""]], hostVars: 1, hostBindings: function MaxValidator_HostBindings(rf, ctx) { if (rf & 2) {
-        ɵɵattribute("max", ctx.max ? ctx.max : null);
+        let tmp_b_0;
+        ɵɵattribute("max", (tmp_b_0 = ctx.max) !== null && tmp_b_0 !== undefined ? tmp_b_0 : null);
     } }, inputs: { max: "max" }, features: [ɵɵProvidersFeature([MAX_VALIDATOR]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(MaxValidator, [{
         type: Directive,
         args: [{
                 selector: 'input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]',
                 providers: [MAX_VALIDATOR],
-                host: { '[attr.max]': 'max ? max : null' }
+                host: { '[attr.max]': 'max ?? null' }
             }]
     }], null, { max: [{
             type: Input
@@ -6374,14 +6375,15 @@ class MinValidator extends AbstractValidatorDirective {
 }
 MinValidator.ɵfac = /*@__PURE__*/ function () { let ɵMinValidator_BaseFactory; return function MinValidator_Factory(t) { return (ɵMinValidator_BaseFactory || (ɵMinValidator_BaseFactory = ɵɵgetInheritedFactory(MinValidator)))(t || MinValidator); }; }();
 MinValidator.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: MinValidator, selectors: [["input", "type", "number", "min", "", "formControlName", ""], ["input", "type", "number", "min", "", "formControl", ""], ["input", "type", "number", "min", "", "ngModel", ""]], hostVars: 1, hostBindings: function MinValidator_HostBindings(rf, ctx) { if (rf & 2) {
-        ɵɵattribute("min", ctx.min ? ctx.min : null);
+        let tmp_b_0;
+        ɵɵattribute("min", (tmp_b_0 = ctx.min) !== null && tmp_b_0 !== undefined ? tmp_b_0 : null);
     } }, inputs: { min: "min" }, features: [ɵɵProvidersFeature([MIN_VALIDATOR]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(MinValidator, [{
         type: Directive,
         args: [{
                 selector: 'input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]',
                 providers: [MIN_VALIDATOR],
-                host: { '[attr.min]': 'min ? min : null' }
+                host: { '[attr.min]': 'min ?? null' }
             }]
     }], null, { min: [{
             type: Input
@@ -7103,7 +7105,7 @@ FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, fa
 /**
  * @publicApi
  */
-const VERSION = new Version('12.1.0-next.4+24.sha-bd1836b');
+const VERSION = new Version('12.1.0-next.4+30.sha-69e5782');
 
 /**
  * @license
