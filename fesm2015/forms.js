@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.1.0-next.4+24.sha-bd1836b
+ * @license Angular v12.1.0-next.4+30.sha-69e5782
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6081,7 +6081,7 @@ MaxValidator.decorators = [
     { type: Directive, args: [{
                 selector: 'input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]',
                 providers: [MAX_VALIDATOR],
-                host: { '[attr.max]': 'max ? max : null' }
+                host: { '[attr.max]': 'max ?? null' }
             },] }
 ];
 MaxValidator.propDecorators = {
@@ -6141,7 +6141,7 @@ MinValidator.decorators = [
     { type: Directive, args: [{
                 selector: 'input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]',
                 providers: [MIN_VALIDATOR],
-                host: { '[attr.min]': 'min ? min : null' }
+                host: { '[attr.min]': 'min ?? null' }
             },] }
 ];
 MinValidator.propDecorators = {
@@ -6786,7 +6786,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('12.1.0-next.4+24.sha-bd1836b');
+const VERSION = new Version('12.1.0-next.4+30.sha-69e5782');
 
 /**
  * @license
