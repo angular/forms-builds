@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.1.0-next.4+32.sha-fa84d19
+ * @license Angular v12.1.0-next.4+33.sha-47270d9
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1593,8 +1593,19 @@
             this._cd = cd;
         }
         AbstractControlStatus.prototype.is = function (status) {
-            var _a, _b;
-            return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b[status]);
+            var _a, _b, _c;
+            // Currently with ViewEngine (in AOT mode) it's not possible to use private methods in host
+            // bindings.
+            // TODO: once ViewEngine is removed, this function should be refactored:
+            //  - make the `is` method `protected`, so it's not accessible publicly
+            //  - move the `submitted` status logic to the `NgControlStatusGroup` class
+            //    and make it `private` or `protected` too.
+            if (status === 'submitted') {
+                // We check for the `submitted` field from `NgForm` and `FormGroupDirective` classes, but
+                // we avoid instanceof checks to prevent non-tree-shakable references to those types.
+                return !!((_a = this._cd) === null || _a === void 0 ? void 0 : _a.submitted);
+            }
+            return !!((_c = (_b = this._cd) === null || _b === void 0 ? void 0 : _b.control) === null || _c === void 0 ? void 0 : _c[status]);
         };
         return AbstractControlStatus;
     }());
@@ -1607,6 +1618,7 @@
         '[class.ng-invalid]': 'is("invalid")',
         '[class.ng-pending]': 'is("pending")',
     };
+    var ngGroupStatusHost = Object.assign(Object.assign({}, ngControlStatusHost), { '[class.ng-submitted]': 'is("submitted")' });
     /**
      * @description
      * Directive automatically applied to Angular form controls that sets CSS classes
@@ -1646,7 +1658,8 @@
     /**
      * @description
      * Directive automatically applied to Angular form groups that sets CSS classes
-     * based on control status (valid/invalid/dirty/etc).
+     * based on control status (valid/invalid/dirty/etc). On groups, this includes the additional
+     * class ng-submitted.
      *
      * @see `NgControlStatus`
      *
@@ -1664,7 +1677,7 @@
     NgControlStatusGroup.decorators = [
         { type: i0.Directive, args: [{
                     selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-                    host: ngControlStatusHost
+                    host: ngGroupStatusHost
                 },] }
     ];
     NgControlStatusGroup.ctorParameters = function () { return [
@@ -7306,7 +7319,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.1.0-next.4+32.sha-fa84d19');
+    var VERSION = new i0.Version('12.1.0-next.4+33.sha-47270d9');
 
     /**
      * @license
@@ -7385,25 +7398,26 @@
     exports.ɵNgSelectMultipleOption = ɵNgSelectMultipleOption;
     exports.ɵangular_packages_forms_forms_a = SHARED_FORM_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_b = TEMPLATE_DRIVEN_DIRECTIVES;
-    exports.ɵangular_packages_forms_forms_ba = ɵNgSelectMultipleOption;
-    exports.ɵangular_packages_forms_forms_bb = ɵNgNoValidate;
-    exports.ɵangular_packages_forms_forms_bc = MAX_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bd = MIN_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_be = REQUIRED_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bf = CHECKBOX_REQUIRED_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bg = EMAIL_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bh = MIN_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bi = MAX_LENGTH_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bj = PATTERN_VALIDATOR;
-    exports.ɵangular_packages_forms_forms_bk = minValidator;
-    exports.ɵangular_packages_forms_forms_bl = maxValidator;
-    exports.ɵangular_packages_forms_forms_bm = requiredValidator;
-    exports.ɵangular_packages_forms_forms_bn = requiredTrueValidator;
-    exports.ɵangular_packages_forms_forms_bo = emailValidator;
-    exports.ɵangular_packages_forms_forms_bp = minLengthValidator;
-    exports.ɵangular_packages_forms_forms_bq = maxLengthValidator;
-    exports.ɵangular_packages_forms_forms_br = patternValidator;
-    exports.ɵangular_packages_forms_forms_bs = nullValidator;
+    exports.ɵangular_packages_forms_forms_ba = SELECT_MULTIPLE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_bb = ɵNgSelectMultipleOption;
+    exports.ɵangular_packages_forms_forms_bc = ɵNgNoValidate;
+    exports.ɵangular_packages_forms_forms_bd = MAX_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_be = MIN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bf = REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bg = CHECKBOX_REQUIRED_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bh = EMAIL_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bi = MIN_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bj = MAX_LENGTH_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bk = PATTERN_VALIDATOR;
+    exports.ɵangular_packages_forms_forms_bl = minValidator;
+    exports.ɵangular_packages_forms_forms_bm = maxValidator;
+    exports.ɵangular_packages_forms_forms_bn = requiredValidator;
+    exports.ɵangular_packages_forms_forms_bo = requiredTrueValidator;
+    exports.ɵangular_packages_forms_forms_bp = emailValidator;
+    exports.ɵangular_packages_forms_forms_bq = minLengthValidator;
+    exports.ɵangular_packages_forms_forms_br = maxLengthValidator;
+    exports.ɵangular_packages_forms_forms_bs = patternValidator;
+    exports.ɵangular_packages_forms_forms_bt = nullValidator;
     exports.ɵangular_packages_forms_forms_c = REACTIVE_DRIVEN_DIRECTIVES;
     exports.ɵangular_packages_forms_forms_d = ɵInternalFormsSharedModule;
     exports.ɵangular_packages_forms_forms_e = CHECKBOX_VALUE_ACCESSOR;
@@ -7412,22 +7426,22 @@
     exports.ɵangular_packages_forms_forms_h = DEFAULT_VALUE_ACCESSOR;
     exports.ɵangular_packages_forms_forms_i = AbstractControlStatus;
     exports.ɵangular_packages_forms_forms_j = ngControlStatusHost;
-    exports.ɵangular_packages_forms_forms_k = formDirectiveProvider;
-    exports.ɵangular_packages_forms_forms_l = formControlBinding;
-    exports.ɵangular_packages_forms_forms_m = modelGroupProvider;
-    exports.ɵangular_packages_forms_forms_n = NUMBER_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_o = RADIO_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_p = RadioControlRegistryModule;
-    exports.ɵangular_packages_forms_forms_q = RadioControlRegistry;
-    exports.ɵangular_packages_forms_forms_r = RANGE_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_s = NG_MODEL_WITH_FORM_CONTROL_WARNING;
-    exports.ɵangular_packages_forms_forms_t = formControlBinding$1;
-    exports.ɵangular_packages_forms_forms_u = controlNameBinding;
-    exports.ɵangular_packages_forms_forms_v = formDirectiveProvider$1;
-    exports.ɵangular_packages_forms_forms_w = formGroupNameProvider;
-    exports.ɵangular_packages_forms_forms_x = formArrayNameProvider;
-    exports.ɵangular_packages_forms_forms_y = SELECT_VALUE_ACCESSOR;
-    exports.ɵangular_packages_forms_forms_z = SELECT_MULTIPLE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_k = ngGroupStatusHost;
+    exports.ɵangular_packages_forms_forms_l = formDirectiveProvider;
+    exports.ɵangular_packages_forms_forms_m = formControlBinding;
+    exports.ɵangular_packages_forms_forms_n = modelGroupProvider;
+    exports.ɵangular_packages_forms_forms_o = NUMBER_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_p = RADIO_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_q = RadioControlRegistryModule;
+    exports.ɵangular_packages_forms_forms_r = RadioControlRegistry;
+    exports.ɵangular_packages_forms_forms_s = RANGE_VALUE_ACCESSOR;
+    exports.ɵangular_packages_forms_forms_t = NG_MODEL_WITH_FORM_CONTROL_WARNING;
+    exports.ɵangular_packages_forms_forms_u = formControlBinding$1;
+    exports.ɵangular_packages_forms_forms_v = controlNameBinding;
+    exports.ɵangular_packages_forms_forms_w = formDirectiveProvider$1;
+    exports.ɵangular_packages_forms_forms_x = formGroupNameProvider;
+    exports.ɵangular_packages_forms_forms_y = formArrayNameProvider;
+    exports.ɵangular_packages_forms_forms_z = SELECT_VALUE_ACCESSOR;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

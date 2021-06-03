@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.1.0-next.4+32.sha-fa84d19
+ * @license Angular v12.1.0-next.4+33.sha-47270d9
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -790,7 +790,7 @@ declare abstract class AbstractValidatorDirective implements Validator {
     registerOnValidatorChange(fn: () => void): void;
 }
 
-declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending';
+declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending' | 'submitted';
 
 /**
  * @description
@@ -2870,7 +2870,8 @@ export declare class NgControlStatus extends ɵangular_packages_forms_forms_i {
 /**
  * @description
  * Directive automatically applied to Angular form groups that sets CSS classes
- * based on control status (valid/invalid/dirty/etc).
+ * based on control status (valid/invalid/dirty/etc). On groups, this includes the additional
+ * class ng-submitted.
  *
  * @see `NgControlStatus`
  *
@@ -3456,7 +3457,7 @@ export declare class RadioControlValueAccessor extends ɵangular_packages_forms_
      * Tracks the value of the radio input element
      */
     value: any;
-    constructor(renderer: Renderer2, elementRef: ElementRef, _registry: ɵangular_packages_forms_forms_q, _injector: Injector);
+    constructor(renderer: Renderer2, elementRef: ElementRef, _registry: ɵangular_packages_forms_forms_r, _injector: Injector);
     /** @nodoc */
     ngOnInit(): void;
     /** @nodoc */
@@ -4078,107 +4079,109 @@ export declare const ɵangular_packages_forms_forms_a: Type<any>[];
 
 export declare const ɵangular_packages_forms_forms_b: Type<any>[];
 
-/**
- * @description
- * Provider which adds `MaxValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bc: StaticProvider;
+export declare const ɵangular_packages_forms_forms_ba: StaticProvider;
 
 /**
  * @description
- * Provider which adds `MinValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `MaxValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_bd: StaticProvider;
 
 /**
  * @description
- * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `MinValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_be: StaticProvider;
 
 /**
  * @description
- * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_bf: StaticProvider;
 
 /**
  * @description
- * Provider which adds `EmailValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
  */
-export declare const ɵangular_packages_forms_forms_bg: any;
+export declare const ɵangular_packages_forms_forms_bg: StaticProvider;
 
 /**
  * @description
- * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `EmailValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_bh: any;
 
 /**
  * @description
- * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_bi: any;
 
 /**
  * @description
- * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
+ * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
  */
 export declare const ɵangular_packages_forms_forms_bj: any;
+
+/**
+ * @description
+ * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+export declare const ɵangular_packages_forms_forms_bk: any;
 
 /**
  * Validator that requires the control's value to be greater than or equal to the provided number.
  * See `Validators.min` for additional information.
  */
-export declare function ɵangular_packages_forms_forms_bk(min: number): ValidatorFn;
+export declare function ɵangular_packages_forms_forms_bl(min: number): ValidatorFn;
 
 /**
  * Validator that requires the control's value to be less than or equal to the provided number.
  * See `Validators.max` for additional information.
  */
-export declare function ɵangular_packages_forms_forms_bl(max: number): ValidatorFn;
+export declare function ɵangular_packages_forms_forms_bm(max: number): ValidatorFn;
 
 /**
  * Validator that requires the control have a non-empty value.
  * See `Validators.required` for additional information.
  */
-export declare function ɵangular_packages_forms_forms_bm(control: AbstractControl): ValidationErrors | null;
+export declare function ɵangular_packages_forms_forms_bn(control: AbstractControl): ValidationErrors | null;
 
 /**
  * Validator that requires the control's value be true. This validator is commonly
  * used for required checkboxes.
  * See `Validators.requiredTrue` for additional information.
  */
-export declare function ɵangular_packages_forms_forms_bn(control: AbstractControl): ValidationErrors | null;
+export declare function ɵangular_packages_forms_forms_bo(control: AbstractControl): ValidationErrors | null;
 
 /**
  * Validator that requires the control's value pass an email validation test.
  * See `Validators.email` for additional information.
  */
-export declare function ɵangular_packages_forms_forms_bo(control: AbstractControl): ValidationErrors | null;
+export declare function ɵangular_packages_forms_forms_bp(control: AbstractControl): ValidationErrors | null;
 
 /**
  * Validator that requires the length of the control's value to be greater than or equal
  * to the provided minimum length. See `Validators.minLength` for additional information.
  */
-export declare function ɵangular_packages_forms_forms_bp(minLength: number): ValidatorFn;
+export declare function ɵangular_packages_forms_forms_bq(minLength: number): ValidatorFn;
 
 /**
  * Validator that requires the length of the control's value to be less than or equal
  * to the provided maximum length. See `Validators.maxLength` for additional information.
  */
-export declare function ɵangular_packages_forms_forms_bq(maxLength: number): ValidatorFn;
+export declare function ɵangular_packages_forms_forms_br(maxLength: number): ValidatorFn;
 
 /**
  * Validator that requires the control's value to match a regex pattern.
  * See `Validators.pattern` for additional information.
  */
-export declare function ɵangular_packages_forms_forms_br(pattern: string | RegExp): ValidatorFn;
+export declare function ɵangular_packages_forms_forms_bs(pattern: string | RegExp): ValidatorFn;
 
 /**
  * Function that has `ValidatorFn` shape, but performs no operation.
  */
-export declare function ɵangular_packages_forms_forms_bs(control: AbstractControl): ValidationErrors | null;
+export declare function ɵangular_packages_forms_forms_bt(control: AbstractControl): ValidationErrors | null;
 
 export declare const ɵangular_packages_forms_forms_c: Type<any>[];
 
@@ -4259,7 +4262,16 @@ export declare const ɵangular_packages_forms_forms_j: {
     '[class.ng-pending]': string;
 };
 
-export declare const ɵangular_packages_forms_forms_k: any;
+export declare const ɵangular_packages_forms_forms_k: {
+    '[class.ng-submitted]': string;
+    '[class.ng-untouched]': string;
+    '[class.ng-touched]': string;
+    '[class.ng-pristine]': string;
+    '[class.ng-dirty]': string;
+    '[class.ng-valid]': string;
+    '[class.ng-invalid]': string;
+    '[class.ng-pending]': string;
+};
 
 export declare const ɵangular_packages_forms_forms_l: any;
 
@@ -4269,20 +4281,22 @@ export declare const ɵangular_packages_forms_forms_n: any;
 
 export declare const ɵangular_packages_forms_forms_o: any;
 
+export declare const ɵangular_packages_forms_forms_p: any;
+
 /**
  * Internal-only NgModule that works as a host for the `RadioControlRegistry` tree-shakable
  * provider. Note: the `InternalFormsSharedModule` can not be used here directly, since it's
  * declared *after* the `RadioControlRegistry` class and the `providedIn` doesn't support
  * `forwardRef` logic.
  */
-export declare class ɵangular_packages_forms_forms_p {
+export declare class ɵangular_packages_forms_forms_q {
 }
 
 /**
  * @description
  * Class used by Angular to track radio buttons. For internal use only.
  */
-export declare class ɵangular_packages_forms_forms_q {
+export declare class ɵangular_packages_forms_forms_r {
     private _accessors;
     /**
      * @description
@@ -4302,14 +4316,12 @@ export declare class ɵangular_packages_forms_forms_q {
     private _isSameGroup;
 }
 
-export declare const ɵangular_packages_forms_forms_r: StaticProvider;
+export declare const ɵangular_packages_forms_forms_s: StaticProvider;
 
 /**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
-export declare const ɵangular_packages_forms_forms_s: InjectionToken<unknown>;
-
-export declare const ɵangular_packages_forms_forms_t: any;
+export declare const ɵangular_packages_forms_forms_t: InjectionToken<unknown>;
 
 export declare const ɵangular_packages_forms_forms_u: any;
 
@@ -4319,7 +4331,7 @@ export declare const ɵangular_packages_forms_forms_w: any;
 
 export declare const ɵangular_packages_forms_forms_x: any;
 
-export declare const ɵangular_packages_forms_forms_y: StaticProvider;
+export declare const ɵangular_packages_forms_forms_y: any;
 
 export declare const ɵangular_packages_forms_forms_z: StaticProvider;
 
@@ -4352,7 +4364,7 @@ export { ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d }
 declare class ɵNgNoValidate {
 }
 export { ɵNgNoValidate }
-export { ɵNgNoValidate as ɵangular_packages_forms_forms_bb }
+export { ɵNgNoValidate as ɵangular_packages_forms_forms_bc }
 
 /**
  * @description
@@ -4386,6 +4398,6 @@ declare class ɵNgSelectMultipleOption implements OnDestroy {
     ngOnDestroy(): void;
 }
 export { ɵNgSelectMultipleOption }
-export { ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_ba }
+export { ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_bb }
 
 export { }
