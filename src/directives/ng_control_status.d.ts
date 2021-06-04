@@ -2,23 +2,13 @@ import { AbstractControlDirective } from './abstract_control_directive';
 import { ControlContainer } from './control_container';
 import { NgControl } from './ng_control';
 import * as i0 from "@angular/core";
-declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending' | 'submitted';
+declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending';
 export declare class AbstractControlStatus {
     private _cd;
     constructor(cd: AbstractControlDirective | null);
     is(status: AnyControlStatus): boolean;
 }
 export declare const ngControlStatusHost: {
-    '[class.ng-untouched]': string;
-    '[class.ng-touched]': string;
-    '[class.ng-pristine]': string;
-    '[class.ng-dirty]': string;
-    '[class.ng-valid]': string;
-    '[class.ng-invalid]': string;
-    '[class.ng-pending]': string;
-};
-export declare const ngGroupStatusHost: {
-    '[class.ng-submitted]': string;
     '[class.ng-untouched]': string;
     '[class.ng-touched]': string;
     '[class.ng-pristine]': string;
@@ -58,8 +48,7 @@ export declare class NgControlStatus extends AbstractControlStatus {
 /**
  * @description
  * Directive automatically applied to Angular form groups that sets CSS classes
- * based on control status (valid/invalid/dirty/etc). On groups, this includes the additional
- * class ng-submitted.
+ * based on control status (valid/invalid/dirty/etc).
  *
  * @see `NgControlStatus`
  *
