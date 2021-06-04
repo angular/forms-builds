@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.1.0-next.4+39.sha-ae858c0
+ * @license Angular v12.1.0-next.4+40.sha-00b1444
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1226,19 +1226,8 @@ class AbstractControlStatus {
         this._cd = cd;
     }
     is(status) {
-        var _a, _b, _c;
-        // Currently with ViewEngine (in AOT mode) it's not possible to use private methods in host
-        // bindings.
-        // TODO: once ViewEngine is removed, this function should be refactored:
-        //  - make the `is` method `protected`, so it's not accessible publicly
-        //  - move the `submitted` status logic to the `NgControlStatusGroup` class
-        //    and make it `private` or `protected` too.
-        if (status === 'submitted') {
-            // We check for the `submitted` field from `NgForm` and `FormGroupDirective` classes, but
-            // we avoid instanceof checks to prevent non-tree-shakable references to those types.
-            return !!((_a = this._cd) === null || _a === void 0 ? void 0 : _a.submitted);
-        }
-        return !!((_c = (_b = this._cd) === null || _b === void 0 ? void 0 : _b.control) === null || _c === void 0 ? void 0 : _c[status]);
+        var _a, _b;
+        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b[status]);
     }
 }
 const ngControlStatusHost = {
@@ -1250,7 +1239,6 @@ const ngControlStatusHost = {
     '[class.ng-invalid]': 'is("invalid")',
     '[class.ng-pending]': 'is("pending")',
 };
-const ngGroupStatusHost = Object.assign(Object.assign({}, ngControlStatusHost), { '[class.ng-submitted]': 'is("submitted")' });
 /**
  * @description
  * Directive automatically applied to Angular form controls that sets CSS classes
@@ -1288,8 +1276,7 @@ NgControlStatus.ctorParameters = () => [
 /**
  * @description
  * Directive automatically applied to Angular form groups that sets CSS classes
- * based on control status (valid/invalid/dirty/etc). On groups, this includes the additional
- * class ng-submitted.
+ * based on control status (valid/invalid/dirty/etc).
  *
  * @see `NgControlStatus`
  *
@@ -1305,7 +1292,7 @@ class NgControlStatusGroup extends AbstractControlStatus {
 NgControlStatusGroup.decorators = [
     { type: Directive, args: [{
                 selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
-                host: ngGroupStatusHost
+                host: ngControlStatusHost
             },] }
 ];
 NgControlStatusGroup.ctorParameters = () => [
@@ -6799,7 +6786,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('12.1.0-next.4+39.sha-ae858c0');
+const VERSION = new Version('12.1.0-next.4+40.sha-00b1444');
 
 /**
  * @license
@@ -6830,5 +6817,5 @@ const VERSION = new Version('12.1.0-next.4+39.sha-ae858c0');
  * Generated bundle index. Do not edit.
  */
 
-export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NumberValueAccessor, PatternValidator, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, VERSION, Validators, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_ba, ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_bb, ɵNgNoValidate as ɵangular_packages_forms_forms_bc, MAX_VALIDATOR as ɵangular_packages_forms_forms_bd, MIN_VALIDATOR as ɵangular_packages_forms_forms_be, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_bf, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_bg, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_bh, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bi, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bj, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_bk, minValidator as ɵangular_packages_forms_forms_bl, maxValidator as ɵangular_packages_forms_forms_bm, requiredValidator as ɵangular_packages_forms_forms_bn, requiredTrueValidator as ɵangular_packages_forms_forms_bo, emailValidator as ɵangular_packages_forms_forms_bp, minLengthValidator as ɵangular_packages_forms_forms_bq, maxLengthValidator as ɵangular_packages_forms_forms_br, patternValidator as ɵangular_packages_forms_forms_bs, nullValidator as ɵangular_packages_forms_forms_bt, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, BaseControlValueAccessor as ɵangular_packages_forms_forms_f, BuiltInControlValueAccessor as ɵangular_packages_forms_forms_g, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_h, AbstractControlStatus as ɵangular_packages_forms_forms_i, ngControlStatusHost as ɵangular_packages_forms_forms_j, ngGroupStatusHost as ɵangular_packages_forms_forms_k, formDirectiveProvider as ɵangular_packages_forms_forms_l, formControlBinding as ɵangular_packages_forms_forms_m, modelGroupProvider as ɵangular_packages_forms_forms_n, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_o, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_p, RadioControlRegistryModule as ɵangular_packages_forms_forms_q, RadioControlRegistry as ɵangular_packages_forms_forms_r, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_s, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_t, formControlBinding$1 as ɵangular_packages_forms_forms_u, controlNameBinding as ɵangular_packages_forms_forms_v, formDirectiveProvider$1 as ɵangular_packages_forms_forms_w, formGroupNameProvider as ɵangular_packages_forms_forms_x, formArrayNameProvider as ɵangular_packages_forms_forms_y, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_z };
+export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NumberValueAccessor, PatternValidator, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, VERSION, Validators, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, SHARED_FORM_DIRECTIVES as ɵangular_packages_forms_forms_a, TEMPLATE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_b, ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_ba, ɵNgNoValidate as ɵangular_packages_forms_forms_bb, MAX_VALIDATOR as ɵangular_packages_forms_forms_bc, MIN_VALIDATOR as ɵangular_packages_forms_forms_bd, REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_be, CHECKBOX_REQUIRED_VALIDATOR as ɵangular_packages_forms_forms_bf, EMAIL_VALIDATOR as ɵangular_packages_forms_forms_bg, MIN_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bh, MAX_LENGTH_VALIDATOR as ɵangular_packages_forms_forms_bi, PATTERN_VALIDATOR as ɵangular_packages_forms_forms_bj, minValidator as ɵangular_packages_forms_forms_bk, maxValidator as ɵangular_packages_forms_forms_bl, requiredValidator as ɵangular_packages_forms_forms_bm, requiredTrueValidator as ɵangular_packages_forms_forms_bn, emailValidator as ɵangular_packages_forms_forms_bo, minLengthValidator as ɵangular_packages_forms_forms_bp, maxLengthValidator as ɵangular_packages_forms_forms_bq, patternValidator as ɵangular_packages_forms_forms_br, nullValidator as ɵangular_packages_forms_forms_bs, REACTIVE_DRIVEN_DIRECTIVES as ɵangular_packages_forms_forms_c, ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d, CHECKBOX_VALUE_ACCESSOR as ɵangular_packages_forms_forms_e, BaseControlValueAccessor as ɵangular_packages_forms_forms_f, BuiltInControlValueAccessor as ɵangular_packages_forms_forms_g, DEFAULT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_h, AbstractControlStatus as ɵangular_packages_forms_forms_i, ngControlStatusHost as ɵangular_packages_forms_forms_j, formDirectiveProvider as ɵangular_packages_forms_forms_k, formControlBinding as ɵangular_packages_forms_forms_l, modelGroupProvider as ɵangular_packages_forms_forms_m, NUMBER_VALUE_ACCESSOR as ɵangular_packages_forms_forms_n, RADIO_VALUE_ACCESSOR as ɵangular_packages_forms_forms_o, RadioControlRegistryModule as ɵangular_packages_forms_forms_p, RadioControlRegistry as ɵangular_packages_forms_forms_q, RANGE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_r, NG_MODEL_WITH_FORM_CONTROL_WARNING as ɵangular_packages_forms_forms_s, formControlBinding$1 as ɵangular_packages_forms_forms_t, controlNameBinding as ɵangular_packages_forms_forms_u, formDirectiveProvider$1 as ɵangular_packages_forms_forms_v, formGroupNameProvider as ɵangular_packages_forms_forms_w, formArrayNameProvider as ɵangular_packages_forms_forms_x, SELECT_VALUE_ACCESSOR as ɵangular_packages_forms_forms_y, SELECT_MULTIPLE_VALUE_ACCESSOR as ɵangular_packages_forms_forms_z };
 //# sourceMappingURL=forms.js.map
