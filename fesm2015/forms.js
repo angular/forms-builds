@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.0.4+12.sha-cee5c10
+ * @license Angular v12.0.4+19.sha-18d8322
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2651,7 +2651,7 @@ class FormControl extends AbstractControl {
             // `VALID` or `INVALID`.
             // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
             // to `true` to allow that during the control creation process.
-            emitEvent: !!asyncValidator
+            emitEvent: !!this.asyncValidator
         });
     }
     /**
@@ -2893,7 +2893,7 @@ class FormGroup extends AbstractControl {
             // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
             // `VALID` or `INVALID`. The status should be broadcasted via the `statusChanges` observable,
             // so we set `emitEvent` to `true` to allow that during the control creation process.
-            emitEvent: !!asyncValidator
+            emitEvent: !!this.asyncValidator
         });
     }
     /**
@@ -3326,7 +3326,7 @@ class FormArray extends AbstractControl {
             // `VALID` or `INVALID`.
             // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
             // to `true` to allow that during the control creation process.
-            emitEvent: !!asyncValidator
+            emitEvent: !!this.asyncValidator
         });
     }
     /**
@@ -6786,7 +6786,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('12.0.4+12.sha-cee5c10');
+const VERSION = new Version('12.0.4+19.sha-18d8322');
 
 /**
  * @license
