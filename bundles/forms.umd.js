@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.1.0-next.5+18.sha-828fde6
+ * @license Angular v12.1.0-next.5+20.sha-7180ec9
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3055,7 +3055,7 @@
                 // `VALID` or `INVALID`.
                 // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
                 // to `true` to allow that during the control creation process.
-                emitEvent: !!asyncValidator
+                emitEvent: !!_this.asyncValidator
             });
             return _this;
         }
@@ -3305,7 +3305,7 @@
                 // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
                 // `VALID` or `INVALID`. The status should be broadcasted via the `statusChanges` observable,
                 // so we set `emitEvent` to `true` to allow that during the control creation process.
-                emitEvent: !!asyncValidator
+                emitEvent: !!_this.asyncValidator
             });
             return _this;
         }
@@ -3772,7 +3772,7 @@
                 // `VALID` or `INVALID`.
                 // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
                 // to `true` to allow that during the control creation process.
-                emitEvent: !!asyncValidator
+                emitEvent: !!_this.asyncValidator
             });
             return _this;
         }
@@ -7787,7 +7787,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.1.0-next.5+18.sha-828fde6');
+    var VERSION = new i0.Version('12.1.0-next.5+20.sha-7180ec9');
 
     /**
      * @license
