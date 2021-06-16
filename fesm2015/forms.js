@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.1.0-next.5+41.sha-62aca30
+ * @license Angular v12.1.0-next.5+42.sha-f3a7987
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3562,19 +3562,19 @@ class FormArray extends AbstractControl {
      * ]);
      * arr.reset(['name', 'last name']);
      *
-     * console.log(this.arr.value);  // ['name', 'last name']
+     * console.log(arr.value);  // ['name', 'last name']
      * ```
      *
      * ### Reset the values in a form array and the disabled status for the first control
      *
      * ```
-     * this.arr.reset([
+     * arr.reset([
      *   {value: 'name', disabled: true},
      *   'last'
      * ]);
      *
-     * console.log(this.arr.value);  // ['name', 'last name']
-     * console.log(this.arr.get(0).status);  // 'DISABLED'
+     * console.log(arr.value);  // ['last']
+     * console.log(arr.at(0).status);  // 'DISABLED'
      * ```
      *
      * @param value Array of values for the controls
@@ -7127,7 +7127,7 @@ FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, fa
 /**
  * @publicApi
  */
-const VERSION = new Version('12.1.0-next.5+41.sha-62aca30');
+const VERSION = new Version('12.1.0-next.5+42.sha-f3a7987');
 
 /**
  * @license
