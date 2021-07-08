@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.2.0-next.1+28.sha-f592a12
+ * @license Angular v12.2.0-next.1+40.sha-e26bfc1
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2264,7 +2264,9 @@ export declare class FormGroup extends AbstractControl {
     /**
      * Add a control to this group.
      *
-     * This method also updates the value and validity of the control.
+     * If a control with a given name already exists, it would *not* be replaced with a new one.
+     * If you want to replace an existing control, use the {@link FormGroup#setControl setControl}
+     * method instead. This method also updates the value and validity of the control.
      *
      * @param name The control name to add to the collection
      * @param control Provides the control for the given name
@@ -2294,6 +2296,8 @@ export declare class FormGroup extends AbstractControl {
     }): void;
     /**
      * Replace an existing control.
+     *
+     * If a control with a given name does not exist in this `FormGroup`, it will be added.
      *
      * @param name The control name to replace in the collection
      * @param control Provides the control for the given name
