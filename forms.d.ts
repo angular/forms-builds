@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.2.0-next.3+4.sha-eefe168.with-local-changes
+ * @license Angular v12.2.0-next.3+5.sha-a502279.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2634,7 +2634,7 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
      * @description
      * Tracks changes to the maximum length bound to this directive.
      */
-    maxlength: string | number;
+    maxlength: string | number | null;
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
@@ -2648,6 +2648,8 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
+    /** @nodoc */
+    enabled(): boolean;
 }
 
 /**
@@ -2714,7 +2716,7 @@ export declare class MinLengthValidator implements Validator, OnChanges {
      * @description
      * Tracks changes to the minimum length bound to this directive.
      */
-    minlength: string | number;
+    minlength: string | number | null;
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /**
@@ -2729,6 +2731,8 @@ export declare class MinLengthValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
+    /** @nodoc */
+    enabled(): boolean;
 }
 
 /**

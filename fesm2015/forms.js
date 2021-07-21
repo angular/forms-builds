@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.2.0-next.3+4.sha-eefe168.with-local-changes
+ * @license Angular v12.2.0-next.3+5.sha-a502279.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6019,6 +6019,16 @@ class ɵNgSelectMultipleOption {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
+ * @description
+ * Method that updates string to integer if not alread a number
+ *
+ * @param value The value to convert to integer
+ * @returns value of parameter in number or integer.
+ */
+function toNumber(value) {
+    return typeof value === 'number' ? value : parseInt(value, 10);
+}
+/**
  * A base class for Validator-based Directives. The class contains common logic shared across such
  * Directives.
  *
@@ -6408,7 +6418,7 @@ class MinLengthValidator {
      * @nodoc
      */
     validate(control) {
-        return this.minlength == null ? null : this._validator(control);
+        return this.enabled() ? this._validator(control) : null;
     }
     /**
      * Registers a callback function to call when the validator inputs change.
@@ -6418,14 +6428,19 @@ class MinLengthValidator {
         this._onChange = fn;
     }
     _createValidator() {
-        this._validator = minLengthValidator(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
+        this._validator =
+            this.enabled() ? minLengthValidator(toNumber(this.minlength)) : nullValidator;
+    }
+    /** @nodoc */
+    enabled() {
+        return this.minlength != null /* both `null` and `undefined` */;
     }
 }
 MinLengthValidator.decorators = [
     { type: Directive, args: [{
                 selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
                 providers: [MIN_LENGTH_VALIDATOR],
-                host: { '[attr.minlength]': 'minlength ? minlength : null' }
+                host: { '[attr.minlength]': 'enabled() ? minlength : null' }
             },] }
 ];
 MinLengthValidator.propDecorators = {
@@ -6478,7 +6493,7 @@ class MaxLengthValidator {
      * @nodoc
      */
     validate(control) {
-        return this.maxlength != null ? this._validator(control) : null;
+        return this.enabled() ? this._validator(control) : null;
     }
     /**
      * Registers a callback function to call when the validator inputs change.
@@ -6488,14 +6503,19 @@ class MaxLengthValidator {
         this._onChange = fn;
     }
     _createValidator() {
-        this._validator = maxLengthValidator(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
+        this._validator =
+            this.enabled() ? maxLengthValidator(toNumber(this.maxlength)) : nullValidator;
+    }
+    /** @nodoc */
+    enabled() {
+        return this.maxlength != null /* both `null` and `undefined` */;
     }
 }
 MaxLengthValidator.decorators = [
     { type: Directive, args: [{
                 selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
                 providers: [MAX_LENGTH_VALIDATOR],
-                host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
+                host: { '[attr.maxlength]': 'enabled() ? maxlength : null' }
             },] }
 ];
 MaxLengthValidator.propDecorators = {
@@ -6812,7 +6832,7 @@ FormBuilder.decorators = [
 /**
  * @publicApi
  */
-const VERSION = new Version('12.2.0-next.3+4.sha-eefe168.with-local-changes');
+const VERSION = new Version('12.2.0-next.3+5.sha-a502279.with-local-changes');
 
 /**
  * @license
