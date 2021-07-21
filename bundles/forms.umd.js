@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.2.0-next.3+4.sha-eefe168.with-local-changes
+ * @license Angular v12.2.0-next.3+5.sha-a502279.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6832,6 +6832,16 @@
     })();
 
     /**
+     * @description
+     * Method that updates string to integer if not alread a number
+     *
+     * @param value The value to convert to integer
+     * @returns value of parameter in number or integer.
+     */
+    function toNumber(value) {
+        return typeof value === 'number' ? value : parseInt(value, 10);
+    }
+    /**
      * A base class for Validator-based Directives. The class contains common logic shared across such
      * Directives.
      *
@@ -7286,7 +7296,7 @@
          * @nodoc
          */
         MinLengthValidator.prototype.validate = function (control) {
-            return this.minlength == null ? null : this._validator(control);
+            return this.enabled() ? this._validator(control) : null;
         };
         /**
          * Registers a callback function to call when the validator inputs change.
@@ -7296,14 +7306,19 @@
             this._onChange = fn;
         };
         MinLengthValidator.prototype._createValidator = function () {
-            this._validator = minLengthValidator(typeof this.minlength === 'number' ? this.minlength : parseInt(this.minlength, 10));
+            this._validator =
+                this.enabled() ? minLengthValidator(toNumber(this.minlength)) : nullValidator;
+        };
+        /** @nodoc */
+        MinLengthValidator.prototype.enabled = function () {
+            return this.minlength != null /* both `null` and `undefined` */;
         };
         return MinLengthValidator;
     }());
     MinLengthValidator.ɵfac = function MinLengthValidator_Factory(t) { return new (t || MinLengthValidator)(); };
     MinLengthValidator.ɵdir = /*@__PURE__*/ i0.ɵɵdefineDirective({ type: MinLengthValidator, selectors: [["", "minlength", "", "formControlName", ""], ["", "minlength", "", "formControl", ""], ["", "minlength", "", "ngModel", ""]], hostVars: 1, hostBindings: function MinLengthValidator_HostBindings(rf, ctx) {
             if (rf & 2) {
-                i0.ɵɵattribute("minlength", ctx.minlength ? ctx.minlength : null);
+                i0.ɵɵattribute("minlength", ctx.enabled() ? ctx.minlength : null);
             }
         }, inputs: { minlength: "minlength" }, features: [i0.ɵɵProvidersFeature([MIN_LENGTH_VALIDATOR]), i0.ɵɵNgOnChangesFeature] });
     (function () {
@@ -7312,7 +7327,7 @@
                 args: [{
                         selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
                         providers: [MIN_LENGTH_VALIDATOR],
-                        host: { '[attr.minlength]': 'minlength ? minlength : null' }
+                        host: { '[attr.minlength]': 'enabled() ? minlength : null' }
                     }]
             }], null, { minlength: [{
                     type: i0.Input
@@ -7365,7 +7380,7 @@
          * @nodoc
          */
         MaxLengthValidator.prototype.validate = function (control) {
-            return this.maxlength != null ? this._validator(control) : null;
+            return this.enabled() ? this._validator(control) : null;
         };
         /**
          * Registers a callback function to call when the validator inputs change.
@@ -7375,14 +7390,19 @@
             this._onChange = fn;
         };
         MaxLengthValidator.prototype._createValidator = function () {
-            this._validator = maxLengthValidator(typeof this.maxlength === 'number' ? this.maxlength : parseInt(this.maxlength, 10));
+            this._validator =
+                this.enabled() ? maxLengthValidator(toNumber(this.maxlength)) : nullValidator;
+        };
+        /** @nodoc */
+        MaxLengthValidator.prototype.enabled = function () {
+            return this.maxlength != null /* both `null` and `undefined` */;
         };
         return MaxLengthValidator;
     }());
     MaxLengthValidator.ɵfac = function MaxLengthValidator_Factory(t) { return new (t || MaxLengthValidator)(); };
     MaxLengthValidator.ɵdir = /*@__PURE__*/ i0.ɵɵdefineDirective({ type: MaxLengthValidator, selectors: [["", "maxlength", "", "formControlName", ""], ["", "maxlength", "", "formControl", ""], ["", "maxlength", "", "ngModel", ""]], hostVars: 1, hostBindings: function MaxLengthValidator_HostBindings(rf, ctx) {
             if (rf & 2) {
-                i0.ɵɵattribute("maxlength", ctx.maxlength ? ctx.maxlength : null);
+                i0.ɵɵattribute("maxlength", ctx.enabled() ? ctx.maxlength : null);
             }
         }, inputs: { maxlength: "maxlength" }, features: [i0.ɵɵProvidersFeature([MAX_LENGTH_VALIDATOR]), i0.ɵɵNgOnChangesFeature] });
     (function () {
@@ -7391,7 +7411,7 @@
                 args: [{
                         selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
                         providers: [MAX_LENGTH_VALIDATOR],
-                        host: { '[attr.maxlength]': 'maxlength ? maxlength : null' }
+                        host: { '[attr.maxlength]': 'enabled() ? maxlength : null' }
                     }]
             }], null, { maxlength: [{
                     type: i0.Input
@@ -7797,7 +7817,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.2.0-next.3+4.sha-eefe168.with-local-changes');
+    var VERSION = new i0.Version('12.2.0-next.3+5.sha-a502279.with-local-changes');
 
     /**
      * @license
