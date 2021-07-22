@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.2.0-next.3+7.sha-b5f1779.with-local-changes
+ * @license Angular v12.2.0-next.3+10.sha-1d9d026.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -59,12 +59,16 @@ export declare abstract class AbstractControl {
      */
     constructor(validators: ValidatorFn | ValidatorFn[] | null, asyncValidators: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
-     * The function that is used to determine the validity of this control synchronously.
+     * Returns the function that is used to determine the validity of this control synchronously.
+     * If multiple validators have been added, this will be a single composed function.
+     * See `Validators.compose()` for additional information.
      */
     get validator(): ValidatorFn | null;
     set validator(validatorFn: ValidatorFn | null);
     /**
-     * The function that is used to determine the validity of this control asynchronously.
+     * Returns the function that is used to determine the validity of this control asynchronously.
+     * If multiple validators have been added, this will be a single composed function.
+     * See `Validators.compose()` for additional information.
      */
     get asyncValidator(): AsyncValidatorFn | null;
     set asyncValidator(asyncValidatorFn: AsyncValidatorFn | null);
@@ -192,24 +196,94 @@ export declare abstract class AbstractControl {
     get updateOn(): FormHooks;
     /**
      * Sets the synchronous validators that are active on this control.  Calling
-     * this overwrites any existing sync validators.
+     * this overwrites any existing synchronous validators.
      *
      * When you add or remove a validator at run time, you must call
      * `updateValueAndValidity()` for the new validation to take effect.
      *
+     * If you want to add a new validator without affecting existing ones, consider
+     * using `addValidators()` method instead.
      */
-    setValidators(newValidator: ValidatorFn | ValidatorFn[] | null): void;
+    setValidators(validators: ValidatorFn | ValidatorFn[] | null): void;
     /**
-     * Sets the async validators that are active on this control. Calling this
-     * overwrites any existing async validators.
+     * Sets the asynchronous validators that are active on this control. Calling this
+     * overwrites any existing asynchronous validators.
      *
      * When you add or remove a validator at run time, you must call
      * `updateValueAndValidity()` for the new validation to take effect.
      *
+     * If you want to add a new validator without affecting existing ones, consider
+     * using `addAsyncValidators()` method instead.
      */
-    setAsyncValidators(newValidator: AsyncValidatorFn | AsyncValidatorFn[] | null): void;
+    setAsyncValidators(validators: AsyncValidatorFn | AsyncValidatorFn[] | null): void;
     /**
-     * Empties out the sync validator list.
+     * Add a synchronous validator or validators to this control, without affecting other validators.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
+     * Adding a validator that already exists will have no effect. If duplicate validator functions
+     * are present in the `validators` array, only the first instance would be added to a form
+     * control.
+     *
+     * @param validators The new validator function or functions to add to this control.
+     */
+    addValidators(validators: ValidatorFn | ValidatorFn[]): void;
+    /**
+     * Add an asynchronous validator or validators to this control, without affecting other
+     * validators.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
+     * Adding a validator that already exists will have no effect.
+     *
+     * @param validators The new asynchronous validator function or functions to add to this control.
+     */
+    addAsyncValidators(validators: AsyncValidatorFn | AsyncValidatorFn[]): void;
+    /**
+     * Remove a synchronous validator from this control, without affecting other validators.
+     * Validators are compared by function reference; you must pass a reference to the exact same
+     * validator function as the one that was originally set. If a provided validator is not found,
+     * it is ignored.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
+     * @param validators The validator or validators to remove.
+     */
+    removeValidators(validators: ValidatorFn | ValidatorFn[]): void;
+    /**
+     * Remove an asynchronous validator from this control, without affecting other validators.
+     * Validators are compared by function reference; you must pass a reference to the exact same
+     * validator function as the one that was originally set. If a provided validator is not found, it
+     * is ignored.
+     *
+     * When you add or remove a validator at run time, you must call
+     * `updateValueAndValidity()` for the new validation to take effect.
+     *
+     * @param validators The asynchronous validator or validators to remove.
+     */
+    removeAsyncValidators(validators: AsyncValidatorFn | AsyncValidatorFn[]): void;
+    /**
+     * Check whether a synchronous validator function is present on this control. The provided
+     * validator must be a reference to the exact same function that was provided.
+     *
+     * @param validator The validator to check for presence. Compared by function reference.
+     * @returns Whether the provided validator was found on this control.
+     */
+    hasValidator(validator: ValidatorFn): boolean;
+    /**
+     * Check whether an asynchronous validator function is present on this control. The provided
+     * validator must be a reference to the exact same function that was provided.
+     *
+     * @param validator The asynchronous validator to check for presence. Compared by function
+     *     reference.
+     * @returns Whether the provided asynchronous validator was found on this control.
+     */
+    hasAsyncValidator(validator: AsyncValidatorFn): boolean;
+    /**
+     * Empties out the synchronous validator list.
      *
      * When you add or remove a validator at run time, you must call
      * `updateValueAndValidity()` for the new validation to take effect.
@@ -1725,7 +1799,7 @@ export declare class FormBuilder {
  * console.log(control.status);    // 'DISABLED'
  * ```
  *
- * The following example initializes the control with a sync validator.
+ * The following example initializes the control with a synchronous validator.
  *
  * ```ts
  * const control = new FormControl('', Validators.required);

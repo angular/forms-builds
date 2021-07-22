@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.2.0-next.3+7.sha-b5f1779.with-local-changes
+ * @license Angular v12.2.0-next.3+10.sha-1d9d026.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1175,6 +1175,52 @@
     function getControlAsyncValidators(control) {
         return control._rawAsyncValidators;
     }
+    /**
+     * Accepts a singleton validator, an array, or null, and returns an array type with the provided
+     * validators.
+     *
+     * @param validators A validator, validators, or null.
+     * @returns A validators array.
+     */
+    function makeValidatorsArray(validators) {
+        if (!validators)
+            return [];
+        return Array.isArray(validators) ? validators : [validators];
+    }
+    /**
+     * Determines whether a validator or validators array has a given validator.
+     *
+     * @param validators The validator or validators to compare against.
+     * @param validator The validator to check.
+     * @returns Whether the validator is present.
+     */
+    function hasValidator(validators, validator) {
+        return Array.isArray(validators) ? validators.includes(validator) : validators === validator;
+    }
+    /**
+     * Combines two arrays of validators into one. If duplicates are provided, only one will be added.
+     *
+     * @param validators The new validators.
+     * @param currentValidators The base array of currrent validators.
+     * @returns An array of validators.
+     */
+    function addValidators(validators, currentValidators) {
+        var current = makeValidatorsArray(currentValidators);
+        var validatorsToAdd = makeValidatorsArray(validators);
+        validatorsToAdd.forEach(function (v) {
+            // Note: if there are duplicate entries in the new validators array,
+            // only the first one would be added to the current list of validarors.
+            // Duplicate ones would be ignored since `hasValidator` would detect
+            // the presence of a validator function and we update the current list in place.
+            if (!hasValidator(current, v)) {
+                current.push(v);
+            }
+        });
+        return current;
+    }
+    function removeValidators(validators, currentValidators) {
+        return makeValidatorsArray(currentValidators).filter(function (v) { return !hasValidator(validators, v); });
+    }
 
     /**
      * @license
@@ -2200,7 +2246,9 @@
         }
         Object.defineProperty(AbstractControl.prototype, "validator", {
             /**
-             * The function that is used to determine the validity of this control synchronously.
+             * Returns the function that is used to determine the validity of this control synchronously.
+             * If multiple validators have been added, this will be a single composed function.
+             * See `Validators.compose()` for additional information.
              */
             get: function () {
                 return this._composedValidatorFn;
@@ -2213,7 +2261,9 @@
         });
         Object.defineProperty(AbstractControl.prototype, "asyncValidator", {
             /**
-             * The function that is used to determine the validity of this control asynchronously.
+             * Returns the function that is used to determine the validity of this control asynchronously.
+             * If multiple validators have been added, this will be a single composed function.
+             * See `Validators.compose()` for additional information.
              */
             get: function () {
                 return this._composedAsyncValidatorFn;
@@ -2355,30 +2405,112 @@
         });
         /**
          * Sets the synchronous validators that are active on this control.  Calling
-         * this overwrites any existing sync validators.
+         * this overwrites any existing synchronous validators.
          *
          * When you add or remove a validator at run time, you must call
          * `updateValueAndValidity()` for the new validation to take effect.
          *
+         * If you want to add a new validator without affecting existing ones, consider
+         * using `addValidators()` method instead.
          */
-        AbstractControl.prototype.setValidators = function (newValidator) {
-            this._rawValidators = newValidator;
-            this._composedValidatorFn = coerceToValidator(newValidator);
+        AbstractControl.prototype.setValidators = function (validators) {
+            this._rawValidators = validators;
+            this._composedValidatorFn = coerceToValidator(validators);
         };
         /**
-         * Sets the async validators that are active on this control. Calling this
-         * overwrites any existing async validators.
+         * Sets the asynchronous validators that are active on this control. Calling this
+         * overwrites any existing asynchronous validators.
          *
          * When you add or remove a validator at run time, you must call
          * `updateValueAndValidity()` for the new validation to take effect.
          *
+         * If you want to add a new validator without affecting existing ones, consider
+         * using `addAsyncValidators()` method instead.
          */
-        AbstractControl.prototype.setAsyncValidators = function (newValidator) {
-            this._rawAsyncValidators = newValidator;
-            this._composedAsyncValidatorFn = coerceToAsyncValidator(newValidator);
+        AbstractControl.prototype.setAsyncValidators = function (validators) {
+            this._rawAsyncValidators = validators;
+            this._composedAsyncValidatorFn = coerceToAsyncValidator(validators);
         };
         /**
-         * Empties out the sync validator list.
+         * Add a synchronous validator or validators to this control, without affecting other validators.
+         *
+         * When you add or remove a validator at run time, you must call
+         * `updateValueAndValidity()` for the new validation to take effect.
+         *
+         * Adding a validator that already exists will have no effect. If duplicate validator functions
+         * are present in the `validators` array, only the first instance would be added to a form
+         * control.
+         *
+         * @param validators The new validator function or functions to add to this control.
+         */
+        AbstractControl.prototype.addValidators = function (validators) {
+            this.setValidators(addValidators(validators, this._rawValidators));
+        };
+        /**
+         * Add an asynchronous validator or validators to this control, without affecting other
+         * validators.
+         *
+         * When you add or remove a validator at run time, you must call
+         * `updateValueAndValidity()` for the new validation to take effect.
+         *
+         * Adding a validator that already exists will have no effect.
+         *
+         * @param validators The new asynchronous validator function or functions to add to this control.
+         */
+        AbstractControl.prototype.addAsyncValidators = function (validators) {
+            this.setAsyncValidators(addValidators(validators, this._rawAsyncValidators));
+        };
+        /**
+         * Remove a synchronous validator from this control, without affecting other validators.
+         * Validators are compared by function reference; you must pass a reference to the exact same
+         * validator function as the one that was originally set. If a provided validator is not found,
+         * it is ignored.
+         *
+         * When you add or remove a validator at run time, you must call
+         * `updateValueAndValidity()` for the new validation to take effect.
+         *
+         * @param validators The validator or validators to remove.
+         */
+        AbstractControl.prototype.removeValidators = function (validators) {
+            this.setValidators(removeValidators(validators, this._rawValidators));
+        };
+        /**
+         * Remove an asynchronous validator from this control, without affecting other validators.
+         * Validators are compared by function reference; you must pass a reference to the exact same
+         * validator function as the one that was originally set. If a provided validator is not found, it
+         * is ignored.
+         *
+         * When you add or remove a validator at run time, you must call
+         * `updateValueAndValidity()` for the new validation to take effect.
+         *
+         * @param validators The asynchronous validator or validators to remove.
+         */
+        AbstractControl.prototype.removeAsyncValidators = function (validators) {
+            this.setAsyncValidators(removeValidators(validators, this._rawAsyncValidators));
+        };
+        /**
+         * Check whether a synchronous validator function is present on this control. The provided
+         * validator must be a reference to the exact same function that was provided.
+         *
+         * @param validator The validator to check for presence. Compared by function reference.
+         * @returns Whether the provided validator was found on this control.
+         */
+        AbstractControl.prototype.hasValidator = function (validator) {
+            return hasValidator(this._rawValidators, validator);
+        };
+        /**
+         * Check whether an asynchronous validator function is present on this control. The provided
+         * validator must be a reference to the exact same function that was provided.
+         *
+         * @param validator The asynchronous validator to check for presence. Compared by function
+         *     reference.
+         * @returns Whether the provided asynchronous validator was found on this control.
+         */
+        AbstractControl.prototype.hasAsyncValidator = function (validator) {
+            return hasValidator(this._rawAsyncValidators, validator);
+        };
+        /**
+         * Empties out the synchronous validator list.
          *
          * When you add or remove a validator at run time, you must call
          * `updateValueAndValidity()` for the new validation to take effect.
@@ -2921,7 +3053,7 @@
      * console.log(control.status);    // 'DISABLED'
      * ```
      *
-     * The following example initializes the control with a sync validator.
+     * The following example initializes the control with a synchronous validator.
      *
      * ```ts
      * const control = new FormControl('', Validators.required);
@@ -7358,7 +7490,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('12.2.0-next.3+7.sha-b5f1779.with-local-changes');
+    var VERSION = new i0.Version('12.2.0-next.3+10.sha-1d9d026.with-local-changes');
 
     /**
      * @license
