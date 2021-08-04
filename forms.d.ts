@@ -1,5 +1,5 @@
 /**
- * @license Angular v12.2.0-next.2+33.sha-4286b08.with-local-changes
+ * @license Angular v12.2.0-next.2+34.sha-30165f9.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -77,18 +77,14 @@ export declare abstract class AbstractControl {
      */
     get parent(): FormGroup | FormArray | null;
     /**
-     * The validation status of the control. There are four possible
-     * validation status values:
+     * The validation status of the control.
      *
-     * * **VALID**: This control has passed all validation checks.
-     * * **INVALID**: This control has failed at least one validation check.
-     * * **PENDING**: This control is in the midst of conducting a validation check.
-     * * **DISABLED**: This control is exempt from validation checks.
+     * @see `FormControlStatus`
      *
      * These status values are mutually exclusive, so a control cannot be
      * both valid AND invalid or invalid AND disabled.
      */
-    readonly status: string;
+    readonly status: FormControlStatus;
     /**
      * A control is `valid` when its `status` is `VALID`.
      *
@@ -183,10 +179,11 @@ export declare abstract class AbstractControl {
      * A multicasting observable that emits an event every time the validation `status` of the control
      * recalculates.
      *
+     * @see `FormControlStatus`
      * @see {@link AbstractControl.status}
      *
      */
-    readonly statusChanges: Observable<any>;
+    readonly statusChanges: Observable<FormControlStatus>;
     /**
      * Reports the update strategy of the `AbstractControl` (meaning
      * the event on which the control updates itself).
@@ -2116,6 +2113,23 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     private _checkParentType;
     private _setUpControl;
 }
+
+/**
+ * A form can have several different statuses. Each
+ * possible status is returned as a string literal.
+ *
+ * * **VALID**: Reports that a FormControl is valid, meaning that no errors exist in the input
+ * value.
+ * * **INVALID**: Reports that a FormControl is invalid, meaning that an error exists in the input
+ * value.
+ * * **PENDING**: Reports that a FormControl is pending, meaning that that async validation is
+ * occurring and errors are not yet available for the input value.
+ * * **DISABLED**: Reports that a FormControl is
+ * disabled, meaning that the control is exempt from ancestor calculations of validity or value.
+ *
+ * @publicApi
+ */
+declare type FormControlStatus = 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED';
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
