@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.0.0-next.3+5.sha-030ff0d.with-local-changes
+ * @license Angular v13.0.0-next.3+7.sha-c396804.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1798,13 +1798,11 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var FormErrorExamples = {
-        formControlName: "\n    <div [formGroup]=\"myGroup\">\n      <input formControlName=\"firstName\">\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       firstName: new FormControl()\n    });",
-        formGroupName: "\n    <div [formGroup]=\"myGroup\">\n       <div formGroupName=\"person\">\n          <input formControlName=\"firstName\">\n       </div>\n    </div>\n\n    In your class:\n\n    this.myGroup = new FormGroup({\n       person: new FormGroup({ firstName: new FormControl() })\n    });",
-        formArrayName: "\n    <div [formGroup]=\"myGroup\">\n      <div formArrayName=\"cities\">\n        <div *ngFor=\"let city of cityArray.controls; index as i\">\n          <input [formControlName]=\"i\">\n        </div>\n      </div>\n    </div>\n\n    In your class:\n\n    this.cityArray = new FormArray([new FormControl('SF')]);\n    this.myGroup = new FormGroup({\n      cities: this.cityArray\n    });",
-        ngModelGroup: "\n    <form>\n       <div ngModelGroup=\"person\">\n          <input [(ngModel)]=\"person.name\" name=\"firstName\">\n       </div>\n    </form>",
-        ngModelWithFormGroup: "\n    <div [formGroup]=\"myGroup\">\n       <input formControlName=\"firstName\">\n       <input [(ngModel)]=\"showMoreControls\" [ngModelOptions]=\"{standalone: true}\">\n    </div>\n  "
-    };
+    var formControlNameExample = "\n  <div [formGroup]=\"myGroup\">\n    <input formControlName=\"firstName\">\n  </div>\n\n  In your class:\n\n  this.myGroup = new FormGroup({\n      firstName: new FormControl()\n  });";
+    var formGroupNameExample = "\n  <div [formGroup]=\"myGroup\">\n      <div formGroupName=\"person\">\n        <input formControlName=\"firstName\">\n      </div>\n  </div>\n\n  In your class:\n\n  this.myGroup = new FormGroup({\n      person: new FormGroup({ firstName: new FormControl() })\n  });";
+    var formArrayNameExample = "\n  <div [formGroup]=\"myGroup\">\n    <div formArrayName=\"cities\">\n      <div *ngFor=\"let city of cityArray.controls; index as i\">\n        <input [formControlName]=\"i\">\n      </div>\n    </div>\n  </div>\n\n  In your class:\n\n  this.cityArray = new FormArray([new FormControl('SF')]);\n  this.myGroup = new FormGroup({\n    cities: this.cityArray\n  });";
+    var ngModelGroupExample = "\n  <form>\n      <div ngModelGroup=\"person\">\n        <input [(ngModel)]=\"person.name\" name=\"firstName\">\n      </div>\n  </form>";
+    var ngModelWithFormGroupExample = "\n  <div [formGroup]=\"myGroup\">\n      <input formControlName=\"firstName\">\n      <input [(ngModel)]=\"showMoreControls\" [ngModelOptions]=\"{standalone: true}\">\n  </div>\n";
 
     /**
      * @license
@@ -1813,33 +1811,25 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var ReactiveErrors = /** @class */ (function () {
-        function ReactiveErrors() {
-        }
-        ReactiveErrors.controlParentException = function () {
-            throw new Error("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + FormErrorExamples.formControlName);
-        };
-        ReactiveErrors.ngModelGroupException = function () {
-            throw new Error("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n       that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n       Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n        " + FormErrorExamples.formGroupName + "\n\n        Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n        " + FormErrorExamples.ngModelGroup);
-        };
-        ReactiveErrors.missingFormException = function () {
-            throw new Error("formGroup expects a FormGroup instance. Please pass one in.\n\n       Example:\n\n       " + FormErrorExamples.formControlName);
-        };
-        ReactiveErrors.groupParentException = function () {
-            throw new Error("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + FormErrorExamples.formGroupName);
-        };
-        ReactiveErrors.arrayParentException = function () {
-            throw new Error("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n       directive and pass it an existing FormGroup instance (you can create one in your class).\n\n        Example:\n\n        " + FormErrorExamples.formArrayName);
-        };
-        ReactiveErrors.disabledAttrWarning = function () {
-            console.warn("\n      It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true\n      when you set up this control in your component class, the disabled attribute will actually be set in the DOM for\n      you. We recommend using this approach to avoid 'changed after checked' errors.\n\n      Example:\n      form = new FormGroup({\n        first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),\n        last: new FormControl('Drew', Validators.required)\n      });\n    ");
-        };
-        ReactiveErrors.ngModelWarning = function (directiveName) {
-            console.warn("\n    It looks like you're using ngModel on the same form field as " + directiveName + ".\n    Support for using the ngModel input property and ngModelChange event with\n    reactive form directives has been deprecated in Angular v6 and will be removed\n    in a future version of Angular.\n\n    For more information on this, see our API docs here:\n    https://angular.io/api/forms/" + (directiveName === 'formControl' ? 'FormControlDirective' :
-                'FormControlName') + "#use-with-ngmodel\n    ");
-        };
-        return ReactiveErrors;
-    }());
+    function controlParentException() {
+        return new Error("formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n    Example:\n\n    " + formControlNameExample);
+    }
+    function ngModelGroupException() {
+        return new Error("formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents\n      that also have a \"form\" prefix: formGroupName, formArrayName, or formGroup.\n\n      Option 1:  Update the parent to be formGroupName (reactive form strategy)\n\n      " + formGroupNameExample + "\n\n      Option 2: Use ngModel instead of formControlName (template-driven strategy)\n\n      " + ngModelGroupExample);
+    }
+    function missingFormException() {
+        return new Error("formGroup expects a FormGroup instance. Please pass one in.\n\n      Example:\n\n      " + formControlNameExample);
+    }
+    function groupParentException() {
+        return new Error("formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup\n    directive and pass it an existing FormGroup instance (you can create one in your class).\n\n    Example:\n\n    " + formGroupNameExample);
+    }
+    function arrayParentException() {
+        return new Error("formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup\n      directive and pass it an existing FormGroup instance (you can create one in your class).\n\n      Example:\n\n      " + formArrayNameExample);
+    }
+    var disabledAttrWarning = "\n  It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true\n  when you set up this control in your component class, the disabled attribute will actually be set in the DOM for\n  you. We recommend using this approach to avoid 'changed after checked' errors.\n\n  Example:\n  form = new FormGroup({\n    first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),\n    last: new FormControl('Drew', Validators.required)\n  });\n";
+    function ngModelWarning(directiveName) {
+        return "\n  It looks like you're using ngModel on the same form field as " + directiveName + ".\n  Support for using the ngModel input property and ngModelChange event with\n  reactive form directives has been deprecated in Angular v6 and will be removed\n  in a future version of Angular.\n\n  For more information on this, see our API docs here:\n  https://angular.io/api/forms/" + (directiveName === 'formControl' ? 'FormControlDirective' : 'FormControlName') + "#use-with-ngmodel\n  ";
+    }
 
     function controlPath(name, parent) {
         return __spreadArray(__spreadArray([], __read(parent.path)), [name]);
@@ -2146,7 +2136,7 @@
             return;
         if (((warningConfig === null || warningConfig === 'once') && !type._ngModelWarningSentOnce) ||
             (warningConfig === 'always' && !instance._ngModelWarningSent)) {
-            ReactiveErrors.ngModelWarning(name);
+            console.warn(ngModelWarning(name));
             type._ngModelWarningSentOnce = true;
             instance._ngModelWarningSent = true;
         }
@@ -4687,23 +4677,18 @@
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
      */
-    var TemplateDrivenErrors = /** @class */ (function () {
-        function TemplateDrivenErrors() {
-        }
-        TemplateDrivenErrors.modelParentException = function () {
-            throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroup directive.  Try using\n      formGroup's partner directive \"formControlName\" instead.  Example:\n\n      " + FormErrorExamples.formControlName + "\n\n      Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:\n\n      Example:\n\n      " + FormErrorExamples.ngModelWithFormGroup);
-        };
-        TemplateDrivenErrors.formGroupNameException = function () {
-            throw new Error("\n      ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.\n\n      Option 1: Use formControlName instead of ngModel (reactive strategy):\n\n      " + FormErrorExamples.formGroupName + "\n\n      Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):\n\n      " + FormErrorExamples.ngModelGroup);
-        };
-        TemplateDrivenErrors.missingNameException = function () {
-            throw new Error("If ngModel is used within a form tag, either the name attribute must be set or the form\n      control must be defined as 'standalone' in ngModelOptions.\n\n      Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n      Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">");
-        };
-        TemplateDrivenErrors.modelGroupParentException = function () {
-            throw new Error("\n      ngModelGroup cannot be used with a parent formGroup directive.\n\n      Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n      " + FormErrorExamples.formGroupName + "\n\n      Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n      " + FormErrorExamples.ngModelGroup);
-        };
-        return TemplateDrivenErrors;
-    }());
+    function modelParentException() {
+        return new Error("\n    ngModel cannot be used to register form controls with a parent formGroup directive.  Try using\n    formGroup's partner directive \"formControlName\" instead.  Example:\n\n    " + formControlNameExample + "\n\n    Or, if you'd like to avoid registering this form control, indicate that it's standalone in ngModelOptions:\n\n    Example:\n\n    " + ngModelWithFormGroupExample);
+    }
+    function formGroupNameException() {
+        return new Error("\n    ngModel cannot be used to register form controls with a parent formGroupName or formArrayName directive.\n\n    Option 1: Use formControlName instead of ngModel (reactive strategy):\n\n    " + formGroupNameExample + "\n\n    Option 2:  Update ngModel's parent be ngModelGroup (template-driven strategy):\n\n    " + ngModelGroupExample);
+    }
+    function missingNameException() {
+        return new Error("If ngModel is used within a form tag, either the name attribute must be set or the form\n    control must be defined as 'standalone' in ngModelOptions.\n\n    Example 1: <input [(ngModel)]=\"person.firstName\" name=\"first\">\n    Example 2: <input [(ngModel)]=\"person.firstName\" [ngModelOptions]=\"{standalone: true}\">");
+    }
+    function modelGroupParentException() {
+        return new Error("\n    ngModelGroup cannot be used with a parent formGroup directive.\n\n    Option 1: Use formGroupName instead of ngModelGroup (reactive strategy):\n\n    " + formGroupNameExample + "\n\n    Option 2:  Use a regular form tag instead of the formGroup directive (template-driven strategy):\n\n    " + ngModelGroupExample);
+    }
 
     var modelGroupProvider = {
         provide: ControlContainer,
@@ -4748,7 +4733,7 @@
         NgModelGroup.prototype._checkParentType = function () {
             if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm) &&
                 (typeof ngDevMode === 'undefined' || ngDevMode)) {
-                TemplateDrivenErrors.modelGroupParentException();
+                throw modelGroupParentException();
             }
         };
         return NgModelGroup;
@@ -4988,10 +4973,10 @@
             if (typeof ngDevMode === 'undefined' || ngDevMode) {
                 if (!(this._parent instanceof NgModelGroup) &&
                     this._parent instanceof AbstractFormGroupDirective) {
-                    TemplateDrivenErrors.formGroupNameException();
+                    throw formGroupNameException();
                 }
                 else if (!(this._parent instanceof NgModelGroup) && !(this._parent instanceof NgForm)) {
-                    TemplateDrivenErrors.modelParentException();
+                    throw modelParentException();
                 }
             }
         };
@@ -4999,7 +4984,7 @@
             if (this.options && this.options.name)
                 this.name = this.options.name;
             if (!this._isStandalone() && !this.name && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-                TemplateDrivenErrors.missingNameException();
+                throw missingNameException();
             }
         };
         NgModel.prototype._updateValue = function (value) {
@@ -5508,7 +5493,7 @@
              */
             set: function (isDisabled) {
                 if (typeof ngDevMode === 'undefined' || ngDevMode) {
-                    ReactiveErrors.disabledAttrWarning();
+                    console.warn(disabledAttrWarning);
                 }
             },
             enumerable: false,
@@ -5942,7 +5927,7 @@
         };
         FormGroupDirective.prototype._checkFormPresent = function () {
             if (!this.form && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-                ReactiveErrors.missingFormException();
+                throw missingFormException();
             }
         };
         return FormGroupDirective;
@@ -6049,7 +6034,7 @@
         /** @internal */
         FormGroupName.prototype._checkParentType = function () {
             if (_hasInvalidParent(this._parent) && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-                ReactiveErrors.groupParentException();
+                throw groupParentException();
             }
         };
         return FormGroupName;
@@ -6178,7 +6163,7 @@
         });
         FormArrayName.prototype._checkParentType = function () {
             if (_hasInvalidParent(this._parent) && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-                ReactiveErrors.arrayParentException();
+                throw arrayParentException();
             }
         };
         return FormArrayName;
@@ -6288,7 +6273,7 @@
              */
             set: function (isDisabled) {
                 if (typeof ngDevMode === 'undefined' || ngDevMode) {
-                    ReactiveErrors.disabledAttrWarning();
+                    console.warn(disabledAttrWarning);
                 }
             },
             enumerable: false,
@@ -6349,12 +6334,12 @@
             if (typeof ngDevMode === 'undefined' || ngDevMode) {
                 if (!(this._parent instanceof FormGroupName) &&
                     this._parent instanceof AbstractFormGroupDirective) {
-                    ReactiveErrors.ngModelGroupException();
+                    throw ngModelGroupException();
                 }
                 else if (!(this._parent instanceof FormGroupName) &&
                     !(this._parent instanceof FormGroupDirective) &&
                     !(this._parent instanceof FormArrayName)) {
-                    ReactiveErrors.controlParentException();
+                    throw controlParentException();
                 }
             }
         };
@@ -7949,7 +7934,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('13.0.0-next.3+5.sha-030ff0d.with-local-changes');
+    var VERSION = new i0.Version('13.0.0-next.3+7.sha-c396804.with-local-changes');
 
     /**
      * @license

@@ -5,75 +5,70 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { FormErrorExamples as Examples } from './error_examples';
-export class ReactiveErrors {
-    static controlParentException() {
-        throw new Error(`formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup
-       directive and pass it an existing FormGroup instance (you can create one in your class).
+import { formArrayNameExample, formControlNameExample, formGroupNameExample, ngModelGroupExample } from './error_examples';
+export function controlParentException() {
+    return new Error(`formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup
+      directive and pass it an existing FormGroup instance (you can create one in your class).
+
+    Example:
+
+    ${formControlNameExample}`);
+}
+export function ngModelGroupException() {
+    return new Error(`formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents
+      that also have a "form" prefix: formGroupName, formArrayName, or formGroup.
+
+      Option 1:  Update the parent to be formGroupName (reactive form strategy)
+
+      ${formGroupNameExample}
+
+      Option 2: Use ngModel instead of formControlName (template-driven strategy)
+
+      ${ngModelGroupExample}`);
+}
+export function missingFormException() {
+    return new Error(`formGroup expects a FormGroup instance. Please pass one in.
 
       Example:
 
-      ${Examples.formControlName}`);
-    }
-    static ngModelGroupException() {
-        throw new Error(`formControlName cannot be used with an ngModelGroup parent. It is only compatible with parents
-       that also have a "form" prefix: formGroupName, formArrayName, or formGroup.
+      ${formControlNameExample}`);
+}
+export function groupParentException() {
+    return new Error(`formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup
+    directive and pass it an existing FormGroup instance (you can create one in your class).
 
-       Option 1:  Update the parent to be formGroupName (reactive form strategy)
+    Example:
 
-        ${Examples.formGroupName}
-
-        Option 2: Use ngModel instead of formControlName (template-driven strategy)
-
-        ${Examples.ngModelGroup}`);
-    }
-    static missingFormException() {
-        throw new Error(`formGroup expects a FormGroup instance. Please pass one in.
-
-       Example:
-
-       ${Examples.formControlName}`);
-    }
-    static groupParentException() {
-        throw new Error(`formGroupName must be used with a parent formGroup directive.  You'll want to add a formGroup
+    ${formGroupNameExample}`);
+}
+export function arrayParentException() {
+    return new Error(`formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup
       directive and pass it an existing FormGroup instance (you can create one in your class).
 
       Example:
 
-      ${Examples.formGroupName}`);
-    }
-    static arrayParentException() {
-        throw new Error(`formArrayName must be used with a parent formGroup directive.  You'll want to add a formGroup
-       directive and pass it an existing FormGroup instance (you can create one in your class).
-
-        Example:
-
-        ${Examples.formArrayName}`);
-    }
-    static disabledAttrWarning() {
-        console.warn(`
-      It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
-      when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
-      you. We recommend using this approach to avoid 'changed after checked' errors.
-
-      Example:
-      form = new FormGroup({
-        first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
-        last: new FormControl('Drew', Validators.required)
-      });
-    `);
-    }
-    static ngModelWarning(directiveName) {
-        console.warn(`
-    It looks like you're using ngModel on the same form field as ${directiveName}.
-    Support for using the ngModel input property and ngModelChange event with
-    reactive form directives has been deprecated in Angular v6 and will be removed
-    in a future version of Angular.
-
-    For more information on this, see our API docs here:
-    https://angular.io/api/forms/${directiveName === 'formControl' ? 'FormControlDirective' :
-            'FormControlName'}#use-with-ngmodel
-    `);
-    }
+      ${formArrayNameExample}`);
 }
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVhY3RpdmVfZXJyb3JzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vcGFja2FnZXMvZm9ybXMvc3JjL2RpcmVjdGl2ZXMvcmVhY3RpdmVfZXJyb3JzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7R0FNRztBQUdILE9BQU8sRUFBQyxpQkFBaUIsSUFBSSxRQUFRLEVBQUMsTUFBTSxrQkFBa0IsQ0FBQztBQUUvRCxNQUFNLE9BQU8sY0FBYztJQUN6QixNQUFNLENBQUMsc0JBQXNCO1FBQzNCLE1BQU0sSUFBSSxLQUFLLENBQ1g7Ozs7O1FBS0EsUUFBUSxDQUFDLGVBQWUsRUFBRSxDQUFDLENBQUM7SUFDbEMsQ0FBQztJQUVELE1BQU0sQ0FBQyxxQkFBcUI7UUFDMUIsTUFBTSxJQUFJLEtBQUssQ0FDWDs7Ozs7VUFLRSxRQUFRLENBQUMsYUFBYTs7OztVQUl0QixRQUFRLENBQUMsWUFBWSxFQUFFLENBQUMsQ0FBQztJQUNqQyxDQUFDO0lBRUQsTUFBTSxDQUFDLG9CQUFvQjtRQUN6QixNQUFNLElBQUksS0FBSyxDQUFDOzs7O1NBSVgsUUFBUSxDQUFDLGVBQWUsRUFBRSxDQUFDLENBQUM7SUFDbkMsQ0FBQztJQUVELE1BQU0sQ0FBQyxvQkFBb0I7UUFDekIsTUFBTSxJQUFJLEtBQUssQ0FDWDs7Ozs7UUFLQSxRQUFRLENBQUMsYUFBYSxFQUFFLENBQUMsQ0FBQztJQUNoQyxDQUFDO0lBRUQsTUFBTSxDQUFDLG9CQUFvQjtRQUN6QixNQUFNLElBQUksS0FBSyxDQUNYOzs7OztVQUtFLFFBQVEsQ0FBQyxhQUFhLEVBQUUsQ0FBQyxDQUFDO0lBQ2xDLENBQUM7SUFFRCxNQUFNLENBQUMsbUJBQW1CO1FBQ3hCLE9BQU8sQ0FBQyxJQUFJLENBQUM7Ozs7Ozs7Ozs7S0FVWixDQUFDLENBQUM7SUFDTCxDQUFDO0lBRUQsTUFBTSxDQUFDLGNBQWMsQ0FBQyxhQUFxQjtRQUN6QyxPQUFPLENBQUMsSUFBSSxDQUFDO21FQUNrRCxhQUFhOzs7Ozs7bUNBT3hFLGFBQWEsS0FBSyxhQUFhLENBQUMsQ0FBQyxDQUFDLHNCQUFzQixDQUFDLENBQUM7WUFDeEIsaUJBQWlCO0tBQ3RELENBQUMsQ0FBQztJQUNMLENBQUM7Q0FDRiIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQGxpY2Vuc2VcbiAqIENvcHlyaWdodCBHb29nbGUgTExDIEFsbCBSaWdodHMgUmVzZXJ2ZWQuXG4gKlxuICogVXNlIG9mIHRoaXMgc291cmNlIGNvZGUgaXMgZ292ZXJuZWQgYnkgYW4gTUlULXN0eWxlIGxpY2Vuc2UgdGhhdCBjYW4gYmVcbiAqIGZvdW5kIGluIHRoZSBMSUNFTlNFIGZpbGUgYXQgaHR0cHM6Ly9hbmd1bGFyLmlvL2xpY2Vuc2VcbiAqL1xuXG5cbmltcG9ydCB7Rm9ybUVycm9yRXhhbXBsZXMgYXMgRXhhbXBsZXN9IGZyb20gJy4vZXJyb3JfZXhhbXBsZXMnO1xuXG5leHBvcnQgY2xhc3MgUmVhY3RpdmVFcnJvcnMge1xuICBzdGF0aWMgY29udHJvbFBhcmVudEV4Y2VwdGlvbigpOiB2b2lkIHtcbiAgICB0aHJvdyBuZXcgRXJyb3IoXG4gICAgICAgIGBmb3JtQ29udHJvbE5hbWUgbXVzdCBiZSB1c2VkIHdpdGggYSBwYXJlbnQgZm9ybUdyb3VwIGRpcmVjdGl2ZS4gIFlvdSdsbCB3YW50IHRvIGFkZCBhIGZvcm1Hcm91cFxuICAgICAgIGRpcmVjdGl2ZSBhbmQgcGFzcyBpdCBhbiBleGlzdGluZyBGb3JtR3JvdXAgaW5zdGFuY2UgKHlvdSBjYW4gY3JlYXRlIG9uZSBpbiB5b3VyIGNsYXNzKS5cblxuICAgICAgRXhhbXBsZTpcblxuICAgICAgJHtFeGFtcGxlcy5mb3JtQ29udHJvbE5hbWV9YCk7XG4gIH1cblxuICBzdGF0aWMgbmdNb2RlbEdyb3VwRXhjZXB0aW9uKCk6IHZvaWQge1xuICAgIHRocm93IG5ldyBFcnJvcihcbiAgICAgICAgYGZvcm1Db250cm9sTmFtZSBjYW5ub3QgYmUgdXNlZCB3aXRoIGFuIG5nTW9kZWxHcm91cCBwYXJlbnQuIEl0IGlzIG9ubHkgY29tcGF0aWJsZSB3aXRoIHBhcmVudHNcbiAgICAgICB0aGF0IGFsc28gaGF2ZSBhIFwiZm9ybVwiIHByZWZpeDogZm9ybUdyb3VwTmFtZSwgZm9ybUFycmF5TmFtZSwgb3IgZm9ybUdyb3VwLlxuXG4gICAgICAgT3B0aW9uIDE6ICBVcGRhdGUgdGhlIHBhcmVudCB0byBiZSBmb3JtR3JvdXBOYW1lIChyZWFjdGl2ZSBmb3JtIHN0cmF0ZWd5KVxuXG4gICAgICAgICR7RXhhbXBsZXMuZm9ybUdyb3VwTmFtZX1cblxuICAgICAgICBPcHRpb24gMjogVXNlIG5nTW9kZWwgaW5zdGVhZCBvZiBmb3JtQ29udHJvbE5hbWUgKHRlbXBsYXRlLWRyaXZlbiBzdHJhdGVneSlcblxuICAgICAgICAke0V4YW1wbGVzLm5nTW9kZWxHcm91cH1gKTtcbiAgfVxuXG4gIHN0YXRpYyBtaXNzaW5nRm9ybUV4Y2VwdGlvbigpOiB2b2lkIHtcbiAgICB0aHJvdyBuZXcgRXJyb3IoYGZvcm1Hcm91cCBleHBlY3RzIGEgRm9ybUdyb3VwIGluc3RhbmNlLiBQbGVhc2UgcGFzcyBvbmUgaW4uXG5cbiAgICAgICBFeGFtcGxlOlxuXG4gICAgICAgJHtFeGFtcGxlcy5mb3JtQ29udHJvbE5hbWV9YCk7XG4gIH1cblxuICBzdGF0aWMgZ3JvdXBQYXJlbnRFeGNlcHRpb24oKTogdm9pZCB7XG4gICAgdGhyb3cgbmV3IEVycm9yKFxuICAgICAgICBgZm9ybUdyb3VwTmFtZSBtdXN0IGJlIHVzZWQgd2l0aCBhIHBhcmVudCBmb3JtR3JvdXAgZGlyZWN0aXZlLiAgWW91J2xsIHdhbnQgdG8gYWRkIGEgZm9ybUdyb3VwXG4gICAgICBkaXJlY3RpdmUgYW5kIHBhc3MgaXQgYW4gZXhpc3RpbmcgRm9ybUdyb3VwIGluc3RhbmNlICh5b3UgY2FuIGNyZWF0ZSBvbmUgaW4geW91ciBjbGFzcykuXG5cbiAgICAgIEV4YW1wbGU6XG5cbiAgICAgICR7RXhhbXBsZXMuZm9ybUdyb3VwTmFtZX1gKTtcbiAgfVxuXG4gIHN0YXRpYyBhcnJheVBhcmVudEV4Y2VwdGlvbigpOiB2b2lkIHtcbiAgICB0aHJvdyBuZXcgRXJyb3IoXG4gICAgICAgIGBmb3JtQXJyYXlOYW1lIG11c3QgYmUgdXNlZCB3aXRoIGEgcGFyZW50IGZvcm1Hcm91cCBkaXJlY3RpdmUuICBZb3UnbGwgd2FudCB0byBhZGQgYSBmb3JtR3JvdXBcbiAgICAgICBkaXJlY3RpdmUgYW5kIHBhc3MgaXQgYW4gZXhpc3RpbmcgRm9ybUdyb3VwIGluc3RhbmNlICh5b3UgY2FuIGNyZWF0ZSBvbmUgaW4geW91ciBjbGFzcykuXG5cbiAgICAgICAgRXhhbXBsZTpcblxuICAgICAgICAke0V4YW1wbGVzLmZvcm1BcnJheU5hbWV9YCk7XG4gIH1cblxuICBzdGF0aWMgZGlzYWJsZWRBdHRyV2FybmluZygpOiB2b2lkIHtcbiAgICBjb25zb2xlLndhcm4oYFxuICAgICAgSXQgbG9va3MgbGlrZSB5b3UncmUgdXNpbmcgdGhlIGRpc2FibGVkIGF0dHJpYnV0ZSB3aXRoIGEgcmVhY3RpdmUgZm9ybSBkaXJlY3RpdmUuIElmIHlvdSBzZXQgZGlzYWJsZWQgdG8gdHJ1ZVxuICAgICAgd2hlbiB5b3Ugc2V0IHVwIHRoaXMgY29udHJvbCBpbiB5b3VyIGNvbXBvbmVudCBjbGFzcywgdGhlIGRpc2FibGVkIGF0dHJpYnV0ZSB3aWxsIGFjdHVhbGx5IGJlIHNldCBpbiB0aGUgRE9NIGZvclxuICAgICAgeW91LiBXZSByZWNvbW1lbmQgdXNpbmcgdGhpcyBhcHByb2FjaCB0byBhdm9pZCAnY2hhbmdlZCBhZnRlciBjaGVja2VkJyBlcnJvcnMuXG5cbiAgICAgIEV4YW1wbGU6XG4gICAgICBmb3JtID0gbmV3IEZvcm1Hcm91cCh7XG4gICAgICAgIGZpcnN0OiBuZXcgRm9ybUNvbnRyb2woe3ZhbHVlOiAnTmFuY3knLCBkaXNhYmxlZDogdHJ1ZX0sIFZhbGlkYXRvcnMucmVxdWlyZWQpLFxuICAgICAgICBsYXN0OiBuZXcgRm9ybUNvbnRyb2woJ0RyZXcnLCBWYWxpZGF0b3JzLnJlcXVpcmVkKVxuICAgICAgfSk7XG4gICAgYCk7XG4gIH1cblxuICBzdGF0aWMgbmdNb2RlbFdhcm5pbmcoZGlyZWN0aXZlTmFtZTogc3RyaW5nKTogdm9pZCB7XG4gICAgY29uc29sZS53YXJuKGBcbiAgICBJdCBsb29rcyBsaWtlIHlvdSdyZSB1c2luZyBuZ01vZGVsIG9uIHRoZSBzYW1lIGZvcm0gZmllbGQgYXMgJHtkaXJlY3RpdmVOYW1lfS5cbiAgICBTdXBwb3J0IGZvciB1c2luZyB0aGUgbmdNb2RlbCBpbnB1dCBwcm9wZXJ0eSBhbmQgbmdNb2RlbENoYW5nZSBldmVudCB3aXRoXG4gICAgcmVhY3RpdmUgZm9ybSBkaXJlY3RpdmVzIGhhcyBiZWVuIGRlcHJlY2F0ZWQgaW4gQW5ndWxhciB2NiBhbmQgd2lsbCBiZSByZW1vdmVkXG4gICAgaW4gYSBmdXR1cmUgdmVyc2lvbiBvZiBBbmd1bGFyLlxuXG4gICAgRm9yIG1vcmUgaW5mb3JtYXRpb24gb24gdGhpcywgc2VlIG91ciBBUEkgZG9jcyBoZXJlOlxuICAgIGh0dHBzOi8vYW5ndWxhci5pby9hcGkvZm9ybXMvJHtcbiAgICAgICAgZGlyZWN0aXZlTmFtZSA9PT0gJ2Zvcm1Db250cm9sJyA/ICdGb3JtQ29udHJvbERpcmVjdGl2ZScgOlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJ0Zvcm1Db250cm9sTmFtZSd9I3VzZS13aXRoLW5nbW9kZWxcbiAgICBgKTtcbiAgfVxufVxuIl19
+export const disabledAttrWarning = `
+  It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
+  when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
+  you. We recommend using this approach to avoid 'changed after checked' errors.
+
+  Example:
+  form = new FormGroup({
+    first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
+    last: new FormControl('Drew', Validators.required)
+  });
+`;
+export function ngModelWarning(directiveName) {
+    return `
+  It looks like you're using ngModel on the same form field as ${directiveName}.
+  Support for using the ngModel input property and ngModelChange event with
+  reactive form directives has been deprecated in Angular v6 and will be removed
+  in a future version of Angular.
+
+  For more information on this, see our API docs here:
+  https://angular.io/api/forms/${directiveName === 'formControl' ? 'FormControlDirective' : 'FormControlName'}#use-with-ngmodel
+  `;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVhY3RpdmVfZXJyb3JzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vcGFja2FnZXMvZm9ybXMvc3JjL2RpcmVjdGl2ZXMvcmVhY3RpdmVfZXJyb3JzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7R0FNRztBQUVILE9BQU8sRUFBQyxvQkFBb0IsRUFBRSxzQkFBc0IsRUFBRSxvQkFBb0IsRUFBRSxtQkFBbUIsRUFBQyxNQUFNLGtCQUFrQixDQUFDO0FBR3pILE1BQU0sVUFBVSxzQkFBc0I7SUFDcEMsT0FBTyxJQUFJLEtBQUssQ0FDWjs7Ozs7TUFLQSxzQkFBc0IsRUFBRSxDQUFDLENBQUM7QUFDaEMsQ0FBQztBQUVELE1BQU0sVUFBVSxxQkFBcUI7SUFDbkMsT0FBTyxJQUFJLEtBQUssQ0FDWjs7Ozs7UUFLRSxvQkFBb0I7Ozs7UUFJcEIsbUJBQW1CLEVBQUUsQ0FBQyxDQUFDO0FBQy9CLENBQUM7QUFFRCxNQUFNLFVBQVUsb0JBQW9CO0lBQ2xDLE9BQU8sSUFBSSxLQUFLLENBQUM7Ozs7UUFJWCxzQkFBc0IsRUFBRSxDQUFDLENBQUM7QUFDbEMsQ0FBQztBQUVELE1BQU0sVUFBVSxvQkFBb0I7SUFDbEMsT0FBTyxJQUFJLEtBQUssQ0FDWjs7Ozs7TUFLQSxvQkFBb0IsRUFBRSxDQUFDLENBQUM7QUFDOUIsQ0FBQztBQUVELE1BQU0sVUFBVSxvQkFBb0I7SUFDbEMsT0FBTyxJQUFJLEtBQUssQ0FDWjs7Ozs7UUFLRSxvQkFBb0IsRUFBRSxDQUFDLENBQUM7QUFDaEMsQ0FBQztBQUVELE1BQU0sQ0FBQyxNQUFNLG1CQUFtQixHQUFHOzs7Ozs7Ozs7O0NBVWxDLENBQUM7QUFFRixNQUFNLFVBQVUsY0FBYyxDQUFDLGFBQXFCO0lBQ2xELE9BQU87aUVBQ3dELGFBQWE7Ozs7OztpQ0FPeEUsYUFBYSxLQUFLLGFBQWEsQ0FBQyxDQUFDLENBQUMsc0JBQXNCLENBQUMsQ0FBQyxDQUFDLGlCQUFpQjtHQUMvRSxDQUFDO0FBQ0osQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQGxpY2Vuc2VcbiAqIENvcHlyaWdodCBHb29nbGUgTExDIEFsbCBSaWdodHMgUmVzZXJ2ZWQuXG4gKlxuICogVXNlIG9mIHRoaXMgc291cmNlIGNvZGUgaXMgZ292ZXJuZWQgYnkgYW4gTUlULXN0eWxlIGxpY2Vuc2UgdGhhdCBjYW4gYmVcbiAqIGZvdW5kIGluIHRoZSBMSUNFTlNFIGZpbGUgYXQgaHR0cHM6Ly9hbmd1bGFyLmlvL2xpY2Vuc2VcbiAqL1xuXG5pbXBvcnQge2Zvcm1BcnJheU5hbWVFeGFtcGxlLCBmb3JtQ29udHJvbE5hbWVFeGFtcGxlLCBmb3JtR3JvdXBOYW1lRXhhbXBsZSwgbmdNb2RlbEdyb3VwRXhhbXBsZX0gZnJvbSAnLi9lcnJvcl9leGFtcGxlcyc7XG5cblxuZXhwb3J0IGZ1bmN0aW9uIGNvbnRyb2xQYXJlbnRFeGNlcHRpb24oKTogRXJyb3Ige1xuICByZXR1cm4gbmV3IEVycm9yKFxuICAgICAgYGZvcm1Db250cm9sTmFtZSBtdXN0IGJlIHVzZWQgd2l0aCBhIHBhcmVudCBmb3JtR3JvdXAgZGlyZWN0aXZlLiAgWW91J2xsIHdhbnQgdG8gYWRkIGEgZm9ybUdyb3VwXG4gICAgICBkaXJlY3RpdmUgYW5kIHBhc3MgaXQgYW4gZXhpc3RpbmcgRm9ybUdyb3VwIGluc3RhbmNlICh5b3UgY2FuIGNyZWF0ZSBvbmUgaW4geW91ciBjbGFzcykuXG5cbiAgICBFeGFtcGxlOlxuXG4gICAgJHtmb3JtQ29udHJvbE5hbWVFeGFtcGxlfWApO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gbmdNb2RlbEdyb3VwRXhjZXB0aW9uKCk6IEVycm9yIHtcbiAgcmV0dXJuIG5ldyBFcnJvcihcbiAgICAgIGBmb3JtQ29udHJvbE5hbWUgY2Fubm90IGJlIHVzZWQgd2l0aCBhbiBuZ01vZGVsR3JvdXAgcGFyZW50LiBJdCBpcyBvbmx5IGNvbXBhdGlibGUgd2l0aCBwYXJlbnRzXG4gICAgICB0aGF0IGFsc28gaGF2ZSBhIFwiZm9ybVwiIHByZWZpeDogZm9ybUdyb3VwTmFtZSwgZm9ybUFycmF5TmFtZSwgb3IgZm9ybUdyb3VwLlxuXG4gICAgICBPcHRpb24gMTogIFVwZGF0ZSB0aGUgcGFyZW50IHRvIGJlIGZvcm1Hcm91cE5hbWUgKHJlYWN0aXZlIGZvcm0gc3RyYXRlZ3kpXG5cbiAgICAgICR7Zm9ybUdyb3VwTmFtZUV4YW1wbGV9XG5cbiAgICAgIE9wdGlvbiAyOiBVc2UgbmdNb2RlbCBpbnN0ZWFkIG9mIGZvcm1Db250cm9sTmFtZSAodGVtcGxhdGUtZHJpdmVuIHN0cmF0ZWd5KVxuXG4gICAgICAke25nTW9kZWxHcm91cEV4YW1wbGV9YCk7XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBtaXNzaW5nRm9ybUV4Y2VwdGlvbigpOiBFcnJvciB7XG4gIHJldHVybiBuZXcgRXJyb3IoYGZvcm1Hcm91cCBleHBlY3RzIGEgRm9ybUdyb3VwIGluc3RhbmNlLiBQbGVhc2UgcGFzcyBvbmUgaW4uXG5cbiAgICAgIEV4YW1wbGU6XG5cbiAgICAgICR7Zm9ybUNvbnRyb2xOYW1lRXhhbXBsZX1gKTtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGdyb3VwUGFyZW50RXhjZXB0aW9uKCk6IEVycm9yIHtcbiAgcmV0dXJuIG5ldyBFcnJvcihcbiAgICAgIGBmb3JtR3JvdXBOYW1lIG11c3QgYmUgdXNlZCB3aXRoIGEgcGFyZW50IGZvcm1Hcm91cCBkaXJlY3RpdmUuICBZb3UnbGwgd2FudCB0byBhZGQgYSBmb3JtR3JvdXBcbiAgICBkaXJlY3RpdmUgYW5kIHBhc3MgaXQgYW4gZXhpc3RpbmcgRm9ybUdyb3VwIGluc3RhbmNlICh5b3UgY2FuIGNyZWF0ZSBvbmUgaW4geW91ciBjbGFzcykuXG5cbiAgICBFeGFtcGxlOlxuXG4gICAgJHtmb3JtR3JvdXBOYW1lRXhhbXBsZX1gKTtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGFycmF5UGFyZW50RXhjZXB0aW9uKCk6IEVycm9yIHtcbiAgcmV0dXJuIG5ldyBFcnJvcihcbiAgICAgIGBmb3JtQXJyYXlOYW1lIG11c3QgYmUgdXNlZCB3aXRoIGEgcGFyZW50IGZvcm1Hcm91cCBkaXJlY3RpdmUuICBZb3UnbGwgd2FudCB0byBhZGQgYSBmb3JtR3JvdXBcbiAgICAgIGRpcmVjdGl2ZSBhbmQgcGFzcyBpdCBhbiBleGlzdGluZyBGb3JtR3JvdXAgaW5zdGFuY2UgKHlvdSBjYW4gY3JlYXRlIG9uZSBpbiB5b3VyIGNsYXNzKS5cblxuICAgICAgRXhhbXBsZTpcblxuICAgICAgJHtmb3JtQXJyYXlOYW1lRXhhbXBsZX1gKTtcbn1cblxuZXhwb3J0IGNvbnN0IGRpc2FibGVkQXR0cldhcm5pbmcgPSBgXG4gIEl0IGxvb2tzIGxpa2UgeW91J3JlIHVzaW5nIHRoZSBkaXNhYmxlZCBhdHRyaWJ1dGUgd2l0aCBhIHJlYWN0aXZlIGZvcm0gZGlyZWN0aXZlLiBJZiB5b3Ugc2V0IGRpc2FibGVkIHRvIHRydWVcbiAgd2hlbiB5b3Ugc2V0IHVwIHRoaXMgY29udHJvbCBpbiB5b3VyIGNvbXBvbmVudCBjbGFzcywgdGhlIGRpc2FibGVkIGF0dHJpYnV0ZSB3aWxsIGFjdHVhbGx5IGJlIHNldCBpbiB0aGUgRE9NIGZvclxuICB5b3UuIFdlIHJlY29tbWVuZCB1c2luZyB0aGlzIGFwcHJvYWNoIHRvIGF2b2lkICdjaGFuZ2VkIGFmdGVyIGNoZWNrZWQnIGVycm9ycy5cblxuICBFeGFtcGxlOlxuICBmb3JtID0gbmV3IEZvcm1Hcm91cCh7XG4gICAgZmlyc3Q6IG5ldyBGb3JtQ29udHJvbCh7dmFsdWU6ICdOYW5jeScsIGRpc2FibGVkOiB0cnVlfSwgVmFsaWRhdG9ycy5yZXF1aXJlZCksXG4gICAgbGFzdDogbmV3IEZvcm1Db250cm9sKCdEcmV3JywgVmFsaWRhdG9ycy5yZXF1aXJlZClcbiAgfSk7XG5gO1xuXG5leHBvcnQgZnVuY3Rpb24gbmdNb2RlbFdhcm5pbmcoZGlyZWN0aXZlTmFtZTogc3RyaW5nKTogc3RyaW5nIHtcbiAgcmV0dXJuIGBcbiAgSXQgbG9va3MgbGlrZSB5b3UncmUgdXNpbmcgbmdNb2RlbCBvbiB0aGUgc2FtZSBmb3JtIGZpZWxkIGFzICR7ZGlyZWN0aXZlTmFtZX0uXG4gIFN1cHBvcnQgZm9yIHVzaW5nIHRoZSBuZ01vZGVsIGlucHV0IHByb3BlcnR5IGFuZCBuZ01vZGVsQ2hhbmdlIGV2ZW50IHdpdGhcbiAgcmVhY3RpdmUgZm9ybSBkaXJlY3RpdmVzIGhhcyBiZWVuIGRlcHJlY2F0ZWQgaW4gQW5ndWxhciB2NiBhbmQgd2lsbCBiZSByZW1vdmVkXG4gIGluIGEgZnV0dXJlIHZlcnNpb24gb2YgQW5ndWxhci5cblxuICBGb3IgbW9yZSBpbmZvcm1hdGlvbiBvbiB0aGlzLCBzZWUgb3VyIEFQSSBkb2NzIGhlcmU6XG4gIGh0dHBzOi8vYW5ndWxhci5pby9hcGkvZm9ybXMvJHtcbiAgICAgIGRpcmVjdGl2ZU5hbWUgPT09ICdmb3JtQ29udHJvbCcgPyAnRm9ybUNvbnRyb2xEaXJlY3RpdmUnIDogJ0Zvcm1Db250cm9sTmFtZSd9I3VzZS13aXRoLW5nbW9kZWxcbiAgYDtcbn1cbiJdfQ==
