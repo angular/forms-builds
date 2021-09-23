@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.0.0-next.7+10.sha-cc427d1.with-local-changes
+ * @license Angular v13.0.0-next.7+11.sha-ea61ec2.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1160,7 +1160,7 @@
     function mergeValidators(controlValidators, dirValidator) {
         if (controlValidators === null)
             return [dirValidator];
-        return Array.isArray(controlValidators) ? __spreadArray(__spreadArray([], __read(controlValidators)), [dirValidator]) :
+        return Array.isArray(controlValidators) ? __spreadArray(__spreadArray([], __read(controlValidators), false), [dirValidator], false) :
             [controlValidators, dirValidator];
     }
     /**
@@ -1617,7 +1617,7 @@
     var NgControl = /** @class */ (function (_super) {
         __extends(NgControl, _super);
         function NgControl() {
-            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments), false)) || this;
             /**
              * @description
              * The parent form for the control.
@@ -1786,7 +1786,7 @@
     }
 
     function controlPath(name, parent) {
-        return __spreadArray(__spreadArray([], __read(parent.path)), [name]);
+        return __spreadArray(__spreadArray([], __read(parent.path), false), [name], false);
     }
     /**
      * Links a Form control and a Form directive by setting up callbacks (such as `onChange`) on both
@@ -6195,7 +6195,7 @@
     var SelectControlValueAccessor = /** @class */ (function (_super) {
         __extends(SelectControlValueAccessor, _super);
         function SelectControlValueAccessor() {
-            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments), false)) || this;
             /** @internal */
             _this._optionMap = new Map();
             /** @internal */
@@ -6418,7 +6418,7 @@
     var SelectMultipleControlValueAccessor = /** @class */ (function (_super) {
         __extends(SelectMultipleControlValueAccessor, _super);
         function SelectMultipleControlValueAccessor() {
-            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments), false)) || this;
             /** @internal */
             _this._optionMap = new Map();
             /** @internal */
@@ -6700,7 +6700,7 @@
     var MaxValidator = /** @class */ (function (_super) {
         __extends(MaxValidator, _super);
         function MaxValidator() {
-            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments), false)) || this;
             /** @internal */
             _this.inputName = 'max';
             /** @internal */
@@ -6763,7 +6763,7 @@
     var MinValidator = /** @class */ (function (_super) {
         __extends(MinValidator, _super);
         function MinValidator() {
-            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments), false)) || this;
             /** @internal */
             _this.inputName = 'min';
             /** @internal */
@@ -7475,7 +7475,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('13.0.0-next.7+10.sha-cc427d1.with-local-changes');
+    var VERSION = new i0.Version('13.0.0-next.7+11.sha-ea61ec2.with-local-changes');
 
     /**
      * @license
