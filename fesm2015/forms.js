@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.0.0-next.7+11.sha-ea61ec2.with-local-changes
+ * @license Angular v13.0.0-next.7+29.sha-d9d8f95.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6371,14 +6371,22 @@ class ɵNgSelectMultipleOption {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- * @description
  * Method that updates string to integer if not alread a number
  *
  * @param value The value to convert to integer
  * @returns value of parameter in number or integer.
  */
-function toNumber(value) {
+function toInteger(value) {
     return typeof value === 'number' ? value : parseInt(value, 10);
+}
+/**
+ * Method that ensures that provided value is a float (and converts it to float if needed).
+ *
+ * @param value The value to convert to float
+ * @returns value of parameter in number or float.
+ */
+function toFloat(value) {
+    return typeof value === 'number' ? value : parseFloat(value);
 }
 /**
  * A base class for Validator-based Directives. The class contains common logic shared across such
@@ -6397,7 +6405,7 @@ class AbstractValidatorDirective {
     handleChanges(changes) {
         if (this.inputName in changes) {
             const input = this.normalizeInput(changes[this.inputName].currentValue);
-            this._validator = this.createValidator(input);
+            this._validator = this.enabled() ? this.createValidator(input) : nullValidator;
             if (this._onChange) {
                 this._onChange();
             }
@@ -6410,6 +6418,17 @@ class AbstractValidatorDirective {
     /** @nodoc */
     registerOnValidatorChange(fn) {
         this._onChange = fn;
+    }
+    /**
+     * @description
+     * Determines whether this validator is active or not. Base class implementation
+     * checks whether an input is defined (if the value is different from `null` and `undefined`).
+     * Validator classes that extend this base class can override this function with the logic
+     * specific to a particular validator directive.
+     */
+    enabled() {
+        const inputValue = this[this.inputName];
+        return inputValue != null /* both `null` and `undefined` */;
     }
 }
 AbstractValidatorDirective.ɵfac = function AbstractValidatorDirective_Factory(t) { return new (t || AbstractValidatorDirective)(); };
@@ -6453,7 +6472,7 @@ class MaxValidator extends AbstractValidatorDirective {
         /** @internal */
         this.inputName = 'max';
         /** @internal */
-        this.normalizeInput = (input) => parseFloat(input);
+        this.normalizeInput = (input) => toFloat(input);
         /** @internal */
         this.createValidator = (max) => maxValidator(max);
     }
@@ -6469,15 +6488,14 @@ class MaxValidator extends AbstractValidatorDirective {
 }
 MaxValidator.ɵfac = /*@__PURE__*/ function () { let ɵMaxValidator_BaseFactory; return function MaxValidator_Factory(t) { return (ɵMaxValidator_BaseFactory || (ɵMaxValidator_BaseFactory = ɵɵgetInheritedFactory(MaxValidator)))(t || MaxValidator); }; }();
 MaxValidator.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: MaxValidator, selectors: [["input", "type", "number", "max", "", "formControlName", ""], ["input", "type", "number", "max", "", "formControl", ""], ["input", "type", "number", "max", "", "ngModel", ""]], hostVars: 1, hostBindings: function MaxValidator_HostBindings(rf, ctx) { if (rf & 2) {
-        let tmp_b_0;
-        ɵɵattribute("max", (tmp_b_0 = ctx.max) !== null && tmp_b_0 !== undefined ? tmp_b_0 : null);
+        ɵɵattribute("max", ctx.enabled() ? ctx.max : null);
     } }, inputs: { max: "max" }, features: [ɵɵProvidersFeature([MAX_VALIDATOR]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(MaxValidator, [{
         type: Directive,
         args: [{
                 selector: 'input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]',
                 providers: [MAX_VALIDATOR],
-                host: { '[attr.max]': 'max ?? null' }
+                host: { '[attr.max]': 'enabled() ? max : null' }
             }]
     }], null, { max: [{
             type: Input
@@ -6518,7 +6536,7 @@ class MinValidator extends AbstractValidatorDirective {
         /** @internal */
         this.inputName = 'min';
         /** @internal */
-        this.normalizeInput = (input) => parseFloat(input);
+        this.normalizeInput = (input) => toFloat(input);
         /** @internal */
         this.createValidator = (min) => minValidator(min);
     }
@@ -6534,15 +6552,14 @@ class MinValidator extends AbstractValidatorDirective {
 }
 MinValidator.ɵfac = /*@__PURE__*/ function () { let ɵMinValidator_BaseFactory; return function MinValidator_Factory(t) { return (ɵMinValidator_BaseFactory || (ɵMinValidator_BaseFactory = ɵɵgetInheritedFactory(MinValidator)))(t || MinValidator); }; }();
 MinValidator.ɵdir = /*@__PURE__*/ ɵɵdefineDirective({ type: MinValidator, selectors: [["input", "type", "number", "min", "", "formControlName", ""], ["input", "type", "number", "min", "", "formControl", ""], ["input", "type", "number", "min", "", "ngModel", ""]], hostVars: 1, hostBindings: function MinValidator_HostBindings(rf, ctx) { if (rf & 2) {
-        let tmp_b_0;
-        ɵɵattribute("min", (tmp_b_0 = ctx.min) !== null && tmp_b_0 !== undefined ? tmp_b_0 : null);
+        ɵɵattribute("min", ctx.enabled() ? ctx.min : null);
     } }, inputs: { min: "min" }, features: [ɵɵProvidersFeature([MIN_VALIDATOR]), ɵɵInheritDefinitionFeature, ɵɵNgOnChangesFeature] });
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && ɵsetClassMetadata(MinValidator, [{
         type: Directive,
         args: [{
                 selector: 'input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]',
                 providers: [MIN_VALIDATOR],
-                host: { '[attr.min]': 'min ?? null' }
+                host: { '[attr.min]': 'enabled() ? min : null' }
             }]
     }], null, { min: [{
             type: Input
@@ -6804,7 +6821,7 @@ class MinLengthValidator {
     }
     _createValidator() {
         this._validator =
-            this.enabled() ? minLengthValidator(toNumber(this.minlength)) : nullValidator;
+            this.enabled() ? minLengthValidator(toInteger(this.minlength)) : nullValidator;
     }
     /** @nodoc */
     enabled() {
@@ -6883,7 +6900,7 @@ class MaxLengthValidator {
     }
     _createValidator() {
         this._validator =
-            this.enabled() ? maxLengthValidator(toNumber(this.maxlength)) : nullValidator;
+            this.enabled() ? maxLengthValidator(toInteger(this.maxlength)) : nullValidator;
     }
     /** @nodoc */
     enabled() {
@@ -7274,7 +7291,7 @@ FormBuilder.ɵprov = /*@__PURE__*/ ɵɵdefineInjectable({ token: FormBuilder, fa
 /**
  * @publicApi
  */
-const VERSION = new Version('13.0.0-next.7+11.sha-ea61ec2.with-local-changes');
+const VERSION = new Version('13.0.0-next.7+29.sha-d9d8f95.with-local-changes');
 
 /**
  * @license
