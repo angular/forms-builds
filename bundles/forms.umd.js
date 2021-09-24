@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.0.0-next.7+11.sha-ea61ec2.with-local-changes
+ * @license Angular v13.0.0-next.7+29.sha-d9d8f95.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -6622,14 +6622,22 @@
     };
 
     /**
-     * @description
      * Method that updates string to integer if not alread a number
      *
      * @param value The value to convert to integer
      * @returns value of parameter in number or integer.
      */
-    function toNumber(value) {
+    function toInteger(value) {
         return typeof value === 'number' ? value : parseInt(value, 10);
+    }
+    /**
+     * Method that ensures that provided value is a float (and converts it to float if needed).
+     *
+     * @param value The value to convert to float
+     * @returns value of parameter in number or float.
+     */
+    function toFloat(value) {
+        return typeof value === 'number' ? value : parseFloat(value);
     }
     /**
      * A base class for Validator-based Directives. The class contains common logic shared across such
@@ -6648,7 +6656,7 @@
         AbstractValidatorDirective.prototype.handleChanges = function (changes) {
             if (this.inputName in changes) {
                 var input = this.normalizeInput(changes[this.inputName].currentValue);
-                this._validator = this.createValidator(input);
+                this._validator = this.enabled() ? this.createValidator(input) : nullValidator;
                 if (this._onChange) {
                     this._onChange();
                 }
@@ -6661,6 +6669,17 @@
         /** @nodoc */
         AbstractValidatorDirective.prototype.registerOnValidatorChange = function (fn) {
             this._onChange = fn;
+        };
+        /**
+         * @description
+         * Determines whether this validator is active or not. Base class implementation
+         * checks whether an input is defined (if the value is different from `null` and `undefined`).
+         * Validator classes that extend this base class can override this function with the logic
+         * specific to a particular validator directive.
+         */
+        AbstractValidatorDirective.prototype.enabled = function () {
+            var inputValue = this[this.inputName];
+            return inputValue != null /* both `null` and `undefined` */;
         };
         return AbstractValidatorDirective;
     }());
@@ -6704,7 +6723,7 @@
             /** @internal */
             _this.inputName = 'max';
             /** @internal */
-            _this.normalizeInput = function (input) { return parseFloat(input); };
+            _this.normalizeInput = function (input) { return toFloat(input); };
             /** @internal */
             _this.createValidator = function (max) { return maxValidator(max); };
             return _this;
@@ -6724,7 +6743,7 @@
         { type: i0.Directive, args: [{
                     selector: 'input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]',
                     providers: [MAX_VALIDATOR],
-                    host: { '[attr.max]': 'max ?? null' }
+                    host: { '[attr.max]': 'enabled() ? max : null' }
                 },] }
     ];
     MaxValidator.propDecorators = {
@@ -6767,7 +6786,7 @@
             /** @internal */
             _this.inputName = 'min';
             /** @internal */
-            _this.normalizeInput = function (input) { return parseFloat(input); };
+            _this.normalizeInput = function (input) { return toFloat(input); };
             /** @internal */
             _this.createValidator = function (min) { return minValidator(min); };
             return _this;
@@ -6787,7 +6806,7 @@
         { type: i0.Directive, args: [{
                     selector: 'input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]',
                     providers: [MIN_VALIDATOR],
-                    host: { '[attr.min]': 'min ?? null' }
+                    host: { '[attr.min]': 'enabled() ? min : null' }
                 },] }
     ];
     MinValidator.propDecorators = {
@@ -7054,7 +7073,7 @@
         };
         MinLengthValidator.prototype._createValidator = function () {
             this._validator =
-                this.enabled() ? minLengthValidator(toNumber(this.minlength)) : nullValidator;
+                this.enabled() ? minLengthValidator(toInteger(this.minlength)) : nullValidator;
         };
         /** @nodoc */
         MinLengthValidator.prototype.enabled = function () {
@@ -7130,7 +7149,7 @@
         };
         MaxLengthValidator.prototype._createValidator = function () {
             this._validator =
-                this.enabled() ? maxLengthValidator(toNumber(this.maxlength)) : nullValidator;
+                this.enabled() ? maxLengthValidator(toInteger(this.maxlength)) : nullValidator;
         };
         /** @nodoc */
         MaxLengthValidator.prototype.enabled = function () {
@@ -7475,7 +7494,7 @@
     /**
      * @publicApi
      */
-    var VERSION = new i0.Version('13.0.0-next.7+11.sha-ea61ec2.with-local-changes');
+    var VERSION = new i0.Version('13.0.0-next.7+29.sha-d9d8f95.with-local-changes');
 
     /**
      * @license

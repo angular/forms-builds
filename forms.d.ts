@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.0.0-next.7+11.sha-ea61ec2.with-local-changes
+ * @license Angular v13.0.0-next.7+29.sha-d9d8f95.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -859,6 +859,14 @@ declare abstract class AbstractValidatorDirective implements Validator {
     validate(control: AbstractControl): ValidationErrors | null;
     /** @nodoc */
     registerOnValidatorChange(fn: () => void): void;
+    /**
+     * @description
+     * Determines whether this validator is active or not. Base class implementation
+     * checks whether an input is defined (if the value is different from `null` and `undefined`).
+     * Validator classes that extend this base class can override this function with the logic
+     * specific to a particular validator directive.
+     */
+    enabled(): boolean;
 }
 
 declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending' | 'submitted';
@@ -2766,7 +2774,7 @@ export declare class MaxValidator extends AbstractValidatorDirective implements 
      * @description
      * Tracks changes to the max bound to this directive.
      */
-    max: string | number;
+    max: string | number | null;
     /**
      * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
      * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
@@ -2849,7 +2857,7 @@ export declare class MinValidator extends AbstractValidatorDirective implements 
      * @description
      * Tracks changes to the min bound to this directive.
      */
-    min: string | number;
+    min: string | number | null;
     /**
      * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
      * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
