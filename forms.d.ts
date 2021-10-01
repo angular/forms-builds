@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.0.0-next.9+10.sha-9eba260.with-local-changes
+ * @license Angular v13.0.0-next.9+84.sha-c15b8c7.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -7,6 +7,7 @@
 import { AfterViewInit } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import * as i0 from '@angular/core';
 import { InjectionToken } from '@angular/core';
 import { Injector } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
@@ -813,6 +814,12 @@ export declare interface AbstractControlOptions {
     updateOn?: 'change' | 'blur' | 'submit';
 }
 
+declare class AbstractControlStatus {
+    private _cd;
+    constructor(cd: AbstractControlDirective | null);
+    is(status: AnyControlStatus): boolean;
+}
+
 /**
  * @description
  * A base class for code shared between the `NgModelGroup` and `FormGroupName` directives.
@@ -839,6 +846,8 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): Form | null;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AbstractFormGroupDirective, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractFormGroupDirective, never, never, {}, {}, never>;
 }
 
 /**
@@ -867,6 +876,8 @@ declare abstract class AbstractValidatorDirective implements Validator {
      * specific to a particular validator directive.
      */
     enabled(): boolean;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AbstractValidatorDirective, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractValidatorDirective, never, never, {}, {}, never>;
 }
 
 declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending' | 'submitted';
@@ -924,6 +935,75 @@ export declare interface AsyncValidatorFn {
 }
 
 /**
+ * Base class for all ControlValueAccessor classes defined in Forms package.
+ * Contains common logic and utility functions.
+ *
+ * Note: this is an *internal-only* class and should not be extended or used directly in
+ * applications code.
+ */
+declare class BaseControlValueAccessor {
+    private _renderer;
+    private _elementRef;
+    /**
+     * The registered callback function called when a change or input event occurs on the input
+     * element.
+     * @nodoc
+     */
+    onChange: (_: any) => void;
+    /**
+     * The registered callback function called when a blur event occurs on the input element.
+     * @nodoc
+     */
+    onTouched: () => void;
+    constructor(_renderer: Renderer2, _elementRef: ElementRef);
+    /**
+     * Helper method that sets a property on a target element using the current Renderer
+     * implementation.
+     * @nodoc
+     */
+    protected setProperty(key: string, value: any): void;
+    /**
+     * Registers a function called when the control is touched.
+     * @nodoc
+     */
+    registerOnTouched(fn: () => void): void;
+    /**
+     * Registers a function called when the control value changes.
+     * @nodoc
+     */
+    registerOnChange(fn: (_: any) => {}): void;
+    /**
+     * Sets the "disabled" property on the range input element.
+     * @nodoc
+     */
+    setDisabledState(isDisabled: boolean): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<BaseControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<BaseControlValueAccessor, never, never, {}, {}, never>;
+}
+
+/**
+ * Base class for all built-in ControlValueAccessor classes (except DefaultValueAccessor, which is
+ * used in case no other CVAs can be found). We use this class to distinguish between default CVA,
+ * built-in CVAs and custom CVAs, so that Forms logic can recognize built-in CVAs and treat custom
+ * ones with higher priority (when both built-in and custom CVAs are present).
+ *
+ * Note: this is an *internal-only* class and should not be extended or used directly in
+ * applications code.
+ */
+declare class BuiltInControlValueAccessor extends BaseControlValueAccessor {
+    static ɵfac: i0.ɵɵFactoryDeclaration<BuiltInControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<BuiltInControlValueAccessor, never, never, {}, {}, never>;
+}
+
+/**
+ * @description
+ * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+declare const CHECKBOX_REQUIRED_VALIDATOR: StaticProvider;
+
+declare const CHECKBOX_VALUE_ACCESSOR: any;
+
+/**
  * @description
  * A `ControlValueAccessor` for writing a value and listening to changes on a checkbox input
  * element.
@@ -946,12 +1026,14 @@ export declare interface AsyncValidatorFn {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class CheckboxControlValueAccessor extends ɵangular_packages_forms_forms_g implements ControlValueAccessor {
+export declare class CheckboxControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /**
      * Sets the "checked" property on the input element.
      * @nodoc
      */
     writeValue(value: any): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CheckboxControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CheckboxControlValueAccessor, "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", never, {}, {}, never>;
 }
 
 /**
@@ -982,6 +1064,8 @@ export declare class CheckboxRequiredValidator extends RequiredValidator {
      * @nodoc
      */
     validate(control: AbstractControl): ValidationErrors | null;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CheckboxRequiredValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CheckboxRequiredValidator, "input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]", never, {}, {}, never>;
 }
 
 /**
@@ -1016,6 +1100,8 @@ export declare abstract class ControlContainer extends AbstractControlDirective 
      */
     get path(): string[] | null;
 }
+
+declare const controlNameBinding: any;
 
 /**
  * @description
@@ -1137,6 +1223,8 @@ export declare interface ControlValueAccessor {
     setDisabledState?(isDisabled: boolean): void;
 }
 
+declare const DEFAULT_VALUE_ACCESSOR: any;
+
 /**
  * The default `ControlValueAccessor` for writing a value and listening to changes on input
  * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
@@ -1172,7 +1260,7 @@ export declare interface ControlValueAccessor {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class DefaultValueAccessor extends ɵangular_packages_forms_forms_f implements ControlValueAccessor {
+export declare class DefaultValueAccessor extends BaseControlValueAccessor implements ControlValueAccessor {
     private _compositionMode;
     /** Whether the user is creating a composition string (IME events). */
     private _composing;
@@ -1182,7 +1270,15 @@ export declare class DefaultValueAccessor extends ɵangular_packages_forms_forms
      * @nodoc
      */
     writeValue(value: any): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<DefaultValueAccessor, [null, null, { optional: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<DefaultValueAccessor, "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]", never, {}, {}, never>;
 }
+
+/**
+ * @description
+ * Provider which adds `EmailValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+declare const EMAIL_VALIDATOR: any;
 
 /**
  * A directive that adds the `email` validator to controls marked with the
@@ -1226,6 +1322,8 @@ export declare class EmailValidator implements Validator {
      * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<EmailValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { "email": "email"; }, {}, never>;
 }
 
 /**
@@ -1671,7 +1769,11 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      */
     get path(): string[];
     private _checkParentType;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormArrayName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormArrayName, "[formArrayName]", never, { "name": "formArrayName"; }, {}, never>;
 }
+
+declare const formArrayNameProvider: any;
 
 /**
  * @description
@@ -1770,6 +1872,8 @@ export declare class FormBuilder {
      * functions.
      */
     array(controlsConfig: any[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormBuilder, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<FormBuilder>;
 }
 
 /**
@@ -1965,6 +2069,10 @@ export declare class FormControl extends AbstractControl {
     private _applyFormState;
 }
 
+declare const formControlBinding: any;
+
+declare const formControlBinding_2: any;
+
 /**
  * @description
  * Synchronizes a standalone `FormControl` instance to a form control element.
@@ -2032,6 +2140,8 @@ export declare class FormControlDirective extends NgControl implements OnChanges
      */
     viewToModelUpdate(newValue: any): void;
     private _isControlChanged;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormControlDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormControlDirective, "[formControl]", ["ngForm"], { "form": "formControl"; "isDisabled": "disabled"; "model": "ngModel"; }, { "update": "ngModelChange"; }, never>;
 }
 
 /**
@@ -2120,6 +2230,8 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     get formDirective(): any;
     private _checkParentType;
     private _setUpControl;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormControlName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormControlName, "[formControlName]", never, { "name": "formControlName"; "isDisabled": "disabled"; "model": "ngModel"; }, { "update": "ngModelChange"; }, never>;
 }
 
 /**
@@ -2138,6 +2250,10 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
  * @publicApi
  */
 declare type FormControlStatus = 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED';
+
+declare const formDirectiveProvider: any;
+
+declare const formDirectiveProvider_2: any;
 
 /**
  * Tracks the value and validity state of a group of `FormControl` instances.
@@ -2622,6 +2738,8 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     private _updateRegistrations;
     private _updateValidators;
     private _checkFormPresent;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormGroupDirective, [{ optional: true; self: true; }, { optional: true; self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormGroupDirective, "[formGroup]", ["ngForm"], { "form": "formGroup"; }, { "ngSubmit": "ngSubmit"; }, never>;
 }
 
 /**
@@ -2683,7 +2801,11 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
      */
     name: string | number | null;
     constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormGroupName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormGroupName, "[formGroupName]", never, { "name": "formGroupName"; }, {}, never>;
 }
+
+declare const formGroupNameProvider: any;
 
 declare type FormHooks = 'change' | 'blur' | 'submit';
 
@@ -2700,7 +2822,204 @@ declare type FormHooks = 'change' | 'blur' | 'submit';
  * @publicApi
  */
 export declare class FormsModule {
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormsModule, never>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<FormsModule, [typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm], never, [typeof i4_2.ɵInternalFormsSharedModule, typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm]>;
+    static ɵinj: i0.ɵɵInjectorDeclaration<FormsModule>;
 }
+
+declare namespace i1 {
+    export {
+        ɵNgNoValidate,
+        ɵNgNoValidate as NgNoValidate
+    }
+}
+
+declare namespace i10 {
+    export {
+        ValidationErrors,
+        Validator,
+        MAX_VALIDATOR,
+        MaxValidator,
+        MIN_VALIDATOR,
+        MinValidator,
+        AsyncValidator,
+        REQUIRED_VALIDATOR,
+        CHECKBOX_REQUIRED_VALIDATOR,
+        RequiredValidator,
+        CheckboxRequiredValidator,
+        EMAIL_VALIDATOR,
+        EmailValidator,
+        ValidatorFn,
+        AsyncValidatorFn,
+        MIN_LENGTH_VALIDATOR,
+        MinLengthValidator,
+        MAX_LENGTH_VALIDATOR,
+        MaxLengthValidator,
+        PATTERN_VALIDATOR,
+        PatternValidator
+    }
+}
+
+declare namespace i1_2 {
+    export {
+        formControlBinding,
+        NgModel
+    }
+}
+
+declare namespace i2 {
+    export {
+        SELECT_VALUE_ACCESSOR,
+        SelectControlValueAccessor,
+        NgSelectOption
+    }
+}
+
+declare namespace i2_2 {
+    export {
+        modelGroupProvider,
+        NgModelGroup
+    }
+}
+
+declare namespace i3 {
+    export {
+        SELECT_MULTIPLE_VALUE_ACCESSOR,
+        SelectMultipleControlValueAccessor,
+        ɵNgSelectMultipleOption,
+        ɵNgSelectMultipleOption as NgSelectMultipleOption
+    }
+}
+
+declare namespace i3_2 {
+    export {
+        formDirectiveProvider,
+        NgForm
+    }
+}
+
+declare namespace i4 {
+    export {
+        DEFAULT_VALUE_ACCESSOR,
+        COMPOSITION_BUFFER_MODE,
+        DefaultValueAccessor
+    }
+}
+
+declare namespace i4_2 {
+    export {
+        CheckboxControlValueAccessor,
+        ControlValueAccessor,
+        DefaultValueAccessor,
+        NgControl,
+        NgControlStatus,
+        NgControlStatusGroup,
+        NgForm,
+        NgModel,
+        NgModelGroup,
+        NumberValueAccessor,
+        RadioControlValueAccessor,
+        RangeValueAccessor,
+        FormControlDirective,
+        NG_MODEL_WITH_FORM_CONTROL_WARNING,
+        FormControlName,
+        FormGroupDirective,
+        FormArrayName,
+        FormGroupName,
+        NgSelectOption,
+        SelectControlValueAccessor,
+        ɵNgSelectMultipleOption as NgSelectMultipleOption,
+        SelectMultipleControlValueAccessor,
+        SHARED_FORM_DIRECTIVES,
+        TEMPLATE_DRIVEN_DIRECTIVES,
+        REACTIVE_DRIVEN_DIRECTIVES,
+        ɵInternalFormsSharedModule,
+        ɵInternalFormsSharedModule as InternalFormsSharedModule
+    }
+}
+
+declare namespace i5 {
+    export {
+        NUMBER_VALUE_ACCESSOR,
+        NumberValueAccessor
+    }
+}
+
+declare namespace i5_2 {
+    export {
+        NG_MODEL_WITH_FORM_CONTROL_WARNING,
+        formControlBinding_2 as formControlBinding,
+        FormControlDirective
+    }
+}
+
+declare namespace i6 {
+    export {
+        RANGE_VALUE_ACCESSOR,
+        RangeValueAccessor
+    }
+}
+
+declare namespace i6_2 {
+    export {
+        formDirectiveProvider_2 as formDirectiveProvider,
+        FormGroupDirective
+    }
+}
+
+declare namespace i7 {
+    export {
+        CHECKBOX_VALUE_ACCESSOR,
+        CheckboxControlValueAccessor
+    }
+}
+
+declare namespace i7_2 {
+    export {
+        controlNameBinding,
+        FormControlName
+    }
+}
+
+declare namespace i8 {
+    export {
+        RADIO_VALUE_ACCESSOR,
+        RadioControlRegistryModule,
+        RadioControlRegistry,
+        RadioControlValueAccessor
+    }
+}
+
+declare namespace i8_2 {
+    export {
+        formGroupNameProvider,
+        FormGroupName,
+        formArrayNameProvider,
+        FormArrayName
+    }
+}
+
+declare namespace i9 {
+    export {
+        AbstractControlStatus,
+        ngControlStatusHost,
+        ngGroupStatusHost,
+        NgControlStatus,
+        NgControlStatusGroup
+    }
+}
+
+/**
+ * @description
+ * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+declare const MAX_LENGTH_VALIDATOR: any;
+
+/**
+ * @description
+ * Provider which adds `MaxValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+declare const MAX_VALIDATOR: StaticProvider;
 
 /**
  * A directive that adds max length validation to controls marked with the
@@ -2746,6 +3065,8 @@ export declare class MaxLengthValidator implements Validator, OnChanges {
     private _createValidator;
     /** @nodoc */
     enabled(): boolean;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MaxLengthValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { "maxlength": "maxlength"; }, {}, never>;
 }
 
 /**
@@ -2782,7 +3103,21 @@ export declare class MaxValidator extends AbstractValidatorDirective implements 
      * @nodoc
      */
     ngOnChanges(changes: SimpleChanges): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MaxValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MaxValidator, "input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]", never, { "max": "max"; }, {}, never>;
 }
+
+/**
+ * @description
+ * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+declare const MIN_LENGTH_VALIDATOR: any;
+
+/**
+ * @description
+ * Provider which adds `MinValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+declare const MIN_VALIDATOR: StaticProvider;
 
 /**
  * A directive that adds minimum length validation to controls marked with the
@@ -2829,6 +3164,8 @@ export declare class MinLengthValidator implements Validator, OnChanges {
     private _createValidator;
     /** @nodoc */
     enabled(): boolean;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MinLengthValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { "minlength": "minlength"; }, {}, never>;
 }
 
 /**
@@ -2865,7 +3202,11 @@ export declare class MinValidator extends AbstractValidatorDirective implements 
      * @nodoc
      */
     ngOnChanges(changes: SimpleChanges): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MinValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MinValidator, "input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]", never, { "min": "min"; }, {}, never>;
 }
+
+declare const modelGroupProvider: any;
 
 /**
  * @description
@@ -2877,6 +3218,11 @@ export declare class MinValidator extends AbstractValidatorDirective implements 
  * @publicApi
  */
 export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[]>;
+
+/**
+ * Token to provide to turn off the ngModel warning on formControl and formControlName.
+ */
+declare const NG_MODEL_WITH_FORM_CONTROL_WARNING: InjectionToken<unknown>;
 
 /**
  * @description
@@ -2967,8 +3313,10 @@ export declare abstract class NgControl extends AbstractControlDirective {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class NgControlStatus extends ɵangular_packages_forms_forms_i {
+export declare class NgControlStatus extends AbstractControlStatus {
     constructor(cd: NgControl);
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgControlStatus, [{ self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgControlStatus, "[formControlName],[ngModel],[formControl]", never, {}, {}, never>;
 }
 
 /**
@@ -2983,9 +3331,21 @@ export declare class NgControlStatus extends ɵangular_packages_forms_forms_i {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class NgControlStatusGroup extends ɵangular_packages_forms_forms_i {
+export declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgControlStatusGroup, [{ optional: true; self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgControlStatusGroup, "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", never, {}, {}, never>;
 }
+
+declare const ngControlStatusHost: {
+    '[class.ng-untouched]': string;
+    '[class.ng-touched]': string;
+    '[class.ng-pristine]': string;
+    '[class.ng-dirty]': string;
+    '[class.ng-valid]': string;
+    '[class.ng-invalid]': string;
+    '[class.ng-pending]': string;
+};
 
 /**
  * @description
@@ -3186,7 +3546,20 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
      */
     resetForm(value?: any): void;
     private _setUpdateStrategy;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgForm, [{ optional: true; self: true; }, { optional: true; self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgForm, "form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]", ["ngForm"], { "options": "ngFormOptions"; }, { "ngSubmit": "ngSubmit"; }, never>;
 }
+
+declare const ngGroupStatusHost: {
+    '[class.ng-untouched]': string;
+    '[class.ng-touched]': string;
+    '[class.ng-pristine]': string;
+    '[class.ng-dirty]': string;
+    '[class.ng-valid]': string;
+    '[class.ng-invalid]': string;
+    '[class.ng-pending]': string;
+    '[class.ng-submitted]': string;
+};
 
 /**
  * @description
@@ -3357,6 +3730,8 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _checkName;
     private _updateValue;
     private _updateDisabled;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgModel, [{ optional: true; host: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgModel, "[ngModel]:not([formControlName]):not([formControl])", ["ngModel"], { "name": "name"; "isDisabled": "disabled"; "model": "ngModel"; "options": "ngModelOptions"; }, { "update": "ngModelChange"; }, never>;
 }
 
 /**
@@ -3393,6 +3768,8 @@ export declare class NgModelGroup extends AbstractFormGroupDirective implements 
      */
     name: string;
     constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgModelGroup, [{ host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgModelGroup, "[ngModelGroup]", ["ngModelGroup"], { "name": "ngModelGroup"; }, {}, never>;
 }
 
 /**
@@ -3429,7 +3806,11 @@ export declare class NgSelectOption implements OnDestroy {
     set value(value: any);
     /** @nodoc */
     ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgSelectOption, [null, null, { optional: true; host: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgSelectOption, "option", never, { "ngValue": "ngValue"; "value": "value"; }, {}, never>;
 }
+
+declare const NUMBER_VALUE_ACCESSOR: any;
 
 /**
  * @description
@@ -3455,7 +3836,7 @@ export declare class NgSelectOption implements OnDestroy {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class NumberValueAccessor extends ɵangular_packages_forms_forms_g implements ControlValueAccessor {
+export declare class NumberValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /**
      * Sets the "value" property on the input element.
      * @nodoc
@@ -3466,7 +3847,15 @@ export declare class NumberValueAccessor extends ɵangular_packages_forms_forms_
      * @nodoc
      */
     registerOnChange(fn: (_: number | null) => void): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NumberValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NumberValueAccessor, "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", never, {}, {}, never>;
 }
+
+/**
+ * @description
+ * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+declare const PATTERN_VALIDATOR: any;
 
 /**
  * @description
@@ -3512,6 +3901,48 @@ export declare class PatternValidator implements Validator, OnChanges {
      */
     registerOnValidatorChange(fn: () => void): void;
     private _createValidator;
+    static ɵfac: i0.ɵɵFactoryDeclaration<PatternValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { "pattern": "pattern"; }, {}, never>;
+}
+
+declare const RADIO_VALUE_ACCESSOR: any;
+
+/**
+ * @description
+ * Class used by Angular to track radio buttons. For internal use only.
+ */
+declare class RadioControlRegistry {
+    private _accessors;
+    /**
+     * @description
+     * Adds a control to the internal registry. For internal use only.
+     */
+    add(control: NgControl, accessor: RadioControlValueAccessor): void;
+    /**
+     * @description
+     * Removes a control from the internal registry. For internal use only.
+     */
+    remove(accessor: RadioControlValueAccessor): void;
+    /**
+     * @description
+     * Selects a radio button. For internal use only.
+     */
+    select(accessor: RadioControlValueAccessor): void;
+    private _isSameGroup;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlRegistry, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<RadioControlRegistry>;
+}
+
+/**
+ * Internal-only NgModule that works as a host for the `RadioControlRegistry` tree-shakable
+ * provider. Note: the `InternalFormsSharedModule` can not be used here directly, since it's
+ * declared *after* the `RadioControlRegistry` class and the `providedIn` doesn't support
+ * `forwardRef` logic.
+ */
+declare class RadioControlRegistryModule {
+    static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlRegistryModule, never>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<RadioControlRegistryModule, never, never, never>;
+    static ɵinj: i0.ɵɵInjectorDeclaration<RadioControlRegistryModule>;
 }
 
 /**
@@ -3534,7 +3965,7 @@ export declare class PatternValidator implements Validator, OnChanges {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class RadioControlValueAccessor extends ɵangular_packages_forms_forms_g implements ControlValueAccessor, OnDestroy, OnInit {
+export declare class RadioControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
     private _registry;
     private _injector;
     /**
@@ -3561,7 +3992,7 @@ export declare class RadioControlValueAccessor extends ɵangular_packages_forms_
      * Tracks the value of the radio input element
      */
     value: any;
-    constructor(renderer: Renderer2, elementRef: ElementRef, _registry: ɵangular_packages_forms_forms_r, _injector: Injector);
+    constructor(renderer: Renderer2, elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
     /** @nodoc */
     ngOnInit(): void;
     /** @nodoc */
@@ -3583,7 +4014,11 @@ export declare class RadioControlValueAccessor extends ɵangular_packages_forms_
      */
     fireUncheck(value: any): void;
     private _checkName;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RadioControlValueAccessor, "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", never, { "name": "name"; "formControlName": "formControlName"; "value": "value"; }, {}, never>;
 }
+
+declare const RANGE_VALUE_ACCESSOR: StaticProvider;
 
 /**
  * @description
@@ -3609,7 +4044,7 @@ export declare class RadioControlValueAccessor extends ɵangular_packages_forms_
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class RangeValueAccessor extends ɵangular_packages_forms_forms_g implements ControlValueAccessor {
+export declare class RangeValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /**
      * Sets the "value" property on the input element.
      * @nodoc
@@ -3620,7 +4055,11 @@ export declare class RangeValueAccessor extends ɵangular_packages_forms_forms_g
      * @nodoc
      */
     registerOnChange(fn: (_: number | null) => void): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RangeValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RangeValueAccessor, "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", never, {}, {}, never>;
 }
+
+declare const REACTIVE_DRIVEN_DIRECTIVES: Type<any>[];
 
 /**
  * Exports the required infrastructure and directives for reactive forms,
@@ -3647,7 +4086,16 @@ export declare class ReactiveFormsModule {
     static withConfig(opts: {
         /** @deprecated as of v6 */ warnOnNgModelWithFormControl: 'never' | 'once' | 'always';
     }): ModuleWithProviders<ReactiveFormsModule>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ReactiveFormsModule, never>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<ReactiveFormsModule, [typeof i5_2.FormControlDirective, typeof i6_2.FormGroupDirective, typeof i7_2.FormControlName, typeof i8_2.FormGroupName, typeof i8_2.FormArrayName], never, [typeof i4_2.ɵInternalFormsSharedModule, typeof i5_2.FormControlDirective, typeof i6_2.FormGroupDirective, typeof i7_2.FormControlName, typeof i8_2.FormGroupName, typeof i8_2.FormArrayName]>;
+    static ɵinj: i0.ɵɵInjectorDeclaration<ReactiveFormsModule>;
 }
+
+/**
+ * @description
+ * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
+ */
+declare const REQUIRED_VALIDATOR: StaticProvider;
 
 /**
  * @description
@@ -3688,7 +4136,13 @@ export declare class RequiredValidator implements Validator {
      * @nodoc
      */
     registerOnValidatorChange(fn: () => void): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RequiredValidator, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { "required": "required"; }, {}, never>;
 }
+
+declare const SELECT_MULTIPLE_VALUE_ACCESSOR: StaticProvider;
+
+declare const SELECT_VALUE_ACCESSOR: StaticProvider;
 
 /**
  * @description
@@ -3746,7 +4200,7 @@ export declare class RequiredValidator implements Validator {
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class SelectControlValueAccessor extends ɵangular_packages_forms_forms_g implements ControlValueAccessor {
+export declare class SelectControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /** @nodoc */
     value: any;
     /**
@@ -3767,6 +4221,8 @@ export declare class SelectControlValueAccessor extends ɵangular_packages_forms
      * @nodoc
      */
     registerOnChange(fn: (value: any) => any): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<SelectControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<SelectControlValueAccessor, "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", never, { "compareWith": "compareWith"; }, {}, never>;
 }
 
 /**
@@ -3804,7 +4260,7 @@ export declare class SelectControlValueAccessor extends ɵangular_packages_forms
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class SelectMultipleControlValueAccessor extends ɵangular_packages_forms_forms_g implements ControlValueAccessor {
+export declare class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /**
      * The current value.
      * @nodoc
@@ -3828,7 +4284,13 @@ export declare class SelectMultipleControlValueAccessor extends ɵangular_packag
      * @nodoc
      */
     registerOnChange(fn: (value: any) => any): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<SelectMultipleControlValueAccessor, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<SelectMultipleControlValueAccessor, "select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]", never, { "compareWith": "compareWith"; }, {}, never>;
 }
+
+declare const SHARED_FORM_DIRECTIVES: Type<any>[];
+
+declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
 
 /**
  * @description
@@ -4179,274 +4641,14 @@ export declare class Validators {
  */
 export declare const VERSION: Version;
 
-export declare const ɵangular_packages_forms_forms_a: Type<any>[];
-
-export declare const ɵangular_packages_forms_forms_b: Type<any>[];
-
-export declare const ɵangular_packages_forms_forms_ba: StaticProvider;
-
-/**
- * @description
- * Provider which adds `MaxValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bd: StaticProvider;
-
-/**
- * @description
- * Provider which adds `MinValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_be: StaticProvider;
-
-/**
- * @description
- * Provider which adds `RequiredValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bf: StaticProvider;
-
-/**
- * @description
- * Provider which adds `CheckboxRequiredValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bg: StaticProvider;
-
-/**
- * @description
- * Provider which adds `EmailValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bh: any;
-
-/**
- * @description
- * Provider which adds `MinLengthValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bi: any;
-
-/**
- * @description
- * Provider which adds `MaxLengthValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bj: any;
-
-/**
- * @description
- * Provider which adds `PatternValidator` to the `NG_VALIDATORS` multi-provider list.
- */
-export declare const ɵangular_packages_forms_forms_bk: any;
-
-/**
- * Validator that requires the control's value to be greater than or equal to the provided number.
- * See `Validators.min` for additional information.
- */
-export declare function ɵangular_packages_forms_forms_bl(min: number): ValidatorFn;
-
-/**
- * Validator that requires the control's value to be less than or equal to the provided number.
- * See `Validators.max` for additional information.
- */
-export declare function ɵangular_packages_forms_forms_bm(max: number): ValidatorFn;
-
-/**
- * Validator that requires the control have a non-empty value.
- * See `Validators.required` for additional information.
- */
-export declare function ɵangular_packages_forms_forms_bn(control: AbstractControl): ValidationErrors | null;
-
-/**
- * Validator that requires the control's value be true. This validator is commonly
- * used for required checkboxes.
- * See `Validators.requiredTrue` for additional information.
- */
-export declare function ɵangular_packages_forms_forms_bo(control: AbstractControl): ValidationErrors | null;
-
-/**
- * Validator that requires the control's value pass an email validation test.
- * See `Validators.email` for additional information.
- */
-export declare function ɵangular_packages_forms_forms_bp(control: AbstractControl): ValidationErrors | null;
-
-/**
- * Validator that requires the length of the control's value to be greater than or equal
- * to the provided minimum length. See `Validators.minLength` for additional information.
- */
-export declare function ɵangular_packages_forms_forms_bq(minLength: number): ValidatorFn;
-
-/**
- * Validator that requires the length of the control's value to be less than or equal
- * to the provided maximum length. See `Validators.maxLength` for additional information.
- */
-export declare function ɵangular_packages_forms_forms_br(maxLength: number): ValidatorFn;
-
-/**
- * Validator that requires the control's value to match a regex pattern.
- * See `Validators.pattern` for additional information.
- */
-export declare function ɵangular_packages_forms_forms_bs(pattern: string | RegExp): ValidatorFn;
-
-/**
- * Function that has `ValidatorFn` shape, but performs no operation.
- */
-export declare function ɵangular_packages_forms_forms_bt(control: AbstractControl): ValidationErrors | null;
-
-export declare const ɵangular_packages_forms_forms_c: Type<any>[];
-
-export declare const ɵangular_packages_forms_forms_e: any;
-
-/**
- * Base class for all ControlValueAccessor classes defined in Forms package.
- * Contains common logic and utility functions.
- *
- * Note: this is an *internal-only* class and should not be extended or used directly in
- * applications code.
- */
-export declare class ɵangular_packages_forms_forms_f {
-    private _renderer;
-    private _elementRef;
-    /**
-     * The registered callback function called when a change or input event occurs on the input
-     * element.
-     * @nodoc
-     */
-    onChange: (_: any) => void;
-    /**
-     * The registered callback function called when a blur event occurs on the input element.
-     * @nodoc
-     */
-    onTouched: () => void;
-    constructor(_renderer: Renderer2, _elementRef: ElementRef);
-    /**
-     * Helper method that sets a property on a target element using the current Renderer
-     * implementation.
-     * @nodoc
-     */
-    protected setProperty(key: string, value: any): void;
-    /**
-     * Registers a function called when the control is touched.
-     * @nodoc
-     */
-    registerOnTouched(fn: () => void): void;
-    /**
-     * Registers a function called when the control value changes.
-     * @nodoc
-     */
-    registerOnChange(fn: (_: any) => {}): void;
-    /**
-     * Sets the "disabled" property on the range input element.
-     * @nodoc
-     */
-    setDisabledState(isDisabled: boolean): void;
-}
-
-/**
- * Base class for all built-in ControlValueAccessor classes (except DefaultValueAccessor, which is
- * used in case no other CVAs can be found). We use this class to distinguish between default CVA,
- * built-in CVAs and custom CVAs, so that Forms logic can recognize built-in CVAs and treat custom
- * ones with higher priority (when both built-in and custom CVAs are present).
- *
- * Note: this is an *internal-only* class and should not be extended or used directly in
- * applications code.
- */
-export declare class ɵangular_packages_forms_forms_g extends ɵangular_packages_forms_forms_f {
-}
-
-export declare const ɵangular_packages_forms_forms_h: any;
-
-export declare class ɵangular_packages_forms_forms_i {
-    private _cd;
-    constructor(cd: AbstractControlDirective | null);
-    is(status: AnyControlStatus): boolean;
-}
-
-export declare const ɵangular_packages_forms_forms_j: {
-    '[class.ng-untouched]': string;
-    '[class.ng-touched]': string;
-    '[class.ng-pristine]': string;
-    '[class.ng-dirty]': string;
-    '[class.ng-valid]': string;
-    '[class.ng-invalid]': string;
-    '[class.ng-pending]': string;
-};
-
-export declare const ɵangular_packages_forms_forms_k: {
-    '[class.ng-untouched]': string;
-    '[class.ng-touched]': string;
-    '[class.ng-pristine]': string;
-    '[class.ng-dirty]': string;
-    '[class.ng-valid]': string;
-    '[class.ng-invalid]': string;
-    '[class.ng-pending]': string;
-    '[class.ng-submitted]': string;
-};
-
-export declare const ɵangular_packages_forms_forms_l: any;
-
-export declare const ɵangular_packages_forms_forms_m: any;
-
-export declare const ɵangular_packages_forms_forms_n: any;
-
-export declare const ɵangular_packages_forms_forms_o: any;
-
-export declare const ɵangular_packages_forms_forms_p: any;
-
-/**
- * Internal-only NgModule that works as a host for the `RadioControlRegistry` tree-shakable
- * provider. Note: the `InternalFormsSharedModule` can not be used here directly, since it's
- * declared *after* the `RadioControlRegistry` class and the `providedIn` doesn't support
- * `forwardRef` logic.
- */
-export declare class ɵangular_packages_forms_forms_q {
-}
-
-/**
- * @description
- * Class used by Angular to track radio buttons. For internal use only.
- */
-export declare class ɵangular_packages_forms_forms_r {
-    private _accessors;
-    /**
-     * @description
-     * Adds a control to the internal registry. For internal use only.
-     */
-    add(control: NgControl, accessor: RadioControlValueAccessor): void;
-    /**
-     * @description
-     * Removes a control from the internal registry. For internal use only.
-     */
-    remove(accessor: RadioControlValueAccessor): void;
-    /**
-     * @description
-     * Selects a radio button. For internal use only.
-     */
-    select(accessor: RadioControlValueAccessor): void;
-    private _isSameGroup;
-}
-
-export declare const ɵangular_packages_forms_forms_s: StaticProvider;
-
-/**
- * Token to provide to turn off the ngModel warning on formControl and formControlName.
- */
-export declare const ɵangular_packages_forms_forms_t: InjectionToken<unknown>;
-
-export declare const ɵangular_packages_forms_forms_u: any;
-
-export declare const ɵangular_packages_forms_forms_v: any;
-
-export declare const ɵangular_packages_forms_forms_w: any;
-
-export declare const ɵangular_packages_forms_forms_x: any;
-
-export declare const ɵangular_packages_forms_forms_y: any;
-
-export declare const ɵangular_packages_forms_forms_z: StaticProvider;
-
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
-declare class ɵInternalFormsSharedModule {
+export declare class ɵInternalFormsSharedModule {
+    static ɵfac: i0.ɵɵFactoryDeclaration<ɵInternalFormsSharedModule, never>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<ɵInternalFormsSharedModule, [typeof i1.ɵNgNoValidate, typeof i2.NgSelectOption, typeof i3.ɵNgSelectMultipleOption, typeof i4.DefaultValueAccessor, typeof i5.NumberValueAccessor, typeof i6.RangeValueAccessor, typeof i7.CheckboxControlValueAccessor, typeof i2.SelectControlValueAccessor, typeof i3.SelectMultipleControlValueAccessor, typeof i8.RadioControlValueAccessor, typeof i9.NgControlStatus, typeof i9.NgControlStatusGroup, typeof i10.RequiredValidator, typeof i10.MinLengthValidator, typeof i10.MaxLengthValidator, typeof i10.PatternValidator, typeof i10.CheckboxRequiredValidator, typeof i10.EmailValidator, typeof i10.MinValidator, typeof i10.MaxValidator], [typeof i8.RadioControlRegistryModule], [typeof i1.ɵNgNoValidate, typeof i2.NgSelectOption, typeof i3.ɵNgSelectMultipleOption, typeof i4.DefaultValueAccessor, typeof i5.NumberValueAccessor, typeof i6.RangeValueAccessor, typeof i7.CheckboxControlValueAccessor, typeof i2.SelectControlValueAccessor, typeof i3.SelectMultipleControlValueAccessor, typeof i8.RadioControlValueAccessor, typeof i9.NgControlStatus, typeof i9.NgControlStatusGroup, typeof i10.RequiredValidator, typeof i10.MinLengthValidator, typeof i10.MaxLengthValidator, typeof i10.PatternValidator, typeof i10.CheckboxRequiredValidator, typeof i10.EmailValidator, typeof i10.MinValidator, typeof i10.MaxValidator]>;
+    static ɵinj: i0.ɵɵInjectorDeclaration<ɵInternalFormsSharedModule>;
 }
-export { ɵInternalFormsSharedModule }
-export { ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d }
-
 
 /**
  * @description
@@ -4465,10 +4667,10 @@ export { ɵInternalFormsSharedModule as ɵangular_packages_forms_forms_d }
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
  */
-declare class ɵNgNoValidate {
+export declare class ɵNgNoValidate {
+    static ɵfac: i0.ɵɵFactoryDeclaration<ɵNgNoValidate, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ɵNgNoValidate, "form:not([ngNoForm]):not([ngNativeValidate])", never, {}, {}, never>;
 }
-export { ɵNgNoValidate }
-export { ɵNgNoValidate as ɵangular_packages_forms_forms_bc }
 
 /**
  * @description
@@ -4480,7 +4682,7 @@ export { ɵNgNoValidate as ɵangular_packages_forms_forms_bc }
  * @ngModule FormsModule
  * @publicApi
  */
-declare class ɵNgSelectMultipleOption implements OnDestroy {
+export declare class ɵNgSelectMultipleOption implements OnDestroy {
     private _element;
     private _renderer;
     private _select;
@@ -4500,8 +4702,8 @@ declare class ɵNgSelectMultipleOption implements OnDestroy {
     set value(value: any);
     /** @nodoc */
     ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ɵNgSelectMultipleOption, [null, null, { optional: true; host: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ɵNgSelectMultipleOption, "option", never, { "ngValue": "ngValue"; "value": "value"; }, {}, never>;
 }
-export { ɵNgSelectMultipleOption }
-export { ɵNgSelectMultipleOption as ɵangular_packages_forms_forms_bb }
 
 export { }
