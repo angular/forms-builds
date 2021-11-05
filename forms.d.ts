@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.1.0-next.0+31.sha-544c26d.with-local-changes
+ * @license Angular v13.1.0-next.0+36.sha-1543aae.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3042,29 +3042,14 @@ declare const MAX_VALIDATOR: StaticProvider;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class MaxLengthValidator implements Validator, OnChanges {
-    private _validator;
-    private _onChange?;
+export declare class MaxLengthValidator extends AbstractValidatorDirective implements OnChanges {
     /**
      * @description
-     * Tracks changes to the maximum length bound to this directive.
+     * Tracks changes to the minimum length bound to this directive.
      */
     maxlength: string | number | null;
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
-    /**
-     * Method that validates whether the value exceeds the maximum length requirement.
-     * @nodoc
-     */
-    validate(control: AbstractControl): ValidationErrors | null;
-    /**
-     * Registers a callback function to call when the validator inputs change.
-     * @nodoc
-     */
-    registerOnValidatorChange(fn: () => void): void;
-    private _createValidator;
-    /** @nodoc */
-    enabled(): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<MaxLengthValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { "maxlength": "maxlength"; }, {}, never>;
 }
@@ -3140,9 +3125,7 @@ declare const MIN_VALIDATOR: StaticProvider;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class MinLengthValidator implements Validator, OnChanges {
-    private _validator;
-    private _onChange?;
+export declare class MinLengthValidator extends AbstractValidatorDirective implements OnChanges {
     /**
      * @description
      * Tracks changes to the minimum length bound to this directive.
@@ -3150,20 +3133,6 @@ export declare class MinLengthValidator implements Validator, OnChanges {
     minlength: string | number | null;
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
-    /**
-     * Method that validates whether the value meets a minimum length requirement.
-     * Returns the validation result if enabled, otherwise null.
-     * @nodoc
-     */
-    validate(control: AbstractControl): ValidationErrors | null;
-    /**
-     * Registers a callback function to call when the validator inputs change.
-     * @nodoc
-     */
-    registerOnValidatorChange(fn: () => void): void;
-    private _createValidator;
-    /** @nodoc */
-    enabled(): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<MinLengthValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { "minlength": "minlength"; }, {}, never>;
 }
