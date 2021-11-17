@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.1.0-next.2+5.sha-6474c3d.with-local-changes
+ * @license Angular v13.1.0-next.2+6.sha-65597d6.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -856,14 +856,11 @@ export declare class AbstractFormGroupDirective extends ControlContainer impleme
  *
  * For internal use only, this class is not intended for use outside of the Forms package.
  */
-declare abstract class AbstractValidatorDirective implements Validator {
+declare abstract class AbstractValidatorDirective implements Validator, OnChanges {
     private _validator;
     private _onChange;
-    /**
-     * Helper function invoked from child classes to process changes (from `ngOnChanges` hook).
-     * @nodoc
-     */
-    handleChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */
     validate(control: AbstractControl): ValidationErrors | null;
     /** @nodoc */
@@ -3042,14 +3039,12 @@ declare const MAX_VALIDATOR: StaticProvider;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class MaxLengthValidator extends AbstractValidatorDirective implements OnChanges {
+export declare class MaxLengthValidator extends AbstractValidatorDirective {
     /**
      * @description
      * Tracks changes to the minimum length bound to this directive.
      */
     maxlength: string | number | null;
-    /** @nodoc */
-    ngOnChanges(changes: SimpleChanges): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<MaxLengthValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<MaxLengthValidator, "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", never, { "maxlength": "maxlength"; }, {}, never>;
 }
@@ -3075,19 +3070,12 @@ export declare class MaxLengthValidator extends AbstractValidatorDirective imple
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class MaxValidator extends AbstractValidatorDirective implements OnChanges {
+export declare class MaxValidator extends AbstractValidatorDirective {
     /**
      * @description
      * Tracks changes to the max bound to this directive.
      */
     max: string | number | null;
-    /**
-     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
-     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
-     * AOT mode. This could be refactored once ViewEngine is removed.
-     * @nodoc
-     */
-    ngOnChanges(changes: SimpleChanges): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<MaxValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<MaxValidator, "input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]", never, { "max": "max"; }, {}, never>;
 }
@@ -3125,14 +3113,12 @@ declare const MIN_VALIDATOR: StaticProvider;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class MinLengthValidator extends AbstractValidatorDirective implements OnChanges {
+export declare class MinLengthValidator extends AbstractValidatorDirective {
     /**
      * @description
      * Tracks changes to the minimum length bound to this directive.
      */
     minlength: string | number | null;
-    /** @nodoc */
-    ngOnChanges(changes: SimpleChanges): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<MinLengthValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<MinLengthValidator, "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", never, { "minlength": "minlength"; }, {}, never>;
 }
@@ -3158,19 +3144,12 @@ export declare class MinLengthValidator extends AbstractValidatorDirective imple
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class MinValidator extends AbstractValidatorDirective implements OnChanges {
+export declare class MinValidator extends AbstractValidatorDirective {
     /**
      * @description
      * Tracks changes to the min bound to this directive.
      */
     min: string | number | null;
-    /**
-     * Declare `ngOnChanges` lifecycle hook at the main directive level (vs keeping it in base class)
-     * to avoid differences in handling inheritance of lifecycle hooks between Ivy and ViewEngine in
-     * AOT mode. This could be refactored once ViewEngine is removed.
-     * @nodoc
-     */
-    ngOnChanges(changes: SimpleChanges): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<MinValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<MinValidator, "input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]", never, { "min": "min"; }, {}, never>;
 }
