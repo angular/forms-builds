@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.1.0-next.2+82.sha-96dfc7a.with-local-changes
+ * @license Angular v13.1.0-next.2+83.sha-24baa5e.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3162,6 +3162,26 @@ declare const modelGroupProvider: any;
  * `AbstractControl`s.
  *
  * @see `NG_VALIDATORS`
+ *
+ * @usageNotes
+ *
+ * ### Provide a custom async validator directive
+ *
+ * The following example implements the `AsyncValidator` interface to create an
+ * async validator directive with a custom error key.
+ *
+ * ```typescript
+ * @Directive({
+ *   selector: '[customAsyncValidator]',
+ *   providers: [{provide: NG_ASYNC_VALIDATORS, useExisting: CustomAsyncValidatorDirective, multi:
+ * true}]
+ * })
+ * class CustomAsyncValidatorDirective implements AsyncValidator {
+ *   validate(control: AbstractControl): Promise<ValidationErrors|null> {
+ *     return Promise.resolve({'custom': true});
+ *   }
+ * }
+ * ```
  *
  * @publicApi
  */
