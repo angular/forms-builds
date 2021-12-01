@@ -243,9 +243,9 @@ export class NgModel extends NgControl {
         });
     }
 }
-NgModel.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.0-next.2+95.sha-6769df7.with-local-changes", ngImport: i0, type: NgModel, deps: [{ token: i1.ControlContainer, host: true, optional: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: NG_VALUE_ACCESSOR, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive });
-NgModel.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.1.0-next.2+95.sha-6769df7.with-local-changes", type: NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, providers: [formControlBinding], exportAs: ["ngModel"], usesInheritance: true, usesOnChanges: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.0-next.2+95.sha-6769df7.with-local-changes", ngImport: i0, type: NgModel, decorators: [{
+NgModel.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.0-next.3+1.sha-f3898f8.with-local-changes", ngImport: i0, type: NgModel, deps: [{ token: i1.ControlContainer, host: true, optional: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: NG_VALUE_ACCESSOR, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive });
+NgModel.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.1.0-next.3+1.sha-f3898f8.with-local-changes", type: NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, providers: [formControlBinding], exportAs: ["ngModel"], usesInheritance: true, usesOnChanges: true, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.0-next.3+1.sha-f3898f8.with-local-changes", ngImport: i0, type: NgModel, decorators: [{
             type: Directive,
             args: [{
                     selector: '[ngModel]:not([formControlName]):not([formControl])',
