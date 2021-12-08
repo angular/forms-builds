@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.1.0-next.3+16.sha-cdf50ff.with-local-changes
+ * @license Angular v13.1.0-next.3+23.sha-2664bc2.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1874,15 +1874,13 @@ export declare class FormBuilder {
 }
 
 /**
- * Tracks the value and validation status of an individual form control. Constructed by {@link
- * FormControlCtor}.
+ * Tracks the value and validation status of an individual form control.
  *
  * This is one of the three fundamental building blocks of Angular forms, along with
  * `FormGroup` and `FormArray`. It extends the `AbstractControl` class that
  * implements most of the base functionality for accessing the value, validation status,
  * user interactions and events. See [usage examples below](#usage-notes).
  *
- * @see FormControlCtor
  * @see `AbstractControl`
  * @see [Reactive Forms Guide](guide/reactive-forms)
  * @see [Usage Notes](#usage-notes)
@@ -1896,7 +1894,7 @@ export declare class FormBuilder {
  * ```ts
  * const control = new FormControl('some value');
  * console.log(control.value);     // 'some value'
- * ```
+ *```
  *
  * The following example initializes the control with a form state object. The `value`
  * and `disabled` keys are required in this case.
@@ -1972,7 +1970,21 @@ export declare class FormBuilder {
  *
  * @publicApi
  */
-export declare interface FormControl extends AbstractControl {
+export declare class FormControl extends AbstractControl {
+    /**
+     * Creates a new `FormControl` instance.
+     *
+     * @param formState Initializes the control with an initial value,
+     * or an object that defines the initial value and disabled state.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     *
+     */
+    constructor(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Sets a new value for the form control.
      *
@@ -2051,43 +2063,12 @@ export declare interface FormControl extends AbstractControl {
      * @param fn The method that is called when the disabled status changes.
      */
     registerOnDisabledChange(fn: (isDisabled: boolean) => void): void;
+    private _applyFormState;
 }
-
-export declare const FormControl: FormControlCtor;
 
 declare const formControlBinding: any;
 
 declare const formControlBinding_2: any;
-
-/**
- * Various available constructors for `FormControl`.
- *
- * ```
- * let fc = new FormControl('foo');
- * ```
- *
- * {@link FormControl}
- * @publicApi
- */
-export declare interface FormControlCtor {
-    /**
-     * Construct a FormControl with no initial value or validators.
-     */
-    new (): FormControl;
-    /**
-     * Creates a new `FormControl` instance.
-     *
-     * @param formState Initializes the control with an initial value,
-     * or an object that defines the initial value and disabled state.
-     *
-     * @param validatorOrOpts A synchronous validator function, or an array of
-     * such functions, or an `AbstractControlOptions` object that contains validation functions
-     * and a validation trigger.
-     *
-     * @param asyncValidator A single async validator or array of async validator functions
-     */
-    new (value: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl;
-}
 
 /**
  * @description
