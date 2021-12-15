@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.2.0-next.0+21.sha-093fd39.with-local-changes
+ * @license Angular v13.2.0-next.0+24.sha-6a0dadf.with-local-changes
  * (c) 2010-2021 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1853,7 +1853,7 @@ export declare class FormBuilder {
      * <code-example path="forms/ts/formBuilder/form_builder_example.ts" region="disabled-control">
      * </code-example>
      */
-    control(formState: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl;
+    control(formState: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl;
     /**
      * Constructs a new `FormArray` from the given array of configurations,
      * validators and options.
@@ -1972,6 +1972,13 @@ export declare class FormBuilder {
  */
 export declare class FormControl extends AbstractControl {
     /**
+     * The default value of this FormControl, used whenever the control is reset without an explicit
+     * value. See {@link FormControlOptions#initialValueIsDefault} for more information on configuring
+     * a default value.
+     * @publicApi
+     */
+    readonly defaultValue: any;
+    /**
      * Creates a new `FormControl` instance.
      *
      * @param formState Initializes the control with an initial value,
@@ -1984,7 +1991,7 @@ export declare class FormControl extends AbstractControl {
      * @param asyncValidator A single async validator or array of async validator functions
      *
      */
-    constructor(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
+    constructor(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
     /**
      * Sets a new value for the form control.
      *
@@ -2030,8 +2037,23 @@ export declare class FormControl extends AbstractControl {
         emitViewToModelChange?: boolean;
     }): void;
     /**
-     * Resets the form control, marking it `pristine` and `untouched`, and setting
-     * the value to null.
+     * Resets the form control, marking it `pristine` and `untouched`, and resetting
+     * the value. The new value will be the provided value (if passed), `null`, or the initial value
+     * if `initialValueIsDefault` was set in the constructor via {@link FormControlOptions}.
+     *
+     * ```ts
+     * // By default, the control will reset to null.
+     * const dog = new FormControl('spot');
+     * dog.reset(); // dog.value is null
+     *
+     * // If this flag is set, the control will instead reset to the initial value.
+     * const cat = new FormControl('tabby', {initialValueIsDefault: true});
+     * cat.reset(); // cat.value is "tabby"
+     *
+     * // A value passed to reset always takes precedence.
+     * const fish = new FormControl('finn', {initialValueIsDefault: true});
+     * fish.reset('bubble'); // fish.value is "bubble"
+     * ```
      *
      * @param formState Resets the control with an initial value,
      * or an object that defines the initial value and disabled state.
@@ -2229,6 +2251,25 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
     private _setUpControl;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormControlName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormControlName, "[formControlName]", never, { "name": "formControlName"; "isDisabled": "disabled"; "model": "ngModel"; }, { "update": "ngModelChange"; }, never>;
+}
+
+/**
+ * Interface for options provided to a {@link FormControl}.
+ *
+ * This interface extends all options from {@link AbstractControlOptions}, plus some options
+ * unique to `FormControl`.
+ *
+ * @publicApi
+ */
+export declare interface FormControlOptions extends AbstractControlOptions {
+    /**
+     * @description
+     * Whether to use the initial value used to construct the FormControl as its default value as
+     * well. If this option is false or not provided, the default value of a FormControl is `null`.
+     * When a FormControl is {@link FormControl#reset} without an explicit value, its value reverts to
+     * its default value.
+     */
+    initialValueIsDefault?: boolean;
 }
 
 /**
