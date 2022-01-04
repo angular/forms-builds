@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.2.0-next.1+25.sha-ed6e2d2.with-local-changes
+ * @license Angular v13.2.0-next.1+27.sha-5ae1030.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -878,6 +878,22 @@ declare abstract class AbstractValidatorDirective implements Validator, OnChange
 }
 
 declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending' | 'submitted';
+
+/**
+ * `AnyForUntypedForms` is an alias for `any` used as part of the typed forms
+ * migration.
+ *
+ * `AnyForUntypedForms` was inserted into your code automatically as part of a migration. To
+ * continue opting out of strong types, simply replace it with `any`. To opt-in to typed forms,
+ * remove
+ * `<AnyForUntypedForms>` from your call site.
+ *
+ * This symbol is currently unused. Please do not use it. These docs will be updated when this
+ * symbol is in use.
+ *
+ * @publicApi
+ */
+export declare type AnyForUntypedForms = any;
 
 /**
  * @description
