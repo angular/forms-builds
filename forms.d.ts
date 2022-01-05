@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.2.0-next.1+52.sha-6a55aff.with-local-changes
+ * @license Angular v13.2.0-next.1+59.sha-12e0424.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -867,12 +867,12 @@ declare abstract class AbstractValidatorDirective implements Validator, OnChange
     registerOnValidatorChange(fn: () => void): void;
     /**
      * @description
-     * Determines whether this validator is active or not. Base class implementation
-     * checks whether an input is defined (if the value is different from `null` and `undefined`).
-     * Validator classes that extend this base class can override this function with the logic
-     * specific to a particular validator directive.
+     * Determines whether this validator should be active or not based on an input.
+     * Base class implementation checks whether an input is defined (if the value is different from
+     * `null` and `undefined`). Validator classes that extend this base class can override this
+     * function with the logic specific to a particular validator directive.
      */
-    enabled(): boolean;
+    enabled(input: unknown): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<AbstractValidatorDirective, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractValidatorDirective, never, never, {}, {}, never>;
 }
