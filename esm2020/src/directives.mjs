@@ -69,8 +69,8 @@ export const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirect
  */
 export class ɵInternalFormsSharedModule {
 }
-ɵInternalFormsSharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.2.0-next.1+87.sha-5a4ddfd.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-ɵInternalFormsSharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.2.0-next.1+87.sha-5a4ddfd.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, declarations: [NgNoValidate,
+ɵInternalFormsSharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.2.0-next.1+89.sha-c82e541.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+ɵInternalFormsSharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.2.0-next.1+89.sha-c82e541.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, declarations: [NgNoValidate,
         NgSelectOption,
         NgSelectMultipleOption,
         DefaultValueAccessor,
@@ -109,8 +109,8 @@ export class ɵInternalFormsSharedModule {
         EmailValidator,
         MinValidator,
         MaxValidator] });
-ɵInternalFormsSharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.2.0-next.1+87.sha-5a4ddfd.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, imports: [[RadioControlRegistryModule]] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.2.0-next.1+87.sha-5a4ddfd.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, decorators: [{
+ɵInternalFormsSharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.2.0-next.1+89.sha-c82e541.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, imports: [[RadioControlRegistryModule]] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.2.0-next.1+89.sha-c82e541.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: SHARED_FORM_DIRECTIVES,
