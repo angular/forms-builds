@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.2.0-next.2+1.sha-c888dfd.with-local-changes
+ * @license Angular v13.2.0-next.2+3.sha-57d0ca1.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1316,25 +1316,14 @@ declare const EMAIL_VALIDATOR: any;
  * @ngModule FormsModule
  * @ngModule ReactiveFormsModule
  */
-export declare class EmailValidator implements Validator {
-    private _enabled;
-    private _onChange?;
+export declare class EmailValidator extends AbstractValidatorDirective {
     /**
      * @description
      * Tracks changes to the email attribute bound to this directive.
      */
-    set email(value: boolean | string);
-    /**
-     * Method that validates whether an email address is valid.
-     * Returns the validation result if enabled, otherwise null.
-     * @nodoc
-     */
-    validate(control: AbstractControl): ValidationErrors | null;
-    /**
-     * Registers a callback function to call when the validator inputs change.
-     * @nodoc
-     */
-    registerOnValidatorChange(fn: () => void): void;
+    email: boolean | string;
+    /** @nodoc */
+    enabled(input: boolean): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<EmailValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { "email": "email"; }, {}, never>;
 }
