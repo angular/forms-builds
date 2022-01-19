@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.2.0-next.2+25.sha-bc03a2e.with-local-changes
+ * @license Angular v13.2.0-next.2+26.sha-fb27867.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1878,136 +1878,6 @@ export declare class FormBuilder {
     static ɵprov: i0.ɵɵInjectableDeclaration<FormBuilder>;
 }
 
-export declare interface FormControl extends AbstractControl {
-    readonly defaultValue: any;
-    setValue(value: any, options?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-        emitModelToViewChange?: boolean;
-        emitViewToModelChange?: boolean;
-    }): void;
-    patchValue(value: any, options?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-        emitModelToViewChange?: boolean;
-        emitViewToModelChange?: boolean;
-    }): void;
-    reset(formState?: any, options?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-    }): void;
-    registerOnChange(fn: Function): void;
-    registerOnDisabledChange(fn: (isDisabled: boolean) => void): void;
-}
-
-/**
- * @overriddenImplementation The constructor for FormControl is decoupled from its implementation.
- * This allows us to provide multiple constructor signatures.
- */
-export declare const FormControl: FormControlCtor;
-
-declare const formControlBinding: any;
-
-declare const formControlBinding_2: any;
-
-/**
- * Various available constructors for `FormControl`.
- * Do not use this interface directly. Instead, use `FormControl`:
- * ```
- * const fc = new FormControl('foo');
- * ```
- */
-export declare interface FormControlCtor {
-    /**
-     * Construct a FormControl with no initial value or validators.
-     */
-    new (): FormControl;
-    /**
-     * Creates a new `FormControl` instance.
-     *
-     * @param formState Initializes the control with an initial value,
-     * or an object that defines the initial value and disabled state.
-     *
-     * @param validatorOrOpts A synchronous validator function, or an array of
-     * such functions, or an `FormControlOptions` object that contains validation functions
-     * and a validation trigger.
-     *
-     * @param asyncValidator A single async validator or array of async validator functions
-     */
-    new (value: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl;
-}
-
-/**
- * @description
- * Synchronizes a standalone `FormControl` instance to a form control element.
- *
- * Note that support for using the `ngModel` input property and `ngModelChange` event with reactive
- * form directives was deprecated in Angular v6 and is scheduled for removal in
- * a future version of Angular.
- * For details, see [Deprecated features](guide/deprecations#ngmodel-with-reactive-forms).
- *
- * @see [Reactive Forms Guide](guide/reactive-forms)
- * @see `FormControl`
- * @see `AbstractControl`
- *
- * @usageNotes
- *
- * The following example shows how to register a standalone control and set its value.
- *
- * {@example forms/ts/simpleFormControl/simple_form_control_example.ts region='Component'}
- *
- * @ngModule ReactiveFormsModule
- * @publicApi
- */
-export declare class FormControlDirective extends NgControl implements OnChanges, OnDestroy {
-    private _ngModelWarningConfig;
-    /**
-     * Internal reference to the view model value.
-     * @nodoc
-     */
-    viewModel: any;
-    /**
-     * @description
-     * Tracks the `FormControl` instance bound to the directive.
-     */
-    form: FormControl;
-    /**
-     * @description
-     * Triggers a warning in dev mode that this input should not be used with reactive forms.
-     */
-    set isDisabled(isDisabled: boolean);
-    /** @deprecated as of v6 */
-    model: any;
-    /** @deprecated as of v6 */
-    update: EventEmitter<any>;
-    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
-    /** @nodoc */
-    ngOnChanges(changes: SimpleChanges): void;
-    /** @nodoc */
-    ngOnDestroy(): void;
-    /**
-     * @description
-     * Returns an array that represents the path from the top-level form to this control.
-     * Each index is the string name of the control on that level.
-     */
-    get path(): string[];
-    /**
-     * @description
-     * The `FormControl` bound to this directive.
-     */
-    get control(): FormControl;
-    /**
-     * @description
-     * Sets the new value for the view model and emits an `ngModelChange` event.
-     *
-     * @param newValue The new value for the view model.
-     */
-    viewToModelUpdate(newValue: any): void;
-    private _isControlChanged;
-    static ɵfac: i0.ɵɵFactoryDeclaration<FormControlDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<FormControlDirective, "[formControl]", ["ngForm"], { "form": "formControl"; "isDisabled": "disabled"; "model": "ngModel"; }, { "update": "ngModelChange"; }, never>;
-}
-
 /**
  * Tracks the value and validation status of an individual form control.
  *
@@ -2029,7 +1899,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
  * ```ts
  * const control = new FormControl('some value');
  * console.log(control.value);     // 'some value'
- * ```
+ *```
  *
  * The following example initializes the control with a form state object. The `value`
  * and `disabled` keys are required in this case.
@@ -2102,8 +1972,10 @@ export declare class FormControlDirective extends NgControl implements OnChanges
  * console.log(control.value); // 'Drew'
  * console.log(control.status); // 'DISABLED'
  * ```
+ *
+ * @publicApi
  */
-export declare class FormControlImpl extends AbstractControl {
+export declare class FormControl extends AbstractControl {
     /**
      * The default value of this FormControl, used whenever the control is reset without an explicit
      * value. See {@link FormControlOptions#initialValueIsDefault} for more information on configuring
@@ -2118,7 +1990,7 @@ export declare class FormControlImpl extends AbstractControl {
      * or an object that defines the initial value and disabled state.
      *
      * @param validatorOrOpts A synchronous validator function, or an array of
-     * such functions, or a `FormControlOptions` object that contains validation functions
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
      * and a validation trigger.
      *
      * @param asyncValidator A single async validator or array of async validator functions
@@ -2219,6 +2091,81 @@ export declare class FormControlImpl extends AbstractControl {
      */
     registerOnDisabledChange(fn: (isDisabled: boolean) => void): void;
     private _applyFormState;
+}
+
+declare const formControlBinding: any;
+
+declare const formControlBinding_2: any;
+
+/**
+ * @description
+ * Synchronizes a standalone `FormControl` instance to a form control element.
+ *
+ * Note that support for using the `ngModel` input property and `ngModelChange` event with reactive
+ * form directives was deprecated in Angular v6 and is scheduled for removal in
+ * a future version of Angular.
+ * For details, see [Deprecated features](guide/deprecations#ngmodel-with-reactive-forms).
+ *
+ * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see `FormControl`
+ * @see `AbstractControl`
+ *
+ * @usageNotes
+ *
+ * The following example shows how to register a standalone control and set its value.
+ *
+ * {@example forms/ts/simpleFormControl/simple_form_control_example.ts region='Component'}
+ *
+ * @ngModule ReactiveFormsModule
+ * @publicApi
+ */
+export declare class FormControlDirective extends NgControl implements OnChanges, OnDestroy {
+    private _ngModelWarningConfig;
+    /**
+     * Internal reference to the view model value.
+     * @nodoc
+     */
+    viewModel: any;
+    /**
+     * @description
+     * Tracks the `FormControl` instance bound to the directive.
+     */
+    form: FormControl;
+    /**
+     * @description
+     * Triggers a warning in dev mode that this input should not be used with reactive forms.
+     */
+    set isDisabled(isDisabled: boolean);
+    /** @deprecated as of v6 */
+    model: any;
+    /** @deprecated as of v6 */
+    update: EventEmitter<any>;
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
+    /** @nodoc */
+    ngOnChanges(changes: SimpleChanges): void;
+    /** @nodoc */
+    ngOnDestroy(): void;
+    /**
+     * @description
+     * Returns an array that represents the path from the top-level form to this control.
+     * Each index is the string name of the control on that level.
+     */
+    get path(): string[];
+    /**
+     * @description
+     * The `FormControl` bound to this directive.
+     */
+    get control(): FormControl;
+    /**
+     * @description
+     * Sets the new value for the view model and emits an `ngModelChange` event.
+     *
+     * @param newValue The new value for the view model.
+     */
+    viewToModelUpdate(newValue: any): void;
+    private _isControlChanged;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormControlDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormControlDirective, "[formControl]", ["ngForm"], { "form": "formControl"; "isDisabled": "disabled"; "model": "ngModel"; }, { "update": "ngModelChange"; }, never>;
 }
 
 /**
@@ -2322,9 +2269,9 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
 export declare interface FormControlOptions extends AbstractControlOptions {
     /**
      * @description
-     * Whether to use the initial value used to construct the {@link FormControl} as its default value
-     * as well. If this option is false or not provided, the default value of a FormControl is `null`.
-     * When a FormControl is reset without an explicit value, its value reverts to
+     * Whether to use the initial value used to construct the FormControl as its default value as
+     * well. If this option is false or not provided, the default value of a FormControl is `null`.
+     * When a FormControl is {@link FormControl#reset} without an explicit value, its value reverts to
      * its default value.
      */
     initialValueIsDefault?: boolean;
