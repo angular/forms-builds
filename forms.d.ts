@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.1.3+13.sha-a52685b.with-local-changes
+ * @license Angular v13.1.3+27.sha-dd7364f.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1055,12 +1055,6 @@ export declare class CheckboxControlValueAccessor extends BuiltInControlValueAcc
  * @ngModule ReactiveFormsModule
  */
 export declare class CheckboxRequiredValidator extends RequiredValidator {
-    /**
-     * Method that validates whether or not the checkbox has been checked.
-     * Returns the validation result if enabled, otherwise null.
-     * @nodoc
-     */
-    validate(control: AbstractControl): ValidationErrors | null;
     static ɵfac: i0.ɵɵFactoryDeclaration<CheckboxRequiredValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<CheckboxRequiredValidator, "input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]", never, {}, {}, never>;
 }
@@ -4073,26 +4067,14 @@ declare const REQUIRED_VALIDATOR: StaticProvider;
  * @ngModule ReactiveFormsModule
  * @publicApi
  */
-export declare class RequiredValidator implements Validator {
-    private _required;
-    private _onChange?;
+export declare class RequiredValidator extends AbstractValidatorDirective {
     /**
      * @description
      * Tracks changes to the required attribute bound to this directive.
      */
-    get required(): boolean | string;
-    set required(value: boolean | string);
-    /**
-     * Method that validates whether the control is empty.
-     * Returns the validation result if enabled, otherwise null.
-     * @nodoc
-     */
-    validate(control: AbstractControl): ValidationErrors | null;
-    /**
-     * Registers a callback function to call when the validator inputs change.
-     * @nodoc
-     */
-    registerOnValidatorChange(fn: () => void): void;
+    required: boolean | string;
+    /** @nodoc */
+    enabled(input: boolean): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<RequiredValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { "required": "required"; }, {}, never>;
 }
