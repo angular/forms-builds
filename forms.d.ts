@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.0+1033.sha-156fb37.with-local-changes
+ * @license Angular v14.0.0-next.0+1034.sha-f490c2d.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1466,7 +1466,9 @@ export declare class FormArray extends AbstractControl {
     /**
      * Get the `AbstractControl` at the given `index` in the array.
      *
-     * @param index Index in the array to retrieve the control
+     * @param index Index in the array to retrieve the control. If `index` is negative, it will wrap
+     *     around from the back, and if index is greatly negative (less than `-length`), the result is
+     * undefined. This behavior is the same as `Array.at(index)`.
      */
     at(index: number): AbstractControl;
     /**
@@ -1485,7 +1487,9 @@ export declare class FormArray extends AbstractControl {
     /**
      * Insert a new `AbstractControl` at the given `index` in the array.
      *
-     * @param index Index in the array to insert the control
+     * @param index Index in the array to insert the control. If `index` is negative, wraps around
+     *     from the back. If `index` is greatly negative (less than `-length`), prepends to the array.
+     * This behavior is the same as `Array.splice(index, 0, control)`.
      * @param control Form control to be inserted
      * @param options Specifies whether this FormArray instance should emit events after a new
      *     control is inserted.
@@ -1499,7 +1503,9 @@ export declare class FormArray extends AbstractControl {
     /**
      * Remove the control at the given `index` in the array.
      *
-     * @param index Index in the array to remove the control
+     * @param index Index in the array to remove the control.  If `index` is negative, wraps around
+     *     from the back. If `index` is greatly negative (less than `-length`), removes the first
+     *     element. This behavior is the same as `Array.splice(index, 1)`.
      * @param options Specifies whether this FormArray instance should emit events after a
      *     control is removed.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
@@ -1512,7 +1518,9 @@ export declare class FormArray extends AbstractControl {
     /**
      * Replace an existing control.
      *
-     * @param index Index in the array to replace the control
+     * @param index Index in the array to replace the control. If `index` is negative, wraps around
+     *     from the back. If `index` is greatly negative (less than `-length`), replaces the first
+     *     element. This behavior is the same as `Array.splice(index, 1, control)`.
      * @param control The `AbstractControl` control to replace the existing control
      * @param options Specifies whether this FormArray instance should emit events after an
      *     existing control is replaced with a new one.
