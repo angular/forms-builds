@@ -1,5 +1,5 @@
 /**
- * @license Angular v13.2.0+10.sha-f6c2934.with-local-changes
+ * @license Angular v13.2.0+13.sha-c9abf34.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4207,8 +4207,7 @@ export declare class SelectControlValueAccessor extends BuiltInControlValueAcces
     set compareWith(fn: (o1: any, o2: any) => boolean);
     private _compareWith;
     /**
-     * Sets the "value" property on the input element. The "selectedIndex"
-     * property is also set if an ID is provided on the option element.
+     * Sets the "value" property on the select element.
      * @nodoc
      */
     writeValue(value: any): void;
