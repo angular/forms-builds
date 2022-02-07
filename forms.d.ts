@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.1+41.sha-d5719c2.with-local-changes
+ * @license Angular v14.0.0-next.1+42.sha-70e29be.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3886,27 +3886,12 @@ declare const PATTERN_VALIDATOR: any;
  * @ngModule FormsModule
  * @publicApi
  */
-export declare class PatternValidator implements Validator, OnChanges {
-    private _validator;
-    private _onChange?;
+export declare class PatternValidator extends AbstractValidatorDirective {
     /**
      * @description
      * Tracks changes to the pattern bound to this directive.
      */
     pattern: string | RegExp;
-    /** @nodoc */
-    ngOnChanges(changes: SimpleChanges): void;
-    /**
-     * Method that validates whether the value matches the pattern requirement.
-     * @nodoc
-     */
-    validate(control: AbstractControl): ValidationErrors | null;
-    /**
-     * Registers a callback function to call when the validator inputs change.
-     * @nodoc
-     */
-    registerOnValidatorChange(fn: () => void): void;
-    private _createValidator;
     static ɵfac: i0.ɵɵFactoryDeclaration<PatternValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { "pattern": "pattern"; }, {}, never>;
 }
