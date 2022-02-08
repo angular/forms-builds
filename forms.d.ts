@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.2+8.sha-822439f.with-local-changes
+ * @license Angular v14.0.0-next.2+9.sha-3d464c9.with-local-changes
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1291,6 +1291,10 @@ declare const EMAIL_VALIDATOR: any;
 /**
  * A directive that adds the `email` validator to controls marked with the
  * `email` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
+ *
+ * The email validation is based on the WHATWG HTML specification with some enhancements to
+ * incorporate more RFC rules. More information can be found on the [Validators.email
+ * page](api/forms/Validators#email).
  *
  * @see [Form Validation](guide/form-validation)
  *
