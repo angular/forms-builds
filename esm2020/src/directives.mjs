@@ -69,8 +69,8 @@ export const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirect
  */
 export class ɵInternalFormsSharedModule {
 }
-ɵInternalFormsSharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.2.4+17.sha-84b4ad8.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-ɵInternalFormsSharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.2.4+17.sha-84b4ad8.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, declarations: [NgNoValidate,
+ɵInternalFormsSharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.2.4+18.sha-8907fbb.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+ɵInternalFormsSharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.2.4+18.sha-8907fbb.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, declarations: [NgNoValidate,
         NgSelectOption,
         NgSelectMultipleOption,
         DefaultValueAccessor,
@@ -109,8 +109,8 @@ export class ɵInternalFormsSharedModule {
         EmailValidator,
         MinValidator,
         MaxValidator] });
-ɵInternalFormsSharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.2.4+17.sha-84b4ad8.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, imports: [[RadioControlRegistryModule]] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.2.4+17.sha-84b4ad8.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, decorators: [{
+ɵInternalFormsSharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.2.4+18.sha-8907fbb.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, imports: [[RadioControlRegistryModule]] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.2.4+18.sha-8907fbb.with-local-changes", ngImport: i0, type: ɵInternalFormsSharedModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: SHARED_FORM_DIRECTIVES,
