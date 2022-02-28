@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.4+33.sha-dfc4301
+ * @license Angular v14.0.0-next.4+32.sha-7ee121f
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -451,11 +451,6 @@ export declare abstract class AbstractControl {
      * Resets the control. Abstract method (implemented in sub-classes).
      */
     abstract reset(value?: any, options?: Object): void;
-    /**
-     * The raw value of this control. For most control implementations, the raw value will include
-     * disabled children.
-     */
-    getRawValue(): any;
     /**
      * Recalculates the value and validation status of the control.
      *
