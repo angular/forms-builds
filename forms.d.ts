@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.4+31.sha-94c949a
+ * @license Angular v14.0.0-next.4+33.sha-dfc4301
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -452,6 +452,11 @@ export declare abstract class AbstractControl {
      */
     abstract reset(value?: any, options?: Object): void;
     /**
+     * The raw value of this control. For most control implementations, the raw value will include
+     * disabled children.
+     */
+    getRawValue(): any;
+    /**
      * Recalculates the value and validation status of the control.
      *
      * By default, it also updates the value and validity of its ancestors.
@@ -879,22 +884,6 @@ declare abstract class AbstractValidatorDirective implements Validator, OnChange
 }
 
 declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending' | 'submitted';
-
-/**
- * `AnyForUntypedForms` is an alias for `any` used as part of the typed forms
- * migration.
- *
- * `AnyForUntypedForms` was inserted into your code automatically as part of a migration. To
- * continue opting out of strong types, simply replace it with `any`. To opt-in to typed forms,
- * remove
- * `<AnyForUntypedForms>` from your call site.
- *
- * This symbol is currently unused. Please do not use it. These docs will be updated when this
- * symbol is in use.
- *
- * @publicApi
- */
-export declare type AnyForUntypedForms = any;
 
 /**
  * @description
@@ -4275,6 +4264,63 @@ export declare class SelectMultipleControlValueAccessor extends BuiltInControlVa
 declare const SHARED_FORM_DIRECTIVES: Type<any>[];
 
 declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
+
+/**
+ * UntypedFormArray is a non-strongly-typed version of @see FormArray.
+ * Note: this is used for migration purposes only. Please avoid using it directly in your code and
+ * prefer `FormControl` instead, unless you have been migrated to it automatically.
+ */
+export declare type UntypedFormArray = FormArray;
+
+export declare const UntypedFormArray: UntypedFormArrayCtor;
+
+declare interface UntypedFormArrayCtor {
+    new (controls: AbstractControl[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormArray;
+    /**
+     * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
+     * manually inspect the prototype chain.
+     */
+    prototype: FormArray;
+}
+
+/**
+ * UntypedFormControl is a non-strongly-typed version of @see FormControl.
+ * Note: this is used for migration purposes only. Please avoid using it directly in your code and
+ * prefer `FormControl` instead, unless you have been migrated to it automatically.
+ */
+export declare type UntypedFormControl = FormControl;
+
+export declare const UntypedFormControl: UntypedFormControlCtor;
+
+declare interface UntypedFormControlCtor {
+    new (): UntypedFormControl;
+    new (formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormControl;
+    /**
+     * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
+     * manually inspect the prototype chain.
+     */
+    prototype: FormControl;
+}
+
+/**
+ * UntypedFormGroup is a non-strongly-typed version of @see FormGroup.
+ * Note: this is used for migration purposes only. Please avoid using it directly in your code and
+ * prefer `FormControl` instead, unless you have been migrated to it automatically.
+ */
+export declare type UntypedFormGroup = FormGroup;
+
+export declare const UntypedFormGroup: UntypedFormGroupCtor;
+
+declare interface UntypedFormGroupCtor {
+    new (controls: {
+        [key: string]: AbstractControl;
+    }, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormGroup;
+    /**
+     * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
+     * manually inspect the prototype chain.
+     */
+    prototype: FormGroup;
+}
 
 /**
  * @description
