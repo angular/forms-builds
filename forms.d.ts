@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.5+9.sha-26ead25
+ * @license Angular v14.0.0-next.5+10.sha-4332897
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4281,6 +4281,38 @@ declare interface UntypedFormArrayCtor {
      * manually inspect the prototype chain.
      */
     prototype: FormArray;
+}
+
+/**
+ * UntypedFormBuilder is the same as @see FormBuilder, but it provides untyped controls.
+ */
+export declare class UntypedFormBuilder {
+    private _typedBuilder;
+    constructor();
+    /**
+     * @see FormBuilder#group
+     */
+    group(controlsConfig: {
+        [key: string]: any;
+    }, options?: AbstractControlOptions | null): UntypedFormGroup;
+    /**
+     * @deprecated
+     */
+    group(controlsConfig: {
+        [key: string]: any;
+    }, options: {
+        [key: string]: any;
+    }): UntypedFormGroup;
+    /**
+     * @see FormBuilder#control
+     */
+    control(formState: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormControl;
+    /**
+     * @see FormBuilder#array
+     */
+    array(controlsConfig: any[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormArray;
+    static ɵfac: i0.ɵɵFactoryDeclaration<UntypedFormBuilder, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<UntypedFormBuilder>;
 }
 
 /**
