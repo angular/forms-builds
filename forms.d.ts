@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.5+12.sha-8c171da
+ * @license Angular v14.0.0-next.5+13.sha-aa7b857
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -823,7 +823,14 @@ export declare interface AbstractControlOptions {
 declare class AbstractControlStatus {
     private _cd;
     constructor(cd: AbstractControlDirective | null);
-    is(status: AnyControlStatus): boolean;
+    protected get isTouched(): boolean;
+    protected get isUntouched(): boolean;
+    protected get isPristine(): boolean;
+    protected get isDirty(): boolean;
+    protected get isValid(): boolean;
+    protected get isInvalid(): boolean;
+    protected get isPending(): boolean;
+    protected get isSubmitted(): boolean;
 }
 
 /**
@@ -882,8 +889,6 @@ declare abstract class AbstractValidatorDirective implements Validator, OnChange
     static ɵfac: i0.ɵɵFactoryDeclaration<AbstractValidatorDirective, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractValidatorDirective, never, never, {}, {}, never>;
 }
-
-declare type AnyControlStatus = 'untouched' | 'touched' | 'pristine' | 'dirty' | 'valid' | 'invalid' | 'pending' | 'submitted';
 
 /**
  * @description
@@ -3550,6 +3555,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
 }
 
 declare const ngGroupStatusHost: {
+    '[class.ng-submitted]': string;
     '[class.ng-untouched]': string;
     '[class.ng-touched]': string;
     '[class.ng-pristine]': string;
@@ -3557,7 +3563,6 @@ declare const ngGroupStatusHost: {
     '[class.ng-valid]': string;
     '[class.ng-invalid]': string;
     '[class.ng-pending]': string;
-    '[class.ng-submitted]': string;
 };
 
 /**
