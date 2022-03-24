@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.7+19.sha-38ad849
+ * @license Angular v14.0.0-next.7+20.sha-fe0e42a
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4291,9 +4291,7 @@ declare interface UntypedFormArrayCtor {
 /**
  * UntypedFormBuilder is the same as @see FormBuilder, but it provides untyped controls.
  */
-export declare class UntypedFormBuilder {
-    private _typedBuilder;
-    constructor();
+export declare class UntypedFormBuilder extends FormBuilder {
     /**
      * @see FormBuilder#group
      */
