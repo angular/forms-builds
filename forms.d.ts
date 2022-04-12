@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.11+32.sha-d11d1c0
+ * @license Angular v14.0.0-next.11+33.sha-89d2991
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -30,13 +30,16 @@ import { Version } from '@angular/core';
  * that are shared between all sub-classes, like `value`, `valid`, and `dirty`. It shouldn't be
  * instantiated directly.
  *
+ * The first type parameter TValue represents the value type of the control (`control.value`).
+ * The optional type parameter TRawValue  represents the raw value type (`control.getRawValue()`).
+ *
  * @see [Forms Guide](/guide/forms)
  * @see [Reactive Forms Guide](/guide/reactive-forms)
  * @see [Dynamic Forms Guide](/guide/dynamic-form)
  *
  * @publicApi
  */
-export declare abstract class AbstractControl {
+export declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = TValue> {
     private _parent;
     private _asyncValidationSubscription;
     /**
@@ -50,7 +53,7 @@ export declare abstract class AbstractControl {
      * * For a `FormArray`, the values of enabled controls as an array.
      *
      */
-    readonly value: any;
+    readonly value: TValue;
     /**
      * Initialize the AbstractControl instance.
      *
@@ -176,7 +179,7 @@ export declare abstract class AbstractControl {
      * the UI or programmatically. It also emits an event each time you call enable() or disable()
      * without passing along {emitEvent: false} as a function argument.
      */
-    readonly valueChanges: Observable<any>;
+    readonly valueChanges: Observable<TValue>;
     /**
      * A multicasting observable that emits an event every time the validation `status` of the control
      * recalculates.
@@ -436,21 +439,23 @@ export declare abstract class AbstractControl {
     }): void;
     private _updateAncestors;
     /**
-     * @param parent Sets the parent of the control
+     * Sets the parent of the control
+     *
+     * @param parent The new parent.
      */
-    setParent(parent: FormGroup | FormArray): void;
+    setParent(parent: FormGroup | FormArray | null): void;
     /**
      * Sets the value of the control. Abstract method (implemented in sub-classes).
      */
-    abstract setValue(value: any, options?: Object): void;
+    abstract setValue(value: TRawValue, options?: Object): void;
     /**
      * Patches the value of the control. Abstract method (implemented in sub-classes).
      */
-    abstract patchValue(value: any, options?: Object): void;
+    abstract patchValue(value: TValue, options?: Object): void;
     /**
      * Resets the control. Abstract method (implemented in sub-classes).
      */
-    abstract reset(value?: any, options?: Object): void;
+    abstract reset(value?: TValue, options?: Object): void;
     /**
      * The raw value of this control. For most control implementations, the raw value will include
      * disabled children.
@@ -507,32 +512,16 @@ export declare abstract class AbstractControl {
     /**
      * Retrieves a child control given the control's name or path.
      *
-     * @param path A dot-delimited string or array of string/number values that define the path to the
-     * control.
-     *
-     * @usageNotes
-     * ### Retrieve a nested control
-     *
-     * For example, to get a `name` control nested within a `person` sub-group:
-     *
-     * * `this.form.get('person.name');`
-     *
-     * -OR-
-     *
-     * * `this.form.get(['person', 'name']);`
-     *
-     * ### Retrieve a control in a FormArray
-     *
-     * When accessing an element inside a FormArray, you can use an element index.
-     * For example, to get a `price` control from the first element in an `items` array you can use:
-     *
-     * * `this.form.get('items.0.price');`
-     *
-     * -OR-
-     *
-     * * `this.form.get(['items', 0, 'price']);`
+     * This signature for get supports strings and `const` arrays (`.get(['foo', 'bar'] as const)`).
      */
-    get(path: Array<string | number> | string): AbstractControl | null;
+    get<P extends string | (readonly (string | number)[])>(path: P): AbstractControl<ɵGetProperty<TRawValue, P>> | null;
+    /**
+     * Retrieves a child control given the control's name or path.
+     *
+     * This signature for `get` supports non-const (mutable) arrays. Inferred type
+     * information will not be as robust, so prefer to pass a `readonly` array if possible.
+     */
+    get<P extends string | Array<string | number>>(path: P): AbstractControl<ɵGetProperty<TRawValue, P>> | null;
     /**
      * @description
      * Reports error data for the control with the given path.
@@ -1079,6 +1068,14 @@ export declare class CheckboxRequiredValidator extends RequiredValidator {
 export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
 
 /**
+ * ControlConfig<T> is a tuple containing a value of type T, plus optional validators and async
+ * validators.
+ *
+ * @publicApi
+ */
+declare type ControlConfig<T> = [T | FormControlState<T>, (ValidatorFn | (ValidatorFn[]))?, (AsyncValidatorFn | AsyncValidatorFn[])?];
+
+/**
  * @description
  * A base class for directives that contain multiple registered instances of `NgControl`.
  * Only used by the forms module.
@@ -1446,8 +1443,7 @@ export declare interface Form {
  *
  * @publicApi
  */
-export declare class FormArray extends AbstractControl {
-    controls: AbstractControl[];
+export declare class FormArray<TControl extends AbstractControl<any> = any> extends AbstractControl<ɵTypedOrUntyped<TControl, ɵFormArrayValue<TControl>, any>, ɵTypedOrUntyped<TControl, ɵFormArrayRawValue<TControl>, any>> {
     /**
      * Creates a new `FormArray` instance.
      *
@@ -1461,7 +1457,8 @@ export declare class FormArray extends AbstractControl {
      * @param asyncValidator A single async validator or array of async validator functions
      *
      */
-    constructor(controls: AbstractControl[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
+    constructor(controls: Array<TControl>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
+    controls: ɵTypedOrUntyped<TControl, Array<TControl>, Array<AbstractControl<any>>>;
     /**
      * Get the `AbstractControl` at the given `index` in the array.
      *
@@ -1469,7 +1466,7 @@ export declare class FormArray extends AbstractControl {
      *     around from the back, and if index is greatly negative (less than `-length`), the result is
      * undefined. This behavior is the same as `Array.at(index)`.
      */
-    at(index: number): AbstractControl;
+    at(index: number): ɵTypedOrUntyped<TControl, TControl, AbstractControl<any>>;
     /**
      * Insert a new `AbstractControl` at the end of the array.
      *
@@ -1480,7 +1477,7 @@ export declare class FormArray extends AbstractControl {
      * `valueChanges` observables emit events with the latest status and value when the control is
      * inserted. When false, no events are emitted.
      */
-    push(control: AbstractControl, options?: {
+    push(control: TControl, options?: {
         emitEvent?: boolean;
     }): void;
     /**
@@ -1496,7 +1493,7 @@ export declare class FormArray extends AbstractControl {
      * `valueChanges` observables emit events with the latest status and value when the control is
      * inserted. When false, no events are emitted.
      */
-    insert(index: number, control: AbstractControl, options?: {
+    insert(index: number, control: TControl, options?: {
         emitEvent?: boolean;
     }): void;
     /**
@@ -1527,7 +1524,7 @@ export declare class FormArray extends AbstractControl {
      * `valueChanges` observables emit events with the latest status and value when the control is
      * replaced with a new one. When false, no events are emitted.
      */
-    setControl(index: number, control: AbstractControl, options?: {
+    setControl(index: number, control: TControl, options?: {
         emitEvent?: boolean;
     }): void;
     /**
@@ -1569,7 +1566,7 @@ export declare class FormArray extends AbstractControl {
      * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
      */
-    setValue(value: any[], options?: {
+    setValue(value: ɵFormArrayRawValue<TControl>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -1601,11 +1598,11 @@ export declare class FormArray extends AbstractControl {
      * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
      * is false.
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges` observables emit events with the latest status and value when the control value
-     * is updated. When false, no events are emitted. The configuration options are passed to
+     * `valueChanges` observables emit events with the latest status and value when the control
+     * value is updated. When false, no events are emitted. The configuration options are passed to
      * the {@link AbstractControl#updateValueAndValidity updateValueAndValidity} method.
      */
-    patchValue(value: any[], options?: {
+    patchValue(value: ɵFormArrayValue<TControl>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -1655,7 +1652,7 @@ export declare class FormArray extends AbstractControl {
      * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
      * updateValueAndValidity} method.
      */
-    reset(value?: any, options?: {
+    reset(value?: ɵTypedOrUntyped<TControl, ɵFormArrayValue<TControl>, any>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -1663,9 +1660,8 @@ export declare class FormArray extends AbstractControl {
      * The aggregate value of the array, including any disabled controls.
      *
      * Reports all values regardless of disabled status.
-     * For enabled controls only, the `value` property is the best way to get the value of the array.
      */
-    getRawValue(): any[];
+    getRawValue(): ɵFormArrayRawValue<TControl>;
     /**
      * Remove all controls in the `FormArray`.
      *
@@ -1782,32 +1778,20 @@ declare const formArrayNameProvider: any;
  * @description
  * Creates an `AbstractControl` from a user-specified configuration.
  *
- * The `FormBuilder` provides syntactic sugar that shortens creating instances of a `FormControl`,
- * `FormGroup`, or `FormArray`. It reduces the amount of boilerplate needed to build complex
- * forms.
+ * The `FormBuilder` provides syntactic sugar that shortens creating instances of a
+ * `FormControl`, `FormGroup`, or `FormArray`. It reduces the amount of boilerplate needed to
+ * build complex forms.
  *
- * @see [Reactive Forms Guide](/guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/reactive-forms)
  *
  * @publicApi
  */
 export declare class FormBuilder {
-    /**
-     * @description
-     * Construct a new `FormGroup` instance.
-     *
-     * @param controlsConfig A collection of child controls. The key for each child is the name
-     * under which it is registered.
-     *
-     * @param options Configuration options object for the `FormGroup`. The object should have the
-     * the `AbstractControlOptions` type and might contain the following fields:
-     * * `validators`: A synchronous validator function, or an array of validator functions
-     * * `asyncValidators`: A single async validator or array of async validator functions
-     * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur' |
-     * submit')
-     */
-    group(controlsConfig: {
-        [key: string]: any;
-    }, options?: AbstractControlOptions | null): FormGroup;
+    group<T extends {
+        [K in keyof T]: FormControlState<any> | ControlConfig<any> | FormControl<any> | FormGroup<any> | FormArray<any> | AbstractControl<any> | T[K];
+    }>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
+        [K in keyof T]: ɵGroupElement<T[K]>;
+    }>;
     /**
      * @description
      * Construct a new `FormGroup` instance.
@@ -1816,65 +1800,37 @@ export declare class FormBuilder {
      * Use the `FormBuilder#group` overload with `AbstractControlOptions` instead.
      * Note that `AbstractControlOptions` expects `validators` and `asyncValidators` to be valid
      * validators. If you have custom validators, make sure their validation function parameter is
-     * `AbstractControl` and not a sub-class, such as `FormGroup`. These functions will be called with
-     * an object of type `AbstractControl` and that cannot be automatically downcast to a subclass, so
-     * TypeScript sees this as an error. For example, change the `(group: FormGroup) =>
+     * `AbstractControl` and not a sub-class, such as `FormGroup`. These functions will be called
+     * with an object of type `AbstractControl` and that cannot be automatically downcast to a
+     * subclass, so TypeScript sees this as an error. For example, change the `(group: FormGroup) =>
      * ValidationErrors|null` signature to be `(group: AbstractControl) => ValidationErrors|null`.
      *
-     * @param controlsConfig A collection of child controls. The key for each child is the name
-     * under which it is registered.
+     * @param controls A record of child controls. The key for each child is the name
+     * under which the control is registered.
      *
      * @param options Configuration options object for the `FormGroup`. The legacy configuration
      * object consists of:
-     * * `validator`: A synchronous validator function, or an array of validator functions
+     * * `validator`: A synchronous validator function, or an array of validator functions.
      * * `asyncValidator`: A single async validator or array of async validator functions
      * Note: the legacy format is deprecated and might be removed in one of the next major versions
      * of Angular.
      */
-    group(controlsConfig: {
+    group(controls: {
         [key: string]: any;
     }, options: {
         [key: string]: any;
     }): FormGroup;
-    /**
-     * @description
-     * Construct a new `FormControl` with the given state, validators and options.
-     *
-     * @param formState Initializes the control with an initial state value, or
-     * with an object that contains both a value and a disabled status.
-     *
-     * @param validatorOrOpts A synchronous validator function, or an array of
-     * such functions, or an `AbstractControlOptions` object that contains
-     * validation functions and a validation trigger.
-     *
-     * @param asyncValidator A single async validator or array of async validator
-     * functions.
-     *
-     * @usageNotes
-     *
-     * ### Initialize a control as disabled
-     *
-     * The following example returns a control with an initial value in a disabled state.
-     *
-     * <code-example path="forms/ts/formBuilder/form_builder_example.ts" region="disabled-control">
-     * </code-example>
-     */
-    control(formState: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl;
-    /**
-     * Constructs a new `FormArray` from the given array of configurations,
-     * validators and options.
-     *
-     * @param controlsConfig An array of child controls or control configs. Each
-     * child control is given an index when it is registered.
-     *
-     * @param validatorOrOpts A synchronous validator function, or an array of
-     * such functions, or an `AbstractControlOptions` object that contains
-     * validation functions and a validation trigger.
-     *
-     * @param asyncValidator A single async validator or array of async validator
-     * functions.
-     */
-    array(controlsConfig: any[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray;
+    control<T>(formState: T | FormControlState<T>, opts: FormControlOptions & {
+        initialValueIsDefault: true;
+    }): FormControl<T>;
+    control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T | null>;
+    array<T>(controls: Array<FormControl<T>>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<FormControl<T>>;
+    array<T extends {
+        [K in keyof T]: AbstractControl<any>;
+    }>(controls: Array<FormGroup<T>>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<FormGroup<T>>;
+    array<T extends AbstractControl<any>>(controls: Array<FormArray<T>>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<FormArray<T>>;
+    array<T extends AbstractControl<any>>(controls: Array<AbstractControl<T>>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<AbstractControl<T>>;
+    array<T>(controls: Array<FormControlState<T> | ControlConfig<T> | T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<FormControl<T | null>>;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormBuilder, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<FormBuilder>;
 }
@@ -1978,13 +1934,13 @@ export declare class FormBuilder {
  * console.log(control.status); // 'DISABLED'
  * ```
  */
-export declare interface FormControl extends AbstractControl {
+export declare interface FormControl<TValue = any> extends AbstractControl<TValue> {
     /**
      * The default value of this FormControl, used whenever the control is reset without an explicit
      * value. See {@link FormControlOptions#initialValueIsDefault} for more information on configuring
      * a default value.
      */
-    readonly defaultValue: any;
+    readonly defaultValue: TValue;
     /**
      * Sets a new value for the form control.
      *
@@ -2008,7 +1964,7 @@ export declare interface FormControl extends AbstractControl {
      * event to update the model.
      *
      */
-    setValue(value: any, options?: {
+    setValue(value: TValue, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;
@@ -2023,7 +1979,7 @@ export declare interface FormControl extends AbstractControl {
      *
      * @see `setValue` for options
      */
-    patchValue(value: any, options?: {
+    patchValue(value: TValue, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;
@@ -2062,10 +2018,14 @@ export declare interface FormControl extends AbstractControl {
      * When false, no events are emitted.
      *
      */
-    reset(formState?: any, options?: {
+    reset(formState?: TValue | FormControlState<TValue>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
+    /**
+     * For a simple FormControl, the raw value is equivalent to the value.
+     */
+    getRawValue(): TValue;
     /**
      * Register a listener for change events.
      *
@@ -2248,7 +2208,7 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
 }
 
 /**
- * Interface for options provided to a {@link FormControl}.
+ * Interface for options provided to a `FormControl`.
  *
  * This interface extends all options from {@link AbstractControlOptions}, plus some options
  * unique to `FormControl`.
@@ -2258,7 +2218,7 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
 export declare interface FormControlOptions extends AbstractControlOptions {
     /**
      * @description
-     * Whether to use the initial value used to construct the {@link FormControl} as its default value
+     * Whether to use the initial value used to construct the `FormControl` as its default value
      * as well. If this option is false or not provided, the default value of a FormControl is `null`.
      * When a FormControl is reset without an explicit value, its value reverts to
      * its default value.
@@ -2267,16 +2227,26 @@ export declare interface FormControlOptions extends AbstractControlOptions {
 }
 
 /**
+ * FormControlState is a boxed form value. It is an object with a `value` key and a `disabled` key.
+ *
+ * @publicApi
+ */
+export declare interface FormControlState<T> {
+    value: T;
+    disabled: boolean;
+}
+
+/**
  * A form can have several different statuses. Each
  * possible status is returned as a string literal.
  *
- * * **VALID**: Reports that a FormControl is valid, meaning that no errors exist in the input
+ * * **VALID**: Reports that a control is valid, meaning that no errors exist in the input
  * value.
- * * **INVALID**: Reports that a FormControl is invalid, meaning that an error exists in the input
+ * * **INVALID**: Reports that a control is invalid, meaning that an error exists in the input
  * value.
- * * **PENDING**: Reports that a FormControl is pending, meaning that that async validation is
+ * * **PENDING**: Reports that a control is pending, meaning that that async validation is
  * occurring and errors are not yet available for the input value.
- * * **DISABLED**: Reports that a FormControl is
+ * * **DISABLED**: Reports that a control is
  * disabled, meaning that the control is exempt from ancestor calculations of validity or value.
  *
  * @publicApi
@@ -2300,6 +2270,9 @@ declare const formDirectiveProvider_2: any;
  *
  * When instantiating a `FormGroup`, pass in a collection of child controls as the first
  * argument. The key for each child registers the name for the control.
+ *
+ * `FormGroup` accepts an optional type parameter `TControl`, which is an object type with inner
+ * control types as values.
  *
  * @usageNotes
  *
@@ -2357,12 +2330,26 @@ declare const formDirectiveProvider_2: any;
  * }, { updateOn: 'blur' });
  * ```
  *
+ * ### Using a FormGroup with optional controls
+ *
+ * It is possible to have optional controls in a FormGroup. An optional control can be removed later
+ * using `removeControl`, and can be omitted when calling `reset`. Optional controls must be
+ * declared optional in the group's type.
+ *
+ * ```ts
+ * const c = new FormGroup<{one?: FormControl<string>}>({
+ *   one: new FormControl('')
+ * });
+ * ```
+ *
+ * Notice that `c.value.one` has type `string|null|undefined`. This is because calling `c.reset({})`
+ * without providing the optional key `one` will cause it to become `null`.
+ *
  * @publicApi
  */
-export declare class FormGroup extends AbstractControl {
-    controls: {
-        [key: string]: AbstractControl;
-    };
+export declare class FormGroup<TControl extends {
+    [K in keyof TControl]: AbstractControl<any>;
+} = any> extends AbstractControl<ɵTypedOrUntyped<TControl, ɵFormGroupValue<TControl>, any>, ɵTypedOrUntyped<TControl, ɵFormGroupRawValue<TControl>, any>> {
     /**
      * Creates a new `FormGroup` instance.
      *
@@ -2376,11 +2363,13 @@ export declare class FormGroup extends AbstractControl {
      * @param asyncValidator A single async validator or array of async validator functions
      *
      */
-    constructor(controls: {
-        [key: string]: AbstractControl;
-    }, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
+    constructor(controls: TControl, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null);
+    controls: ɵTypedOrUntyped<TControl, TControl, {
+        [key: string]: AbstractControl<any>;
+    }>;
     /**
-     * Registers a control with the group's list of controls.
+     * Registers a control with the group's list of controls. In a strongly-typed group, the control
+     * must be in the group's type (possibly as an optional key).
      *
      * This method does not update the value or validity of the control.
      * Use {@link FormGroup#addControl addControl} instead.
@@ -2388,9 +2377,13 @@ export declare class FormGroup extends AbstractControl {
      * @param name The control name to register in the collection
      * @param control Provides the control for the given name
      */
-    registerControl(name: string, control: AbstractControl): AbstractControl;
+    registerControl<K extends string & keyof TControl>(name: K, control: TControl[K]): TControl[K];
+    registerControl(this: FormGroup<{
+        [key: string]: AbstractControl<any>;
+    }>, name: string, control: AbstractControl<any>): AbstractControl<any>;
     /**
-     * Add a control to this group.
+     * Add a control to this group. In a strongly-typed group, the control must be in the group's type
+     * (possibly as an optional key).
      *
      * If a control with a given name already exists, it would *not* be replaced with a new one.
      * If you want to replace an existing control, use the {@link FormGroup#setControl setControl}
@@ -2404,26 +2397,25 @@ export declare class FormGroup extends AbstractControl {
      * `valueChanges` observables emit events with the latest status and value when the control is
      * added. When false, no events are emitted.
      */
-    addControl(name: string, control: AbstractControl, options?: {
+    addControl(this: FormGroup<{
+        [key: string]: AbstractControl<any>;
+    }>, name: string, control: AbstractControl, options?: {
+        emitEvent?: boolean;
+    }): void;
+    addControl<K extends string & keyof TControl>(name: K, control: Required<TControl>[K], options?: {
+        emitEvent?: boolean;
+    }): void;
+    removeControl(this: FormGroup<{
+        [key: string]: AbstractControl<any>;
+    }>, name: string, options?: {
+        emitEvent?: boolean;
+    }): void;
+    removeControl<S extends string>(name: ɵOptionalKeys<TControl> & S, options?: {
         emitEvent?: boolean;
     }): void;
     /**
-     * Remove a control from this group.
-     *
-     * This method also updates the value and validity of the control.
-     *
-     * @param name The control name to remove from the collection
-     * @param options Specifies whether this FormGroup instance should emit events after a
-     *     control is removed.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges` observables emit events with the latest status and value when the control is
-     * removed. When false, no events are emitted.
-     */
-    removeControl(name: string, options?: {
-        emitEvent?: boolean;
-    }): void;
-    /**
-     * Replace an existing control.
+     * Replace an existing control. In a strongly-typed group, the control must be in the group's type
+     * (possibly as an optional key).
      *
      * If a control with a given name does not exist in this `FormGroup`, it will be added.
      *
@@ -2435,7 +2427,12 @@ export declare class FormGroup extends AbstractControl {
      * `valueChanges` observables emit events with the latest status and value when the control is
      * replaced with a new one. When false, no events are emitted.
      */
-    setControl(name: string, control: AbstractControl, options?: {
+    setControl<K extends string & keyof TControl>(name: K, control: TControl[K], options?: {
+        emitEvent?: boolean;
+    }): void;
+    setControl(this: FormGroup<{
+        [key: string]: AbstractControl<any>;
+    }>, name: string, control: AbstractControl, options?: {
         emitEvent?: boolean;
     }): void;
     /**
@@ -2448,7 +2445,10 @@ export declare class FormGroup extends AbstractControl {
      *
      * @returns false for disabled controls, true otherwise.
      */
-    contains(controlName: string): boolean;
+    contains<K extends string>(controlName: K): boolean;
+    contains(this: FormGroup<{
+        [key: string]: AbstractControl<any>;
+    }>, controlName: string): boolean;
     /**
      * Sets the value of the `FormGroup`. It accepts an object that matches
      * the structure of the group, with control names as keys.
@@ -2484,9 +2484,7 @@ export declare class FormGroup extends AbstractControl {
      * observables emit events with the latest status and value when the control value is updated.
      * When false, no events are emitted.
      */
-    setValue(value: {
-        [key: string]: any;
-    }, options?: {
+    setValue(value: ɵFormGroupRawValue<TControl>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -2521,15 +2519,13 @@ export declare class FormGroup extends AbstractControl {
      * is updated. When false, no events are emitted. The configuration options are passed to
      * the {@link AbstractControl#updateValueAndValidity updateValueAndValidity} method.
      */
-    patchValue(value: {
-        [key: string]: any;
-    }, options?: {
+    patchValue(value: ɵFormGroupValue<TControl>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
     /**
      * Resets the `FormGroup`, marks all descendants `pristine` and `untouched` and sets
-     * the value of all descendants to null.
+     * the value of all descendants to their default values, or null if no defaults were provided.
      *
      * You reset to a specific form state by passing in a map of states
      * that matches the structure of your form, with control names as keys. The state
@@ -2584,7 +2580,7 @@ export declare class FormGroup extends AbstractControl {
      * console.log(form.get('first').status);  // 'DISABLED'
      * ```
      */
-    reset(value?: any, options?: {
+    reset(value?: ɵTypedOrUntyped<TControl, ɵFormGroupValue<TControl>, any>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
@@ -2592,10 +2588,8 @@ export declare class FormGroup extends AbstractControl {
      * The aggregate value of the `FormGroup`, including any disabled controls.
      *
      * Retrieves all values regardless of disabled status.
-     * The `value` property is the best way to get the value of the group, because
-     * it excludes disabled controls in the `FormGroup`.
      */
-    getRawValue(): any;
+    getRawValue(): ɵTypedOrUntyped<TControl, ɵFormGroupRawValue<TControl>, any>;
 }
 
 /**
@@ -4275,7 +4269,7 @@ declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
  * Note: this is used for migration purposes only. Please avoid using it directly in your code and
  * prefer `FormControl` instead, unless you have been migrated to it automatically.
  */
-export declare type UntypedFormArray = FormArray;
+export declare type UntypedFormArray = FormArray<any>;
 
 export declare const UntypedFormArray: UntypedFormArrayCtor;
 
@@ -4285,7 +4279,7 @@ declare interface UntypedFormArrayCtor {
      * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
      * manually inspect the prototype chain.
      */
-    prototype: FormArray;
+    prototype: FormArray<any>;
 }
 
 /**
@@ -4323,7 +4317,7 @@ export declare class UntypedFormBuilder extends FormBuilder {
  * Note: this is used for migration purposes only. Please avoid using it directly in your code and
  * prefer `FormControl` instead, unless you have been migrated to it automatically.
  */
-export declare type UntypedFormControl = FormControl;
+export declare type UntypedFormControl = FormControl<any>;
 
 export declare const UntypedFormControl: UntypedFormControlCtor;
 
@@ -4334,7 +4328,7 @@ declare interface UntypedFormControlCtor {
      * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
      * manually inspect the prototype chain.
      */
-    prototype: FormControl;
+    prototype: FormControl<any>;
 }
 
 /**
@@ -4342,7 +4336,7 @@ declare interface UntypedFormControlCtor {
  * Note: this is used for migration purposes only. Please avoid using it directly in your code and
  * prefer `FormControl` instead, unless you have been migrated to it automatically.
  */
-export declare type UntypedFormGroup = FormGroup;
+export declare type UntypedFormGroup = FormGroup<any>;
 
 export declare const UntypedFormGroup: UntypedFormGroupCtor;
 
@@ -4354,7 +4348,7 @@ declare interface UntypedFormGroupCtor {
      * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
      * manually inspect the prototype chain.
      */
-    prototype: FormGroup;
+    prototype: FormGroup<any>;
 }
 
 /**
@@ -4707,6 +4701,35 @@ export declare class Validators {
 export declare const VERSION: Version;
 
 /**
+ * CoerceStrArrToNumArr accepts an array of strings, and converts any numeric string to a number.
+ */
+export declare type ɵCoerceStrArrToNumArr<S> = S extends [infer Head, ...infer Tail] ? Head extends `${number}` ? [
+number,
+...ɵCoerceStrArrToNumArr<Tail>
+] : [
+Head,
+...ɵCoerceStrArrToNumArr<Tail>
+] : [
+];
+
+/**
+ * FormArrayRawValue extracts the type of `.getRawValue()` from a FormArray's element type, and
+ * wraps it in an array. The untyped case falls back to any[].
+ *
+ * Angular uses this type internally to support Typed Forms; do not use it directly.
+ */
+export declare type ɵFormArrayRawValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, Array<ɵRawValue<T>>, any[]>;
+
+/**
+ * FormArrayValue extracts the type of `.value` from a FormArray's element type, and wraps it in an
+ * array.
+ *
+ * Angular uses this type internally to support Typed Forms; do not use it directly. The untyped
+ * case falls back to any[].
+ */
+export declare type ɵFormArrayValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, Array<ɵValue<T>>, any[]>;
+
+/**
  * Various available constructors for `FormControl`.
  * Do not use this interface directly. Instead, use `FormControl`:
  * ```
@@ -4718,7 +4741,7 @@ export declare interface ɵFormControlCtor {
     /**
      * Construct a FormControl with no initial value or validators.
      */
-    new (): FormControl;
+    new (): FormControl<any>;
     /**
      * Creates a new `FormControl` instance.
      *
@@ -4729,15 +4752,63 @@ export declare interface ɵFormControlCtor {
      * such functions, or a `FormControlOptions` object that contains validation functions
      * and a validation trigger.
      *
-     * @param asyncValidator A single async validator or array of async validator functions.
+     * @param asyncValidator A single async validator or array of async validator functions
      */
-    new (formState: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl;
+    new <T = any>(value: FormControlState<T> | T, opts: FormControlOptions & {
+        initialValueIsDefault: true;
+    }): FormControl<T>;
+    new <T = any>(value: FormControlState<T> | T, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T | null>;
     /**
      * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
      * manually inspect the prototype chain.
      */
-    prototype: FormControl;
+    prototype: FormControl<any>;
 }
+
+/**
+ * FormGroupRawValue extracts the type of `.getRawValue()` from a FormGroup's inner object type. The
+ * untyped case falls back to {[key: string]: any}.
+ *
+ * Angular uses this type internally to support Typed Forms; do not use it directly.
+ *
+ * For internal use only.
+ */
+export declare type ɵFormGroupRawValue<T extends {
+    [K in keyof T]?: AbstractControl<any>;
+}> = ɵTypedOrUntyped<T, {
+    [K in keyof T]: ɵRawValue<T[K]>;
+}, {
+    [key: string]: any;
+}>;
+
+/**
+ * FormGroupValue extracts the type of `.value` from a FormGroup's inner object type. The untyped
+ * case falls back to {[key: string]: any}.
+ *
+ * Angular uses this type internally to support Typed Forms; do not use it directly.
+ *
+ * For internal use only.
+ */
+export declare type ɵFormGroupValue<T extends {
+    [K in keyof T]?: AbstractControl<any>;
+}> = ɵTypedOrUntyped<T, Partial<{
+    [K in keyof T]: ɵValue<T[K]>;
+}>, {
+    [key: string]: any;
+}>;
+
+/**
+ * GetProperty takes a type T and some property names or indices K.
+ * If K is a dot-separated string, it is tokenized into an array before proceeding.
+ * Then, the type of the nested property at K is computed: T[K[0]][K[1]][K[2]]...
+ * This works with both objects, which are indexed by property name, and arrays, which are indexed
+ * numerically.
+ *
+ * For internal use only.
+ */
+export declare type ɵGetProperty<T, K> = K extends string ? ɵGetProperty<T, ɵCoerceStrArrToNumArr<ɵTokenize<K, '.'>>> : ɵWriteable<K> extends Array<string | number> ? ɵNavigate<T, ɵWriteable<K>> : any;
+
+export declare type ɵGroupElement<T> = T extends FormControl<infer U> ? FormControl<U> : T extends FormGroup<infer U> ? FormGroup<U> : T extends FormArray<infer U> ? FormArray<U> : T extends AbstractControl<infer U> ? AbstractControl<U> : T extends FormControlState<infer U> ? FormControl<U | null> : T extends ControlConfig<infer U> ? FormControl<U | null> : FormControl<T | null>;
 
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
@@ -4747,6 +4818,14 @@ export declare class ɵInternalFormsSharedModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<ɵInternalFormsSharedModule, [typeof i1.ɵNgNoValidate, typeof i2.NgSelectOption, typeof i3.ɵNgSelectMultipleOption, typeof i4.DefaultValueAccessor, typeof i5.NumberValueAccessor, typeof i6.RangeValueAccessor, typeof i7.CheckboxControlValueAccessor, typeof i2.SelectControlValueAccessor, typeof i3.SelectMultipleControlValueAccessor, typeof i8.RadioControlValueAccessor, typeof i9.NgControlStatus, typeof i9.NgControlStatusGroup, typeof i10.RequiredValidator, typeof i10.MinLengthValidator, typeof i10.MaxLengthValidator, typeof i10.PatternValidator, typeof i10.CheckboxRequiredValidator, typeof i10.EmailValidator, typeof i10.MinValidator, typeof i10.MaxValidator], [typeof i8.RadioControlRegistryModule], [typeof i1.ɵNgNoValidate, typeof i2.NgSelectOption, typeof i3.ɵNgSelectMultipleOption, typeof i4.DefaultValueAccessor, typeof i5.NumberValueAccessor, typeof i6.RangeValueAccessor, typeof i7.CheckboxControlValueAccessor, typeof i2.SelectControlValueAccessor, typeof i3.SelectMultipleControlValueAccessor, typeof i8.RadioControlValueAccessor, typeof i9.NgControlStatus, typeof i9.NgControlStatusGroup, typeof i10.RequiredValidator, typeof i10.MinLengthValidator, typeof i10.MaxLengthValidator, typeof i10.PatternValidator, typeof i10.CheckboxRequiredValidator, typeof i10.EmailValidator, typeof i10.MinValidator, typeof i10.MaxValidator]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<ɵInternalFormsSharedModule>;
 }
+
+declare type ɵIsAny<T, Y, N> = 0 extends (1 & T) ? Y : N;
+
+/**
+ * Navigate takes a type T and an array K, and returns the type of T[K[0]][K[1]][K[2]]...
+ */
+export declare type ɵNavigate<T, K extends (Array<string | number>)> = T extends object ? (K extends [infer Head, ...infer Tail] ? (Head extends keyof T ? (Tail extends (string | number)[] ? [
+] extends Tail ? T[Head] : (ɵNavigate<T[Head], Tail>) : any) : never) : any) : any;
 
 /**
  * @description
@@ -4803,5 +4882,50 @@ export declare class ɵNgSelectMultipleOption implements OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<ɵNgSelectMultipleOption, [null, null, { optional: true; host: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<ɵNgSelectMultipleOption, "option", never, { "ngValue": "ngValue"; "value": "value"; }, {}, never>;
 }
+
+/**
+ * OptionalKeys returns the union of all optional keys in the object.
+ *
+ * Angular uses this type internally to support Typed Forms; do not use it directly.
+ */
+export declare type ɵOptionalKeys<T> = {
+    [K in keyof T]-?: undefined extends T[K] ? K : never;
+}[keyof T];
+
+/**
+ * RawValue gives the type of `.getRawValue()` in an `AbstractControl`.
+ *
+ * For internal use only.
+ */
+export declare type ɵRawValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? (T['setValue'] extends ((v: infer R) => void) ? R : never) : never;
+
+/**
+ * Tokenize splits a string literal S by a delimeter D.
+ */
+export declare type ɵTokenize<S extends string, D extends string> = string extends S ? string[] : S extends `${infer T}${D}${infer U}` ? [T, ...ɵTokenize<U, D>] : [
+S
+];
+
+/**
+ * `TypedOrUntyped` allows one of two different types to be selected, depending on whether the Forms
+ * class it's applied to is typed or not.
+ *
+ * This is for internal Angular usage to support typed forms; do not directly use it.
+ */
+export declare type ɵTypedOrUntyped<T, Typed, Untyped> = ɵIsAny<T, Untyped, Typed>;
+
+/**
+ * Value gives the type of `.value` in an `AbstractControl`.
+ *
+ * For internal use only.
+ */
+export declare type ɵValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? T['value'] : never;
+
+/**
+ * ɵWriteable removes readonly from all keys.
+ */
+export declare type ɵWriteable<T> = {
+    -readonly [P in keyof T]: T[P];
+};
 
 export { }
