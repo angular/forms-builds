@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.13+3.sha-f8a1ea0
+ * @license Angular v14.0.0-next.13+5.sha-94fba9b
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2834,6 +2834,104 @@ export declare class FormGroupName extends AbstractFormGroupDirective implements
 declare const formGroupNameProvider: any;
 
 declare type FormHooks = 'change' | 'blur' | 'submit';
+
+export declare class FormRecord<TControl extends AbstractControl<ɵValue<TControl>, ɵRawValue<TControl>> = AbstractControl> extends FormGroup<{
+    [key: string]: TControl;
+}> {
+}
+
+/**
+ * Tracks the value and validity state of a collection of `FormControl` instances, each of which has
+ * the same value type.
+ *
+ * `FormRecord` is very similar to {@see FormGroup}, except it enforces that all controls in the group have the same type,
+ * and can be used with an open-ended, dynamically changing set of controls.
+ *
+ * @publicApi
+ */
+export declare interface FormRecord<TControl> {
+    /**
+     * Registers a control with the records's list of controls.
+     *
+     * {@see FormGroup#registerControl}
+     */
+    registerControl(name: string, control: TControl): TControl;
+    /**
+     * Add a control to this group.
+     *
+     * {@see FormGroup#addControl}
+     */
+    addControl(name: string, control: TControl, options?: {
+        emitEvent?: boolean;
+    }): void;
+    /**
+     * Remove a control from this group.
+     *
+     * {@see FormGroup#removeControl}
+     */
+    removeControl(name: string, options?: {
+        emitEvent?: boolean;
+    }): void;
+    /**
+     * Replace an existing control.
+     *
+     * {@see FormGroup#setControl}
+     */
+    setControl(name: string, control: TControl, options?: {
+        emitEvent?: boolean;
+    }): void;
+    /**
+     * Check whether there is an enabled control with the given name in the group.
+     *
+     * {@see FormGroup#contains}
+     */
+    contains(controlName: string): boolean;
+    /**
+     * Sets the value of the `FormRecord`. It accepts an object that matches
+     * the structure of the group, with control names as keys.
+     *
+     * {@see FormGroup#setValue}
+     */
+    setValue(value: {
+        [key: string]: ɵValue<TControl>;
+    }, options?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+    }): void;
+    /**
+     * Patches the value of the `FormRecord`. It accepts an object with control
+     * names as keys, and does its best to match the values to the correct controls
+     * in the group.
+     *
+     * {@see FormGroup#patchValue}
+     */
+    patchValue(value: {
+        [key: string]: ɵValue<TControl>;
+    }, options?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+    }): void;
+    /**
+     * Resets the `FormRecord`, marks all descendants `pristine` and `untouched` and sets
+     * the value of all descendants to null.
+     *
+     * {@see FormGroup#reset}
+     */
+    reset(value?: {
+        [key: string]: ɵValue<TControl>;
+    }, options?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+    }): void;
+    /**
+     * The aggregate value of the `FormRecord`, including any disabled controls.
+     *
+     * {@see FormGroup#getRawValue}
+     */
+    getRawValue(): {
+        [key: string]: ɵRawValue<TControl>;
+    };
+}
 
 /**
  * Exports the required providers and directives for template-driven forms,
