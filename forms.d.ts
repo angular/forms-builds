@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.13+57.sha-788f587
+ * @license Angular v14.0.0-next.13+59.sha-ba45428
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1787,10 +1787,8 @@ declare const formArrayNameProvider: any;
  * @publicApi
  */
 export declare class FormBuilder {
-    group<T extends {
-        [K in keyof T]: FormControlState<any> | ControlConfig<any> | FormControl<any> | FormGroup<any> | FormArray<any> | AbstractControl<any> | T[K];
-    }>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
-        [K in keyof T]: ɵGroupElement<T[K]>;
+    group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
+        [K in keyof T]: ɵElement<T[K]>;
     }>;
     /**
      * @description
@@ -1824,13 +1822,20 @@ export declare class FormBuilder {
         initialValueIsDefault: true;
     }): FormControl<T>;
     control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T | null>;
-    array<T>(controls: Array<FormControl<T>>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<FormControl<T>>;
-    array<T extends {
-        [K in keyof T]: AbstractControl<any>;
-    }>(controls: Array<FormGroup<T>>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<FormGroup<T>>;
-    array<T extends AbstractControl<any>>(controls: Array<FormArray<T>>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<FormArray<T>>;
-    array<T extends AbstractControl<any>>(controls: Array<AbstractControl<T>>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<AbstractControl<T>>;
-    array<T>(controls: Array<FormControlState<T> | ControlConfig<T> | T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<FormControl<T | null>>;
+    /**
+     * Constructs a new `FormArray` from the given array of configurations,
+     * validators and options.
+     *
+     * @param controls An array of child controls or control configs. Each child control is given an
+     *     index when it is registered.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of such functions, or an
+     *     `AbstractControlOptions` object that contains
+     * validation functions and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions.
+     */
+    array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T>>;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormBuilder, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<FormBuilder>;
 }
@@ -4391,7 +4396,8 @@ export declare class UntypedFormBuilder extends FormBuilder {
         [key: string]: any;
     }, options?: AbstractControlOptions | null): UntypedFormGroup;
     /**
-     * @deprecated
+     * @deprecated This API is not typesafe and can result in issues with Closure Compiler renaming.
+     * Use the `FormBuilder#group` overload with `AbstractControlOptions` instead.
      */
     group(controlsConfig: {
         [key: string]: any;
@@ -4811,6 +4817,12 @@ Head,
 ];
 
 /**
+ * FormBuilder accepts values in various container shapes, as well as raw values.
+ * Element returns the appropriate corresponding model class.
+ */
+export declare type ɵElement<T> = T extends FormControl<infer U> ? FormControl<U> : T extends FormGroup<infer U> ? FormGroup<U> : T extends FormArray<infer U> ? FormArray<U> : T extends AbstractControl<infer U> ? AbstractControl<U> : T extends FormControlState<infer U> ? FormControl<U | null> : T extends ControlConfig<infer U> ? FormControl<U | null> : T extends Array<infer U | ValidatorFn | ValidatorFn[] | AsyncValidatorFn | AsyncValidatorFn[]> ? FormControl<U | null> : FormControl<T | null>;
+
+/**
  * FormArrayRawValue extracts the type of `.getRawValue()` from a FormArray's element type, and
  * wraps it in an array. The untyped case falls back to any[].
  *
@@ -4905,8 +4917,6 @@ export declare type ɵFormGroupValue<T extends {
  * For internal use only.
  */
 export declare type ɵGetProperty<T, K> = K extends string ? ɵGetProperty<T, ɵCoerceStrArrToNumArr<ɵTokenize<K, '.'>>> : ɵWriteable<K> extends Array<string | number> ? ɵNavigate<T, ɵWriteable<K>> : any;
-
-export declare type ɵGroupElement<T> = T extends FormControl<infer U> ? FormControl<U> : T extends FormGroup<infer U> ? FormGroup<U> : T extends FormArray<infer U> ? FormArray<U> : T extends AbstractControl<infer U> ? AbstractControl<U> : T extends FormControlState<infer U> ? FormControl<U | null> : T extends ControlConfig<infer U> ? FormControl<U | null> : FormControl<T | null>;
 
 /**
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
