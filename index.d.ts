@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.15+sha-38f2906
+ * @license Angular v14.0.0-next.15+sha-fce5063
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1388,8 +1388,11 @@ export declare interface Form {
  * It calculates its status by reducing the status values of its children. For example, if one of
  * the controls in a `FormArray` is invalid, the entire array becomes invalid.
  *
- * `FormArray` is one of the three fundamental building blocks used to define forms in Angular,
- * along with `FormControl` and `FormGroup`.
+ * `FormArray` accepts one generic argument, which is the type of the controls inside.
+ * If you need a heterogenous array, use {@see UntypedFormArray}.
+ *
+ * `FormArray` is one of the four fundamental building blocks used to define forms in Angular,
+ * along with `FormControl`, `FormGroup`, and `FormRecord`.
  *
  * @usageNotes
  *
@@ -1788,6 +1791,21 @@ declare const formArrayNameProvider: any;
  * @publicApi
  */
 export declare class FormBuilder {
+    /**
+     * @description
+     * Construct a new `FormGroup` instance. Accepts a single generic argument, which is an object
+     * containing all the keys and corresponding inner control types.
+     *
+     * @param controls A collection of child controls. The key for each child is the name
+     * under which it is registered.
+     *
+     * @param options Configuration options object for the `FormGroup`. The object should have the
+     * `AbstractControlOptions` type and might contain the following fields:
+     * * `validators`: A synchronous validator function, or an array of validator functions.
+     * * `asyncValidators`: A single async validator or array of async validator functions.
+     * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur'
+     * | submit').
+     */
     group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
         [K in keyof T]: ɵElement<T[K]>;
     }>;
@@ -1825,7 +1843,8 @@ export declare class FormBuilder {
     control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T | null>;
     /**
      * Constructs a new `FormArray` from the given array of configurations,
-     * validators and options.
+     * validators and options. Accepts a single generic argument, which is the type of each control
+     * inside the array.
      *
      * @param controls An array of child controls or control configs. Each child control is given an
      *     index when it is registered.
@@ -1844,10 +1863,16 @@ export declare class FormBuilder {
 /**
  * Tracks the value and validation status of an individual form control.
  *
- * This is one of the three fundamental building blocks of Angular forms, along with
- * `FormGroup` and `FormArray`. It extends the `AbstractControl` class that
+ * This is one of the four fundamental building blocks of Angular forms, along with
+ * `FormGroup`, `FormArray` and `FormRecord`. It extends the `AbstractControl` class that
  * implements most of the base functionality for accessing the value, validation status,
- * user interactions and events. See [usage examples below](#usage-notes).
+ * user interactions and events.
+ *
+ * `FormControl` takes a single generic argument, which describes the type of its value. This
+ * argument always implicitly includes `null` because the control can be reset. To change this
+ * behavior, set `initialValueIsDefault` or see the usage notes below.
+ *
+ * See [usage examples below](#usage-notes).
  *
  * @see `AbstractControl`
  * @see [Reactive Forms Guide](guide/reactive-forms)
@@ -1894,6 +1919,23 @@ export declare class FormBuilder {
  * });
  * ```
  *
+ * ### The single type argument
+ *
+ * `FormControl` accepts a generic argument, which describes the type of its value.
+ * In most cases, this argument will be inferred.
+ *
+ * If you are initializing the control to `null`, or you otherwise wish to provide a
+ * wider type, you may specify the argument explicitly:
+ *
+ * ```
+ * let fc = new FormControl<string|null>(null);
+ * fc.setValue('foo');
+ * ```
+ *
+ * You might notice that `null` is always added to the type of the control.
+ * This is because the control will become `null` if you call `reset`. You can change
+ * this  behavior by setting `{initialValueIsDefault: true}`.
+ *
  * ### Configure the control to update on a blur event
  *
  * Set the `updateOn` option to `'blur'` to update on the blur `event`.
@@ -1910,7 +1952,7 @@ export declare class FormBuilder {
  * const control = new FormControl('', { updateOn: 'submit' });
  * ```
  *
- * ### Reset the control back to an initial value
+ * ### Reset the control back to a specific value
  *
  * You reset to a specific form state by passing through a standalone
  * value or a form state object that contains both a value and a disabled state
@@ -1924,6 +1966,21 @@ export declare class FormBuilder {
  * control.reset('Drew');
  *
  * console.log(control.value); // 'Drew'
+ * ```
+ *
+ * ### Reset the control to its initial value
+ *
+ * If you wish to always reset the control to its initial value (instead of null),
+ * you can pass the `initialValueIsDefault` option:
+ *
+ * ```
+ * const control = new FormControl('Nancy', {initialValueIsDefault: true});
+ *
+ * console.log(control.value); // 'Nancy'
+ *
+ * control.reset();
+ *
+ * console.log(control.value); // 'Nancy'
  * ```
  *
  * ### Reset the control back to an initial value and disabled
@@ -2271,11 +2328,14 @@ declare const formDirectiveProvider_2: any;
  * of its children. For example, if one of the controls in a group is invalid, the entire
  * group becomes invalid.
  *
- * `FormGroup` is one of the three fundamental building blocks used to define forms in Angular,
- * along with `FormControl` and `FormArray`.
+ * `FormGroup` is one of the four fundamental building blocks used to define forms in Angular,
+ * along with `FormControl`, `FormArray`, and `FormRecord`.
  *
  * When instantiating a `FormGroup`, pass in a collection of child controls as the first
  * argument. The key for each child registers the name for the control.
+ *
+ * `FormGroup` is intended for use cases where the keys are known ahead of time.
+ * If you need to dynamically add and remove controls, use {@see FormRecord} instead.
  *
  * `FormGroup` accepts an optional type parameter `TControl`, which is an object type with inner
  * control types as values.
@@ -2292,6 +2352,26 @@ declare const formDirectiveProvider_2: any;
  *
  * console.log(form.value);   // {first: 'Nancy', last; 'Drew'}
  * console.log(form.status);  // 'VALID'
+ * ```
+ *
+ * ### The type argument, and optional controls
+ *
+ * `FormGroup` accepts one generic argument, which is an object containing its inner controls.
+ * This type will usually be inferred automatically, but you can always specify it explicitly if you
+ * wish.
+ *
+ * If you have controls that are optional (i.e. they can be removed, you can use the `?` in the
+ * type):
+ *
+ * ```
+ * const form = new FormGroup<{
+ *   first: FormControl<string|null>,
+ *   middle?: FormControl<string|null>, // Middle name is optional.
+ *   last: FormControl<string|null>,
+ * }>({
+ *   first: new FormControl('Nancy'),
+ *   last: new FormControl('Drew'),
+ * });
  * ```
  *
  * ### Create a form group with a group-level validator
@@ -2850,8 +2930,18 @@ export declare class FormRecord<TControl extends AbstractControl<ɵValue<TContro
  * Tracks the value and validity state of a collection of `FormControl` instances, each of which has
  * the same value type.
  *
- * `FormRecord` is very similar to {@see FormGroup}, except it enforces that all controls in the group have the same type,
- * and can be used with an open-ended, dynamically changing set of controls.
+ * `FormRecord` is very similar to {@see FormGroup}, except it can be used with a dynamic keys,
+ * with controls added and removed as needed.
+ *
+ * `FormRecord` accepts one generic argument, which describes the type of the controls it contains.
+ *
+ * @usageNotes
+ *
+ * ```
+ * let numbers = new FormRecord({bill: '415-123-456'});
+ * numbers.addControl('bob', '415-234-567');
+ * numbers.removeControl('bill');
+ * ```
  *
  * @publicApi
  */
@@ -4369,9 +4459,8 @@ declare const SHARED_FORM_DIRECTIVES: Type<any>[];
 declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
 
 /**
- * UntypedFormArray is a non-strongly-typed version of @see FormArray.
- * Note: this is used for migration purposes only. Please avoid using it directly in your code and
- * prefer `FormControl` instead, unless you have been migrated to it automatically.
+ * UntypedFormArray is a non-strongly-typed version of @see FormArray, which
+ * permits heterogenous controls.
  */
 export declare type UntypedFormArray = FormArray<any>;
 
@@ -4419,8 +4508,6 @@ export declare class UntypedFormBuilder extends FormBuilder {
 
 /**
  * UntypedFormControl is a non-strongly-typed version of @see FormControl.
- * Note: this is used for migration purposes only. Please avoid using it directly in your code and
- * prefer `FormControl` instead, unless you have been migrated to it automatically.
  */
 export declare type UntypedFormControl = FormControl<any>;
 
@@ -4438,8 +4525,6 @@ declare interface UntypedFormControlCtor {
 
 /**
  * UntypedFormGroup is a non-strongly-typed version of @see FormGroup.
- * Note: this is used for migration purposes only. Please avoid using it directly in your code and
- * prefer `FormControl` instead, unless you have been migrated to it automatically.
  */
 export declare type UntypedFormGroup = FormGroup<any>;
 
