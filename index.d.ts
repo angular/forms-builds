@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-next.15+sha-41e2a68
+ * @license Angular v14.0.0-next.15+sha-2dbdebc
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1791,6 +1791,50 @@ declare const formArrayNameProvider: any;
  * @publicApi
  */
 export declare class FormBuilder {
+    private useNonNullable;
+    /**
+     * @description
+     * Returns a FormBuilder in which automatically constructed @see FormControl} elements
+     * have `{initialValueIsDefault: true}` and are non-nullable.
+     *
+     * **Constructing non-nullable controls**
+     *
+     * When constructing a control, it will be non-nullable, and will reset to its initial value.
+     *
+     * ```ts
+     * let nnfb = new FormBuilder().nonNullable;
+     * let name = nnfb.control('Alex'); // FormControl<string>
+     * name.reset();
+     * console.log(name); // 'Alex'
+     * ```
+     *
+     * **Constructing non-nullable groups or arrays**
+     *
+     * When constructing a group or array, all automatically created inner controls will be
+     * non-nullable, and will reset to their initial values.
+     *
+     * ```ts
+     * let nnfb = new FormBuilder().nonNullable;
+     * let name = nnfb.group({who: 'Alex'}); // FormGroup<{who: FormControl<string>}>
+     * name.reset();
+     * console.log(name); // {who: 'Alex'}
+     * ```
+     * **Constructing *nullable* fields on groups or arrays**
+     *
+     * It is still possible to have a nullable field. In particular, any `FormControl` which is
+     * *already* constructed will not be altered. For example:
+     *
+     * ```ts
+     * let nnfb = new FormBuilder().nonNullable;
+     * // FormGroup<{who: FormControl<string|null>}>
+     * let name = nnfb.group({who: new FormControl('Alex')});
+     * name.reset(); console.log(name); // {who: null}
+     * ```
+     *
+     * Because the inner control is constructed explicitly by the caller, the builder has
+     * no control over how it is created, and cannot exclude the `null`.
+     */
+    get nonNullable(): NonNullableFormBuilder;
     /**
      * @description
      * Construct a new `FormGroup` instance. Accepts a single generic argument, which is an object
@@ -1807,7 +1851,7 @@ export declare class FormBuilder {
      * | submit').
      */
     group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
-        [K in keyof T]: ɵElement<T[K]>;
+        [K in keyof T]: ɵElement<T[K], null>;
     }>;
     /**
      * @description
@@ -1855,7 +1899,7 @@ export declare class FormBuilder {
      *
      * @param asyncValidator A single async validator or array of async validator functions.
      */
-    array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T>>;
+    array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T, null>>;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormBuilder, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<FormBuilder>;
 }
@@ -4004,6 +4048,35 @@ export declare class NgSelectOption implements OnDestroy {
     static ɵdir: i0.ɵɵDirectiveDeclaration<NgSelectOption, "option", never, { "ngValue": "ngValue"; "value": "value"; }, {}, never, never, false>;
 }
 
+/**
+ * @description
+ * `NonNullableFormBuilder` is similar to {@see FormBuilder}, but automatically constructed
+ * {@see FormControl} elements have `{initialValueIsDefault: true}` and are non-nullable.
+ *
+ * @publicApi
+ */
+export declare interface NonNullableFormBuilder {
+    /**
+     * Similar to {@see FormBuilder#group}, except any implicitly constructed `FormControl`
+     * will be non-nullable (i.e. it will have `initialValueIsDefault` set to true). Note
+     * that already-constructed controls will not be altered.
+     */
+    group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
+        [K in keyof T]: ɵElement<T[K], never>;
+    }>;
+    /**
+     * Similar to {@see FormBuilder#array}, except any implicitly constructed `FormControl`
+     * will be non-nullable (i.e. it will have `initialValueIsDefault` set to true). Note
+     * that already-constructed controls will not be altered.
+     */
+    array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T, never>>;
+    /**
+     * Similar to {@see FormBuilder#control}, except this overridden version of `control` forces
+     * `initialValueIsDefault` to be `true`, resulting in the control always being non-nullable.
+     */
+    control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T>;
+}
+
 declare const NUMBER_VALUE_ACCESSOR: any;
 
 /**
@@ -4480,7 +4553,7 @@ declare interface UntypedFormArrayCtor {
  */
 export declare class UntypedFormBuilder extends FormBuilder {
     /**
-     * @see FormBuilder#group
+     * Like {@see FormBuilder#group}, except the resulting group is untyped.
      */
     group(controlsConfig: {
         [key: string]: any;
@@ -4495,11 +4568,11 @@ export declare class UntypedFormBuilder extends FormBuilder {
         [key: string]: any;
     }): UntypedFormGroup;
     /**
-     * @see FormBuilder#control
+     * Like {@see FormBuilder#control}, except the resulting control is untyped.
      */
     control(formState: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormControl;
     /**
-     * @see FormBuilder#array
+     * Like {@see FormBuilder#array}, except the resulting array is untyped.
      */
     array(controlsConfig: any[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormArray;
     static ɵfac: i0.ɵɵFactoryDeclaration<UntypedFormBuilder, never>;
@@ -4904,9 +4977,10 @@ Head,
 
 /**
  * FormBuilder accepts values in various container shapes, as well as raw values.
- * Element returns the appropriate corresponding model class.
+ * Element returns the appropriate corresponding model class, given the container T.
+ * The flag N, if not never, makes the resulting `FormControl` have N in its type.
  */
-export declare type ɵElement<T> = T extends FormControl<infer U> ? FormControl<U> : T extends FormGroup<infer U> ? FormGroup<U> : T extends FormArray<infer U> ? FormArray<U> : T extends AbstractControl<infer U> ? AbstractControl<U> : T extends FormControlState<infer U> ? FormControl<U | null> : T extends ControlConfig<infer U> ? FormControl<U | null> : T extends Array<infer U | ValidatorFn | ValidatorFn[] | AsyncValidatorFn | AsyncValidatorFn[]> ? FormControl<U | null> : FormControl<T | null>;
+export declare type ɵElement<T, N extends null> = T extends FormControl<infer U> ? FormControl<U> : T extends FormGroup<infer U> ? FormGroup<U> : T extends FormArray<infer U> ? FormArray<U> : T extends AbstractControl<infer U> ? AbstractControl<U> : T extends FormControlState<infer U> ? FormControl<U | N> : T extends ControlConfig<infer U> ? FormControl<U | N> : T extends Array<infer U | ValidatorFn | ValidatorFn[] | AsyncValidatorFn | AsyncValidatorFn[]> ? FormControl<U | N> : FormControl<T | N>;
 
 /**
  * FormArrayRawValue extracts the type of `.getRawValue()` from a FormArray's element type, and
