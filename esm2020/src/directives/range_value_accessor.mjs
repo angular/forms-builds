@@ -55,9 +55,9 @@ export class RangeValueAccessor extends BuiltInControlValueAccessor {
         };
     }
 }
-RangeValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.5+9.sha-e3b657e", ngImport: i0, type: RangeValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-RangeValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.3.5+9.sha-e3b657e", type: RangeValueAccessor, selector: "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", host: { listeners: { "change": "onChange($event.target.value)", "input": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [RANGE_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.5+9.sha-e3b657e", ngImport: i0, type: RangeValueAccessor, decorators: [{
+RangeValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.6+1.sha-0928025", ngImport: i0, type: RangeValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
+RangeValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.3.6+1.sha-0928025", type: RangeValueAccessor, selector: "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", host: { listeners: { "change": "onChange($event.target.value)", "input": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [RANGE_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.6+1.sha-0928025", ngImport: i0, type: RangeValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',

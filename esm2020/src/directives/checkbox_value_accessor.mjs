@@ -45,9 +45,9 @@ export class CheckboxControlValueAccessor extends BuiltInControlValueAccessor {
         this.setProperty('checked', value);
     }
 }
-CheckboxControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.5+9.sha-e3b657e", ngImport: i0, type: CheckboxControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-CheckboxControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.3.5+9.sha-e3b657e", type: CheckboxControlValueAccessor, selector: "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", host: { listeners: { "change": "onChange($event.target.checked)", "blur": "onTouched()" } }, providers: [CHECKBOX_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.5+9.sha-e3b657e", ngImport: i0, type: CheckboxControlValueAccessor, decorators: [{
+CheckboxControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.6+1.sha-0928025", ngImport: i0, type: CheckboxControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
+CheckboxControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.3.6+1.sha-0928025", type: CheckboxControlValueAccessor, selector: "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", host: { listeners: { "change": "onChange($event.target.checked)", "blur": "onTouched()" } }, providers: [CHECKBOX_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.6+1.sha-0928025", ngImport: i0, type: CheckboxControlValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
