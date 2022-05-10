@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.0+sha-216a966
+ * @license Angular v14.1.0-next.0+sha-43ba4ab
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4055,13 +4055,13 @@ export declare class NgSelectOption implements OnDestroy {
  *
  * @publicApi
  */
-export declare interface NonNullableFormBuilder {
+export declare abstract class NonNullableFormBuilder {
     /**
      * Similar to {@see FormBuilder#group}, except any implicitly constructed `FormControl`
      * will be non-nullable (i.e. it will have `initialValueIsDefault` set to true). Note
      * that already-constructed controls will not be altered.
      */
-    group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
+    abstract group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
         [K in keyof T]: ɵElement<T[K], never>;
     }>;
     /**
@@ -4069,12 +4069,14 @@ export declare interface NonNullableFormBuilder {
      * will be non-nullable (i.e. it will have `initialValueIsDefault` set to true). Note
      * that already-constructed controls will not be altered.
      */
-    array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T, never>>;
+    abstract array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T, never>>;
     /**
      * Similar to {@see FormBuilder#control}, except this overridden version of `control` forces
      * `initialValueIsDefault` to be `true`, resulting in the control always being non-nullable.
      */
-    control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T>;
+    abstract control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NonNullableFormBuilder, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<NonNullableFormBuilder>;
 }
 
 declare const NUMBER_VALUE_ACCESSOR: any;
