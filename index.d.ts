@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.0+sha-74321a4
+ * @license Angular v14.1.0-next.0+sha-e441ff4
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4982,7 +4982,21 @@ Head,
  * Element returns the appropriate corresponding model class, given the container T.
  * The flag N, if not never, makes the resulting `FormControl` have N in its type.
  */
-export declare type ɵElement<T, N extends null> = T extends FormControl<infer U> ? FormControl<U> : T extends FormGroup<infer U> ? FormGroup<U> : T extends FormArray<infer U> ? FormArray<U> : T extends AbstractControl<infer U> ? AbstractControl<U> : T extends FormControlState<infer U> ? FormControl<U | N> : T extends ControlConfig<infer U> ? FormControl<U | N> : T extends Array<infer U | ValidatorFn | ValidatorFn[] | AsyncValidatorFn | AsyncValidatorFn[]> ? FormControl<U | N> : FormControl<T | N>;
+export declare type ɵElement<T, N extends null> = [
+T
+] extends [FormControl<infer U>] ? FormControl<U> : [
+T
+] extends [FormGroup<infer U>] ? FormGroup<U> : [
+T
+] extends [FormArray<infer U>] ? FormArray<U> : [
+T
+] extends [AbstractControl<infer U>] ? AbstractControl<U> : [
+T
+] extends [FormControlState<infer U>] ? FormControl<U | N> : [
+T
+] extends [ControlConfig<infer U>] ? FormControl<U | N> : [
+T
+] extends [Array<infer U | ValidatorFn | ValidatorFn[] | AsyncValidatorFn | AsyncValidatorFn[]>] ? FormControl<U | N> : FormControl<T | N>;
 
 /**
  * FormArrayRawValue extracts the type of `.getRawValue()` from a FormArray's element type, and
