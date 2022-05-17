@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-rc.0+sha-5a04963
+ * @license Angular v14.0.0-rc.0+sha-37dbe55
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2965,11 +2965,6 @@ declare const formGroupNameProvider: any;
 
 declare type FormHooks = 'change' | 'blur' | 'submit';
 
-export declare class FormRecord<TControl extends AbstractControl<Value<TControl>, RawValue<TControl>> = AbstractControl> extends FormGroup<{
-    [key: string]: TControl;
-}> {
-}
-
 /**
  * Tracks the value and validity state of a collection of `FormControl` instances, each of which has
  * the same value type.
@@ -2989,17 +2984,22 @@ export declare class FormRecord<TControl extends AbstractControl<Value<TControl>
  *
  * @publicApi
  */
+export declare class FormRecord<TControl extends AbstractControl<ɵValue<TControl>, ɵRawValue<TControl>> = AbstractControl> extends FormGroup<{
+    [key: string]: TControl;
+}> {
+}
+
 export declare interface FormRecord<TControl> {
     /**
      * Registers a control with the records's list of controls.
      *
-     * {@see FormGroup#registerControl}
+     * See `FormGroup#registerControl` for additional information.
      */
     registerControl(name: string, control: TControl): TControl;
     /**
      * Add a control to this group.
      *
-     * {@see FormGroup#addControl}
+     * See `FormGroup#addControl` for additional information.
      */
     addControl(name: string, control: TControl, options?: {
         emitEvent?: boolean;
@@ -3007,7 +3007,7 @@ export declare interface FormRecord<TControl> {
     /**
      * Remove a control from this group.
      *
-     * {@see FormGroup#removeControl}
+     * See `FormGroup#removeControl` for additional information.
      */
     removeControl(name: string, options?: {
         emitEvent?: boolean;
@@ -3015,7 +3015,7 @@ export declare interface FormRecord<TControl> {
     /**
      * Replace an existing control.
      *
-     * {@see FormGroup#setControl}
+     * See `FormGroup#setControl` for additional information.
      */
     setControl(name: string, control: TControl, options?: {
         emitEvent?: boolean;
@@ -3023,17 +3023,17 @@ export declare interface FormRecord<TControl> {
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * {@see FormGroup#contains}
+     * See `FormGroup#contains` for additional information.
      */
     contains(controlName: string): boolean;
     /**
      * Sets the value of the `FormRecord`. It accepts an object that matches
      * the structure of the group, with control names as keys.
      *
-     * {@see FormGroup#setValue}
+     * See `FormGroup#setValue` for additional information.
      */
     setValue(value: {
-        [key: string]: Value<TControl>;
+        [key: string]: ɵValue<TControl>;
     }, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -3043,10 +3043,10 @@ export declare interface FormRecord<TControl> {
      * names as keys, and does its best to match the values to the correct controls
      * in the group.
      *
-     * {@see FormGroup#patchValue}
+     * See `FormGroup#patchValue` for additional information.
      */
     patchValue(value: {
-        [key: string]: Value<TControl>;
+        [key: string]: ɵValue<TControl>;
     }, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -3055,10 +3055,10 @@ export declare interface FormRecord<TControl> {
      * Resets the `FormRecord`, marks all descendants `pristine` and `untouched` and sets
      * the value of all descendants to null.
      *
-     * {@see FormGroup#reset}
+     * See `FormGroup#reset` for additional information.
      */
     reset(value?: {
-        [key: string]: Value<TControl>;
+        [key: string]: ɵValue<TControl>;
     }, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -3066,10 +3066,10 @@ export declare interface FormRecord<TControl> {
     /**
      * The aggregate value of the `FormRecord`, including any disabled controls.
      *
-     * {@see FormGroup#getRawValue}
+     * See `FormGroup#getRawValue` for additional information.
      */
     getRawValue(): {
-        [key: string]: RawValue<TControl>;
+        [key: string]: ɵRawValue<TControl>;
     };
 }
 
@@ -4057,7 +4057,7 @@ export declare class NgSelectOption implements OnDestroy {
  */
 export declare abstract class NonNullableFormBuilder {
     /**
-     * Similar to {@see FormBuilder#group}, except any implicitly constructed `FormControl`
+     * Similar to `FormBuilder#group`, except any implicitly constructed `FormControl`
      * will be non-nullable (i.e. it will have `initialValueIsDefault` set to true). Note
      * that already-constructed controls will not be altered.
      */
@@ -4065,13 +4065,13 @@ export declare abstract class NonNullableFormBuilder {
         [K in keyof T]: ɵElement<T[K], never>;
     }>;
     /**
-     * Similar to {@see FormBuilder#array}, except any implicitly constructed `FormControl`
+     * Similar to `FormBuilder#array`, except any implicitly constructed `FormControl`
      * will be non-nullable (i.e. it will have `initialValueIsDefault` set to true). Note
      * that already-constructed controls will not be altered.
      */
     abstract array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T, never>>;
     /**
-     * Similar to {@see FormBuilder#control}, except this overridden version of `control` forces
+     * Similar to `FormBuilder#control`, except this overridden version of `control` forces
      * `initialValueIsDefault` to be `true`, resulting in the control always being non-nullable.
      */
     abstract control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T>;
@@ -4312,35 +4312,6 @@ export declare class RangeValueAccessor extends BuiltInControlValueAccessor impl
     static ɵfac: i0.ɵɵFactoryDeclaration<RangeValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<RangeValueAccessor, "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", never, {}, {}, never, never, false>;
 }
-
-/**
- * RawValue gives the raw value type corresponding to a control type.
- *
- * Note that the resulting type will follow the same rules as `.getRawValue()` on your control,
- * group, or array. This means that all controls inside a group will be required, not optional,
- * regardless of their disabled state.
- *
- * You may also wish to use {@see Value}, which will have `undefined` in group keys (which can be disabled).
- *
- * @usageNotes
- *
- * ### `FormGroup` raw value type
- *
- * Imagine you have an interface defining the controls in your group. You can extract the shape of
- * the raw values as follows:
- *
- * ```ts
- * interface PartyFormControls {
- *   address: FormControl<string>;
- * }
- *
- * // RawValue operates on controls; the object must be wrapped in a FormGroup.
- * type PartyFormValues = RawValue<FormGroup<PartyFormControls>>;
- * ```
- *
- * The resulting type is `{address: string}`. (Note the absence of `undefined`.)
- */
-export declare type RawValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? (T['setValue'] extends ((v: infer R) => void) ? R : never) : never;
 
 declare const REACTIVE_DRIVEN_DIRECTIVES: Type<any>[];
 
@@ -4584,7 +4555,7 @@ declare interface UntypedFormArrayCtor {
  */
 export declare class UntypedFormBuilder extends FormBuilder {
     /**
-     * Like {@see FormBuilder#group}, except the resulting group is untyped.
+     * Like `FormBuilder#group`, except the resulting group is untyped.
      */
     group(controlsConfig: {
         [key: string]: any;
@@ -4599,11 +4570,11 @@ export declare class UntypedFormBuilder extends FormBuilder {
         [key: string]: any;
     }): UntypedFormGroup;
     /**
-     * Like {@see FormBuilder#control}, except the resulting control is untyped.
+     * Like `FormBuilder#control`, except the resulting control is untyped.
      */
     control(formState: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormControl;
     /**
-     * Like {@see FormBuilder#array}, except the resulting array is untyped.
+     * Like `FormBuilder#array`, except the resulting array is untyped.
      */
     array(controlsConfig: any[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormArray;
     static ɵfac: i0.ɵɵFactoryDeclaration<UntypedFormBuilder, never>;
@@ -4990,58 +4961,6 @@ export declare class Validators {
 }
 
 /**
- * Value gives the value type corresponding to a control type.
- *
- * Note that the resulting type will follow the same rules as `.value` on your control, group, or
- * array, including `undefined` for each group element which might be disabled.
- *
- * If you are trying to extract a value type for a data model, you probably want {@see RawValue},
- * which will not have `undefined` in group keys.
- *
- * @usageNotes
- *
- * ### `FormControl` value type
- *
- * You can extract the value type of a single control:
- *
- * ```ts
- * type NameControl = FormControl<string>;
- * type NameValue = Value<NameControl>;
- * ```
- *
- * The resulting type is `string`.
- *
- * ### `FormGroup` value type
- *
- * Imagine you have an interface defining the controls in your group. You can extract the shape of
- * the values as follows:
- *
- * ```ts
- * interface PartyFormControls {
- *   address: FormControl<string>;
- * }
- *
- * // Value operates on controls; the object must be wrapped in a FormGroup.
- * type PartyFormValues = Value<FormGroup<PartyFormControls>>;
- * ```
- *
- * The resulting type is `{address: string|undefined}`.
- *
- * ### `FormArray` value type
- *
- * You can extract values from FormArrays as well:
- *
- * ```ts
- * type GuestNamesControls = FormArray<FormControl<string>>;
- *
- * type NamesValues = Value<GuestNamesControls>;
- * ```
- *
- * The resulting type is `string[]`.
- */
-export declare type Value<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? T['value'] : never;
-
-/**
  * @publicApi
  */
 export declare const VERSION: Version;
@@ -5085,7 +5004,7 @@ T
  *
  * Angular uses this type internally to support Typed Forms; do not use it directly.
  */
-export declare type ɵFormArrayRawValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, Array<RawValue<T>>, any[]>;
+export declare type ɵFormArrayRawValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, Array<ɵRawValue<T>>, any[]>;
 
 /**
  * FormArrayValue extracts the type of `.value` from a FormArray's element type, and wraps it in an
@@ -5094,7 +5013,7 @@ export declare type ɵFormArrayRawValue<T extends AbstractControl<any>> = ɵType
  * Angular uses this type internally to support Typed Forms; do not use it directly. The untyped
  * case falls back to any[].
  */
-export declare type ɵFormArrayValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, Array<Value<T>>, any[]>;
+export declare type ɵFormArrayValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, Array<ɵValue<T>>, any[]>;
 
 /**
  * Various available constructors for `FormControl`.
@@ -5143,7 +5062,7 @@ export declare interface ɵFormControlCtor {
 export declare type ɵFormGroupRawValue<T extends {
     [K in keyof T]?: AbstractControl<any>;
 }> = ɵTypedOrUntyped<T, {
-    [K in keyof T]: RawValue<T[K]>;
+    [K in keyof T]: ɵRawValue<T[K]>;
 }, {
     [key: string]: any;
 }>;
@@ -5159,7 +5078,7 @@ export declare type ɵFormGroupRawValue<T extends {
 export declare type ɵFormGroupValue<T extends {
     [K in keyof T]?: AbstractControl<any>;
 }> = ɵTypedOrUntyped<T, Partial<{
-    [K in keyof T]: Value<T[K]>;
+    [K in keyof T]: ɵValue<T[K]>;
 }>, {
     [key: string]: any;
 }>;
@@ -5258,6 +5177,37 @@ export declare type ɵOptionalKeys<T> = {
 }[keyof T];
 
 /**
+ * RawValue gives the raw value type corresponding to a control type.
+ *
+ * Note that the resulting type will follow the same rules as `.getRawValue()` on your control,
+ * group, or array. This means that all controls inside a group will be required, not optional,
+ * regardless of their disabled state.
+ *
+ * You may also wish to use {@see Value}, which will have `undefined` in group keys (which can be disabled).
+ *
+ * @usageNotes
+ *
+ * ### `FormGroup` raw value type
+ *
+ * Imagine you have an interface defining the controls in your group. You can extract the shape of
+ * the raw values as follows:
+ *
+ * ```ts
+ * interface PartyFormControls {
+ *   address: FormControl<string>;
+ * }
+ *
+ * // RawValue operates on controls; the object must be wrapped in a FormGroup.
+ * type PartyFormValues = RawValue<FormGroup<PartyFormControls>>;
+ * ```
+ *
+ * The resulting type is `{address: string}`. (Note the absence of `undefined`.)
+ *
+ *  **Internal: not for public use.**
+ */
+export declare type ɵRawValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? (T['setValue'] extends ((v: infer R) => void) ? R : never) : never;
+
+/**
  * Tokenize splits a string literal S by a delimeter D.
  */
 export declare type ɵTokenize<S extends string, D extends string> = string extends S ? string[] : S extends `${infer T}${D}${infer U}` ? [T, ...ɵTokenize<U, D>] : [
@@ -5271,6 +5221,60 @@ S
  * This is for internal Angular usage to support typed forms; do not directly use it.
  */
 export declare type ɵTypedOrUntyped<T, Typed, Untyped> = ɵIsAny<T, Untyped, Typed>;
+
+/**
+ * Value gives the value type corresponding to a control type.
+ *
+ * Note that the resulting type will follow the same rules as `.value` on your control, group, or
+ * array, including `undefined` for each group element which might be disabled.
+ *
+ * If you are trying to extract a value type for a data model, you probably want {@see RawValue},
+ * which will not have `undefined` in group keys.
+ *
+ * @usageNotes
+ *
+ * ### `FormControl` value type
+ *
+ * You can extract the value type of a single control:
+ *
+ * ```ts
+ * type NameControl = FormControl<string>;
+ * type NameValue = Value<NameControl>;
+ * ```
+ *
+ * The resulting type is `string`.
+ *
+ * ### `FormGroup` value type
+ *
+ * Imagine you have an interface defining the controls in your group. You can extract the shape of
+ * the values as follows:
+ *
+ * ```ts
+ * interface PartyFormControls {
+ *   address: FormControl<string>;
+ * }
+ *
+ * // Value operates on controls; the object must be wrapped in a FormGroup.
+ * type PartyFormValues = Value<FormGroup<PartyFormControls>>;
+ * ```
+ *
+ * The resulting type is `{address: string|undefined}`.
+ *
+ * ### `FormArray` value type
+ *
+ * You can extract values from FormArrays as well:
+ *
+ * ```ts
+ * type GuestNamesControls = FormArray<FormControl<string>>;
+ *
+ * type NamesValues = Value<GuestNamesControls>;
+ * ```
+ *
+ * The resulting type is `string[]`.
+ *
+ * **Internal: not for public use.**
+ */
+export declare type ɵValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? T['value'] : never;
 
 /**
  * ɵWriteable removes readonly from all keys.
