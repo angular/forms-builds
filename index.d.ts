@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0-rc.1+sha-2bc6535
+ * @license Angular v14.0.0-rc.1+sha-2e96ced
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1795,7 +1795,7 @@ export declare class FormBuilder {
     /**
      * @description
      * Returns a FormBuilder in which automatically constructed @see FormControl} elements
-     * have `{initialValueIsDefault: true}` and are non-nullable.
+     * have `{nonNullable: true}` and are non-nullable.
      *
      * **Constructing non-nullable controls**
      *
@@ -1881,9 +1881,17 @@ export declare class FormBuilder {
     }, options: {
         [key: string]: any;
     }): FormGroup;
+    /** @deprecated Use `nonNullable` instead. */
     control<T>(formState: T | FormControlState<T>, opts: FormControlOptions & {
         initialValueIsDefault: true;
     }): FormControl<T>;
+    control<T>(formState: T | FormControlState<T>, opts: FormControlOptions & {
+        nonNullable: true;
+    }): FormControl<T>;
+    /**
+     * @deprecated When passing an `options` argument, the `asyncValidator` argument has no effect.
+     */
+    control<T>(formState: T | FormControlState<T>, opts: FormControlOptions, asyncValidator: AsyncValidatorFn | AsyncValidatorFn[]): FormControl<T | null>;
     control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T | null>;
     /**
      * Constructs a new `FormArray` from the given array of configurations,
@@ -1914,7 +1922,7 @@ export declare class FormBuilder {
  *
  * `FormControl` takes a single generic argument, which describes the type of its value. This
  * argument always implicitly includes `null` because the control can be reset. To change this
- * behavior, set `initialValueIsDefault` or see the usage notes below.
+ * behavior, set `nonNullable` or see the usage notes below.
  *
  * See [usage examples below](#usage-notes).
  *
@@ -1978,7 +1986,7 @@ export declare class FormBuilder {
  *
  * You might notice that `null` is always added to the type of the control.
  * This is because the control will become `null` if you call `reset`. You can change
- * this  behavior by setting `{initialValueIsDefault: true}`.
+ * this behavior by setting `{nonNullable: true}`.
  *
  * ### Configure the control to update on a blur event
  *
@@ -2015,10 +2023,10 @@ export declare class FormBuilder {
  * ### Reset the control to its initial value
  *
  * If you wish to always reset the control to its initial value (instead of null),
- * you can pass the `initialValueIsDefault` option:
+ * you can pass the `nonNullable` option:
  *
  * ```
- * const control = new FormControl('Nancy', {initialValueIsDefault: true});
+ * const control = new FormControl('Nancy', {nonNullable: true});
  *
  * console.log(control.value); // 'Nancy'
  *
@@ -2044,7 +2052,7 @@ export declare class FormBuilder {
 export declare interface FormControl<TValue = any> extends AbstractControl<TValue> {
     /**
      * The default value of this FormControl, used whenever the control is reset without an explicit
-     * value. See {@link FormControlOptions#initialValueIsDefault} for more information on configuring
+     * value. See {@link FormControlOptions#nonNullable} for more information on configuring
      * a default value.
      */
     readonly defaultValue: TValue;
@@ -2095,7 +2103,7 @@ export declare interface FormControl<TValue = any> extends AbstractControl<TValu
     /**
      * Resets the form control, marking it `pristine` and `untouched`, and resetting
      * the value. The new value will be the provided value (if passed), `null`, or the initial value
-     * if `initialValueIsDefault` was set in the constructor via {@link FormControlOptions}.
+     * if `nonNullable` was set in the constructor via {@link FormControlOptions}.
      *
      * ```ts
      * // By default, the control will reset to null.
@@ -2103,11 +2111,11 @@ export declare interface FormControl<TValue = any> extends AbstractControl<TValu
      * dog.reset(); // dog.value is null
      *
      * // If this flag is set, the control will instead reset to the initial value.
-     * const cat = new FormControl('tabby', {initialValueIsDefault: true});
+     * const cat = new FormControl('tabby', {nonNullable: true});
      * cat.reset(); // cat.value is "tabby"
      *
      * // A value passed to reset always takes precedence.
-     * const fish = new FormControl('finn', {initialValueIsDefault: true});
+     * const fish = new FormControl('finn', {nonNullable: true});
      * fish.reset('bubble'); // fish.value is "bubble"
      * ```
      *
@@ -2329,6 +2337,10 @@ export declare interface FormControlOptions extends AbstractControlOptions {
      * as well. If this option is false or not provided, the default value of a FormControl is `null`.
      * When a FormControl is reset without an explicit value, its value reverts to
      * its default value.
+     */
+    nonNullable?: boolean;
+    /**
+     * @deprecated Use `nonNullable` instead.
      */
     initialValueIsDefault?: boolean;
 }
@@ -4051,14 +4063,14 @@ export declare class NgSelectOption implements OnDestroy {
 /**
  * @description
  * `NonNullableFormBuilder` is similar to {@link FormBuilder}, but automatically constructed
- * {@link FormControl} elements have `{initialValueIsDefault: true}` and are non-nullable.
+ * {@link FormControl} elements have `{nonNullable: true}` and are non-nullable.
  *
  * @publicApi
  */
 export declare abstract class NonNullableFormBuilder {
     /**
      * Similar to `FormBuilder#group`, except any implicitly constructed `FormControl`
-     * will be non-nullable (i.e. it will have `initialValueIsDefault` set to true). Note
+     * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
      * that already-constructed controls will not be altered.
      */
     abstract group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
@@ -4066,13 +4078,13 @@ export declare abstract class NonNullableFormBuilder {
     }>;
     /**
      * Similar to `FormBuilder#array`, except any implicitly constructed `FormControl`
-     * will be non-nullable (i.e. it will have `initialValueIsDefault` set to true). Note
+     * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
      * that already-constructed controls will not be altered.
      */
     abstract array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T, never>>;
     /**
      * Similar to `FormBuilder#control`, except this overridden version of `control` forces
-     * `initialValueIsDefault` to be `true`, resulting in the control always being non-nullable.
+     * `nonNullable` to be `true`, resulting in the control always being non-nullable.
      */
     abstract control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T>;
     static ɵfac: i0.ɵɵFactoryDeclaration<NonNullableFormBuilder, never>;
@@ -5041,8 +5053,18 @@ export declare interface ɵFormControlCtor {
      * @param asyncValidator A single async validator or array of async validator functions
      */
     new <T = any>(value: FormControlState<T> | T, opts: FormControlOptions & {
+        nonNullable: true;
+    }): FormControl<T>;
+    /**
+     * @deprecated Use `nonNullable` instead.
+     */
+    new <T = any>(value: FormControlState<T> | T, opts: FormControlOptions & {
         initialValueIsDefault: true;
     }): FormControl<T>;
+    /**
+     * @deprecated When passing an `options` argument, the `asyncValidator` argument has no effect.
+     */
+    new <T = any>(value: FormControlState<T> | T, opts: FormControlOptions, asyncValidator: AsyncValidatorFn | AsyncValidatorFn[]): FormControl<T | null>;
     new <T = any>(value: FormControlState<T> | T, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T | null>;
     /**
      * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
