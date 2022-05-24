@@ -1,19 +1,19 @@
 {
   "name": "@angular/forms",
-  "version": "14.1.0-next.0+sha-8629f2d",
+  "version": "13.3.9+18.sha-3e3f8fc",
   "description": "Angular - directives and services for creating forms",
   "author": "angular",
   "license": "MIT",
   "engines": {
-    "node": "^14.15.0 || >=16.10.0"
+    "node": "^12.20.0 || ^14.15.0 || >=16.10.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "14.1.0-next.0+sha-8629f2d",
-    "@angular/common": "14.1.0-next.0+sha-8629f2d",
-    "@angular/platform-browser": "14.1.0-next.0+sha-8629f2d",
+    "@angular/core": "13.3.9+18.sha-3e3f8fc",
+    "@angular/common": "13.3.9+18.sha-3e3f8fc",
+    "@angular/platform-browser": "13.3.9+18.sha-3e3f8fc",
     "rxjs": "^6.5.3 || ^7.4.0"
   },
   "repository": {
@@ -45,7 +45,7 @@
   "fesm2020": "./fesm2020/forms.mjs",
   "fesm2015": "./fesm2015/forms.mjs",
   "esm2020": "./esm2020/forms.mjs",
-  "typings": "./index.d.ts",
+  "typings": "./forms.d.ts",
   "module": "./fesm2015/forms.mjs",
   "es2020": "./fesm2020/forms.mjs",
   "type": "module",
@@ -54,7 +54,7 @@
       "default": "./package.json"
     },
     ".": {
-      "types": "./index.d.ts",
+      "types": "./forms.d.ts",
       "esm2020": "./esm2020/forms.mjs",
       "es2020": "./fesm2020/forms.mjs",
       "es2015": "./fesm2015/forms.mjs",
