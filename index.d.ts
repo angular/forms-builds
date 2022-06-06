@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.0+sha-cc18392
+ * @license Angular v14.1.0-next.0+sha-612b408
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4998,11 +4998,19 @@ export declare type ɵElement<T, N extends null> = [
 T
 ] extends [FormControl<infer U>] ? FormControl<U> : [
 T
+] extends [FormControl<infer U> | undefined] ? FormControl<U> : [
+T
 ] extends [FormGroup<infer U>] ? FormGroup<U> : [
+T
+] extends [FormGroup<infer U> | undefined] ? FormGroup<U> : [
 T
 ] extends [FormArray<infer U>] ? FormArray<U> : [
 T
+] extends [FormArray<infer U> | undefined] ? FormArray<U> : [
+T
 ] extends [AbstractControl<infer U>] ? AbstractControl<U> : [
+T
+] extends [AbstractControl<infer U> | undefined] ? AbstractControl<U> : [
 T
 ] extends [FormControlState<infer U>] ? FormControl<U | N> : [
 T
