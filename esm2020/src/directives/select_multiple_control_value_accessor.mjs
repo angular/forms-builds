@@ -158,9 +158,9 @@ export class SelectMultipleControlValueAccessor extends BuiltInControlValueAcces
         return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
     }
 }
-SelectMultipleControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.0-next.0+sha-d67cf92", ngImport: i0, type: SelectMultipleControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-SelectMultipleControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "14.1.0-next.0+sha-d67cf92", type: SelectMultipleControlValueAccessor, selector: "select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]", inputs: { compareWith: "compareWith" }, host: { listeners: { "change": "onChange($event.target)", "blur": "onTouched()" } }, providers: [SELECT_MULTIPLE_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.0-next.0+sha-d67cf92", ngImport: i0, type: SelectMultipleControlValueAccessor, decorators: [{
+SelectMultipleControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.0-next.0+sha-c083f6d", ngImport: i0, type: SelectMultipleControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
+SelectMultipleControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "14.1.0-next.0+sha-c083f6d", type: SelectMultipleControlValueAccessor, selector: "select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]", inputs: { compareWith: "compareWith" }, host: { listeners: { "change": "onChange($event.target)", "blur": "onTouched()" } }, providers: [SELECT_MULTIPLE_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.0-next.0+sha-c083f6d", ngImport: i0, type: SelectMultipleControlValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
@@ -232,9 +232,9 @@ export class ɵNgSelectMultipleOption {
         }
     }
 }
-ɵNgSelectMultipleOption.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.0-next.0+sha-d67cf92", ngImport: i0, type: ɵNgSelectMultipleOption, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }, { token: SelectMultipleControlValueAccessor, host: true, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-ɵNgSelectMultipleOption.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "14.1.0-next.0+sha-d67cf92", type: ɵNgSelectMultipleOption, selector: "option", inputs: { ngValue: "ngValue", value: "value" }, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.0-next.0+sha-d67cf92", ngImport: i0, type: ɵNgSelectMultipleOption, decorators: [{
+ɵNgSelectMultipleOption.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.0-next.0+sha-c083f6d", ngImport: i0, type: ɵNgSelectMultipleOption, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }, { token: SelectMultipleControlValueAccessor, host: true, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
+ɵNgSelectMultipleOption.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "14.1.0-next.0+sha-c083f6d", type: ɵNgSelectMultipleOption, selector: "option", inputs: { ngValue: "ngValue", value: "value" }, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.0-next.0+sha-c083f6d", ngImport: i0, type: ɵNgSelectMultipleOption, decorators: [{
             type: Directive,
             args: [{ selector: 'option' }]
         }], ctorParameters: function () { return [{ type: i0.ElementRef }, { type: i0.Renderer2 }, { type: SelectMultipleControlValueAccessor, decorators: [{
