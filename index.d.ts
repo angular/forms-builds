@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.0+sha-5cfde8b
+ * @license Angular v14.1.0-next.0+sha-f12cf2b
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2737,10 +2737,10 @@ export declare class FormGroup<TControl extends {
 /**
  * @description
  *
- * Binds an existing `FormGroup` to a DOM element.
+ * Binds an existing `FormGroup` or `FormRecord` to a DOM element.
  *
  * This directive accepts an existing `FormGroup` instance. It will then use this
- * `FormGroup` instance to match any child `FormControl`, `FormGroup`,
+ * `FormGroup` instance to match any child `FormControl`, `FormGroup`/`FormRecord`,
  * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
  * and `FormArrayName` directives.
  *
@@ -2913,12 +2913,12 @@ export declare class FormGroupDirective extends ControlContainer implements Form
 /**
  * @description
  *
- * Syncs a nested `FormGroup` to a DOM element.
+ * Syncs a nested `FormGroup` or `FormRecord` to a DOM element.
  *
  * This directive can only be used with a parent `FormGroupDirective`.
  *
- * It accepts the string name of the nested `FormGroup` to link, and
- * looks for a `FormGroup` registered with that name in the parent
+ * It accepts the string name of the nested `FormGroup` or `FormRecord` to link, and
+ * looks for a `FormGroup` or `FormRecord` registered with that name in the parent
  * `FormGroup` instance you passed into `FormGroupDirective`.
  *
  * Use nested form groups to validate a sub-group of a
