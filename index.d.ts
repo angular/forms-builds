@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.0.0+sha-dee2ba9
+ * @license Angular v14.0.0+sha-9f5558c
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2737,10 +2737,10 @@ export declare class FormGroup<TControl extends {
 /**
  * @description
  *
- * Binds an existing `FormGroup` to a DOM element.
+ * Binds an existing `FormGroup` or `FormRecord` to a DOM element.
  *
  * This directive accepts an existing `FormGroup` instance. It will then use this
- * `FormGroup` instance to match any child `FormControl`, `FormGroup`,
+ * `FormGroup` instance to match any child `FormControl`, `FormGroup`/`FormRecord`,
  * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
  * and `FormArrayName` directives.
  *
@@ -2913,12 +2913,12 @@ export declare class FormGroupDirective extends ControlContainer implements Form
 /**
  * @description
  *
- * Syncs a nested `FormGroup` to a DOM element.
+ * Syncs a nested `FormGroup` or `FormRecord` to a DOM element.
  *
  * This directive can only be used with a parent `FormGroupDirective`.
  *
- * It accepts the string name of the nested `FormGroup` to link, and
- * looks for a `FormGroup` registered with that name in the parent
+ * It accepts the string name of the nested `FormGroup` or `FormRecord` to link, and
+ * looks for a `FormGroup` or `FormRecord` registered with that name in the parent
  * `FormGroup` instance you passed into `FormGroupDirective`.
  *
  * Use nested form groups to validate a sub-group of a
@@ -4998,11 +4998,19 @@ export declare type ɵElement<T, N extends null> = [
 T
 ] extends [FormControl<infer U>] ? FormControl<U> : [
 T
+] extends [FormControl<infer U> | undefined] ? FormControl<U> : [
+T
 ] extends [FormGroup<infer U>] ? FormGroup<U> : [
+T
+] extends [FormGroup<infer U> | undefined] ? FormGroup<U> : [
 T
 ] extends [FormArray<infer U>] ? FormArray<U> : [
 T
+] extends [FormArray<infer U> | undefined] ? FormArray<U> : [
+T
 ] extends [AbstractControl<infer U>] ? AbstractControl<U> : [
+T
+] extends [AbstractControl<infer U> | undefined] ? AbstractControl<U> : [
 T
 ] extends [FormControlState<infer U>] ? FormControl<U | N> : [
 T
