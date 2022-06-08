@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.0+sha-4fe52c0
+ * @license Angular v14.1.0-next.0+sha-8115031
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2989,8 +2989,8 @@ declare type FormHooks = 'change' | 'blur' | 'submit';
  * @usageNotes
  *
  * ```
- * let numbers = new FormRecord({bill: '415-123-456'});
- * numbers.addControl('bob', '415-234-567');
+ * let numbers = new FormRecord({bill: new FormControl('415-123-456')});
+ * numbers.addControl('bob', new FormControl('415-234-567'));
  * numbers.removeControl('bill');
  * ```
  *
