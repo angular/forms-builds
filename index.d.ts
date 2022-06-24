@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.2+sha-1c39aac
+ * @license Angular v14.1.0-next.2+sha-599870f
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -250,6 +250,24 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * validator function as the one that was originally set. If a provided validator is not found,
      * it is ignored.
      *
+     * @usageNotes
+     *
+     * ### Reference to a ValidatorFn
+     *
+     * ```
+     * // Reference to the RequiredValidator
+     * const ctrl = new FormControl<string | null>('', Validators.required);
+     * ctrl.removeValidators(Validators.required);
+     *
+     * // Reference to anonymous function inside MinValidator
+     * const minValidator = Validators.min(3);
+     * const ctrl = new FormControl<string | null>('', minValidator);
+     * expect(ctrl.hasValidator(minValidator)).toEqual(true)
+     * expect(ctrl.hasValidator(Validators.min(3)).toEqual(false)
+     *
+     * ctrl.removeValidators(minValidator);
+     * ```
+     *
      * When you add or remove a validator at run time, you must call
      * `updateValueAndValidity()` for the new validation to take effect.
      *
@@ -271,6 +289,22 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
     /**
      * Check whether a synchronous validator function is present on this control. The provided
      * validator must be a reference to the exact same function that was provided.
+     *
+     * @usageNotes
+     *
+     * ### Reference to a ValidatorFn
+     *
+     * ```
+     * // Reference to the RequiredValidator
+     * const ctrl = new FormControl<number | null>(0, Validators.required);
+     * expect(ctrl.hasValidator(Validators.required)).toEqual(true)
+     *
+     * // Reference to anonymous function inside MinValidator
+     * const minValidator = Validators.min(3);
+     * const ctrl = new FormControl<number | null>(0, minValidator);
+     * expect(ctrl.hasValidator(minValidator)).toEqual(true)
+     * expect(ctrl.hasValidator(Validators.min(3)).toEqual(false)
+     * ```
      *
      * @param validator The validator to check for presence. Compared by function reference.
      * @returns Whether the provided validator was found on this control.
