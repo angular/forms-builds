@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.4+sha-cee207e
+ * @license Angular v14.1.0-next.4+sha-c14c701
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4831,7 +4831,7 @@ export declare class Validators {
      *
      * Tests the value using a [regular
      * expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
-     * pattern suitable for common usecases. The pattern is based on the definition of a valid email
+     * pattern suitable for common use cases. The pattern is based on the definition of a valid email
      * address in the [WHATWG HTML
      * specification](https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address) with
      * some enhancements to incorporate more RFC rules (such as rules related to domain names and the
@@ -5273,7 +5273,7 @@ export declare type ɵOptionalKeys<T> = {
 export declare type ɵRawValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? (T['setValue'] extends ((v: infer R) => void) ? R : never) : never;
 
 /**
- * Tokenize splits a string literal S by a delimeter D.
+ * Tokenize splits a string literal S by a delimiter D.
  */
 export declare type ɵTokenize<S extends string, D extends string> = string extends S ? string[] : S extends `${infer T}${D}${infer U}` ? [T, ...ɵTokenize<U, D>] : [
 S
