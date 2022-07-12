@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.4+sha-93c65e7
+ * @license Angular v14.1.0-next.4+sha-55308f2
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1108,7 +1108,7 @@ export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
  *
  * @publicApi
  */
-declare type ControlConfig<T> = [T | FormControlState<T>, (ValidatorFn | (ValidatorFn[]))?, (AsyncValidatorFn | AsyncValidatorFn[])?];
+export declare type ControlConfig<T> = [T | FormControlState<T>, (ValidatorFn | (ValidatorFn[]))?, (AsyncValidatorFn | AsyncValidatorFn[])?];
 
 /**
  * @description
