@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.2.0-next.0+sha-089efa1
+ * @license Angular v14.2.0-next.0+sha-426af91
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1915,6 +1915,24 @@ export declare class FormBuilder {
     }, options: {
         [key: string]: any;
     }): FormGroup;
+    /**
+     * @description
+     * Construct a new `FormRecord` instance. Accepts a single generic argument, which is an object
+     * containing all the keys and corresponding inner control types.
+     *
+     * @param controls A collection of child controls. The key for each child is the name
+     * under which it is registered.
+     *
+     * @param options Configuration options object for the `FormRecord`. The object should have the
+     * `AbstractControlOptions` type and might contain the following fields:
+     * * `validators`: A synchronous validator function, or an array of validator functions.
+     * * `asyncValidators`: A single async validator or array of async validator functions.
+     * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur'
+     * | submit').
+     */
+    record<T>(controls: {
+        [key: string]: T;
+    }, options?: AbstractControlOptions | null): FormRecord<ɵElement<T, null>>;
     /** @deprecated Use `nonNullable` instead. */
     control<T>(formState: T | FormControlState<T>, opts: FormControlOptions & {
         initialValueIsDefault: true;
@@ -3030,7 +3048,7 @@ declare type FormHooks = 'change' | 'blur' | 'submit';
  *
  * @publicApi
  */
-export declare class FormRecord<TControl extends AbstractControl<ɵValue<TControl>, ɵRawValue<TControl>> = AbstractControl> extends FormGroup<{
+export declare class FormRecord<TControl extends AbstractControl = AbstractControl> extends FormGroup<{
     [key: string]: TControl;
 }> {
 }
@@ -4111,6 +4129,14 @@ export declare abstract class NonNullableFormBuilder {
         [K in keyof T]: ɵElement<T[K], never>;
     }>;
     /**
+     * Similar to `FormBuilder#record`, except any implicitly constructed `FormControl`
+     * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
+     * that already-constructed controls will not be altered.
+     */
+    abstract record<T>(controls: {
+        [key: string]: T;
+    }, options?: AbstractControlOptions | null): FormRecord<ɵElement<T, never>>;
+    /**
      * Similar to `FormBuilder#array`, except any implicitly constructed `FormControl`
      * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
      * that already-constructed controls will not be altered.
@@ -5037,6 +5063,10 @@ T
 ] extends [FormGroup<infer U>] ? FormGroup<U> : [
 T
 ] extends [FormGroup<infer U> | undefined] ? FormGroup<U> : [
+T
+] extends [FormRecord<infer U>] ? FormRecord<U> : [
+T
+] extends [FormRecord<infer U> | undefined] ? FormRecord<U> : [
 T
 ] extends [FormArray<infer U>] ? FormArray<U> : [
 T
