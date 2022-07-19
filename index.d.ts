@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.1.0-next.0+sha-1314b1c
+ * @license Angular v14.2.0-next.0+sha-186245a
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -250,6 +250,24 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * validator function as the one that was originally set. If a provided validator is not found,
      * it is ignored.
      *
+     * @usageNotes
+     *
+     * ### Reference to a ValidatorFn
+     *
+     * ```
+     * // Reference to the RequiredValidator
+     * const ctrl = new FormControl<string | null>('', Validators.required);
+     * ctrl.removeValidators(Validators.required);
+     *
+     * // Reference to anonymous function inside MinValidator
+     * const minValidator = Validators.min(3);
+     * const ctrl = new FormControl<string | null>('', minValidator);
+     * expect(ctrl.hasValidator(minValidator)).toEqual(true)
+     * expect(ctrl.hasValidator(Validators.min(3)).toEqual(false)
+     *
+     * ctrl.removeValidators(minValidator);
+     * ```
+     *
      * When you add or remove a validator at run time, you must call
      * `updateValueAndValidity()` for the new validation to take effect.
      *
@@ -271,6 +289,22 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
     /**
      * Check whether a synchronous validator function is present on this control. The provided
      * validator must be a reference to the exact same function that was provided.
+     *
+     * @usageNotes
+     *
+     * ### Reference to a ValidatorFn
+     *
+     * ```
+     * // Reference to the RequiredValidator
+     * const ctrl = new FormControl<number | null>(0, Validators.required);
+     * expect(ctrl.hasValidator(Validators.required)).toEqual(true)
+     *
+     * // Reference to anonymous function inside MinValidator
+     * const minValidator = Validators.min(3);
+     * const ctrl = new FormControl<number | null>(0, minValidator);
+     * expect(ctrl.hasValidator(minValidator)).toEqual(true)
+     * expect(ctrl.hasValidator(Validators.min(3)).toEqual(false)
+     * ```
      *
      * @param validator The validator to check for presence. Compared by function reference.
      * @returns Whether the provided validator was found on this control.
@@ -1074,7 +1108,7 @@ export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
  *
  * @publicApi
  */
-declare type ControlConfig<T> = [T | FormControlState<T>, (ValidatorFn | (ValidatorFn[]))?, (AsyncValidatorFn | AsyncValidatorFn[])?];
+export declare type ControlConfig<T> = [T | FormControlState<T>, (ValidatorFn | (ValidatorFn[]))?, (AsyncValidatorFn | AsyncValidatorFn[])?];
 
 /**
  * @description
@@ -1881,6 +1915,24 @@ export declare class FormBuilder {
     }, options: {
         [key: string]: any;
     }): FormGroup;
+    /**
+     * @description
+     * Construct a new `FormRecord` instance. Accepts a single generic argument, which is an object
+     * containing all the keys and corresponding inner control types.
+     *
+     * @param controls A collection of child controls. The key for each child is the name
+     * under which it is registered.
+     *
+     * @param options Configuration options object for the `FormRecord`. The object should have the
+     * `AbstractControlOptions` type and might contain the following fields:
+     * * `validators`: A synchronous validator function, or an array of validator functions.
+     * * `asyncValidators`: A single async validator or array of async validator functions.
+     * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur'
+     * | submit').
+     */
+    record<T>(controls: {
+        [key: string]: T;
+    }, options?: AbstractControlOptions | null): FormRecord<ɵElement<T, null>>;
     /** @deprecated Use `nonNullable` instead. */
     control<T>(formState: T | FormControlState<T>, opts: FormControlOptions & {
         initialValueIsDefault: true;
@@ -2989,14 +3041,14 @@ declare type FormHooks = 'change' | 'blur' | 'submit';
  * @usageNotes
  *
  * ```
- * let numbers = new FormRecord({bill: '415-123-456'});
- * numbers.addControl('bob', '415-234-567');
+ * let numbers = new FormRecord({bill: new FormControl('415-123-456')});
+ * numbers.addControl('bob', new FormControl('415-234-567'));
  * numbers.removeControl('bill');
  * ```
  *
  * @publicApi
  */
-export declare class FormRecord<TControl extends AbstractControl<ɵValue<TControl>, ɵRawValue<TControl>> = AbstractControl> extends FormGroup<{
+export declare class FormRecord<TControl extends AbstractControl = AbstractControl> extends FormGroup<{
     [key: string]: TControl;
 }> {
 }
@@ -4077,6 +4129,14 @@ export declare abstract class NonNullableFormBuilder {
         [K in keyof T]: ɵElement<T[K], never>;
     }>;
     /**
+     * Similar to `FormBuilder#record`, except any implicitly constructed `FormControl`
+     * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
+     * that already-constructed controls will not be altered.
+     */
+    abstract record<T>(controls: {
+        [key: string]: T;
+    }, options?: AbstractControlOptions | null): FormRecord<ɵElement<T, never>>;
+    /**
      * Similar to `FormBuilder#array`, except any implicitly constructed `FormControl`
      * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
      * that already-constructed controls will not be altered.
@@ -4797,7 +4857,7 @@ export declare class Validators {
      *
      * Tests the value using a [regular
      * expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
-     * pattern suitable for common usecases. The pattern is based on the definition of a valid email
+     * pattern suitable for common use cases. The pattern is based on the definition of a valid email
      * address in the [WHATWG HTML
      * specification](https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address) with
      * some enhancements to incorporate more RFC rules (such as rules related to domain names and the
@@ -5003,6 +5063,10 @@ T
 ] extends [FormGroup<infer U>] ? FormGroup<U> : [
 T
 ] extends [FormGroup<infer U> | undefined] ? FormGroup<U> : [
+T
+] extends [FormRecord<infer U>] ? FormRecord<U> : [
+T
+] extends [FormRecord<infer U> | undefined] ? FormRecord<U> : [
 T
 ] extends [FormArray<infer U>] ? FormArray<U> : [
 T
@@ -5239,7 +5303,7 @@ export declare type ɵOptionalKeys<T> = {
 export declare type ɵRawValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? (T['setValue'] extends ((v: infer R) => void) ? R : never) : never;
 
 /**
- * Tokenize splits a string literal S by a delimeter D.
+ * Tokenize splits a string literal S by a delimiter D.
  */
 export declare type ɵTokenize<S extends string, D extends string> = string extends S ? string[] : S extends `${infer T}${D}${infer U}` ? [T, ...ɵTokenize<U, D>] : [
 S
