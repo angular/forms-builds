@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.2.0-next.1+sha-dc52cef
+ * @license Angular v14.2.0-next.1+sha-b302797
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4231,6 +4231,16 @@ export declare class PatternValidator extends AbstractValidatorDirective {
     static ɵdir: i0.ɵɵDirectiveDeclaration<PatternValidator, "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", never, { "pattern": "pattern"; }, {}, never, never, false>;
 }
 
+/**
+ * The compiler may not always be able to prove that the elements of the control config are a tuple
+ * (i.e. occur in a fixed order). This slightly looser type is used for inference, to catch cases
+ * where the compiler cannot prove order and position.
+ *
+ * For example, consider the simple case `fb.group({foo: ['bar', Validators.required]})`. The
+ * compiler will infer this as an array, not as a tuple.
+ */
+declare type PermissiveControlConfig<T> = Array<T | FormControlState<T> | ValidatorConfig>;
+
 declare const RADIO_VALUE_ACCESSOR: any;
 
 /**
@@ -4744,6 +4754,11 @@ export declare interface Validator {
 }
 
 /**
+ * The union of all validator types that can be accepted by a ControlConfig.
+ */
+declare type ValidatorConfig = ValidatorFn | AsyncValidatorFn | ValidatorFn[] | AsyncValidatorFn[];
+
+/**
  * @description
  * A function that receives a control and synchronously returns a map of
  * validation errors if present, otherwise null.
@@ -5078,9 +5093,7 @@ T
 T
 ] extends [FormControlState<infer U>] ? FormControl<U | N> : [
 T
-] extends [ControlConfig<infer U>] ? FormControl<U | N> : [
-T
-] extends [Array<infer U | ValidatorFn | ValidatorFn[] | AsyncValidatorFn | AsyncValidatorFn[]>] ? FormControl<U | N> : FormControl<T | N>;
+] extends [PermissiveControlConfig<infer U>] ? FormControl<Exclude<U, ValidatorConfig> | N> : FormControl<T | N>;
 
 /**
  * FormArrayRawValue extracts the type of `.getRawValue()` from a FormArray's element type, and
