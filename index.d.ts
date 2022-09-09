@@ -1,5 +1,5 @@
 /**
- * @license Angular v15.0.0-next.1+sha-9e2d3ed
+ * @license Angular v15.0.0-next.1+sha-678c7f1
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2811,6 +2811,8 @@ export declare class FormGroup<TControl extends {
  * @publicApi
  */
 export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges, OnDestroy {
+    private validators;
+    private asyncValidators;
     /**
      * @description
      * Reports whether the form submission has been triggered.
