@@ -57,9 +57,9 @@ export class NumberValueAccessor extends BuiltInControlValueAccessor {
         };
     }
 }
-NumberValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.0.0-next.2+sha-deaa05a", ngImport: i0, type: NumberValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-NumberValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "15.0.0-next.2+sha-deaa05a", type: NumberValueAccessor, selector: "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", host: { listeners: { "input": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [NUMBER_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.0.0-next.2+sha-deaa05a", ngImport: i0, type: NumberValueAccessor, decorators: [{
+NumberValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.0.0-next.2+sha-1f88df0", ngImport: i0, type: NumberValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
+NumberValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "15.0.0-next.2+sha-1f88df0", type: NumberValueAccessor, selector: "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", host: { listeners: { "input": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [NUMBER_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.0.0-next.2+sha-1f88df0", ngImport: i0, type: NumberValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
