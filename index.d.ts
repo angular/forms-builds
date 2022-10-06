@@ -1,5 +1,5 @@
 /**
- * @license Angular v14.2.5+sha-5782d63
+ * @license Angular v14.2.5+sha-1095dc5
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -522,6 +522,11 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * Sets errors on a form control when running validations manually, rather than automatically.
      *
      * Calling `setErrors` also updates the validity of the parent control.
+     *
+     * @param opts Configuration options that determine how the control propagates
+     * changes and emits events after the control errors are set.
+     * * `emitEvent`: When true or not supplied (the default), the `statusChanges`
+     * observable emits an event after the errors are set.
      *
      * @usageNotes
      *
