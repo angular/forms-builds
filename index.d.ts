@@ -1,5 +1,5 @@
 /**
- * @license Angular v15.0.0-next.5+sha-a8569e3
+ * @license Angular v15.0.0-next.5+sha-c0c7efa
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3339,38 +3339,6 @@ declare namespace i9 {
         NgControlStatusGroup
     }
 }
-
-/**
- * @description
- * Asserts that the given control is an instance of `FormArray`
- *
- * @publicApi
- */
-export declare const isFormArray: (control: unknown) => control is FormArray<any>;
-
-/**
- * @description
- * Asserts that the given control is an instance of `FormControl`
- *
- * @publicApi
- */
-export declare const isFormControl: (control: unknown) => control is FormControl<any>;
-
-/**
- * @description
- * Asserts that the given control is an instance of `FormGroup`
- *
- * @publicApi
- */
-export declare const isFormGroup: (control: unknown) => control is FormGroup<any>;
-
-/**
- * @description
- * Asserts that the given control is an instance of `FormRecord`
- *
- * @publicApi
- */
-export declare const isFormRecord: (control: unknown) => control is FormRecord<AbstractControl<any, any>>;
 
 /**
  * @description
