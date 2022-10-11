@@ -26,9 +26,9 @@ import * as i0 from "@angular/core";
  */
 export class ɵNgNoValidate {
 }
-ɵNgNoValidate.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.0.0-next.5+sha-1818c54", ngImport: i0, type: ɵNgNoValidate, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-ɵNgNoValidate.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "15.0.0-next.5+sha-1818c54", type: ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])", host: { attributes: { "novalidate": "" } }, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.0.0-next.5+sha-1818c54", ngImport: i0, type: ɵNgNoValidate, decorators: [{
+ɵNgNoValidate.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.0.0-next.5+sha-96b7fe9", ngImport: i0, type: ɵNgNoValidate, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+ɵNgNoValidate.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "15.0.0-next.5+sha-96b7fe9", type: ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])", host: { attributes: { "novalidate": "" } }, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.0.0-next.5+sha-96b7fe9", ngImport: i0, type: ɵNgNoValidate, decorators: [{
             type: Directive,
             args: [{
                     selector: 'form:not([ngNoForm]):not([ngNativeValidate])',

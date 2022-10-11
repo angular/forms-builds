@@ -1,5 +1,5 @@
 /**
- * @license Angular v15.0.0-next.5+sha-1818c54
+ * @license Angular v15.0.0-next.5+sha-96b7fe9
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1031,6 +1031,14 @@ declare class BuiltInControlValueAccessor extends BaseControlValueAccessor {
     static ɵfac: i0.ɵɵFactoryDeclaration<BuiltInControlValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<BuiltInControlValueAccessor, never, never, {}, {}, never, never, false, never>;
 }
+
+/**
+ * Token to provide to allow SetDisabledState to always be called when a CVA is added, regardless of
+ * whether the control is disabled or enabled.
+ *
+ * @see `FormsModule.withConfig`
+ */
+declare const CALL_SET_DISABLED_STATE: InjectionToken<SetDisabledStateOption>;
 
 /**
  * @description
@@ -2242,6 +2250,7 @@ declare const formControlBinding_2: any;
  */
 export declare class FormControlDirective extends NgControl implements OnChanges, OnDestroy {
     private _ngModelWarningConfig;
+    private callSetDisabledState?;
     /**
      * Internal reference to the view model value.
      * @nodoc
@@ -2261,7 +2270,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
     model: any;
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
-    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null, callSetDisabledState?: SetDisabledStateOption | undefined);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */
@@ -2285,7 +2294,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
      */
     viewToModelUpdate(newValue: any): void;
     private _isControlChanged;
-    static ɵfac: i0.ɵɵFactoryDeclaration<FormControlDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormControlDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormControlDirective, "[formControl]", ["ngForm"], { "form": "formControl"; "isDisabled": "disabled"; "model": "ngModel"; }, { "update": "ngModelChange"; }, never, never, false, never>;
 }
 
@@ -2816,6 +2825,7 @@ export declare class FormGroup<TControl extends {
  * @publicApi
  */
 export declare class FormGroupDirective extends ControlContainer implements Form, OnChanges, OnDestroy {
+    private callSetDisabledState?;
     /**
      * @description
      * Reports whether the form submission has been triggered.
@@ -2846,7 +2856,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * Emits an event when the form submission has been triggered.
      */
     ngSubmit: EventEmitter<any>;
-    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], callSetDisabledState?: SetDisabledStateOption | undefined);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */
@@ -2961,7 +2971,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     private _updateRegistrations;
     private _updateValidators;
     private _checkFormPresent;
-    static ɵfac: i0.ɵɵFactoryDeclaration<FormGroupDirective, [{ optional: true; self: true; }, { optional: true; self: true; }]>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormGroupDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormGroupDirective, "[formGroup]", ["ngForm"], { "form": "formGroup"; }, { "ngSubmit": "ngSubmit"; }, never, never, false, never>;
 }
 
@@ -3153,6 +3163,17 @@ export declare interface FormRecord<TControl> {
  * @publicApi
  */
 export declare class FormsModule {
+    /**
+     * @description
+     * Provides options for configuring the forms module.
+     *
+     * @param opts An object of configuration options
+     * * `callSetDisabledState` Configures whether to `always` call `setDisabledState`, which is more
+     * correct, or to only call it `whenDisabled`, which is the legacy behavior.
+     */
+    static withConfig(opts: {
+        callSetDisabledState?: SetDisabledStateOption;
+    }): ModuleWithProviders<ReactiveFormsModule>;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormsModule, never>;
     static ɵmod: i0.ɵɵNgModuleDeclaration<FormsModule, [typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm], never, [typeof i4_2.ɵInternalFormsSharedModule, typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<FormsModule>;
@@ -3193,7 +3214,7 @@ declare namespace i10 {
 
 declare namespace i1_2 {
     export {
-        formControlBinding,
+        formControlBinding_2 as formControlBinding,
         NgModel
     }
 }
@@ -3224,7 +3245,7 @@ declare namespace i3 {
 
 declare namespace i3_2 {
     export {
-        formDirectiveProvider,
+        formDirectiveProvider_2 as formDirectiveProvider,
         NgForm
     }
 }
@@ -3261,6 +3282,7 @@ declare namespace i4_2 {
         SelectControlValueAccessor,
         ɵNgSelectMultipleOption as NgSelectMultipleOption,
         SelectMultipleControlValueAccessor,
+        CALL_SET_DISABLED_STATE,
         SHARED_FORM_DIRECTIVES,
         TEMPLATE_DRIVEN_DIRECTIVES,
         REACTIVE_DRIVEN_DIRECTIVES,
@@ -3279,7 +3301,7 @@ declare namespace i5 {
 declare namespace i5_2 {
     export {
         NG_MODEL_WITH_FORM_CONTROL_WARNING,
-        formControlBinding_2 as formControlBinding,
+        formControlBinding,
         FormControlDirective
     }
 }
@@ -3293,7 +3315,7 @@ declare namespace i6 {
 
 declare namespace i6_2 {
     export {
-        formDirectiveProvider_2 as formDirectiveProvider,
+        formDirectiveProvider,
         FormGroupDirective
     }
 }
@@ -3746,6 +3768,7 @@ declare const ngControlStatusHost: {
  * @publicApi
  */
 export declare class NgForm extends ControlContainer implements Form, AfterViewInit {
+    private callSetDisabledState?;
     /**
      * @description
      * Returns whether the form submission has been triggered.
@@ -3774,7 +3797,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     options: {
         updateOn?: FormHooks;
     };
-    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[]);
+    constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], callSetDisabledState?: SetDisabledStateOption | undefined);
     /** @nodoc */
     ngAfterViewInit(): void;
     /**
@@ -3881,7 +3904,7 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
     resetForm(value?: any): void;
     private _setUpdateStrategy;
     private _findContainer;
-    static ɵfac: i0.ɵɵFactoryDeclaration<NgForm, [{ optional: true; self: true; }, { optional: true; self: true; }]>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgForm, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<NgForm, "form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]", ["ngForm"], { "options": "ngFormOptions"; }, { "ngSubmit": "ngSubmit"; }, never, never, false, never>;
 }
 
@@ -3983,6 +4006,7 @@ declare const ngGroupStatusHost: {
  */
 export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _changeDetectorRef?;
+    private callSetDisabledState?;
     readonly control: FormControl;
     /** @nodoc */
     static ngAcceptInputType_isDisabled: boolean | string;
@@ -4034,7 +4058,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * the view model updates.
      */
     update: EventEmitter<any>;
-    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _changeDetectorRef?: ChangeDetectorRef | null | undefined);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _changeDetectorRef?: ChangeDetectorRef | null | undefined, callSetDisabledState?: SetDisabledStateOption | undefined);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */
@@ -4067,7 +4091,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _updateValue;
     private _updateDisabled;
     private _getPath;
-    static ɵfac: i0.ɵɵFactoryDeclaration<NgModel, [{ optional: true; host: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgModel, [{ optional: true; host: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<NgModel, "[ngModel]:not([formControlName]):not([formControl])", ["ngModel"], { "name": "name"; "isDisabled": "disabled"; "model": "ngModel"; "options": "ngModelOptions"; }, { "update": "ngModelChange"; }, never, never, false, never>;
 }
 
@@ -4453,9 +4477,12 @@ export declare class ReactiveFormsModule {
      * @param opts An object of configuration options
      * * `warnOnNgModelWithFormControl` Configures when to emit a warning when an `ngModel`
      * binding is used with reactive form directives.
+     * * `callSetDisabledState` Configures whether to `always` call `setDisabledState`, which is more
+     * correct, or to only call it `whenDisabled`, which is the legacy behavior.
      */
     static withConfig(opts: {
-        /** @deprecated as of v6 */ warnOnNgModelWithFormControl: 'never' | 'once' | 'always';
+        /** @deprecated as of v6 */ warnOnNgModelWithFormControl?: 'never' | 'once' | 'always';
+        callSetDisabledState?: SetDisabledStateOption;
     }): ModuleWithProviders<ReactiveFormsModule>;
     static ɵfac: i0.ɵɵFactoryDeclaration<ReactiveFormsModule, never>;
     static ɵmod: i0.ɵɵNgModuleDeclaration<ReactiveFormsModule, [typeof i5_2.FormControlDirective, typeof i6_2.FormGroupDirective, typeof i7_2.FormControlName, typeof i8_2.FormGroupName, typeof i8_2.FormArrayName], never, [typeof i4_2.ɵInternalFormsSharedModule, typeof i5_2.FormControlDirective, typeof i6_2.FormGroupDirective, typeof i7_2.FormControlName, typeof i8_2.FormGroupName, typeof i8_2.FormArrayName]>;
@@ -4645,6 +4672,16 @@ export declare class SelectMultipleControlValueAccessor extends BuiltInControlVa
     static ɵfac: i0.ɵɵFactoryDeclaration<SelectMultipleControlValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<SelectMultipleControlValueAccessor, "select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]", never, { "compareWith": "compareWith"; }, {}, never, never, false, never>;
 }
+
+/**
+ * The type for CALL_SET_DISABLED_STATE. If `always`, then ControlValueAccessor will always call
+ * `setDisabledState` when attached, which is the most correct behavior. Otherwise, it will only be
+ * called when disabled, which is the legacy behavior for compatibility.
+ *
+ * @publicApi
+ * @see `FormsModule.withConfig`
+ */
+export declare type SetDisabledStateOption = 'whenDisabledForLegacyCode' | 'always';
 
 declare const SHARED_FORM_DIRECTIVES: Type<any>[];
 
