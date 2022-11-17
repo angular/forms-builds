@@ -1,5 +1,5 @@
 /**
- * @license Angular v15.0.0+sha-b342e55
+ * @license Angular v15.0.0+sha-0c3389e
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4303,6 +4303,14 @@ export declare class PatternValidator extends AbstractValidatorDirective {
 }
 
 /**
+ * Helper type to allow the compiler to accept [XXXX, { updateOn: string }] as a valid shorthand
+ * argument for .group()
+ */
+declare interface PermissiveAbstractControlOptions extends Omit<AbstractControlOptions, 'updateOn'> {
+    updateOn?: string;
+}
+
+/**
  * The compiler may not always be able to prove that the elements of the control config are a tuple
  * (i.e. occur in a fixed order). This slightly looser type is used for inference, to catch cases
  * where the compiler cannot prove order and position.
@@ -5177,7 +5185,7 @@ T
 T
 ] extends [FormControlState<infer U>] ? FormControl<U | N> : [
 T
-] extends [PermissiveControlConfig<infer U>] ? FormControl<Exclude<U, ValidatorConfig> | N> : FormControl<T | N>;
+] extends [PermissiveControlConfig<infer U>] ? FormControl<Exclude<U, ValidatorConfig | PermissiveAbstractControlOptions> | N> : FormControl<T | N>;
 
 /**
  * FormArrayRawValue extracts the type of `.getRawValue()` from a FormArray's element type, and
