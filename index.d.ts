@@ -1,5 +1,5 @@
 /**
- * @license Angular v15.1.0-next.0+sha-b51929a
+ * @license Angular v15.1.0-next.0+sha-779a76f
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -626,6 +626,18 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      */
     get root(): AbstractControl;
     private _calculateStatus;
+    /**
+     * Internal implementation of the `setValidators` method. Needs to be separated out into a
+     * different method, because it is called in the constructor and it can break cases where
+     * a control is extended.
+     */
+    private _assignValidators;
+    /**
+     * Internal implementation of the `setAsyncValidators` method. Needs to be separated out into a
+     * different method, because it is called in the constructor and it can break cases where
+     * a control is extended.
+     */
+    private _assignAsyncValidators;
 }
 
 /**
