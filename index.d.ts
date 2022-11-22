@@ -1,5 +1,5 @@
 /**
- * @license Angular v15.1.0-next.0+sha-bc148c3
+ * @license Angular v15.1.0-next.0+sha-7fbb53f
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -263,7 +263,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * const minValidator = Validators.min(3);
      * const ctrl = new FormControl<string | null>('', minValidator);
      * expect(ctrl.hasValidator(minValidator)).toEqual(true)
-     * expect(ctrl.hasValidator(Validators.min(3)).toEqual(false)
+     * expect(ctrl.hasValidator(Validators.min(3))).toEqual(false)
      *
      * ctrl.removeValidators(minValidator);
      * ```
@@ -303,7 +303,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * const minValidator = Validators.min(3);
      * const ctrl = new FormControl<number | null>(0, minValidator);
      * expect(ctrl.hasValidator(minValidator)).toEqual(true)
-     * expect(ctrl.hasValidator(Validators.min(3)).toEqual(false)
+     * expect(ctrl.hasValidator(Validators.min(3))).toEqual(false)
      * ```
      *
      * @param validator The validator to check for presence. Compared by function reference.
