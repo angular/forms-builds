@@ -1,5 +1,5 @@
 /**
- * @license Angular v15.0.4+sha-10de92c
+ * @license Angular v15.0.4+sha-433dd5c
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3185,7 +3185,7 @@ export declare class FormsModule {
      */
     static withConfig(opts: {
         callSetDisabledState?: SetDisabledStateOption;
-    }): ModuleWithProviders<ReactiveFormsModule>;
+    }): ModuleWithProviders<FormsModule>;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormsModule, never>;
     static ɵmod: i0.ɵɵNgModuleDeclaration<FormsModule, [typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm], never, [typeof i4_2.ɵInternalFormsSharedModule, typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<FormsModule>;
@@ -3226,7 +3226,7 @@ declare namespace i10 {
 
 declare namespace i1_2 {
     export {
-        formControlBinding_2 as formControlBinding,
+        formControlBinding,
         NgModel
     }
 }
@@ -3257,7 +3257,7 @@ declare namespace i3 {
 
 declare namespace i3_2 {
     export {
-        formDirectiveProvider_2 as formDirectiveProvider,
+        formDirectiveProvider,
         NgForm
     }
 }
@@ -3313,7 +3313,7 @@ declare namespace i5 {
 declare namespace i5_2 {
     export {
         NG_MODEL_WITH_FORM_CONTROL_WARNING,
-        formControlBinding,
+        formControlBinding_2 as formControlBinding,
         FormControlDirective
     }
 }
@@ -3327,7 +3327,7 @@ declare namespace i6 {
 
 declare namespace i6_2 {
     export {
-        formDirectiveProvider,
+        formDirectiveProvider_2 as formDirectiveProvider,
         FormGroupDirective
     }
 }
