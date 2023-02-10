@@ -1,5 +1,5 @@
 /**
- * @license Angular v15.1.4+sha-d814de2
+ * @license Angular v15.1.4+sha-5f2a3ed
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4353,6 +4353,7 @@ declare class RadioControlRegistryModule {
 export declare class RadioControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor, OnDestroy, OnInit {
     private _registry;
     private _injector;
+    private setDisabledStateFired;
     /**
      * The registered callback function called when a change event occurs on the input element.
      * Note: we declare `onChange` here (also used as host listener) as a function with no arguments
@@ -4377,6 +4378,7 @@ export declare class RadioControlValueAccessor extends BuiltInControlValueAccess
      * Tracks the value of the radio input element
      */
     value: any;
+    private callSetDisabledState;
     constructor(renderer: Renderer2, elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
     /** @nodoc */
     ngOnInit(): void;
@@ -4392,6 +4394,8 @@ export declare class RadioControlValueAccessor extends BuiltInControlValueAccess
      * @nodoc
      */
     registerOnChange(fn: (_: any) => {}): void;
+    /** @nodoc */
+    setDisabledState(isDisabled: boolean): void;
     /**
      * Sets the "value" on the radio input element and unchecks it.
      *
