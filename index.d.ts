@@ -1,5 +1,5 @@
 /**
- * @license Angular v16.0.0-next.1+sha-1ba551b
+ * @license Angular v16.0.0-next.1+sha-47dda6e
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1849,7 +1849,7 @@ export declare class FormBuilder {
     private useNonNullable;
     /**
      * @description
-     * Returns a FormBuilder in which automatically constructed @see FormControl} elements
+     * Returns a FormBuilder in which automatically constructed `FormControl` elements
      * have `{nonNullable: true}` and are non-nullable.
      *
      * **Constructing non-nullable controls**
@@ -4676,7 +4676,7 @@ declare const SHARED_FORM_DIRECTIVES: Type<any>[];
 declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
 
 /**
- * UntypedFormArray is a non-strongly-typed version of @see FormArray, which
+ * UntypedFormArray is a non-strongly-typed version of `FormArray`, which
  * permits heterogenous controls.
  */
 export declare type UntypedFormArray = FormArray<any>;
@@ -4693,7 +4693,7 @@ declare interface UntypedFormArrayCtor {
 }
 
 /**
- * UntypedFormBuilder is the same as @see FormBuilder, but it provides untyped controls.
+ * UntypedFormBuilder is the same as `FormBuilder`, but it provides untyped controls.
  */
 export declare class UntypedFormBuilder extends FormBuilder {
     /**
@@ -4724,7 +4724,7 @@ export declare class UntypedFormBuilder extends FormBuilder {
 }
 
 /**
- * UntypedFormControl is a non-strongly-typed version of @see FormControl.
+ * UntypedFormControl is a non-strongly-typed version of `FormControl`.
  */
 export declare type UntypedFormControl = FormControl<any>;
 
@@ -4741,7 +4741,7 @@ declare interface UntypedFormControlCtor {
 }
 
 /**
- * UntypedFormGroup is a non-strongly-typed version of @see FormGroup.
+ * UntypedFormGroup is a non-strongly-typed version of `FormGroup`.
  */
 export declare type UntypedFormGroup = FormGroup<any>;
 
