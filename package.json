@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "16.0.0-next.4+sha-0dd5c47",
+  "version": "16.0.0-next.4+sha-132c00c",
   "description": "Angular - directives and services for creating forms",
   "author": "angular",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "16.0.0-next.4+sha-0dd5c47",
-    "@angular/common": "16.0.0-next.4+sha-0dd5c47",
-    "@angular/platform-browser": "16.0.0-next.4+sha-0dd5c47",
+    "@angular/core": "16.0.0-next.4+sha-132c00c",
+    "@angular/common": "16.0.0-next.4+sha-132c00c",
+    "@angular/platform-browser": "16.0.0-next.4+sha-132c00c",
     "rxjs": "^6.5.3 || ^7.4.0"
   },
   "repository": {
@@ -42,12 +42,8 @@
     ]
   },
   "sideEffects": false,
-  "fesm2020": "./fesm2020/forms.mjs",
-  "fesm2015": "./fesm2015/forms.mjs",
-  "esm2020": "./esm2020/forms.mjs",
+  "module": "./fesm2022/forms.mjs",
   "typings": "./index.d.ts",
-  "module": "./fesm2015/forms.mjs",
-  "es2020": "./fesm2020/forms.mjs",
   "type": "module",
   "exports": {
     "./package.json": {
@@ -55,11 +51,9 @@
     },
     ".": {
       "types": "./index.d.ts",
-      "esm2020": "./esm2020/forms.mjs",
-      "es2020": "./fesm2020/forms.mjs",
-      "es2015": "./fesm2015/forms.mjs",
-      "node": "./fesm2015/forms.mjs",
-      "default": "./fesm2020/forms.mjs"
+      "esm2022": "./esm2022/forms.mjs",
+      "esm": "./esm2022/forms.mjs",
+      "default": "./fesm2022/forms.mjs"
     }
   }
 }
