@@ -1,5 +1,5 @@
 /**
- * @license Angular v16.0.0-next.4+sha-07cbaa3
+ * @license Angular v16.0.0-next.4+sha-6161c50
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -62,10 +62,10 @@ class BaseControlValueAccessor {
     setDisabledState(isDisabled) {
         this.setProperty('disabled', isDisabled);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: BaseControlValueAccessor, deps: [{ token: i0.Renderer2 }, { token: i0.ElementRef }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: BaseControlValueAccessor, ngImport: i0 }); }
 }
-BaseControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: BaseControlValueAccessor, deps: [{ token: i0.Renderer2 }, { token: i0.ElementRef }], target: i0.ɵɵFactoryTarget.Directive });
-BaseControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: BaseControlValueAccessor, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: BaseControlValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: BaseControlValueAccessor, decorators: [{
             type: Directive
         }], ctorParameters: function () { return [{ type: i0.Renderer2 }, { type: i0.ElementRef }]; } });
 /**
@@ -78,10 +78,10 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sh
  * applications code.
  */
 class BuiltInControlValueAccessor extends BaseControlValueAccessor {
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: BuiltInControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: BuiltInControlValueAccessor, usesInheritance: true, ngImport: i0 }); }
 }
-BuiltInControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: BuiltInControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-BuiltInControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: BuiltInControlValueAccessor, usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: BuiltInControlValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: BuiltInControlValueAccessor, decorators: [{
             type: Directive
         }] });
 /**
@@ -129,10 +129,10 @@ class CheckboxControlValueAccessor extends BuiltInControlValueAccessor {
     writeValue(value) {
         this.setProperty('checked', value);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: CheckboxControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: CheckboxControlValueAccessor, selector: "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", host: { listeners: { "change": "onChange($event.target.checked)", "blur": "onTouched()" } }, providers: [CHECKBOX_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
 }
-CheckboxControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: CheckboxControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-CheckboxControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: CheckboxControlValueAccessor, selector: "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]", host: { listeners: { "change": "onChange($event.target.checked)", "blur": "onTouched()" } }, providers: [CHECKBOX_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: CheckboxControlValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: CheckboxControlValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]',
@@ -229,10 +229,10 @@ class DefaultValueAccessor extends BaseControlValueAccessor {
         this._composing = false;
         this._compositionMode && this.onChange(value);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: DefaultValueAccessor, deps: [{ token: i0.Renderer2 }, { token: i0.ElementRef }, { token: COMPOSITION_BUFFER_MODE, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]", host: { listeners: { "input": "$any(this)._handleInput($event.target.value)", "blur": "onTouched()", "compositionstart": "$any(this)._compositionStart()", "compositionend": "$any(this)._compositionEnd($event.target.value)" } }, providers: [DEFAULT_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
 }
-DefaultValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: DefaultValueAccessor, deps: [{ token: i0.Renderer2 }, { token: i0.ElementRef }, { token: COMPOSITION_BUFFER_MODE, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-DefaultValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]", host: { listeners: { "input": "$any(this)._handleInput($event.target.value)", "blur": "onTouched()", "compositionstart": "$any(this)._compositionStart()", "compositionend": "$any(this)._compositionEnd($event.target.value)" } }, providers: [DEFAULT_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: DefaultValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: DefaultValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]',
@@ -247,14 +247,12 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sh
                     },
                     providers: [DEFAULT_VALUE_ACCESSOR]
                 }]
-        }], ctorParameters: function () {
-        return [{ type: i0.Renderer2 }, { type: i0.ElementRef }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Inject,
-                        args: [COMPOSITION_BUFFER_MODE]
-                    }] }];
-    } });
+        }], ctorParameters: function () { return [{ type: i0.Renderer2 }, { type: i0.ElementRef }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [COMPOSITION_BUFFER_MODE]
+                }] }]; } });
 
 function isEmptyInputValue(value) {
     /**
@@ -784,7 +782,7 @@ function toObservable(value) {
 function mergeErrors(arrayOfErrors) {
     let res = {};
     arrayOfErrors.forEach((errors) => {
-        res = errors != null ? Object.assign(Object.assign({}, res), errors) : res;
+        res = errors != null ? { ...res, ...errors } : res;
     });
     return Object.keys(res).length === 0 ? null : res;
 }
@@ -1197,6 +1195,30 @@ class AbstractControlDirective {
 
 /**
  * @description
+ * A base class for directives that contain multiple registered instances of `NgControl`.
+ * Only used by the forms module.
+ *
+ * @publicApi
+ */
+class ControlContainer extends AbstractControlDirective {
+    /**
+     * @description
+     * The top-level form directive for the control.
+     */
+    get formDirective() {
+        return null;
+    }
+    /**
+     * @description
+     * The path to this group.
+     */
+    get path() {
+        return null;
+    }
+}
+
+/**
+ * @description
  * A base class that all `FormControl`-based directives extend. It binds a `FormControl`
  * object to a DOM element.
  *
@@ -1225,30 +1247,6 @@ class NgControl extends AbstractControlDirective {
     }
 }
 
-/**
- * @description
- * A base class for directives that contain multiple registered instances of `NgControl`.
- * Only used by the forms module.
- *
- * @publicApi
- */
-class ControlContainer extends AbstractControlDirective {
-    /**
-     * @description
-     * The top-level form directive for the control.
-     */
-    get formDirective() {
-        return null;
-    }
-    /**
-     * @description
-     * The path to this group.
-     */
-    get path() {
-        return null;
-    }
-}
-
 // DO NOT REFACTOR!
 // Each status is represented by a separate function to make sure that
 // advanced Closure Compiler optimizations related to property renaming
@@ -1258,38 +1256,30 @@ class AbstractControlStatus {
         this._cd = cd;
     }
     get isTouched() {
-        var _a, _b;
-        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.touched);
+        return !!this._cd?.control?.touched;
     }
     get isUntouched() {
-        var _a, _b;
-        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.untouched);
+        return !!this._cd?.control?.untouched;
     }
     get isPristine() {
-        var _a, _b;
-        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pristine);
+        return !!this._cd?.control?.pristine;
     }
     get isDirty() {
-        var _a, _b;
-        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.dirty);
+        return !!this._cd?.control?.dirty;
     }
     get isValid() {
-        var _a, _b;
-        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.valid);
+        return !!this._cd?.control?.valid;
     }
     get isInvalid() {
-        var _a, _b;
-        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.invalid);
+        return !!this._cd?.control?.invalid;
     }
     get isPending() {
-        var _a, _b;
-        return !!((_b = (_a = this._cd) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.pending);
+        return !!this._cd?.control?.pending;
     }
     get isSubmitted() {
-        var _a;
         // We check for the `submitted` field from `NgForm` and `FormGroupDirective` classes, but
         // we avoid instanceof checks to prevent non-tree-shakable references to those types.
-        return !!((_a = this._cd) === null || _a === void 0 ? void 0 : _a.submitted);
+        return !!this._cd?.submitted;
     }
 }
 const ngControlStatusHost = {
@@ -1301,7 +1291,10 @@ const ngControlStatusHost = {
     '[class.ng-invalid]': 'isInvalid',
     '[class.ng-pending]': 'isPending',
 };
-const ngGroupStatusHost = Object.assign(Object.assign({}, ngControlStatusHost), { '[class.ng-submitted]': 'isSubmitted' });
+const ngGroupStatusHost = {
+    ...ngControlStatusHost,
+    '[class.ng-submitted]': 'isSubmitted',
+};
 /**
  * @description
  * Directive automatically applied to Angular form controls that sets CSS classes
@@ -1329,17 +1322,15 @@ class NgControlStatus extends AbstractControlStatus {
     constructor(cd) {
         super(cd);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgControlStatus, deps: [{ token: NgControl, self: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: NgControlStatus, selector: "[formControlName],[ngModel],[formControl]", host: { properties: { "class.ng-untouched": "isUntouched", "class.ng-touched": "isTouched", "class.ng-pristine": "isPristine", "class.ng-dirty": "isDirty", "class.ng-valid": "isValid", "class.ng-invalid": "isInvalid", "class.ng-pending": "isPending" } }, usesInheritance: true, ngImport: i0 }); }
 }
-NgControlStatus.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgControlStatus, deps: [{ token: NgControl, self: true }], target: i0.ɵɵFactoryTarget.Directive });
-NgControlStatus.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: NgControlStatus, selector: "[formControlName],[ngModel],[formControl]", host: { properties: { "class.ng-untouched": "isUntouched", "class.ng-touched": "isTouched", "class.ng-pristine": "isPristine", "class.ng-dirty": "isDirty", "class.ng-valid": "isValid", "class.ng-invalid": "isInvalid", "class.ng-pending": "isPending" } }, usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgControlStatus, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgControlStatus, decorators: [{
             type: Directive,
             args: [{ selector: '[formControlName],[ngModel],[formControl]', host: ngControlStatusHost }]
-        }], ctorParameters: function () {
-        return [{ type: NgControl, decorators: [{
-                        type: Self
-                    }] }];
-    } });
+        }], ctorParameters: function () { return [{ type: NgControl, decorators: [{
+                    type: Self
+                }] }]; } });
 /**
  * @description
  * Directive automatically applied to Angular form groups that sets CSS classes
@@ -1356,22 +1347,20 @@ class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd) {
         super(cd);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgControlStatusGroup, deps: [{ token: ControlContainer, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", host: { properties: { "class.ng-untouched": "isUntouched", "class.ng-touched": "isTouched", "class.ng-pristine": "isPristine", "class.ng-dirty": "isDirty", "class.ng-valid": "isValid", "class.ng-invalid": "isInvalid", "class.ng-pending": "isPending", "class.ng-submitted": "isSubmitted" } }, usesInheritance: true, ngImport: i0 }); }
 }
-NgControlStatusGroup.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgControlStatusGroup, deps: [{ token: ControlContainer, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive });
-NgControlStatusGroup.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", host: { properties: { "class.ng-untouched": "isUntouched", "class.ng-touched": "isTouched", "class.ng-pristine": "isPristine", "class.ng-dirty": "isDirty", "class.ng-valid": "isValid", "class.ng-invalid": "isInvalid", "class.ng-pending": "isPending", "class.ng-submitted": "isSubmitted" } }, usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgControlStatusGroup, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgControlStatusGroup, decorators: [{
             type: Directive,
             args: [{
                     selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
                     host: ngGroupStatusHost
                 }]
-        }], ctorParameters: function () {
-        return [{ type: ControlContainer, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }] }];
-    } });
+        }], ctorParameters: function () { return [{ type: ControlContainer, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }] }]; } });
 
 const formControlNameExample = `
   <div [formGroup]="myGroup">
@@ -2084,14 +2073,14 @@ class AbstractControl {
         this.status = DISABLED;
         this.errors = null;
         this._forEachChild((control) => {
-            control.disable(Object.assign(Object.assign({}, opts), { onlySelf: true }));
+            control.disable({ ...opts, onlySelf: true });
         });
         this._updateValue();
         if (opts.emitEvent !== false) {
             this.valueChanges.emit(this.value);
             this.statusChanges.emit(this.status);
         }
-        this._updateAncestors(Object.assign(Object.assign({}, opts), { skipPristineCheck }));
+        this._updateAncestors({ ...opts, skipPristineCheck });
         this._onDisabledChange.forEach((changeFn) => changeFn(true));
     }
     /**
@@ -2118,10 +2107,10 @@ class AbstractControl {
         const skipPristineCheck = this._parentMarkedDirty(opts.onlySelf);
         this.status = VALID;
         this._forEachChild((control) => {
-            control.enable(Object.assign(Object.assign({}, opts), { onlySelf: true }));
+            control.enable({ ...opts, onlySelf: true });
         });
         this.updateValueAndValidity({ onlySelf: true, emitEvent: opts.emitEvent });
-        this._updateAncestors(Object.assign(Object.assign({}, opts), { skipPristineCheck }));
+        this._updateAncestors({ ...opts, skipPristineCheck });
         this._onDisabledChange.forEach((changeFn) => changeFn(false));
     }
     _updateAncestors(opts) {
@@ -2939,7 +2928,6 @@ function controlPath(name, parent) {
  * @param dir Directive that should be linked with a given control.
  */
 function setUpControl(control, dir, callSetDisabledState = setDisabledStateDefault) {
-    var _a, _b;
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
         if (!control)
             _throwError(dir, 'Cannot find control with');
@@ -2952,7 +2940,7 @@ function setUpControl(control, dir, callSetDisabledState = setDisabledStateDefau
     // If the `callSetDisabledState` option is set to `always`, then this bug is fixed and
     // the method is always called.
     if (control.disabled || callSetDisabledState === 'always') {
-        (_b = (_a = dir.valueAccessor).setDisabledState) === null || _b === void 0 ? void 0 : _b.call(_a, control.disabled);
+        dir.valueAccessor.setDisabledState?.(control.disabled);
     }
     setUpViewChangePipeline(control, dir);
     setUpModelChangePipeline(control, dir);
@@ -3165,7 +3153,7 @@ function _describeControlLocation(dir) {
     const path = dir.path;
     if (path && path.length > 1)
         return `path: '${path.join(' -> ')}'`;
-    if (path === null || path === void 0 ? void 0 : path[0])
+    if (path?.[0])
         return `name: '${path}'`;
     return 'unspecified name attribute';
 }
@@ -3481,13 +3469,12 @@ class NgForm extends ControlContainer {
      * @param $event The "submit" event object
      */
     onSubmit($event) {
-        var _a;
         this.submitted = true;
         syncPendingControls(this.form, this._directives);
         this.ngSubmit.emit($event);
         // Forms with `method="dialog"` have some special behavior
         // that won't reload the page and that shouldn't be prevented.
-        return ((_a = $event === null || $event === void 0 ? void 0 : $event.target) === null || _a === void 0 ? void 0 : _a.method) === 'dialog';
+        return $event?.target?.method === 'dialog';
     }
     /**
      * @description
@@ -3515,10 +3502,10 @@ class NgForm extends ControlContainer {
         path.pop();
         return path.length ? this.form.get(path) : this.form;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgForm, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: NgForm, selector: "form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]", inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider$1], exportAs: ["ngForm"], usesInheritance: true, ngImport: i0 }); }
 }
-NgForm.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgForm, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-NgForm.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: NgForm, selector: "form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]", inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider$1], exportAs: ["ngForm"], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgForm, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgForm, decorators: [{
             type: Directive,
             args: [{
                     selector: 'form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]',
@@ -3527,28 +3514,26 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sh
                     outputs: ['ngSubmit'],
                     exportAs: 'ngForm'
                 }]
-        }], ctorParameters: function () {
-        return [{ type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_ASYNC_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Inject,
-                        args: [CALL_SET_DISABLED_STATE]
-                    }] }];
-    }, propDecorators: { options: [{
+        }], ctorParameters: function () { return [{ type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [CALL_SET_DISABLED_STATE]
+                }] }]; }, propDecorators: { options: [{
                 type: Input,
                 args: ['ngFormOptions']
             }] } });
@@ -3715,10 +3700,10 @@ class AbstractFormGroupDirective extends ControlContainer {
     }
     /** @internal */
     _checkParentType() { }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: AbstractFormGroupDirective, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: AbstractFormGroupDirective, usesInheritance: true, ngImport: i0 }); }
 }
-AbstractFormGroupDirective.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: AbstractFormGroupDirective, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-AbstractFormGroupDirective.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: AbstractFormGroupDirective, usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: AbstractFormGroupDirective, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: AbstractFormGroupDirective, decorators: [{
             type: Directive
         }] });
 
@@ -3800,6 +3785,12 @@ const modelGroupProvider = {
 class NgModelGroup extends AbstractFormGroupDirective {
     constructor(parent, validators, asyncValidators) {
         super();
+        /**
+         * @description
+         * Tracks the name of the `NgModelGroup` bound to the directive. The name corresponds
+         * to a key in the parent `NgForm`.
+         */
+        this.name = '';
         this._parent = parent;
         this._setValidators(validators);
         this._setAsyncValidators(asyncValidators);
@@ -3811,33 +3802,31 @@ class NgModelGroup extends AbstractFormGroupDirective {
             throw modelGroupParentException();
         }
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgModelGroup, deps: [{ token: ControlContainer, host: true, skipSelf: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: NgModelGroup, selector: "[ngModelGroup]", inputs: { name: ["ngModelGroup", "name"] }, providers: [modelGroupProvider], exportAs: ["ngModelGroup"], usesInheritance: true, ngImport: i0 }); }
 }
-NgModelGroup.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgModelGroup, deps: [{ token: ControlContainer, host: true, skipSelf: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive });
-NgModelGroup.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: NgModelGroup, selector: "[ngModelGroup]", inputs: { name: ["ngModelGroup", "name"] }, providers: [modelGroupProvider], exportAs: ["ngModelGroup"], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgModelGroup, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgModelGroup, decorators: [{
             type: Directive,
             args: [{ selector: '[ngModelGroup]', providers: [modelGroupProvider], exportAs: 'ngModelGroup' }]
-        }], ctorParameters: function () {
-        return [{ type: ControlContainer, decorators: [{
-                        type: Host
-                    }, {
-                        type: SkipSelf
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_ASYNC_VALIDATORS]
-                    }] }];
-    }, propDecorators: { name: [{
+        }], ctorParameters: function () { return [{ type: ControlContainer, decorators: [{
+                    type: Host
+                }, {
+                    type: SkipSelf
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }]; }, propDecorators: { name: [{
                 type: Input,
                 args: ['ngModelGroup']
             }] } });
@@ -3959,6 +3948,12 @@ class NgModel extends NgControl {
         this._registered = false;
         /**
          * @description
+         * Tracks the name bound to the directive. If a parent form exists, it
+         * uses this name as a key to retrieve this control's value.
+         */
+        this.name = '';
+        /**
+         * @description
          * Event emitter for producing the `ngModelChange` event after
          * the view model updates.
          */
@@ -4065,9 +4060,8 @@ class NgModel extends NgControl {
     }
     _updateValue(value) {
         resolvedPromise.then(() => {
-            var _a;
             this.control.setValue(value, { emitViewToModelChange: false });
-            (_a = this._changeDetectorRef) === null || _a === void 0 ? void 0 : _a.markForCheck();
+            this._changeDetectorRef?.markForCheck();
         });
     }
     _updateDisabled(changes) {
@@ -4075,67 +4069,64 @@ class NgModel extends NgControl {
         // checking for 0 to avoid breaking change
         const isDisabled = disabledValue !== 0 && ɵcoerceToBoolean(disabledValue);
         resolvedPromise.then(() => {
-            var _a;
             if (isDisabled && !this.control.disabled) {
                 this.control.disable();
             }
             else if (!isDisabled && this.control.disabled) {
                 this.control.enable();
             }
-            (_a = this._changeDetectorRef) === null || _a === void 0 ? void 0 : _a.markForCheck();
+            this._changeDetectorRef?.markForCheck();
         });
     }
     _getPath(controlName) {
         return this._parent ? controlPath(controlName, this._parent) : [controlName];
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgModel, deps: [{ token: ControlContainer, host: true, optional: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: NG_VALUE_ACCESSOR, optional: true, self: true }, { token: ChangeDetectorRef, optional: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, providers: [formControlBinding$1], exportAs: ["ngModel"], usesInheritance: true, usesOnChanges: true, ngImport: i0 }); }
 }
-NgModel.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgModel, deps: [{ token: ControlContainer, host: true, optional: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: NG_VALUE_ACCESSOR, optional: true, self: true }, { token: ChangeDetectorRef, optional: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-NgModel.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: { name: "name", isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"], options: ["ngModelOptions", "options"] }, outputs: { update: "ngModelChange" }, providers: [formControlBinding$1], exportAs: ["ngModel"], usesInheritance: true, usesOnChanges: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgModel, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgModel, decorators: [{
             type: Directive,
             args: [{
                     selector: '[ngModel]:not([formControlName]):not([formControl])',
                     providers: [formControlBinding$1],
                     exportAs: 'ngModel'
                 }]
-        }], ctorParameters: function () {
-        return [{ type: ControlContainer, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Host
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_ASYNC_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALUE_ACCESSOR]
-                    }] }, { type: i0.ChangeDetectorRef, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Inject,
-                        args: [ChangeDetectorRef]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Inject,
-                        args: [CALL_SET_DISABLED_STATE]
-                    }] }];
-    }, propDecorators: { name: [{
+        }], ctorParameters: function () { return [{ type: ControlContainer, decorators: [{
+                    type: Optional
+                }, {
+                    type: Host
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALUE_ACCESSOR]
+                }] }, { type: i0.ChangeDetectorRef, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [ChangeDetectorRef]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [CALL_SET_DISABLED_STATE]
+                }] }]; }, propDecorators: { name: [{
                 type: Input
             }], isDisabled: [{
                 type: Input,
@@ -4169,10 +4160,10 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sh
  * @ngModule FormsModule
  */
 class ɵNgNoValidate {
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ɵNgNoValidate, deps: [], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])", host: { attributes: { "novalidate": "" } }, ngImport: i0 }); }
 }
-ɵNgNoValidate.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ɵNgNoValidate, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-ɵNgNoValidate.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])", host: { attributes: { "novalidate": "" } }, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ɵNgNoValidate, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ɵNgNoValidate, decorators: [{
             type: Directive,
             args: [{
                     selector: 'form:not([ngNoForm]):not([ngNativeValidate])',
@@ -4228,10 +4219,10 @@ class NumberValueAccessor extends BuiltInControlValueAccessor {
             fn(value == '' ? null : parseFloat(value));
         };
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NumberValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: NumberValueAccessor, selector: "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", host: { listeners: { "input": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [NUMBER_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
 }
-NumberValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NumberValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-NumberValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: NumberValueAccessor, selector: "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]", host: { listeners: { "input": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [NUMBER_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NumberValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NumberValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]',
@@ -4258,11 +4249,11 @@ function throwNameError() {
  * `forwardRef` logic.
  */
 class RadioControlRegistryModule {
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlRegistryModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlRegistryModule }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlRegistryModule }); }
 }
-RadioControlRegistryModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlRegistryModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-RadioControlRegistryModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlRegistryModule });
-RadioControlRegistryModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlRegistryModule });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlRegistryModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlRegistryModule, decorators: [{
             type: NgModule
         }] });
 /**
@@ -4309,10 +4300,10 @@ class RadioControlRegistry {
         return controlPair[0]._parent === accessor._control._parent &&
             controlPair[1].name === accessor.name;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlRegistry, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlRegistry, providedIn: RadioControlRegistryModule }); }
 }
-RadioControlRegistry.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlRegistry, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-RadioControlRegistry.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlRegistry, providedIn: RadioControlRegistryModule });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlRegistry, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlRegistry, decorators: [{
             type: Injectable,
             args: [{ providedIn: RadioControlRegistryModule }]
         }] });
@@ -4338,7 +4329,6 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sh
  */
 class RadioControlValueAccessor extends BuiltInControlValueAccessor {
     constructor(renderer, elementRef, _registry, _injector) {
-        var _a;
         super(renderer, elementRef);
         this._registry = _registry;
         this._injector = _injector;
@@ -4351,7 +4341,7 @@ class RadioControlValueAccessor extends BuiltInControlValueAccessor {
          * @nodoc
          */
         this.onChange = () => { };
-        this.callSetDisabledState = (_a = inject(CALL_SET_DISABLED_STATE, { optional: true })) !== null && _a !== void 0 ? _a : setDisabledStateDefault;
+        this.callSetDisabledState = inject(CALL_SET_DISABLED_STATE, { optional: true }) ?? setDisabledStateDefault;
     }
     /** @nodoc */
     ngOnInit() {
@@ -4424,10 +4414,10 @@ class RadioControlValueAccessor extends BuiltInControlValueAccessor {
         if (!this.name && this.formControlName)
             this.name = this.formControlName;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlValueAccessor, deps: [{ token: i0.Renderer2 }, { token: i0.ElementRef }, { token: RadioControlRegistry }, { token: i0.Injector }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: RadioControlValueAccessor, selector: "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", inputs: { name: "name", formControlName: "formControlName", value: "value" }, host: { listeners: { "change": "onChange()", "blur": "onTouched()" } }, providers: [RADIO_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
 }
-RadioControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlValueAccessor, deps: [{ token: i0.Renderer2 }, { token: i0.ElementRef }, { token: RadioControlRegistry }, { token: i0.Injector }], target: i0.ɵɵFactoryTarget.Directive });
-RadioControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: RadioControlValueAccessor, selector: "input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]", inputs: { name: "name", formControlName: "formControlName", value: "value" }, host: { listeners: { "change": "onChange()", "blur": "onTouched()" } }, providers: [RADIO_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RadioControlValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RadioControlValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=radio][formControlName],input[type=radio][formControl],input[type=radio][ngModel]',
@@ -4488,10 +4478,10 @@ class RangeValueAccessor extends BuiltInControlValueAccessor {
             fn(value == '' ? null : parseFloat(value));
         };
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RangeValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: RangeValueAccessor, selector: "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", host: { listeners: { "change": "onChange($event.target.value)", "input": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [RANGE_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
 }
-RangeValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RangeValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-RangeValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: RangeValueAccessor, selector: "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]", host: { listeners: { "change": "onChange($event.target.value)", "input": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [RANGE_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RangeValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RangeValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]',
@@ -4544,6 +4534,14 @@ class FormControlDirective extends NgControl {
             console.warn(disabledAttrWarning);
         }
     }
+    /**
+     * @description
+     * Static property used to track whether any ngModel warnings have been sent across
+     * all instances of FormControlDirective. Used to support warning config of "once".
+     *
+     * @internal
+     */
+    static { this._ngModelWarningSentOnce = false; }
     constructor(validators, asyncValidators, valueAccessors, _ngModelWarningConfig, callSetDisabledState) {
         super();
         this._ngModelWarningConfig = _ngModelWarningConfig;
@@ -4614,54 +4612,44 @@ class FormControlDirective extends NgControl {
     _isControlChanged(changes) {
         return changes.hasOwnProperty('form');
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormControlDirective, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: NG_VALUE_ACCESSOR, optional: true, self: true }, { token: NG_MODEL_WITH_FORM_CONTROL_WARNING, optional: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: FormControlDirective, selector: "[formControl]", inputs: { form: ["formControl", "form"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, providers: [formControlBinding], exportAs: ["ngForm"], usesInheritance: true, usesOnChanges: true, ngImport: i0 }); }
 }
-/**
- * @description
- * Static property used to track whether any ngModel warnings have been sent across
- * all instances of FormControlDirective. Used to support warning config of "once".
- *
- * @internal
- */
-FormControlDirective._ngModelWarningSentOnce = false;
-FormControlDirective.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormControlDirective, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: NG_VALUE_ACCESSOR, optional: true, self: true }, { token: NG_MODEL_WITH_FORM_CONTROL_WARNING, optional: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-FormControlDirective.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: FormControlDirective, selector: "[formControl]", inputs: { form: ["formControl", "form"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, providers: [formControlBinding], exportAs: ["ngForm"], usesInheritance: true, usesOnChanges: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormControlDirective, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormControlDirective, decorators: [{
             type: Directive,
             args: [{ selector: '[formControl]', providers: [formControlBinding], exportAs: 'ngForm' }]
-        }], ctorParameters: function () {
-        return [{ type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_ASYNC_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALUE_ACCESSOR]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Inject,
-                        args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Inject,
-                        args: [CALL_SET_DISABLED_STATE]
-                    }] }];
-    }, propDecorators: { form: [{
+        }], ctorParameters: function () { return [{ type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALUE_ACCESSOR]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [CALL_SET_DISABLED_STATE]
+                }] }]; }, propDecorators: { form: [{
                 type: Input,
                 args: ['formControl']
             }], isDisabled: [{
@@ -4885,14 +4873,13 @@ class FormGroupDirective extends ControlContainer {
      * @param $event The "submit" event object
      */
     onSubmit($event) {
-        var _a;
         this.submitted = true;
         syncPendingControls(this.form, this.directives);
         this.ngSubmit.emit($event);
         // Forms with `method="dialog"` have some special behavior that won't reload the page and that
         // shouldn't be prevented. Note that we need to null check the `event` and the `target`, because
         // some internal apps call this method directly with the wrong arguments.
-        return ((_a = $event === null || $event === void 0 ? void 0 : $event.target) === null || _a === void 0 ? void 0 : _a.method) === 'dialog';
+        return $event?.target?.method === 'dialog';
     }
     /**
      * @description
@@ -4971,10 +4958,10 @@ class FormGroupDirective extends ControlContainer {
             throw missingFormException();
         }
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormGroupDirective, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: FormGroupDirective, selector: "[formGroup]", inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider], exportAs: ["ngForm"], usesInheritance: true, usesOnChanges: true, ngImport: i0 }); }
 }
-FormGroupDirective.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormGroupDirective, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-FormGroupDirective.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: FormGroupDirective, selector: "[formGroup]", inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider], exportAs: ["ngForm"], usesInheritance: true, usesOnChanges: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormGroupDirective, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormGroupDirective, decorators: [{
             type: Directive,
             args: [{
                     selector: '[formGroup]',
@@ -4982,28 +4969,26 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sh
                     host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                     exportAs: 'ngForm'
                 }]
-        }], ctorParameters: function () {
-        return [{ type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_ASYNC_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Inject,
-                        args: [CALL_SET_DISABLED_STATE]
-                    }] }];
-    }, propDecorators: { form: [{
+        }], ctorParameters: function () { return [{ type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [CALL_SET_DISABLED_STATE]
+                }] }]; }, propDecorators: { form: [{
                 type: Input,
                 args: ['formGroup']
             }], ngSubmit: [{
@@ -5064,6 +5049,16 @@ const formGroupNameProvider = {
 class FormGroupName extends AbstractFormGroupDirective {
     constructor(parent, validators, asyncValidators) {
         super();
+        /**
+         * @description
+         * Tracks the name of the `FormGroup` bound to the directive. The name corresponds
+         * to a key in the parent `FormGroup` or `FormArray`.
+         * Accepts a name as a string or a number.
+         * The name in the form of a string is useful for individual forms,
+         * while the numerical form allows for form groups to be bound
+         * to indices when iterating over groups in a `FormArray`.
+         */
+        this.name = null;
         this._parent = parent;
         this._setValidators(validators);
         this._setAsyncValidators(asyncValidators);
@@ -5074,35 +5069,33 @@ class FormGroupName extends AbstractFormGroupDirective {
             throw groupParentException();
         }
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormGroupName, deps: [{ token: ControlContainer, host: true, optional: true, skipSelf: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: FormGroupName, selector: "[formGroupName]", inputs: { name: ["formGroupName", "name"] }, providers: [formGroupNameProvider], usesInheritance: true, ngImport: i0 }); }
 }
-FormGroupName.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormGroupName, deps: [{ token: ControlContainer, host: true, optional: true, skipSelf: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive });
-FormGroupName.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: FormGroupName, selector: "[formGroupName]", inputs: { name: ["formGroupName", "name"] }, providers: [formGroupNameProvider], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormGroupName, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormGroupName, decorators: [{
             type: Directive,
             args: [{ selector: '[formGroupName]', providers: [formGroupNameProvider] }]
-        }], ctorParameters: function () {
-        return [{ type: ControlContainer, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Host
-                    }, {
-                        type: SkipSelf
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_ASYNC_VALIDATORS]
-                    }] }];
-    }, propDecorators: { name: [{
+        }], ctorParameters: function () { return [{ type: ControlContainer, decorators: [{
+                    type: Optional
+                }, {
+                    type: Host
+                }, {
+                    type: SkipSelf
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }]; }, propDecorators: { name: [{
                 type: Input,
                 args: ['formGroupName']
             }] } });
@@ -5137,6 +5130,16 @@ const formArrayNameProvider = {
 class FormArrayName extends ControlContainer {
     constructor(parent, validators, asyncValidators) {
         super();
+        /**
+         * @description
+         * Tracks the name of the `FormArray` bound to the directive. The name corresponds
+         * to a key in the parent `FormGroup` or `FormArray`.
+         * Accepts a name as a string or a number.
+         * The name in the form of a string is useful for individual forms,
+         * while the numerical form allows for form arrays to be bound
+         * to indices when iterating over arrays in a `FormArray`.
+         */
+        this.name = null;
         this._parent = parent;
         this._setValidators(validators);
         this._setAsyncValidators(asyncValidators);
@@ -5186,35 +5189,33 @@ class FormArrayName extends ControlContainer {
             throw arrayParentException();
         }
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormArrayName, deps: [{ token: ControlContainer, host: true, optional: true, skipSelf: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: FormArrayName, selector: "[formArrayName]", inputs: { name: ["formArrayName", "name"] }, providers: [formArrayNameProvider], usesInheritance: true, ngImport: i0 }); }
 }
-FormArrayName.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormArrayName, deps: [{ token: ControlContainer, host: true, optional: true, skipSelf: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive });
-FormArrayName.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: FormArrayName, selector: "[formArrayName]", inputs: { name: ["formArrayName", "name"] }, providers: [formArrayNameProvider], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormArrayName, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormArrayName, decorators: [{
             type: Directive,
             args: [{ selector: '[formArrayName]', providers: [formArrayNameProvider] }]
-        }], ctorParameters: function () {
-        return [{ type: ControlContainer, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Host
-                    }, {
-                        type: SkipSelf
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_ASYNC_VALIDATORS]
-                    }] }];
-    }, propDecorators: { name: [{
+        }], ctorParameters: function () { return [{ type: ControlContainer, decorators: [{
+                    type: Optional
+                }, {
+                    type: Host
+                }, {
+                    type: SkipSelf
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }]; }, propDecorators: { name: [{
                 type: Input,
                 args: ['formArrayName']
             }] } });
@@ -5271,10 +5272,28 @@ class FormControlName extends NgControl {
             console.warn(disabledAttrWarning);
         }
     }
+    /**
+     * @description
+     * Static property used to track whether any ngModel warnings have been sent across
+     * all instances of FormControlName. Used to support warning config of "once".
+     *
+     * @internal
+     */
+    static { this._ngModelWarningSentOnce = false; }
     constructor(parent, validators, asyncValidators, valueAccessors, _ngModelWarningConfig) {
         super();
         this._ngModelWarningConfig = _ngModelWarningConfig;
         this._added = false;
+        /**
+         * @description
+         * Tracks the name of the `FormControl` bound to the directive. The name corresponds
+         * to a key in the parent `FormGroup` or `FormArray`.
+         * Accepts a name as a string or a number.
+         * The name in the form of a string is useful for individual forms,
+         * while the numerical form allows for form controls to be bound
+         * to indices when iterating over controls in a `FormArray`.
+         */
+        this.name = null;
         /** @deprecated as of v6 */
         this.update = new EventEmitter();
         /**
@@ -5351,55 +5370,45 @@ class FormControlName extends NgControl {
         this.control = this.formDirective.addControl(this);
         this._added = true;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormControlName, deps: [{ token: ControlContainer, host: true, optional: true, skipSelf: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: NG_VALUE_ACCESSOR, optional: true, self: true }, { token: NG_MODEL_WITH_FORM_CONTROL_WARNING, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: FormControlName, selector: "[formControlName]", inputs: { name: ["formControlName", "name"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, providers: [controlNameBinding], usesInheritance: true, usesOnChanges: true, ngImport: i0 }); }
 }
-/**
- * @description
- * Static property used to track whether any ngModel warnings have been sent across
- * all instances of FormControlName. Used to support warning config of "once".
- *
- * @internal
- */
-FormControlName._ngModelWarningSentOnce = false;
-FormControlName.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormControlName, deps: [{ token: ControlContainer, host: true, optional: true, skipSelf: true }, { token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: NG_VALUE_ACCESSOR, optional: true, self: true }, { token: NG_MODEL_WITH_FORM_CONTROL_WARNING, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-FormControlName.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: FormControlName, selector: "[formControlName]", inputs: { name: ["formControlName", "name"], isDisabled: ["disabled", "isDisabled"], model: ["ngModel", "model"] }, outputs: { update: "ngModelChange" }, providers: [controlNameBinding], usesInheritance: true, usesOnChanges: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormControlName, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormControlName, decorators: [{
             type: Directive,
             args: [{ selector: '[formControlName]', providers: [controlNameBinding] }]
-        }], ctorParameters: function () {
-        return [{ type: ControlContainer, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Host
-                    }, {
-                        type: SkipSelf
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_ASYNC_VALIDATORS]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Self
-                    }, {
-                        type: Inject,
-                        args: [NG_VALUE_ACCESSOR]
-                    }] }, { type: undefined, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Inject,
-                        args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
-                    }] }];
-    }, propDecorators: { name: [{
+        }], ctorParameters: function () { return [{ type: ControlContainer, decorators: [{
+                    type: Optional
+                }, {
+                    type: Host
+                }, {
+                    type: SkipSelf
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALUE_ACCESSOR]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [NG_MODEL_WITH_FORM_CONTROL_WARNING]
+                }] }]; }, propDecorators: { name: [{
                 type: Input,
                 args: ['formControlName']
             }], isDisabled: [{
@@ -5541,10 +5550,10 @@ class SelectControlValueAccessor extends BuiltInControlValueAccessor {
         const id = _extractId$1(valueString);
         return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: SelectControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: SelectControlValueAccessor, selector: "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", inputs: { compareWith: "compareWith" }, host: { listeners: { "change": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [SELECT_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
 }
-SelectControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: SelectControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-SelectControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: SelectControlValueAccessor, selector: "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", inputs: { compareWith: "compareWith" }, host: { listeners: { "change": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [SELECT_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: SelectControlValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: SelectControlValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
@@ -5605,19 +5614,17 @@ class NgSelectOption {
             this._select.writeValue(this._select.value);
         }
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgSelectOption, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }, { token: SelectControlValueAccessor, host: true, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: NgSelectOption, selector: "option", inputs: { ngValue: "ngValue", value: "value" }, ngImport: i0 }); }
 }
-NgSelectOption.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgSelectOption, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }, { token: SelectControlValueAccessor, host: true, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-NgSelectOption.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: NgSelectOption, selector: "option", inputs: { ngValue: "ngValue", value: "value" }, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NgSelectOption, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NgSelectOption, decorators: [{
             type: Directive,
             args: [{ selector: 'option' }]
-        }], ctorParameters: function () {
-        return [{ type: i0.ElementRef }, { type: i0.Renderer2 }, { type: SelectControlValueAccessor, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Host
-                    }] }];
-    }, propDecorators: { ngValue: [{
+        }], ctorParameters: function () { return [{ type: i0.ElementRef }, { type: i0.Renderer2 }, { type: SelectControlValueAccessor, decorators: [{
+                    type: Optional
+                }, {
+                    type: Host
+                }] }]; }, propDecorators: { ngValue: [{
                 type: Input,
                 args: ['ngValue']
             }], value: [{
@@ -5774,10 +5781,10 @@ class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor {
         const id = _extractId(valueString);
         return this._optionMap.has(id) ? this._optionMap.get(id)._value : valueString;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: SelectMultipleControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: SelectMultipleControlValueAccessor, selector: "select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]", inputs: { compareWith: "compareWith" }, host: { listeners: { "change": "onChange($event.target)", "blur": "onTouched()" } }, providers: [SELECT_MULTIPLE_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
 }
-SelectMultipleControlValueAccessor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: SelectMultipleControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-SelectMultipleControlValueAccessor.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: SelectMultipleControlValueAccessor, selector: "select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]", inputs: { compareWith: "compareWith" }, host: { listeners: { "change": "onChange($event.target)", "blur": "onTouched()" } }, providers: [SELECT_MULTIPLE_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: SelectMultipleControlValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: SelectMultipleControlValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'select[multiple][formControlName],select[multiple][formControl],select[multiple][ngModel]',
@@ -5848,19 +5855,17 @@ class ɵNgSelectMultipleOption {
             this._select.writeValue(this._select.value);
         }
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ɵNgSelectMultipleOption, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }, { token: SelectMultipleControlValueAccessor, host: true, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: ɵNgSelectMultipleOption, selector: "option", inputs: { ngValue: "ngValue", value: "value" }, ngImport: i0 }); }
 }
-ɵNgSelectMultipleOption.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ɵNgSelectMultipleOption, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }, { token: SelectMultipleControlValueAccessor, host: true, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-ɵNgSelectMultipleOption.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: ɵNgSelectMultipleOption, selector: "option", inputs: { ngValue: "ngValue", value: "value" }, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ɵNgSelectMultipleOption, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ɵNgSelectMultipleOption, decorators: [{
             type: Directive,
             args: [{ selector: 'option' }]
-        }], ctorParameters: function () {
-        return [{ type: i0.ElementRef }, { type: i0.Renderer2 }, { type: SelectMultipleControlValueAccessor, decorators: [{
-                        type: Optional
-                    }, {
-                        type: Host
-                    }] }];
-    }, propDecorators: { ngValue: [{
+        }], ctorParameters: function () { return [{ type: i0.ElementRef }, { type: i0.Renderer2 }, { type: SelectMultipleControlValueAccessor, decorators: [{
+                    type: Optional
+                }, {
+                    type: Host
+                }] }]; }, propDecorators: { ngValue: [{
                 type: Input,
                 args: ['ngValue']
             }], value: [{
@@ -5925,10 +5930,10 @@ class AbstractValidatorDirective {
     enabled(input) {
         return input != null /* both `null` and `undefined` */;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: AbstractValidatorDirective, deps: [], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: AbstractValidatorDirective, usesOnChanges: true, ngImport: i0 }); }
 }
-AbstractValidatorDirective.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: AbstractValidatorDirective, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-AbstractValidatorDirective.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: AbstractValidatorDirective, usesOnChanges: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: AbstractValidatorDirective, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: AbstractValidatorDirective, decorators: [{
             type: Directive
         }] });
 /**
@@ -5971,10 +5976,10 @@ class MaxValidator extends AbstractValidatorDirective {
         /** @internal */
         this.createValidator = (max) => maxValidator(max);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: MaxValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: MaxValidator, selector: "input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]", inputs: { max: "max" }, host: { properties: { "attr.max": "_enabled ? max : null" } }, providers: [MAX_VALIDATOR], usesInheritance: true, ngImport: i0 }); }
 }
-MaxValidator.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: MaxValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-MaxValidator.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: MaxValidator, selector: "input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]", inputs: { max: "max" }, host: { properties: { "attr.max": "_enabled ? max : null" } }, providers: [MAX_VALIDATOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: MaxValidator, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: MaxValidator, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=number][max][formControlName],input[type=number][max][formControl],input[type=number][max][ngModel]',
@@ -6024,10 +6029,10 @@ class MinValidator extends AbstractValidatorDirective {
         /** @internal */
         this.createValidator = (min) => minValidator(min);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: MinValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: MinValidator, selector: "input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]", inputs: { min: "min" }, host: { properties: { "attr.min": "_enabled ? min : null" } }, providers: [MIN_VALIDATOR], usesInheritance: true, ngImport: i0 }); }
 }
-MinValidator.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: MinValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-MinValidator.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: MinValidator, selector: "input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]", inputs: { min: "min" }, host: { properties: { "attr.min": "_enabled ? min : null" } }, providers: [MIN_VALIDATOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: MinValidator, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: MinValidator, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=number][min][formControlName],input[type=number][min][formControl],input[type=number][min][ngModel]',
@@ -6088,10 +6093,10 @@ class RequiredValidator extends AbstractValidatorDirective {
     enabled(input) {
         return input;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RequiredValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: RequiredValidator, selector: ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", inputs: { required: "required" }, host: { properties: { "attr.required": "_enabled ? \"\" : null" } }, providers: [REQUIRED_VALIDATOR], usesInheritance: true, ngImport: i0 }); }
 }
-RequiredValidator.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RequiredValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-RequiredValidator.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: RequiredValidator, selector: ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", inputs: { required: "required" }, host: { properties: { "attr.required": "_enabled ? \"\" : null" } }, providers: [REQUIRED_VALIDATOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: RequiredValidator, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: RequiredValidator, decorators: [{
             type: Directive,
             args: [{
                     selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
@@ -6128,10 +6133,10 @@ class CheckboxRequiredValidator extends RequiredValidator {
         /** @internal */
         this.createValidator = (input) => requiredTrueValidator;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: CheckboxRequiredValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: CheckboxRequiredValidator, selector: "input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]", host: { properties: { "attr.required": "_enabled ? \"\" : null" } }, providers: [CHECKBOX_REQUIRED_VALIDATOR], usesInheritance: true, ngImport: i0 }); }
 }
-CheckboxRequiredValidator.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: CheckboxRequiredValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-CheckboxRequiredValidator.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: CheckboxRequiredValidator, selector: "input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]", host: { properties: { "attr.required": "_enabled ? \"\" : null" } }, providers: [CHECKBOX_REQUIRED_VALIDATOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: CheckboxRequiredValidator, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: CheckboxRequiredValidator, decorators: [{
             type: Directive,
             args: [{
                     selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
@@ -6189,10 +6194,10 @@ class EmailValidator extends AbstractValidatorDirective {
     enabled(input) {
         return input;
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: EmailValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: EmailValidator, selector: "[email][formControlName],[email][formControl],[email][ngModel]", inputs: { email: "email" }, providers: [EMAIL_VALIDATOR], usesInheritance: true, ngImport: i0 }); }
 }
-EmailValidator.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: EmailValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-EmailValidator.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: EmailValidator, selector: "[email][formControlName],[email][formControl],[email][ngModel]", inputs: { email: "email" }, providers: [EMAIL_VALIDATOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: EmailValidator, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: EmailValidator, decorators: [{
             type: Directive,
             args: [{
                     selector: '[email][formControlName],[email][formControl],[email][ngModel]',
@@ -6241,10 +6246,10 @@ class MinLengthValidator extends AbstractValidatorDirective {
         /** @internal */
         this.createValidator = (minlength) => minLengthValidator(minlength);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: MinLengthValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: MinLengthValidator, selector: "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", inputs: { minlength: "minlength" }, host: { properties: { "attr.minlength": "_enabled ? minlength : null" } }, providers: [MIN_LENGTH_VALIDATOR], usesInheritance: true, ngImport: i0 }); }
 }
-MinLengthValidator.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: MinLengthValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-MinLengthValidator.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: MinLengthValidator, selector: "[minlength][formControlName],[minlength][formControl],[minlength][ngModel]", inputs: { minlength: "minlength" }, host: { properties: { "attr.minlength": "_enabled ? minlength : null" } }, providers: [MIN_LENGTH_VALIDATOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: MinLengthValidator, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: MinLengthValidator, decorators: [{
             type: Directive,
             args: [{
                     selector: '[minlength][formControlName],[minlength][formControl],[minlength][ngModel]',
@@ -6294,10 +6299,10 @@ class MaxLengthValidator extends AbstractValidatorDirective {
         /** @internal */
         this.createValidator = (maxlength) => maxLengthValidator(maxlength);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: MaxLengthValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: MaxLengthValidator, selector: "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", inputs: { maxlength: "maxlength" }, host: { properties: { "attr.maxlength": "_enabled ? maxlength : null" } }, providers: [MAX_LENGTH_VALIDATOR], usesInheritance: true, ngImport: i0 }); }
 }
-MaxLengthValidator.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: MaxLengthValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-MaxLengthValidator.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: MaxLengthValidator, selector: "[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]", inputs: { maxlength: "maxlength" }, host: { properties: { "attr.maxlength": "_enabled ? maxlength : null" } }, providers: [MAX_LENGTH_VALIDATOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: MaxLengthValidator, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: MaxLengthValidator, decorators: [{
             type: Directive,
             args: [{
                     selector: '[maxlength][formControlName],[maxlength][formControl],[maxlength][ngModel]',
@@ -6349,10 +6354,10 @@ class PatternValidator extends AbstractValidatorDirective {
         /** @internal */
         this.createValidator = (input) => patternValidator(input);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: PatternValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", type: PatternValidator, selector: "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", inputs: { pattern: "pattern" }, host: { properties: { "attr.pattern": "_enabled ? pattern : null" } }, providers: [PATTERN_VALIDATOR], usesInheritance: true, ngImport: i0 }); }
 }
-PatternValidator.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: PatternValidator, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-PatternValidator.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", type: PatternValidator, selector: "[pattern][formControlName],[pattern][formControl],[pattern][ngModel]", inputs: { pattern: "pattern" }, host: { properties: { "attr.pattern": "_enabled ? pattern : null" } }, providers: [PATTERN_VALIDATOR], usesInheritance: true, ngImport: i0 });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: PatternValidator, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: PatternValidator, decorators: [{
             type: Directive,
             args: [{
                     selector: '[pattern][formControlName],[pattern][formControl],[pattern][ngModel]',
@@ -6391,49 +6396,49 @@ const REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, Fo
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
 class ɵInternalFormsSharedModule {
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ɵInternalFormsSharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ɵInternalFormsSharedModule, declarations: [ɵNgNoValidate,
+            NgSelectOption,
+            ɵNgSelectMultipleOption,
+            DefaultValueAccessor,
+            NumberValueAccessor,
+            RangeValueAccessor,
+            CheckboxControlValueAccessor,
+            SelectControlValueAccessor,
+            SelectMultipleControlValueAccessor,
+            RadioControlValueAccessor,
+            NgControlStatus,
+            NgControlStatusGroup,
+            RequiredValidator,
+            MinLengthValidator,
+            MaxLengthValidator,
+            PatternValidator,
+            CheckboxRequiredValidator,
+            EmailValidator,
+            MinValidator,
+            MaxValidator], imports: [RadioControlRegistryModule], exports: [ɵNgNoValidate,
+            NgSelectOption,
+            ɵNgSelectMultipleOption,
+            DefaultValueAccessor,
+            NumberValueAccessor,
+            RangeValueAccessor,
+            CheckboxControlValueAccessor,
+            SelectControlValueAccessor,
+            SelectMultipleControlValueAccessor,
+            RadioControlValueAccessor,
+            NgControlStatus,
+            NgControlStatusGroup,
+            RequiredValidator,
+            MinLengthValidator,
+            MaxLengthValidator,
+            PatternValidator,
+            CheckboxRequiredValidator,
+            EmailValidator,
+            MinValidator,
+            MaxValidator] }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ɵInternalFormsSharedModule, imports: [RadioControlRegistryModule] }); }
 }
-ɵInternalFormsSharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ɵInternalFormsSharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-ɵInternalFormsSharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ɵInternalFormsSharedModule, declarations: [ɵNgNoValidate,
-        NgSelectOption,
-        ɵNgSelectMultipleOption,
-        DefaultValueAccessor,
-        NumberValueAccessor,
-        RangeValueAccessor,
-        CheckboxControlValueAccessor,
-        SelectControlValueAccessor,
-        SelectMultipleControlValueAccessor,
-        RadioControlValueAccessor,
-        NgControlStatus,
-        NgControlStatusGroup,
-        RequiredValidator,
-        MinLengthValidator,
-        MaxLengthValidator,
-        PatternValidator,
-        CheckboxRequiredValidator,
-        EmailValidator,
-        MinValidator,
-        MaxValidator], imports: [RadioControlRegistryModule], exports: [ɵNgNoValidate,
-        NgSelectOption,
-        ɵNgSelectMultipleOption,
-        DefaultValueAccessor,
-        NumberValueAccessor,
-        RangeValueAccessor,
-        CheckboxControlValueAccessor,
-        SelectControlValueAccessor,
-        SelectMultipleControlValueAccessor,
-        RadioControlValueAccessor,
-        NgControlStatus,
-        NgControlStatusGroup,
-        RequiredValidator,
-        MinLengthValidator,
-        MaxLengthValidator,
-        PatternValidator,
-        CheckboxRequiredValidator,
-        EmailValidator,
-        MinValidator,
-        MaxValidator] });
-ɵInternalFormsSharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ɵInternalFormsSharedModule, imports: [RadioControlRegistryModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ɵInternalFormsSharedModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ɵInternalFormsSharedModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: SHARED_FORM_DIRECTIVES,
@@ -6883,8 +6888,7 @@ class FormArray extends AbstractControl {
     }
     /** @internal */
     _find(name) {
-        var _a;
-        return (_a = this.at(name)) !== null && _a !== void 0 ? _a : null;
+        return this.at(name) ?? null;
     }
 }
 const UntypedFormArray = FormArray;
@@ -7040,7 +7044,7 @@ class FormBuilder {
             newOptions.validators = validatorOrOpts;
             newOptions.asyncValidators = asyncValidator;
         }
-        return new FormControl(formState, Object.assign(Object.assign({}, newOptions), { nonNullable: true }));
+        return new FormControl(formState, { ...newOptions, nonNullable: true });
     }
     /**
      * Constructs a new `FormArray` from the given array of configurations,
@@ -7087,10 +7091,10 @@ class FormBuilder {
             return this.control(controls);
         }
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormBuilder, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormBuilder, providedIn: 'root' }); }
 }
-FormBuilder.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormBuilder, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-FormBuilder.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormBuilder, providedIn: 'root' });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormBuilder, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormBuilder, decorators: [{
             type: Injectable,
             args: [{ providedIn: 'root' }]
         }] });
@@ -7102,10 +7106,10 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sh
  * @publicApi
  */
 class NonNullableFormBuilder {
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NonNullableFormBuilder, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NonNullableFormBuilder, providedIn: 'root', useFactory: () => inject(FormBuilder).nonNullable }); }
 }
-NonNullableFormBuilder.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NonNullableFormBuilder, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-NonNullableFormBuilder.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NonNullableFormBuilder, providedIn: 'root', useFactory: () => inject(FormBuilder).nonNullable });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: NonNullableFormBuilder, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: NonNullableFormBuilder, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root',
@@ -7131,10 +7135,10 @@ class UntypedFormBuilder extends FormBuilder {
     array(controlsConfig, validatorOrOpts, asyncValidator) {
         return super.array(controlsConfig, validatorOrOpts, asyncValidator);
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: UntypedFormBuilder, deps: null, target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: UntypedFormBuilder, providedIn: 'root' }); }
 }
-UntypedFormBuilder.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: UntypedFormBuilder, deps: null, target: i0.ɵɵFactoryTarget.Injectable });
-UntypedFormBuilder.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: UntypedFormBuilder, providedIn: 'root' });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: UntypedFormBuilder, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: UntypedFormBuilder, decorators: [{
             type: Injectable,
             args: [{ providedIn: 'root' }]
         }] });
@@ -7147,7 +7151,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sh
 /**
  * @publicApi
  */
-const VERSION = new Version('16.0.0-next.4+sha-07cbaa3');
+const VERSION = new Version('16.0.0-next.4+sha-6161c50');
 
 /**
  * Exports the required providers and directives for template-driven forms,
@@ -7171,20 +7175,19 @@ class FormsModule {
      * correct, or to only call it `whenDisabled`, which is the legacy behavior.
      */
     static withConfig(opts) {
-        var _a;
         return {
             ngModule: FormsModule,
             providers: [{
                     provide: CALL_SET_DISABLED_STATE,
-                    useValue: (_a = opts.callSetDisabledState) !== null && _a !== void 0 ? _a : setDisabledStateDefault
+                    useValue: opts.callSetDisabledState ?? setDisabledStateDefault
                 }]
         };
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormsModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormsModule, declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormsModule, imports: [ɵInternalFormsSharedModule] }); }
 }
-FormsModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormsModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-FormsModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormsModule, declarations: [NgModel, NgModelGroup, NgForm], exports: [ɵInternalFormsSharedModule, NgModel, NgModelGroup, NgForm] });
-FormsModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormsModule, imports: [ɵInternalFormsSharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: FormsModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: FormsModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: TEMPLATE_DRIVEN_DIRECTIVES,
@@ -7216,26 +7219,25 @@ class ReactiveFormsModule {
      * correct, or to only call it `whenDisabled`, which is the legacy behavior.
      */
     static withConfig(opts) {
-        var _a, _b;
         return {
             ngModule: ReactiveFormsModule,
             providers: [
                 {
                     provide: NG_MODEL_WITH_FORM_CONTROL_WARNING,
-                    useValue: (_a = opts.warnOnNgModelWithFormControl) !== null && _a !== void 0 ? _a : 'always'
+                    useValue: opts.warnOnNgModelWithFormControl ?? 'always'
                 },
                 {
                     provide: CALL_SET_DISABLED_STATE,
-                    useValue: (_b = opts.callSetDisabledState) !== null && _b !== void 0 ? _b : setDisabledStateDefault
+                    useValue: opts.callSetDisabledState ?? setDisabledStateDefault
                 }
             ]
         };
     }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ReactiveFormsModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ReactiveFormsModule, declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ReactiveFormsModule, imports: [ɵInternalFormsSharedModule] }); }
 }
-ReactiveFormsModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ReactiveFormsModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-ReactiveFormsModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ReactiveFormsModule, declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
-ReactiveFormsModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ReactiveFormsModule, imports: [ɵInternalFormsSharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-07cbaa3", ngImport: i0, type: ReactiveFormsModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.0.0-next.4+sha-6161c50", ngImport: i0, type: ReactiveFormsModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: [REACTIVE_DRIVEN_DIRECTIVES],
