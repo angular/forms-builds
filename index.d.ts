@@ -1,5 +1,5 @@
 /**
- * @license Angular v16.0.0-next.5+sha-39a648f
+ * @license Angular v16.0.0-next.5+sha-07a1aa3
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4675,6 +4675,10 @@ declare const SHARED_FORM_DIRECTIVES: Type<any>[];
 
 declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
 
+declare interface UnsafeValidatorFn {
+    (control: AbstractControl): ValidationErrors | null;
+}
+
 /**
  * UntypedFormArray is a non-strongly-typed version of `FormArray`, which
  * permits heterogenous controls.
@@ -4816,17 +4820,23 @@ export declare interface Validator {
 /**
  * The union of all validator types that can be accepted by a ControlConfig.
  */
-declare type ValidatorConfig = ValidatorFn | AsyncValidatorFn | ValidatorFn[] | AsyncValidatorFn[];
+declare type ValidatorConfig = UnsafeValidatorFn | AsyncValidatorFn | UnsafeValidatorFn[] | AsyncValidatorFn[];
 
 /**
  * @description
  * A function that receives a control and synchronously returns a map of
  * validation errors if present, otherwise null.
  *
+ * Error objects with a `then` key or a `subscribe` key are not valid.
+ * They describe an async validator returning respectively a Promise or an Observable.
+ *
  * @publicApi
  */
 export declare interface ValidatorFn {
-    (control: AbstractControl): ValidationErrors | null;
+    (control: AbstractControl): (ValidationErrors & {
+        then?: never;
+        subscribe?: never;
+    }) | null;
 }
 
 /**
