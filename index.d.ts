@@ -1,5 +1,5 @@
 /**
- * @license Angular v16.1.0-next.0+sha-59837f4
+ * @license Angular v16.1.0-next.0+sha-7baaed2
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -179,6 +179,12 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * A multicasting observable that emits an event every time the value of the control changes, in
      * the UI or programmatically. It also emits an event each time you call enable() or disable()
      * without passing along {emitEvent: false} as a function argument.
+     *
+     * **Note**: the emit happens right after a value of this control is updated. The value of a
+     * parent control (for example if this FormControl is a part of a FormGroup) is updated later, so
+     * accessing a value of a parent control (using the `value` property) from the callback of this
+     * event might result in getting a value that has not been updated yet. Subscribe to the
+     * `valueChanges` event of the parent control instead.
      */
     readonly valueChanges: Observable<TValue>;
     /**
