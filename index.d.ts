@@ -1,5 +1,5 @@
 /**
- * @license Angular v16.1.0-next.0+sha-237d90f
+ * @license Angular v16.1.0-next.0+sha-1598fbc
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3913,8 +3913,8 @@ declare const ngGroupStatusHost: {
 
 /**
  * @description
- * Creates a `FormControl` instance from a domain model and binds it
- * to a form control element.
+ * Creates a `FormControl` instance from a [domain
+ * model](https://en.wikipedia.org/wiki/Domain_model) and binds it to a form control element.
  *
  * The `FormControl` instance tracks the value, user interaction, and
  * validation status of the control and keeps the view synced with the model. If used
