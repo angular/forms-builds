@@ -1,5 +1,5 @@
 /**
- * @license Angular v16.2.0-next.0+sha-1ad4d55
+ * @license Angular v16.2.0-next.0+sha-f199305
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -85,7 +85,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
     /**
      * The validation status of the control.
      *
-     * @see `FormControlStatus`
+     * @see {@link FormControlStatus}
      *
      * These status values are mutually exclusive, so a control cannot be
      * both valid AND invalid or invalid AND disabled.
@@ -191,7 +191,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * A multicasting observable that emits an event every time the validation `status` of the control
      * recalculates.
      *
-     * @see `FormControlStatus`
+     * @see {@link FormControlStatus}
      * @see {@link AbstractControl.status}
      *
      */
@@ -345,9 +345,9 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * Marks the control as `touched`. A control is touched by focus and
      * blur events that do not change the value.
      *
-     * @see `markAsUntouched()`
-     * @see `markAsDirty()`
-     * @see `markAsPristine()`
+     * @see {@link markAsUntouched()}
+     * @see {@link markAsDirty()}
+     * @see {@link markAsPristine()}
      *
      * @param opts Configuration options that determine how the control propagates changes
      * and emits events after marking is applied.
@@ -359,7 +359,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
     }): void;
     /**
      * Marks the control and all its descendant controls as `touched`.
-     * @see `markAsTouched()`
+     * @see {@link markAsTouched()}
      */
     markAllAsTouched(): void;
     /**
@@ -368,9 +368,9 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * If the control has any children, also marks all children as `untouched`
      * and recalculates the `touched` status of all parent controls.
      *
-     * @see `markAsTouched()`
-     * @see `markAsDirty()`
-     * @see `markAsPristine()`
+     * @see {@link markAsTouched()}
+     * @see {@link markAsDirty()}
+     * @see {@link markAsPristine()}
      *
      * @param opts Configuration options that determine how the control propagates changes
      * and emits events after the marking is applied.
@@ -384,9 +384,9 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * Marks the control as `dirty`. A control becomes dirty when
      * the control's value is changed through the UI; compare `markAsTouched`.
      *
-     * @see `markAsTouched()`
-     * @see `markAsUntouched()`
-     * @see `markAsPristine()`
+     * @see {@link markAsTouched()}
+     * @see {@link markAsUntouched()}
+     * @see {@link markAsPristine()}
      *
      * @param opts Configuration options that determine how the control propagates changes
      * and emits events after marking is applied.
@@ -403,9 +403,9 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * and recalculates the `pristine` status of all parent
      * controls.
      *
-     * @see `markAsTouched()`
-     * @see `markAsUntouched()`
-     * @see `markAsDirty()`
+     * @see {@link markAsTouched()}
+     * @see {@link markAsUntouched()}
+     * @see {@link markAsDirty()}
      *
      * @param opts Configuration options that determine how the control emits events after
      * marking is applied.
@@ -1054,7 +1054,7 @@ declare class BuiltInControlValueAccessor extends BaseControlValueAccessor {
  * Token to provide to allow SetDisabledState to always be called when a CVA is added, regardless of
  * whether the control is disabled or enabled.
  *
- * @see `FormsModule.withConfig`
+ * @see {@link FormsModule#withconfig}
  */
 declare const CALL_SET_DISABLED_STATE: InjectionToken<SetDisabledStateOption>;
 
@@ -1782,7 +1782,7 @@ export declare class FormArray<TControl extends AbstractControl<any> = any> exte
  * `FormGroup` instance you passed into `FormGroupDirective`.
  *
  * @see [Reactive Forms Guide](guide/reactive-forms)
- * @see `AbstractControl`
+ * @see {@link AbstractControl}
  *
  * @usageNotes
  *
@@ -2005,7 +2005,7 @@ export declare class FormBuilder {
  *
  * See [usage examples below](#usage-notes).
  *
- * @see `AbstractControl`
+ * @see {@link AbstractControl}
  * @see [Reactive Forms Guide](guide/reactive-forms)
  * @see [Usage Notes](#usage-notes)
  *
@@ -2171,7 +2171,7 @@ export declare interface FormControl<TValue = any> extends AbstractControl<TValu
      * It exists for symmetry with {@link FormGroup#patchValue patchValue} on `FormGroups` and
      * `FormArrays`, where it does behave differently.
      *
-     * @see `setValue` for options
+     * @see {@link FormControl#setValue} for options
      */
     patchValue(value: TValue, options?: {
         onlySelf?: boolean;
@@ -2246,8 +2246,8 @@ export declare const FormControl: ɵFormControlCtor;
  * For details, see [Deprecated features](guide/deprecations#ngmodel-with-reactive-forms).
  *
  * @see [Reactive Forms Guide](guide/reactive-forms)
- * @see `FormControl`
- * @see `AbstractControl`
+ * @see {@link FormControl}
+ * @see {@link AbstractControl}
  *
  * @usageNotes
  *
@@ -2314,8 +2314,8 @@ export declare class FormControlDirective extends NgControl implements OnChanges
  * element by name.
  *
  * @see [Reactive Forms Guide](guide/reactive-forms)
- * @see `FormControl`
- * @see `AbstractControl`
+ * @see {@link FormControl}
+ * @see {@link AbstractControl}
  *
  * @usageNotes
  *
@@ -2817,7 +2817,7 @@ export declare class FormGroup<TControl extends {
  * and `FormArrayName` directives.
  *
  * @see [Reactive Forms Guide](guide/reactive-forms)
- * @see `AbstractControl`
+ * @see {@link AbstractControl}
  *
  * @usageNotes
  * ### Register Form Group
@@ -3541,7 +3541,7 @@ declare const modelGroupProvider: any;
  * An `InjectionToken` for registering additional asynchronous validators used with
  * `AbstractControl`s.
  *
- * @see `NG_VALIDATORS`
+ * @see {@link NG_VALIDATORS}
  *
  * @usageNotes
  *
@@ -3577,7 +3577,7 @@ declare const NG_MODEL_WITH_FORM_CONTROL_WARNING: InjectionToken<unknown>;
  * An `InjectionToken` for registering additional synchronous validators used with
  * `AbstractControl`s.
  *
- * @see `NG_ASYNC_VALIDATORS`
+ * @see {@link NG_ASYNC_VALIDATORS}
  *
  * @usageNotes
  *
@@ -3673,7 +3673,7 @@ export declare class NgControlStatus extends AbstractControlStatus {
  * based on control status (valid/invalid/dirty/etc). On groups, this includes the additional
  * class ng-submitted.
  *
- * @see `NgControlStatus`
+ * @see {@link NgControlStatus}
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
@@ -3937,8 +3937,8 @@ declare const ngGroupStatusHost: {
  * for direct access. See a full list of properties directly available in
  * `AbstractControlDirective`.
  *
- * @see `RadioControlValueAccessor`
- * @see `SelectControlValueAccessor`
+ * @see {@link RadioControlValueAccessor}
+ * @see {@link SelectControlValueAccessor}
  *
  * @usageNotes
  *
@@ -4129,7 +4129,7 @@ export declare class NgModelGroup extends AbstractFormGroupDirective implements 
  * @description
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
  *
- * @see `SelectControlValueAccessor`
+ * @see {@link SelectControlValueAccessor}
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
@@ -4610,7 +4610,7 @@ export declare class SelectControlValueAccessor extends BuiltInControlValueAcces
  * control changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
  * `NgModel` directives.
  *
- * @see `SelectControlValueAccessor`
+ * @see {@link SelectControlValueAccessor}
  *
  * @usageNotes
  *
@@ -4673,7 +4673,7 @@ export declare class SelectMultipleControlValueAccessor extends BuiltInControlVa
  * called when disabled, which is the legacy behavior for compatibility.
  *
  * @publicApi
- * @see `FormsModule.withConfig`
+ * @see {@link FormsModule#withconfig}
  */
 export declare type SetDisabledStateOption = 'whenDisabledForLegacyCode' | 'always';
 
@@ -4864,7 +4864,7 @@ export declare class Validators {
      * @returns A validator function that returns an error map with the
      * `min` property if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static min(min: number): ValidatorFn;
@@ -4885,7 +4885,7 @@ export declare class Validators {
      * @returns A validator function that returns an error map with the
      * `max` property if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static max(max: number): ValidatorFn;
@@ -4906,7 +4906,7 @@ export declare class Validators {
      * @returns An error map with the `required` property
      * if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static required(control: AbstractControl): ValidationErrors | null;
@@ -4928,7 +4928,7 @@ export declare class Validators {
      * @returns An error map that contains the `required` property
      * set to `true` if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static requiredTrue(control: AbstractControl): ValidationErrors | null;
@@ -4965,7 +4965,7 @@ export declare class Validators {
      * @returns An error map with the `email` property
      * if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static email(control: AbstractControl): ValidationErrors | null;
@@ -4996,7 +4996,7 @@ export declare class Validators {
      * @returns A validator function that returns an error map with the
      * `minlength` property if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static minLength(minLength: number): ValidatorFn;
@@ -5024,7 +5024,7 @@ export declare class Validators {
      * @returns A validator function that returns an error map with the
      * `maxlength` property if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static maxLength(maxLength: number): ValidatorFn;
@@ -5074,7 +5074,7 @@ export declare class Validators {
      * @returns A validator function that returns an error map with the
      * `pattern` property if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static pattern(pattern: string | RegExp): ValidatorFn;
@@ -5082,7 +5082,7 @@ export declare class Validators {
      * @description
      * Validator that performs no operation.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static nullValidator(control: AbstractControl): ValidationErrors | null;
@@ -5094,7 +5094,7 @@ export declare class Validators {
      * @returns A validator function that returns an error map with the
      * merged error maps of the validators if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static compose(validators: null): null;
@@ -5107,7 +5107,7 @@ export declare class Validators {
      * @returns A validator function that returns an error map with the
      * merged error objects of the async validators if the validation check fails, otherwise `null`.
      *
-     * @see `updateValueAndValidity()`
+     * @see {@link updateValueAndValidity()}
      *
      */
     static composeAsync(validators: (AsyncValidatorFn | null)[]): AsyncValidatorFn | null;
@@ -5310,7 +5310,7 @@ export declare class ɵNgNoValidate {
  * @description
  * Marks `<option>` as dynamic, so Angular can be notified when options change.
  *
- * @see `SelectMultipleControlValueAccessor`
+ * @see {@link SelectMultipleControlValueAccessor}
  *
  * @ngModule ReactiveFormsModule
  * @ngModule FormsModule
