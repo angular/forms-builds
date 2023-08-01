@@ -1,5 +1,5 @@
 /**
- * @license Angular v16.2.0-next.4+sha-2274d15
+ * @license Angular v16.2.0-next.4+sha-737ed23
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -682,7 +682,7 @@ export declare abstract class AbstractControlDirective {
     get invalid(): boolean | null;
     /**
      * @description
-     * Reports whether a control is pending, meaning that that async validation is occurring and
+     * Reports whether a control is pending, meaning that async validation is occurring and
      * errors are not yet available for the input value. If the control is not present, null is
      * returned.
      */
@@ -2439,7 +2439,7 @@ export declare interface FormControlState<T> {
  * value.
  * * **INVALID**: Reports that a control is invalid, meaning that an error exists in the input
  * value.
- * * **PENDING**: Reports that a control is pending, meaning that that async validation is
+ * * **PENDING**: Reports that a control is pending, meaning that async validation is
  * occurring and errors are not yet available for the input value.
  * * **DISABLED**: Reports that a control is
  * disabled, meaning that the control is exempt from ancestor calculations of validity or value.
