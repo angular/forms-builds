@@ -1,5 +1,5 @@
 /**
- * @license Angular v17.0.0-next.0+sha-93675dc
+ * @license Angular v17.0.0-next.0+sha-be3edad
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3565,7 +3565,7 @@ declare const modelGroupProvider: any;
  *
  * @publicApi
  */
-export declare const NG_ASYNC_VALIDATORS: InjectionToken<(Function | Validator)[]>;
+export declare const NG_ASYNC_VALIDATORS: InjectionToken<readonly (Function | Validator)[]>;
 
 /**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
@@ -3600,7 +3600,7 @@ declare const NG_MODEL_WITH_FORM_CONTROL_WARNING: InjectionToken<unknown>;
  *
  * @publicApi
  */
-export declare const NG_VALIDATORS: InjectionToken<(Function | Validator)[]>;
+export declare const NG_VALIDATORS: InjectionToken<readonly (Function | Validator)[]>;
 
 /**
  * Used to provide a `ControlValueAccessor` for form controls.
