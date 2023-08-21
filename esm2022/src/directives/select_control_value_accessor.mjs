@@ -136,10 +136,10 @@ export class SelectControlValueAccessor extends BuiltInControlValueAccessor {
         const id = _extractId(valueString);
         return this._optionMap.has(id) ? this._optionMap.get(id) : valueString;
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.0-next.0+sha-803fc7f", ngImport: i0, type: SelectControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
-    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "17.0.0-next.0+sha-803fc7f", type: SelectControlValueAccessor, selector: "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", inputs: { compareWith: "compareWith" }, host: { listeners: { "change": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [SELECT_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.0-next.0+sha-119eaa5", ngImport: i0, type: SelectControlValueAccessor, deps: null, target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "17.0.0-next.0+sha-119eaa5", type: SelectControlValueAccessor, selector: "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]", inputs: { compareWith: "compareWith" }, host: { listeners: { "change": "onChange($event.target.value)", "blur": "onTouched()" } }, providers: [SELECT_VALUE_ACCESSOR], usesInheritance: true, ngImport: i0 }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.0-next.0+sha-803fc7f", ngImport: i0, type: SelectControlValueAccessor, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.0-next.0+sha-119eaa5", ngImport: i0, type: SelectControlValueAccessor, decorators: [{
             type: Directive,
             args: [{
                     selector: 'select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]',
@@ -200,10 +200,10 @@ export class NgSelectOption {
             this._select.writeValue(this._select.value);
         }
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.0-next.0+sha-803fc7f", ngImport: i0, type: NgSelectOption, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }, { token: SelectControlValueAccessor, host: true, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
-    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "17.0.0-next.0+sha-803fc7f", type: NgSelectOption, selector: "option", inputs: { ngValue: "ngValue", value: "value" }, ngImport: i0 }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.0.0-next.0+sha-119eaa5", ngImport: i0, type: NgSelectOption, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }, { token: SelectControlValueAccessor, host: true, optional: true }], target: i0.ɵɵFactoryTarget.Directive }); }
+    static { this.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "17.0.0-next.0+sha-119eaa5", type: NgSelectOption, selector: "option", inputs: { ngValue: "ngValue", value: "value" }, ngImport: i0 }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.0-next.0+sha-803fc7f", ngImport: i0, type: NgSelectOption, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.0.0-next.0+sha-119eaa5", ngImport: i0, type: NgSelectOption, decorators: [{
             type: Directive,
             args: [{ selector: 'option' }]
         }], ctorParameters: function () { return [{ type: i0.ElementRef }, { type: i0.Renderer2 }, { type: SelectControlValueAccessor, decorators: [{
