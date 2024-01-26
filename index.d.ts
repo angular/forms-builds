@@ -1,5 +1,5 @@
 /**
- * @license Angular v17.2.0-next.0+sha-c3b0095
+ * @license Angular v17.2.0-next.0+sha-1c49160
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1284,7 +1284,7 @@ export declare interface ControlValueAccessor {
     setDisabledState?(isDisabled: boolean): void;
 }
 
-declare const DEFAULT_VALUE_ACCESSOR: any;
+declare const DEFAULT_VALUE_ACCESSOR: Provider;
 
 /**
  * The default `ControlValueAccessor` for writing a value and listening to changes on input
