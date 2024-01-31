@@ -1,5 +1,5 @@
 /**
- * @license Angular v17.2.0-next.0+sha-6ec2f07
+ * @license Angular v17.2.0-next.0+sha-260d3ed
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3158,9 +3158,6 @@ export declare interface FormRecord<TControl> {
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
  *
- * Providers associated with this module:
- * * `RadioControlRegistry`
- *
  * @see [Forms Overview](/guide/forms-overview)
  * @see [Template-driven Forms Guide](/guide/forms)
  *
@@ -3330,7 +3327,6 @@ declare namespace i7_2 {
 
 declare namespace i8 {
     export {
-        RadioControlRegistryModule,
         RadioControlRegistry,
         RadioControlValueAccessor
     }
@@ -4325,18 +4321,6 @@ declare class RadioControlRegistry {
 }
 
 /**
- * Internal-only NgModule that works as a host for the `RadioControlRegistry` tree-shakable
- * provider. Note: the `InternalFormsSharedModule` can not be used here directly, since it's
- * declared *after* the `RadioControlRegistry` class and the `providedIn` doesn't support
- * `forwardRef` logic.
- */
-declare class RadioControlRegistryModule {
-    static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlRegistryModule, never>;
-    static ɵmod: i0.ɵɵNgModuleDeclaration<RadioControlRegistryModule, never, never, never>;
-    static ɵinj: i0.ɵɵInjectorDeclaration<RadioControlRegistryModule>;
-}
-
-/**
  * @description
  * The `ControlValueAccessor` for writing radio control values and listening to radio control
  * changes. The value accessor is used by the `FormControlDirective`, `FormControlName`, and
@@ -4457,9 +4441,6 @@ declare const REACTIVE_DRIVEN_DIRECTIVES: Type<any>[];
 /**
  * Exports the required infrastructure and directives for reactive forms,
  * making them available for import by NgModules that import this module.
- *
- * Providers associated with this module:
- * * `RadioControlRegistry`
  *
  * @see [Forms Overview](guide/forms-overview)
  * @see [Reactive Forms Guide](guide/reactive-forms)
@@ -5271,7 +5252,7 @@ export declare type ɵGetProperty<T, K> = K extends string ? ɵGetProperty<T, ɵ
  */
 export declare class ɵInternalFormsSharedModule {
     static ɵfac: i0.ɵɵFactoryDeclaration<ɵInternalFormsSharedModule, never>;
-    static ɵmod: i0.ɵɵNgModuleDeclaration<ɵInternalFormsSharedModule, [typeof i1.ɵNgNoValidate, typeof i2.NgSelectOption, typeof i3.ɵNgSelectMultipleOption, typeof i4.DefaultValueAccessor, typeof i5.NumberValueAccessor, typeof i6.RangeValueAccessor, typeof i7.CheckboxControlValueAccessor, typeof i2.SelectControlValueAccessor, typeof i3.SelectMultipleControlValueAccessor, typeof i8.RadioControlValueAccessor, typeof i9.NgControlStatus, typeof i9.NgControlStatusGroup, typeof i10.RequiredValidator, typeof i10.MinLengthValidator, typeof i10.MaxLengthValidator, typeof i10.PatternValidator, typeof i10.CheckboxRequiredValidator, typeof i10.EmailValidator, typeof i10.MinValidator, typeof i10.MaxValidator], [typeof i8.RadioControlRegistryModule], [typeof i1.ɵNgNoValidate, typeof i2.NgSelectOption, typeof i3.ɵNgSelectMultipleOption, typeof i4.DefaultValueAccessor, typeof i5.NumberValueAccessor, typeof i6.RangeValueAccessor, typeof i7.CheckboxControlValueAccessor, typeof i2.SelectControlValueAccessor, typeof i3.SelectMultipleControlValueAccessor, typeof i8.RadioControlValueAccessor, typeof i9.NgControlStatus, typeof i9.NgControlStatusGroup, typeof i10.RequiredValidator, typeof i10.MinLengthValidator, typeof i10.MaxLengthValidator, typeof i10.PatternValidator, typeof i10.CheckboxRequiredValidator, typeof i10.EmailValidator, typeof i10.MinValidator, typeof i10.MaxValidator]>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<ɵInternalFormsSharedModule, [typeof i1.ɵNgNoValidate, typeof i2.NgSelectOption, typeof i3.ɵNgSelectMultipleOption, typeof i4.DefaultValueAccessor, typeof i5.NumberValueAccessor, typeof i6.RangeValueAccessor, typeof i7.CheckboxControlValueAccessor, typeof i2.SelectControlValueAccessor, typeof i3.SelectMultipleControlValueAccessor, typeof i8.RadioControlValueAccessor, typeof i9.NgControlStatus, typeof i9.NgControlStatusGroup, typeof i10.RequiredValidator, typeof i10.MinLengthValidator, typeof i10.MaxLengthValidator, typeof i10.PatternValidator, typeof i10.CheckboxRequiredValidator, typeof i10.EmailValidator, typeof i10.MinValidator, typeof i10.MaxValidator], never, [typeof i1.ɵNgNoValidate, typeof i2.NgSelectOption, typeof i3.ɵNgSelectMultipleOption, typeof i4.DefaultValueAccessor, typeof i5.NumberValueAccessor, typeof i6.RangeValueAccessor, typeof i7.CheckboxControlValueAccessor, typeof i2.SelectControlValueAccessor, typeof i3.SelectMultipleControlValueAccessor, typeof i8.RadioControlValueAccessor, typeof i9.NgControlStatus, typeof i9.NgControlStatusGroup, typeof i10.RequiredValidator, typeof i10.MinLengthValidator, typeof i10.MaxLengthValidator, typeof i10.PatternValidator, typeof i10.CheckboxRequiredValidator, typeof i10.EmailValidator, typeof i10.MinValidator, typeof i10.MaxValidator]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<ɵInternalFormsSharedModule>;
 }
 
