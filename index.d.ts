@@ -1,5 +1,5 @@
 /**
- * @license Angular v17.3.0-next.0+sha-12d4b8e
+ * @license Angular v17.3.0-next.0+sha-da7fbb4
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3395,7 +3395,7 @@ declare const MAX_LENGTH_VALIDATOR: any;
 declare const MAX_VALIDATOR: Provider;
 
 /**
- * A directive that adds max length validation to controls marked with the
+ * A directive that adds maximum length validation to controls marked with the
  * `maxlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
  * @see [Form Validation](guide/form-validation)
@@ -3418,7 +3418,7 @@ declare const MAX_VALIDATOR: Provider;
 export declare class MaxLengthValidator extends AbstractValidatorDirective {
     /**
      * @description
-     * Tracks changes to the minimum length bound to this directive.
+     * Tracks changes to the maximum length bound to this directive.
      */
     maxlength: string | number | null;
     static ɵfac: i0.ɵɵFactoryDeclaration<MaxLengthValidator, never>;
