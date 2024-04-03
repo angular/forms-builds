@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.0.0-next.2+sha-2ff74dc
+ * @license Angular v18.0.0-next.2+sha-1c736dc
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -176,6 +176,19 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      */
     get untouched(): boolean;
     /**
+     * A multicasting observable that emits an event every time the state of the control changes.
+     * It emits for value, status, pristine or touched changes.
+     *
+     * **Note**: On value change, the emit happens right after a value of this control is updated. The
+     * value of a parent control (for example if this FormControl is a part of a FormGroup) is updated
+     * later, so accessing a value of a parent control (using the `value` property) from the callback
+     * of this event might result in getting a value that has not been updated yet. Subscribe to the
+     * `events` of the parent control instead.
+     * For other event types, the events are emitted after the parent control has been updated.
+     *
+     */
+    readonly events: Observable<ControlEvent<TValue>>;
+    /**
      * A multicasting observable that emits an event every time the value of the control changes, in
      * the UI or programmatically. It also emits an event each time you call enable() or disable()
      * without passing along {emitEvent: false} as a function argument.
@@ -185,6 +198,8 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * accessing a value of a parent control (using the `value` property) from the callback of this
      * event might result in getting a value that has not been updated yet. Subscribe to the
      * `valueChanges` event of the parent control instead.
+     *
+     * TODO: this should be piped from events() but is breaking in G3
      */
     readonly valueChanges: Observable<TValue>;
     /**
@@ -194,6 +209,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * @see {@link FormControlStatus}
      * @see {@link AbstractControl.status}
      *
+     * TODO: this should be piped from events() but is breaking in G3
      */
     readonly statusChanges: Observable<FormControlStatus>;
     /**
@@ -356,12 +372,15 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      */
     markAsTouched(opts?: {
         onlySelf?: boolean;
+        emitEvent?: boolean;
     }): void;
     /**
      * Marks the control and all its descendant controls as `touched`.
      * @see {@link markAsTouched()}
      */
-    markAllAsTouched(): void;
+    markAllAsTouched(opts?: {
+        emitEvent?: boolean;
+    }): void;
     /**
      * Marks the control as `untouched`.
      *
@@ -379,6 +398,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      */
     markAsUntouched(opts?: {
         onlySelf?: boolean;
+        emitEvent?: boolean;
     }): void;
     /**
      * Marks the control as `dirty`. A control becomes dirty when
@@ -392,9 +412,13 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * and emits events after marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
+     * * `emitEvent`: When true or not supplied (the default), the `events`
+     * observable emits a `PristineChangeEvent` with the `pristine` property being `false`.
+     * When false, no events are emitted.
      */
     markAsDirty(opts?: {
         onlySelf?: boolean;
+        emitEvent?: boolean;
     }): void;
     /**
      * Marks the control as `pristine`.
@@ -411,9 +435,13 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
+     * * `emitEvent`: When true or not supplied (the default), the `events`
+     * observable emits a `PristineChangeEvent` with the `pristine` property being `true`.
+     * When false, no events are emitted.
      */
     markAsPristine(opts?: {
         onlySelf?: boolean;
+        emitEvent?: boolean;
     }): void;
     /**
      * Marks the control as `pending`.
@@ -1162,6 +1190,18 @@ export declare abstract class ControlContainer extends AbstractControlDirective 
      * The path to this group.
      */
     get path(): string[] | null;
+}
+
+/**
+ * Base class for every event sent by `AbstractControl.events()`
+ *
+ * @publicApi
+ */
+export declare abstract class ControlEvent<T = any> {
+    /**
+     * Form control from which this event is originated.
+     */
+    abstract readonly source: AbstractControl<unknown>;
 }
 
 /**
@@ -4295,6 +4335,17 @@ declare interface PermissiveAbstractControlOptions extends Omit<AbstractControlO
 declare type PermissiveControlConfig<T> = Array<T | FormControlState<T> | ValidatorConfig>;
 
 /**
+ * Event fired when the control's pristine state changes (pristine <=> dirty).
+ *
+ * @publicApi
+ */
+export declare class PristineEvent extends ControlEvent {
+    readonly pristine: boolean;
+    readonly source: AbstractControl;
+    constructor(pristine: boolean, source: AbstractControl);
+}
+
+/**
  * @description
  * Class used by Angular to track radio buttons. For internal use only.
  */
@@ -4659,7 +4710,29 @@ export declare type SetDisabledStateOption = 'whenDisabledForLegacyCode' | 'alwa
 
 declare const SHARED_FORM_DIRECTIVES: Type<any>[];
 
+/**
+ * Event fired when the control's status changes.
+ *
+ * @publicApi
+ */
+export declare class StatusEvent extends ControlEvent {
+    readonly status: FormControlStatus;
+    readonly source: AbstractControl;
+    constructor(status: FormControlStatus, source: AbstractControl);
+}
+
 declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
+
+/**
+ * Event fired when the control's touched status changes (touched <=> untouched).
+ *
+ * @publicApi
+ */
+export declare class TouchedEvent extends ControlEvent {
+    readonly touched: boolean;
+    readonly source: AbstractControl;
+    constructor(touched: boolean, source: AbstractControl);
+}
 
 /**
  * UntypedFormArray is a non-strongly-typed version of `FormArray`, which
@@ -5091,6 +5164,17 @@ export declare class Validators {
      *
      */
     static composeAsync(validators: (AsyncValidatorFn | null)[]): AsyncValidatorFn | null;
+}
+
+/**
+ * Event fired when the value of a control changes.
+ *
+ * @publicApi
+ */
+export declare class ValueChangeEvent<T> extends ControlEvent<T> {
+    readonly value: T;
+    readonly source: AbstractControl;
+    constructor(value: T, source: AbstractControl);
 }
 
 /**
