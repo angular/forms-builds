@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.0.0-next.3+sha-e032427
+ * @license Angular v18.0.0-next.3+sha-9d76cc3
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -369,6 +369,9 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * and emits events after marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
+     * * `emitEvent`: When true or not supplied (the default), the `events`
+     * observable emits a `TouchedChangeEvent` with the `touched` property being `true`.
+     * When false, no events are emitted.
      */
     markAsTouched(opts?: {
         onlySelf?: boolean;
@@ -377,6 +380,12 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
     /**
      * Marks the control and all its descendant controls as `touched`.
      * @see {@link markAsTouched()}
+     *
+     * @param opts Configuration options that determine how the control propagates changes
+     * and emits events after marking is applied.
+     * * `emitEvent`: When true or not supplied (the default), the `events`
+     * observable emits a `TouchedChangeEvent` with the `touched` property being `true`.
+     * When false, no events are emitted.
      */
     markAllAsTouched(opts?: {
         emitEvent?: boolean;
@@ -395,6 +404,9 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * and emits events after the marking is applied.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
+     * * `emitEvent`: When true or not supplied (the default), the `events`
+     * observable emits a `TouchedChangeEvent` with the `touched` property being `false`.
+     * When false, no events are emitted.
      */
     markAsUntouched(opts?: {
         onlySelf?: boolean;
@@ -455,8 +467,9 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
      * * `emitEvent`: When true or not supplied (the default), the `statusChanges`
-     * observable emits an event with the latest status the control is marked pending.
-     * When false, no events are emitted.
+     * observable emits an event with the latest status the control is marked pending
+     * and the `events` observable emits a `StatusChangeEvent` with the `status` property being
+     * `PENDING` When false, no events are emitted.
      *
      */
     markAsPending(opts?: {
@@ -475,8 +488,8 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * changes and emits events after the control is disabled.
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
+     * * `emitEvent`: When true or not supplied (the default), the `statusChanges`,
+     * `valueChanges` and `events`
      * observables emit events with the latest status and value when the control is disabled.
      * When false, no events are emitted.
      */
@@ -497,8 +510,8 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * emits events when marked as untouched
      * * `onlySelf`: When true, mark only this control. When false or not supplied,
      * marks all direct ancestors. Default is false.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
+     * * `emitEvent`: When true or not supplied (the default), the `statusChanges`,
+     * `valueChanges` and `events`
      * observables emit events with the latest status and value when the control is enabled.
      * When false, no events are emitted.
      */
@@ -539,8 +552,8 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * after updates and validity checks are applied.
      * * `onlySelf`: When true, only update this control. When false or not supplied,
      * update all direct ancestors. Default is false.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
+     * * `emitEvent`: When true or not supplied (the default), the `statusChanges`,
+     * `valueChanges` and `events`
      * observables emit events with the latest status and value when the control is updated.
      * When false, no events are emitted.
      */
