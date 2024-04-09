@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.0.0-next.3+sha-216199d
+ * @license Angular v18.0.0-next.3+sha-1c6553e
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -34,9 +34,9 @@ import { Version } from '@angular/core';
  * The first type parameter TValue represents the value type of the control (`control.value`).
  * The optional type parameter TRawValue  represents the raw value type (`control.getRawValue()`).
  *
- * @see [Forms Guide](/guide/forms)
- * @see [Reactive Forms Guide](/guide/reactive-forms)
- * @see [Dynamic Forms Guide](/guide/dynamic-form)
+ * @see [Forms Guide](guide/forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
+ * @see [Dynamic Forms Guide](guide/forms/dynamic-forms)
  *
  * @publicApi
  */
@@ -1142,7 +1142,7 @@ export declare class CheckboxControlValueAccessor extends BuiltInControlValueAcc
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
- * @see [Form Validation](guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @usageNotes
  *
@@ -1402,7 +1402,7 @@ declare const EMAIL_VALIDATOR: any;
  * incorporate more RFC rules. More information can be found on the [Validators.email
  * page](api/forms/Validators#email).
  *
- * @see [Form Validation](guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @usageNotes
  *
@@ -1834,7 +1834,7 @@ export declare class FormArray<TControl extends AbstractControl<any> = any> exte
  * will look for a `FormArray` registered with that name in the parent
  * `FormGroup` instance you passed into `FormGroupDirective`.
  *
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see {@link AbstractControl}
  *
  * @usageNotes
@@ -1900,7 +1900,7 @@ declare const formArrayNameProvider: any;
  * `FormControl`, `FormGroup`, or `FormArray`. It reduces the amount of boilerplate needed to
  * build complex forms.
  *
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  *
  * @publicApi
  */
@@ -2059,7 +2059,7 @@ export declare class FormBuilder {
  * See [usage examples below](#usage-notes).
  *
  * @see {@link AbstractControl}
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see [Usage Notes](#usage-notes)
  *
  * @publicApi
@@ -2296,9 +2296,8 @@ export declare const FormControl: ɵFormControlCtor;
  * Note that support for using the `ngModel` input property and `ngModelChange` event with reactive
  * form directives was deprecated in Angular v6 and is scheduled for removal in
  * a future version of Angular.
- * For details, see [Deprecated features](guide/deprecations#ngmodel-with-reactive-forms).
  *
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see {@link FormControl}
  * @see {@link AbstractControl}
  *
@@ -2366,7 +2365,7 @@ export declare class FormControlDirective extends NgControl implements OnChanges
  * Syncs a `FormControl` in an existing `FormGroup` to a form control
  * element by name.
  *
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see {@link FormControl}
  * @see {@link AbstractControl}
  *
@@ -2389,8 +2388,6 @@ export declare class FormControlDirective extends NgControl implements OnChanges
  * Support for using the `ngModel` input property and `ngModelChange` event with reactive
  * form directives has been deprecated in Angular v6 and is scheduled for removal in
  * a future version of Angular.
- *
- * For details, see [Deprecated features](guide/deprecations#ngmodel-with-reactive-forms).
  *
  * @ngModule ReactiveFormsModule
  * @publicApi
@@ -2869,7 +2866,7 @@ export declare class FormGroup<TControl extends {
  * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
  * and `FormArrayName` directives.
  *
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see {@link AbstractControl}
  *
  * @usageNotes
@@ -3049,7 +3046,7 @@ export declare class FormGroupDirective extends ControlContainer implements Form
  * form separately from the rest or to group the values of certain
  * controls into their own nested object.
  *
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  *
  * @usageNotes
  *
@@ -3211,8 +3208,8 @@ export declare interface FormRecord<TControl> {
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
  *
- * @see [Forms Overview](/guide/forms-overview)
- * @see [Template-driven Forms Guide](/guide/forms)
+ * @see [Forms Overview](guide/forms)
+ * @see [Template-driven Forms Guide](guide/forms)
  *
  * @publicApi
  */
@@ -3451,7 +3448,7 @@ declare const MAX_VALIDATOR: Provider;
  * A directive that adds maximum length validation to controls marked with the
  * `maxlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
- * @see [Form Validation](guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @usageNotes
  *
@@ -3482,7 +3479,7 @@ export declare class MaxLengthValidator extends AbstractValidatorDirective {
  * A directive which installs the {@link MaxValidator} for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `max` attribute.
  *
- * @see [Form Validation](guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @usageNotes
  *
@@ -3525,7 +3522,7 @@ declare const MIN_VALIDATOR: Provider;
  * A directive that adds minimum length validation to controls marked with the
  * `minlength` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
- * @see [Form Validation](guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @usageNotes
  *
@@ -3556,7 +3553,7 @@ export declare class MinLengthValidator extends AbstractValidatorDirective {
  * A directive which installs the {@link MinValidator} for any `formControlName`,
  * `formControl`, or control with `ngModel` that also has a `min` attribute.
  *
- * @see [Form Validation](guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @usageNotes
  *
@@ -4302,7 +4299,7 @@ declare const PATTERN_VALIDATOR: any;
  * `pattern` attribute. The regex must match the entire control value.
  * The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
- * @see [Form Validation](guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @usageNotes
  *
@@ -4506,8 +4503,8 @@ declare const REACTIVE_DRIVEN_DIRECTIVES: Type<any>[];
  * Exports the required infrastructure and directives for reactive forms,
  * making them available for import by NgModules that import this module.
  *
- * @see [Forms Overview](guide/forms-overview)
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Forms Overview](guide/forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  *
  * @publicApi
  */
@@ -4542,7 +4539,7 @@ declare const REQUIRED_VALIDATOR: Provider;
  * A directive that adds the `required` validator to any controls marked with the
  * `required` attribute. The directive is provided with the `NG_VALIDATORS` multi-provider list.
  *
- * @see [Form Validation](guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @usageNotes
  *
@@ -4908,7 +4905,7 @@ export declare interface ValidatorFn {
  * A validator is a function that processes a `FormControl` or collection of
  * controls and returns an error map or null. A null map means that validation has passed.
  *
- * @see [Form Validation](/guide/form-validation)
+ * @see [Form Validation](guide/forms/form-validation)
  *
  * @publicApi
  */
