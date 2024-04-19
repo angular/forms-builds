@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.0.0-next.5+sha-a743d37
+ * @license Angular v18.0.0-next.5+sha-b1dffa4
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -601,7 +601,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      *
      * This signature for get supports strings and `const` arrays (`.get(['foo', 'bar'] as const)`).
      */
-    get<P extends string | (readonly (string | number)[])>(path: P): AbstractControl<ɵGetProperty<TRawValue, P>> | null;
+    get<P extends string | readonly (string | number)[]>(path: P): AbstractControl<ɵGetProperty<TRawValue, P>> | null;
     /**
      * Retrieves a child control given the control's name or path.
      *
@@ -1178,7 +1178,11 @@ export declare const COMPOSITION_BUFFER_MODE: InjectionToken<boolean>;
  *
  * @publicApi
  */
-export declare type ControlConfig<T> = [T | FormControlState<T>, (ValidatorFn | (ValidatorFn[]))?, (AsyncValidatorFn | AsyncValidatorFn[])?];
+export declare type ControlConfig<T> = [
+T | FormControlState<T>,
+(ValidatorFn | ValidatorFn[])?,
+(AsyncValidatorFn | AsyncValidatorFn[])?
+];
 
 /**
  * @description
@@ -5195,14 +5199,7 @@ export declare const VERSION: Version;
 /**
  * CoerceStrArrToNumArr accepts an array of strings, and converts any numeric string to a number.
  */
-export declare type ɵCoerceStrArrToNumArr<S> = S extends [infer Head, ...infer Tail] ? Head extends `${number}` ? [
-number,
-...ɵCoerceStrArrToNumArr<Tail>
-] : [
-Head,
-...ɵCoerceStrArrToNumArr<Tail>
-] : [
-];
+export declare type ɵCoerceStrArrToNumArr<S> = S extends [infer Head, ...infer Tail] ? Head extends `${number}` ? [number, ...ɵCoerceStrArrToNumArr<Tail>] : [Head, ...ɵCoerceStrArrToNumArr<Tail>] : [];
 
 /**
  * FormBuilder accepts values in various container shapes, as well as raw values.
@@ -5350,13 +5347,12 @@ export declare class ɵInternalFormsSharedModule {
     static ɵinj: i0.ɵɵInjectorDeclaration<ɵInternalFormsSharedModule>;
 }
 
-declare type ɵIsAny<T, Y, N> = 0 extends (1 & T) ? Y : N;
+declare type ɵIsAny<T, Y, N> = 0 extends 1 & T ? Y : N;
 
 /**
  * Navigate takes a type T and an array K, and returns the type of T[K[0]][K[1]][K[2]]...
  */
-export declare type ɵNavigate<T, K extends (Array<string | number>)> = T extends object ? (K extends [infer Head, ...infer Tail] ? (Head extends keyof T ? (Tail extends (string | number)[] ? [
-] extends Tail ? T[Head] : (ɵNavigate<T[Head], Tail>) : any) : never) : any) : any;
+export declare type ɵNavigate<T, K extends Array<string | number>> = T extends object ? K extends [infer Head, ...infer Tail] ? Head extends keyof T ? Tail extends (string | number)[] ? [] extends Tail ? T[Head] : ɵNavigate<T[Head], Tail> : any : never : any : any;
 
 /**
  * @description
@@ -5453,14 +5449,12 @@ export declare type ɵOptionalKeys<T> = {
  *
  *  **Internal: not for public use.**
  */
-export declare type ɵRawValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? (T['setValue'] extends ((v: infer R) => void) ? R : never) : never;
+export declare type ɵRawValue<T extends AbstractControl | undefined> = T extends AbstractControl<any, any> ? T['setValue'] extends (v: infer R) => void ? R : never : never;
 
 /**
  * Tokenize splits a string literal S by a delimiter D.
  */
-export declare type ɵTokenize<S extends string, D extends string> = string extends S ? string[] : S extends `${infer T}${D}${infer U}` ? [T, ...ɵTokenize<U, D>] : [
-S
-];
+export declare type ɵTokenize<S extends string, D extends string> = string extends S ? string[] : S extends `${infer T}${D}${infer U}` ? [T, ...ɵTokenize<U, D>] : [S];
 
 /**
  * `TypedOrUntyped` allows one of two different types to be selected, depending on whether the Forms
