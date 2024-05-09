@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.1.0-next.0+sha-c1915f1
+ * @license Angular v18.1.0-next.0+sha-fedeaac
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3209,6 +3209,16 @@ export declare interface FormRecord<TControl> {
 }
 
 /**
+ * Event fired when a form is reset.
+ *
+ * @publicApi
+ */
+export declare class FormResetEvent extends ControlEvent {
+    readonly source: AbstractControl;
+    constructor(source: AbstractControl);
+}
+
+/**
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
  *
@@ -3232,6 +3242,16 @@ export declare class FormsModule {
     static ɵfac: i0.ɵɵFactoryDeclaration<FormsModule, never>;
     static ɵmod: i0.ɵɵNgModuleDeclaration<FormsModule, [typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm], never, [typeof i4_2.ɵInternalFormsSharedModule, typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<FormsModule>;
+}
+
+/**
+ * Event fired when a form is submitted
+ *
+ * @publicApi
+ */
+export declare class FormSubmittedEvent extends ControlEvent {
+    readonly source: AbstractControl;
+    constructor(source: AbstractControl);
 }
 
 declare namespace i1 {
