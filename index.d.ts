@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.1.0-next.0+sha-aea3b57
+ * @license Angular v18.1.0-next.0+sha-4c895c9
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3209,6 +3209,16 @@ export declare interface FormRecord<TControl> {
 }
 
 /**
+ * Event fired when a form is reset.
+ *
+ * @publicApi
+ */
+export declare class FormResetEvent extends ControlEvent {
+    readonly source: AbstractControl;
+    constructor(source: AbstractControl);
+}
+
+/**
  * Exports the required providers and directives for template-driven forms,
  * making them available for import by NgModules that import this module.
  *
@@ -3232,6 +3242,16 @@ export declare class FormsModule {
     static ɵfac: i0.ɵɵFactoryDeclaration<FormsModule, never>;
     static ɵmod: i0.ɵɵNgModuleDeclaration<FormsModule, [typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm], never, [typeof i4_2.ɵInternalFormsSharedModule, typeof i1_2.NgModel, typeof i2_2.NgModelGroup, typeof i3_2.NgForm]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<FormsModule>;
+}
+
+/**
+ * Event fired when a form is submitted
+ *
+ * @publicApi
+ */
+export declare class FormSubmittedEvent extends ControlEvent {
+    readonly source: AbstractControl;
+    constructor(source: AbstractControl);
 }
 
 declare namespace i1 {
@@ -4353,6 +4373,12 @@ declare type PermissiveControlConfig<T> = Array<T | FormControlState<T> | Valida
  *
  * @publicApi
  */
+export declare class PristineChangeEvent extends PristineEvent {
+}
+
+/**
+ * @deprecated use `PristineChangeEvent` symbol instead.
+ */
 export declare class PristineEvent extends ControlEvent {
     readonly pristine: boolean;
     readonly source: AbstractControl;
@@ -4729,6 +4755,12 @@ declare const SHARED_FORM_DIRECTIVES: Type<any>[];
  *
  * @publicApi
  */
+export declare class StatusChangeEvent extends StatusEvent {
+}
+
+/**
+ * @deprecated use `StatusChangeEvent` symbol instead.
+ */
 export declare class StatusEvent extends ControlEvent {
     readonly status: FormControlStatus;
     readonly source: AbstractControl;
@@ -4741,6 +4773,12 @@ declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
  * Event fired when the control's touched status changes (touched <=> untouched).
  *
  * @publicApi
+ */
+export declare class TouchedChangeEvent extends TouchedEvent {
+}
+
+/**
+ * @deprecated use `TouchedChangeEvent` symbol instead.
  */
 export declare class TouchedEvent extends ControlEvent {
     readonly touched: boolean;
