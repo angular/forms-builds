@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.0.0-rc.2+sha-69a8399
+ * @license Angular v18.0.2+sha-ca78553
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -4371,15 +4371,8 @@ declare type PermissiveControlConfig<T> = Array<T | FormControlState<T> | Valida
 /**
  * Event fired when the control's pristine state changes (pristine <=> dirty).
  *
- * @publicApi
- */
-export declare class PristineChangeEvent extends PristineEvent {
-}
-
-/**
- * @deprecated use `PristineChangeEvent` symbol instead.
- */
-export declare class PristineEvent extends ControlEvent {
+ * @publicApi */
+export declare class PristineChangeEvent extends ControlEvent {
     readonly pristine: boolean;
     readonly source: AbstractControl;
     constructor(pristine: boolean, source: AbstractControl);
@@ -4755,13 +4748,7 @@ declare const SHARED_FORM_DIRECTIVES: Type<any>[];
  *
  * @publicApi
  */
-export declare class StatusChangeEvent extends StatusEvent {
-}
-
-/**
- * @deprecated use `StatusChangeEvent` symbol instead.
- */
-export declare class StatusEvent extends ControlEvent {
+export declare class StatusChangeEvent extends ControlEvent {
     readonly status: FormControlStatus;
     readonly source: AbstractControl;
     constructor(status: FormControlStatus, source: AbstractControl);
@@ -4774,13 +4761,7 @@ declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
  *
  * @publicApi
  */
-export declare class TouchedChangeEvent extends TouchedEvent {
-}
-
-/**
- * @deprecated use `TouchedChangeEvent` symbol instead.
- */
-export declare class TouchedEvent extends ControlEvent {
+export declare class TouchedChangeEvent extends ControlEvent {
     readonly touched: boolean;
     readonly source: AbstractControl;
     constructor(touched: boolean, source: AbstractControl);
