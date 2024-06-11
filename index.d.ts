@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.1.0-next.0+sha-1360110
+ * @license Angular v18.1.0-next.1+sha-567c2f6
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3430,7 +3430,7 @@ declare namespace i9 {
  *
  * @publicApi
  */
-export declare const isFormArray: (control: unknown) => control is FormArray<any>;
+export declare const isFormArray: (control: unknown) => control is FormArray;
 
 /**
  * @description
@@ -3438,7 +3438,7 @@ export declare const isFormArray: (control: unknown) => control is FormArray<any
  *
  * @publicApi
  */
-export declare const isFormControl: (control: unknown) => control is FormControl<any>;
+export declare const isFormControl: (control: unknown) => control is FormControl;
 
 /**
  * @description
@@ -3446,7 +3446,7 @@ export declare const isFormControl: (control: unknown) => control is FormControl
  *
  * @publicApi
  */
-export declare const isFormGroup: (control: unknown) => control is FormGroup<any>;
+export declare const isFormGroup: (control: unknown) => control is FormGroup;
 
 /**
  * @description
@@ -3454,7 +3454,7 @@ export declare const isFormGroup: (control: unknown) => control is FormGroup<any
  *
  * @publicApi
  */
-export declare const isFormRecord: (control: unknown) => control is FormRecord<AbstractControl<any, any>>;
+export declare const isFormRecord: (control: unknown) => control is FormRecord;
 
 /**
  * @description
@@ -4120,7 +4120,7 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * the view model updates.
      */
     update: EventEmitter<any>;
-    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _changeDetectorRef?: ChangeDetectorRef | null | undefined, callSetDisabledState?: SetDisabledStateOption | undefined);
+    constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _changeDetectorRef?: (ChangeDetectorRef | null) | undefined, callSetDisabledState?: SetDisabledStateOption | undefined);
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */
@@ -4371,15 +4371,8 @@ declare type PermissiveControlConfig<T> = Array<T | FormControlState<T> | Valida
 /**
  * Event fired when the control's pristine state changes (pristine <=> dirty).
  *
- * @publicApi
- */
-export declare class PristineChangeEvent extends PristineEvent {
-}
-
-/**
- * @deprecated use `PristineChangeEvent` symbol instead.
- */
-export declare class PristineEvent extends ControlEvent {
+ * @publicApi */
+export declare class PristineChangeEvent extends ControlEvent {
     readonly pristine: boolean;
     readonly source: AbstractControl;
     constructor(pristine: boolean, source: AbstractControl);
@@ -4755,13 +4748,7 @@ declare const SHARED_FORM_DIRECTIVES: Type<any>[];
  *
  * @publicApi
  */
-export declare class StatusChangeEvent extends StatusEvent {
-}
-
-/**
- * @deprecated use `StatusChangeEvent` symbol instead.
- */
-export declare class StatusEvent extends ControlEvent {
+export declare class StatusChangeEvent extends ControlEvent {
     readonly status: FormControlStatus;
     readonly source: AbstractControl;
     constructor(status: FormControlStatus, source: AbstractControl);
@@ -4774,13 +4761,7 @@ declare const TEMPLATE_DRIVEN_DIRECTIVES: Type<any>[];
  *
  * @publicApi
  */
-export declare class TouchedChangeEvent extends TouchedEvent {
-}
-
-/**
- * @deprecated use `TouchedChangeEvent` symbol instead.
- */
-export declare class TouchedEvent extends ControlEvent {
+export declare class TouchedChangeEvent extends ControlEvent {
     readonly touched: boolean;
     readonly source: AbstractControl;
     constructor(touched: boolean, source: AbstractControl);
