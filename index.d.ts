@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.1.0-next.2+sha-775f451
+ * @license Angular v18.1.0-next.2+sha-00bde8b
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -90,7 +90,8 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * These status values are mutually exclusive, so a control cannot be
      * both valid AND invalid or invalid AND disabled.
      */
-    readonly status: FormControlStatus;
+    get status(): FormControlStatus;
+    private readonly statusReactive;
     /**
      * A control is `valid` when its `status` is `VALID`.
      *
@@ -152,7 +153,8 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * @returns True if the user has not yet changed the value in the UI; compare `dirty`.
      * Programmatic changes to a control's value do not mark it dirty.
      */
-    readonly pristine: boolean;
+    get pristine(): boolean;
+    private readonly pristineReactive;
     /**
      * A control is `dirty` if the user has changed the value
      * in the UI.
@@ -167,7 +169,8 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * A control is marked `touched` once the user has triggered
      * a `blur` event on it.
      */
-    readonly touched: boolean;
+    get touched(): boolean;
+    private readonly touchedReactive;
     /**
      * True if the control has not been marked as touched
      *
@@ -2890,10 +2893,12 @@ export declare class FormGroupDirective extends ControlContainer implements Form
      * @description
      * Reports whether the form submission has been triggered.
      */
-    readonly submitted: boolean;
+    get submitted(): boolean;
+    private set submitted(value);
+    private readonly _submittedReactive;
     /**
-     * Reference to an old form group input value, which is needed to cleanup old instance in case it
-     * was replaced with a new one.
+     * Reference to an old form group input value, which is needed to cleanup
+     * old instance in case it was replaced with a new one.
      */
     private _oldForm;
     /**
@@ -3835,7 +3840,8 @@ export declare class NgForm extends ControlContainer implements Form, AfterViewI
      * @description
      * Returns whether the form submission has been triggered.
      */
-    readonly submitted: boolean;
+    get submitted(): boolean;
+    private readonly submittedReactive;
     private _directives;
     /**
      * @description
