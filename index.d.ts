@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.1.0-next.3+sha-ccc8c80
+ * @license Angular v18.1.0-next.3+sha-c19a4e7
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -91,6 +91,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * both valid AND invalid or invalid AND disabled.
      */
     get status(): FormControlStatus;
+    private set status(value);
     private readonly statusReactive;
     /**
      * A control is `valid` when its `status` is `VALID`.
@@ -154,6 +155,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * Programmatic changes to a control's value do not mark it dirty.
      */
     get pristine(): boolean;
+    private set pristine(value);
     private readonly pristineReactive;
     /**
      * A control is `dirty` if the user has changed the value
@@ -170,6 +172,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * a `blur` event on it.
      */
     get touched(): boolean;
+    private set touched(value);
     private readonly touchedReactive;
     /**
      * True if the control has not been marked as touched
