@@ -75,8 +75,8 @@ export const REACTIVE_DRIVEN_DIRECTIVES = [
  * Internal module used for sharing directives between FormsModule and ReactiveFormsModule
  */
 export class ɵInternalFormsSharedModule {
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.0-rc.0+sha-e50d239", ngImport: i0, type: ɵInternalFormsSharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
-    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "18.2.0-rc.0+sha-e50d239", ngImport: i0, type: ɵInternalFormsSharedModule, declarations: [NgNoValidate,
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.0+sha-d49e083", ngImport: i0, type: ɵInternalFormsSharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "18.2.0+sha-d49e083", ngImport: i0, type: ɵInternalFormsSharedModule, declarations: [NgNoValidate,
             NgSelectOption,
             NgSelectMultipleOption,
             DefaultValueAccessor,
@@ -115,9 +115,9 @@ export class ɵInternalFormsSharedModule {
             EmailValidator,
             MinValidator,
             MaxValidator] }); }
-    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "18.2.0-rc.0+sha-e50d239", ngImport: i0, type: ɵInternalFormsSharedModule }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "18.2.0+sha-d49e083", ngImport: i0, type: ɵInternalFormsSharedModule }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.0-rc.0+sha-e50d239", ngImport: i0, type: ɵInternalFormsSharedModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.0+sha-d49e083", ngImport: i0, type: ɵInternalFormsSharedModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: SHARED_FORM_DIRECTIVES,
