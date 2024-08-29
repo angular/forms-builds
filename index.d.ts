@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.2.1+sha-5e9661d
+ * @license Angular v18.2.2+sha-93bdbbc
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1354,7 +1354,6 @@ declare const DEFAULT_VALUE_ACCESSOR: Provider;
  * elements. The accessor is used by the `FormControlDirective`, `FormControlName`, and
  * `NgModel` directives.
  *
- * {@searchKeywords ngDefaultControl}
  *
  * @usageNotes
  *
