@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.2.7+sha-10081a9
+ * @license Angular v18.2.7+sha-02de7fc
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1223,6 +1223,8 @@ export declare abstract class ControlContainer extends AbstractControlDirective 
 export declare abstract class ControlEvent<T = any> {
     /**
      * Form control from which this event is originated.
+     *
+     * Note: the type of the control can't be infered from T as the event can be emitted by any of child controls
      */
     abstract readonly source: AbstractControl<unknown>;
 }
