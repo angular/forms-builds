@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.0.0-next.9+sha-bf9fd31
+ * @license Angular v19.0.0-next.9+sha-9ab663e
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -981,7 +981,7 @@ declare abstract class AbstractValidatorDirective implements Validator, OnChange
      */
     enabled(input: unknown): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<AbstractValidatorDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractValidatorDirective, never, never, {}, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractValidatorDirective, never, never, {}, {}, never, never, true, never>;
 }
 
 /**
@@ -1080,7 +1080,7 @@ declare class BaseControlValueAccessor {
      */
     setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<BaseControlValueAccessor, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<BaseControlValueAccessor, never, never, {}, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<BaseControlValueAccessor, never, never, {}, {}, never, never, true, never>;
 }
 
 /**
@@ -1094,7 +1094,7 @@ declare class BaseControlValueAccessor {
  */
 declare class BuiltInControlValueAccessor extends BaseControlValueAccessor {
     static ɵfac: i0.ɵɵFactoryDeclaration<BuiltInControlValueAccessor, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<BuiltInControlValueAccessor, never, never, {}, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<BuiltInControlValueAccessor, never, never, {}, {}, never, never, true, never>;
 }
 
 /**
