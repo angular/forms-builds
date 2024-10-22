@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.0.0-next.10+sha-9762b24
+ * @license Angular v19.0.0-next.10+sha-8ddce80
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3157,6 +3157,20 @@ export declare interface FormRecord<TControl> {
         emitEvent?: boolean;
     }): void;
     /**
+     * Clear all controls from this record.
+     *
+     * This method also updates the value and validity of the control.
+     *
+     * @param options Specifies whether this FormGroup instance should emit events after a
+     *     control is removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the controls are
+     * removed. When false, no events are emitted.
+     */
+    clear(options?: {
+        emitEvent?: boolean;
+    }): void;
+    /**
      * Replace an existing control.
      *
      * See `FormGroup#setControl` for additional information.
@@ -5241,13 +5255,13 @@ T
 T
 ] extends [FormControl<infer U> | undefined] ? FormControl<U> : [
 T
-] extends [FormGroup<infer U>] ? FormGroup<U> : [
-T
-] extends [FormGroup<infer U> | undefined] ? FormGroup<U> : [
-T
 ] extends [FormRecord<infer U>] ? FormRecord<U> : [
 T
 ] extends [FormRecord<infer U> | undefined] ? FormRecord<U> : [
+T
+] extends [FormGroup<infer U>] ? FormGroup<U> : [
+T
+] extends [FormGroup<infer U> | undefined] ? FormGroup<U> : [
 T
 ] extends [FormArray<infer U>] ? FormArray<U> : [
 T
