@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.0.0+sha-e4dc7f1
+ * @license Angular v19.0.0+sha-a983865
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1975,9 +1975,7 @@ export declare class FormBuilder {
      * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur'
      * | submit').
      */
-    group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
-        [K in keyof T]: ɵElement<T[K], null>;
-    }>;
+    group<T extends {}>(controls: T, options?: AbstractControlOptions | null): ɵNullableFormGroup<T>;
     /**
      * @description
      * Constructs a new `FormGroup` instance.
@@ -4256,9 +4254,7 @@ export declare abstract class NonNullableFormBuilder {
      * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
      * that already-constructed controls will not be altered.
      */
-    abstract group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<{
-        [K in keyof T]: ɵElement<T[K], never>;
-    }>;
+    abstract group<T extends {}>(controls: T, options?: AbstractControlOptions | null): ɵNonNullableFormGroup<T>;
     /**
      * Similar to `FormBuilder#record`, except any implicitly constructed `FormControl`
      * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
@@ -5438,6 +5434,16 @@ export declare class ɵNgSelectMultipleOption implements OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<ɵNgSelectMultipleOption, [null, null, { optional: true; host: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<ɵNgSelectMultipleOption, "option", never, { "ngValue": { "alias": "ngValue"; "required": false; }; "value": { "alias": "value"; "required": false; }; }, {}, never, never, false, never>;
 }
+
+/** Group of non-nullable form controls. */
+declare type ɵNonNullableFormGroup<T> = FormGroup<{
+    [K in keyof T]: ɵElement<T[K], never>;
+}>;
+
+/** Group of nullable form controls. */
+declare type ɵNullableFormGroup<T> = FormGroup<{
+    [K in keyof T]: ɵElement<T[K], null>;
+}>;
 
 /**
  * OptionalKeys returns the union of all optional keys in the object.
