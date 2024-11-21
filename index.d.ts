@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.1.0-next.0+sha-d646d8b
+ * @license Angular v19.1.0-next.0+sha-cebf255
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1975,7 +1975,7 @@ export declare class FormBuilder {
      * * `updateOn`: The event upon which the control should be updated (options: 'change' | 'blur'
      * | submit').
      */
-    group<T extends {}>(controls: T, options?: AbstractControlOptions | null): ɵNullableFormGroup<T>;
+    group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<ɵNullableFormControls<T>>;
     /**
      * @description
      * Constructs a new `FormGroup` instance.
@@ -4254,7 +4254,7 @@ export declare abstract class NonNullableFormBuilder {
      * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
      * that already-constructed controls will not be altered.
      */
-    abstract group<T extends {}>(controls: T, options?: AbstractControlOptions | null): ɵNonNullableFormGroup<T>;
+    abstract group<T extends {}>(controls: T, options?: AbstractControlOptions | null): FormGroup<ɵNonNullableFormControls<T>>;
     /**
      * Similar to `FormBuilder#record`, except any implicitly constructed `FormControl`
      * will be non-nullable (i.e. it will have `nonNullable` set to true). Note
@@ -5435,15 +5435,15 @@ export declare class ɵNgSelectMultipleOption implements OnDestroy {
     static ɵdir: i0.ɵɵDirectiveDeclaration<ɵNgSelectMultipleOption, "option", never, { "ngValue": { "alias": "ngValue"; "required": false; }; "value": { "alias": "value"; "required": false; }; }, {}, never, never, false, never>;
 }
 
-/** Group of non-nullable form controls. */
-declare type ɵNonNullableFormGroup<T> = FormGroup<{
+/** A map of non-nullable form controls. */
+declare type ɵNonNullableFormControls<T> = {
     [K in keyof T]: ɵElement<T[K], never>;
-}>;
+};
 
-/** Group of nullable form controls. */
-declare type ɵNullableFormGroup<T> = FormGroup<{
+/** A map of nullable form controls. */
+declare type ɵNullableFormControls<T> = {
     [K in keyof T]: ɵElement<T[K], null>;
-}>;
+};
 
 /**
  * OptionalKeys returns the union of all optional keys in the object.
