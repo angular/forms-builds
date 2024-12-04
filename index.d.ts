@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.0.2+sha-6ae3ce7
+ * @license Angular v19.0.2+sha-5f3ba06
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -995,7 +995,7 @@ declare abstract class AbstractValidatorDirective implements Validator, OnChange
  * The following example implements the `AsyncValidator` interface to create an
  * async validator directive with a custom error key.
  *
- * ```typescript
+ * ```ts
  * import { of } from 'rxjs';
  *
  * @Directive({
@@ -1126,7 +1126,7 @@ declare const CHECKBOX_REQUIRED_VALIDATOR: Provider;
  * const rememberLoginControl = new FormControl();
  * ```
  *
- * ```
+ * ```html
  * <input type="checkbox" [formControl]="rememberLoginControl">
  * ```
  *
@@ -1157,7 +1157,7 @@ export declare class CheckboxControlValueAccessor extends BuiltInControlValueAcc
  * The following example shows how to add a checkbox required validator to an input attached to an
  * ngModel binding.
  *
- * ```
+ * ```html
  * <input type="checkbox" name="active" ngModel required>
  * ```
  *
@@ -1368,7 +1368,7 @@ declare const DEFAULT_VALUE_ACCESSOR: Provider;
  * const firstNameControl = new FormControl();
  * ```
  *
- * ```
+ * ```html
  * <input type="text" [formControl]="firstNameControl">
  * ```
  *
@@ -1377,7 +1377,7 @@ declare const DEFAULT_VALUE_ACCESSOR: Provider;
  * processing. In order to attach the default value accessor to a custom element, add the
  * `ngDefaultControl` attribute as shown below.
  *
- * ```
+ * ```html
  * <custom-input-component ngDefaultControl [(ngModel)]="value"></custom-input-component>
  * ```
  *
@@ -1422,7 +1422,7 @@ declare const EMAIL_VALIDATOR: any;
  * The following example shows how to add an email validator to an input attached to an ngModel
  * binding.
  *
- * ```
+ * ```html
  * <input type="email" name="email" ngModel email>
  * <input type="email" name="email" ngModel email="true">
  * <input type="email" name="email" ngModel [email]="true">
@@ -1523,7 +1523,7 @@ export declare interface Form {
  *
  * ### Create an array of form controls
  *
- * ```
+ * ```ts
  * const arr = new FormArray([
  *   new FormControl('Nancy', Validators.minLength(2)),
  *   new FormControl('Drew'),
@@ -1542,7 +1542,7 @@ export declare interface Form {
  * The two types of validators are passed in separately as the second and third arg
  * respectively, or together as part of an options object.
  *
- * ```
+ * ```ts
  * const arr = new FormArray([
  *   new FormControl('Nancy'),
  *   new FormControl('Drew')
@@ -2120,7 +2120,7 @@ export declare class FormBuilder {
  * If you are initializing the control to `null`, or you otherwise wish to provide a
  * wider type, you may specify the argument explicitly:
  *
- * ```
+ * ```ts
  * let fc = new FormControl<string|null>(null);
  * fc.setValue('foo');
  * ```
@@ -2166,7 +2166,7 @@ export declare class FormBuilder {
  * If you wish to always reset the control to its initial value (instead of null),
  * you can pass the `nonNullable` option:
  *
- * ```
+ * ```ts
  * const control = new FormControl('Nancy', {nonNullable: true});
  *
  * console.log(control.value); // 'Nancy'
@@ -2178,7 +2178,7 @@ export declare class FormBuilder {
  *
  * ### Reset the control back to an initial value and disabled
  *
- * ```
+ * ```ts
  * const control = new FormControl('Nancy');
  *
  * console.log(control.value); // 'Nancy'
@@ -2531,7 +2531,7 @@ export declare type FormControlStatus = 'VALID' | 'INVALID' | 'PENDING' | 'DISAB
  *
  * ### Create a form group with 2 controls
  *
- * ```
+ * ```ts
  * const form = new FormGroup({
  *   first: new FormControl('Nancy', Validators.minLength(2)),
  *   last: new FormControl('Drew'),
@@ -2550,7 +2550,7 @@ export declare type FormControlStatus = 'VALID' | 'INVALID' | 'PENDING' | 'DISAB
  * If you have controls that are optional (i.e. they can be removed, you can use the `?` in the
  * type):
  *
- * ```
+ * ```ts
  * const form = new FormGroup<{
  *   first: FormControl<string|null>,
  *   middle?: FormControl<string|null>, // Middle name is optional.
@@ -2567,7 +2567,7 @@ export declare type FormControlStatus = 'VALID' | 'INVALID' | 'PENDING' | 'DISAB
  * validators as the third arg. These come in handy when you want to perform validation
  * that considers the value of more than one child control.
  *
- * ```
+ * ```ts
  * const form = new FormGroup({
  *   password: new FormControl('', Validators.minLength(2)),
  *   passwordConfirm: new FormControl('', Validators.minLength(2)),
@@ -2583,7 +2583,7 @@ export declare type FormControlStatus = 'VALID' | 'INVALID' | 'PENDING' | 'DISAB
  * Like `FormControl` instances, you choose to pass in
  * validators and async validators as part of an options object.
  *
- * ```
+ * ```ts
  * const form = new FormGroup({
  *   password: new FormControl('')
  *   passwordConfirm: new FormControl('')
@@ -3118,7 +3118,7 @@ declare type FormHooks = 'change' | 'blur' | 'submit';
  *
  * @usageNotes
  *
- * ```
+ * ```ts
  * let numbers = new FormRecord({bill: new FormControl('415-123-456')});
  * numbers.addControl('bob', new FormControl('415-234-567'));
  * numbers.removeControl('bill');
@@ -3627,7 +3627,7 @@ declare const modelGroupProvider: any;
  * The following example implements the `AsyncValidator` interface to create an
  * async validator directive with a custom error key.
  *
- * ```typescript
+ * ```ts
  * @Directive({
  *   selector: '[customAsyncValidator]',
  *   providers: [{provide: NG_ASYNC_VALIDATORS, useExisting: CustomAsyncValidatorDirective, multi:
@@ -3663,7 +3663,7 @@ declare const NG_MODEL_WITH_FORM_CONTROL_WARNING: InjectionToken<unknown>;
  * The following example registers a custom validator directive. Adding the validator to the
  * existing collection of validators requires the `multi: true` option.
  *
- * ```typescript
+ * ```ts
  * @Directive({
  *   selector: '[customValidator]',
  *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
@@ -4294,7 +4294,7 @@ export declare abstract class NonNullableFormBuilder {
  * const totalCountControl = new FormControl();
  * ```
  *
- * ```
+ * ```html
  * <input type="number" [formControl]="totalCountControl">
  * ```
  *
@@ -4503,7 +4503,7 @@ export declare class RadioControlValueAccessor extends BuiltInControlValueAccess
  * const ageControl = new FormControl();
  * ```
  *
- * ```
+ * ```html
  * <input type="range" [formControl]="ageControl">
  * ```
  *
@@ -4574,7 +4574,7 @@ declare const REQUIRED_VALIDATOR: Provider;
  *
  * ### Adding a required validator using template-driven forms
  *
- * ```
+ * ```html
  * <input name="fullName" ngModel required>
  * ```
  *
@@ -4630,7 +4630,7 @@ export declare class RequiredValidator extends AbstractValidatorDirective {
  * const selectedCountriesControl = new FormControl();
  * ```
  *
- * ```
+ * ```html
  * <select [compareWith]="compareFn"  [formControl]="selectedCountriesControl">
  *     <option *ngFor="let country of countries" [ngValue]="country">
  *         {{country.name}}
@@ -4692,7 +4692,7 @@ export declare class SelectControlValueAccessor extends BuiltInControlValueAcces
  * const countryControl = new FormControl();
  * ```
  *
- * ```
+ * ```html
  * <select multiple name="countries" [formControl]="countryControl">
  *   <option *ngFor="let country of countries" [ngValue]="country">
  *     {{ country.name }}
@@ -4877,7 +4877,7 @@ export declare type ValidationErrors = {
  * The following example implements the `Validator` interface to create a
  * validator directive with a custom error key.
  *
- * ```typescript
+ * ```ts
  * @Directive({
  *   selector: '[customValidator]',
  *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
@@ -4947,7 +4947,7 @@ export declare class Validators {
      *
      * ### Validate against a minimum of 3
      *
-     * ```typescript
+     * ```ts
      * const control = new FormControl(2, Validators.min(3));
      *
      * console.log(control.errors); // {min: {min: 3, actual: 2}}
@@ -4968,7 +4968,7 @@ export declare class Validators {
      *
      * ### Validate against a maximum of 15
      *
-     * ```typescript
+     * ```ts
      * const control = new FormControl(16, Validators.max(15));
      *
      * console.log(control.errors); // {max: {max: 15, actual: 16}}
@@ -4989,7 +4989,7 @@ export declare class Validators {
      *
      * ### Validate that the field is non-empty
      *
-     * ```typescript
+     * ```ts
      * const control = new FormControl('', Validators.required);
      *
      * console.log(control.errors); // {required: true}
@@ -5011,7 +5011,7 @@ export declare class Validators {
      *
      * ### Validate that the field value is true
      *
-     * ```typescript
+     * ```ts
      * const control = new FormControl('some value', Validators.requiredTrue);
      *
      * console.log(control.errors); // {required: true}
@@ -5048,7 +5048,7 @@ export declare class Validators {
      *
      * ### Validate that the field matches a valid email pattern
      *
-     * ```typescript
+     * ```ts
      * const control = new FormControl('bad@', Validators.email);
      *
      * console.log(control.errors); // {email: true}
@@ -5075,7 +5075,7 @@ export declare class Validators {
      *
      * ### Validate that the field has a minimum of 3 characters
      *
-     * ```typescript
+     * ```ts
      * const control = new FormControl('ng', Validators.minLength(3));
      *
      * console.log(control.errors); // {minlength: {requiredLength: 3, actualLength: 2}}
@@ -5103,7 +5103,7 @@ export declare class Validators {
      *
      * ### Validate that the field has maximum of 5 characters
      *
-     * ```typescript
+     * ```ts
      * const control = new FormControl('Angular', Validators.maxLength(5));
      *
      * console.log(control.errors); // {maxlength: {requiredLength: 5, actualLength: 7}}
@@ -5129,7 +5129,7 @@ export declare class Validators {
      *
      * ### Validate that the field only contains letters or spaces
      *
-     * ```typescript
+     * ```ts
      * const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
      *
      * console.log(control.errors); // {pattern: {requiredPattern: '^[a-zA-Z ]*$', actualValue: '1'}}
@@ -5150,7 +5150,7 @@ export declare class Validators {
      * `Validators.pattern` you **do not** pass in a `RegExp` object with either the global or sticky
      * flag enabled.
      *
-     * ```typescript
+     * ```ts
      * // Not recommended (since the `g` flag is used)
      * const controlOne = new FormControl('1', Validators.pattern(/foo/g));
      *
@@ -5277,7 +5277,7 @@ export declare type ɵFormArrayValue<T extends AbstractControl<any>> = ɵTypedOr
 /**
  * Various available constructors for `FormControl`.
  * Do not use this interface directly. Instead, use `FormControl`:
- * ```
+ * ```ts
  * const fc = new FormControl('foo');
  * ```
  * This symbol is prefixed with ɵ to make plain that it is an internal symbol.
@@ -5388,7 +5388,7 @@ export declare type ɵNavigate<T, K extends Array<string | number>> = T extends 
  *
  * If you want to use native validation with Angular forms, just add `ngNativeValidate` attribute:
  *
- * ```
+ * ```html
  * <form ngNativeValidate></form>
  * ```
  *
