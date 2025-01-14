@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.0.6+sha-e44bf24
+ * @license Angular v19.0.6+sha-5a2d0ed
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -585,7 +585,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      *
      * ### Manually set the errors for a control
      *
-     * ```
+     * ```ts
      * const login = new FormControl('someLogin');
      * login.setErrors({
      *   notUnique: true
@@ -626,7 +626,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * @usageNotes
      * For example, for the following `FormGroup`:
      *
-     * ```
+     * ```ts
      * form = new FormGroup({
      *   address: new FormGroup({ street: new FormControl() })
      * });
@@ -654,7 +654,7 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * @usageNotes
      * For example, for the following `FormGroup`:
      *
-     * ```
+     * ```ts
      * form = new FormGroup({
      *   address: new FormGroup({ street: new FormControl() })
      * });
@@ -841,7 +841,7 @@ export declare abstract class AbstractControlDirective {
      * @usageNotes
      * For example, for the following `FormGroup`:
      *
-     * ```
+     * ```ts
      * form = new FormGroup({
      *   address: new FormGroup({ street: new FormControl() })
      * });
@@ -872,7 +872,7 @@ export declare abstract class AbstractControlDirective {
      * @usageNotes
      * For example, for the following `FormGroup`:
      *
-     * ```
+     * ```ts
      * form = new FormGroup({
      *   address: new FormGroup({ street: new FormControl() })
      * });
@@ -1671,7 +1671,7 @@ export declare class FormArray<TControl extends AbstractControl<any> = any> exte
      * @usageNotes
      * ### Set the values for the controls in the form array
      *
-     * ```
+     * ```ts
      * const arr = new FormArray([
      *   new FormControl(),
      *   new FormControl()
@@ -1709,7 +1709,7 @@ export declare class FormArray<TControl extends AbstractControl<any> = any> exte
      * @usageNotes
      * ### Patch the values for controls in a form array
      *
-     * ```
+     * ```ts
      * const arr = new FormArray([
      *    new FormControl(),
      *    new FormControl()
@@ -1758,7 +1758,7 @@ export declare class FormArray<TControl extends AbstractControl<any> = any> exte
      *
      * ### Reset the values in a form array and the disabled status for the first control
      *
-     * ```
+     * ```ts
      * arr.reset([
      *   {value: 'name', disabled: true},
      *   'last'
@@ -2729,7 +2729,7 @@ export declare class FormGroup<TControl extends {
      * @usageNotes
      * ### Set the complete value for the form group
      *
-     * ```
+     * ```ts
      * const form = new FormGroup({
      *   first: new FormControl(),
      *   last: new FormControl()
@@ -2771,7 +2771,7 @@ export declare class FormGroup<TControl extends {
      * @usageNotes
      * ### Patch the value for a form group
      *
-     * ```
+     * ```ts
      * const form = new FormGroup({
      *    first: new FormControl(),
      *    last: new FormControl()
@@ -2838,7 +2838,7 @@ export declare class FormGroup<TControl extends {
      *
      * ### Reset the form group values and disabled status
      *
-     * ```
+     * ```ts
      * const form = new FormGroup({
      *   first: new FormControl('first name'),
      *   last: new FormControl('last name')
