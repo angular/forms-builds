@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.2.0-next.1+sha-146ab9a
+ * @license Angular v19.2.0-next.1+sha-4d2684d
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5063,13 +5063,14 @@ export declare class Validators {
     static email(control: AbstractControl): ValidationErrors | null;
     /**
      * @description
-     * Validator that requires the length of the control's value to be greater than or equal
-     * to the provided minimum length. This validator is also provided by default if you use the
+     * Validator that requires the number of items in the control's value to be greater than or equal
+     * to the provided minimum length. This validator is also provided by default if you use
      * the HTML5 `minlength` attribute. Note that the `minLength` validator is intended to be used
-     * only for types that have a numeric `length` property, such as strings or arrays. The
-     * `minLength` validator logic is also not invoked for values when their `length` property is 0
-     * (for example in case of an empty string or an empty array), to support optional controls. You
-     * can use the standard `required` validator if empty values should not be considered valid.
+     * only for types that have a numeric `length` or `size` property, such as strings, arrays or
+     * sets. The `minLength` validator logic is also not invoked for values when their `length` or
+     * `size` property is 0 (for example in case of an empty string or an empty array), to support
+     * optional controls. You can use the standard `required` validator if empty values should not be
+     * considered valid.
      *
      * @usageNotes
      *
@@ -5094,10 +5095,11 @@ export declare class Validators {
     static minLength(minLength: number): ValidatorFn;
     /**
      * @description
-     * Validator that requires the length of the control's value to be less than or equal
-     * to the provided maximum length. This validator is also provided by default if you use the
+     * Validator that requires the number of items in the control's value to be less than or equal
+     * to the provided maximum length. This validator is also provided by default if you use
      * the HTML5 `maxlength` attribute. Note that the `maxLength` validator is intended to be used
-     * only for types that have a numeric `length` property, such as strings or arrays.
+     * only for types that have a numeric `length` or `size` property, such as strings, arrays or
+     * sets.
      *
      * @usageNotes
      *
