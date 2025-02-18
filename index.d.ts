@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.1.6+sha-6d8c2e2
+ * @license Angular v19.1.6+sha-ec1e4c3
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3175,7 +3175,7 @@ export declare interface FormRecord<TControl> {
      * See `FormGroup#setValue` for additional information.
      */
     setValue(value: {
-        [key: string]: ɵValue<TControl>;
+        [key: string]: ɵRawValue<TControl>;
     }, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
