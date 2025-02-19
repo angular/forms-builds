@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.2.0-next.3+sha-5a2cc6c
+ * @license Angular v19.2.0-next.3+sha-40dc99d
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3037,7 +3037,6 @@ export declare class FormGroupDirective extends ControlContainer implements Form
     private _cleanUpFormContainer;
     private _updateRegistrations;
     private _updateValidators;
-    private _checkFormPresent;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormGroupDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormGroupDirective, "[formGroup]", ["ngForm"], { "form": { "alias": "formGroup"; "required": false; }; }, { "ngSubmit": "ngSubmit"; }, never, never, false, never>;
 }
