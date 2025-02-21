@@ -1,5 +1,5 @@
 /**
- * @license Angular v19.3.0-next.0+sha-35e25f6
+ * @license Angular v19.3.0-next.0+sha-aa58339
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -204,8 +204,6 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      * accessing a value of a parent control (using the `value` property) from the callback of this
      * event might result in getting a value that has not been updated yet. Subscribe to the
      * `valueChanges` event of the parent control instead.
-     *
-     * TODO: this should be piped from events() but is breaking in G3
      */
     readonly valueChanges: Observable<TValue>;
     /**
@@ -214,8 +212,6 @@ export declare abstract class AbstractControl<TValue = any, TRawValue extends TV
      *
      * @see {@link FormControlStatus}
      * @see {@link AbstractControl.status}
-     *
-     * TODO: this should be piped from events() but is breaking in G3
      */
     readonly statusChanges: Observable<FormControlStatus>;
     /**
