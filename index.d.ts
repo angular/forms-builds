@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.0.0-next.0+sha-07338c0
+ * @license Angular v20.0.0-next.0+sha-db2f2d9
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1892,7 +1892,6 @@ export declare class FormArrayName extends ControlContainer implements OnInit, O
      * Each index is the string name of the control on that level.
      */
     get path(): string[];
-    private _checkParentType;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormArrayName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormArrayName, "[formArrayName]", never, { "name": { "alias": "formArrayName"; "required": false; }; }, {}, never, never, false, never>;
 }
@@ -2447,7 +2446,6 @@ export declare class FormControlName extends NgControl implements OnChanges, OnD
      * The top-level directive for this group if present, otherwise null.
      */
     get formDirective(): any;
-    private _checkParentType;
     private _setUpControl;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormControlName, [{ optional: true; host: true; skipSelf: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormControlName, "[formControlName]", never, { "name": { "alias": "formControlName"; "required": false; }; "isDisabled": { "alias": "disabled"; "required": false; }; "model": { "alias": "ngModel"; "required": false; }; }, { "update": "ngModelChange"; }, never, never, false, never>;
@@ -4151,7 +4149,6 @@ export declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _isStandalone;
     private _setUpStandalone;
     private _checkForErrors;
-    private _checkParentType;
     private _checkName;
     private _updateValue;
     private _updateDisabled;
