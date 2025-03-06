@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.0.0-next.1+sha-81fe053
+ * @license Angular v20.0.0-next.1+sha-1b91de3
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -5284,14 +5284,11 @@ export declare interface ɵFormControlCtor {
     /**
      * Creates a new `FormControl` instance.
      *
-     * @param formState Initializes the control with an initial value,
+     * @param value Initializes the control with an initial value,
      * or an object that defines the initial value and disabled state.
      *
-     * @param validatorOrOpts A synchronous validator function, or an array of
-     * such functions, or a `FormControlOptions` object that contains validation functions
-     * and a validation trigger.
-     *
-     * @param asyncValidator A single async validator or array of async validator functions
+     * @param opts A `FormControlOptions` object that contains validation functions and a
+     * validation trigger. `nonNullable` have to be `true`
      */
     new <T = any>(value: FormControlState<T> | T, opts: FormControlOptions & {
         nonNullable: true;
@@ -5306,6 +5303,18 @@ export declare interface ɵFormControlCtor {
      * @deprecated When passing an `options` argument, the `asyncValidator` argument has no effect.
      */
     new <T = any>(value: FormControlState<T> | T, opts: FormControlOptions, asyncValidator: AsyncValidatorFn | AsyncValidatorFn[]): FormControl<T | null>;
+    /**
+     * Creates a new `FormControl` instance.
+     *
+     * @param value Initializes the control with an initial value,
+     * or an object that defines the initial value and disabled state.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or a `FormControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     */
     new <T = any>(value: FormControlState<T> | T, validatorOrOpts?: ValidatorFn | ValidatorFn[] | FormControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T | null>;
     /**
      * The presence of an explicit `prototype` property provides backwards-compatibility for apps that
