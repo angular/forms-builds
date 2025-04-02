@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.0.0-next.4+sha-0bb4bd6
+ * @license Angular v20.0.0-next.4+sha-1c7b356
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2459,6 +2459,19 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      */
     markAsTouched(opts?: {
         onlySelf?: boolean;
+        emitEvent?: boolean;
+    }): void;
+    /**
+     * Marks the control and all its descendant controls as `dirty`.
+     * @see {@link markAsDirty()}
+     *
+     * @param opts Configuration options that determine how the control propagates changes
+     * and emits events after marking is applied.
+     * * `emitEvent`: When true or not supplied (the default), the `events`
+     * observable emits a `PristineChangeEvent` with the `pristine` property being `false`.
+     * When false, no events are emitted.
+     */
+    markAllAsDirty(opts?: {
         emitEvent?: boolean;
     }): void;
     /**
