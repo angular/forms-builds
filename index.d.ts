@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.0.0-next.4+sha-916f768
+ * @license Angular v20.0.0-next.4+sha-bdfbd54
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3874,9 +3874,12 @@ declare class FormGroupDirective extends ControlContainer implements Form, OnCha
      * @description
      * Resets the form to an initial value and resets its submitted status.
      *
-     * @param value The new value for the form.
+     * @param value The new value for the form, `undefined` by default
      */
-    resetForm(value?: any): void;
+    resetForm(value?: any, options?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+    }): void;
     private _setUpFormContainer;
     private _cleanUpFormContainer;
     private _updateRegistrations;
