@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.1.0-next.0+sha-12a5b7b
+ * @license Angular v20.1.0-next.0+sha-3c9b8d9
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -162,34 +162,34 @@ declare class BaseControlValueAccessor {
     /**
      * The registered callback function called when a change or input event occurs on the input
      * element.
-     * @nodoc
+     * @docs-private
      */
     onChange: (_: any) => void;
     /**
      * The registered callback function called when a blur event occurs on the input element.
-     * @nodoc
+     * @docs-private
      */
     onTouched: () => void;
     constructor(_renderer: Renderer2, _elementRef: ElementRef);
     /**
      * Helper method that sets a property on a target element using the current Renderer
      * implementation.
-     * @nodoc
+     * @docs-private
      */
     protected setProperty(key: string, value: any): void;
     /**
      * Registers a function called when the control is touched.
-     * @nodoc
+     * @docs-private
      */
     registerOnTouched(fn: () => void): void;
     /**
      * Registers a function called when the control value changes.
-     * @nodoc
+     * @docs-private
      */
     registerOnChange(fn: (_: any) => {}): void;
     /**
      * Sets the "disabled" property on the range input element.
-     * @nodoc
+     * @docs-private
      */
     setDisabledState(isDisabled: boolean): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<BaseControlValueAccessor, never>;
@@ -274,7 +274,7 @@ declare const NG_VALUE_ACCESSOR: InjectionToken<readonly ControlValueAccessor[]>
  * @publicApi
  */
 declare class SelectControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
-    /** @nodoc */
+    /** @docs-private */
     value: any;
     /**
      * @description
@@ -285,12 +285,12 @@ declare class SelectControlValueAccessor extends BuiltInControlValueAccessor imp
     private _compareWith;
     /**
      * Sets the "value" property on the select element.
-     * @nodoc
+     * @docs-private
      */
     writeValue(value: any): void;
     /**
      * Registers a function called when the control value changes.
-     * @nodoc
+     * @docs-private
      */
     registerOnChange(fn: (value: any) => any): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<SelectControlValueAccessor, never>;
@@ -328,7 +328,7 @@ declare class NgSelectOption implements OnDestroy {
      * For objects, use the `ngValue` input binding.
      */
     set value(value: any);
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<NgSelectOption, [null, null, { optional: true; host: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<NgSelectOption, "option", never, { "ngValue": { "alias": "ngValue"; "required": false; }; "value": { "alias": "value"; "required": false; }; }, {}, never, never, false, never>;
@@ -372,7 +372,7 @@ declare class NgSelectOption implements OnDestroy {
 declare class SelectMultipleControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /**
      * The current value.
-     * @nodoc
+     * @docs-private
      */
     value: any;
     /**
@@ -384,13 +384,13 @@ declare class SelectMultipleControlValueAccessor extends BuiltInControlValueAcce
     private _compareWith;
     /**
      * Sets the "value" property on one or of more of the select's options.
-     * @nodoc
+     * @docs-private
      */
     writeValue(value: any): void;
     /**
      * Registers a function called when the control value changes
      * and writes an array of the selected options.
-     * @nodoc
+     * @docs-private
      */
     registerOnChange(fn: (value: any) => any): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<SelectMultipleControlValueAccessor, never>;
@@ -424,7 +424,7 @@ declare class ɵNgSelectMultipleOption implements OnDestroy {
      * For objects, use the `ngValue` input binding.
      */
     set value(value: any);
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<ɵNgSelectMultipleOption, [null, null, { optional: true; host: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<ɵNgSelectMultipleOption, "option", never, { "ngValue": { "alias": "ngValue"; "required": false; }; "value": { "alias": "value"; "required": false; }; }, {}, never, never, false, never>;
@@ -478,7 +478,7 @@ declare class DefaultValueAccessor extends BaseControlValueAccessor implements C
     constructor(renderer: Renderer2, elementRef: ElementRef, _compositionMode: boolean);
     /**
      * Sets the "value" property on the input element.
-     * @nodoc
+     * @docs-private
      */
     writeValue(value: any): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DefaultValueAccessor, [null, null, { optional: true; }]>;
@@ -512,12 +512,12 @@ declare class DefaultValueAccessor extends BaseControlValueAccessor implements C
 declare class NumberValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /**
      * Sets the "value" property on the input element.
-     * @nodoc
+     * @docs-private
      */
     writeValue(value: number): void;
     /**
      * Registers a function called when the control value changes.
-     * @nodoc
+     * @docs-private
      */
     registerOnChange(fn: (_: number | null) => void): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<NumberValueAccessor, never>;
@@ -551,12 +551,12 @@ declare class NumberValueAccessor extends BuiltInControlValueAccessor implements
 declare class RangeValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /**
      * Sets the "value" property on the input element.
-     * @nodoc
+     * @docs-private
      */
     writeValue(value: any): void;
     /**
      * Registers a function called when the control value changes.
-     * @nodoc
+     * @docs-private
      */
     registerOnChange(fn: (_: number | null) => void): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<RangeValueAccessor, never>;
@@ -589,7 +589,7 @@ declare class RangeValueAccessor extends BuiltInControlValueAccessor implements 
 declare class CheckboxControlValueAccessor extends BuiltInControlValueAccessor implements ControlValueAccessor {
     /**
      * Sets the "checked" property on the input element.
-     * @nodoc
+     * @docs-private
      */
     writeValue(value: any): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CheckboxControlValueAccessor, never>;
@@ -658,11 +658,11 @@ interface Validator {
 declare abstract class AbstractValidatorDirective implements Validator, OnChanges {
     private _validator;
     private _onChange;
-    /** @nodoc */
+    /** @docs-private */
     ngOnChanges(changes: SimpleChanges): void;
-    /** @nodoc */
+    /** @docs-private */
     validate(control: AbstractControl): ValidationErrors | null;
-    /** @nodoc */
+    /** @docs-private */
     registerOnValidatorChange(fn: () => void): void;
     /**
      * @description
@@ -800,7 +800,7 @@ declare class RequiredValidator extends AbstractValidatorDirective {
      * Tracks changes to the required attribute bound to this directive.
      */
     required: boolean | string;
-    /** @nodoc */
+    /** @docs-private */
     enabled(input: boolean): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<RequiredValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<RequiredValidator, ":not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]", never, { "required": { "alias": "required"; "required": false; }; }, {}, never, never, false, never>;
@@ -863,7 +863,7 @@ declare class EmailValidator extends AbstractValidatorDirective {
      * Tracks changes to the email attribute bound to this directive.
      */
     email: boolean | string;
-    /** @nodoc */
+    /** @docs-private */
     enabled(input: boolean): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<EmailValidator, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<EmailValidator, "[email][formControlName],[email][formControl],[email][ngModel]", never, { "email": { "alias": "email"; "required": false; }; }, {}, never, never, false, never>;
@@ -3063,7 +3063,7 @@ declare class RadioControlValueAccessor extends BuiltInControlValueAccessor impl
      * Note: we declare `onChange` here (also used as host listener) as a function with no arguments
      * to override the `onChange` function (which expects 1 argument) in the parent
      * `BaseControlValueAccessor` class.
-     * @nodoc
+     * @docs-private
      */
     onChange: () => void;
     /**
@@ -3084,21 +3084,21 @@ declare class RadioControlValueAccessor extends BuiltInControlValueAccessor impl
     value: any;
     private callSetDisabledState;
     constructor(renderer: Renderer2, elementRef: ElementRef, _registry: RadioControlRegistry, _injector: Injector);
-    /** @nodoc */
+    /** @docs-private */
     ngOnInit(): void;
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
     /**
      * Sets the "checked" property value on the radio input element.
-     * @nodoc
+     * @docs-private
      */
     writeValue(value: any): void;
     /**
      * Registers a function called when the control value changes.
-     * @nodoc
+     * @docs-private
      */
     registerOnChange(fn: (_: any) => {}): void;
-    /** @nodoc */
+    /** @docs-private */
     setDisabledState(isDisabled: boolean): void;
     /**
      * Sets the "value" on the radio input element and unchecks it.
@@ -3468,9 +3468,9 @@ declare const isFormControl: (control: unknown) => control is FormControl;
  * @publicApi
  */
 declare class AbstractFormGroupDirective extends ControlContainer implements OnInit, OnDestroy {
-    /** @nodoc */
+    /** @docs-private */
     ngOnInit(): void;
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
     /**
      * @description
@@ -3695,9 +3695,9 @@ declare class FormControlName extends NgControl implements OnChanges, OnDestroy 
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
     constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null);
-    /** @nodoc */
+    /** @docs-private */
     ngOnChanges(changes: SimpleChanges): void;
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
     /**
      * @description
@@ -3781,9 +3781,9 @@ declare class FormGroupDirective extends ControlContainer implements Form, OnCha
      */
     ngSubmit: EventEmitter<any>;
     constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], callSetDisabledState?: SetDisabledStateOption | undefined);
-    /** @nodoc */
+    /** @docs-private */
     ngOnChanges(changes: SimpleChanges): void;
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
     /**
      * @description
@@ -4002,12 +4002,12 @@ declare class FormArrayName extends ControlContainer implements OnInit, OnDestro
     /**
      * A lifecycle method called when the directive's inputs are initialized. For internal use only.
      * @throws If the directive does not have a valid parent.
-     * @nodoc
+     * @docs-private
      */
     ngOnInit(): void;
     /**
      * A lifecycle method called before the directive's instance is destroyed. For internal use only.
-     * @nodoc
+     * @docs-private
      */
     ngOnDestroy(): void;
     /**
@@ -4129,11 +4129,11 @@ declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     private _changeDetectorRef?;
     private callSetDisabledState?;
     readonly control: FormControl;
-    /** @nodoc */
+    /** @docs-private */
     static ngAcceptInputType_isDisabled: boolean | string;
     /**
      * Internal reference to the view model value.
-     * @nodoc
+     * @docs-private
      */
     viewModel: any;
     /**
@@ -4180,9 +4180,9 @@ declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      */
     update: EventEmitter<any>;
     constructor(parent: ControlContainer, validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _changeDetectorRef?: (ChangeDetectorRef | null) | undefined, callSetDisabledState?: SetDisabledStateOption | undefined);
-    /** @nodoc */
+    /** @docs-private */
     ngOnChanges(changes: SimpleChanges): void;
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
     /**
      * @description
@@ -4349,7 +4349,7 @@ declare class NgForm extends ControlContainer implements Form, AfterViewInit {
         updateOn?: FormHooks;
     };
     constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], callSetDisabledState?: SetDisabledStateOption | undefined);
-    /** @nodoc */
+    /** @docs-private */
     ngAfterViewInit(): void;
     /**
      * @description
@@ -4485,7 +4485,7 @@ declare class FormControlDirective extends NgControl implements OnChanges, OnDes
     private callSetDisabledState?;
     /**
      * Internal reference to the view model value.
-     * @nodoc
+     * @docs-private
      */
     viewModel: any;
     /**
@@ -4503,9 +4503,9 @@ declare class FormControlDirective extends NgControl implements OnChanges, OnDes
     /** @deprecated as of v6 */
     update: EventEmitter<any>;
     constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], valueAccessors: ControlValueAccessor[], _ngModelWarningConfig: string | null, callSetDisabledState?: SetDisabledStateOption | undefined);
-    /** @nodoc */
+    /** @docs-private */
     ngOnChanges(changes: SimpleChanges): void;
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
     /**
      * @description
