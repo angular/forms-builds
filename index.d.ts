@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.1.0-next.0+sha-909e543
+ * @license Angular v20.1.0-next.0+sha-8fa75fe
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -255,9 +255,9 @@ declare const NG_VALUE_ACCESSOR: InjectionToken<readonly ControlValueAccessor[]>
  *
  * ```html
  * <select [compareWith]="compareFn"  [formControl]="selectedCountriesControl">
- *     <option *ngFor="let country of countries" [ngValue]="country">
- *         {{country.name}}
- *     </option>
+ *    @for(country of countries; track $index) {
+ *        <option[ngValue]="country">{{country.name}}</option>
+ *    }
  * </select>
  *
  * compareFn(c1: Country, c2: Country): boolean {
@@ -354,9 +354,9 @@ declare class NgSelectOption implements OnDestroy {
  *
  * ```html
  * <select multiple name="countries" [formControl]="countryControl">
- *   <option *ngFor="let country of countries" [ngValue]="country">
- *     {{ country.name }}
- *   </option>
+ *   @for(country of countries; track $index) {
+ *      <option [ngValue]="country">{{ country.name }}</option>
+ *   }
  * </select>
  * ```
  *
