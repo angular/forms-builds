@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.1.0-next.0+sha-9cf12b0
+ * @license Angular v20.1.0-next.0+sha-4f0221e
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -283,6 +283,11 @@ declare class SelectControlValueAccessor extends BuiltInControlValueAccessor imp
      */
     set compareWith(fn: (o1: any, o2: any) => boolean);
     private _compareWith;
+    private readonly appRefInjector;
+    private readonly appRefDestroyRef;
+    private readonly destroyRef;
+    private readonly cdr;
+    private _queuedWrite;
     /**
      * Sets the "value" property on the select element.
      * @docs-private
