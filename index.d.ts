@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.2.0-next.2+sha-6d01168
+ * @license Angular v20.2.0-next.2+sha-8ebc1e7
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -284,7 +284,6 @@ declare class SelectControlValueAccessor extends BuiltInControlValueAccessor imp
     set compareWith(fn: (o1: any, o2: any) => boolean);
     private _compareWith;
     private readonly appRefInjector;
-    private readonly appRefDestroyRef;
     private readonly destroyRef;
     private readonly cdr;
     private _queuedWrite;
