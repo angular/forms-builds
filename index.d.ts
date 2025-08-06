@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.2.0-next.3+sha-52b8e07
+ * @license Angular v20.2.0-next.4+sha-d24d574
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1101,7 +1101,7 @@ declare class FormArray<TControl extends AbstractControl<any> = any> extends Abs
      * `valueChanges` observables emit events with the latest status and value when the control is
      * inserted. When false, no events are emitted.
      */
-    push(control: TControl, options?: {
+    push(control: TControl | Array<TControl>, options?: {
         emitEvent?: boolean;
     }): void;
     /**
