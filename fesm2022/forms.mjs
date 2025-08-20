@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.0+sha-85468ef
+ * @license Angular v21.0.0-next.0+sha-6a6cb01
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -297,7 +297,7 @@ function lengthOrSize(value) {
  * ```ts
  * @Directive({
  *   selector: '[customValidator]',
- *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ *   providers: [{provide: NG_VALIDATORS, useExisting: forwardRef(() => CustomValidatorDirective), multi: true}]
  * })
  * class CustomValidatorDirective implements Validator {
  *   validate(control: AbstractControl): ValidationErrors | null {
@@ -7651,7 +7651,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
 /**
  * @publicApi
  */
-const VERSION = new Version('21.0.0-next.0+sha-85468ef');
+const VERSION = new Version('21.0.0-next.0+sha-6a6cb01');
 
 /**
  * Exports the required providers and directives for template-driven forms,
