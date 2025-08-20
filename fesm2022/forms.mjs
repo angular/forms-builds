@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.0+sha-086ae5e
+ * @license Angular v21.0.0-next.0+sha-3d7b31c
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -7651,7 +7651,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
 /**
  * @publicApi
  */
-const VERSION = new Version('21.0.0-next.0+sha-086ae5e');
+const VERSION = new Version('21.0.0-next.0+sha-3d7b31c');
 
 /**
  * Exports the required providers and directives for template-driven forms,
