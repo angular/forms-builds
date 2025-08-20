@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.1.7+sha-39febe1
+ * @license Angular v20.1.7+sha-373670c
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -623,7 +623,7 @@ type ValidationErrors = {
  * ```ts
  * @Directive({
  *   selector: '[customValidator]',
- *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ *   providers: [{provide: NG_VALIDATORS, useExisting: forwardRef(() => CustomValidatorDirective), multi: true}]
  * })
  * class CustomValidatorDirective implements Validator {
  *   validate(control: AbstractControl): ValidationErrors|null {
@@ -4852,7 +4852,7 @@ declare class UntypedFormBuilder extends FormBuilder {
  * ```ts
  * @Directive({
  *   selector: '[customValidator]',
- *   providers: [{provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true}]
+ *   providers: [{provide: NG_VALIDATORS, useExisting: forwardRef(() => CustomValidatorDirective), multi: true}]
  * })
  * class CustomValidatorDirective implements Validator {
  *   validate(control: AbstractControl): ValidationErrors | null {
