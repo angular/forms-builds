@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.1+sha-862495c
+ * @license Angular v21.0.0-next.1+sha-db95a5c
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -2455,8 +2455,6 @@ function markAllAsTouched(node) {
     }
 }
 
-/** Internal symbol used for class branding. */
-const BRAND = Symbol();
 function requiredError(options) {
     return new RequiredValidationError(options);
 }
@@ -2485,13 +2483,11 @@ function customError(obj) {
     return new CustomValidationError(obj);
 }
 /**
- * Common interface for all validation errors.
- *
- * Use the creation functions to create an instance (e.g. `requiredError`, `minError`, etc.).
+ * A custom error that may contain additional properties
  */
-class ValidationError {
+class CustomValidationError {
     /** Brand the class to avoid Typescript structural matching */
-    [BRAND] = undefined;
+    __brand = undefined;
     /** Identifies the kind of error. */
     kind = '';
     /** The field associated with this error. */
@@ -2505,15 +2501,23 @@ class ValidationError {
     }
 }
 /**
- * A custom error that may contain additional properties
- */
-class CustomValidationError extends ValidationError {
-}
-/**
  * Internal version of `NgValidationError`, we create this separately so we can change its type on
  * the exported version to a type union of the possible sub-classes.
  */
-class _NgValidationError extends ValidationError {
+class _NgValidationError {
+    /** Brand the class to avoid Typescript structural matching */
+    __brand = undefined;
+    /** Identifies the kind of error. */
+    kind = '';
+    /** The field associated with this error. */
+    field;
+    /** Human readable error message. */
+    message;
+    constructor(options) {
+        if (options) {
+            Object.assign(this, options);
+        }
+    }
 }
 /**
  * An error used to indicate that a required field is empty.
@@ -2633,6 +2637,15 @@ function getLengthOrSize(value) {
 function getOption(opt, ctx) {
     return opt instanceof Function ? opt(ctx) : opt;
 }
+/**
+ * Checks if the given value is considered empty. Empty values are: null, undefined, '', false, NaN.
+ */
+function isEmpty(value) {
+    if (typeof value === 'number') {
+        return isNaN(value);
+    }
+    return value === '' || value === false || value == null;
+}
 
 /**
  * A regular expression that matches valid e-mail addresses.
@@ -2677,6 +2690,9 @@ const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(
  */
 function email(path, config) {
     validate(path, (ctx) => {
+        if (isEmpty(ctx.value())) {
+            return undefined;
+        }
         if (!EMAIL_REGEXP.test(ctx.value())) {
             if (config?.error) {
                 return getOption(config.error, ctx);
@@ -2706,6 +2722,9 @@ function max(path, maxValue, config) {
     const MAX_MEMO = property(path, (ctx) => computed(() => (typeof maxValue === 'number' ? maxValue : maxValue(ctx))));
     aggregateProperty(path, MAX, ({ state }) => state.property(MAX_MEMO)());
     validate(path, (ctx) => {
+        if (isEmpty(ctx.value())) {
+            return undefined;
+        }
         const max = ctx.state.property(MAX_MEMO)();
         if (max === undefined || Number.isNaN(max)) {
             return undefined;
@@ -2740,6 +2759,9 @@ function maxLength(path, maxLength, config) {
     const MAX_LENGTH_MEMO = property(path, (ctx) => computed(() => (typeof maxLength === 'number' ? maxLength : maxLength(ctx))));
     aggregateProperty(path, MAX_LENGTH, ({ state }) => state.property(MAX_LENGTH_MEMO)());
     validate(path, (ctx) => {
+        if (isEmpty(ctx.value())) {
+            return undefined;
+        }
         const maxLength = ctx.state.property(MAX_LENGTH_MEMO)();
         if (maxLength === undefined) {
             return undefined;
@@ -2773,6 +2795,9 @@ function min(path, minValue, config) {
     const MIN_MEMO = property(path, (ctx) => computed(() => (typeof minValue === 'number' ? minValue : minValue(ctx))));
     aggregateProperty(path, MIN, ({ state }) => state.property(MIN_MEMO)());
     validate(path, (ctx) => {
+        if (isEmpty(ctx.value())) {
+            return undefined;
+        }
         const min = ctx.state.property(MIN_MEMO)();
         if (min === undefined || Number.isNaN(min)) {
             return undefined;
@@ -2807,6 +2832,9 @@ function minLength(path, minLength, config) {
     const MIN_LENGTH_MEMO = property(path, (ctx) => computed(() => (typeof minLength === 'number' ? minLength : minLength(ctx))));
     aggregateProperty(path, MIN_LENGTH, ({ state }) => state.property(MIN_LENGTH_MEMO)());
     validate(path, (ctx) => {
+        if (isEmpty(ctx.value())) {
+            return undefined;
+        }
         const minLength = ctx.state.property(MIN_LENGTH_MEMO)();
         if (minLength === undefined) {
             return undefined;
@@ -2839,10 +2867,11 @@ function pattern(path, pattern, config) {
     const PATTERN_MEMO = property(path, (ctx) => computed(() => (pattern instanceof RegExp ? pattern : pattern(ctx))));
     aggregateProperty(path, PATTERN, ({ state }) => state.property(PATTERN_MEMO)());
     validate(path, (ctx) => {
+        if (isEmpty(ctx.value())) {
+            return undefined;
+        }
         const pattern = ctx.state.property(PATTERN_MEMO)();
-        // A pattern validator should not fail on an empty value. This matches the behavior of HTML's
-        // built in `pattern` attribute.
-        if (pattern === undefined || ctx.value() == null || ctx.value() === '') {
+        if (pattern === undefined) {
             return undefined;
         }
         if (!pattern.test(ctx.value())) {
@@ -2867,18 +2896,15 @@ function pattern(path, pattern, config) {
  *  - `message`: A user-facing message for the error.
  *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.required()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
- *  - `emptyPredicate`: A function that receives the value, and returns `true` if it is considered empty.
- *    By default `false`, `''`, `null`, and `undefined` are considered empty
  *  - `when`: A function that receives the `FieldContext` and returns true if the field is required
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  */
 function required(path, config) {
-    const emptyPredicate = config?.emptyPredicate ?? ((value) => value === false || value == null || value === '');
     const REQUIRED_MEMO = property(path, (ctx) => computed(() => (config?.when ? config.when(ctx) : true)));
     aggregateProperty(path, REQUIRED, ({ state }) => state.property(REQUIRED_MEMO)());
     validate(path, (ctx) => {
-        if (ctx.state.property(REQUIRED_MEMO)() && emptyPredicate(ctx.value())) {
+        if (ctx.state.property(REQUIRED_MEMO)() && isEmpty(ctx.value())) {
             if (config?.error) {
                 return getOption(config.error, ctx);
             }
@@ -3346,5 +3372,5 @@ function isOutputRef(value) {
     return value instanceof OutputEmitterRef || value instanceof EventEmitter;
 }
 
-export { AggregateProperty, Control, CustomValidationError, EmailValidationError, InteropNgControl, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, ValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateTree };
+export { AggregateProperty, Control, CustomValidationError, EmailValidationError, InteropNgControl, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateTree };
 //# sourceMappingURL=signals.mjs.map

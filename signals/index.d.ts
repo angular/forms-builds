@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.1+sha-862495c
+ * @license Angular v21.0.0-next.1+sha-db95a5c
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -144,8 +144,6 @@ declare const MAX_LENGTH: AggregateProperty<number | undefined, number | undefin
  */
 declare const PATTERN: AggregateProperty<RegExp[], RegExp | undefined>;
 
-/** Internal symbol used for class branding. */
-declare const BRAND: unique symbol;
 /**
  * Options used to create a `ValidationError`.
  */
@@ -164,7 +162,7 @@ type WithField<T> = T & {
  * A type that allows the given type `T` to optionally have a `field` property.
  * @template T The type to optionally add a `field` to.
  */
-type WithOptionalField<T> = T & {
+type WithOptionalField<T> = Omit<T, 'field'> & {
     field?: Field<unknown>;
 };
 /**
@@ -270,20 +268,35 @@ declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: Va
  * Create a custom error associated with the target field
  * @param obj The object to create an error from
  */
-declare function customError<E extends Omit<Partial<ValidationError>, typeof BRAND>>(obj: WithField<E>): CustomValidationError;
+declare function customError<E extends Partial<ValidationError>>(obj: WithField<E>): CustomValidationError;
 /**
  * Create a custom error
  * @param obj The object to create an error from
  */
-declare function customError<E extends Omit<Partial<ValidationError>, typeof BRAND>>(obj?: E): WithoutField<CustomValidationError>;
+declare function customError<E extends Partial<ValidationError>>(obj?: E): WithoutField<CustomValidationError>;
 /**
  * Common interface for all validation errors.
  *
  * Use the creation functions to create an instance (e.g. `requiredError`, `minError`, etc.).
  */
-declare abstract class ValidationError {
+interface ValidationError {
+    /** Identifies the kind of error. */
+    readonly kind: string;
+    /** The field associated with this error. */
+    readonly field: Field<unknown>;
+    /** Human readable error message. */
+    readonly message?: string;
+}
+/**
+ * A custom error that may contain additional properties
+ */
+declare class CustomValidationError implements ValidationError {
     /** Brand the class to avoid Typescript structural matching */
-    [BRAND]: undefined;
+    private __brand;
+    /**
+     * Allow the user to attach arbitrary other properties.
+     */
+    [key: PropertyKey]: unknown;
     /** Identifies the kind of error. */
     readonly kind: string;
     /** The field associated with this error. */
@@ -293,19 +306,19 @@ declare abstract class ValidationError {
     constructor(options?: ValidationErrorOptions);
 }
 /**
- * A custom error that may contain additional properties
- */
-declare class CustomValidationError extends ValidationError {
-    /**
-     * Allow the user to attach arbitrary other properties.
-     */
-    [key: PropertyKey]: unknown;
-}
-/**
  * Internal version of `NgValidationError`, we create this separately so we can change its type on
  * the exported version to a type union of the possible sub-classes.
  */
-declare abstract class _NgValidationError extends ValidationError {
+declare abstract class _NgValidationError implements ValidationError {
+    /** Brand the class to avoid Typescript structural matching */
+    private __brand;
+    /** Identifies the kind of error. */
+    readonly kind: string;
+    /** The field associated with this error. */
+    readonly field: Field<unknown>;
+    /** Human readable error message. */
+    readonly message?: string;
+    constructor(options?: ValidationErrorOptions);
 }
 /**
  * An error used to indicate that a required field is empty.
@@ -893,7 +906,7 @@ interface FormUiControl {
      * An input to receive the errors for the field. If implemented, the `Control` directive will
      * automatically bind errors from the bound field to this input.
      */
-    readonly errors?: InputSignal<readonly ValidationError[]>;
+    readonly errors?: InputSignal<readonly WithOptionalField<ValidationError>[]>;
     /**
      * An input to receive the disabled status for the field. If implemented, the `Control` directive
      * will automatically bind the disabled status from the bound field to this input.
@@ -903,7 +916,7 @@ interface FormUiControl {
      * An input to receive the reasons for the disablement of the field. If implemented, the `Control`
      * directive will automatically bind the disabled reason from the bound field to this input.
      */
-    readonly disabledReasons?: InputSignal<readonly DisabledReason[]>;
+    readonly disabledReasons?: InputSignal<readonly WithOptionalField<DisabledReason>[]>;
     /**
      * An input to receive the readonly status for the field. If implemented, the `Control` directive
      * will automatically bind the readonly status from the bound field to this input.
@@ -2325,14 +2338,11 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Field
  *  - `message`: A user-facing message for the error.
  *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.required()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
- *  - `emptyPredicate`: A function that receives the value, and returns `true` if it is considered empty.
- *    By default `false`, `''`, `null`, and `undefined` are considered empty
  *  - `when`: A function that receives the `FieldContext` and returns true if the field is required
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  */
 declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind> & {
-    emptyPredicate?: (value: TValue) => boolean;
     when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
 }): void;
 
@@ -2368,5 +2378,5 @@ declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'c
     updateValueAndValidity(): void;
 }
 
-export { AggregateProperty, Control, CustomValidationError, EmailValidationError, InteropNgControl, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, ValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateTree };
-export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, Field, FieldContext, FieldPath, FieldState, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, InteropSharedKeys, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeField, MaybeFieldPath, Mutable, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export { AggregateProperty, Control, CustomValidationError, EmailValidationError, InteropNgControl, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateTree };
+export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, Field, FieldContext, FieldPath, FieldState, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, InteropSharedKeys, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeField, MaybeFieldPath, Mutable, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
