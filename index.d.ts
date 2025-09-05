@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.2+sha-8401f89
+ * @license Angular v20.3.0-next.0+sha-11a54d1
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3643,7 +3643,7 @@ declare class NgControlStatus extends AbstractControlStatus {
 declare class NgControlStatusGroup extends AbstractControlStatus {
     constructor(cd: ControlContainer);
     static ɵfac: i0.ɵɵFactoryDeclaration<NgControlStatusGroup, [{ optional: true; self: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<NgControlStatusGroup, "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],[formArray],form:not([ngNoForm]),[ngForm]", never, {}, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgControlStatusGroup, "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", never, {}, {}, never, never, false, never>;
 }
 
 /**
@@ -3736,12 +3736,28 @@ declare class FormControlName extends NgControl implements OnChanges, OnDestroy 
 /**
  * @description
  *
- * Abstract class for top-level form directives (FormArrayDirective, FormGroupDirective) who bind an
- * existing `Form` to a DOM element.
+ * Binds an existing `FormGroup` or `FormRecord` to a DOM element.
  *
+ * This directive accepts an existing `FormGroup` instance. It will then use this
+ * `FormGroup` instance to match any child `FormControl`, `FormGroup`/`FormRecord`,
+ * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
+ * and `FormArrayName` directives.
+ *
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
+ * @see {@link AbstractControl}
+ *
+ * @usageNotes
+ * ### Register Form Group
+ *
+ * The following example registers a `FormGroup` with first name and last name controls,
+ * and listens for the *ngSubmit* event when the button is clicked.
+ *
+ * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
+ *
+ * @ngModule ReactiveFormsModule
  * @publicApi
  */
-declare abstract class AbstractFormDirective extends ControlContainer implements Form, OnChanges, OnDestroy {
+declare class FormGroupDirective extends ControlContainer implements Form, OnChanges, OnDestroy {
     private callSetDisabledState?;
     /**
      * @description
@@ -3767,23 +3783,19 @@ declare abstract class AbstractFormDirective extends ControlContainer implements
     directives: FormControlName[];
     /**
      * @description
-     * Tracks the form bound to this directive.
+     * Tracks the `FormGroup` bound to this directive.
      */
-    abstract form: AbstractControl;
+    form: FormGroup;
     /**
      * @description
      * Emits an event when the form submission has been triggered.
      */
-    abstract ngSubmit: EventEmitter<any>;
+    ngSubmit: EventEmitter<any>;
     constructor(validators: (Validator | ValidatorFn)[], asyncValidators: (AsyncValidator | AsyncValidatorFn)[], callSetDisabledState?: SetDisabledStateOption | undefined);
-    /** @nodoc */
+    /** @docs-private */
     ngOnChanges(changes: SimpleChanges): void;
-    /** @nodoc */
+    /** @docs-private */
     ngOnDestroy(): void;
-    /** @nodoc */
-    protected onChanges(changes: SimpleChanges): void;
-    /** @nodoc */
-    protected onDestroy(): void;
     /**
      * @description
      * Returns this directive's instance.
@@ -3791,9 +3803,9 @@ declare abstract class AbstractFormDirective extends ControlContainer implements
     get formDirective(): Form;
     /**
      * @description
-     * Returns the Form bound to this directive.
+     * Returns the `FormGroup` bound to this directive.
      */
-    abstract get control(): AbstractControl;
+    get control(): FormGroup;
     /**
      * @description
      * Returns an array representing the path to this group. Because this directive
@@ -3843,13 +3855,6 @@ declare abstract class AbstractFormDirective extends ControlContainer implements
      */
     getFormGroup(dir: FormGroupName): FormGroup;
     /**
-     * @description
-     * Retrieves the `FormArray` for a provided `FormArrayName` directive instance.
-     *
-     * @param dir The `FormArrayName` directive instance.
-     */
-    getFormArray(dir: FormArrayName): FormArray;
-    /**
      * Performs the necessary setup when a `FormArrayName` directive instance is added to the view.
      *
      * @param dir The `FormArrayName` directive instance.
@@ -3863,12 +3868,27 @@ declare abstract class AbstractFormDirective extends ControlContainer implements
      */
     removeFormArray(dir: FormArrayName): void;
     /**
+     * @description
+     * Retrieves the `FormArray` for a provided `FormArrayName` directive instance.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
+    getFormArray(dir: FormArrayName): FormArray;
+    /**
      * Sets the new value for the provided `FormControlName` directive.
      *
      * @param dir The `FormControlName` directive instance.
      * @param value The new value for the directive's control.
      */
     updateModel(dir: FormControlName, value: any): void;
+    /**
+     * @description
+     * Method called with the "submit" event is triggered on the form.
+     * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
+     *
+     * @param $event The "submit" event object
+     */
+    onSubmit($event: Event): boolean;
     /**
      * @description
      * Method called when the "reset" event is triggered on the form.
@@ -3878,27 +3898,18 @@ declare abstract class AbstractFormDirective extends ControlContainer implements
      * @description
      * Resets the form to an initial value and resets its submitted status.
      *
-     * @param value The new value for the form.
+     * @param value The new value for the form, `undefined` by default
      */
     resetForm(value?: any, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
-    /**
-     * @description
-     * Method called with the "submit" event is triggered on the form.
-     * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
-     *
-     * @param $event The "submit" event object
-     */
-    onSubmit($event: Event): boolean;
     private _setUpFormContainer;
     private _cleanUpFormContainer;
     private _updateRegistrations;
     private _updateValidators;
-    private _checkFormPresent;
-    static ɵfac: i0.ɵɵFactoryDeclaration<AbstractFormDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractFormDirective, never, never, {}, {}, never, never, true, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormGroupDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormGroupDirective, "[formGroup]", ["ngForm"], { "form": { "alias": "formGroup"; "required": false; }; }, { "ngSubmit": "ngSubmit"; }, never, never, false, never>;
 }
 
 /**
@@ -3968,12 +3979,12 @@ declare class FormGroupName extends AbstractFormGroupDirective implements OnInit
  *
  * Syncs a nested `FormArray` to a DOM element.
  *
- * This directive is designed to be used with a parent `FormGroupDirective`/`FormGroupArray` (selector:
- * `[formGroup]`/`[formArray]`).
+ * This directive is designed to be used with a parent `FormGroupDirective` (selector:
+ * `[formGroup]`).
  *
  * It accepts the string name of the nested `FormArray` you want to link, and
  * will look for a `FormArray` registered with that name in the parent
- * `FormGroup`/`FormArray` instance you passed into `FormGroupDirective`/`FormGroupArray`.
+ * `FormGroup` instance you passed into `FormGroupDirective`.
  *
  * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see {@link AbstractControl}
@@ -4019,7 +4030,7 @@ declare class FormArrayName extends ControlContainer implements OnInit, OnDestro
      * @description
      * The top-level directive for this group if present, otherwise null.
      */
-    get formDirective(): AbstractFormDirective | null;
+    get formDirective(): FormGroupDirective | null;
     /**
      * @description
      * Returns an array that represents the path from the top-level form to this control.
@@ -4456,49 +4467,7 @@ declare class NgForm extends ControlContainer implements Form, AfterViewInit {
     private _setUpdateStrategy;
     private _findContainer;
     static ɵfac: i0.ɵɵFactoryDeclaration<NgForm, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<NgForm, "form:not([ngNoForm]):not([formGroup]):not([formArray]),ng-form,[ngForm]", ["ngForm"], { "options": { "alias": "ngFormOptions"; "required": false; }; }, { "ngSubmit": "ngSubmit"; }, never, never, false, never>;
-}
-
-/**
- * @description
- *
- * Binds an existing `FormArray` to a DOM element.
- *
- * This directive accepts an existing `FormArray` instance. It will then use this
- * `FormArray` instance to match any child `FormControl`, `FormGroup`/`FormRecord`,
- * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
- * and `FormArrayName` directives.
- *
- * @see [Reactive Forms Guide](guide/reactive-forms)
- * @see {@link AbstractControl}
- *
- * @usageNotes
- * ### Register Form Array
- *
- * The following example registers a `FormArray` with first name and last name controls,
- * and listens for the *ngSubmit* event when the button is clicked.
- *
- * @ngModule ReactiveFormsModule
- * @publicApi
- */
-declare class FormArrayDirective extends AbstractFormDirective {
-    /**
-     * @description
-     * Tracks the `FormArray` bound to this directive.
-     */
-    form: FormArray;
-    /**
-     * @description
-     * Emits an event when the form submission has been triggered.
-     */
-    ngSubmit: EventEmitter<any>;
-    /**
-     * @description
-     * Returns the `FormArray` bound to this directive.
-     */
-    get control(): FormArray;
-    static ɵfac: i0.ɵɵFactoryDeclaration<FormArrayDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<FormArrayDirective, "[formArray]", ["ngForm"], { "form": { "alias": "formArray"; "required": false; }; }, { "ngSubmit": "ngSubmit"; }, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgForm, "form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]", ["ngForm"], { "options": { "alias": "ngFormOptions"; "required": false; }; }, { "ngSubmit": "ngSubmit"; }, never, never, false, never>;
 }
 
 /**
@@ -4570,50 +4539,6 @@ declare class FormControlDirective extends NgControl implements OnChanges, OnDes
     private _isControlChanged;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormControlDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormControlDirective, "[formControl]", ["ngForm"], { "form": { "alias": "formControl"; "required": false; }; "isDisabled": { "alias": "disabled"; "required": false; }; "model": { "alias": "ngModel"; "required": false; }; }, { "update": "ngModelChange"; }, never, never, false, never>;
-}
-
-/**
- * @description
- *
- * Binds an existing `FormGroup` or `FormRecord` to a DOM element.
- *
- * This directive accepts an existing `FormGroup` instance. It will then use this
- * `FormGroup` instance to match any child `FormControl`, `FormGroup`/`FormRecord`,
- * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
- * and `FormArrayName` directives.
- *
- * @see [Reactive Forms Guide](guide/forms/reactive-forms)
- * @see {@link AbstractControl}
- *
- * @usageNotes
- * ### Register Form Group
- *
- * The following example registers a `FormGroup` with first name and last name controls,
- * and listens for the *ngSubmit* event when the button is clicked.
- *
- * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
- *
- * @ngModule ReactiveFormsModule
- * @publicApi
- */
-declare class FormGroupDirective extends AbstractFormDirective {
-    /**
-     * @description
-     * Tracks the `FormGroup` bound to this directive.
-     */
-    form: FormGroup;
-    /**
-     * @description
-     * Emits an event when the form submission has been triggered.
-     */
-    ngSubmit: EventEmitter<any>;
-    /**
-     * @description
-     * Returns the `FormGroup` bound to this directive.
-     */
-    get control(): FormGroup;
-    static ɵfac: i0.ɵɵFactoryDeclaration<FormGroupDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<FormGroupDirective, "[formGroup]", ["ngForm"], { "form": { "alias": "formGroup"; "required": false; }; }, { "ngSubmit": "ngSubmit"; }, never, never, false, never>;
 }
 
 /**
@@ -5310,9 +5235,9 @@ declare class ReactiveFormsModule {
         callSetDisabledState?: SetDisabledStateOption;
     }): ModuleWithProviders<ReactiveFormsModule>;
     static ɵfac: i0.ɵɵFactoryDeclaration<ReactiveFormsModule, never>;
-    static ɵmod: i0.ɵɵNgModuleDeclaration<ReactiveFormsModule, [typeof FormControlDirective, typeof FormGroupDirective, typeof FormArrayDirective, typeof FormControlName, typeof FormGroupName, typeof FormArrayName], never, [typeof ɵInternalFormsSharedModule, typeof FormControlDirective, typeof FormGroupDirective, typeof FormArrayDirective, typeof FormControlName, typeof FormGroupName, typeof FormArrayName]>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<ReactiveFormsModule, [typeof FormControlDirective, typeof FormGroupDirective, typeof FormControlName, typeof FormGroupName, typeof FormArrayName], never, [typeof ɵInternalFormsSharedModule, typeof FormControlDirective, typeof FormGroupDirective, typeof FormControlName, typeof FormGroupName, typeof FormArrayName]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<ReactiveFormsModule>;
 }
 
-export { AbstractControl, AbstractControlDirective, AbstractFormDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, ControlEvent, DefaultValueAccessor, EmailValidator, FormArray, FormArrayDirective, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormRecord, FormResetEvent, FormSubmittedEvent, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NonNullableFormBuilder, NumberValueAccessor, PatternValidator, PristineChangeEvent, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, StatusChangeEvent, TouchedChangeEvent, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, VERSION, Validators, ValueChangeEvent, isFormArray, isFormControl, isFormGroup, isFormRecord, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption };
+export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, ControlEvent, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormRecord, FormResetEvent, FormSubmittedEvent, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NonNullableFormBuilder, NumberValueAccessor, PatternValidator, PristineChangeEvent, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, StatusChangeEvent, TouchedChangeEvent, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, VERSION, Validators, ValueChangeEvent, isFormArray, isFormControl, isFormGroup, isFormRecord, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption };
 export type { AbstractControlOptions, AsyncValidator, AsyncValidatorFn, ControlConfig, ControlValueAccessor, Form, FormControlOptions, FormControlState, FormControlStatus, SetDisabledStateOption, ValidationErrors, Validator, ValidatorFn, ɵCoerceStrArrToNumArr, ɵElement, ɵFormArrayRawValue, ɵFormArrayValue, ɵFormControlCtor, ɵFormGroupRawValue, ɵFormGroupValue, ɵGetProperty, ɵNavigate, ɵOptionalKeys, ɵRawValue, ɵTokenize, ɵTypedOrUntyped, ɵValue, ɵWriteable };

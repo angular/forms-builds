@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.2+sha-8401f89
+ * @license Angular v20.3.0-next.0+sha-11a54d1
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1401,12 +1401,12 @@ class NgControlStatusGroup extends AbstractControlStatus {
         super(cd);
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: NgControlStatusGroup, deps: [{ token: ControlContainer, optional: true, self: true }], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "20.2.0-next.2", type: NgControlStatusGroup, isStandalone: false, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],[formArray],form:not([ngNoForm]),[ngForm]", host: { properties: { "class.ng-untouched": "isUntouched", "class.ng-touched": "isTouched", "class.ng-pristine": "isPristine", "class.ng-dirty": "isDirty", "class.ng-valid": "isValid", "class.ng-invalid": "isInvalid", "class.ng-pending": "isPending", "class.ng-submitted": "isSubmitted" } }, usesInheritance: true, ngImport: i0 });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "20.2.0-next.2", type: NgControlStatusGroup, isStandalone: false, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]", host: { properties: { "class.ng-untouched": "isUntouched", "class.ng-touched": "isTouched", "class.ng-pristine": "isPristine", "class.ng-dirty": "isDirty", "class.ng-valid": "isValid", "class.ng-invalid": "isInvalid", "class.ng-pending": "isPending", "class.ng-submitted": "isSubmitted" } }, usesInheritance: true, ngImport: i0 });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: NgControlStatusGroup, decorators: [{
             type: Directive,
             args: [{
-                    selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],[formArray],form:not([ngNoForm]),[ngForm]',
+                    selector: '[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]',
                     host: ngGroupStatusHost,
                     standalone: false,
                 }]
@@ -1467,8 +1467,8 @@ const ngModelWithFormGroupExample = `
 `;
 
 function controlParentException(nameOrIndex) {
-    return new _RuntimeError(1050 /* RuntimeErrorCode.FORM_CONTROL_NAME_MISSING_PARENT */, `formControlName must be used with a parent formGroup or formArray directive.  You'll want to add a formGroup/formArray
-      directive and pass it an existing FormGroup/FormArray instance (you can create one in your class).
+    return new _RuntimeError(1050 /* RuntimeErrorCode.FORM_CONTROL_NAME_MISSING_PARENT */, `formControlName must be used with a parent formGroup directive. You'll want to add a formGroup
+      directive and pass it an existing FormGroup instance (you can create one in your class).
 
       ${describeFormControl(nameOrIndex)}
 
@@ -3481,7 +3481,7 @@ function _ngModelWarning(name, type, instance, warningConfig) {
     }
 }
 
-const formDirectiveProvider$2 = {
+const formDirectiveProvider$1 = {
     provide: ControlContainer,
     useExisting: forwardRef(() => NgForm),
 };
@@ -3764,13 +3764,13 @@ class NgForm extends ControlContainer {
         return path.length ? this.form.get(path) : this.form;
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: NgForm, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "20.2.0-next.2", type: NgForm, isStandalone: false, selector: "form:not([ngNoForm]):not([formGroup]):not([formArray]),ng-form,[ngForm]", inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider$2], exportAs: ["ngForm"], usesInheritance: true, ngImport: i0 });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "20.2.0-next.2", type: NgForm, isStandalone: false, selector: "form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]", inputs: { options: ["ngFormOptions", "options"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider$1], exportAs: ["ngForm"], usesInheritance: true, ngImport: i0 });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: NgForm, decorators: [{
             type: Directive,
             args: [{
-                    selector: 'form:not([ngNoForm]):not([formGroup]):not([formArray]),ng-form,[ngForm]',
-                    providers: [formDirectiveProvider$2],
+                    selector: 'form:not([ngNoForm]):not([formGroup]),ng-form,[ngForm]',
+                    providers: [formDirectiveProvider$1],
                     host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
                     outputs: ['ngSubmit'],
                     exportAs: 'ngForm',
@@ -4833,842 +4833,6 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
         }] });
 
 /**
- * Tracks the value and validity state of an array of `FormControl`,
- * `FormGroup` or `FormArray` instances.
- *
- * A `FormArray` aggregates the values of each child `FormControl` into an array.
- * It calculates its status by reducing the status values of its children. For example, if one of
- * the controls in a `FormArray` is invalid, the entire array becomes invalid.
- *
- * `FormArray` accepts one generic argument, which is the type of the controls inside.
- * If you need a heterogenous array, use {@link UntypedFormArray}.
- *
- * `FormArray` is one of the four fundamental building blocks used to define forms in Angular,
- * along with `FormControl`, `FormGroup`, and `FormRecord`.
- *
- * @usageNotes
- *
- * ### Create an array of form controls
- *
- * ```ts
- * const arr = new FormArray([
- *   new FormControl('Nancy', Validators.minLength(2)),
- *   new FormControl('Drew'),
- * ]);
- *
- * console.log(arr.value);   // ['Nancy', 'Drew']
- * console.log(arr.status);  // 'VALID'
- * ```
- *
- * ### Create a form array with array-level validators
- *
- * You include array-level validators and async validators. These come in handy
- * when you want to perform validation that considers the value of more than one child
- * control.
- *
- * The two types of validators are passed in separately as the second and third arg
- * respectively, or together as part of an options object.
- *
- * ```ts
- * const arr = new FormArray([
- *   new FormControl('Nancy'),
- *   new FormControl('Drew')
- * ], {validators: myValidator, asyncValidators: myAsyncValidator});
- * ```
- *
- * ### Set the updateOn property for all controls in a form array
- *
- * The options object is used to set a default value for each child
- * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
- * array level, all child controls default to 'blur', unless the child
- * has explicitly specified a different `updateOn` value.
- *
- * ```ts
- * const arr = new FormArray([
- *    new FormControl()
- * ], {updateOn: 'blur'});
- * ```
- *
- * ### Adding or removing controls from a form array
- *
- * To change the controls in the array, use the `push`, `insert`, `removeAt` or `clear` methods
- * in `FormArray` itself. These methods ensure the controls are properly tracked in the
- * form's hierarchy. Do not modify the array of `AbstractControl`s used to instantiate
- * the `FormArray` directly, as that result in strange and unexpected behavior such
- * as broken change detection.
- *
- * @publicApi
- */
-class FormArray extends AbstractControl {
-    /**
-     * Creates a new `FormArray` instance.
-     *
-     * @param controls An array of child controls. Each child control is given an index
-     * where it is registered.
-     *
-     * @param validatorOrOpts A synchronous validator function, or an array of
-     * such functions, or an `AbstractControlOptions` object that contains validation functions
-     * and a validation trigger.
-     *
-     * @param asyncValidator A single async validator or array of async validator functions
-     *
-     */
-    constructor(controls, validatorOrOpts, asyncValidator) {
-        super(pickValidators(validatorOrOpts), pickAsyncValidators(asyncValidator, validatorOrOpts));
-        this.controls = controls;
-        this._initObservables();
-        this._setUpdateStrategy(validatorOrOpts);
-        this._setUpControls();
-        this.updateValueAndValidity({
-            onlySelf: true,
-            // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
-            // `VALID` or `INVALID`.
-            // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
-            // to `true` to allow that during the control creation process.
-            emitEvent: !!this.asyncValidator,
-        });
-    }
-    controls;
-    /**
-     * Get the `AbstractControl` at the given `index` in the array.
-     *
-     * @param index Index in the array to retrieve the control. If `index` is negative, it will wrap
-     *     around from the back, and if index is greatly negative (less than `-length`), the result is
-     * undefined. This behavior is the same as `Array.at(index)`.
-     */
-    at(index) {
-        return this.controls[this._adjustIndex(index)];
-    }
-    /**
-     * Insert a new `AbstractControl` at the end of the array.
-     *
-     * @param control Form control to be inserted
-     * @param options Specifies whether this FormArray instance should emit events after a new
-     *     control is added.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges` observables emit events with the latest status and value when the control is
-     * inserted. When false, no events are emitted.
-     */
-    push(control, options = {}) {
-        if (Array.isArray(control)) {
-            control.forEach((ctrl) => {
-                this.controls.push(ctrl);
-                this._registerControl(ctrl);
-            });
-        }
-        else {
-            this.controls.push(control);
-            this._registerControl(control);
-        }
-        this.updateValueAndValidity({ emitEvent: options.emitEvent });
-        this._onCollectionChange();
-    }
-    /**
-     * Insert a new `AbstractControl` at the given `index` in the array.
-     *
-     * @param index Index in the array to insert the control. If `index` is negative, wraps around
-     *     from the back. If `index` is greatly negative (less than `-length`), prepends to the array.
-     * This behavior is the same as `Array.splice(index, 0, control)`.
-     * @param control Form control to be inserted
-     * @param options Specifies whether this FormArray instance should emit events after a new
-     *     control is inserted.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges` observables emit events with the latest status and value when the control is
-     * inserted. When false, no events are emitted.
-     */
-    insert(index, control, options = {}) {
-        this.controls.splice(index, 0, control);
-        this._registerControl(control);
-        this.updateValueAndValidity({ emitEvent: options.emitEvent });
-    }
-    /**
-     * Remove the control at the given `index` in the array.
-     *
-     * @param index Index in the array to remove the control.  If `index` is negative, wraps around
-     *     from the back. If `index` is greatly negative (less than `-length`), removes the first
-     *     element. This behavior is the same as `Array.splice(index, 1)`.
-     * @param options Specifies whether this FormArray instance should emit events after a
-     *     control is removed.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges` observables emit events with the latest status and value when the control is
-     * removed. When false, no events are emitted.
-     */
-    removeAt(index, options = {}) {
-        // Adjust the index, then clamp it at no less than 0 to prevent undesired underflows.
-        let adjustedIndex = this._adjustIndex(index);
-        if (adjustedIndex < 0)
-            adjustedIndex = 0;
-        if (this.controls[adjustedIndex])
-            this.controls[adjustedIndex]._registerOnCollectionChange(() => { });
-        this.controls.splice(adjustedIndex, 1);
-        this.updateValueAndValidity({ emitEvent: options.emitEvent });
-    }
-    /**
-     * Replace an existing control.
-     *
-     * @param index Index in the array to replace the control. If `index` is negative, wraps around
-     *     from the back. If `index` is greatly negative (less than `-length`), replaces the first
-     *     element. This behavior is the same as `Array.splice(index, 1, control)`.
-     * @param control The `AbstractControl` control to replace the existing control
-     * @param options Specifies whether this FormArray instance should emit events after an
-     *     existing control is replaced with a new one.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges` observables emit events with the latest status and value when the control is
-     * replaced with a new one. When false, no events are emitted.
-     */
-    setControl(index, control, options = {}) {
-        // Adjust the index, then clamp it at no less than 0 to prevent undesired underflows.
-        let adjustedIndex = this._adjustIndex(index);
-        if (adjustedIndex < 0)
-            adjustedIndex = 0;
-        if (this.controls[adjustedIndex])
-            this.controls[adjustedIndex]._registerOnCollectionChange(() => { });
-        this.controls.splice(adjustedIndex, 1);
-        if (control) {
-            this.controls.splice(adjustedIndex, 0, control);
-            this._registerControl(control);
-        }
-        this.updateValueAndValidity({ emitEvent: options.emitEvent });
-        this._onCollectionChange();
-    }
-    /**
-     * Length of the control array.
-     */
-    get length() {
-        return this.controls.length;
-    }
-    /**
-     * Sets the value of the `FormArray`. It accepts an array that matches
-     * the structure of the control.
-     *
-     * This method performs strict checks, and throws an error if you try
-     * to set the value of a control that doesn't exist or if you exclude the
-     * value of a control.
-     *
-     * @usageNotes
-     * ### Set the values for the controls in the form array
-     *
-     * ```ts
-     * const arr = new FormArray([
-     *   new FormControl(),
-     *   new FormControl()
-     * ]);
-     * console.log(arr.value);   // [null, null]
-     *
-     * arr.setValue(['Nancy', 'Drew']);
-     * console.log(arr.value);   // ['Nancy', 'Drew']
-     * ```
-     *
-     * @param value Array of values for the controls
-     * @param options Configure options that determine how the control propagates changes and
-     * emits events after the value changes
-     *
-     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
-     * is false.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
-     * observables emit events with the latest status and value when the control value is updated.
-     * When false, no events are emitted.
-     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
-     * updateValueAndValidity} method.
-     */
-    setValue(value, options = {}) {
-        assertAllValuesPresent(this, false, value);
-        value.forEach((newValue, index) => {
-            assertControlPresent(this, false, index);
-            this.at(index).setValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
-        });
-        this.updateValueAndValidity(options);
-    }
-    /**
-     * Patches the value of the `FormArray`. It accepts an array that matches the
-     * structure of the control, and does its best to match the values to the correct
-     * controls in the group.
-     *
-     * It accepts both super-sets and sub-sets of the array without throwing an error.
-     *
-     * @usageNotes
-     * ### Patch the values for controls in a form array
-     *
-     * ```ts
-     * const arr = new FormArray([
-     *    new FormControl(),
-     *    new FormControl()
-     * ]);
-     * console.log(arr.value);   // [null, null]
-     *
-     * arr.patchValue(['Nancy']);
-     * console.log(arr.value);   // ['Nancy', null]
-     * ```
-     *
-     * @param value Array of latest values for the controls
-     * @param options Configure options that determine how the control propagates changes and
-     * emits events after the value changes
-     *
-     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
-     * is false.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges` observables emit events with the latest status and value when the control
-     * value is updated. When false, no events are emitted. The configuration options are passed to
-     * the {@link AbstractControl#updateValueAndValidity updateValueAndValidity} method.
-     */
-    patchValue(value, options = {}) {
-        // Even though the `value` argument type doesn't allow `null` and `undefined` values, the
-        // `patchValue` can be called recursively and inner data structures might have these values,
-        // so we just ignore such cases when a field containing FormArray instance receives `null` or
-        // `undefined` as a value.
-        if (value == null /* both `null` and `undefined` */)
-            return;
-        value.forEach((newValue, index) => {
-            if (this.at(index)) {
-                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
-            }
-        });
-        this.updateValueAndValidity(options);
-    }
-    /**
-     * Resets the `FormArray` and all descendants are marked `pristine` and `untouched`, and the
-     * value of all descendants to null or null maps.
-     *
-     * You reset to a specific form state by passing in an array of states
-     * that matches the structure of the control. The state is a standalone value
-     * or a form state object with both a value and a disabled status.
-     *
-     * @usageNotes
-     * ### Reset the values in a form array
-     *
-     * ```ts
-     * const arr = new FormArray([
-     *    new FormControl(),
-     *    new FormControl()
-     * ]);
-     * arr.reset(['name', 'last name']);
-     *
-     * console.log(arr.value);  // ['name', 'last name']
-     * ```
-     *
-     * ### Reset the values in a form array and the disabled status for the first control
-     *
-     * ```ts
-     * arr.reset([
-     *   {value: 'name', disabled: true},
-     *   'last'
-     * ]);
-     *
-     * console.log(arr.value);  // ['last']
-     * console.log(arr.at(0).status);  // 'DISABLED'
-     * ```
-     *
-     * @param value Array of values for the controls
-     * @param options Configure options that determine how the control propagates changes and
-     * emits events after the value changes
-     *
-     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
-     * is false.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges`
-     * observables emit events with the latest status and value when the control is reset.
-     * When false, no events are emitted.
-     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
-     * updateValueAndValidity} method.
-     */
-    reset(value = [], options = {}) {
-        this._forEachChild((control, index) => {
-            control.reset(value[index], { onlySelf: true, emitEvent: options.emitEvent });
-        });
-        this._updatePristine(options, this);
-        this._updateTouched(options, this);
-        this.updateValueAndValidity(options);
-    }
-    /**
-     * The aggregate value of the array, including any disabled controls.
-     *
-     * Reports all values regardless of disabled status.
-     */
-    getRawValue() {
-        return this.controls.map((control) => control.getRawValue());
-    }
-    /**
-     * Remove all controls in the `FormArray`.
-     *
-     * @param options Specifies whether this FormArray instance should emit events after all
-     *     controls are removed.
-     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
-     * `valueChanges` observables emit events with the latest status and value when all controls
-     * in this FormArray instance are removed. When false, no events are emitted.
-     *
-     * @usageNotes
-     * ### Remove all elements from a FormArray
-     *
-     * ```ts
-     * const arr = new FormArray([
-     *    new FormControl(),
-     *    new FormControl()
-     * ]);
-     * console.log(arr.length);  // 2
-     *
-     * arr.clear();
-     * console.log(arr.length);  // 0
-     * ```
-     *
-     * It's a simpler and more efficient alternative to removing all elements one by one:
-     *
-     * ```ts
-     * const arr = new FormArray([
-     *    new FormControl(),
-     *    new FormControl()
-     * ]);
-     *
-     * while (arr.length) {
-     *    arr.removeAt(0);
-     * }
-     * ```
-     */
-    clear(options = {}) {
-        if (this.controls.length < 1)
-            return;
-        this._forEachChild((control) => control._registerOnCollectionChange(() => { }));
-        this.controls.splice(0);
-        this.updateValueAndValidity({ emitEvent: options.emitEvent });
-    }
-    /**
-     * Adjusts a negative index by summing it with the length of the array. For very negative
-     * indices, the result may remain negative.
-     * @internal
-     */
-    _adjustIndex(index) {
-        return index < 0 ? index + this.length : index;
-    }
-    /** @internal */
-    _syncPendingControls() {
-        let subtreeUpdated = this.controls.reduce((updated, child) => {
-            return child._syncPendingControls() ? true : updated;
-        }, false);
-        if (subtreeUpdated)
-            this.updateValueAndValidity({ onlySelf: true });
-        return subtreeUpdated;
-    }
-    /** @internal */
-    _forEachChild(cb) {
-        this.controls.forEach((control, index) => {
-            cb(control, index);
-        });
-    }
-    /** @internal */
-    _updateValue() {
-        this.value = this.controls
-            .filter((control) => control.enabled || this.disabled)
-            .map((control) => control.value);
-    }
-    /** @internal */
-    _anyControls(condition) {
-        return this.controls.some((control) => control.enabled && condition(control));
-    }
-    /** @internal */
-    _setUpControls() {
-        this._forEachChild((control) => this._registerControl(control));
-    }
-    /** @internal */
-    _allControlsDisabled() {
-        for (const control of this.controls) {
-            if (control.enabled)
-                return false;
-        }
-        return this.controls.length > 0 || this.disabled;
-    }
-    _registerControl(control) {
-        control.setParent(this);
-        control._registerOnCollectionChange(this._onCollectionChange);
-    }
-    /** @internal */
-    _find(name) {
-        return this.at(name) ?? null;
-    }
-}
-const UntypedFormArray = FormArray;
-/**
- * @description
- * Asserts that the given control is an instance of `FormArray`
- *
- * @publicApi
- */
-const isFormArray = (control) => control instanceof FormArray;
-
-/**
- * @description
- *
- * Abstract class for top-level form directives (FormArrayDirective, FormGroupDirective) who bind an
- * existing `Form` to a DOM element.
- *
- * @publicApi
- */
-class AbstractFormDirective extends ControlContainer {
-    callSetDisabledState;
-    /**
-     * @description
-     * Reports whether the form submission has been triggered.
-     */
-    get submitted() {
-        return untracked(this._submittedReactive);
-    }
-    // TODO(atscott): Remove once invalid API usage is cleaned up internally
-    set submitted(value) {
-        this._submittedReactive.set(value);
-    }
-    /** @internal */
-    _submitted = computed(() => this._submittedReactive(), ...(ngDevMode ? [{ debugName: "_submitted" }] : []));
-    _submittedReactive = signal(false, ...(ngDevMode ? [{ debugName: "_submittedReactive" }] : []));
-    /**
-     * Reference to an old form group input value, which is needed to cleanup
-     * old instance in case it was replaced with a new one.
-     */
-    _oldForm;
-    /**
-     * Callback that should be invoked when controls in FormGroup or FormArray collection change
-     * (added or removed). This callback triggers corresponding DOM updates.
-     */
-    _onCollectionChange = () => this._updateDomValue();
-    /**
-     * @description
-     * Tracks the list of added `FormControlName` instances
-     */
-    directives = [];
-    constructor(validators, asyncValidators, callSetDisabledState) {
-        super();
-        this.callSetDisabledState = callSetDisabledState;
-        this._setValidators(validators);
-        this._setAsyncValidators(asyncValidators);
-    }
-    /** @nodoc */
-    ngOnChanges(changes) {
-        this.onChanges(changes);
-    }
-    /** @nodoc */
-    ngOnDestroy() {
-        this.onDestroy();
-    }
-    /** @nodoc */
-    onChanges(changes) {
-        this._checkFormPresent();
-        if (changes.hasOwnProperty('form')) {
-            this._updateValidators();
-            this._updateDomValue();
-            this._updateRegistrations();
-            this._oldForm = this.form;
-        }
-    }
-    /** @nodoc */
-    onDestroy() {
-        if (this.form) {
-            cleanUpValidators(this.form, this);
-            // Currently the `onCollectionChange` callback is rewritten each time the
-            // `_registerOnCollectionChange` function is invoked. The implication is that cleanup should
-            // happen *only* when the `onCollectionChange` callback was set by this directive instance.
-            // Otherwise it might cause overriding a callback of some other directive instances. We should
-            // consider updating this logic later to make it similar to how `onChange` callbacks are
-            // handled, see https://github.com/angular/angular/issues/39732 for additional info.
-            if (this.form._onCollectionChange === this._onCollectionChange) {
-                this.form._registerOnCollectionChange(() => { });
-            }
-        }
-    }
-    /**
-     * @description
-     * Returns this directive's instance.
-     */
-    get formDirective() {
-        return this;
-    }
-    /**
-     * @description
-     * Returns an array representing the path to this group. Because this directive
-     * always lives at the top level of a form, it always an empty array.
-     */
-    get path() {
-        return [];
-    }
-    /**
-     * @description
-     * Method that sets up the control directive in this group, re-calculates its value
-     * and validity, and adds the instance to the internal list of directives.
-     *
-     * @param dir The `FormControlName` directive instance.
-     */
-    addControl(dir) {
-        const ctrl = this.form.get(dir.path);
-        setUpControl(ctrl, dir, this.callSetDisabledState);
-        ctrl.updateValueAndValidity({ emitEvent: false });
-        this.directives.push(dir);
-        return ctrl;
-    }
-    /**
-     * @description
-     * Retrieves the `FormControl` instance from the provided `FormControlName` directive
-     *
-     * @param dir The `FormControlName` directive instance.
-     */
-    getControl(dir) {
-        return this.form.get(dir.path);
-    }
-    /**
-     * @description
-     * Removes the `FormControlName` instance from the internal list of directives
-     *
-     * @param dir The `FormControlName` directive instance.
-     */
-    removeControl(dir) {
-        cleanUpControl(dir.control || null, dir, /* validateControlPresenceOnChange */ false);
-        removeListItem$1(this.directives, dir);
-    }
-    /**
-     * Adds a new `FormGroupName` directive instance to the form.
-     *
-     * @param dir The `FormGroupName` directive instance.
-     */
-    addFormGroup(dir) {
-        this._setUpFormContainer(dir);
-    }
-    /**
-     * Performs the necessary cleanup when a `FormGroupName` directive instance is removed from the
-     * view.
-     *
-     * @param dir The `FormGroupName` directive instance.
-     */
-    removeFormGroup(dir) {
-        this._cleanUpFormContainer(dir);
-    }
-    /**
-     * @description
-     * Retrieves the `FormGroup` for a provided `FormGroupName` directive instance
-     *
-     * @param dir The `FormGroupName` directive instance.
-     */
-    getFormGroup(dir) {
-        return this.form.get(dir.path);
-    }
-    /**
-     * @description
-     * Retrieves the `FormArray` for a provided `FormArrayName` directive instance.
-     *
-     * @param dir The `FormArrayName` directive instance.
-     */
-    getFormArray(dir) {
-        return this.form.get(dir.path);
-    }
-    /**
-     * Performs the necessary setup when a `FormArrayName` directive instance is added to the view.
-     *
-     * @param dir The `FormArrayName` directive instance.
-     */
-    addFormArray(dir) {
-        this._setUpFormContainer(dir);
-    }
-    /**
-     * Performs the necessary cleanup when a `FormArrayName` directive instance is removed from the
-     * view.
-     *
-     * @param dir The `FormArrayName` directive instance.
-     */
-    removeFormArray(dir) {
-        this._cleanUpFormContainer(dir);
-    }
-    /**
-     * Sets the new value for the provided `FormControlName` directive.
-     *
-     * @param dir The `FormControlName` directive instance.
-     * @param value The new value for the directive's control.
-     */
-    updateModel(dir, value) {
-        const ctrl = this.form.get(dir.path);
-        ctrl.setValue(value);
-    }
-    /**
-     * @description
-     * Method called when the "reset" event is triggered on the form.
-     */
-    onReset() {
-        this.resetForm();
-    }
-    /**
-     * @description
-     * Resets the form to an initial value and resets its submitted status.
-     *
-     * @param value The new value for the form.
-     */
-    resetForm(value = undefined, options = {}) {
-        this.form.reset(value, options);
-        this._submittedReactive.set(false);
-        if (options?.emitEvent !== false) {
-            this.form._events.next(new FormResetEvent(this.form));
-        }
-    }
-    /**
-     * @description
-     * Method called with the "submit" event is triggered on the form.
-     * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
-     *
-     * @param $event The "submit" event object
-     */
-    onSubmit($event) {
-        this.submitted = true;
-        syncPendingControls(this.form, this.directives);
-        this.ngSubmit.emit($event);
-        this.form._events.next(new FormSubmittedEvent(this.control));
-        // Forms with `method="dialog"` have some special behavior that won't reload the page and that
-        // shouldn't be prevented. Note that we need to null check the `event` and the `target`, because
-        // some internal apps call this method directly with the wrong arguments.
-        return $event?.target?.method === 'dialog';
-    }
-    /** @internal */
-    _updateDomValue() {
-        this.directives.forEach((dir) => {
-            const oldCtrl = dir.control;
-            const newCtrl = this.form.get(dir.path);
-            if (oldCtrl !== newCtrl) {
-                // Note: the value of the `dir.control` may not be defined, for example when it's a first
-                // `FormControl` that is added to a `FormGroup`/`FormArray` instance (via `addControl` call).
-                cleanUpControl(oldCtrl || null, dir);
-                // Check whether new control at the same location inside the corresponding `FormGroup`/`FormArray` is an
-                // instance of `FormControl` and perform control setup only if that's the case.
-                // Note: we don't need to clear the list of directives (`this.directives`) here, it would be
-                // taken care of in the `removeControl` method invoked when corresponding `formControlName`
-                // directive instance is being removed (invoked from `FormControlName.ngOnDestroy`).
-                if (isFormControl(newCtrl)) {
-                    setUpControl(newCtrl, dir, this.callSetDisabledState);
-                    dir.control = newCtrl;
-                }
-            }
-        });
-        this.form._updateTreeValidity({ emitEvent: false });
-    }
-    _setUpFormContainer(dir) {
-        const ctrl = this.form.get(dir.path);
-        setUpFormContainer(ctrl, dir);
-        // NOTE: this operation looks unnecessary in case no new validators were added in
-        // `setUpFormContainer` call. Consider updating this code to match the logic in
-        // `_cleanUpFormContainer` function.
-        ctrl.updateValueAndValidity({ emitEvent: false });
-    }
-    _cleanUpFormContainer(dir) {
-        if (this.form) {
-            const ctrl = this.form.get(dir.path);
-            if (ctrl) {
-                const isControlUpdated = cleanUpFormContainer(ctrl, dir);
-                if (isControlUpdated) {
-                    // Run validity check only in case a control was updated (i.e. view validators were
-                    // removed) as removing view validators might cause validity to change.
-                    ctrl.updateValueAndValidity({ emitEvent: false });
-                }
-            }
-        }
-    }
-    _updateRegistrations() {
-        this.form._registerOnCollectionChange(this._onCollectionChange);
-        if (this._oldForm) {
-            this._oldForm._registerOnCollectionChange(() => { });
-        }
-    }
-    _updateValidators() {
-        setUpValidators(this.form, this);
-        if (this._oldForm) {
-            cleanUpValidators(this._oldForm, this);
-        }
-    }
-    _checkFormPresent() {
-        if (!this.form && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-            throw missingFormException();
-        }
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: AbstractFormDirective, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "20.2.0-next.2", type: AbstractFormDirective, isStandalone: true, usesInheritance: true, usesOnChanges: true, ngImport: i0 });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: AbstractFormDirective, decorators: [{
-            type: Directive
-        }], ctorParameters: () => [{ type: undefined, decorators: [{
-                    type: Optional
-                }, {
-                    type: Self
-                }, {
-                    type: Inject,
-                    args: [NG_VALIDATORS]
-                }] }, { type: undefined, decorators: [{
-                    type: Optional
-                }, {
-                    type: Self
-                }, {
-                    type: Inject,
-                    args: [NG_ASYNC_VALIDATORS]
-                }] }, { type: undefined, decorators: [{
-                    type: Optional
-                }, {
-                    type: Inject,
-                    args: [CALL_SET_DISABLED_STATE]
-                }] }] });
-
-const formDirectiveProvider$1 = {
-    provide: ControlContainer,
-    useExisting: forwardRef(() => FormArrayDirective),
-};
-/**
- * @description
- *
- * Binds an existing `FormArray` to a DOM element.
- *
- * This directive accepts an existing `FormArray` instance. It will then use this
- * `FormArray` instance to match any child `FormControl`, `FormGroup`/`FormRecord`,
- * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
- * and `FormArrayName` directives.
- *
- * @see [Reactive Forms Guide](guide/reactive-forms)
- * @see {@link AbstractControl}
- *
- * @usageNotes
- * ### Register Form Array
- *
- * The following example registers a `FormArray` with first name and last name controls,
- * and listens for the *ngSubmit* event when the button is clicked.
- *
- * @ngModule ReactiveFormsModule
- * @publicApi
- */
-class FormArrayDirective extends AbstractFormDirective {
-    /**
-     * @description
-     * Tracks the `FormArray` bound to this directive.
-     */
-    form = null;
-    /**
-     * @description
-     * Emits an event when the form submission has been triggered.
-     */
-    ngSubmit = new EventEmitter();
-    /**
-     * @description
-     * Returns the `FormArray` bound to this directive.
-     */
-    get control() {
-        return this.form;
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: FormArrayDirective, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "20.2.0-next.2", type: FormArrayDirective, isStandalone: false, selector: "[formArray]", inputs: { form: ["formArray", "form"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider$1], exportAs: ["ngForm"], usesInheritance: true, ngImport: i0 });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: FormArrayDirective, decorators: [{
-            type: Directive,
-            args: [{
-                    selector: '[formArray]',
-                    providers: [formDirectiveProvider$1],
-                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-                    exportAs: 'ngForm',
-                    standalone: false,
-                }]
-        }], propDecorators: { form: [{
-                type: Input,
-                args: ['formArray']
-            }], ngSubmit: [{
-                type: Output
-            }] } });
-
-/**
  * Token to provide to turn off the ngModel warning on formControl and formControlName.
  */
 const NG_MODEL_WITH_FORM_CONTROL_WARNING = new InjectionToken(ngDevMode ? 'NgModelWithFormControlWarning' : '');
@@ -5856,6 +5020,355 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
                 args: ['ngModelChange']
             }] } });
 
+const formDirectiveProvider = {
+    provide: ControlContainer,
+    useExisting: forwardRef(() => FormGroupDirective),
+};
+/**
+ * @description
+ *
+ * Binds an existing `FormGroup` or `FormRecord` to a DOM element.
+ *
+ * This directive accepts an existing `FormGroup` instance. It will then use this
+ * `FormGroup` instance to match any child `FormControl`, `FormGroup`/`FormRecord`,
+ * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
+ * and `FormArrayName` directives.
+ *
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
+ * @see {@link AbstractControl}
+ *
+ * @usageNotes
+ * ### Register Form Group
+ *
+ * The following example registers a `FormGroup` with first name and last name controls,
+ * and listens for the *ngSubmit* event when the button is clicked.
+ *
+ * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
+ *
+ * @ngModule ReactiveFormsModule
+ * @publicApi
+ */
+class FormGroupDirective extends ControlContainer {
+    callSetDisabledState;
+    /**
+     * @description
+     * Reports whether the form submission has been triggered.
+     */
+    get submitted() {
+        return untracked(this._submittedReactive);
+    }
+    // TODO(atscott): Remove once invalid API usage is cleaned up internally
+    set submitted(value) {
+        this._submittedReactive.set(value);
+    }
+    /** @internal */
+    _submitted = computed(() => this._submittedReactive(), ...(ngDevMode ? [{ debugName: "_submitted" }] : []));
+    _submittedReactive = signal(false, ...(ngDevMode ? [{ debugName: "_submittedReactive" }] : []));
+    /**
+     * Reference to an old form group input value, which is needed to cleanup
+     * old instance in case it was replaced with a new one.
+     */
+    _oldForm;
+    /**
+     * Callback that should be invoked when controls in FormGroup or FormArray collection change
+     * (added or removed). This callback triggers corresponding DOM updates.
+     */
+    _onCollectionChange = () => this._updateDomValue();
+    /**
+     * @description
+     * Tracks the list of added `FormControlName` instances
+     */
+    directives = [];
+    /**
+     * @description
+     * Tracks the `FormGroup` bound to this directive.
+     */
+    form = null;
+    /**
+     * @description
+     * Emits an event when the form submission has been triggered.
+     */
+    ngSubmit = new EventEmitter();
+    constructor(validators, asyncValidators, callSetDisabledState) {
+        super();
+        this.callSetDisabledState = callSetDisabledState;
+        this._setValidators(validators);
+        this._setAsyncValidators(asyncValidators);
+    }
+    /** @docs-private */
+    ngOnChanges(changes) {
+        if ((typeof ngDevMode === 'undefined' || ngDevMode) && !this.form) {
+            throw missingFormException();
+        }
+        if (changes.hasOwnProperty('form')) {
+            this._updateValidators();
+            this._updateDomValue();
+            this._updateRegistrations();
+            this._oldForm = this.form;
+        }
+    }
+    /** @docs-private */
+    ngOnDestroy() {
+        if (this.form) {
+            cleanUpValidators(this.form, this);
+            // Currently the `onCollectionChange` callback is rewritten each time the
+            // `_registerOnCollectionChange` function is invoked. The implication is that cleanup should
+            // happen *only* when the `onCollectionChange` callback was set by this directive instance.
+            // Otherwise it might cause overriding a callback of some other directive instances. We should
+            // consider updating this logic later to make it similar to how `onChange` callbacks are
+            // handled, see https://github.com/angular/angular/issues/39732 for additional info.
+            if (this.form._onCollectionChange === this._onCollectionChange) {
+                this.form._registerOnCollectionChange(() => { });
+            }
+        }
+    }
+    /**
+     * @description
+     * Returns this directive's instance.
+     */
+    get formDirective() {
+        return this;
+    }
+    /**
+     * @description
+     * Returns the `FormGroup` bound to this directive.
+     */
+    get control() {
+        return this.form;
+    }
+    /**
+     * @description
+     * Returns an array representing the path to this group. Because this directive
+     * always lives at the top level of a form, it always an empty array.
+     */
+    get path() {
+        return [];
+    }
+    /**
+     * @description
+     * Method that sets up the control directive in this group, re-calculates its value
+     * and validity, and adds the instance to the internal list of directives.
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
+    addControl(dir) {
+        const ctrl = this.form.get(dir.path);
+        setUpControl(ctrl, dir, this.callSetDisabledState);
+        ctrl.updateValueAndValidity({ emitEvent: false });
+        this.directives.push(dir);
+        return ctrl;
+    }
+    /**
+     * @description
+     * Retrieves the `FormControl` instance from the provided `FormControlName` directive
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
+    getControl(dir) {
+        return this.form.get(dir.path);
+    }
+    /**
+     * @description
+     * Removes the `FormControlName` instance from the internal list of directives
+     *
+     * @param dir The `FormControlName` directive instance.
+     */
+    removeControl(dir) {
+        cleanUpControl(dir.control || null, dir, /* validateControlPresenceOnChange */ false);
+        removeListItem$1(this.directives, dir);
+    }
+    /**
+     * Adds a new `FormGroupName` directive instance to the form.
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
+    addFormGroup(dir) {
+        this._setUpFormContainer(dir);
+    }
+    /**
+     * Performs the necessary cleanup when a `FormGroupName` directive instance is removed from the
+     * view.
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
+    removeFormGroup(dir) {
+        this._cleanUpFormContainer(dir);
+    }
+    /**
+     * @description
+     * Retrieves the `FormGroup` for a provided `FormGroupName` directive instance
+     *
+     * @param dir The `FormGroupName` directive instance.
+     */
+    getFormGroup(dir) {
+        return this.form.get(dir.path);
+    }
+    /**
+     * Performs the necessary setup when a `FormArrayName` directive instance is added to the view.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
+    addFormArray(dir) {
+        this._setUpFormContainer(dir);
+    }
+    /**
+     * Performs the necessary cleanup when a `FormArrayName` directive instance is removed from the
+     * view.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
+    removeFormArray(dir) {
+        this._cleanUpFormContainer(dir);
+    }
+    /**
+     * @description
+     * Retrieves the `FormArray` for a provided `FormArrayName` directive instance.
+     *
+     * @param dir The `FormArrayName` directive instance.
+     */
+    getFormArray(dir) {
+        return this.form.get(dir.path);
+    }
+    /**
+     * Sets the new value for the provided `FormControlName` directive.
+     *
+     * @param dir The `FormControlName` directive instance.
+     * @param value The new value for the directive's control.
+     */
+    updateModel(dir, value) {
+        const ctrl = this.form.get(dir.path);
+        ctrl.setValue(value);
+    }
+    /**
+     * @description
+     * Method called with the "submit" event is triggered on the form.
+     * Triggers the `ngSubmit` emitter to emit the "submit" event as its payload.
+     *
+     * @param $event The "submit" event object
+     */
+    onSubmit($event) {
+        this._submittedReactive.set(true);
+        syncPendingControls(this.form, this.directives);
+        this.ngSubmit.emit($event);
+        this.form._events.next(new FormSubmittedEvent(this.control));
+        // Forms with `method="dialog"` have some special behavior that won't reload the page and that
+        // shouldn't be prevented. Note that we need to null check the `event` and the `target`, because
+        // some internal apps call this method directly with the wrong arguments.
+        return $event?.target?.method === 'dialog';
+    }
+    /**
+     * @description
+     * Method called when the "reset" event is triggered on the form.
+     */
+    onReset() {
+        this.resetForm();
+    }
+    /**
+     * @description
+     * Resets the form to an initial value and resets its submitted status.
+     *
+     * @param value The new value for the form, `undefined` by default
+     */
+    resetForm(value = undefined, options = {}) {
+        this.form.reset(value, options);
+        this._submittedReactive.set(false);
+        if (options?.emitEvent !== false) {
+            this.form._events.next(new FormResetEvent(this.form));
+        }
+    }
+    /** @internal */
+    _updateDomValue() {
+        this.directives.forEach((dir) => {
+            const oldCtrl = dir.control;
+            const newCtrl = this.form.get(dir.path);
+            if (oldCtrl !== newCtrl) {
+                // Note: the value of the `dir.control` may not be defined, for example when it's a first
+                // `FormControl` that is added to a `FormGroup` instance (via `addControl` call).
+                cleanUpControl(oldCtrl || null, dir);
+                // Check whether new control at the same location inside the corresponding `FormGroup` is an
+                // instance of `FormControl` and perform control setup only if that's the case.
+                // Note: we don't need to clear the list of directives (`this.directives`) here, it would be
+                // taken care of in the `removeControl` method invoked when corresponding `formControlName`
+                // directive instance is being removed (invoked from `FormControlName.ngOnDestroy`).
+                if (isFormControl(newCtrl)) {
+                    setUpControl(newCtrl, dir, this.callSetDisabledState);
+                    dir.control = newCtrl;
+                }
+            }
+        });
+        this.form._updateTreeValidity({ emitEvent: false });
+    }
+    _setUpFormContainer(dir) {
+        const ctrl = this.form.get(dir.path);
+        setUpFormContainer(ctrl, dir);
+        // NOTE: this operation looks unnecessary in case no new validators were added in
+        // `setUpFormContainer` call. Consider updating this code to match the logic in
+        // `_cleanUpFormContainer` function.
+        ctrl.updateValueAndValidity({ emitEvent: false });
+    }
+    _cleanUpFormContainer(dir) {
+        if (this.form) {
+            const ctrl = this.form.get(dir.path);
+            if (ctrl) {
+                const isControlUpdated = cleanUpFormContainer(ctrl, dir);
+                if (isControlUpdated) {
+                    // Run validity check only in case a control was updated (i.e. view validators were
+                    // removed) as removing view validators might cause validity to change.
+                    ctrl.updateValueAndValidity({ emitEvent: false });
+                }
+            }
+        }
+    }
+    _updateRegistrations() {
+        this.form._registerOnCollectionChange(this._onCollectionChange);
+        if (this._oldForm) {
+            this._oldForm._registerOnCollectionChange(() => { });
+        }
+    }
+    _updateValidators() {
+        setUpValidators(this.form, this);
+        if (this._oldForm) {
+            cleanUpValidators(this._oldForm, this);
+        }
+    }
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: FormGroupDirective, deps: [{ token: NG_VALIDATORS, optional: true, self: true }, { token: NG_ASYNC_VALIDATORS, optional: true, self: true }, { token: CALL_SET_DISABLED_STATE, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "20.2.0-next.2", type: FormGroupDirective, isStandalone: false, selector: "[formGroup]", inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider], exportAs: ["ngForm"], usesInheritance: true, usesOnChanges: true, ngImport: i0 });
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: FormGroupDirective, decorators: [{
+            type: Directive,
+            args: [{
+                    selector: '[formGroup]',
+                    providers: [formDirectiveProvider],
+                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
+                    exportAs: 'ngForm',
+                    standalone: false,
+                }]
+        }], ctorParameters: () => [{ type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Self
+                }, {
+                    type: Inject,
+                    args: [NG_ASYNC_VALIDATORS]
+                }] }, { type: undefined, decorators: [{
+                    type: Optional
+                }, {
+                    type: Inject,
+                    args: [CALL_SET_DISABLED_STATE]
+                }] }], propDecorators: { form: [{
+                type: Input,
+                args: ['formGroup']
+            }], ngSubmit: [{
+                type: Output
+            }] } });
+
 const formGroupNameProvider = {
     provide: ControlContainer,
     useExisting: forwardRef(() => FormGroupName),
@@ -5973,12 +5486,12 @@ const formArrayNameProvider = {
  *
  * Syncs a nested `FormArray` to a DOM element.
  *
- * This directive is designed to be used with a parent `FormGroupDirective`/`FormGroupArray` (selector:
- * `[formGroup]`/`[formArray]`).
+ * This directive is designed to be used with a parent `FormGroupDirective` (selector:
+ * `[formGroup]`).
  *
  * It accepts the string name of the nested `FormArray` you want to link, and
  * will look for a `FormArray` registered with that name in the parent
- * `FormGroup`/`FormArray` instance you passed into `FormGroupDirective`/`FormGroupArray`.
+ * `FormGroup` instance you passed into `FormGroupDirective`.
  *
  * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see {@link AbstractControl}
@@ -6087,7 +5600,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
             }] } });
 function hasInvalidParent(parent) {
     return (!(parent instanceof FormGroupName) &&
-        !(parent instanceof AbstractFormDirective) &&
+        !(parent instanceof FormGroupDirective) &&
         !(parent instanceof FormArrayName));
 }
 
@@ -6298,76 +5811,11 @@ function checkParentType(parent, name) {
         throw ngModelGroupException();
     }
     else if (!(parent instanceof FormGroupName) &&
-        !(parent instanceof AbstractFormDirective) &&
+        !(parent instanceof FormGroupDirective) &&
         !(parent instanceof FormArrayName)) {
         throw controlParentException(name);
     }
 }
-
-const formDirectiveProvider = {
-    provide: ControlContainer,
-    useExisting: forwardRef(() => FormGroupDirective),
-};
-/**
- * @description
- *
- * Binds an existing `FormGroup` or `FormRecord` to a DOM element.
- *
- * This directive accepts an existing `FormGroup` instance. It will then use this
- * `FormGroup` instance to match any child `FormControl`, `FormGroup`/`FormRecord`,
- * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
- * and `FormArrayName` directives.
- *
- * @see [Reactive Forms Guide](guide/forms/reactive-forms)
- * @see {@link AbstractControl}
- *
- * @usageNotes
- * ### Register Form Group
- *
- * The following example registers a `FormGroup` with first name and last name controls,
- * and listens for the *ngSubmit* event when the button is clicked.
- *
- * {@example forms/ts/simpleFormGroup/simple_form_group_example.ts region='Component'}
- *
- * @ngModule ReactiveFormsModule
- * @publicApi
- */
-class FormGroupDirective extends AbstractFormDirective {
-    /**
-     * @description
-     * Tracks the `FormGroup` bound to this directive.
-     */
-    form = null;
-    /**
-     * @description
-     * Emits an event when the form submission has been triggered.
-     */
-    ngSubmit = new EventEmitter();
-    /**
-     * @description
-     * Returns the `FormGroup` bound to this directive.
-     */
-    get control() {
-        return this.form;
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: FormGroupDirective, deps: null, target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "20.2.0-next.2", type: FormGroupDirective, isStandalone: false, selector: "[formGroup]", inputs: { form: ["formGroup", "form"] }, outputs: { ngSubmit: "ngSubmit" }, host: { listeners: { "submit": "onSubmit($event)", "reset": "onReset()" } }, providers: [formDirectiveProvider], exportAs: ["ngForm"], usesInheritance: true, ngImport: i0 });
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: FormGroupDirective, decorators: [{
-            type: Directive,
-            args: [{
-                    selector: '[formGroup]',
-                    providers: [formDirectiveProvider],
-                    host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
-                    exportAs: 'ngForm',
-                    standalone: false,
-                }]
-        }], propDecorators: { form: [{
-                type: Input,
-                args: ['formGroup']
-            }], ngSubmit: [{
-                type: Output
-            }] } });
 
 const SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -7433,7 +6881,6 @@ const TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
 const REACTIVE_DRIVEN_DIRECTIVES = [
     FormControlDirective,
     FormGroupDirective,
-    FormArrayDirective,
     FormControlName,
     FormGroupName,
     FormArrayName,
@@ -7491,6 +6938,468 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
                     exports: SHARED_FORM_DIRECTIVES,
                 }]
         }] });
+
+/**
+ * Tracks the value and validity state of an array of `FormControl`,
+ * `FormGroup` or `FormArray` instances.
+ *
+ * A `FormArray` aggregates the values of each child `FormControl` into an array.
+ * It calculates its status by reducing the status values of its children. For example, if one of
+ * the controls in a `FormArray` is invalid, the entire array becomes invalid.
+ *
+ * `FormArray` accepts one generic argument, which is the type of the controls inside.
+ * If you need a heterogenous array, use {@link UntypedFormArray}.
+ *
+ * `FormArray` is one of the four fundamental building blocks used to define forms in Angular,
+ * along with `FormControl`, `FormGroup`, and `FormRecord`.
+ *
+ * @usageNotes
+ *
+ * ### Create an array of form controls
+ *
+ * ```ts
+ * const arr = new FormArray([
+ *   new FormControl('Nancy', Validators.minLength(2)),
+ *   new FormControl('Drew'),
+ * ]);
+ *
+ * console.log(arr.value);   // ['Nancy', 'Drew']
+ * console.log(arr.status);  // 'VALID'
+ * ```
+ *
+ * ### Create a form array with array-level validators
+ *
+ * You include array-level validators and async validators. These come in handy
+ * when you want to perform validation that considers the value of more than one child
+ * control.
+ *
+ * The two types of validators are passed in separately as the second and third arg
+ * respectively, or together as part of an options object.
+ *
+ * ```ts
+ * const arr = new FormArray([
+ *   new FormControl('Nancy'),
+ *   new FormControl('Drew')
+ * ], {validators: myValidator, asyncValidators: myAsyncValidator});
+ * ```
+ *
+ * ### Set the updateOn property for all controls in a form array
+ *
+ * The options object is used to set a default value for each child
+ * control's `updateOn` property. If you set `updateOn` to `'blur'` at the
+ * array level, all child controls default to 'blur', unless the child
+ * has explicitly specified a different `updateOn` value.
+ *
+ * ```ts
+ * const arr = new FormArray([
+ *    new FormControl()
+ * ], {updateOn: 'blur'});
+ * ```
+ *
+ * ### Adding or removing controls from a form array
+ *
+ * To change the controls in the array, use the `push`, `insert`, `removeAt` or `clear` methods
+ * in `FormArray` itself. These methods ensure the controls are properly tracked in the
+ * form's hierarchy. Do not modify the array of `AbstractControl`s used to instantiate
+ * the `FormArray` directly, as that result in strange and unexpected behavior such
+ * as broken change detection.
+ *
+ * @publicApi
+ */
+class FormArray extends AbstractControl {
+    /**
+     * Creates a new `FormArray` instance.
+     *
+     * @param controls An array of child controls. Each child control is given an index
+     * where it is registered.
+     *
+     * @param validatorOrOpts A synchronous validator function, or an array of
+     * such functions, or an `AbstractControlOptions` object that contains validation functions
+     * and a validation trigger.
+     *
+     * @param asyncValidator A single async validator or array of async validator functions
+     *
+     */
+    constructor(controls, validatorOrOpts, asyncValidator) {
+        super(pickValidators(validatorOrOpts), pickAsyncValidators(asyncValidator, validatorOrOpts));
+        this.controls = controls;
+        this._initObservables();
+        this._setUpdateStrategy(validatorOrOpts);
+        this._setUpControls();
+        this.updateValueAndValidity({
+            onlySelf: true,
+            // If `asyncValidator` is present, it will trigger control status change from `PENDING` to
+            // `VALID` or `INVALID`.
+            // The status should be broadcasted via the `statusChanges` observable, so we set `emitEvent`
+            // to `true` to allow that during the control creation process.
+            emitEvent: !!this.asyncValidator,
+        });
+    }
+    controls;
+    /**
+     * Get the `AbstractControl` at the given `index` in the array.
+     *
+     * @param index Index in the array to retrieve the control. If `index` is negative, it will wrap
+     *     around from the back, and if index is greatly negative (less than `-length`), the result is
+     * undefined. This behavior is the same as `Array.at(index)`.
+     */
+    at(index) {
+        return this.controls[this._adjustIndex(index)];
+    }
+    /**
+     * Insert a new `AbstractControl` at the end of the array.
+     *
+     * @param control Form control to be inserted
+     * @param options Specifies whether this FormArray instance should emit events after a new
+     *     control is added.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * inserted. When false, no events are emitted.
+     */
+    push(control, options = {}) {
+        if (Array.isArray(control)) {
+            control.forEach((ctrl) => {
+                this.controls.push(ctrl);
+                this._registerControl(ctrl);
+            });
+        }
+        else {
+            this.controls.push(control);
+            this._registerControl(control);
+        }
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
+        this._onCollectionChange();
+    }
+    /**
+     * Insert a new `AbstractControl` at the given `index` in the array.
+     *
+     * @param index Index in the array to insert the control. If `index` is negative, wraps around
+     *     from the back. If `index` is greatly negative (less than `-length`), prepends to the array.
+     * This behavior is the same as `Array.splice(index, 0, control)`.
+     * @param control Form control to be inserted
+     * @param options Specifies whether this FormArray instance should emit events after a new
+     *     control is inserted.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * inserted. When false, no events are emitted.
+     */
+    insert(index, control, options = {}) {
+        this.controls.splice(index, 0, control);
+        this._registerControl(control);
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
+    }
+    /**
+     * Remove the control at the given `index` in the array.
+     *
+     * @param index Index in the array to remove the control.  If `index` is negative, wraps around
+     *     from the back. If `index` is greatly negative (less than `-length`), removes the first
+     *     element. This behavior is the same as `Array.splice(index, 1)`.
+     * @param options Specifies whether this FormArray instance should emit events after a
+     *     control is removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * removed. When false, no events are emitted.
+     */
+    removeAt(index, options = {}) {
+        // Adjust the index, then clamp it at no less than 0 to prevent undesired underflows.
+        let adjustedIndex = this._adjustIndex(index);
+        if (adjustedIndex < 0)
+            adjustedIndex = 0;
+        if (this.controls[adjustedIndex])
+            this.controls[adjustedIndex]._registerOnCollectionChange(() => { });
+        this.controls.splice(adjustedIndex, 1);
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
+    }
+    /**
+     * Replace an existing control.
+     *
+     * @param index Index in the array to replace the control. If `index` is negative, wraps around
+     *     from the back. If `index` is greatly negative (less than `-length`), replaces the first
+     *     element. This behavior is the same as `Array.splice(index, 1, control)`.
+     * @param control The `AbstractControl` control to replace the existing control
+     * @param options Specifies whether this FormArray instance should emit events after an
+     *     existing control is replaced with a new one.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control is
+     * replaced with a new one. When false, no events are emitted.
+     */
+    setControl(index, control, options = {}) {
+        // Adjust the index, then clamp it at no less than 0 to prevent undesired underflows.
+        let adjustedIndex = this._adjustIndex(index);
+        if (adjustedIndex < 0)
+            adjustedIndex = 0;
+        if (this.controls[adjustedIndex])
+            this.controls[adjustedIndex]._registerOnCollectionChange(() => { });
+        this.controls.splice(adjustedIndex, 1);
+        if (control) {
+            this.controls.splice(adjustedIndex, 0, control);
+            this._registerControl(control);
+        }
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
+        this._onCollectionChange();
+    }
+    /**
+     * Length of the control array.
+     */
+    get length() {
+        return this.controls.length;
+    }
+    /**
+     * Sets the value of the `FormArray`. It accepts an array that matches
+     * the structure of the control.
+     *
+     * This method performs strict checks, and throws an error if you try
+     * to set the value of a control that doesn't exist or if you exclude the
+     * value of a control.
+     *
+     * @usageNotes
+     * ### Set the values for the controls in the form array
+     *
+     * ```ts
+     * const arr = new FormArray([
+     *   new FormControl(),
+     *   new FormControl()
+     * ]);
+     * console.log(arr.value);   // [null, null]
+     *
+     * arr.setValue(['Nancy', 'Drew']);
+     * console.log(arr.value);   // ['Nancy', 'Drew']
+     * ```
+     *
+     * @param value Array of values for the controls
+     * @param options Configure options that determine how the control propagates changes and
+     * emits events after the value changes
+     *
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
+     * is false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control value is updated.
+     * When false, no events are emitted.
+     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
+     */
+    setValue(value, options = {}) {
+        assertAllValuesPresent(this, false, value);
+        value.forEach((newValue, index) => {
+            assertControlPresent(this, false, index);
+            this.at(index).setValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
+        });
+        this.updateValueAndValidity(options);
+    }
+    /**
+     * Patches the value of the `FormArray`. It accepts an array that matches the
+     * structure of the control, and does its best to match the values to the correct
+     * controls in the group.
+     *
+     * It accepts both super-sets and sub-sets of the array without throwing an error.
+     *
+     * @usageNotes
+     * ### Patch the values for controls in a form array
+     *
+     * ```ts
+     * const arr = new FormArray([
+     *    new FormControl(),
+     *    new FormControl()
+     * ]);
+     * console.log(arr.value);   // [null, null]
+     *
+     * arr.patchValue(['Nancy']);
+     * console.log(arr.value);   // ['Nancy', null]
+     * ```
+     *
+     * @param value Array of latest values for the controls
+     * @param options Configure options that determine how the control propagates changes and
+     * emits events after the value changes
+     *
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
+     * is false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when the control
+     * value is updated. When false, no events are emitted. The configuration options are passed to
+     * the {@link AbstractControl#updateValueAndValidity updateValueAndValidity} method.
+     */
+    patchValue(value, options = {}) {
+        // Even though the `value` argument type doesn't allow `null` and `undefined` values, the
+        // `patchValue` can be called recursively and inner data structures might have these values,
+        // so we just ignore such cases when a field containing FormArray instance receives `null` or
+        // `undefined` as a value.
+        if (value == null /* both `null` and `undefined` */)
+            return;
+        value.forEach((newValue, index) => {
+            if (this.at(index)) {
+                this.at(index).patchValue(newValue, { onlySelf: true, emitEvent: options.emitEvent });
+            }
+        });
+        this.updateValueAndValidity(options);
+    }
+    /**
+     * Resets the `FormArray` and all descendants are marked `pristine` and `untouched`, and the
+     * value of all descendants to null or null maps.
+     *
+     * You reset to a specific form state by passing in an array of states
+     * that matches the structure of the control. The state is a standalone value
+     * or a form state object with both a value and a disabled status.
+     *
+     * @usageNotes
+     * ### Reset the values in a form array
+     *
+     * ```ts
+     * const arr = new FormArray([
+     *    new FormControl(),
+     *    new FormControl()
+     * ]);
+     * arr.reset(['name', 'last name']);
+     *
+     * console.log(arr.value);  // ['name', 'last name']
+     * ```
+     *
+     * ### Reset the values in a form array and the disabled status for the first control
+     *
+     * ```ts
+     * arr.reset([
+     *   {value: 'name', disabled: true},
+     *   'last'
+     * ]);
+     *
+     * console.log(arr.value);  // ['last']
+     * console.log(arr.at(0).status);  // 'DISABLED'
+     * ```
+     *
+     * @param value Array of values for the controls
+     * @param options Configure options that determine how the control propagates changes and
+     * emits events after the value changes
+     *
+     * * `onlySelf`: When true, each change only affects this control, and not its parent. Default
+     * is false.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges`
+     * observables emit events with the latest status and value when the control is reset.
+     * When false, no events are emitted.
+     * The configuration options are passed to the {@link AbstractControl#updateValueAndValidity
+     * updateValueAndValidity} method.
+     */
+    reset(value = [], options = {}) {
+        this._forEachChild((control, index) => {
+            control.reset(value[index], { onlySelf: true, emitEvent: options.emitEvent });
+        });
+        this._updatePristine(options, this);
+        this._updateTouched(options, this);
+        this.updateValueAndValidity(options);
+    }
+    /**
+     * The aggregate value of the array, including any disabled controls.
+     *
+     * Reports all values regardless of disabled status.
+     */
+    getRawValue() {
+        return this.controls.map((control) => control.getRawValue());
+    }
+    /**
+     * Remove all controls in the `FormArray`.
+     *
+     * @param options Specifies whether this FormArray instance should emit events after all
+     *     controls are removed.
+     * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
+     * `valueChanges` observables emit events with the latest status and value when all controls
+     * in this FormArray instance are removed. When false, no events are emitted.
+     *
+     * @usageNotes
+     * ### Remove all elements from a FormArray
+     *
+     * ```ts
+     * const arr = new FormArray([
+     *    new FormControl(),
+     *    new FormControl()
+     * ]);
+     * console.log(arr.length);  // 2
+     *
+     * arr.clear();
+     * console.log(arr.length);  // 0
+     * ```
+     *
+     * It's a simpler and more efficient alternative to removing all elements one by one:
+     *
+     * ```ts
+     * const arr = new FormArray([
+     *    new FormControl(),
+     *    new FormControl()
+     * ]);
+     *
+     * while (arr.length) {
+     *    arr.removeAt(0);
+     * }
+     * ```
+     */
+    clear(options = {}) {
+        if (this.controls.length < 1)
+            return;
+        this._forEachChild((control) => control._registerOnCollectionChange(() => { }));
+        this.controls.splice(0);
+        this.updateValueAndValidity({ emitEvent: options.emitEvent });
+    }
+    /**
+     * Adjusts a negative index by summing it with the length of the array. For very negative
+     * indices, the result may remain negative.
+     * @internal
+     */
+    _adjustIndex(index) {
+        return index < 0 ? index + this.length : index;
+    }
+    /** @internal */
+    _syncPendingControls() {
+        let subtreeUpdated = this.controls.reduce((updated, child) => {
+            return child._syncPendingControls() ? true : updated;
+        }, false);
+        if (subtreeUpdated)
+            this.updateValueAndValidity({ onlySelf: true });
+        return subtreeUpdated;
+    }
+    /** @internal */
+    _forEachChild(cb) {
+        this.controls.forEach((control, index) => {
+            cb(control, index);
+        });
+    }
+    /** @internal */
+    _updateValue() {
+        this.value = this.controls
+            .filter((control) => control.enabled || this.disabled)
+            .map((control) => control.value);
+    }
+    /** @internal */
+    _anyControls(condition) {
+        return this.controls.some((control) => control.enabled && condition(control));
+    }
+    /** @internal */
+    _setUpControls() {
+        this._forEachChild((control) => this._registerControl(control));
+    }
+    /** @internal */
+    _allControlsDisabled() {
+        for (const control of this.controls) {
+            if (control.enabled)
+                return false;
+        }
+        return this.controls.length > 0 || this.disabled;
+    }
+    _registerControl(control) {
+        control.setParent(this);
+        control._registerOnCollectionChange(this._onCollectionChange);
+    }
+    /** @internal */
+    _find(name) {
+        return this.at(name) ?? null;
+    }
+}
+const UntypedFormArray = FormArray;
+/**
+ * @description
+ * Asserts that the given control is an instance of `FormArray`
+ *
+ * @publicApi
+ */
+const isFormArray = (control) => control instanceof FormArray;
 
 function isAbstractControlOptions(options) {
     return (!!options &&
@@ -7742,7 +7651,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
 /**
  * @publicApi
  */
-const VERSION = new Version('21.0.0-next.2+sha-8401f89');
+const VERSION = new Version('20.3.0-next.0+sha-11a54d1');
 
 /**
  * Exports the required providers and directives for template-driven forms,
@@ -7820,7 +7729,7 @@ class ReactiveFormsModule {
         };
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: ReactiveFormsModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-    static ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "20.2.0-next.2", ngImport: i0, type: ReactiveFormsModule, declarations: [FormControlDirective, FormGroupDirective, FormArrayDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormArrayDirective, FormControlName, FormGroupName, FormArrayName] });
+    static ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "20.2.0-next.2", ngImport: i0, type: ReactiveFormsModule, declarations: [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName], exports: [ɵInternalFormsSharedModule, FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName] });
     static ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: ReactiveFormsModule, imports: [ɵInternalFormsSharedModule] });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", ngImport: i0, type: ReactiveFormsModule, decorators: [{
@@ -7831,5 +7740,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.0-next.2", 
                 }]
         }] });
 
-export { AbstractControl, AbstractControlDirective, AbstractFormDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, ControlEvent, DefaultValueAccessor, EmailValidator, FormArray, FormArrayDirective, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormRecord, FormResetEvent, FormSubmittedEvent, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NonNullableFormBuilder, NumberValueAccessor, PatternValidator, PristineChangeEvent, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, StatusChangeEvent, TouchedChangeEvent, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, VERSION, Validators, ValueChangeEvent, isFormArray, isFormControl, isFormGroup, isFormRecord, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption };
+export { AbstractControl, AbstractControlDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, ControlEvent, DefaultValueAccessor, EmailValidator, FormArray, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormRecord, FormResetEvent, FormSubmittedEvent, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NonNullableFormBuilder, NumberValueAccessor, PatternValidator, PristineChangeEvent, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, StatusChangeEvent, TouchedChangeEvent, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, VERSION, Validators, ValueChangeEvent, isFormArray, isFormControl, isFormGroup, isFormRecord, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption };
 //# sourceMappingURL=forms.mjs.map
