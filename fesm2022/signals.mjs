@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.2+sha-c0791e1
+ * @license Angular v21.0.0-next.2+sha-bacda4f
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3150,6 +3150,34 @@ class Control {
                     // into the state.
                     this.state().value.set(input.value);
                     break;
+                case 'number':
+                case 'range':
+                case 'datetime-local':
+                    // We can read a `number` or a `string` from this input type.
+                    // Prefer whichever is consistent with the current type.
+                    if (typeof this.state().value() === 'number') {
+                        this.state().value.set(input.valueAsNumber);
+                    }
+                    else {
+                        this.state().value.set(input.value);
+                    }
+                    break;
+                case 'date':
+                case 'month':
+                case 'week':
+                case 'time':
+                    // We can read a `Date | null` or a `number` or a `string` from this input type.
+                    // Prefer whichever is consistent with the current type.
+                    if (isDateOrNull(this.state().value())) {
+                        this.state().value.set(input.valueAsDate);
+                    }
+                    else if (typeof this.state().value() === 'number') {
+                        this.state().value.set(input.valueAsNumber);
+                    }
+                    else {
+                        this.state().value.set(input.value);
+                    }
+                    break;
                 default:
                     this.state().value.set(input.value);
                     break;
@@ -3181,6 +3209,36 @@ class Control {
                 this.maybeSynchronize(() => this.state().value(), (value) => {
                     // A select will not take a value unil the value's option has rendered.
                     afterNextRender(() => (input.value = value), { injector: this.injector });
+                });
+                break;
+            case 'number':
+            case 'range':
+            case 'datetime-local':
+                // This input type can receive a `number` or a `string`.
+                this.maybeSynchronize(() => this.state().value(), (value) => {
+                    if (typeof value === 'number') {
+                        input.valueAsNumber = value;
+                    }
+                    else {
+                        input.value = value;
+                    }
+                });
+                break;
+            case 'date':
+            case 'month':
+            case 'week':
+            case 'time':
+                // This input type can receive a `Date | null` or a `number` or a `string`.
+                this.maybeSynchronize(() => this.state().value(), (value) => {
+                    if (isDateOrNull(value)) {
+                        input.valueAsDate = value;
+                    }
+                    else if (typeof value === 'number') {
+                        input.valueAsNumber = value;
+                    }
+                    else {
+                        input.value = value;
+                    }
                 });
                 break;
             default:
@@ -3370,6 +3428,10 @@ function isShadowedControlComponent(cmp) {
 /** Checks whether the given object is an output ref. */
 function isOutputRef(value) {
     return value instanceof OutputEmitterRef || value instanceof EventEmitter;
+}
+/** Checks if a given value is a Date or null */
+function isDateOrNull(value) {
+    return value === null || value instanceof Date;
 }
 
 export { AggregateProperty, Control, CustomValidationError, EmailValidationError, InteropNgControl, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateTree };
