@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.2+sha-8e8a3fe
+ * @license Angular v21.0.0-next.2+sha-00a1806
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import * as i0 from '@angular/core';
 import { ElementRef, WritableSignal, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, DestroyableInjector, Injector } from '@angular/core';
-import { ControlValueAccessor, NgControl, AbstractControl, ValidationErrors, FormControlStatus, ValidatorFn } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
 /**
@@ -24,6 +24,8 @@ import { StandardSchemaV1 } from '@standard-schema/spec';
  * 4. Provides a fake `NgControl` that implements a subset of the features available on the reactive
  *    forms `NgControl`. This is provided to improve interoperability with controls designed to work
  *    with reactive forms. It should not be used by controls written for signal forms.
+ *
+ * @experimental 21.0.0
  */
 declare class Control<T> {
     /** The injector for this component. */
@@ -71,19 +73,27 @@ declare class Control<T> {
 /**
  * Represents a property that may be defined on a field when it is created using a `property` rule
  * in the schema. A particular `Property` can only be defined on a particular field **once**.
+ *
+ * @experimental 21.0.0
  */
 declare class Property<TValue> {
     private brand;
     /** Use {@link createProperty}. */
     private constructor();
 }
-/** Creates a {@link Property}. */
+/**
+ * Creates a {@link Property}.
+ *
+ * @experimental 21.0.0
+ */
 declare function createProperty<TValue>(): Property<TValue>;
 /**
  * Represents a property that is aggregated from multiple parts according to the property's reducer
  * function. A value can be contributed to the aggregated value for a field using an
  * `aggregateProperty` rule in the schema. There may be multiple rules in a schema that contribute
  * values to the same `AggregateProperty` of the same field.
+ *
+ * @experimental 21.0.0
  */
 declare class AggregateProperty<TAcc, TItem> {
     readonly reduce: (acc: TAcc, item: TItem) => TAcc;
@@ -97,50 +107,74 @@ declare class AggregateProperty<TAcc, TItem> {
  * the given `reduce` and `getInitial` functions.
  * @param reduce The reducer function.
  * @param getInitial A function that gets the initial value for the reduce operation.
+ *
+ * @experimental 21.0.0
  */
 declare function reducedProperty<TAcc, TItem>(reduce: (acc: TAcc, item: TItem) => TAcc, getInitial: () => TAcc): AggregateProperty<TAcc, TItem>;
 /**
  * Creates an aggregate property that reduces its individual values into a list.
+ *
+ * @experimental 21.0.0
  */
 declare function listProperty<TItem>(): AggregateProperty<TItem[], TItem | undefined>;
 /**
  * Creates an aggregate property that reduces its individual values by taking their min.
+ *
+ * @experimental 21.0.0
  */
 declare function minProperty(): AggregateProperty<number | undefined, number | undefined>;
 /**
  * Creates an aggregate property that reduces its individual values by taking their max.
+ *
+ * @experimental 21.0.0
  */
 declare function maxProperty(): AggregateProperty<number | undefined, number | undefined>;
 /**
  * Creates an aggregate property that reduces its individual values by logically or-ing them.
+ *
+ * @experimental 21.0.0
  */
 declare function orProperty(): AggregateProperty<boolean, boolean>;
 /**
  * Creates an aggregate property that reduces its individual values by logically and-ing them.
+ *
+ * @experimental 21.0.0
  */
 declare function andProperty(): AggregateProperty<boolean, boolean>;
 /**
  * An aggregate property representing whether the field is required.
+ *
+ * @experimental 21.0.0
  */
 declare const REQUIRED: AggregateProperty<boolean, boolean>;
 /**
  * An aggregate property representing the min value of the field.
+ *
+ * @experimental 21.0.0
  */
 declare const MIN: AggregateProperty<number | undefined, number | undefined>;
 /**
  * An aggregate property representing the max value of the field.
+ *
+ * @experimental 21.0.0
  */
 declare const MAX: AggregateProperty<number | undefined, number | undefined>;
 /**
  * An aggregate property representing the min length of the field.
+ *
+ * @experimental 21.0.0
  */
 declare const MIN_LENGTH: AggregateProperty<number | undefined, number | undefined>;
 /**
  * An aggregate property representing the max length of the field.
+ *
+ * @experimental 21.0.0
  */
 declare const MAX_LENGTH: AggregateProperty<number | undefined, number | undefined>;
 /**
  * An aggregate property representing the patterns the field must match.
+ *
+ * @experimental 21.0.0
  */
 declare const PATTERN: AggregateProperty<RegExp[], RegExp | undefined>;
 
@@ -154,6 +188,8 @@ interface ValidationErrorOptions {
 /**
  * A type that requires the given type `T` to have a `field` property.
  * @template T The type to add a `field` to.
+ *
+ * @experimental 21.0.0
  */
 type WithField<T> = T & {
     field: Field<unknown>;
@@ -161,6 +197,8 @@ type WithField<T> = T & {
 /**
  * A type that allows the given type `T` to optionally have a `field` property.
  * @template T The type to optionally add a `field` to.
+ *
+ * @experimental 21.0.0
  */
 type WithOptionalField<T> = Omit<T, 'field'> & {
     field?: Field<unknown>;
@@ -168,6 +206,8 @@ type WithOptionalField<T> = Omit<T, 'field'> & {
 /**
  * A type that ensures the given type `T` does not have a `field` property.
  * @template T The type to remove the `field` from.
+ *
+ * @experimental 21.0.0
  */
 type WithoutField<T> = T & {
     field: never;
@@ -175,109 +215,147 @@ type WithoutField<T> = T & {
 /**
  * Create a required error associated with the target field
  * @param options The validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function requiredError(options: WithField<ValidationErrorOptions>): RequiredValidationError;
 /**
  * Create a required error
  * @param options The optional validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function requiredError(options?: ValidationErrorOptions): WithoutField<RequiredValidationError>;
 /**
  * Create a min value error associated with the target field
  * @param min The min value constraint
  * @param options The validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function minError(min: number, options: WithField<ValidationErrorOptions>): MinValidationError;
 /**
  * Create a min value error
  * @param min The min value constraint
  * @param options The optional validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function minError(min: number, options?: ValidationErrorOptions): WithoutField<MinValidationError>;
 /**
  * Create a max value error associated with the target field
  * @param max The max value constraint
  * @param options The validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function maxError(max: number, options: WithField<ValidationErrorOptions>): MaxValidationError;
 /**
  * Create a max value error
  * @param max The max value constraint
  * @param options The optional validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function maxError(max: number, options?: ValidationErrorOptions): WithoutField<MaxValidationError>;
 /**
  * Create a minLength error associated with the target field
  * @param minLength The minLength constraint
  * @param options The validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function minLengthError(minLength: number, options: WithField<ValidationErrorOptions>): MinLengthValidationError;
 /**
  * Create a minLength error
  * @param minLength The minLength constraint
  * @param options The optional validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function minLengthError(minLength: number, options?: ValidationErrorOptions): WithoutField<MinLengthValidationError>;
 /**
  * Create a maxLength error associated with the target field
  * @param maxLength The maxLength constraint
  * @param options The validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function maxLengthError(maxLength: number, options: WithField<ValidationErrorOptions>): MaxLengthValidationError;
 /**
  * Create a maxLength error
  * @param maxLength The maxLength constraint
  * @param options The optional validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function maxLengthError(maxLength: number, options?: ValidationErrorOptions): WithoutField<MaxLengthValidationError>;
 /**
  * Create a pattern matching error associated with the target field
  * @param pattern The violated pattern
  * @param options The validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function patternError(pattern: RegExp, options: WithField<ValidationErrorOptions>): PatternValidationError;
 /**
  * Create a pattern matching error
  * @param pattern The violated pattern
  * @param options The optional validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function patternError(pattern: RegExp, options?: ValidationErrorOptions): WithoutField<PatternValidationError>;
 /**
  * Create an email format error associated with the target field
  * @param options The validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function emailError(options: WithField<ValidationErrorOptions>): EmailValidationError;
 /**
  * Create an email format error
  * @param options The optional validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function emailError(options?: ValidationErrorOptions): WithoutField<EmailValidationError>;
 /**
  * Create a standard schema issue error associated with the target field
  * @param issue The standard schema issue
  * @param options The validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: WithField<ValidationErrorOptions>): StandardSchemaValidationError;
 /**
  * Create a standard schema issue error
  * @param issue The standard schema issue
  * @param options The optional validation error options
+ *
+ * @experimental 21.0.0
  */
 declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutField<StandardSchemaValidationError>;
 /**
  * Create a custom error associated with the target field
  * @param obj The object to create an error from
+ *
+ * @experimental 21.0.0
  */
 declare function customError<E extends Partial<ValidationError>>(obj: WithField<E>): CustomValidationError;
 /**
  * Create a custom error
  * @param obj The object to create an error from
+ *
+ * @experimental 21.0.0
  */
 declare function customError<E extends Partial<ValidationError>>(obj?: E): WithoutField<CustomValidationError>;
 /**
  * Common interface for all validation errors.
  *
  * Use the creation functions to create an instance (e.g. `requiredError`, `minError`, etc.).
+ *
+ * @experimental 21.0.0
  */
 interface ValidationError {
     /** Identifies the kind of error. */
@@ -289,6 +367,8 @@ interface ValidationError {
 }
 /**
  * A custom error that may contain additional properties
+ *
+ * @experimental 21.0.0
  */
 declare class CustomValidationError implements ValidationError {
     /** Brand the class to avoid Typescript structural matching */
@@ -308,6 +388,8 @@ declare class CustomValidationError implements ValidationError {
 /**
  * Internal version of `NgValidationError`, we create this separately so we can change its type on
  * the exported version to a type union of the possible sub-classes.
+ *
+ * @experimental 21.0.0
  */
 declare abstract class _NgValidationError implements ValidationError {
     /** Brand the class to avoid Typescript structural matching */
@@ -322,12 +404,16 @@ declare abstract class _NgValidationError implements ValidationError {
 }
 /**
  * An error used to indicate that a required field is empty.
+ *
+ * @experimental 21.0.0
  */
 declare class RequiredValidationError extends _NgValidationError {
     readonly kind = "required";
 }
 /**
  * An error used to indicate that a value is lower than the minimum allowed.
+ *
+ * @experimental 21.0.0
  */
 declare class MinValidationError extends _NgValidationError {
     readonly min: number;
@@ -336,6 +422,8 @@ declare class MinValidationError extends _NgValidationError {
 }
 /**
  * An error used to indicate that a value is higher than the maximum allowed.
+ *
+ * @experimental 21.0.0
  */
 declare class MaxValidationError extends _NgValidationError {
     readonly max: number;
@@ -344,6 +432,8 @@ declare class MaxValidationError extends _NgValidationError {
 }
 /**
  * An error used to indicate that a value is shorter than the minimum allowed length.
+ *
+ * @experimental 21.0.0
  */
 declare class MinLengthValidationError extends _NgValidationError {
     readonly minLength: number;
@@ -352,6 +442,8 @@ declare class MinLengthValidationError extends _NgValidationError {
 }
 /**
  * An error used to indicate that a value is longer than the maximum allowed length.
+ *
+ * @experimental 21.0.0
  */
 declare class MaxLengthValidationError extends _NgValidationError {
     readonly maxLength: number;
@@ -360,6 +452,8 @@ declare class MaxLengthValidationError extends _NgValidationError {
 }
 /**
  * An error used to indicate that a value does not match the required pattern.
+ *
+ * @experimental 21.0.0
  */
 declare class PatternValidationError extends _NgValidationError {
     readonly pattern: RegExp;
@@ -368,12 +462,16 @@ declare class PatternValidationError extends _NgValidationError {
 }
 /**
  * An error used to indicate that a value is not a valid email.
+ *
+ * @experimental 21.0.0
  */
 declare class EmailValidationError extends _NgValidationError {
     readonly kind = "email";
 }
 /**
  * An error used to indicate an issue validating against a standard schema.
+ *
+ * @experimental 21.0.0
  */
 declare class StandardSchemaValidationError extends _NgValidationError {
     readonly issue: StandardSchemaV1.Issue;
@@ -401,6 +499,8 @@ declare class StandardSchemaValidationError extends _NgValidationError {
  *   }
  * }
  * ```
+ *
+ * @experimental 21.0.0
  */
 declare const NgValidationError: abstract new () => NgValidationError;
 type NgValidationError = RequiredValidationError | MinValidationError | MaxValidationError | MinLengthValidationError | MaxLengthValidationError | PatternValidationError | EmailValidationError | StandardSchemaValidationError;
@@ -412,6 +512,8 @@ declare const ɵɵTYPE: unique symbol;
 /**
  * Creates a type based on the given type T, but with all readonly properties made writable.
  * @template T The type to create a mutable version of.
+ *
+ * @experimental 21.0.0
  */
 type Mutable<T> = {
     -readonly [P in keyof T]: T[P];
@@ -419,10 +521,14 @@ type Mutable<T> = {
 /**
  * A type that represents either a single value of type `T` or a readonly array of `T`.
  * @template T The type of the value(s).
+ *
+ * @experimental 21.0.0
  */
 type OneOrMany<T> = T | readonly T[];
 /**
  * The kind of `FieldPath` (`Root`, `Child` of another `FieldPath`, or `Item` in a `FieldPath` array)
+ *
+ * @experimental 21.0.0
  */
 declare namespace PathKind {
     /**
@@ -452,10 +558,14 @@ declare namespace PathKind {
 type PathKind = PathKind.Root | PathKind.Child | PathKind.Item;
 /**
  * A status indicating whether a field is unsubmitted, submitted, or currently submitting.
+ *
+ * @experimental 21.0.0
  */
 type SubmittedStatus = 'unsubmitted' | 'submitted' | 'submitting';
 /**
  * A reason for a field's disablement.
+ *
+ * @experimental 21.0.0
  */
 interface DisabledReason {
     /** The field that is disabled. */
@@ -463,7 +573,11 @@ interface DisabledReason {
     /** A user-facing message describing the reason for the disablement. */
     readonly message?: string;
 }
-/** The absence of an error which indicates a successful validation result. */
+/**
+ * The absence of an error which indicates a successful validation result.
+ *
+ * @experimental 21.0.0
+ */
 type ValidationSuccess = null | undefined | void;
 /**
  * The result of running a field validation function.
@@ -475,6 +589,8 @@ type ValidationSuccess = null | undefined | void;
  *    being validated.
  *
  * @template E the type of error (defaults to {@link ValidationError}).
+ *
+ * @experimental 21.0.0
  */
 type FieldValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<WithoutField<E>>;
 /**
@@ -487,6 +603,8 @@ type FieldValidationResult<E extends ValidationError = ValidationError> = Valida
  * 4. A list of {@link ValidationError} with or without fields to indicate multiple errors.
  *
  * @template E the type of error (defaults to {@link ValidationError}).
+ *
+ * @experimental 21.0.0
  */
 type TreeValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<WithOptionalField<E>>;
 /**
@@ -498,6 +616,8 @@ type TreeValidationResult<E extends ValidationError = ValidationError> = Validat
  * 3. A list of {@link ValidationError} with fields to indicate multiple errors.
  *
  * @template E the type of error (defaults to {@link ValidationError}).
+ *
+ * @experimental 21.0.0
  */
 type ValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<E>;
 /**
@@ -508,6 +628,8 @@ type ValidationResult<E extends ValidationError = ValidationError> = ValidationS
  * 5. 'pending' if the validation is not yet resolved.
  *
  * @template E the type of error (defaults to {@link ValidationError}).
+ *
+ * @experimental 21.0.0
  */
 type AsyncValidationResult<E extends ValidationError = ValidationError> = ValidationResult<E> | 'pending';
 /**
@@ -519,12 +641,16 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
+ *
+ * @experimental 21.0.0
  */
 type Field<TValue, TKey extends string | number = string | number> = (() => FieldState<TValue, TKey>) & (TValue extends Array<infer U> ? ReadonlyArrayLike<MaybeField<U, number>> : TValue extends Record<string, any> ? Subfields<TValue> : unknown);
 /**
  * The sub-fields that a user can navigate to from a `Field<TValue>`.
  *
  * @template TValue The type of the data which the parent field is wrapped around.
+ *
+ * @experimental 21.0.0
  */
 type Subfields<TValue> = {
     readonly [K in keyof TValue as TValue[K] extends Function ? never : K]: MaybeField<TValue[K], string>;
@@ -533,6 +659,8 @@ type Subfields<TValue> = {
  * An iterable object with the same shape as a readonly array.
  *
  * @template T The array item type.
+ *
+ * @experimental 21.0.0
  */
 type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Symbol.iterator>;
 /**
@@ -544,11 +672,15 @@ type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Sy
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
+ *
+ * @experimental 21.0.0
  */
 type MaybeField<TValue, TKey extends string | number = string | number> = (TValue & undefined) | Field<Exclude<TValue, undefined>, TKey>;
 /**
  * Contains all of the state (e.g. value, statuses, etc.) associated with a `Field`, exposed as
  * signals.
+ *
+ * @experimental 21.0.0
  */
 interface FieldState<TValue, TKey extends string | number = string | number> {
     /**
@@ -678,6 +810,8 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
  *
  * @template TValue The type of the data which the form is wrapped around.
  * @template TPathKind The kind of path (root field, child field, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 type FieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = {
     [ɵɵTYPE]: [TValue, TPathKind];
@@ -693,12 +827,16 @@ type FieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = {
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TPathKind The kind of path (root field, child field, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 type MaybeFieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = (TValue & undefined) | FieldPath<Exclude<TValue, undefined>, TPathKind>;
 /**
  * Defines logic for a form.
  *
  * @template TValue The type of data stored in the form that this schema is attached to.
+ *
+ * @experimental 21.0.0
  */
 type Schema<in TValue> = {
     [ɵɵTYPE]: SchemaFn<TValue, PathKind.Root>;
@@ -708,6 +846,8 @@ type Schema<in TValue> = {
  *
  * @template TValue The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
+ *
+ * @experimental 21.0.0
  */
 type SchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = (p: FieldPath<TValue, TPathKind>) => void;
 /**
@@ -715,6 +855,8 @@ type SchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = (p: FieldPat
  *
  * @template TValue The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
+ *
+ * @experimental 21.0.0
  */
 type SchemaOrSchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = Schema<TValue> | SchemaFn<TValue, TPathKind>;
 /**
@@ -724,6 +866,8 @@ type SchemaOrSchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = Sche
  * @template TValue The data type for the field the logic is bound to.
  * @template TReturn The type of the result returned by the logic function.
  * @template TPathKind The kind of path the logic is applied to (root field, child field, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx: FieldContext<TValue, TPathKind>) => TReturn;
 /**
@@ -732,6 +876,8 @@ type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx
  *
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, FieldValidationResult, TPathKind>;
 /**
@@ -740,6 +886,8 @@ type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicF
  *
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, TreeValidationResult, TPathKind>;
 /**
@@ -749,15 +897,21 @@ type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn
  *
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult, TPathKind>;
 /**
  * Provides access to the state of the current field as well as functions that can be used to look
  * up state of other fields based on a `FieldPath`.
+ *
+ * @experimental 21.0.0
  */
 type FieldContext<TValue, TPathKind extends PathKind = PathKind.Root> = TPathKind extends PathKind.Item ? ItemFieldContext<TValue> : TPathKind extends PathKind.Child ? ChildFieldContext<TValue> : RootFieldContext<TValue>;
 /**
  * The base field context that is available for all fields.
+ *
+ * @experimental 21.0.0
  */
 interface RootFieldContext<TValue> {
     /** A signal containing the value of the current field. */
@@ -775,6 +929,8 @@ interface RootFieldContext<TValue> {
 }
 /**
  * Field context that is available for all fields that are a child of another field.
+ *
+ * @experimental 21.0.0
  */
 interface ChildFieldContext<TValue> extends RootFieldContext<TValue> {
     /** The key of the current field in its parent field. */
@@ -782,6 +938,8 @@ interface ChildFieldContext<TValue> extends RootFieldContext<TValue> {
 }
 /**
  * Field context that is available for all fields that are an item in an array field.
+ *
+ * @experimental 21.0.0
  */
 interface ItemFieldContext<TValue> extends ChildFieldContext<TValue> {
     /** The index of the current field in its parent field. */
@@ -801,6 +959,8 @@ interface ItemFieldContext<TValue> extends ChildFieldContext<TValue> {
  * @template TValue The type of value stored in the field being validated.
  * @template TResult The type of result returned by the async operation
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> = (result: TResult, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
 /**
@@ -811,6 +971,8 @@ type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> 
  * @template TParams The type of parameters to the resource.
  * @template TResult The type of result returned by the resource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root> {
     /**
@@ -849,6 +1011,8 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
  * @template TValue The type of value stored in the field being validated.
  * @template TResult The type of result returned by the httpResource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = PathKind.Root> {
     /**
@@ -886,6 +1050,8 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
  * @template TParams The type of parameters to the resource.
  * @template TResult The type of result returned by the resource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, opts: AsyncValidatorOptions<TValue, TParams, TResult, TPathKind>): void;
 /**
@@ -897,10 +1063,16 @@ declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathK
  * @template TValue The type of value stored in the field being validated.
  * @template TResult The type of result returned by the httpResource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, opts: HttpValidatorOptions<TValue, TResult, TPathKind>): void;
 
-/** The base set of properties shared by all form control contracts. */
+/**
+ * The base set of properties shared by all form control contracts.
+ *
+ * @experimental 21.0.0
+ */
 interface FormUiControl {
     /**
      * An input to receive the errors for the field. If implemented, the `Control` directive will
@@ -992,6 +1164,8 @@ interface FormUiControl {
  * `Control` directive.
  *
  * @template TValue The type of `Field` that the implementing component can edit.
+ *
+ * @experimental 21.0.0
  */
 interface FormValueControl<TValue> extends FormUiControl {
     /**
@@ -1013,6 +1187,8 @@ interface FormValueControl<TValue> extends FormUiControl {
  * Many of the properties declared on this contract are optional. They do not need to be
  * implemented, but if they are will be kept in sync with the field state of the field bound to the
  * `Control` directive.
+ *
+ * @experimental 21.0.0
  */
 interface FormCheckboxControl extends FormUiControl {
     /**
@@ -1037,6 +1213,8 @@ interface FormCheckboxControl extends FormUiControl {
  *   and `false` when it is not disabled.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic?: string | NoInfer<LogicFn<TValue, boolean | string, TPathKind>>): void;
 /**
@@ -1047,6 +1225,8 @@ declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @param logic A reactive function that returns `true` when the field is readonly.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
 /**
@@ -1065,6 +1245,8 @@ declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @param logic A reactive function that returns `true` when the field is hidden.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
 /**
@@ -1074,6 +1256,8 @@ declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path
  * @param logic A `Validator` that returns the current validation errors.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<FieldValidator<TValue, TPathKind>>): void;
 /**
@@ -1084,6 +1268,8 @@ declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  *   Errors returned by the validator may specify a target field to indicate an error on a child field.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
 /**
@@ -1095,6 +1281,8 @@ declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPropItem The type of value the property aggregates over.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function aggregateProperty<TValue, TPropItem, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, prop: AggregateProperty<any, TPropItem>, logic: NoInfer<LogicFn<TValue, TPropItem, TPathKind>>): void;
 /**
@@ -1104,6 +1292,8 @@ declare function aggregateProperty<TValue, TPropItem, TPathKind extends PathKind
  * @param factory A factory function that creates the value for the property.
  *   This function is **not** reactive. It is run once when the field is created.
  * @returns The newly created property
+ *
+ * @experimental 21.0.0
  */
 declare function property<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): Property<TData>;
 /**
@@ -1114,6 +1304,8 @@ declare function property<TValue, TData, TPathKind extends PathKind = PathKind.R
  * @param factory A factory function that creates the value for the property.
  *   This function is **not** reactive. It is run once when the field is created.
  * @returns The given property
+ *
+ * @experimental 21.0.0
  */
 declare function property<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, prop: Property<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): Property<TData>;
 
@@ -1973,7 +2165,11 @@ interface FieldAdapter {
     newRoot<TValue>(fieldManager: FormFieldManager, model: WritableSignal<TValue>, pathNode: FieldPathNode, adapter: FieldAdapter): FieldNode;
 }
 
-/** Options that may be specified when creating a form. */
+/**
+ * Options that may be specified when creating a form.
+ *
+ * @experimental 21.0.0
+ */
 interface FormOptions {
     /**
      * The injector to use for dependency injection. If this is not provided, the injector for the
@@ -2009,6 +2205,8 @@ interface FormOptions {
  * the model.
  * @return A `Field` representing a form around the data model.
  * @template TValue The type of the data model.
+ *
+ * @experimental 21.0.0
  */
 declare function form<TValue>(model: WritableSignal<TValue>): Field<TValue>;
 /**
@@ -2052,6 +2250,8 @@ declare function form<TValue>(model: WritableSignal<TValue>): Field<TValue>;
  *   2. The form options
  * @return A `Field` representing a form around the data model
  * @template TValue The type of the data model.
+ *
+ * @experimental 21.0.0
  */
 declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: SchemaOrSchemaFn<TValue> | FormOptions): Field<TValue>;
 /**
@@ -2093,6 +2293,8 @@ declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: Sc
  * @param options The form options
  * @return A `Field` representing a form around the data model.
  * @template TValue The type of the data model.
+ *
+ * @experimental 21.0.0
  */
 declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSchemaFn<TValue>, options: FormOptions): Field<TValue>;
 /**
@@ -2129,6 +2331,8 @@ declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSch
  * @param schema A schema for an element of the array, or function that binds logic to an
  * element of the array.
  * @template TValue The data type of the item field to apply the schema to.
+ *
+ * @experimental 21.0.0
  */
 declare function applyEach<TValue>(path: FieldPath<TValue[]>, schema: NoInfer<SchemaOrSchemaFn<TValue, PathKind.Item>>): void;
 /**
@@ -2148,6 +2352,8 @@ declare function applyEach<TValue>(path: FieldPath<TValue[]>, schema: NoInfer<Sc
  * @param path The target path to apply the schema to.
  * @param schema The schema to apply to the property
  * @template TValue The data type of the field to apply the schema to.
+ *
+ * @experimental 21.0.0
  */
 declare function apply<TValue>(path: FieldPath<TValue>, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
 /**
@@ -2157,6 +2363,8 @@ declare function apply<TValue>(path: FieldPath<TValue>, schema: NoInfer<SchemaOr
  * @param logic A `LogicFn<T, boolean>` that returns `true` when the schema should be applied.
  * @param schema The schema to apply to the field when the `logic` function returns `true`.
  * @template TValue The data type of the field to apply the schema to.
+ *
+ * @experimental 21.0.0
  */
 declare function applyWhen<TValue>(path: FieldPath<TValue>, logic: LogicFn<TValue, boolean>, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
 /**
@@ -2168,6 +2376,8 @@ declare function applyWhen<TValue>(path: FieldPath<TValue>, logic: LogicFn<TValu
  * @param schema The schema to apply to the field when `predicate` returns `true`.
  * @template TValue The data type of the field to apply the schema to.
  * @template TNarrowed The data type of the schema (a narrowed type of TValue).
+ *
+ * @experimental 21.0.0
  */
 declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: FieldPath<TValue>, predicate: (value: TValue) => value is TNarrowed, schema: SchemaOrSchemaFn<TNarrowed>): void;
 /**
@@ -2178,6 +2388,8 @@ declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: FieldPat
  *   should be applied.
  * @param schema The schema to apply to the field when `predicate` returns `true`.
  * @template TValue The data type of the field to apply the schema to.
+ *
+ * @experimental 21.0.0
  */
 declare function applyWhenValue<TValue>(path: FieldPath<TValue>, predicate: (value: TValue) => boolean, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
 /**
@@ -2210,6 +2422,8 @@ declare function applyWhenValue<TValue>(path: FieldPath<TValue>, predicate: (val
  * @param action An asynchronous action used to submit the field. The action may return server
  * errors.
  * @template TValue The data type of the field being submitted.
+ *
+ * @experimental 21.0.0
  */
 declare function submit<TValue>(form: Field<TValue>, action: (form: Field<TValue>) => Promise<TreeValidationResult>): Promise<void>;
 /**
@@ -2217,6 +2431,8 @@ declare function submit<TValue>(form: Field<TValue>, action: (form: Field<TValue
  * @param fn A **non-reactive** function that sets up reactive logic rules for the form.
  * @returns A schema object that implements the given logic.
  * @template TValue The value type of a `Field` that this schema binds to.
+ *
+ * @experimental 21.0.0
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
@@ -2249,6 +2465,8 @@ type BaseValidatorConfig<TValue, TPathKind extends PathKind = PathKind.Root> = {
  *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.email()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function email<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<string, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
 
@@ -2264,6 +2482,8 @@ declare function email<TPathKind extends PathKind = PathKind.Root>(path: FieldPa
  *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.max(maxValue)`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function max<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<number, TPathKind>, maxValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
 
@@ -2280,6 +2500,8 @@ declare function max<TPathKind extends PathKind = PathKind.Root>(path: FieldPath
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, maxLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
@@ -2295,6 +2517,8 @@ declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.min(minValue)`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function min<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<number, TPathKind>, minValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
 
@@ -2311,6 +2535,8 @@ declare function min<TPathKind extends PathKind = PathKind.Root>(path: FieldPath
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, minLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
@@ -2325,6 +2551,8 @@ declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.pattern(pattern)`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<string, TPathKind>, pattern: RegExp | LogicFn<string | undefined, RegExp | undefined, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
 
@@ -2341,42 +2569,45 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Field
  *  - `when`: A function that receives the `FieldContext` and returns true if the field is required
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
  */
 declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind> & {
     when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
 }): void;
 
 /**
- * Properties of both NgControl & AbstractControl that are supported by the InteropNgControl.
+ * Utility type that removes a string index key when its value is `unknown`,
+ * i.e. `{[key: string]: unknown}`. It allows specific string keys to pass through, even if their
+ * value is `unknown`, e.g. `{key: unknown}`.
+ *
+ * @experimental 21.0.0
  */
-type InteropSharedKeys = 'value' | 'valid' | 'invalid' | 'touched' | 'untouched' | 'disabled' | 'enabled' | 'errors' | 'pristine' | 'dirty' | 'status';
+type RemoveStringIndexUnknownKey<K, V> = string extends K ? unknown extends V ? never : K : K;
 /**
- * A fake version of `NgControl` provided by the `Control` directive. This allows interoperability
- * with a wider range of components designed to work with reactive forms, in particular ones that
- * inject the `NgControl`. The interop control does not implement *all* properties and methods of
- * the real `NgControl`, but does implement some of the most commonly used ones that have a clear
- * equivalent in signal forms.
+ * Utility type that recursively ignores unknown string index properties on the given object.
+ * We use this on the `TSchema` type in `validateStandardSchema` in order to accommodate Zod's
+ * `looseObject` which includes `{[key: string]: unknown}` as part of the type.
+ *
+ * @experimental 21.0.0
  */
-declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'control' | 'valueAccessor'>, Pick<AbstractControl<unknown>, InteropSharedKeys | 'hasValidator'> {
-    protected field: () => FieldState<unknown>;
-    constructor(field: () => FieldState<unknown>);
-    readonly control: AbstractControl<any, any>;
-    get value(): any;
-    get valid(): boolean;
-    get invalid(): boolean;
-    get pending(): boolean | null;
-    get disabled(): boolean;
-    get enabled(): boolean;
-    get errors(): ValidationErrors | null;
-    get pristine(): boolean;
-    get dirty(): boolean;
-    get touched(): boolean;
-    get untouched(): boolean;
-    get status(): FormControlStatus;
-    valueAccessor: ControlValueAccessor | null;
-    hasValidator(validator: ValidatorFn): boolean;
-    updateValueAndValidity(): void;
-}
+type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
+    [K in keyof T as RemoveStringIndexUnknownKey<K, T[K]>]: IgnoreUnknownProperties<T[K]>;
+} : T;
+/**
+ * Validates a field using a `StandardSchemaV1` compatible validator (e.g. a Zod validator).
+ *
+ * See https://github.com/standard-schema/standard-schema for more about standard schema.
+ *
+ * @param path The `FieldPath` to the field to validate.
+ * @param schema The standard schema compatible validator to use for validation.
+ * @template TSchema The type validated by the schema. This may be either the full `TValue` type,
+ *   or a partial of it.
+ * @template TValue The type of value stored in the field being validated.
+ *
+ * @experimental 21.0.0
+ */
+declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
 
-export { AggregateProperty, Control, CustomValidationError, EmailValidationError, InteropNgControl, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateTree };
-export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, Field, FieldContext, FieldPath, FieldState, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, InteropSharedKeys, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeField, MaybeFieldPath, Mutable, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export { AggregateProperty, Control, CustomValidationError, EmailValidationError, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, Field, FieldContext, FieldPath, FieldState, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeField, MaybeFieldPath, Mutable, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
