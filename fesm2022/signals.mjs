@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.2+sha-97d3615
+ * @license Angular v21.0.0-next.2+sha-0c64a06
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1857,15 +1857,15 @@ class Control {
             }
         };
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.2+sha-97d3615", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.2+sha-97d3615", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.2+sha-0c64a06", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.2+sha-0c64a06", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
             {
                 provide: NgControl,
                 useFactory: () => inject(Control).ngControl,
             },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.2+sha-97d3615", ngImport: i0, type: Control, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.2+sha-0c64a06", ngImport: i0, type: Control, decorators: [{
             type: Directive,
             args: [{
                     selector: '[control]',
