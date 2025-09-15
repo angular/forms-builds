@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.3+sha-0a60e35
+ * @license Angular v21.0.0-next.3+sha-d201cd2
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1720,7 +1720,7 @@ declare class FieldNodeState {
      * Whether this field is considered dirty.
      *
      * A field is considered dirty if one of the following is true:
-     *  - It was directly dirtied
+     *  - It was directly dirtied and is interactive
      *  - One of its children is considered dirty
      */
     readonly dirty: Signal<boolean>;
@@ -1728,7 +1728,7 @@ declare class FieldNodeState {
      * Whether this field is considered touched.
      *
      * A field is considered touched if one of the following is true:
-     *  - It was directly touched
+     *  - It was directly touched and is interactive
      *  - One of its children is considered touched
      */
     readonly touched: Signal<boolean>;
@@ -1764,6 +1764,14 @@ declare class FieldNodeState {
      */
     readonly hidden: Signal<boolean>;
     readonly name: Signal<string>;
+    /** Whether this field is considered non-interactive.
+     *
+     * A field is considered non-interactive if one of the following is true:
+     * - It is hidden
+     * - It is disabled
+     * - It is readonly
+     */
+    private readonly isNonInteractive;
 }
 
 /**

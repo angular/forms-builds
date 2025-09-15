@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.3+sha-0a60e35
+ * @license Angular v21.0.0-next.3+sha-d201cd2
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1857,15 +1857,15 @@ class Control {
             }
         };
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.3+sha-0a60e35", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.3+sha-0a60e35", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.3+sha-d201cd2", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.3+sha-d201cd2", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
             {
                 provide: NgControl,
                 useFactory: () => inject(Control).ngControl,
             },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.3+sha-0a60e35", ngImport: i0, type: Control, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.3+sha-d201cd2", ngImport: i0, type: Control, decorators: [{
             type: Directive,
             args: [{
                     selector: '[control]',
@@ -2619,14 +2619,12 @@ class FieldNodeState {
      * Marks this specific field as touched.
      */
     markAsTouched() {
-        // TODO: should this be noop for fields that are hidden/disabled/readonly
         this.selfTouched.set(true);
     }
     /**
      * Marks this specific field as dirty.
      */
     markAsDirty() {
-        // TODO: should this be noop for fields that are hidden/disabled/readonly
         this.selfDirty.set(true);
     }
     /**
@@ -2650,20 +2648,24 @@ class FieldNodeState {
      * Whether this field is considered dirty.
      *
      * A field is considered dirty if one of the following is true:
-     *  - It was directly dirtied
+     *  - It was directly dirtied and is interactive
      *  - One of its children is considered dirty
      */
     dirty = computed(() => {
-        return reduceChildren(this.node, this.selfDirty(), (child, value) => value || child.nodeState.dirty(), shortCircuitTrue);
+        const selfDirtyValue = this.selfDirty() && !this.isNonInteractive();
+        return reduceChildren(this.node, selfDirtyValue, (child, value) => value || child.nodeState.dirty(), shortCircuitTrue);
     }, ...(ngDevMode ? [{ debugName: "dirty" }] : []));
     /**
      * Whether this field is considered touched.
      *
      * A field is considered touched if one of the following is true:
-     *  - It was directly touched
+     *  - It was directly touched and is interactive
      *  - One of its children is considered touched
      */
-    touched = computed(() => reduceChildren(this.node, this.selfTouched(), (child, value) => value || child.nodeState.touched(), shortCircuitTrue), ...(ngDevMode ? [{ debugName: "touched" }] : []));
+    touched = computed(() => {
+        const selfTouchedValue = this.selfTouched() && !this.isNonInteractive();
+        return reduceChildren(this.node, selfTouchedValue, (child, value) => value || child.nodeState.touched(), shortCircuitTrue);
+    }, ...(ngDevMode ? [{ debugName: "touched" }] : []));
     /**
      * The reasons for this field's disablement. This includes disabled reasons for any parent field
      * that may have been disabled, indirectly causing this field to be disabled as well.
@@ -2709,6 +2711,14 @@ class FieldNodeState {
         }
         return `${parent.name()}.${this.node.structure.keyInParent()}`;
     }, ...(ngDevMode ? [{ debugName: "name" }] : []));
+    /** Whether this field is considered non-interactive.
+     *
+     * A field is considered non-interactive if one of the following is true:
+     * - It is hidden
+     * - It is disabled
+     * - It is readonly
+     */
+    isNonInteractive = computed(() => this.hidden() || this.disabled() || this.readonly(), ...(ngDevMode ? [{ debugName: "isNonInteractive" }] : []));
 }
 
 /**
