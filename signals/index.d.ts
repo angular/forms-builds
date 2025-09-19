@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.4+sha-0c4feb8
+ * @license Angular v21.0.0-next.4+sha-b60d5e4
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -25,7 +25,6 @@ import { StandardSchemaV1 } from '@standard-schema/spec';
  *    forms `NgControl`. This is provided to improve interoperability with controls designed to work
  *    with reactive forms. It should not be used by controls written for signal forms.
  *
- * @category control
  * @experimental 21.0.0
  */
 declare class Control<T> {
@@ -75,7 +74,6 @@ declare class Control<T> {
  * Represents a property that may be defined on a field when it is created using a `property` rule
  * in the schema. A particular `Property` can only be defined on a particular field **once**.
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare class Property<TValue> {
@@ -146,42 +144,36 @@ declare function andProperty(): AggregateProperty<boolean, boolean>;
 /**
  * An aggregate property representing whether the field is required.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare const REQUIRED: AggregateProperty<boolean, boolean>;
 /**
  * An aggregate property representing the min value of the field.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare const MIN: AggregateProperty<number | undefined, number | undefined>;
 /**
  * An aggregate property representing the max value of the field.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare const MAX: AggregateProperty<number | undefined, number | undefined>;
 /**
  * An aggregate property representing the min length of the field.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare const MIN_LENGTH: AggregateProperty<number | undefined, number | undefined>;
 /**
  * An aggregate property representing the max length of the field.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare const MAX_LENGTH: AggregateProperty<number | undefined, number | undefined>;
 /**
  * An aggregate property representing the patterns the field must match.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare const PATTERN: AggregateProperty<RegExp[], RegExp | undefined>;
@@ -231,7 +223,6 @@ declare function requiredError(options: WithField<ValidationErrorOptions>): Requ
  * Create a required error
  * @param options The optional validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function requiredError(options?: ValidationErrorOptions): WithoutField<RequiredValidationError>;
@@ -240,7 +231,6 @@ declare function requiredError(options?: ValidationErrorOptions): WithoutField<R
  * @param min The min value constraint
  * @param options The validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function minError(min: number, options: WithField<ValidationErrorOptions>): MinValidationError;
@@ -249,7 +239,6 @@ declare function minError(min: number, options: WithField<ValidationErrorOptions
  * @param min The min value constraint
  * @param options The optional validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function minError(min: number, options?: ValidationErrorOptions): WithoutField<MinValidationError>;
@@ -258,7 +247,6 @@ declare function minError(min: number, options?: ValidationErrorOptions): Withou
  * @param max The max value constraint
  * @param options The validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function maxError(max: number, options: WithField<ValidationErrorOptions>): MaxValidationError;
@@ -267,7 +255,6 @@ declare function maxError(max: number, options: WithField<ValidationErrorOptions
  * @param max The max value constraint
  * @param options The optional validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function maxError(max: number, options?: ValidationErrorOptions): WithoutField<MaxValidationError>;
@@ -276,7 +263,6 @@ declare function maxError(max: number, options?: ValidationErrorOptions): Withou
  * @param minLength The minLength constraint
  * @param options The validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function minLengthError(minLength: number, options: WithField<ValidationErrorOptions>): MinLengthValidationError;
@@ -285,7 +271,6 @@ declare function minLengthError(minLength: number, options: WithField<Validation
  * @param minLength The minLength constraint
  * @param options The optional validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function minLengthError(minLength: number, options?: ValidationErrorOptions): WithoutField<MinLengthValidationError>;
@@ -294,7 +279,6 @@ declare function minLengthError(minLength: number, options?: ValidationErrorOpti
  * @param maxLength The maxLength constraint
  * @param options The validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function maxLengthError(maxLength: number, options: WithField<ValidationErrorOptions>): MaxLengthValidationError;
@@ -303,7 +287,6 @@ declare function maxLengthError(maxLength: number, options: WithField<Validation
  * @param maxLength The maxLength constraint
  * @param options The optional validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function maxLengthError(maxLength: number, options?: ValidationErrorOptions): WithoutField<MaxLengthValidationError>;
@@ -312,7 +295,6 @@ declare function maxLengthError(maxLength: number, options?: ValidationErrorOpti
  * @param pattern The violated pattern
  * @param options The validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function patternError(pattern: RegExp, options: WithField<ValidationErrorOptions>): PatternValidationError;
@@ -321,7 +303,6 @@ declare function patternError(pattern: RegExp, options: WithField<ValidationErro
  * @param pattern The violated pattern
  * @param options The optional validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function patternError(pattern: RegExp, options?: ValidationErrorOptions): WithoutField<PatternValidationError>;
@@ -329,7 +310,6 @@ declare function patternError(pattern: RegExp, options?: ValidationErrorOptions)
  * Create an email format error associated with the target field
  * @param options The validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function emailError(options: WithField<ValidationErrorOptions>): EmailValidationError;
@@ -337,7 +317,6 @@ declare function emailError(options: WithField<ValidationErrorOptions>): EmailVa
  * Create an email format error
  * @param options The optional validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function emailError(options?: ValidationErrorOptions): WithoutField<EmailValidationError>;
@@ -346,7 +325,6 @@ declare function emailError(options?: ValidationErrorOptions): WithoutField<Emai
  * @param issue The standard schema issue
  * @param options The validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: WithField<ValidationErrorOptions>): StandardSchemaValidationError;
@@ -355,7 +333,6 @@ declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: Wit
  * @param issue The standard schema issue
  * @param options The optional validation error options
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutField<StandardSchemaValidationError>;
@@ -363,7 +340,6 @@ declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: Va
  * Create a custom error associated with the target field
  * @param obj The object to create an error from
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function customError<E extends Partial<ValidationError>>(obj: WithField<E>): CustomValidationError;
@@ -371,7 +347,6 @@ declare function customError<E extends Partial<ValidationError>>(obj: WithField<
  * Create a custom error
  * @param obj The object to create an error from
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function customError<E extends Partial<ValidationError>>(obj?: E): WithoutField<CustomValidationError>;
@@ -380,7 +355,6 @@ declare function customError<E extends Partial<ValidationError>>(obj?: E): Witho
  *
  * Use the creation functions to create an instance (e.g. `requiredError`, `minError`, etc.).
  *
- * @category validation
  * @experimental 21.0.0
  */
 interface ValidationError {
@@ -394,7 +368,6 @@ interface ValidationError {
 /**
  * A custom error that may contain additional properties
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class CustomValidationError implements ValidationError {
@@ -432,7 +405,6 @@ declare abstract class _NgValidationError implements ValidationError {
 /**
  * An error used to indicate that a required field is empty.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class RequiredValidationError extends _NgValidationError {
@@ -441,7 +413,6 @@ declare class RequiredValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is lower than the minimum allowed.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class MinValidationError extends _NgValidationError {
@@ -452,7 +423,6 @@ declare class MinValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is higher than the maximum allowed.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class MaxValidationError extends _NgValidationError {
@@ -463,7 +433,6 @@ declare class MaxValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is shorter than the minimum allowed length.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class MinLengthValidationError extends _NgValidationError {
@@ -474,7 +443,6 @@ declare class MinLengthValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is longer than the maximum allowed length.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class MaxLengthValidationError extends _NgValidationError {
@@ -485,7 +453,6 @@ declare class MaxLengthValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value does not match the required pattern.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class PatternValidationError extends _NgValidationError {
@@ -496,7 +463,6 @@ declare class PatternValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is not a valid email.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class EmailValidationError extends _NgValidationError {
@@ -505,7 +471,6 @@ declare class EmailValidationError extends _NgValidationError {
 /**
  * An error used to indicate an issue validating against a standard schema.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare class StandardSchemaValidationError extends _NgValidationError {
@@ -535,7 +500,6 @@ declare class StandardSchemaValidationError extends _NgValidationError {
  * }
  * ```
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare const NgValidationError: abstract new () => NgValidationError;
@@ -595,14 +559,12 @@ type PathKind = PathKind.Root | PathKind.Child | PathKind.Item;
 /**
  * A status indicating whether a field is unsubmitted, submitted, or currently submitting.
  *
- * @category submission
  * @experimental 21.0.0
  */
 type SubmittedStatus = 'unsubmitted' | 'submitted' | 'submitting';
 /**
  * A reason for a field's disablement.
  *
- * @category logic
  * @experimental 21.0.0
  */
 interface DisabledReason {
@@ -614,7 +576,6 @@ interface DisabledReason {
 /**
  * The absence of an error which indicates a successful validation result.
  *
- * @category validation
  * @experimental 21.0.0
  */
 type ValidationSuccess = null | undefined | void;
@@ -629,7 +590,6 @@ type ValidationSuccess = null | undefined | void;
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
- * @category validation
  * @experimental 21.0.0
  */
 type FieldValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<WithoutField<E>>;
@@ -644,7 +604,6 @@ type FieldValidationResult<E extends ValidationError = ValidationError> = Valida
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
- * @category validation
  * @experimental 21.0.0
  */
 type TreeValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<WithOptionalField<E>>;
@@ -658,7 +617,6 @@ type TreeValidationResult<E extends ValidationError = ValidationError> = Validat
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
- * @category validation
  * @experimental 21.0.0
  */
 type ValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<E>;
@@ -671,7 +629,6 @@ type ValidationResult<E extends ValidationError = ValidationError> = ValidationS
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
- * @category validation
  * @experimental 21.0.0
  */
 type AsyncValidationResult<E extends ValidationError = ValidationError> = ValidationResult<E> | 'pending';
@@ -685,7 +642,6 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
  *
- * @category structure
  * @experimental 21.0.0
  */
 type Field<TValue, TKey extends string | number = string | number> = (() => FieldState<TValue, TKey>) & (TValue extends Array<infer U> ? ReadonlyArrayLike<MaybeField<U, number>> : TValue extends Record<string, any> ? Subfields<TValue> : unknown);
@@ -724,7 +680,6 @@ type MaybeField<TValue, TKey extends string | number = string | number> = (TValu
  * Contains all of the state (e.g. value, statuses, etc.) associated with a `Field`, exposed as
  * signals.
  *
- * @category structure
  * @experimental 21.0.0
  */
 interface FieldState<TValue, TKey extends string | number = string | number> {
@@ -856,7 +811,6 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
  * @template TValue The type of the data which the form is wrapped around.
  * @template TPathKind The kind of path (root field, child field, or item of an array)
  *
- * @category structure
  * @experimental 21.0.0
  */
 type FieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = {
@@ -882,7 +836,6 @@ type MaybeFieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = (TValu
  *
  * @template TValue The type of data stored in the form that this schema is attached to.
  *
- * @category structure
  * @experimental 21.0.0
  */
 type Schema<in TValue> = {
@@ -894,7 +847,6 @@ type Schema<in TValue> = {
  * @template TValue The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
  *
- * @category structure
  * @experimental 21.0.0
  */
 type SchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = (p: FieldPath<TValue, TPathKind>) => void;
@@ -904,7 +856,6 @@ type SchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = (p: FieldPat
  * @template TValue The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
  *
- * @category structure
  * @experimental 21.0.0
  */
 type SchemaOrSchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = Schema<TValue> | SchemaFn<TValue, TPathKind>;
@@ -916,7 +867,6 @@ type SchemaOrSchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = Sche
  * @template TReturn The type of the result returned by the logic function.
  * @template TPathKind The kind of path the logic is applied to (root field, child field, or item of an array)
  *
- * @category structure
  * @experimental 21.0.0
  */
 type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx: FieldContext<TValue, TPathKind>) => TReturn;
@@ -927,7 +877,6 @@ type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, FieldValidationResult, TPathKind>;
@@ -938,7 +887,6 @@ type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicF
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, TreeValidationResult, TPathKind>;
@@ -950,7 +898,6 @@ type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult, TPathKind>;
@@ -958,7 +905,6 @@ type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TVa
  * Provides access to the state of the current field as well as functions that can be used to look
  * up state of other fields based on a `FieldPath`.
  *
- * @category structure
  * @experimental 21.0.0
  */
 type FieldContext<TValue, TPathKind extends PathKind = PathKind.Root> = TPathKind extends PathKind.Item ? ItemFieldContext<TValue> : TPathKind extends PathKind.Child ? ChildFieldContext<TValue> : RootFieldContext<TValue>;
@@ -984,7 +930,6 @@ interface RootFieldContext<TValue> {
 /**
  * Field context that is available for all fields that are a child of another field.
  *
- * @category structure
  * @experimental 21.0.0
  */
 interface ChildFieldContext<TValue> extends RootFieldContext<TValue> {
@@ -1027,7 +972,6 @@ type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> 
  * @template TResult The type of result returned by the resource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root> {
@@ -1068,7 +1012,6 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
  * @template TResult The type of result returned by the httpResource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = PathKind.Root> {
@@ -1108,7 +1051,6 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
  * @template TResult The type of result returned by the resource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, opts: AsyncValidatorOptions<TValue, TParams, TResult, TPathKind>): void;
@@ -1122,7 +1064,6 @@ declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathK
  * @template TResult The type of result returned by the httpResource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, opts: HttpValidatorOptions<TValue, TResult, TPathKind>): void;
@@ -1130,7 +1071,6 @@ declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathK
 /**
  * The base set of properties shared by all form control contracts.
  *
- * @category control
  * @experimental 21.0.0
  */
 interface FormUiControl {
@@ -1225,7 +1165,6 @@ interface FormUiControl {
  *
  * @template TValue The type of `Field` that the implementing component can edit.
  *
- * @category control
  * @experimental 21.0.0
  */
 interface FormValueControl<TValue> extends FormUiControl {
@@ -1249,7 +1188,6 @@ interface FormValueControl<TValue> extends FormUiControl {
  * implemented, but if they are will be kept in sync with the field state of the field bound to the
  * `Control` directive.
  *
- * @category control
  * @experimental 21.0.0
  */
 interface FormCheckboxControl extends FormUiControl {
@@ -1276,7 +1214,6 @@ interface FormCheckboxControl extends FormUiControl {
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic?: string | NoInfer<LogicFn<TValue, boolean | string, TPathKind>>): void;
@@ -1289,7 +1226,6 @@ declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
@@ -1310,7 +1246,6 @@ declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
@@ -1322,7 +1257,6 @@ declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<FieldValidator<TValue, TPathKind>>): void;
@@ -1335,7 +1269,6 @@ declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
@@ -1349,7 +1282,6 @@ declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root
  * @template TPropItem The type of value the property aggregates over.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare function aggregateProperty<TValue, TPropItem, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, prop: AggregateProperty<any, TPropItem>, logic: NoInfer<LogicFn<TValue, TPropItem, TPathKind>>): void;
@@ -1361,7 +1293,6 @@ declare function aggregateProperty<TValue, TPropItem, TPathKind extends PathKind
  *   This function is **not** reactive. It is run once when the field is created.
  * @returns The newly created property
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare function property<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): Property<TData>;
@@ -1374,7 +1305,6 @@ declare function property<TValue, TData, TPathKind extends PathKind = PathKind.R
  *   This function is **not** reactive. It is run once when the field is created.
  * @returns The given property
  *
- * @category logic
  * @experimental 21.0.0
  */
 declare function property<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, prop: Property<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): Property<TData>;
@@ -2246,7 +2176,6 @@ interface FieldAdapter {
 /**
  * Options that may be specified when creating a form.
  *
- * @category structure
  * @experimental 21.0.0
  */
 interface FormOptions {
@@ -2285,7 +2214,6 @@ interface FormOptions {
  * @return A `Field` representing a form around the data model.
  * @template TValue The type of the data model.
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function form<TValue>(model: WritableSignal<TValue>): Field<TValue>;
@@ -2331,7 +2259,6 @@ declare function form<TValue>(model: WritableSignal<TValue>): Field<TValue>;
  * @return A `Field` representing a form around the data model
  * @template TValue The type of the data model.
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: SchemaOrSchemaFn<TValue> | FormOptions): Field<TValue>;
@@ -2375,7 +2302,6 @@ declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: Sc
  * @return A `Field` representing a form around the data model.
  * @template TValue The type of the data model.
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSchemaFn<TValue>, options: FormOptions): Field<TValue>;
@@ -2414,7 +2340,6 @@ declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSch
  * element of the array.
  * @template TValue The data type of the item field to apply the schema to.
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function applyEach<TValue>(path: FieldPath<TValue[]>, schema: NoInfer<SchemaOrSchemaFn<TValue, PathKind.Item>>): void;
@@ -2436,7 +2361,6 @@ declare function applyEach<TValue>(path: FieldPath<TValue[]>, schema: NoInfer<Sc
  * @param schema The schema to apply to the property
  * @template TValue The data type of the field to apply the schema to.
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function apply<TValue>(path: FieldPath<TValue>, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
@@ -2448,7 +2372,6 @@ declare function apply<TValue>(path: FieldPath<TValue>, schema: NoInfer<SchemaOr
  * @param schema The schema to apply to the field when the `logic` function returns `true`.
  * @template TValue The data type of the field to apply the schema to.
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function applyWhen<TValue>(path: FieldPath<TValue>, logic: LogicFn<TValue, boolean>, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
@@ -2462,7 +2385,6 @@ declare function applyWhen<TValue>(path: FieldPath<TValue>, logic: LogicFn<TValu
  * @template TValue The data type of the field to apply the schema to.
  * @template TNarrowed The data type of the schema (a narrowed type of TValue).
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: FieldPath<TValue>, predicate: (value: TValue) => value is TNarrowed, schema: SchemaOrSchemaFn<TNarrowed>): void;
@@ -2475,7 +2397,6 @@ declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: FieldPat
  * @param schema The schema to apply to the field when `predicate` returns `true`.
  * @template TValue The data type of the field to apply the schema to.
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function applyWhenValue<TValue>(path: FieldPath<TValue>, predicate: (value: TValue) => boolean, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
@@ -2510,7 +2431,6 @@ declare function applyWhenValue<TValue>(path: FieldPath<TValue>, predicate: (val
  * errors.
  * @template TValue The data type of the field being submitted.
  *
- * @category submission
  * @experimental 21.0.0
  */
 declare function submit<TValue>(form: Field<TValue>, action: (form: Field<TValue>) => Promise<TreeValidationResult>): Promise<void>;
@@ -2520,7 +2440,6 @@ declare function submit<TValue>(form: Field<TValue>, action: (form: Field<TValue
  * @returns A schema object that implements the given logic.
  * @template TValue The value type of a `Field` that this schema binds to.
  *
- * @category structure
  * @experimental 21.0.0
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
@@ -2555,7 +2474,6 @@ type BaseValidatorConfig<TValue, TPathKind extends PathKind = PathKind.Root> = {
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function email<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<string, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
@@ -2573,7 +2491,6 @@ declare function email<TPathKind extends PathKind = PathKind.Root>(path: FieldPa
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function max<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<number, TPathKind>, maxValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
@@ -2592,7 +2509,6 @@ declare function max<TPathKind extends PathKind = PathKind.Root>(path: FieldPath
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, maxLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
@@ -2610,7 +2526,6 @@ declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function min<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<number, TPathKind>, minValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
@@ -2629,7 +2544,6 @@ declare function min<TPathKind extends PathKind = PathKind.Root>(path: FieldPath
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, minLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
@@ -2646,7 +2560,6 @@ declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<string, TPathKind>, pattern: RegExp | LogicFn<string | undefined, RegExp | undefined, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
@@ -2665,7 +2578,6 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Field
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind> & {
@@ -2701,7 +2613,6 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  *   or a partial of it.
  * @template TValue The type of value stored in the field being validated.
  *
- * @category validation
  * @experimental 21.0.0
  */
 declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
