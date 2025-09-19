@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.4+sha-fec7c28
+ * @license Angular v21.0.0-next.4+sha-0c4feb8
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -1072,6 +1072,7 @@ function assertPathIsCurrent(path) {
  * Represents a property that may be defined on a field when it is created using a `property` rule
  * in the schema. A particular `Property` can only be defined on a particular field **once**.
  *
+ * @category logic
  * @experimental 21.0.0
  */
 class Property {
@@ -1175,36 +1176,42 @@ function andProperty() {
 /**
  * An aggregate property representing whether the field is required.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 const REQUIRED = orProperty();
 /**
  * An aggregate property representing the min value of the field.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 const MIN = maxProperty();
 /**
  * An aggregate property representing the max value of the field.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 const MAX = minProperty();
 /**
  * An aggregate property representing the min length of the field.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 const MIN_LENGTH = maxProperty();
 /**
  * An aggregate property representing the max length of the field.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 const MAX_LENGTH = minProperty();
 /**
  * An aggregate property representing the patterns the field must match.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 const PATTERN = listProperty();
@@ -1219,6 +1226,7 @@ const PATTERN = listProperty();
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category logic
  * @experimental 21.0.0
  */
 function disabled(path, logic) {
@@ -1247,6 +1255,7 @@ function disabled(path, logic) {
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category logic
  * @experimental 21.0.0
  */
 function readonly(path, logic = () => true) {
@@ -1271,6 +1280,7 @@ function readonly(path, logic = () => true) {
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category logic
  * @experimental 21.0.0
  */
 function hidden(path, logic) {
@@ -1286,6 +1296,7 @@ function hidden(path, logic) {
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category logic
  * @experimental 21.0.0
  */
 function validate(path, logic) {
@@ -1302,6 +1313,7 @@ function validate(path, logic) {
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category logic
  * @experimental 21.0.0
  */
 function validateTree(path, logic) {
@@ -1319,6 +1331,7 @@ function validateTree(path, logic) {
  * @template TPropItem The type of value the property aggregates over.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category logic
  * @experimental 21.0.0
  */
 function aggregateProperty(path, prop, logic) {
@@ -1353,6 +1366,7 @@ function property(path, ...rest) {
  * @template TResult The type of result returned by the resource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function validateAsync(path, opts) {
@@ -1400,6 +1414,7 @@ function validateAsync(path, opts) {
  * @template TResult The type of result returned by the httpResource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function validateHttp(path, opts) {
@@ -1542,6 +1557,7 @@ function isInputSignal(value) {
  *    forms `NgControl`. This is provided to improve interoperability with controls designed to work
  *    with reactive forms. It should not be used by controls written for signal forms.
  *
+ * @category control
  * @experimental 21.0.0
  */
 class Control {
@@ -1857,15 +1873,15 @@ class Control {
             }
         };
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.4+sha-fec7c28", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.4+sha-fec7c28", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.4+sha-0c4feb8", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.4+sha-0c4feb8", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
             {
                 provide: NgControl,
                 useFactory: () => inject(Control).ngControl,
             },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.4+sha-fec7c28", ngImport: i0, type: Control, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.4+sha-0c4feb8", ngImport: i0, type: Control, decorators: [{
             type: Directive,
             args: [{
                     selector: '[control]',
@@ -2900,6 +2916,7 @@ function form(...args) {
  * element of the array.
  * @template TValue The data type of the item field to apply the schema to.
  *
+ * @category structure
  * @experimental 21.0.0
  */
 function applyEach(path, schema) {
@@ -2925,6 +2942,7 @@ function applyEach(path, schema) {
  * @param schema The schema to apply to the property
  * @template TValue The data type of the field to apply the schema to.
  *
+ * @category structure
  * @experimental 21.0.0
  */
 function apply(path, schema) {
@@ -2940,6 +2958,7 @@ function apply(path, schema) {
  * @param schema The schema to apply to the field when the `logic` function returns `true`.
  * @template TValue The data type of the field to apply the schema to.
  *
+ * @category structure
  * @experimental 21.0.0
  */
 function applyWhen(path, logic, schema) {
@@ -2981,6 +3000,7 @@ function applyWhenValue(path, predicate, schema) {
  * errors.
  * @template TValue The data type of the field being submitted.
  *
+ * @category submission
  * @experimental 21.0.0
  */
 async function submit(form, action) {
@@ -3030,6 +3050,7 @@ function setServerErrors(submittedField, errors) {
  * @returns A schema object that implements the given logic.
  * @template TValue The value type of a `Field` that this schema binds to.
  *
+ * @category structure
  * @experimental 21.0.0
  */
 function schema(fn) {
@@ -3073,6 +3094,7 @@ function customError(obj) {
 /**
  * A custom error that may contain additional properties
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class CustomValidationError {
@@ -3114,6 +3136,7 @@ class _NgValidationError {
 /**
  * An error used to indicate that a required field is empty.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class RequiredValidationError extends _NgValidationError {
@@ -3122,6 +3145,7 @@ class RequiredValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is lower than the minimum allowed.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class MinValidationError extends _NgValidationError {
@@ -3135,6 +3159,7 @@ class MinValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is higher than the maximum allowed.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class MaxValidationError extends _NgValidationError {
@@ -3148,6 +3173,7 @@ class MaxValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is shorter than the minimum allowed length.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class MinLengthValidationError extends _NgValidationError {
@@ -3161,6 +3187,7 @@ class MinLengthValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is longer than the maximum allowed length.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class MaxLengthValidationError extends _NgValidationError {
@@ -3174,6 +3201,7 @@ class MaxLengthValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value does not match the required pattern.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class PatternValidationError extends _NgValidationError {
@@ -3187,6 +3215,7 @@ class PatternValidationError extends _NgValidationError {
 /**
  * An error used to indicate that a value is not a valid email.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class EmailValidationError extends _NgValidationError {
@@ -3195,6 +3224,7 @@ class EmailValidationError extends _NgValidationError {
 /**
  * An error used to indicate an issue validating against a standard schema.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 class StandardSchemaValidationError extends _NgValidationError {
@@ -3227,6 +3257,7 @@ class StandardSchemaValidationError extends _NgValidationError {
  * }
  * ```
  *
+ * @category validation
  * @experimental 21.0.0
  */
 const NgValidationError = _NgValidationError;
@@ -3298,6 +3329,7 @@ const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function email(path, config) {
@@ -3330,6 +3362,7 @@ function email(path, config) {
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function max(path, maxValue, config) {
@@ -3369,6 +3402,7 @@ function max(path, maxValue, config) {
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function maxLength(path, maxLength, config) {
@@ -3407,6 +3441,7 @@ function maxLength(path, maxLength, config) {
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function min(path, minValue, config) {
@@ -3446,6 +3481,7 @@ function min(path, minValue, config) {
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function minLength(path, minLength, config) {
@@ -3483,6 +3519,7 @@ function minLength(path, minLength, config) {
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function pattern(path, pattern, config) {
@@ -3522,6 +3559,7 @@ function pattern(path, pattern, config) {
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function required(path, config) {
@@ -3551,6 +3589,7 @@ function required(path, config) {
  *   or a partial of it.
  * @template TValue The type of value stored in the field being validated.
  *
+ * @category validation
  * @experimental 21.0.0
  */
 function validateStandardSchema(path, schema) {
