@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.4+sha-304d91f
+ * @license Angular v21.0.0-next.4+sha-3d1e8fa
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -595,7 +595,7 @@ type PathKind = PathKind.Root | PathKind.Child | PathKind.Item;
 /**
  * A status indicating whether a field is unsubmitted, submitted, or currently submitting.
  *
- * @category submission
+ * @category types
  * @experimental 21.0.0
  */
 type SubmittedStatus = 'unsubmitted' | 'submitted' | 'submitting';
@@ -614,7 +614,7 @@ interface DisabledReason {
 /**
  * The absence of an error which indicates a successful validation result.
  *
- * @category validation
+ * @category types
  * @experimental 21.0.0
  */
 type ValidationSuccess = null | undefined | void;
@@ -629,7 +629,7 @@ type ValidationSuccess = null | undefined | void;
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
- * @category validation
+ * @category types
  * @experimental 21.0.0
  */
 type FieldValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<WithoutField<E>>;
@@ -644,7 +644,7 @@ type FieldValidationResult<E extends ValidationError = ValidationError> = Valida
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
- * @category validation
+ * @category types
  * @experimental 21.0.0
  */
 type TreeValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<WithOptionalField<E>>;
@@ -658,7 +658,7 @@ type TreeValidationResult<E extends ValidationError = ValidationError> = Validat
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
- * @category validation
+ * @category types
  * @experimental 21.0.0
  */
 type ValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<E>;
@@ -671,7 +671,7 @@ type ValidationResult<E extends ValidationError = ValidationError> = ValidationS
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
- * @category validation
+ * @category types
  * @experimental 21.0.0
  */
 type AsyncValidationResult<E extends ValidationError = ValidationError> = ValidationResult<E> | 'pending';
@@ -685,7 +685,7 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
  *
- * @category structure
+ * @category types
  * @experimental 21.0.0
  */
 type Field<TValue, TKey extends string | number = string | number> = (() => FieldState<TValue, TKey>) & (TValue extends Array<infer U> ? ReadonlyArrayLike<MaybeField<U, number>> : TValue extends Record<string, any> ? Subfields<TValue> : unknown);
@@ -856,7 +856,7 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
  * @template TValue The type of the data which the form is wrapped around.
  * @template TPathKind The kind of path (root field, child field, or item of an array)
  *
- * @category structure
+ * @category types
  * @experimental 21.0.0
  */
 type FieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = {
@@ -882,7 +882,7 @@ type MaybeFieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = (TValu
  *
  * @template TValue The type of data stored in the form that this schema is attached to.
  *
- * @category structure
+ * @category types
  * @experimental 21.0.0
  */
 type Schema<in TValue> = {
@@ -894,7 +894,7 @@ type Schema<in TValue> = {
  * @template TValue The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
  *
- * @category structure
+ * @category types
  * @experimental 21.0.0
  */
 type SchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = (p: FieldPath<TValue, TPathKind>) => void;
@@ -904,7 +904,7 @@ type SchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = (p: FieldPat
  * @template TValue The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
  *
- * @category structure
+ * @category types
  * @experimental 21.0.0
  */
 type SchemaOrSchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = Schema<TValue> | SchemaFn<TValue, TPathKind>;
@@ -916,7 +916,7 @@ type SchemaOrSchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = Sche
  * @template TReturn The type of the result returned by the logic function.
  * @template TPathKind The kind of path the logic is applied to (root field, child field, or item of an array)
  *
- * @category structure
+ * @category types
  * @experimental 21.0.0
  */
 type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx: FieldContext<TValue, TPathKind>) => TReturn;
@@ -938,7 +938,7 @@ type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicF
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  *
- * @category validation
+ * @category types
  * @experimental 21.0.0
  */
 type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, TreeValidationResult, TPathKind>;
@@ -950,7 +950,7 @@ type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  *
- * @category validation
+ * @category types
  * @experimental 21.0.0
  */
 type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult, TPathKind>;
@@ -958,7 +958,7 @@ type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TVa
  * Provides access to the state of the current field as well as functions that can be used to look
  * up state of other fields based on a `FieldPath`.
  *
- * @category structure
+ * @category types
  * @experimental 21.0.0
  */
 type FieldContext<TValue, TPathKind extends PathKind = PathKind.Root> = TPathKind extends PathKind.Item ? ItemFieldContext<TValue> : TPathKind extends PathKind.Child ? ChildFieldContext<TValue> : RootFieldContext<TValue>;
