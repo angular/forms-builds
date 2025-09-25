@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.5+sha-6fee508
+ * @license Angular v21.0.0-next.5+sha-e2fd79b
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -3027,6 +3027,8 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * Sets errors on a form control when running validations manually, rather than automatically.
      *
      * Calling `setErrors` also updates the validity of the parent control.
+     *
+     * Note: Manually set errors are always overwritten by the results of the next validation run.
      *
      * @param opts Configuration options that determine how the control propagates
      * changes and emits events after the control errors are set.
