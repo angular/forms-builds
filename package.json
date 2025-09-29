@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "21.0.0-next.5+sha-377d1a0",
+  "version": "21.0.0-next.5+sha-fc643c9",
   "description": "Angular - directives and services for creating forms",
   "author": "angular",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "21.0.0-next.5+sha-377d1a0",
-    "@angular/common": "21.0.0-next.5+sha-377d1a0",
-    "@angular/platform-browser": "21.0.0-next.5+sha-377d1a0",
+    "@angular/core": "21.0.0-next.5+sha-fc643c9",
+    "@angular/common": "21.0.0-next.5+sha-fc643c9",
+    "@angular/platform-browser": "21.0.0-next.5+sha-fc643c9",
     "@standard-schema/spec": "^1.0.0",
     "rxjs": "^6.5.3 || ^7.4.0"
   },
@@ -44,18 +44,18 @@
   },
   "sideEffects": false,
   "module": "./fesm2022/forms.mjs",
-  "typings": "./index.d.ts",
+  "typings": "./types/forms.d.ts",
   "type": "module",
   "exports": {
     "./package.json": {
       "default": "./package.json"
     },
     ".": {
-      "types": "./index.d.ts",
+      "types": "./types/forms.d.ts",
       "default": "./fesm2022/forms.mjs"
     },
     "./signals": {
-      "types": "./signals/index.d.ts",
+      "types": "./types/signals.d.ts",
       "default": "./fesm2022/signals.mjs"
     }
   }
