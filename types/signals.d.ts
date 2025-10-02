@@ -1,15 +1,19 @@
 /**
- * @license Angular v21.0.0-next.6+sha-732635b
+ * @license Angular v21.0.0-next.6+sha-6169fa5
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
 
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import * as i0 from '@angular/core';
-import { ElementRef, WritableSignal, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, DestroyableInjector, Injector } from '@angular/core';
+import { InjectionToken, ElementRef, WritableSignal, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, DestroyableInjector, Injector } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
+/**
+ * Lightweight DI token provided by the {@link Control} directive.
+ */
+declare const CONTROL: InjectionToken<Control<unknown>>;
 /**
  * Binds a form `Field` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
@@ -2706,5 +2710,5 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  */
 declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
 
-export { AggregateProperty, Control, CustomValidationError, EmailValidationError, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { AggregateProperty, CONTROL, Control, CustomValidationError, EmailValidationError, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, Field, FieldContext, FieldPath, FieldState, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeField, MaybeFieldPath, Mutable, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };

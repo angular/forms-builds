@@ -1,12 +1,12 @@
 /**
- * @license Angular v21.0.0-next.6+sha-732635b
+ * @license Angular v21.0.0-next.6+sha-6169fa5
  * (c) 2010-2025 Google LLC. https://angular.io/
  * License: MIT
  */
 
 import { httpResource } from '@angular/common/http';
 import * as i0 from '@angular/core';
-import { computed, untracked, ɵSIGNAL as _SIGNAL, inject, Injector, Renderer2, signal, ElementRef, effect, afterNextRender, DestroyRef, Directive, Input, reflectComponentType, OutputEmitterRef, EventEmitter, runInInjectionContext, linkedSignal, APP_ID, ɵisPromise as _isPromise, resource } from '@angular/core';
+import { computed, untracked, ɵSIGNAL as _SIGNAL, InjectionToken, inject, Injector, Renderer2, signal, ElementRef, effect, afterNextRender, DestroyRef, Directive, Input, reflectComponentType, OutputEmitterRef, EventEmitter, runInInjectionContext, linkedSignal, APP_ID, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
@@ -1543,6 +1543,10 @@ function isInputSignal(value) {
 }
 
 /**
+ * Lightweight DI token provided by the {@link Control} directive.
+ */
+const CONTROL = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'CONTROL' : '');
+/**
  * Binds a form `Field` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
  * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
@@ -1873,15 +1877,19 @@ class Control {
             }
         };
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-732635b", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.6+sha-732635b", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-6169fa5", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.6+sha-6169fa5", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
             {
                 provide: NgControl,
                 useFactory: () => inject(Control).ngControl,
             },
+            {
+                provide: CONTROL,
+                useExisting: Control,
+            },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-732635b", ngImport: i0, type: Control, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-6169fa5", ngImport: i0, type: Control, decorators: [{
             type: Directive,
             args: [{
                     selector: '[control]',
@@ -1889,6 +1897,10 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.6+sh
                         {
                             provide: NgControl,
                             useFactory: () => inject(Control).ngControl,
+                        },
+                        {
+                            provide: CONTROL,
+                            useExisting: Control,
                         },
                     ],
                 }]
@@ -3643,5 +3655,5 @@ function standardIssueToFormTreeError(field, issue) {
     return addDefaultField(standardSchemaError(issue), target);
 }
 
-export { AggregateProperty, Control, CustomValidationError, EmailValidationError, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { AggregateProperty, CONTROL, Control, CustomValidationError, EmailValidationError, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 //# sourceMappingURL=signals.mjs.map
