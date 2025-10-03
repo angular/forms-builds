@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.6+sha-e0b9d9b
+ * @license Angular v21.0.0-next.6+sha-e403078
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1547,7 +1547,7 @@ function isInputSignal(value) {
  */
 const CONTROL = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'CONTROL' : '');
 /**
- * Binds a form `Field` to a UI control that edits it. A UI control can be one of several things:
+ * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
  * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
  * 3. A component that provides a ControlValueAccessor. This should only be used to backwards
@@ -1877,8 +1877,8 @@ class Control {
             }
         };
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-e0b9d9b", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.6+sha-e0b9d9b", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-e403078", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.6+sha-e403078", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
             {
                 provide: NgControl,
                 useFactory: () => inject(Control).ngControl,
@@ -1889,7 +1889,7 @@ class Control {
             },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-e0b9d9b", ngImport: i0, type: Control, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-e403078", ngImport: i0, type: Control, decorators: [{
             type: Directive,
             args: [{
                     selector: '[control]',
@@ -2099,7 +2099,7 @@ class FieldPropertyState {
 }
 
 /**
- * Proxy handler which implements `Field<T>` on top of `FieldNode`.
+ * Proxy handler which implements `FieldTree<T>` on top of `FieldNode`.
  */
 const FIELD_PROXY_HANDLER = {
     get(getTgt, p) {
@@ -2107,8 +2107,8 @@ const FIELD_PROXY_HANDLER = {
         // First, check whether the requested property is a defined child node of this node.
         const child = tgt.structure.getChild(p);
         if (child !== undefined) {
-            // If so, return the child node's `Field` proxy, allowing the developer to continue navigating
-            // the form structure.
+            // If so, return the child node's `FieldTree` proxy, allowing the developer to continue
+            // navigating the form structure.
             return child.fieldProxy;
         }
         // Otherwise, we need to consider whether the properties they're accessing are related to array
@@ -2908,8 +2908,8 @@ function form(...args) {
  * });
  * ```
  *
- * When binding logic to the array items, the `Field` for the array item is passed as an additional
- * argument. This can be used to reference other properties on the item.
+ * When binding logic to the array items, the `FieldTree` for the array item is passed as an
+ * additional argument. This can be used to reference other properties on the item.
  *
  * @example
  * ```
@@ -2983,14 +2983,14 @@ function applyWhenValue(path, predicate, schema) {
     applyWhen(path, ({ value }) => predicate(value()), schema);
 }
 /**
- * Submits a given `Field` using the given action function and applies any server errors resulting
- * from the action to the field. Server errors returned by the `action` will be integrated into the
- * field as a `ValidationError` on the sub-field indicated by the `field` property of the server
- * error.
+ * Submits a given `FieldTree` using the given action function and applies any server errors
+ * resulting from the action to the field. Server errors returned by the `action` will be integrated
+ * into the field as a `ValidationError` on the sub-field indicated by the `field` property of the
+ * server error.
  *
  * @example
  * ```
- * async function registerNewUser(registrationForm: Field<{username: string, password: string}>) {
+ * async function registerNewUser(registrationForm: FieldTree<{username: string, password: string}>) {
  *   const result = await myClient.registerNewUser(registrationForm().value());
  *   if (result.errorCode === myClient.ErrorCode.USERNAME_TAKEN) {
  *     return [{
@@ -3061,7 +3061,7 @@ function setServerErrors(submittedField, errors) {
  * Creates a `Schema` that adds logic rules to a form.
  * @param fn A **non-reactive** function that sets up reactive logic rules for the form.
  * @returns A schema object that implements the given logic.
- * @template TValue The value type of a `Field` that this schema binds to.
+ * @template TValue The value type of a `FieldTree` that this schema binds to.
  *
  * @category structure
  * @experimental 21.0.0

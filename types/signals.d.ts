@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.6+sha-e0b9d9b
+ * @license Angular v21.0.0-next.6+sha-e403078
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -15,7 +15,7 @@ import { StandardSchemaV1 } from '@standard-schema/spec';
  */
 declare const CONTROL: InjectionToken<Control<unknown>>;
 /**
- * Binds a form `Field` to a UI control that edits it. A UI control can be one of several things:
+ * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
  * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
  * 3. A component that provides a ControlValueAccessor. This should only be used to backwards
@@ -39,8 +39,8 @@ declare class Control<T> {
     /** Whether state synchronization with the field has been setup yet. */
     private initialized;
     /** The field that is bound to this control. */
-    readonly field: i0.WritableSignal<Field<T>>;
-    set _field(value: Field<T>);
+    readonly field: i0.WritableSignal<FieldTree<T>>;
+    set _field(value: FieldTree<T>);
     /** The field state of the bound field. */
     readonly state: i0.Signal<FieldState<T, string | number>>;
     /** The HTMLElement this directive is attached to. */
@@ -204,7 +204,7 @@ interface ValidationErrorOptions {
  * @experimental 21.0.0
  */
 type WithField<T> = T & {
-    field: Field<unknown>;
+    field: FieldTree<unknown>;
 };
 /**
  * A type that allows the given type `T` to optionally have a `field` property.
@@ -213,7 +213,7 @@ type WithField<T> = T & {
  * @experimental 21.0.0
  */
 type WithOptionalField<T> = Omit<T, 'field'> & {
-    field?: Field<unknown>;
+    field?: FieldTree<unknown>;
 };
 /**
  * A type that ensures the given type `T` does not have a `field` property.
@@ -391,7 +391,7 @@ interface ValidationError {
     /** Identifies the kind of error. */
     readonly kind: string;
     /** The field associated with this error. */
-    readonly field: Field<unknown>;
+    readonly field: FieldTree<unknown>;
     /** Human readable error message. */
     readonly message?: string;
 }
@@ -411,7 +411,7 @@ declare class CustomValidationError implements ValidationError {
     /** Identifies the kind of error. */
     readonly kind: string;
     /** The field associated with this error. */
-    readonly field: Field<unknown>;
+    readonly field: FieldTree<unknown>;
     /** Human readable error message. */
     readonly message?: string;
     constructor(options?: ValidationErrorOptions);
@@ -428,7 +428,7 @@ declare abstract class _NgValidationError implements ValidationError {
     /** Identifies the kind of error. */
     readonly kind: string;
     /** The field associated with this error. */
-    readonly field: Field<unknown>;
+    readonly field: FieldTree<unknown>;
     /** Human readable error message. */
     readonly message?: string;
     constructor(options?: ValidationErrorOptions);
@@ -611,7 +611,7 @@ type SubmittedStatus = 'unsubmitted' | 'submitted' | 'submitting';
  */
 interface DisabledReason {
     /** The field that is disabled. */
-    readonly field: Field<unknown>;
+    readonly field: FieldTree<unknown>;
     /** A user-facing message describing the reason for the disablement. */
     readonly message?: string;
 }
@@ -680,11 +680,11 @@ type ValidationResult<E extends ValidationError = ValidationError> = ValidationS
  */
 type AsyncValidationResult<E extends ValidationError = ValidationError> = ValidationResult<E> | 'pending';
 /**
- * An object that represents a single field in a form. This includes both primitive value fields
+ * An object that represents a tree of fields in a form. This includes both primitive value fields
  * (e.g. fields that contain a `string` or `number`), as well as "grouping fields" that contain
- * sub-fields. `Field` objects are arranged in a tree whose structure mimics the structure of the
- * underlying data. For example a `Field<{x: number}>` has a property `x` which contains a
- * `Field<number>`. To access the state associated with a field, call it as a function.
+ * sub-fields. `FieldTree` objects are arranged in a tree whose structure mimics the structure of the
+ * underlying data. For example a `FieldTree<{x: number}>` has a property `x` which contains a
+ * `FieldTree<number>`. To access the state associated with a field, call it as a function.
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
@@ -692,16 +692,16 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  * @category types
  * @experimental 21.0.0
  */
-type Field<TValue, TKey extends string | number = string | number> = (() => FieldState<TValue, TKey>) & (TValue extends Array<infer U> ? ReadonlyArrayLike<MaybeField<U, number>> : TValue extends Record<string, any> ? Subfields<TValue> : unknown);
+type FieldTree<TValue, TKey extends string | number = string | number> = (() => FieldState<TValue, TKey>) & (TValue extends Array<infer U> ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TValue extends Record<string, any> ? Subfields<TValue> : unknown);
 /**
- * The sub-fields that a user can navigate to from a `Field<TValue>`.
+ * The sub-fields that a user can navigate to from a `FieldTree<TValue>`.
  *
  * @template TValue The type of the data which the parent field is wrapped around.
  *
  * @experimental 21.0.0
  */
 type Subfields<TValue> = {
-    readonly [K in keyof TValue as TValue[K] extends Function ? never : K]: MaybeField<TValue[K], string>;
+    readonly [K in keyof TValue as TValue[K] extends Function ? never : K]: MaybeFieldTree<TValue[K], string>;
 };
 /**
  * An iterable object with the same shape as a readonly array.
@@ -712,20 +712,20 @@ type Subfields<TValue> = {
  */
 type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Symbol.iterator>;
 /**
- * Helper type for defining `Field`. Given a type `TValue` that may include `undefined`, it extracts
- * the `undefined` outside the `Field` type.
+ * Helper type for defining `FieldTree`. Given a type `TValue` that may include `undefined`, it extracts
+ * the `undefined` outside the `FieldTree` type.
  *
  * For example `MaybeField<{a: number} | undefined, TKey>` would be equivalent to
- * `undefined | Field<{a: number}, TKey>`.
+ * `undefined | FieldTree<{a: number}, TKey>`.
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
  *
  * @experimental 21.0.0
  */
-type MaybeField<TValue, TKey extends string | number = string | number> = (TValue & undefined) | Field<Exclude<TValue, undefined>, TKey>;
+type MaybeFieldTree<TValue, TKey extends string | number = string | number> = (TValue & undefined) | FieldTree<Exclude<TValue, undefined>, TKey>;
 /**
- * Contains all of the state (e.g. value, statuses, etc.) associated with a `Field`, exposed as
+ * Contains all of the state (e.g. value, statuses, etc.) associated with a `FieldTree`, exposed as
  * signals.
  *
  * @category structure
@@ -853,7 +853,7 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
     reset(): void;
 }
 /**
- * An object that represents a location in the `Field` tree structure and is used to bind logic to a
+ * An object that represents a location in the `FieldTree` tree structure and is used to bind logic to a
  * particular part of the structure prior to the creation of the form. Because the `FieldPath`
  * exists prior to the form's creation, it cannot be used to access any of the field state.
  *
@@ -873,7 +873,7 @@ type FieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = {
  * extracts the `undefined` outside the `FieldPath` type.
  *
  * For example `MaybeFieldPath<{a: number} | undefined, PathKind.Child>` would be equivalent to
- * `undefined | Field<{a: number}, PathKind.child>`.
+ * `undefined | FieldTree<{a: number}, PathKind.child>`.
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TPathKind The kind of path (root field, child field, or item of an array)
@@ -977,13 +977,13 @@ interface RootFieldContext<TValue> {
     /** The state of the current field. */
     readonly state: FieldState<TValue>;
     /** The current field. */
-    readonly field: Field<TValue>;
+    readonly field: FieldTree<TValue>;
     /** Gets the value of the field represented by the given path. */
     readonly valueOf: <P>(p: FieldPath<P>) => P;
     /** Gets the state of the field represented by the given path. */
     readonly stateOf: <P>(p: FieldPath<P>) => FieldState<P>;
     /** Gets the field represented by the given path. */
-    readonly fieldOf: <P>(p: FieldPath<P>) => Field<P>;
+    readonly fieldOf: <P>(p: FieldPath<P>) => FieldTree<P>;
 }
 /**
  * Field context that is available for all fields that are a child of another field.
@@ -1220,14 +1220,14 @@ interface FormUiControl {
     readonly pattern?: InputSignal<readonly RegExp[]>;
 }
 /**
- * A contract for a form control that edits a `Field` of type `TValue`. Any component that
+ * A contract for a form control that edits a `FieldTree` of type `TValue`. Any component that
  * implements this contract can be used with the `Control` directive.
  *
  * Many of the properties declared on this contract are optional. They do not need to be
  * implemented, but if they are will be kept in sync with the field state of the field bound to the
  * `Control` directive.
  *
- * @template TValue The type of `Field` that the implementing component can edit.
+ * @template TValue The type of `FieldTree` that the implementing component can edit.
  *
  * @category control
  * @experimental 21.0.0
@@ -1236,7 +1236,7 @@ interface FormValueControl<TValue> extends FormUiControl {
     /**
      * The value is the only required property in this contract. A component that wants to integrate
      * with the `Control` directive via this contract, *must* provide a `model()` that will be kept in
-     * sync with the value of the bound `Field`.
+     * sync with the value of the bound `FieldTree`.
      */
     readonly value: ModelSignal<TValue>;
     /**
@@ -1246,7 +1246,7 @@ interface FormValueControl<TValue> extends FormUiControl {
     readonly checked?: undefined;
 }
 /**
- * A contract for a form control that edits a boolean checkbox `Field`. Any component that
+ * A contract for a form control that edits a boolean checkbox `FieldTree`. Any component that
  * implements this contract can be used with the `Control` directive.
  *
  * Many of the properties declared on this contract are optional. They do not need to be
@@ -1260,7 +1260,7 @@ interface FormCheckboxControl extends FormUiControl {
     /**
      * The checked is the only required property in this contract. A component that wants to integrate
      * with the `Control` directive, *must* provide a `model()` that will be kept in sync with the
-     * value of the bound `Field`.
+     * value of the bound `FieldTree`.
      */
     readonly checked: ModelSignal<boolean>;
     /**
@@ -1982,7 +1982,7 @@ declare class FieldNode implements FieldState<unknown> {
     /**
      * Proxy to this node which allows navigation of the form graph below it.
      */
-    readonly fieldProxy: Field<any>;
+    readonly fieldProxy: FieldTree<any>;
     constructor(options: FieldNodeOptions);
     get logicNode(): LogicNode;
     get value(): WritableSignal<unknown>;
@@ -2267,8 +2267,8 @@ interface FormOptions {
     adapter?: FieldAdapter;
 }
 /**
- * Creates a form wrapped around the given model data. A form is represented as simply a `Field` of
- * the model data.
+ * Creates a form wrapped around the given model data. A form is represented as simply a `FieldTree`
+ * of the model data.
  *
  * `form` uses the given model as the source of truth and *does not* maintain its own copy of the
  * data. This means that updating the value on a `FieldState` updates the originally passed in model
@@ -2286,16 +2286,16 @@ interface FormOptions {
  * @param model A writable signal that contains the model data for the form. The resulting field
  * structure will match the shape of the model and any changes to the form data will be written to
  * the model.
- * @return A `Field` representing a form around the data model.
+ * @return A `FieldTree` representing a form around the data model.
  * @template TValue The type of the data model.
  *
  * @category structure
  * @experimental 21.0.0
  */
-declare function form<TValue>(model: WritableSignal<TValue>): Field<TValue>;
+declare function form<TValue>(model: WritableSignal<TValue>): FieldTree<TValue>;
 /**
- * Creates a form wrapped around the given model data. A form is represented as simply a `Field` of
- * the model data.
+ * Creates a form wrapped around the given model data. A form is represented as simply a `FieldTree`
+ * of the model data.
  *
  * `form` uses the given model as the source of truth and *does not* maintain its own copy of the
  * data. This means that updating the value on a `FieldState` updates the originally passed in model
@@ -2332,16 +2332,16 @@ declare function form<TValue>(model: WritableSignal<TValue>): Field<TValue>;
  *   1. A schema or a function used to specify logic for the form (e.g. validation, disabled fields, etc.).
  *      When passing a schema, the form options can be passed as a third argument if needed.
  *   2. The form options
- * @return A `Field` representing a form around the data model
+ * @return A `FieldTree` representing a form around the data model
  * @template TValue The type of the data model.
  *
  * @category structure
  * @experimental 21.0.0
  */
-declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: SchemaOrSchemaFn<TValue> | FormOptions): Field<TValue>;
+declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: SchemaOrSchemaFn<TValue> | FormOptions): FieldTree<TValue>;
 /**
- * Creates a form wrapped around the given model data. A form is represented as simply a `Field` of
- * the model data.
+ * Creates a form wrapped around the given model data. A form is represented as simply a `FieldTree`
+ * of the model data.
  *
  * `form` uses the given model as the source of truth and *does not* maintain its own copy of the
  * data. This means that updating the value on a `FieldState` updates the originally passed in model
@@ -2376,13 +2376,13 @@ declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: Sc
  * the model.
  * @param schema A schema or a function used to specify logic for the form (e.g. validation, disabled fields, etc.)
  * @param options The form options
- * @return A `Field` representing a form around the data model.
+ * @return A `FieldTree` representing a form around the data model.
  * @template TValue The type of the data model.
  *
  * @category structure
  * @experimental 21.0.0
  */
-declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSchemaFn<TValue>, options: FormOptions): Field<TValue>;
+declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSchemaFn<TValue>, options: FormOptions): FieldTree<TValue>;
 /**
  * Applies a schema to each item of an array.
  *
@@ -2397,8 +2397,8 @@ declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSch
  * });
  * ```
  *
- * When binding logic to the array items, the `Field` for the array item is passed as an additional
- * argument. This can be used to reference other properties on the item.
+ * When binding logic to the array items, the `FieldTree` for the array item is passed as an
+ * additional argument. This can be used to reference other properties on the item.
  *
  * @example
  * ```
@@ -2484,14 +2484,14 @@ declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: FieldPat
  */
 declare function applyWhenValue<TValue>(path: FieldPath<TValue>, predicate: (value: TValue) => boolean, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
 /**
- * Submits a given `Field` using the given action function and applies any server errors resulting
- * from the action to the field. Server errors returned by the `action` will be integrated into the
- * field as a `ValidationError` on the sub-field indicated by the `field` property of the server
- * error.
+ * Submits a given `FieldTree` using the given action function and applies any server errors
+ * resulting from the action to the field. Server errors returned by the `action` will be integrated
+ * into the field as a `ValidationError` on the sub-field indicated by the `field` property of the
+ * server error.
  *
  * @example
  * ```
- * async function registerNewUser(registrationForm: Field<{username: string, password: string}>) {
+ * async function registerNewUser(registrationForm: FieldTree<{username: string, password: string}>) {
  *   const result = await myClient.registerNewUser(registrationForm().value());
  *   if (result.errorCode === myClient.ErrorCode.USERNAME_TAKEN) {
  *     return [{
@@ -2517,12 +2517,12 @@ declare function applyWhenValue<TValue>(path: FieldPath<TValue>, predicate: (val
  * @category submission
  * @experimental 21.0.0
  */
-declare function submit<TValue>(form: Field<TValue>, action: (form: Field<TValue>) => Promise<TreeValidationResult>): Promise<void>;
+declare function submit<TValue>(form: FieldTree<TValue>, action: (form: FieldTree<TValue>) => Promise<TreeValidationResult>): Promise<void>;
 /**
  * Creates a `Schema` that adds logic rules to a form.
  * @param fn A **non-reactive** function that sets up reactive logic rules for the form.
  * @returns A schema object that implements the given logic.
- * @template TValue The value type of a `Field` that this schema binds to.
+ * @template TValue The value type of a `FieldTree` that this schema binds to.
  *
  * @category structure
  * @experimental 21.0.0
@@ -2711,4 +2711,4 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
 declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
 
 export { AggregateProperty, CONTROL, Control, CustomValidationError, EmailValidationError, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
-export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, Field, FieldContext, FieldPath, FieldState, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeField, MaybeFieldPath, Mutable, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, FieldContext, FieldPath, FieldState, FieldTree, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldPath, MaybeFieldTree, Mutable, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
