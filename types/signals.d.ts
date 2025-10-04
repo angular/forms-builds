@@ -1,13 +1,12 @@
 /**
- * @license Angular v21.0.0-next.6+sha-548ea02
+ * @license Angular v21.0.0-next.6+sha-effccff
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import * as i0 from '@angular/core';
-import { InjectionToken, ElementRef, WritableSignal, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, DestroyableInjector, Injector } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵFieldState as _FieldState, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
 /**
@@ -18,61 +17,31 @@ declare const CONTROL: InjectionToken<Control<unknown>>;
  * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
  * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
- * 3. A component that provides a ControlValueAccessor. This should only be used to backwards
+ * 3. TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131712274. A
+ *    component that provides a ControlValueAccessor. This should only be used to backwards
  *    compatibility with reactive forms. Prefer options (1) and (2).
  *
  * This directive has several responsibilities:
  * 1. Two-way binds the field's value with the UI control's value
  * 2. Binds additional forms related state on the field to the UI control (disabled, required, etc.)
  * 3. Relays relevant events on the control to the field (e.g. marks field touched on blur)
- * 4. Provides a fake `NgControl` that implements a subset of the features available on the reactive
- *    forms `NgControl`. This is provided to improve interoperability with controls designed to work
- *    with reactive forms. It should not be used by controls written for signal forms.
+ * 4. TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131712274.
+ *    Provides a fake `NgControl` that implements a subset of the features available on the
+ *    reactive forms `NgControl`. This is provided to improve interoperability with controls
+ *    designed to work with reactive forms. It should not be used by controls written for signal
+ *    forms.
  *
  * @category control
  * @experimental 21.0.0
  */
-declare class Control<T> {
-    /** The injector for this component. */
+declare class Control<T> implements _Control<T> {
     private readonly injector;
-    private readonly renderer;
-    /** Whether state synchronization with the field has been setup yet. */
-    private initialized;
-    /** The field that is bound to this control. */
-    readonly field: i0.WritableSignal<FieldTree<T>>;
-    set _field(value: FieldTree<T>);
-    /** The field state of the bound field. */
+    readonly field: i0.InputSignal<FieldTree<T>>;
     readonly state: i0.Signal<FieldState<T, string | number>>;
-    /** The HTMLElement this directive is attached to. */
-    readonly el: ElementRef<HTMLElement>;
-    /** The NG_VALUE_ACCESSOR array for the host component. */
-    readonly cvaArray: ControlValueAccessor[] | null;
-    /** The Cached value for the lazily created interop NgControl. */
-    private _ngControl;
-    /** A fake NgControl provided for better interop with reactive forms. */
-    get ngControl(): NgControl;
-    /** The ControlValueAccessor for the host component. */
-    get cva(): ControlValueAccessor | undefined;
-    /** Initializes state synchronization between the field and the host UI control. */
-    private initialize;
-    /**
-     * Set up state synchronization between the field and a native <input>, <textarea>, or <select>.
-     */
-    private setupNativeInput;
-    /** Set up state synchronization between the field and a ControlValueAccessor. */
-    private setupControlValueAccessor;
-    /** Set up state synchronization between the field and a FormUiControl. */
-    private setupCustomUiControl;
-    /** Synchronize a value from a reactive source to a given sink. */
-    private maybeSynchronize;
-    /** Creates a reactive value source by reading the given AggregateProperty from the field. */
-    private propertySource;
-    /** Creates a (non-boolean) value sync that writes the given attribute of the given element. */
-    private withAttribute;
-    /** Creates a boolean value sync that writes the given attribute of the given element. */
-    private withBooleanAttribute;
+    readonly [_CONTROL]: undefined;
+    register(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<Control<any>, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<Control<any>, "[control]", never, { "_field": { "alias": "control"; "required": true; }; }, {}, never, never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<Control<any>, "[control]", never, { "field": { "alias": "control"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
 /**
@@ -731,16 +700,7 @@ type MaybeFieldTree<TValue, TKey extends string | number = string | number> = (T
  * @category structure
  * @experimental 21.0.0
  */
-interface FieldState<TValue, TKey extends string | number = string | number> {
-    /**
-     * A writable signal containing the value for this field. Updating this signal will update the
-     * data model that the field is bound to.
-     */
-    readonly value: WritableSignal<TValue>;
-    /**
-     * A signal indicating whether the field has been touched by the user.
-     */
-    readonly touched: Signal<boolean>;
+interface FieldState<TValue, TKey extends string | number = string | number> extends _FieldState<TValue> {
     /**
      * A signal indicating whether field value has been changed by user.
      */
@@ -758,21 +718,7 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
      * ```
      */
     readonly hidden: Signal<boolean>;
-    /**
-     * A signal indicating whether the field is currently disabled.
-     */
-    readonly disabled: Signal<boolean>;
-    /**
-     * A signal containing the reasons why the field is currently disabled.
-     */
     readonly disabledReasons: Signal<readonly DisabledReason[]>;
-    /**
-     * A signal indicating whether the field is currently readonly.
-     */
-    readonly readonly: Signal<boolean>;
-    /**
-     * A signal containing the current errors for the field.
-     */
     readonly errors: Signal<ValidationError[]>;
     /**
      * A signal containing the {@link errors} of the field and its descendants.
@@ -811,10 +757,6 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
      */
     readonly submitting: Signal<boolean>;
     /**
-     * A signal of a unique name for the field, by default based on the name of its parent field.
-     */
-    readonly name: Signal<string>;
-    /**
      * The property key in the parent field under which this field is stored. If the parent field is
      * array-valued, for example, this is the index of this field in that array.
      */
@@ -837,14 +779,6 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
      * Checks whether the given metadata key has been defined for this field.
      */
     hasProperty(key: Property<any> | AggregateProperty<any, any>): boolean;
-    /**
-     * Sets the touched status of the field to `true`.
-     */
-    markAsTouched(): void;
-    /**
-     * Sets the dirty status of the field to `true`.
-     */
-    markAsDirty(): void;
     /**
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
      *
@@ -2001,6 +1935,12 @@ declare class FieldNode implements FieldState<unknown> {
     get controls(): Signal<readonly Control<unknown>[]>;
     get submitting(): Signal<boolean>;
     get name(): Signal<string>;
+    get max(): Signal<number | undefined>;
+    get maxLength(): Signal<number | undefined>;
+    get min(): Signal<number | undefined>;
+    get minLength(): Signal<number | undefined>;
+    get pattern(): Signal<readonly RegExp[]>;
+    get required(): Signal<boolean>;
     property<M>(prop: AggregateProperty<M, any>): Signal<M>;
     property<M>(prop: Property<M>): M | undefined;
     hasProperty(prop: Property<unknown> | AggregateProperty<unknown, any>): boolean;

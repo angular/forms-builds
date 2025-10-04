@@ -1,13 +1,12 @@
 /**
- * @license Angular v21.0.0-next.6+sha-548ea02
+ * @license Angular v21.0.0-next.6+sha-effccff
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { httpResource } from '@angular/common/http';
 import * as i0 from '@angular/core';
-import { computed, untracked, ɵSIGNAL as _SIGNAL, InjectionToken, inject, Injector, Renderer2, signal, ElementRef, effect, afterNextRender, DestroyRef, Directive, Input, reflectComponentType, OutputEmitterRef, EventEmitter, runInInjectionContext, linkedSignal, APP_ID, ɵisPromise as _isPromise, resource } from '@angular/core';
-import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { computed, untracked, InjectionToken, inject, Injector, input, ɵCONTROL as _CONTROL, effect, Directive, runInInjectionContext, linkedSignal, signal, APP_ID, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
 /**
@@ -1426,123 +1425,6 @@ function validateHttp(path, opts) {
 }
 
 /**
- * A fake version of `NgControl` provided by the `Control` directive. This allows interoperability
- * with a wider range of components designed to work with reactive forms, in particular ones that
- * inject the `NgControl`. The interop control does not implement *all* properties and methods of
- * the real `NgControl`, but does implement some of the most commonly used ones that have a clear
- * equivalent in signal forms.
- */
-class InteropNgControl {
-    field;
-    constructor(field) {
-        this.field = field;
-    }
-    control = this;
-    get value() {
-        return this.field().value();
-    }
-    get valid() {
-        return this.field().valid();
-    }
-    get invalid() {
-        return this.field().invalid();
-    }
-    get pending() {
-        return this.field().pending();
-    }
-    get disabled() {
-        return this.field().disabled();
-    }
-    get enabled() {
-        return !this.field().disabled();
-    }
-    get errors() {
-        const errors = this.field().errors();
-        if (errors.length === 0) {
-            return null;
-        }
-        const errObj = {};
-        for (const error of errors) {
-            errObj[error.kind] = error;
-        }
-        return errObj;
-    }
-    get pristine() {
-        return !this.field().dirty();
-    }
-    get dirty() {
-        return this.field().dirty();
-    }
-    get touched() {
-        return this.field().touched();
-    }
-    get untouched() {
-        return !this.field().touched();
-    }
-    get status() {
-        if (this.field().disabled()) {
-            return 'DISABLED';
-        }
-        if (this.field().valid()) {
-            return 'VALID';
-        }
-        if (this.field().invalid()) {
-            return 'INVALID';
-        }
-        if (this.field().pending()) {
-            return 'PENDING';
-        }
-        throw Error('AssertionError: unknown form control status');
-    }
-    valueAccessor = null;
-    hasValidator(validator) {
-        // This addresses a common case where users look for the presence of `Validators.required` to
-        // determine whether or not to show a required "*" indicator in the UI.
-        if (validator === Validators.required) {
-            return this.field().property(REQUIRED)();
-        }
-        return false;
-    }
-    updateValueAndValidity() {
-        // No-op since value and validity are always up to date in signal forms.
-        // We offer this method so that reactive forms code attempting to call it doesn't error.
-    }
-}
-
-// TODO: These utilities to be replaced with proper integration into framework.
-function privateGetComponentInstance(injector) {
-    assertIsNodeInjector(injector);
-    if (injector._tNode.directiveStart === 0 || injector._tNode.componentOffset === -1) {
-        return undefined;
-    }
-    return injector._lView[injector._tNode.directiveStart + injector._tNode.componentOffset];
-}
-function privateSetComponentInput(inputSignal, value) {
-    inputSignal[_SIGNAL].applyValueToInputSignal(inputSignal[_SIGNAL], value);
-}
-function privateIsSignalInput(value) {
-    return isInputSignal(value);
-}
-function privateIsModelInput(value) {
-    return isInputSignal(value) && isObject(value) && 'subscribe' in value;
-}
-function privateRunEffect(ref) {
-    ref[_SIGNAL].run();
-}
-function assertIsNodeInjector(injector) {
-    if (!('_tNode' in injector)) {
-        throw new Error('Expected a Node Injector');
-    }
-}
-function isInputSignal(value) {
-    if (!isObject(value) || !(_SIGNAL in value)) {
-        return false;
-    }
-    const node = value[_SIGNAL];
-    return isObject(node) && 'applyValueToInputSignal' in node;
-}
-
-/**
  * Lightweight DI token provided by the {@link Control} directive.
  */
 const CONTROL = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'CONTROL' : '');
@@ -1550,92 +1432,30 @@ const CONTROL = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ?
  * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
  * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
- * 3. A component that provides a ControlValueAccessor. This should only be used to backwards
+ * 3. TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131712274. A
+ *    component that provides a ControlValueAccessor. This should only be used to backwards
  *    compatibility with reactive forms. Prefer options (1) and (2).
  *
  * This directive has several responsibilities:
  * 1. Two-way binds the field's value with the UI control's value
  * 2. Binds additional forms related state on the field to the UI control (disabled, required, etc.)
  * 3. Relays relevant events on the control to the field (e.g. marks field touched on blur)
- * 4. Provides a fake `NgControl` that implements a subset of the features available on the reactive
- *    forms `NgControl`. This is provided to improve interoperability with controls designed to work
- *    with reactive forms. It should not be used by controls written for signal forms.
+ * 4. TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131712274.
+ *    Provides a fake `NgControl` that implements a subset of the features available on the
+ *    reactive forms `NgControl`. This is provided to improve interoperability with controls
+ *    designed to work with reactive forms. It should not be used by controls written for signal
+ *    forms.
  *
  * @category control
  * @experimental 21.0.0
  */
 class Control {
-    /** The injector for this component. */
     injector = inject(Injector);
-    renderer = inject(Renderer2);
-    /** Whether state synchronization with the field has been setup yet. */
-    initialized = false;
-    /** The field that is bound to this control. */
-    field = signal(undefined, ...(ngDevMode ? [{ debugName: "field" }] : []));
-    // If `[control]` is applied to a custom UI control, it wants to synchronize state in the field w/
-    // the inputs of that custom control. This is difficult to do in user-land. We use `effect`, but
-    // effects don't run before the lifecycle hooks of the component. This is usually okay, but has
-    // one significant issue: the UI control's required inputs won't be set in time for those
-    // lifecycle hooks to run.
-    //
-    // Eventually we can build custom functionality for the `Control` directive into the framework,
-    // but for now we work around this limitation with a hack. We use an `@Input` instead of a
-    // signal-based `input()` for the `[control]` to hook the exact moment inputs are being set,
-    // before the important lifecycle hooks of the UI control. We can then initialize all our effects
-    // and force them to run immediately, ensuring all required inputs have values.
-    set _field(value) {
-        this.field.set(value);
-        if (!this.initialized) {
-            this.initialize();
-        }
-    }
-    /** The field state of the bound field. */
+    field = input.required(...(ngDevMode ? [{ debugName: "field", alias: 'control' }] : [{ alias: 'control' }]));
     state = computed(() => this.field()(), ...(ngDevMode ? [{ debugName: "state" }] : []));
-    /** The HTMLElement this directive is attached to. */
-    el = inject(ElementRef);
-    /** The NG_VALUE_ACCESSOR array for the host component. */
-    cvaArray = inject(NG_VALUE_ACCESSOR, { optional: true });
-    /** The Cached value for the lazily created interop NgControl. */
-    _ngControl;
-    /** A fake NgControl provided for better interop with reactive forms. */
-    get ngControl() {
-        return (this._ngControl ??= new InteropNgControl(() => this.state()));
-    }
-    /** The ControlValueAccessor for the host component. */
-    get cva() {
-        return this.cvaArray?.[0] ?? this._ngControl?.valueAccessor ?? undefined;
-    }
-    /** Initializes state synchronization between the field and the host UI control. */
-    initialize() {
-        this.initialized = true;
-        const injector = this.injector;
-        const cmp = privateGetComponentInstance(injector);
-        // If component has a `control` input, we assume that it will handle binding the field to the
-        // appropriate native/custom control in its template, so we do not attempt to bind any inputs on
-        // this component.
-        if (cmp && isShadowedControlComponent(cmp)) {
-            return;
-        }
-        if (cmp && isFormUiControl(cmp)) {
-            // If we're binding to a component that follows the standard form ui control contract,
-            // set up state synchronization based on the contract.
-            this.setupCustomUiControl(cmp);
-        }
-        else if (this.cva !== undefined) {
-            // If we're binding to a component that doesn't follow the standard contract, but provides a
-            // control value accessor, set up state synchronization based on th CVA.
-            this.setupControlValueAccessor(this.cva);
-        }
-        else if (this.el.nativeElement instanceof HTMLInputElement ||
-            this.el.nativeElement instanceof HTMLTextAreaElement ||
-            this.el.nativeElement instanceof HTMLSelectElement) {
-            // If we're binding to a native html input, set up state synchronization with its native
-            // properties / attributes.
-            this.setupNativeInput(this.el.nativeElement);
-        }
-        else {
-            throw new Error(`Unhandled control?`);
-        }
+    [_CONTROL] = undefined;
+    // TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131861631
+    register() {
         // Register this control on the field it is currently bound to. We do this at the end of
         // initialization so that it only runs if we are actually syncing with this control
         // (as opposed to just passing the field through to its `control` input).
@@ -1647,316 +1467,13 @@ class Control {
             });
         }, { injector: this.injector });
     }
-    /**
-     * Set up state synchronization between the field and a native <input>, <textarea>, or <select>.
-     */
-    setupNativeInput(input) {
-        const inputType = input instanceof HTMLTextAreaElement
-            ? 'text'
-            : input instanceof HTMLSelectElement
-                ? 'select'
-                : input.type;
-        input.addEventListener('input', () => {
-            switch (inputType) {
-                case 'checkbox':
-                    this.state().value.set(input.checked);
-                    break;
-                case 'radio':
-                    // The `input` event only fires when a radio button becomes selected, so write its `value`
-                    // into the state.
-                    this.state().value.set(input.value);
-                    break;
-                case 'number':
-                case 'range':
-                case 'datetime-local':
-                    // We can read a `number` or a `string` from this input type.
-                    // Prefer whichever is consistent with the current type.
-                    if (typeof this.state().value() === 'number') {
-                        this.state().value.set(input.valueAsNumber);
-                    }
-                    else {
-                        this.state().value.set(input.value);
-                    }
-                    break;
-                case 'date':
-                case 'month':
-                case 'week':
-                case 'time':
-                    // We can read a `Date | null` or a `number` or a `string` from this input type.
-                    // Prefer whichever is consistent with the current type.
-                    if (isDateOrNull(this.state().value())) {
-                        this.state().value.set(input.valueAsDate);
-                    }
-                    else if (typeof this.state().value() === 'number') {
-                        this.state().value.set(input.valueAsNumber);
-                    }
-                    else {
-                        this.state().value.set(input.value);
-                    }
-                    break;
-                default:
-                    this.state().value.set(input.value);
-                    break;
-            }
-            this.state().markAsDirty();
-        });
-        input.addEventListener('blur', () => this.state().markAsTouched());
-        this.maybeSynchronize(() => this.state().readonly(), this.withBooleanAttribute(input, 'readonly'));
-        // TODO: consider making a global configuration option for using aria-disabled instead.
-        this.maybeSynchronize(() => this.state().disabled(), this.withBooleanAttribute(input, 'disabled'));
-        this.maybeSynchronize(() => this.state().name(), this.withAttribute(input, 'name'));
-        this.maybeSynchronize(this.propertySource(REQUIRED), this.withBooleanAttribute(input, 'required'));
-        this.maybeSynchronize(this.propertySource(MIN), this.withAttribute(input, 'min'));
-        this.maybeSynchronize(this.propertySource(MIN_LENGTH), this.withAttribute(input, 'minLength'));
-        this.maybeSynchronize(this.propertySource(MAX), this.withAttribute(input, 'max'));
-        this.maybeSynchronize(this.propertySource(MAX_LENGTH), this.withAttribute(input, 'maxLength'));
-        switch (inputType) {
-            case 'checkbox':
-                this.maybeSynchronize(() => this.state().value(), (value) => (input.checked = value));
-                break;
-            case 'radio':
-                this.maybeSynchronize(() => this.state().value(), (value) => {
-                    // Although HTML behavior is to clear the input already, we do this just in case.
-                    // It seems like it might be necessary in certain environments (e.g. Domino).
-                    input.checked = input.value === value;
-                });
-                break;
-            case 'select':
-                this.maybeSynchronize(() => this.state().value(), (value) => {
-                    // A select will not take a value unil the value's option has rendered.
-                    afterNextRender(() => (input.value = value), { injector: this.injector });
-                });
-                break;
-            case 'number':
-            case 'range':
-            case 'datetime-local':
-                // This input type can receive a `number` or a `string`.
-                this.maybeSynchronize(() => this.state().value(), (value) => {
-                    if (typeof value === 'number') {
-                        input.valueAsNumber = value;
-                    }
-                    else {
-                        input.value = value;
-                    }
-                });
-                break;
-            case 'date':
-            case 'month':
-            case 'week':
-            case 'time':
-                // This input type can receive a `Date | null` or a `number` or a `string`.
-                this.maybeSynchronize(() => this.state().value(), (value) => {
-                    if (isDateOrNull(value)) {
-                        input.valueAsDate = value;
-                    }
-                    else if (typeof value === 'number') {
-                        input.valueAsNumber = value;
-                    }
-                    else {
-                        input.value = value;
-                    }
-                });
-                break;
-            default:
-                this.maybeSynchronize(() => this.state().value(), (value) => {
-                    input.value = value;
-                });
-                break;
-        }
-    }
-    /** Set up state synchronization between the field and a ControlValueAccessor. */
-    setupControlValueAccessor(cva) {
-        cva.registerOnChange((value) => this.state().value.set(value));
-        cva.registerOnTouched(() => this.state().markAsTouched());
-        this.maybeSynchronize(() => this.state().value(), (value) => cva.writeValue(value));
-        if (cva.setDisabledState) {
-            this.maybeSynchronize(() => this.state().disabled(), (value) => cva.setDisabledState(value));
-        }
-        cva.writeValue(this.state().value());
-        cva.setDisabledState?.(this.state().disabled());
-    }
-    /** Set up state synchronization between the field and a FormUiControl. */
-    setupCustomUiControl(cmp) {
-        // Handle the property side of the model binding. How we do this depends on the shape of the
-        // component. There are 2 options:
-        // * it provides a `value` model (most controls that edit a single value)
-        // * it provides a `checked` model with no `value` signal (custom checkbox)
-        let cleanupValue;
-        if (isFormValueControl(cmp)) {
-            // <custom-input [(value)]="state().value">
-            this.maybeSynchronize(() => this.state().value(), withInput(cmp.value));
-            cleanupValue = cmp.value.subscribe((newValue) => this.state().value.set(newValue));
-        }
-        else if (isFormCheckboxControl(cmp)) {
-            // <custom-checkbox [(checked)]="state().value" />
-            this.maybeSynchronize(() => this.state().value(), withInput(cmp.checked));
-            cleanupValue = cmp.checked.subscribe((newValue) => this.state().value.set(newValue));
-        }
-        else {
-            throw new Error(`Unknown custom control subtype`);
-        }
-        this.maybeSynchronize(() => this.state().name(), withInput(cmp.name));
-        this.maybeSynchronize(() => this.state().disabled(), withInput(cmp.disabled));
-        this.maybeSynchronize(() => this.state().disabledReasons(), withInput(cmp.disabledReasons));
-        this.maybeSynchronize(() => this.state().readonly(), withInput(cmp.readonly));
-        this.maybeSynchronize(() => this.state().hidden(), withInput(cmp.hidden));
-        this.maybeSynchronize(() => this.state().errors(), withInput(cmp.errors));
-        if (privateIsModelInput(cmp.touched) || privateIsSignalInput(cmp.touched)) {
-            this.maybeSynchronize(() => this.state().touched(), withInput(cmp.touched));
-        }
-        this.maybeSynchronize(() => this.state().dirty(), withInput(cmp.dirty));
-        this.maybeSynchronize(() => this.state().invalid(), withInput(cmp.invalid));
-        this.maybeSynchronize(() => this.state().pending(), withInput(cmp.pending));
-        this.maybeSynchronize(this.propertySource(REQUIRED), withInput(cmp.required));
-        this.maybeSynchronize(this.propertySource(MIN), withInput(cmp.min));
-        this.maybeSynchronize(this.propertySource(MIN_LENGTH), withInput(cmp.minLength));
-        this.maybeSynchronize(this.propertySource(MAX), withInput(cmp.max));
-        this.maybeSynchronize(this.propertySource(MAX_LENGTH), withInput(cmp.maxLength));
-        this.maybeSynchronize(this.propertySource(PATTERN), withInput(cmp.pattern));
-        let cleanupTouch;
-        let cleanupDefaultTouch;
-        if (privateIsModelInput(cmp.touched) || isOutputRef(cmp.touched)) {
-            cleanupTouch = cmp.touched.subscribe(() => this.state().markAsTouched());
-        }
-        else {
-            // If the component did not give us a touch event stream, use the standard touch logic,
-            // marking it touched when the focus moves from inside the host element to outside.
-            const listener = (event) => {
-                const newActiveEl = event.relatedTarget;
-                if (!this.el.nativeElement.contains(newActiveEl)) {
-                    this.state().markAsTouched();
-                }
-            };
-            this.el.nativeElement.addEventListener('focusout', listener);
-            cleanupDefaultTouch = () => this.el.nativeElement.removeEventListener('focusout', listener);
-        }
-        // Cleanup for output binding subscriptions:
-        this.injector.get(DestroyRef).onDestroy(() => {
-            cleanupValue?.unsubscribe();
-            cleanupTouch?.unsubscribe();
-            cleanupDefaultTouch?.();
-        });
-    }
-    /** Synchronize a value from a reactive source to a given sink. */
-    maybeSynchronize(source, sink) {
-        if (!sink) {
-            return undefined;
-        }
-        const ref = effect(() => {
-            const value = source();
-            untracked(() => sink(value));
-        }, ...(ngDevMode ? [{ debugName: "ref", injector: this.injector }] : [{ injector: this.injector }]));
-        // Run the effect immediately to ensure sinks which are required inputs are set before they can
-        // be observed. See the note on `_field` for more details.
-        privateRunEffect(ref);
-    }
-    /** Creates a reactive value source by reading the given AggregateProperty from the field. */
-    propertySource(key) {
-        const metaSource = computed(() => this.state().hasProperty(key) ? this.state().property(key) : key.getInitial, ...(ngDevMode ? [{ debugName: "metaSource" }] : []));
-        return () => metaSource()?.();
-    }
-    /** Creates a (non-boolean) value sync that writes the given attribute of the given element. */
-    withAttribute(element, attribute) {
-        return (value) => {
-            if (value !== undefined) {
-                this.renderer.setAttribute(element, attribute, value.toString());
-            }
-            else {
-                this.renderer.removeAttribute(element, attribute);
-            }
-        };
-    }
-    /** Creates a boolean value sync that writes the given attribute of the given element. */
-    withBooleanAttribute(element, attribute) {
-        return (value) => {
-            if (value) {
-                this.renderer.setAttribute(element, attribute, '');
-            }
-            else {
-                this.renderer.removeAttribute(element, attribute);
-            }
-        };
-    }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-548ea02", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "21.0.0-next.6+sha-548ea02", type: Control, isStandalone: true, selector: "[control]", inputs: { _field: ["control", "_field"] }, providers: [
-            {
-                provide: NgControl,
-                useFactory: () => inject(Control).ngControl,
-            },
-            {
-                provide: CONTROL,
-                useExisting: Control,
-            },
-        ], ngImport: i0 });
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-effccff", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.6+sha-effccff", type: Control, isStandalone: true, selector: "[control]", inputs: { field: { classPropertyName: "field", publicName: "control", isSignal: true, isRequired: true, transformFunction: null } }, providers: [{ provide: CONTROL, useExisting: Control }], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-548ea02", ngImport: i0, type: Control, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.6+sha-effccff", ngImport: i0, type: Control, decorators: [{
             type: Directive,
-            args: [{
-                    selector: '[control]',
-                    providers: [
-                        {
-                            provide: NgControl,
-                            useFactory: () => inject(Control).ngControl,
-                        },
-                        {
-                            provide: CONTROL,
-                            useExisting: Control,
-                        },
-                    ],
-                }]
-        }], propDecorators: { _field: [{
-                type: Input,
-                args: [{ required: true, alias: 'control' }]
-            }] } });
-/** Creates a value sync from an input signal. */
-function withInput(input) {
-    return input ? (value) => privateSetComponentInput(input, value) : undefined;
-}
-/**
- * Checks whether the given component matches the contract for either FormValueControl or
- * FormCheckboxControl.
- */
-function isFormUiControl(cmp) {
-    const castCmp = cmp;
-    return ((isFormValueControl(castCmp) || isFormCheckboxControl(castCmp)) &&
-        (castCmp.readonly === undefined || privateIsSignalInput(castCmp.readonly)) &&
-        (castCmp.disabled === undefined || privateIsSignalInput(castCmp.disabled)) &&
-        (castCmp.disabledReasons === undefined || privateIsSignalInput(castCmp.disabledReasons)) &&
-        (castCmp.errors === undefined || privateIsSignalInput(castCmp.errors)) &&
-        (castCmp.invalid === undefined || privateIsSignalInput(castCmp.invalid)) &&
-        (castCmp.pending === undefined || privateIsSignalInput(castCmp.pending)) &&
-        (castCmp.touched === undefined ||
-            privateIsModelInput(castCmp.touched) ||
-            privateIsSignalInput(castCmp.touched) ||
-            isOutputRef(castCmp.touched)) &&
-        (castCmp.dirty === undefined || privateIsSignalInput(castCmp.dirty)) &&
-        (castCmp.min === undefined || privateIsSignalInput(castCmp.min)) &&
-        (castCmp.minLength === undefined || privateIsSignalInput(castCmp.minLength)) &&
-        (castCmp.max === undefined || privateIsSignalInput(castCmp.max)) &&
-        (castCmp.maxLength === undefined || privateIsSignalInput(castCmp.maxLength)));
-}
-/** Checks whether the given FormUiControl is a FormValueControl. */
-function isFormValueControl(cmp) {
-    return privateIsModelInput(cmp.value);
-}
-/** Checks whether the given FormUiControl is a FormCheckboxControl. */
-function isFormCheckboxControl(cmp) {
-    return (privateIsModelInput(cmp.checked) &&
-        cmp.value === undefined);
-}
-/** Checks whether the given component has an input called `control`. */
-function isShadowedControlComponent(cmp) {
-    const mirror = reflectComponentType(cmp.constructor);
-    return mirror?.inputs.some((input) => input.templateName === 'control') ?? false;
-}
-/** Checks whether the given object is an output ref. */
-function isOutputRef(value) {
-    return value instanceof OutputEmitterRef || value instanceof EventEmitter;
-}
-/** Checks if a given value is a Date or null */
-function isDateOrNull(value) {
-    return value === null || value instanceof Date;
-}
+            args: [{ selector: '[control]', providers: [{ provide: CONTROL, useExisting: Control }] }]
+        }] });
 
 /**
  * `FieldContext` implementation, backed by a `FieldNode`.
@@ -2574,6 +2091,24 @@ class FieldNode {
     }
     get name() {
         return this.nodeState.name;
+    }
+    get max() {
+        return this.property(MAX);
+    }
+    get maxLength() {
+        return this.property(MAX_LENGTH);
+    }
+    get min() {
+        return this.property(MIN);
+    }
+    get minLength() {
+        return this.property(MIN_LENGTH);
+    }
+    get pattern() {
+        return this.property(PATTERN);
+    }
+    get required() {
+        return this.property(REQUIRED);
     }
     property(prop) {
         return this.propertyState.get(prop);
