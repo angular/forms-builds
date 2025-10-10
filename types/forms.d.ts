@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.7+sha-d73d9ac
+ * @license Angular v21.0.0-next.7+sha-249fbb3
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -2269,6 +2269,8 @@ declare abstract class ControlEvent<T = any> {
 /**
  * Event fired when the value of a control changes.
  *
+ * @see {@link AbstractControl.events}
+ *
  * @publicApi
  */
 declare class ValueChangeEvent<T> extends ControlEvent<T> {
@@ -2279,6 +2281,8 @@ declare class ValueChangeEvent<T> extends ControlEvent<T> {
 /**
  * Event fired when the control's pristine state changes (pristine <=> dirty).
  *
+ * @see {@link AbstractControl.events}
+ *
  * @publicApi */
 declare class PristineChangeEvent extends ControlEvent {
     readonly pristine: boolean;
@@ -2287,6 +2291,8 @@ declare class PristineChangeEvent extends ControlEvent {
 }
 /**
  * Event fired when the control's touched status changes (touched <=> untouched).
+ *
+ * @see {@link AbstractControl.events}
  *
  * @publicApi
  */
@@ -2298,6 +2304,8 @@ declare class TouchedChangeEvent extends ControlEvent {
 /**
  * Event fired when the control's status changes.
  *
+ * @see {@link AbstractControl.events}
+ *
  * @publicApi
  */
 declare class StatusChangeEvent extends ControlEvent {
@@ -2308,6 +2316,8 @@ declare class StatusChangeEvent extends ControlEvent {
 /**
  * Event fired when a form is submitted
  *
+ * @see {@link AbstractControl.events}
+ *
  * @publicApi
  */
 declare class FormSubmittedEvent extends ControlEvent {
@@ -2316,6 +2326,8 @@ declare class FormSubmittedEvent extends ControlEvent {
 }
 /**
  * Event fired when a form is reset.
+ *
+ * @see {@link AbstractControl.events}
  *
  * @publicApi
  */
@@ -2635,6 +2647,7 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * `events` of the parent control instead.
      * For other event types, the events are emitted after the parent control has been updated.
      *
+     * @see [Unified control state change events](guide/forms/reactive-forms#unified-control-state-change-events)
      */
     readonly events: Observable<ControlEvent<TValue>>;
     /**
