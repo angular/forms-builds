@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.3.4+sha-da38cd9
+ * @license Angular v20.3.4+sha-da50733
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1100,6 +1100,8 @@ declare class FormArray<TControl extends AbstractControl<any> = any> extends Abs
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges` observables emit events with the latest status and value when the control is
      * inserted. When false, no events are emitted.
+     *
+     * NOTE: Pushing to the FormArray will not mark it dirty. If you want to mark if dirty, call `markAsDirty()`.
      */
     push(control: TControl | Array<TControl>, options?: {
         emitEvent?: boolean;
@@ -1116,6 +1118,8 @@ declare class FormArray<TControl extends AbstractControl<any> = any> extends Abs
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges` observables emit events with the latest status and value when the control is
      * inserted. When false, no events are emitted.
+     *
+     * NOTE: Inserting to the FormArray will not mark it dirty. If you want to mark if dirty, call `markAsDirty()`.
      */
     insert(index: number, control: TControl, options?: {
         emitEvent?: boolean;
@@ -1131,6 +1135,8 @@ declare class FormArray<TControl extends AbstractControl<any> = any> extends Abs
      * * `emitEvent`: When true or not supplied (the default), both the `statusChanges` and
      * `valueChanges` observables emit events with the latest status and value when the control is
      * removed. When false, no events are emitted.
+     *
+     * NOTE: Removing the FormArray will not mark it dirty. If you want to mark if dirty, call `markAsDirty()`.
      */
     removeAt(index: number, options?: {
         emitEvent?: boolean;
