@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.7+sha-84f6e36
+ * @license Angular v21.0.0-next.7+sha-62cda78
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1425,9 +1425,9 @@ function validateHttp(path, opts) {
 }
 
 /**
- * Lightweight DI token provided by the {@link Control} directive.
+ * Lightweight DI token provided by the {@link Field} directive.
  */
-const CONTROL = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'CONTROL' : '');
+const FIELD = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'FIELD' : '');
 /**
  * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
@@ -1449,31 +1449,34 @@ const CONTROL = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ?
  * @category control
  * @experimental 21.0.0
  */
-class Control {
+class Field {
     injector = inject(Injector);
-    field = input.required(...(ngDevMode ? [{ debugName: "field", alias: 'control' }] : [{ alias: 'control' }]));
+    field = input.required(...(ngDevMode ? [{ debugName: "field" }] : []));
     state = computed(() => this.field()(), ...(ngDevMode ? [{ debugName: "state" }] : []));
     [_CONTROL] = undefined;
     // TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131861631
     register() {
         // Register this control on the field it is currently bound to. We do this at the end of
         // initialization so that it only runs if we are actually syncing with this control
-        // (as opposed to just passing the field through to its `control` input).
+        // (as opposed to just passing the field through to its `field` input).
         effect((onCleanup) => {
             const fieldNode = this.state();
-            fieldNode.nodeState.controls.update((controls) => [...controls, this]);
+            fieldNode.nodeState.fieldBindings.update((controls) => [
+                ...controls,
+                this,
+            ]);
             onCleanup(() => {
-                fieldNode.nodeState.controls.update((controls) => controls.filter((c) => c !== this));
+                fieldNode.nodeState.fieldBindings.update((controls) => controls.filter((c) => c !== this));
             });
         }, { injector: this.injector });
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.7+sha-84f6e36", ngImport: i0, type: Control, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.7+sha-84f6e36", type: Control, isStandalone: true, selector: "[control]", inputs: { field: { classPropertyName: "field", publicName: "control", isSignal: true, isRequired: true, transformFunction: null } }, providers: [{ provide: CONTROL, useExisting: Control }], ngImport: i0 });
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.7+sha-62cda78", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.7+sha-62cda78", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [{ provide: FIELD, useExisting: Field }], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.7+sha-84f6e36", ngImport: i0, type: Control, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.7+sha-62cda78", ngImport: i0, type: Field, decorators: [{
             type: Directive,
-            args: [{ selector: '[control]', providers: [{ provide: CONTROL, useExisting: Control }] }]
-        }], propDecorators: { field: [{ type: i0.Input, args: [{ isSignal: true, alias: "control", required: true }] }] } });
+            args: [{ selector: '[field]', providers: [{ provide: FIELD, useExisting: Field }] }]
+        }], propDecorators: { field: [{ type: i0.Input, args: [{ isSignal: true, alias: "field", required: true }] }] } });
 
 /**
  * `FieldContext` implementation, backed by a `FieldNode`.
@@ -2083,8 +2086,8 @@ class FieldNode {
     get readonly() {
         return this.nodeState.readonly;
     }
-    get controls() {
-        return this.nodeState.controls;
+    get fieldBindings() {
+        return this.nodeState.fieldBindings;
     }
     get submitting() {
         return this.submitState.submitting;
@@ -2203,8 +2206,8 @@ class FieldNodeState {
     markAsUntouched() {
         this.selfTouched.set(false);
     }
-    /** The UI controls the field is currently bound to. */
-    controls = signal([], ...(ngDevMode ? [{ debugName: "controls" }] : []));
+    /** The {@link Field} directives that bind this field to a UI control. */
+    fieldBindings = signal([], ...(ngDevMode ? [{ debugName: "fieldBindings" }] : []));
     constructor(node) {
         this.node = node;
     }
@@ -3190,5 +3193,5 @@ function standardIssueToFormTreeError(field, issue) {
     return addDefaultField(standardSchemaError(issue), target);
 }
 
-export { AggregateProperty, CONTROL, Control, CustomValidationError, EmailValidationError, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { AggregateProperty, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 //# sourceMappingURL=signals.mjs.map

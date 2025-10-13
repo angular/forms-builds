@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.7+sha-84f6e36
+ * @license Angular v21.0.0-next.7+sha-62cda78
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -4090,7 +4090,7 @@ type SetDisabledStateOption = 'whenDisabledForLegacyCode' | 'always';
  *
  * To inspect the properties of the associated `FormControl` (like the validity state),
  * export the directive into a local template variable using `ngModel` as the key (ex:
- * `#myVar="ngModel"`). You can then access the control using the directive's `control` property.
+ * `#myVar="ngModel"`). You can then access the control using the directive's `field` property.
  * However, the most commonly used properties (like `valid` and `dirty`) also exist on the control
  * for direct access. See a full list of properties directly available in
  * `AbstractControlDirective`.

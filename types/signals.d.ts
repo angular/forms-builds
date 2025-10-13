@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.7+sha-84f6e36
+ * @license Angular v21.0.0-next.7+sha-62cda78
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -10,9 +10,9 @@ import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵFieldSt
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
 /**
- * Lightweight DI token provided by the {@link Control} directive.
+ * Lightweight DI token provided by the {@link Field} directive.
  */
-declare const CONTROL: InjectionToken<Control<unknown>>;
+declare const FIELD: InjectionToken<Field<unknown>>;
 /**
  * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
@@ -34,14 +34,14 @@ declare const CONTROL: InjectionToken<Control<unknown>>;
  * @category control
  * @experimental 21.0.0
  */
-declare class Control<T> implements _Control<T> {
+declare class Field<T> implements _Control<T> {
     private readonly injector;
     readonly field: i0.InputSignal<FieldTree<T>>;
     readonly state: i0.Signal<FieldState<T, string | number>>;
     readonly [_CONTROL]: undefined;
     register(): void;
-    static ɵfac: i0.ɵɵFactoryDeclaration<Control<any>, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<Control<any>, "[control]", never, { "field": { "alias": "control"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<Field<any>, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<Field<any>, "[field]", never, { "field": { "alias": "field"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
 /**
@@ -762,9 +762,9 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      */
     readonly keyInParent: Signal<TKey>;
     /**
-     * A signal containing the `Control` directives this field is currently bound to.
+     * The {@link Field} directives that bind this field to a UI control.
      */
-    readonly controls: Signal<readonly Control<unknown>[]>;
+    readonly fieldBindings: Signal<readonly Field<unknown>[]>;
     /**
      * Reads an aggregate property value from the field.
      * @param prop The property to read.
@@ -1073,93 +1073,93 @@ declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathK
  */
 interface FormUiControl {
     /**
-     * An input to receive the errors for the field. If implemented, the `Control` directive will
+     * An input to receive the errors for the field. If implemented, the `Field` directive will
      * automatically bind errors from the bound field to this input.
      */
     readonly errors?: InputSignal<readonly WithOptionalField<ValidationError>[]>;
     /**
-     * An input to receive the disabled status for the field. If implemented, the `Control` directive
+     * An input to receive the disabled status for the field. If implemented, the `Field` directive
      * will automatically bind the disabled status from the bound field to this input.
      */
     readonly disabled?: InputSignal<boolean>;
     /**
-     * An input to receive the reasons for the disablement of the field. If implemented, the `Control`
+     * An input to receive the reasons for the disablement of the field. If implemented, the `Field`
      * directive will automatically bind the disabled reason from the bound field to this input.
      */
     readonly disabledReasons?: InputSignal<readonly WithOptionalField<DisabledReason>[]>;
     /**
-     * An input to receive the readonly status for the field. If implemented, the `Control` directive
+     * An input to receive the readonly status for the field. If implemented, the `Field` directive
      * will automatically bind the readonly status from the bound field to this input.
      */
     readonly readonly?: InputSignal<boolean>;
     /**
-     * An input to receive the hidden status for the field. If implemented, the `Control` directive
+     * An input to receive the hidden status for the field. If implemented, the `Field` directive
      * will automatically bind the hidden status from the bound field to this input.
      */
     readonly hidden?: InputSignal<boolean>;
     /**
-     * An input to receive the invalid status for the field. If implemented, the `Control` directive
+     * An input to receive the invalid status for the field. If implemented, the `Field` directive
      * will automatically bind the invalid status from the bound field to this input.
      */
     readonly invalid?: InputSignal<boolean>;
     /**
-     * An input to receive the pending status for the field. If implemented, the `Control` directive
+     * An input to receive the pending status for the field. If implemented, the `Field` directive
      * will automatically bind the pending status from the bound field to this input.
      */
     readonly pending?: InputSignal<boolean>;
     /**
-     * An input to receive the touched status for the field. If implemented, the `Control` directive
+     * An input to receive the touched status for the field. If implemented, the `Field` directive
      * will automatically bind the touched status from the bound field to this input.
      */
     readonly touched?: ModelSignal<boolean> | InputSignal<boolean> | OutputRef<boolean>;
     /**
-     * An input to receive the dirty status for the field. If implemented, the `Control` directive
+     * An input to receive the dirty status for the field. If implemented, the `Field` directive
      * will automatically bind the dirty status from the bound field to this input.
      */
     readonly dirty?: InputSignal<boolean>;
     /**
-     * An input to receive the name for the field. If implemented, the `Control` directive will
+     * An input to receive the name for the field. If implemented, the `Field` directive will
      * automatically bind the name from the bound field to this input.
      */
     readonly name?: InputSignal<string>;
     /**
-     * An input to receive the required status for the field. If implemented, the `Control` directive
+     * An input to receive the required status for the field. If implemented, the `Field` directive
      * will automatically bind the required status from the bound field to this input.
      */
     readonly required?: InputSignal<boolean>;
     /**
-     * An input to receive the min value for the field. If implemented, the `Control` directive will
+     * An input to receive the min value for the field. If implemented, the `Field` directive will
      * automatically bind the min value from the bound field to this input.
      */
     readonly min?: InputSignal<number | undefined>;
     /**
-     * An input to receive the min length for the field. If implemented, the `Control` directive will
+     * An input to receive the min length for the field. If implemented, the `Field` directive will
      * automatically bind the min length from the bound field to this input.
      */
     readonly minLength?: InputSignal<number | undefined>;
     /**
-     * An input to receive the max value for the field. If implemented, the `Control` directive will
+     * An input to receive the max value for the field. If implemented, the `Field` directive will
      * automatically bind the max value from the bound field to this input.
      */
     readonly max?: InputSignal<number | undefined>;
     /**
-     * An input to receive the max length for the field. If implemented, the `Control` directive will
+     * An input to receive the max length for the field. If implemented, the `Field` directive will
      * automatically bind the max length from the bound field to this input.
      */
     readonly maxLength?: InputSignal<number | undefined>;
     /**
-     * An input to receive the value patterns for the field. If implemented, the `Control` directive
+     * An input to receive the value patterns for the field. If implemented, the `Field` directive
      * will automatically bind the value patterns from the bound field to this input.
      */
     readonly pattern?: InputSignal<readonly RegExp[]>;
 }
 /**
  * A contract for a form control that edits a `FieldTree` of type `TValue`. Any component that
- * implements this contract can be used with the `Control` directive.
+ * implements this contract can be used with the `Field` directive.
  *
  * Many of the properties declared on this contract are optional. They do not need to be
  * implemented, but if they are will be kept in sync with the field state of the field bound to the
- * `Control` directive.
+ * `Field` directive.
  *
  * @template TValue The type of `FieldTree` that the implementing component can edit.
  *
@@ -1169,23 +1169,23 @@ interface FormUiControl {
 interface FormValueControl<TValue> extends FormUiControl {
     /**
      * The value is the only required property in this contract. A component that wants to integrate
-     * with the `Control` directive via this contract, *must* provide a `model()` that will be kept in
+     * with the `Field` directive via this contract, *must* provide a `model()` that will be kept in
      * sync with the value of the bound `FieldTree`.
      */
     readonly value: ModelSignal<TValue>;
     /**
      * The implementing component *must not* define a `checked` property. This is reserved for
-     * components that want to integrate with the `Control` directive as a checkbox.
+     * components that want to integrate with the `Field` directive as a checkbox.
      */
     readonly checked?: undefined;
 }
 /**
  * A contract for a form control that edits a boolean checkbox `FieldTree`. Any component that
- * implements this contract can be used with the `Control` directive.
+ * implements this contract can be used with the `Field` directive.
  *
  * Many of the properties declared on this contract are optional. They do not need to be
  * implemented, but if they are will be kept in sync with the field state of the field bound to the
- * `Control` directive.
+ * `Field` directive.
  *
  * @category control
  * @experimental 21.0.0
@@ -1193,13 +1193,13 @@ interface FormValueControl<TValue> extends FormUiControl {
 interface FormCheckboxControl extends FormUiControl {
     /**
      * The checked is the only required property in this contract. A component that wants to integrate
-     * with the `Control` directive, *must* provide a `model()` that will be kept in sync with the
+     * with the `Field` directive, *must* provide a `model()` that will be kept in sync with the
      * value of the bound `FieldTree`.
      */
     readonly checked: ModelSignal<boolean>;
     /**
      * The implementing component *must not* define a `value` property. This is reserved for
-     * components that want to integrate with the `Control` directive as a standard input.
+     * components that want to integrate with the `Field` directive as a standard input.
      */
     readonly value?: undefined;
 }
@@ -1721,8 +1721,8 @@ declare class FieldNodeState {
      * Marks this specific field as not touched.
      */
     markAsUntouched(): void;
-    /** The UI controls the field is currently bound to. */
-    readonly controls: i0.WritableSignal<readonly Control<unknown>[]>;
+    /** The {@link Field} directives that bind this field to a UI control. */
+    readonly fieldBindings: i0.WritableSignal<readonly Field<unknown>[]>;
     constructor(node: FieldNode);
     /**
      * Whether this field is considered dirty.
@@ -1932,7 +1932,7 @@ declare class FieldNode implements FieldState<unknown> {
     get disabledReasons(): Signal<readonly DisabledReason[]>;
     get hidden(): Signal<boolean>;
     get readonly(): Signal<boolean>;
-    get controls(): Signal<readonly Control<unknown>[]>;
+    get fieldBindings(): Signal<readonly Field<unknown>[]>;
     get submitting(): Signal<boolean>;
     get name(): Signal<string>;
     get max(): Signal<number | undefined>;
@@ -2650,5 +2650,5 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  */
 declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
 
-export { AggregateProperty, CONTROL, Control, CustomValidationError, EmailValidationError, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { AggregateProperty, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, FieldContext, FieldPath, FieldState, FieldTree, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldPath, MaybeFieldTree, Mutable, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
