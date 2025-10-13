@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.7+sha-e34776a
+ * @license Angular v21.0.0-next.7+sha-84f6e36
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1351,6 +1351,8 @@ declare const UntypedFormArray: UntypedFormArrayCtor;
  * @description
  * Asserts that the given control is an instance of `FormArray`
  *
+ * @see [Utility functions for narrowing form control types](guide/forms/reactive-forms#utility-functions-for-narrowing-form-control-types)
+ *
  * @publicApi
  */
 declare const isFormArray: (control: unknown) => control is FormArray;
@@ -1700,6 +1702,8 @@ declare const UntypedFormControl: UntypedFormControlCtor;
 /**
  * @description
  * Asserts that the given control is an instance of `FormControl`
+ *
+ * @see [Utility functions for narrowing form control types](guide/forms/reactive-forms#utility-functions-for-narrowing-form-control-types)
  *
  * @publicApi
  */
@@ -2126,6 +2130,8 @@ declare const UntypedFormGroup: UntypedFormGroupCtor;
  * @description
  * Asserts that the given control is an instance of `FormGroup`
  *
+ * @see [Utility functions for narrowing form control types](guide/forms/reactive-forms#utility-functions-for-narrowing-form-control-types)
+ *
  * @publicApi
  */
 declare const isFormGroup: (control: unknown) => control is FormGroup;
@@ -2238,6 +2244,8 @@ interface FormRecord<TControl> {
 /**
  * @description
  * Asserts that the given control is an instance of `FormRecord`
+ *
+ * @see [Utility functions for narrowing form control types](guide/forms/reactive-forms#utility-functions-for-narrowing-form-control-types)
  *
  * @publicApi
  */
