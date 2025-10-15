@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.8+sha-013effd
+ * @license Angular v21.0.0-next.8+sha-7572a27
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1285,6 +1285,7 @@ declare class FormArray<TControl extends AbstractControl<any> = any> extends Abs
     reset(value?: ɵTypedOrUntyped<TControl, ɵFormArrayValue<TControl>, any>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
+        overwriteDefaultValue?: boolean;
     }): void;
     /**
      * The aggregate value of the array, including any disabled controls.
@@ -1585,7 +1586,7 @@ interface FormControl<TValue = any> extends AbstractControl<TValue> {
      * value. See {@link FormControlOptions#nonNullable} for more information on configuring
      * a default value.
      */
-    readonly defaultValue: TValue;
+    defaultValue: TValue;
     /**
      * Sets a new value for the form control.
      *
@@ -1661,11 +1662,13 @@ interface FormControl<TValue = any> extends AbstractControl<TValue> {
      * `valueChanges`
      * observables emit events with the latest status and value when the control is reset.
      * When false, no events are emitted.
+     * * `overwriteDefaultValue`: When true, the value used to reset the control becomes the new default value of the control.
      *
      */
     reset(formState?: TValue | FormControlState<TValue>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
+        overwriteDefaultValue?: boolean;
     }): void;
     /**
      * For a simple FormControl, the raw value is equivalent to the value.
@@ -2103,6 +2106,7 @@ declare class FormGroup<TControl extends {
     reset(value?: ɵTypedOrUntyped<TControl, ɵFormGroupArgumentValue<TControl>, any>, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
+        overwriteDefaultValue?: boolean;
     }): void;
     /**
      * The aggregate value of the `FormGroup`, including any disabled controls.
