@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.8+sha-9c7029c
+ * @license Angular v21.0.0-next.8+sha-e464aac
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,6 +7,7 @@
 import { httpResource } from '@angular/common/http';
 import * as i0 from '@angular/core';
 import { computed, untracked, InjectionToken, inject, Injector, input, ɵCONTROL as _CONTROL, effect, Directive, runInInjectionContext, linkedSignal, signal, APP_ID, ɵisPromise as _isPromise, resource } from '@angular/core';
+import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
 /**
@@ -1425,6 +1426,90 @@ function validateHttp(path, opts) {
 }
 
 /**
+ * A fake version of `NgControl` provided by the `Field` directive. This allows interoperability
+ * with a wider range of components designed to work with reactive forms, in particular ones that
+ * inject the `NgControl`. The interop control does not implement *all* properties and methods of
+ * the real `NgControl`, but does implement some of the most commonly used ones that have a clear
+ * equivalent in signal forms.
+ */
+class InteropNgControl {
+    field;
+    constructor(field) {
+        this.field = field;
+    }
+    control = this;
+    get value() {
+        return this.field().value();
+    }
+    get valid() {
+        return this.field().valid();
+    }
+    get invalid() {
+        return this.field().invalid();
+    }
+    get pending() {
+        return this.field().pending();
+    }
+    get disabled() {
+        return this.field().disabled();
+    }
+    get enabled() {
+        return !this.field().disabled();
+    }
+    get errors() {
+        const errors = this.field().errors();
+        if (errors.length === 0) {
+            return null;
+        }
+        const errObj = {};
+        for (const error of errors) {
+            errObj[error.kind] = error;
+        }
+        return errObj;
+    }
+    get pristine() {
+        return !this.field().dirty();
+    }
+    get dirty() {
+        return this.field().dirty();
+    }
+    get touched() {
+        return this.field().touched();
+    }
+    get untouched() {
+        return !this.field().touched();
+    }
+    get status() {
+        if (this.field().disabled()) {
+            return 'DISABLED';
+        }
+        if (this.field().valid()) {
+            return 'VALID';
+        }
+        if (this.field().invalid()) {
+            return 'INVALID';
+        }
+        if (this.field().pending()) {
+            return 'PENDING';
+        }
+        throw Error('AssertionError: unknown form control status');
+    }
+    valueAccessor = null;
+    hasValidator(validator) {
+        // This addresses a common case where users look for the presence of `Validators.required` to
+        // determine whether or not to show a required "*" indicator in the UI.
+        if (validator === Validators.required) {
+            return this.field().property(REQUIRED)();
+        }
+        return false;
+    }
+    updateValueAndValidity() {
+        // No-op since value and validity are always up to date in signal forms.
+        // We offer this method so that reactive forms code attempting to call it doesn't error.
+    }
+}
+
+/**
  * Lightweight DI token provided by the {@link Field} directive.
  */
 const FIELD = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'FIELD' : '');
@@ -1432,16 +1517,14 @@ const FIELD = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? '
  * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
  * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
- * 3. TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131712274. A
- *    component that provides a ControlValueAccessor. This should only be used to backwards
+ * 3. A component that provides a `ControlValueAccessor`. This should only be used for backwards
  *    compatibility with reactive forms. Prefer options (1) and (2).
  *
  * This directive has several responsibilities:
  * 1. Two-way binds the field's value with the UI control's value
  * 2. Binds additional forms related state on the field to the UI control (disabled, required, etc.)
  * 3. Relays relevant events on the control to the field (e.g. marks field touched on blur)
- * 4. TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131712274.
- *    Provides a fake `NgControl` that implements a subset of the features available on the
+ * 4. Provides a fake `NgControl` that implements a subset of the features available on the
  *    reactive forms `NgControl`. This is provided to improve interoperability with controls
  *    designed to work with reactive forms. It should not be used by controls written for signal
  *    forms.
@@ -1454,8 +1537,39 @@ class Field {
     field = input.required(...(ngDevMode ? [{ debugName: "field" }] : []));
     state = computed(() => this.field()(), ...(ngDevMode ? [{ debugName: "state" }] : []));
     [_CONTROL] = undefined;
+    /** Any `ControlValueAccessor` instances provided on the host element. */
+    controlValueAccessors = inject(NG_VALUE_ACCESSOR, { optional: true, self: true });
+    /** A lazily instantiated fake `NgControl`. */
+    interopNgControl;
+    /** A `ControlValueAccessor`, if configured, for the host component. */
+    get controlValueAccessor() {
+        return this.controlValueAccessors?.[0] ?? this.interopNgControl?.valueAccessor ?? undefined;
+    }
+    get ɵhasInteropControl() {
+        return this.controlValueAccessor !== undefined;
+    }
+    /** Lazily instantiates a fake `NgControl` for this field. */
+    ɵgetOrCreateNgControl() {
+        return (this.interopNgControl ??= new InteropNgControl(this.state));
+    }
+    ɵinteropControlCreate() {
+        const controlValueAccessor = this.controlValueAccessor;
+        controlValueAccessor.registerOnChange((value) => {
+            const state = this.state();
+            state.value.set(value);
+            state.markAsDirty();
+        });
+        controlValueAccessor.registerOnTouched(() => this.state().markAsTouched());
+    }
+    ɵinteropControlUpdate() {
+        const controlValueAccessor = this.controlValueAccessor;
+        // TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131711472
+        // * check if values changed since last update before writing.
+        controlValueAccessor.writeValue(this.state().value());
+        controlValueAccessor.setDisabledState?.(this.state().disabled());
+    }
     // TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131861631
-    register() {
+    ɵregister() {
         // Register this control on the field it is currently bound to. We do this at the end of
         // initialization so that it only runs if we are actually syncing with this control
         // (as opposed to just passing the field through to its `field` input).
@@ -1470,12 +1584,21 @@ class Field {
             });
         }, { injector: this.injector });
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.8+sha-9c7029c", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.8+sha-9c7029c", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [{ provide: FIELD, useExisting: Field }], ngImport: i0 });
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.8+sha-e464aac", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.8+sha-e464aac", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
+            { provide: FIELD, useExisting: Field },
+            { provide: NgControl, useFactory: () => inject(Field).ɵgetOrCreateNgControl() },
+        ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.8+sha-9c7029c", ngImport: i0, type: Field, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.8+sha-e464aac", ngImport: i0, type: Field, decorators: [{
             type: Directive,
-            args: [{ selector: '[field]', providers: [{ provide: FIELD, useExisting: Field }] }]
+            args: [{
+                    selector: '[field]',
+                    providers: [
+                        { provide: FIELD, useExisting: Field },
+                        { provide: NgControl, useFactory: () => inject(Field).ɵgetOrCreateNgControl() },
+                    ],
+                }]
         }], propDecorators: { field: [{ type: i0.Input, args: [{ isSignal: true, alias: "field", required: true }] }] } });
 
 /**

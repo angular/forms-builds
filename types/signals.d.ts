@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.8+sha-9c7029c
+ * @license Angular v21.0.0-next.8+sha-e464aac
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,40 @@
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import * as i0 from '@angular/core';
 import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵFieldState as _FieldState, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
+import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
+
+/**
+ * Properties of both NgControl & AbstractControl that are supported by the InteropNgControl.
+ */
+type InteropSharedKeys = 'value' | 'valid' | 'invalid' | 'touched' | 'untouched' | 'disabled' | 'enabled' | 'errors' | 'pristine' | 'dirty' | 'status';
+/**
+ * A fake version of `NgControl` provided by the `Field` directive. This allows interoperability
+ * with a wider range of components designed to work with reactive forms, in particular ones that
+ * inject the `NgControl`. The interop control does not implement *all* properties and methods of
+ * the real `NgControl`, but does implement some of the most commonly used ones that have a clear
+ * equivalent in signal forms.
+ */
+declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'control' | 'valueAccessor'>, Pick<AbstractControl<unknown>, InteropSharedKeys | 'hasValidator'> {
+    protected field: () => FieldState<unknown>;
+    constructor(field: () => FieldState<unknown>);
+    readonly control: AbstractControl<any, any>;
+    get value(): any;
+    get valid(): boolean;
+    get invalid(): boolean;
+    get pending(): boolean | null;
+    get disabled(): boolean;
+    get enabled(): boolean;
+    get errors(): ValidationErrors | null;
+    get pristine(): boolean;
+    get dirty(): boolean;
+    get touched(): boolean;
+    get untouched(): boolean;
+    get status(): FormControlStatus;
+    valueAccessor: ControlValueAccessor | null;
+    hasValidator(validator: ValidatorFn): boolean;
+    updateValueAndValidity(): void;
+}
 
 /**
  * Lightweight DI token provided by the {@link Field} directive.
@@ -17,16 +50,14 @@ declare const FIELD: InjectionToken<Field<unknown>>;
  * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
  * 1. A native HTML input or textarea
  * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
- * 3. TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131712274. A
- *    component that provides a ControlValueAccessor. This should only be used to backwards
+ * 3. A component that provides a `ControlValueAccessor`. This should only be used for backwards
  *    compatibility with reactive forms. Prefer options (1) and (2).
  *
  * This directive has several responsibilities:
  * 1. Two-way binds the field's value with the UI control's value
  * 2. Binds additional forms related state on the field to the UI control (disabled, required, etc.)
  * 3. Relays relevant events on the control to the field (e.g. marks field touched on blur)
- * 4. TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131712274.
- *    Provides a fake `NgControl` that implements a subset of the features available on the
+ * 4. Provides a fake `NgControl` that implements a subset of the features available on the
  *    reactive forms `NgControl`. This is provided to improve interoperability with controls
  *    designed to work with reactive forms. It should not be used by controls written for signal
  *    forms.
@@ -39,7 +70,18 @@ declare class Field<T> implements _Control<T> {
     readonly field: i0.InputSignal<FieldTree<T>>;
     readonly state: i0.Signal<FieldState<T, string | number>>;
     readonly [_CONTROL]: undefined;
-    register(): void;
+    /** Any `ControlValueAccessor` instances provided on the host element. */
+    private readonly controlValueAccessors;
+    /** A lazily instantiated fake `NgControl`. */
+    private interopNgControl;
+    /** A `ControlValueAccessor`, if configured, for the host component. */
+    private get controlValueAccessor();
+    get ɵhasInteropControl(): boolean;
+    /** Lazily instantiates a fake `NgControl` for this field. */
+    ɵgetOrCreateNgControl(): InteropNgControl;
+    ɵinteropControlCreate(): void;
+    ɵinteropControlUpdate(): void;
+    ɵregister(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<Field<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<Field<any>, "[field]", never, { "field": { "alias": "field"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
