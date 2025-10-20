@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.8+sha-9b7a79a
+ * @license Angular v21.0.0-next.8+sha-bc9c814
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -560,15 +560,6 @@ type NgValidationError = RequiredValidationError | MinValidationError | MaxValid
  * Symbol used to retain generic type information when it would otherwise be lost.
  */
 declare const ɵɵTYPE: unique symbol;
-/**
- * Creates a type based on the given type T, but with all readonly properties made writable.
- * @template T The type to create a mutable version of.
- *
- * @experimental 21.0.0
- */
-type Mutable<T> = {
-    -readonly [P in keyof T]: T[P];
-};
 /**
  * A type that represents either a single value of type `T` or a readonly array of `T`.
  * @template T The type of the value(s).
@@ -2693,4 +2684,4 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
 declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
 
 export { AggregateProperty, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
-export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, FieldContext, FieldPath, FieldState, FieldTree, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldPath, MaybeFieldTree, Mutable, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, FieldContext, FieldPath, FieldState, FieldTree, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldPath, MaybeFieldTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
