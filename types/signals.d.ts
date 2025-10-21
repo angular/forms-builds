@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.8+sha-2b257b3
+ * @license Angular v21.0.0-next.8+sha-fd9af2a
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1478,7 +1478,7 @@ declare class LogicContainer {
      */
     constructor(predicates: ReadonlyArray<BoundPredicate>);
     /** Checks whether there is logic for the given aggregate property. */
-    hasAggregateProperty(prop: AggregateProperty<unknown, unknown>): boolean;
+    hasAggregateProperty(prop: AggregateProperty<any, any>): boolean;
     /**
      * Gets an iterable of [aggregate property, logic function] pairs.
      * @returns An iterable of aggregate property entries.
@@ -1715,7 +1715,7 @@ declare class FieldPropertyState {
      * @param prop
      * @returns
      */
-    has(prop: Property<unknown> | AggregateProperty<unknown, unknown>): boolean;
+    has(prop: Property<any> | AggregateProperty<any, any>): boolean;
 }
 
 /**
@@ -1968,15 +1968,16 @@ declare class FieldNode implements FieldState<unknown> {
     get fieldBindings(): Signal<readonly Field<unknown>[]>;
     get submitting(): Signal<boolean>;
     get name(): Signal<string>;
-    get max(): Signal<number | undefined>;
-    get maxLength(): Signal<number | undefined>;
-    get min(): Signal<number | undefined>;
-    get minLength(): Signal<number | undefined>;
-    get pattern(): Signal<readonly RegExp[]>;
-    get required(): Signal<boolean>;
+    private propertyOrUndefined;
+    get max(): Signal<number | undefined> | undefined;
+    get maxLength(): Signal<number | undefined> | undefined;
+    get min(): Signal<number | undefined> | undefined;
+    get minLength(): Signal<number | undefined> | undefined;
+    get pattern(): Signal<readonly RegExp[]> | undefined;
+    get required(): Signal<boolean> | undefined;
     property<M>(prop: AggregateProperty<M, any>): Signal<M>;
     property<M>(prop: Property<M>): M | undefined;
-    hasProperty(prop: Property<unknown> | AggregateProperty<unknown, any>): boolean;
+    hasProperty(prop: Property<any> | AggregateProperty<any, any>): boolean;
     /**
      * Marks this specific field as touched.
      */
