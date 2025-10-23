@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.9+sha-0385c81
+ * @license Angular v21.0.0-next.9+sha-02f7263
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -87,119 +87,121 @@ declare class Field<T> implements _Control<T> {
 }
 
 /**
- * Represents a property that may be defined on a field when it is created using a `property` rule
- * in the schema. A particular `Property` can only be defined on a particular field **once**.
+ * Represents metadata that may be defined on a field when it is created using a `metadata` rule
+ * in the schema. A particular `MetadataKey` can only be defined on a particular field **once**.
  *
  * @category logic
  * @experimental 21.0.0
  */
-declare class Property<TValue> {
+declare class MetadataKey<TValue> {
     private brand;
-    /** Use {@link createProperty}. */
+    /** Use {@link createMetadataKey}. */
     private constructor();
 }
 /**
- * Creates a {@link Property}.
+ * Creates a {@link MetadataKey}.
  *
  * @experimental 21.0.0
  */
-declare function createProperty<TValue>(): Property<TValue>;
+declare function createMetadataKey<TValue>(): MetadataKey<TValue>;
 /**
- * Represents a property that is aggregated from multiple parts according to the property's reducer
+ * Represents metadata that is aggregated from multiple parts according to the key's reducer
  * function. A value can be contributed to the aggregated value for a field using an
- * `aggregateProperty` rule in the schema. There may be multiple rules in a schema that contribute
- * values to the same `AggregateProperty` of the same field.
+ * `aggregateMetadata` rule in the schema. There may be multiple rules in a schema that contribute
+ * values to the same `AggregateMetadataKey` of the same field.
  *
  * @experimental 21.0.0
  */
-declare class AggregateProperty<TAcc, TItem> {
+declare class AggregateMetadataKey<TAcc, TItem> {
     readonly reduce: (acc: TAcc, item: TItem) => TAcc;
     readonly getInitial: () => TAcc;
     private brand;
-    /** Use {@link reducedProperty}. */
+    /** Use {@link reducedMetadataKey}. */
     private constructor();
 }
 /**
- * Creates an aggregate property that reduces its individual values into an accumulated value using
- * the given `reduce` and `getInitial` functions.
+ * Creates an {@link AggregateMetadataKey} that reduces its individual values into an accumulated
+ * value using the given `reduce` and `getInitial` functions.
  * @param reduce The reducer function.
  * @param getInitial A function that gets the initial value for the reduce operation.
  *
  * @experimental 21.0.0
  */
-declare function reducedProperty<TAcc, TItem>(reduce: (acc: TAcc, item: TItem) => TAcc, getInitial: () => TAcc): AggregateProperty<TAcc, TItem>;
+declare function reducedMetadataKey<TAcc, TItem>(reduce: (acc: TAcc, item: TItem) => TAcc, getInitial: () => TAcc): AggregateMetadataKey<TAcc, TItem>;
 /**
- * Creates an aggregate property that reduces its individual values into a list.
+ * Creates an {@link AggregateMetadataKey} that reduces its individual values into a list.
  *
  * @experimental 21.0.0
  */
-declare function listProperty<TItem>(): AggregateProperty<TItem[], TItem | undefined>;
+declare function listMetadataKey<TItem>(): AggregateMetadataKey<TItem[], TItem | undefined>;
 /**
- * Creates an aggregate property that reduces its individual values by taking their min.
+ * Creates {@link AggregateMetadataKey} that reduces its individual values by taking their min.
  *
  * @experimental 21.0.0
  */
-declare function minProperty(): AggregateProperty<number | undefined, number | undefined>;
+declare function minMetadataKey(): AggregateMetadataKey<number | undefined, number | undefined>;
 /**
- * Creates an aggregate property that reduces its individual values by taking their max.
+ * Creates {@link AggregateMetadataKey} that reduces its individual values by taking their max.
  *
  * @experimental 21.0.0
  */
-declare function maxProperty(): AggregateProperty<number | undefined, number | undefined>;
+declare function maxMetadataKey(): AggregateMetadataKey<number | undefined, number | undefined>;
 /**
- * Creates an aggregate property that reduces its individual values by logically or-ing them.
+ * Creates an {@link AggregateMetadataKey} that reduces its individual values by logically or-ing
+ * them.
  *
  * @experimental 21.0.0
  */
-declare function orProperty(): AggregateProperty<boolean, boolean>;
+declare function orMetadataKey(): AggregateMetadataKey<boolean, boolean>;
 /**
- * Creates an aggregate property that reduces its individual values by logically and-ing them.
+ * Creates an {@link AggregateMetadataKey} that reduces its individual values by logically and-ing
+ * them.
  *
  * @experimental 21.0.0
  */
-declare function andProperty(): AggregateProperty<boolean, boolean>;
+declare function andMetadataKey(): AggregateMetadataKey<boolean, boolean>;
 /**
- * An aggregate property representing whether the field is required.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare const REQUIRED: AggregateProperty<boolean, boolean>;
-/**
- * An aggregate property representing the min value of the field.
+ * An {@link AggregateMetadataKey} representing whether the field is required.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const MIN: AggregateProperty<number | undefined, number | undefined>;
+declare const REQUIRED: AggregateMetadataKey<boolean, boolean>;
 /**
- * An aggregate property representing the max value of the field.
+ * An {@link AggregateMetadataKey} representing the min value of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const MAX: AggregateProperty<number | undefined, number | undefined>;
+declare const MIN: AggregateMetadataKey<number | undefined, number | undefined>;
 /**
- * An aggregate property representing the min length of the field.
+ * An {@link AggregateMetadataKey} representing the max value of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const MIN_LENGTH: AggregateProperty<number | undefined, number | undefined>;
+declare const MAX: AggregateMetadataKey<number | undefined, number | undefined>;
 /**
- * An aggregate property representing the max length of the field.
+ * An {@link AggregateMetadataKey} representing the min length of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const MAX_LENGTH: AggregateProperty<number | undefined, number | undefined>;
+declare const MIN_LENGTH: AggregateMetadataKey<number | undefined, number | undefined>;
 /**
- * An aggregate property representing the patterns the field must match.
+ * An {@link AggregateMetadataKey} representing the max length of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const PATTERN: AggregateProperty<RegExp[], RegExp | undefined>;
+declare const MAX_LENGTH: AggregateMetadataKey<number | undefined, number | undefined>;
+/**
+ * An {@link AggregateMetadataKey} representing the patterns the field must match.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare const PATTERN: AggregateMetadataKey<RegExp[], RegExp | undefined>;
 
 /**
  * Options used to create a `ValidationError`.
@@ -799,19 +801,19 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      */
     readonly fieldBindings: Signal<readonly Field<unknown>[]>;
     /**
-     * Reads an aggregate property value from the field.
-     * @param prop The property to read.
+     * Reads an aggregate metadata value from the field.
+     * @param key The metadata key to read.
      */
-    property<M>(prop: AggregateProperty<M, any>): Signal<M>;
+    metadata<M>(key: AggregateMetadataKey<M, any>): Signal<M>;
     /**
-     * Reads a property value from the field.
-     * @param prop The property key to read.
+     * Reads a metadata value from the field.
+     * @param key The metadata key to read.
      */
-    property<M>(prop: Property<M>): M | undefined;
+    metadata<M>(key: MetadataKey<M>): M | undefined;
     /**
      * Checks whether the given metadata key has been defined for this field.
      */
-    hasProperty(key: Property<any> | AggregateProperty<any, any>): boolean;
+    hasMetadata(key: MetadataKey<any> | AggregateMetadataKey<any, any>): boolean;
     /**
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
      *
@@ -1311,44 +1313,44 @@ declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  */
 declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
 /**
- * Adds a value to an `AggregateProperty` of a field.
+ * Adds a value to an {@link AggregateMetadataKey} of a field.
  *
- * @param path The target path to set the aggregate property on.
- * @param prop The aggregate property
- * @param logic A function that receives the `FieldContext` and returns a value to add to the aggregate property.
+ * @param path The target path to set the aggregate metadata on.
+ * @param key The aggregate metadata key
+ * @param logic A function that receives the `FieldContext` and returns a value to add to the aggregate metadata.
  * @template TValue The type of value stored in the field the logic is bound to.
- * @template TPropItem The type of value the property aggregates over.
+ * @template TMetadataItem The type of value the metadata aggregates over.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
  * @experimental 21.0.0
  */
-declare function aggregateProperty<TValue, TPropItem, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, prop: AggregateProperty<any, TPropItem>, logic: NoInfer<LogicFn<TValue, TPropItem, TPathKind>>): void;
+declare function aggregateMetadata<TValue, TMetadataItem, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, key: AggregateMetadataKey<any, TMetadataItem>, logic: NoInfer<LogicFn<TValue, TMetadataItem, TPathKind>>): void;
 /**
- * Creates a new `Property` and defines the value of the new property for the given field.
+ * Creates a new {@link MetadataKey} and defines the value of the new metadata key for the given field.
  *
- * @param path The path to define the property for.
- * @param factory A factory function that creates the value for the property.
+ * @param path The path to define the metadata for.
+ * @param factory A factory function that creates the value for the metadata.
  *   This function is **not** reactive. It is run once when the field is created.
- * @returns The newly created property
+ * @returns The newly created metadata key
  *
  * @category logic
  * @experimental 21.0.0
  */
-declare function property<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): Property<TData>;
+declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
 /**
- * Defines the value of a `Property` for a given field.
+ * Defines the value of a {@link MetadataKey} for a given field.
  *
- * @param path The path to define the property for.
- * @param prop  The property to define.
- * @param factory A factory function that creates the value for the property.
+ * @param path The path to define the metadata for.
+ * @param key  The metadata key to define.
+ * @param factory A factory function that creates the value for the metadata.
  *   This function is **not** reactive. It is run once when the field is created.
- * @returns The given property
+ * @returns The given metadata key
  *
  * @category logic
  * @experimental 21.0.0
  */
-declare function property<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, prop: Property<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): Property<TData>;
+declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, key: MetadataKey<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
 
 /** Represents a result that should be ignored because its predicate indicates it is not active. */
 declare const IGNORED: unique symbol;
@@ -1467,41 +1469,41 @@ declare class LogicContainer {
     readonly syncTreeErrors: ArrayMergeIgnoreLogic<ValidationError, null>;
     /** Logic that produces asynchronous validation results (errors or 'pending'). */
     readonly asyncErrors: ArrayMergeIgnoreLogic<ValidationError | 'pending', null>;
-    /** A map of aggregate properties to the `AbstractLogic` instances that compute their values. */
-    private readonly aggregateProperties;
-    /** A map of property keys to the factory functions that create their values. */
-    private readonly propertyFactories;
+    /** A map of aggregate metadata keys to the `AbstractLogic` instances that compute their values. */
+    private readonly aggregateMetadataKeys;
+    /** A map of metadata keys to the factory functions that create their values. */
+    private readonly metadataFactories;
     /**
      * Constructs a new `Logic` container.
      * @param predicates An array of predicates that must all be true for the logic
      *   functions within this container to be active.
      */
     constructor(predicates: ReadonlyArray<BoundPredicate>);
-    /** Checks whether there is logic for the given aggregate property. */
-    hasAggregateProperty(prop: AggregateProperty<any, any>): boolean;
+    /** Checks whether there is logic for the given aggregate metadata key. */
+    hasAggregateMetadata(key: AggregateMetadataKey<any, any>): boolean;
     /**
-     * Gets an iterable of [aggregate property, logic function] pairs.
-     * @returns An iterable of aggregate property entries.
+     * Gets an iterable of [aggregate metadata, logic function] pairs.
+     * @returns An iterable of aggregate metadata entries.
      */
-    getAggregatePropertyEntries(): MapIterator<[AggregateProperty<unknown, unknown>, AbstractLogic<unknown, unknown>]>;
+    getAggregateMetadataEntries(): MapIterator<[AggregateMetadataKey<unknown, unknown>, AbstractLogic<unknown, unknown>]>;
     /**
-     * Gets an iterable of [property, value factory function] pairs.
-     * @returns An iterable of property factory entries.
+     * Gets an iterable of [metadata, value factory function] pairs.
+     * @returns An iterable of metadata factory entries.
      */
-    getPropertyFactoryEntries(): MapIterator<[Property<unknown>, (ctx: FieldContext<unknown>) => unknown]>;
+    getMetadataFactoryEntries(): MapIterator<[MetadataKey<unknown>, (ctx: FieldContext<unknown>) => unknown]>;
     /**
-     * Retrieves or creates the `AbstractLogic` for a given aggregate property.
-     * @param prop The `AggregateProperty` for which to get the logic.
+     * Retrieves or creates the `AbstractLogic` for a given aggregate metadata key.
+     * @param key The `AggregateMetadataKey` for which to get the logic.
      * @returns The `AbstractLogic` associated with the key.
      */
-    getAggregateProperty<T>(prop: AggregateProperty<unknown, T>): AbstractLogic<T>;
+    getAggregateMetadata<T>(key: AggregateMetadataKey<unknown, T>): AbstractLogic<T>;
     /**
-     * Adds a factory function for a given property.
-     * @param prop The `Property` to associate the factory with.
+     * Adds a factory function for a given metadata key.
+     * @param key The `MetadataKey` to associate the factory with.
      * @param factory The factory function.
      * @throws If a factory is already defined for the given key.
      */
-    addPropertyFactory(prop: Property<unknown>, factory: (ctx: FieldContext<unknown>) => unknown): void;
+    addMetadataFactory(key: MetadataKey<unknown>, factory: (ctx: FieldContext<unknown>) => unknown): void;
     /**
      * Merges logic from another `Logic` instance into this one.
      * @param other The `Logic` instance to merge from.
@@ -1533,10 +1535,10 @@ declare abstract class AbstractLogicNodeBuilder {
     abstract addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult>): void;
     /** Adds a rule for asynchronous validation errors for a field. */
     abstract addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult>): void;
-    /** Adds a rule to compute an aggregate property for a field. */
-    abstract addAggregatePropertyRule<M>(key: AggregateProperty<unknown, M>, logic: LogicFn<any, M>): void;
+    /** Adds a rule to compute aggregate metadata for a field. */
+    abstract addAggregateMetadataRule<M>(key: AggregateMetadataKey<unknown, M>, logic: LogicFn<any, M>): void;
     /** Adds a factory function to produce a data value associated with a field. */
-    abstract addPropertyFactory<D>(key: Property<D>, factory: (ctx: FieldContext<any>) => D): void;
+    abstract addMetadataFactory<D>(key: MetadataKey<D>, factory: (ctx: FieldContext<any>) => D): void;
     /**
      * Gets a builder for a child node associated with the given property key.
      * @param key The property key of the child.
@@ -1582,8 +1584,8 @@ declare class LogicNodeBuilder extends AbstractLogicNodeBuilder {
     addSyncErrorRule(logic: LogicFn<any, ValidationResult>): void;
     addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult>): void;
     addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult>): void;
-    addAggregatePropertyRule<T>(key: AggregateProperty<unknown, T>, logic: LogicFn<any, T>): void;
-    addPropertyFactory<D>(key: Property<D>, factory: (ctx: FieldContext<any>) => D): void;
+    addAggregateMetadataRule<T>(key: AggregateMetadataKey<unknown, T>, logic: LogicFn<any, T>): void;
+    addMetadataFactory<D>(key: MetadataKey<D>, factory: (ctx: FieldContext<any>) => D): void;
     getChild(key: PropertyKey): LogicNodeBuilder;
     hasLogic(builder: AbstractLogicNodeBuilder): boolean;
     /**
@@ -1701,21 +1703,17 @@ declare class FieldPathNode {
 }
 
 /**
- * Tracks custom properties associated with a `FieldNode`.
+ * Tracks custom metadata associated with a `FieldNode`.
  */
-declare class FieldPropertyState {
+declare class FieldMetadataState {
     private readonly node;
-    /** A map of all `Property` and `AggregateProperty` that have been defined for this field. */
-    private readonly properties;
+    /** A map of all `MetadataKey` and `AggregateMetadataKey` that have been defined for this field. */
+    private readonly metadata;
     constructor(node: FieldNode);
-    /** Gets the value of a `Property` or `AggregateProperty` for the field. */
-    get<T>(prop: Property<T> | AggregateProperty<T, unknown>): T | undefined | Signal<T>;
-    /**
-     * Checks whether the current property state has the given property.
-     * @param prop
-     * @returns
-     */
-    has(prop: Property<any> | AggregateProperty<any, any>): boolean;
+    /** Gets the value of a `MetadataKey` or `AggregateMetadataKey` for the field. */
+    get<T>(key: MetadataKey<T> | AggregateMetadataKey<T, unknown>): T | undefined | Signal<T>;
+    /** Checks whether the current metadata state has the given metadata key. */
+    has(key: MetadataKey<any> | AggregateMetadataKey<any, any>): boolean;
 }
 
 /**
@@ -1940,7 +1938,7 @@ interface ValidationState {
 declare class FieldNode implements FieldState<unknown> {
     readonly structure: FieldNodeStructure;
     readonly validationState: ValidationState;
-    readonly propertyState: FieldPropertyState;
+    readonly metadataState: FieldMetadataState;
     readonly nodeState: FieldNodeState;
     readonly submitState: FieldSubmitState;
     private _context;
@@ -1968,16 +1966,16 @@ declare class FieldNode implements FieldState<unknown> {
     get fieldBindings(): Signal<readonly Field<unknown>[]>;
     get submitting(): Signal<boolean>;
     get name(): Signal<string>;
-    private propertyOrUndefined;
+    private metadataOrUndefined;
     get max(): Signal<number | undefined> | undefined;
     get maxLength(): Signal<number | undefined> | undefined;
     get min(): Signal<number | undefined> | undefined;
     get minLength(): Signal<number | undefined> | undefined;
     get pattern(): Signal<readonly RegExp[]> | undefined;
     get required(): Signal<boolean> | undefined;
-    property<M>(prop: AggregateProperty<M, any>): Signal<M>;
-    property<M>(prop: Property<M>): M | undefined;
-    hasProperty(prop: Property<any> | AggregateProperty<any, any>): boolean;
+    metadata<M>(key: AggregateMetadataKey<M, any>): Signal<M>;
+    metadata<M>(key: MetadataKey<M>): M | undefined;
+    hasMetadata(key: MetadataKey<any> | AggregateMetadataKey<any, any>): boolean;
     /**
      * Marks this specific field as touched.
      */
@@ -2684,5 +2682,5 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  */
 declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
 
-export { AggregateProperty, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, FieldContext, FieldPath, FieldState, FieldTree, FieldValidationResult, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldPath, MaybeFieldTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };

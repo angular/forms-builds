@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.9+sha-0385c81
+ * @license Angular v21.0.0-next.9+sha-02f7263
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -352,8 +352,8 @@ class ArrayMergeLogic extends ArrayMergeIgnoreLogic {
         super(predicates, undefined);
     }
 }
-/** Logic that combines an AggregateProperty according to the property's own reduce function. */
-class AggregatePropertyMergeLogic extends AbstractLogic {
+/** Logic that combines aggregate metadata according to the keys's own reduce function. */
+class AggregateMetadataMergeLogic extends AbstractLogic {
     key;
     get defaultValue() {
         return this.key.getInitial();
@@ -426,10 +426,10 @@ class LogicContainer {
     syncTreeErrors;
     /** Logic that produces asynchronous validation results (errors or 'pending'). */
     asyncErrors;
-    /** A map of aggregate properties to the `AbstractLogic` instances that compute their values. */
-    aggregateProperties = new Map();
-    /** A map of property keys to the factory functions that create their values. */
-    propertyFactories = new Map();
+    /** A map of aggregate metadata keys to the `AbstractLogic` instances that compute their values. */
+    aggregateMetadataKeys = new Map();
+    /** A map of metadata keys to the factory functions that create their values. */
+    metadataFactories = new Map();
     /**
      * Constructs a new `Logic` container.
      * @param predicates An array of predicates that must all be true for the logic
@@ -444,47 +444,47 @@ class LogicContainer {
         this.syncTreeErrors = ArrayMergeIgnoreLogic.ignoreNull(predicates);
         this.asyncErrors = ArrayMergeIgnoreLogic.ignoreNull(predicates);
     }
-    /** Checks whether there is logic for the given aggregate property. */
-    hasAggregateProperty(prop) {
-        return this.aggregateProperties.has(prop);
+    /** Checks whether there is logic for the given aggregate metadata key. */
+    hasAggregateMetadata(key) {
+        return this.aggregateMetadataKeys.has(key);
     }
     /**
-     * Gets an iterable of [aggregate property, logic function] pairs.
-     * @returns An iterable of aggregate property entries.
+     * Gets an iterable of [aggregate metadata, logic function] pairs.
+     * @returns An iterable of aggregate metadata entries.
      */
-    getAggregatePropertyEntries() {
-        return this.aggregateProperties.entries();
+    getAggregateMetadataEntries() {
+        return this.aggregateMetadataKeys.entries();
     }
     /**
-     * Gets an iterable of [property, value factory function] pairs.
-     * @returns An iterable of property factory entries.
+     * Gets an iterable of [metadata, value factory function] pairs.
+     * @returns An iterable of metadata factory entries.
      */
-    getPropertyFactoryEntries() {
-        return this.propertyFactories.entries();
+    getMetadataFactoryEntries() {
+        return this.metadataFactories.entries();
     }
     /**
-     * Retrieves or creates the `AbstractLogic` for a given aggregate property.
-     * @param prop The `AggregateProperty` for which to get the logic.
+     * Retrieves or creates the `AbstractLogic` for a given aggregate metadata key.
+     * @param key The `AggregateMetadataKey` for which to get the logic.
      * @returns The `AbstractLogic` associated with the key.
      */
-    getAggregateProperty(prop) {
-        if (!this.aggregateProperties.has(prop)) {
-            this.aggregateProperties.set(prop, new AggregatePropertyMergeLogic(this.predicates, prop));
+    getAggregateMetadata(key) {
+        if (!this.aggregateMetadataKeys.has(key)) {
+            this.aggregateMetadataKeys.set(key, new AggregateMetadataMergeLogic(this.predicates, key));
         }
-        return this.aggregateProperties.get(prop);
+        return this.aggregateMetadataKeys.get(key);
     }
     /**
-     * Adds a factory function for a given property.
-     * @param prop The `Property` to associate the factory with.
+     * Adds a factory function for a given metadata key.
+     * @param key The `MetadataKey` to associate the factory with.
      * @param factory The factory function.
      * @throws If a factory is already defined for the given key.
      */
-    addPropertyFactory(prop, factory) {
-        if (this.propertyFactories.has(prop)) {
-            // TODO: name of the property?
-            throw new Error(`Can't define value twice for the same Property`);
+    addMetadataFactory(key, factory) {
+        if (this.metadataFactories.has(key)) {
+            // TODO: name of the metadata key?
+            throw new Error(`Can't define value twice for the same MetadataKey`);
         }
-        this.propertyFactories.set(prop, factory);
+        this.metadataFactories.set(key, factory);
     }
     /**
      * Merges logic from another `Logic` instance into this one.
@@ -497,11 +497,11 @@ class LogicContainer {
         this.syncErrors.mergeIn(other.syncErrors);
         this.syncTreeErrors.mergeIn(other.syncTreeErrors);
         this.asyncErrors.mergeIn(other.asyncErrors);
-        for (const [prop, propertyLogic] of other.getAggregatePropertyEntries()) {
-            this.getAggregateProperty(prop).mergeIn(propertyLogic);
+        for (const [key, metadataLogic] of other.getAggregateMetadataEntries()) {
+            this.getAggregateMetadata(key).mergeIn(metadataLogic);
         }
-        for (const [prop, propertyFactory] of other.getPropertyFactoryEntries()) {
-            this.addPropertyFactory(prop, propertyFactory);
+        for (const [key, metadataFactory] of other.getMetadataFactoryEntries()) {
+            this.addMetadataFactory(key, metadataFactory);
         }
     }
 }
@@ -615,11 +615,11 @@ class LogicNodeBuilder extends AbstractLogicNodeBuilder {
     addAsyncErrorRule(logic) {
         this.getCurrent().addAsyncErrorRule(logic);
     }
-    addAggregatePropertyRule(key, logic) {
-        this.getCurrent().addAggregatePropertyRule(key, logic);
+    addAggregateMetadataRule(key, logic) {
+        this.getCurrent().addAggregateMetadataRule(key, logic);
     }
-    addPropertyFactory(key, factory) {
-        this.getCurrent().addPropertyFactory(key, factory);
+    addMetadataFactory(key, factory) {
+        this.getCurrent().addMetadataFactory(key, factory);
     }
     getChild(key) {
         return this.getCurrent().getChild(key);
@@ -711,11 +711,11 @@ class NonMergeableLogicNodeBuilder extends AbstractLogicNodeBuilder {
     addAsyncErrorRule(logic) {
         this.logic.asyncErrors.push(setBoundPathDepthForResolution(logic, this.depth));
     }
-    addAggregatePropertyRule(key, logic) {
-        this.logic.getAggregateProperty(key).push(setBoundPathDepthForResolution(logic, this.depth));
+    addAggregateMetadataRule(key, logic) {
+        this.logic.getAggregateMetadata(key).push(setBoundPathDepthForResolution(logic, this.depth));
     }
-    addPropertyFactory(key, factory) {
-        this.logic.addPropertyFactory(key, setBoundPathDepthForResolution(factory, this.depth));
+    addMetadataFactory(key, factory) {
+        this.logic.addMetadataFactory(key, setBoundPathDepthForResolution(factory, this.depth));
     }
     getChild(key) {
         if (!this.children.has(key)) {
@@ -1069,69 +1069,69 @@ function assertPathIsCurrent(path) {
 }
 
 /**
- * Represents a property that may be defined on a field when it is created using a `property` rule
- * in the schema. A particular `Property` can only be defined on a particular field **once**.
+ * Represents metadata that may be defined on a field when it is created using a `metadata` rule
+ * in the schema. A particular `MetadataKey` can only be defined on a particular field **once**.
  *
  * @category logic
  * @experimental 21.0.0
  */
-class Property {
+class MetadataKey {
     brand;
-    /** Use {@link createProperty}. */
+    /** Use {@link createMetadataKey}. */
     constructor() { }
 }
 /**
- * Creates a {@link Property}.
+ * Creates a {@link MetadataKey}.
  *
  * @experimental 21.0.0
  */
-function createProperty() {
-    return new Property();
+function createMetadataKey() {
+    return new MetadataKey();
 }
 /**
- * Represents a property that is aggregated from multiple parts according to the property's reducer
+ * Represents metadata that is aggregated from multiple parts according to the key's reducer
  * function. A value can be contributed to the aggregated value for a field using an
- * `aggregateProperty` rule in the schema. There may be multiple rules in a schema that contribute
- * values to the same `AggregateProperty` of the same field.
+ * `aggregateMetadata` rule in the schema. There may be multiple rules in a schema that contribute
+ * values to the same `AggregateMetadataKey` of the same field.
  *
  * @experimental 21.0.0
  */
-class AggregateProperty {
+class AggregateMetadataKey {
     reduce;
     getInitial;
     brand;
-    /** Use {@link reducedProperty}. */
+    /** Use {@link reducedMetadataKey}. */
     constructor(reduce, getInitial) {
         this.reduce = reduce;
         this.getInitial = getInitial;
     }
 }
 /**
- * Creates an aggregate property that reduces its individual values into an accumulated value using
- * the given `reduce` and `getInitial` functions.
+ * Creates an {@link AggregateMetadataKey} that reduces its individual values into an accumulated
+ * value using the given `reduce` and `getInitial` functions.
  * @param reduce The reducer function.
  * @param getInitial A function that gets the initial value for the reduce operation.
  *
  * @experimental 21.0.0
  */
-function reducedProperty(reduce, getInitial) {
-    return new AggregateProperty(reduce, getInitial);
+function reducedMetadataKey(reduce, getInitial) {
+    return new AggregateMetadataKey(reduce, getInitial);
 }
 /**
- * Creates an aggregate property that reduces its individual values into a list.
+ * Creates an {@link AggregateMetadataKey} that reduces its individual values into a list.
  *
  * @experimental 21.0.0
  */
-function listProperty() {
-    return reducedProperty((acc, item) => (item === undefined ? acc : [...acc, item]), () => []);
+function listMetadataKey() {
+    return reducedMetadataKey((acc, item) => (item === undefined ? acc : [...acc, item]), () => []);
 }
 /**
- * Creates an aggregate property that reduces its individual values by taking their min.
+ * Creates {@link AggregateMetadataKey} that reduces its individual values by taking their min.
  *
  * @experimental 21.0.0
  */
-function minProperty() {
-    return reducedProperty((prev, next) => {
+function minMetadataKey() {
+    return reducedMetadataKey((prev, next) => {
         if (prev === undefined) {
             return next;
         }
@@ -1142,12 +1142,12 @@ function minProperty() {
     }, () => undefined);
 }
 /**
- * Creates an aggregate property that reduces its individual values by taking their max.
+ * Creates {@link AggregateMetadataKey} that reduces its individual values by taking their max.
  *
  * @experimental 21.0.0
  */
-function maxProperty() {
-    return reducedProperty((prev, next) => {
+function maxMetadataKey() {
+    return reducedMetadataKey((prev, next) => {
         if (prev === undefined) {
             return next;
         }
@@ -1158,63 +1158,65 @@ function maxProperty() {
     }, () => undefined);
 }
 /**
- * Creates an aggregate property that reduces its individual values by logically or-ing them.
+ * Creates an {@link AggregateMetadataKey} that reduces its individual values by logically or-ing
+ * them.
  *
  * @experimental 21.0.0
  */
-function orProperty() {
-    return reducedProperty((prev, next) => prev || next, () => false);
+function orMetadataKey() {
+    return reducedMetadataKey((prev, next) => prev || next, () => false);
 }
 /**
- * Creates an aggregate property that reduces its individual values by logically and-ing them.
+ * Creates an {@link AggregateMetadataKey} that reduces its individual values by logically and-ing
+ * them.
  *
  * @experimental 21.0.0
  */
-function andProperty() {
-    return reducedProperty((prev, next) => prev && next, () => true);
+function andMetadataKey() {
+    return reducedMetadataKey((prev, next) => prev && next, () => true);
 }
 /**
- * An aggregate property representing whether the field is required.
+ * An {@link AggregateMetadataKey} representing whether the field is required.
  *
  * @category validation
  * @experimental 21.0.0
  */
-const REQUIRED = orProperty();
+const REQUIRED = orMetadataKey();
 /**
- * An aggregate property representing the min value of the field.
+ * An {@link AggregateMetadataKey} representing the min value of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-const MIN = maxProperty();
+const MIN = maxMetadataKey();
 /**
- * An aggregate property representing the max value of the field.
+ * An {@link AggregateMetadataKey} representing the max value of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-const MAX = minProperty();
+const MAX = minMetadataKey();
 /**
- * An aggregate property representing the min length of the field.
+ * An {@link AggregateMetadataKey} representing the min length of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-const MIN_LENGTH = maxProperty();
+const MIN_LENGTH = maxMetadataKey();
 /**
- * An aggregate property representing the max length of the field.
+ * An {@link AggregateMetadataKey} representing the max length of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-const MAX_LENGTH = minProperty();
+const MAX_LENGTH = minMetadataKey();
 /**
- * An aggregate property representing the patterns the field must match.
+ * An {@link AggregateMetadataKey} representing the patterns the field must match.
  *
  * @category validation
  * @experimental 21.0.0
  */
-const PATTERN = listProperty();
+const PATTERN = listMetadataKey();
 
 /**
  * Adds logic to a field to conditionally disable it. A disabled field does not contribute to the
@@ -1322,24 +1324,24 @@ function validateTree(path, logic) {
     pathNode.logic.addSyncTreeErrorRule((ctx) => addDefaultField(logic(ctx), ctx.field));
 }
 /**
- * Adds a value to an `AggregateProperty` of a field.
+ * Adds a value to an {@link AggregateMetadataKey} of a field.
  *
- * @param path The target path to set the aggregate property on.
- * @param prop The aggregate property
- * @param logic A function that receives the `FieldContext` and returns a value to add to the aggregate property.
+ * @param path The target path to set the aggregate metadata on.
+ * @param key The aggregate metadata key
+ * @param logic A function that receives the `FieldContext` and returns a value to add to the aggregate metadata.
  * @template TValue The type of value stored in the field the logic is bound to.
- * @template TPropItem The type of value the property aggregates over.
+ * @template TMetadataItem The type of value the metadata aggregates over.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
  * @experimental 21.0.0
  */
-function aggregateProperty(path, prop, logic) {
+function aggregateMetadata(path, key, logic) {
     assertPathIsCurrent(path);
     const pathNode = FieldPathNode.unwrapFieldPath(path);
-    pathNode.logic.addAggregatePropertyRule(prop, logic);
+    pathNode.logic.addAggregateMetadataRule(key, logic);
 }
-function property(path, ...rest) {
+function metadata(path, ...rest) {
     assertPathIsCurrent(path);
     let key;
     let factory;
@@ -1349,9 +1351,9 @@ function property(path, ...rest) {
     else {
         [factory] = rest;
     }
-    key ??= createProperty();
+    key ??= createMetadataKey();
     const pathNode = FieldPathNode.unwrapFieldPath(path);
-    pathNode.logic.addPropertyFactory(key, factory);
+    pathNode.logic.addMetadataFactory(key, factory);
     return key;
 }
 
@@ -1372,7 +1374,7 @@ function property(path, ...rest) {
 function validateAsync(path, opts) {
     assertPathIsCurrent(path);
     const pathNode = FieldPathNode.unwrapFieldPath(path);
-    const RESOURCE = property(path, (ctx) => {
+    const RESOURCE = metadata(path, (ctx) => {
         const params = computed(() => {
             const node = ctx.stateOf(path);
             const validationState = node.validationState;
@@ -1384,7 +1386,7 @@ function validateAsync(path, opts) {
         return opts.factory(params);
     });
     pathNode.logic.addAsyncErrorRule((ctx) => {
-        const res = ctx.state.property(RESOURCE);
+        const res = ctx.state.metadata(RESOURCE);
         switch (res.status()) {
             case 'idle':
                 return undefined;
@@ -1499,7 +1501,7 @@ class InteropNgControl {
         // This addresses a common case where users look for the presence of `Validators.required` to
         // determine whether or not to show a required "*" indicator in the UI.
         if (validator === Validators.required) {
-            return this.field().property(REQUIRED)();
+            return this.field().metadata(REQUIRED)();
         }
         return false;
     }
@@ -1584,13 +1586,13 @@ class Field {
             });
         }, { injector: this.injector });
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.9+sha-0385c81", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.9+sha-0385c81", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.9+sha-02f7263", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.9+sha-02f7263", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
             { provide: FIELD, useExisting: Field },
             { provide: NgControl, useFactory: () => inject(Field).ɵgetOrCreateNgControl() },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.9+sha-0385c81", ngImport: i0, type: Field, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.9+sha-02f7263", ngImport: i0, type: Field, decorators: [{
             type: Directive,
             args: [{
                     selector: '[field]',
@@ -1689,54 +1691,50 @@ class FieldNodeContext {
 }
 
 /**
- * Tracks custom properties associated with a `FieldNode`.
+ * Tracks custom metadata associated with a `FieldNode`.
  */
-class FieldPropertyState {
+class FieldMetadataState {
     node;
-    /** A map of all `Property` and `AggregateProperty` that have been defined for this field. */
-    properties = new Map();
+    /** A map of all `MetadataKey` and `AggregateMetadataKey` that have been defined for this field. */
+    metadata = new Map();
     constructor(node) {
         this.node = node;
-        // Field nodes (and thus their property state) are created in a linkedSignal in order to mirror
-        // the structure of the model data. We need to run the property factories untracked so that they
+        // Field nodes (and thus their metadata state) are created in a linkedSignal in order to mirror
+        // the structure of the model data. We need to run the metadata factories untracked so that they
         // do not cause recomputation of the linkedSignal.
         untracked(() => 
-        // Property factories are run in the form's injection context so they can create resources
+        // Metadata factories are run in the form's injection context so they can create resources
         // and inject DI dependencies.
         runInInjectionContext(this.node.structure.injector, () => {
-            for (const [key, factory] of this.node.logicNode.logic.getPropertyFactoryEntries()) {
-                this.properties.set(key, factory(this.node.context));
+            for (const [key, factory] of this.node.logicNode.logic.getMetadataFactoryEntries()) {
+                this.metadata.set(key, factory(this.node.context));
             }
         }));
     }
-    /** Gets the value of a `Property` or `AggregateProperty` for the field. */
-    get(prop) {
-        if (prop instanceof Property) {
-            return this.properties.get(prop);
+    /** Gets the value of a `MetadataKey` or `AggregateMetadataKey` for the field. */
+    get(key) {
+        if (key instanceof MetadataKey) {
+            return this.metadata.get(key);
         }
-        if (!this.properties.has(prop)) {
-            const logic = this.node.logicNode.logic.getAggregateProperty(prop);
+        if (!this.metadata.has(key)) {
+            const logic = this.node.logicNode.logic.getAggregateMetadata(key);
             const result = computed(() => logic.compute(this.node.context), ...(ngDevMode ? [{ debugName: "result" }] : []));
-            this.properties.set(prop, result);
+            this.metadata.set(key, result);
         }
-        return this.properties.get(prop);
+        return this.metadata.get(key);
     }
-    /**
-     * Checks whether the current property state has the given property.
-     * @param prop
-     * @returns
-     */
-    has(prop) {
-        if (prop instanceof AggregateProperty) {
-            // For aggregate properties, they get added to the map lazily, on first access, so we can't
-            // rely on checking presence in the properties map. Instead we check if there is any logic for
-            // the given property.
-            return this.node.logicNode.logic.hasAggregateProperty(prop);
+    /** Checks whether the current metadata state has the given metadata key. */
+    has(key) {
+        if (key instanceof AggregateMetadataKey) {
+            // For aggregate metadata keys, they get added to the map lazily, on first access, so we can't
+            // rely on checking presence in the metadata map. Instead we check if there is any logic for
+            // the given metadata key.
+            return this.node.logicNode.logic.hasAggregateMetadata(key);
         }
         else {
-            // Non-aggregate proeprties get added to our properties map on construction, so we can just
+            // Non-aggregate metadata gets added to our metadata map on construction, so we can just
             // refer to their presence in the map.
-            return this.properties.has(prop);
+            return this.metadata.has(key);
         }
     }
 }
@@ -2147,7 +2145,7 @@ class FieldSubmitState {
 class FieldNode {
     structure;
     validationState;
-    propertyState;
+    metadataState;
     nodeState;
     submitState;
     _context = undefined;
@@ -2164,7 +2162,7 @@ class FieldNode {
         this.structure = this.fieldAdapter.createStructure(this, options);
         this.validationState = this.fieldAdapter.createValidationState(this, options);
         this.nodeState = this.fieldAdapter.createNodeState(this, options);
-        this.propertyState = new FieldPropertyState(this);
+        this.metadataState = new FieldMetadataState(this);
         this.submitState = new FieldSubmitState(this);
     }
     get logicNode() {
@@ -2218,32 +2216,32 @@ class FieldNode {
     get name() {
         return this.nodeState.name;
     }
-    propertyOrUndefined(prop) {
-        return this.hasProperty(prop) ? this.property(prop) : undefined;
+    metadataOrUndefined(key) {
+        return this.hasMetadata(key) ? this.metadata(key) : undefined;
     }
     get max() {
-        return this.propertyOrUndefined(MAX);
+        return this.metadataOrUndefined(MAX);
     }
     get maxLength() {
-        return this.propertyOrUndefined(MAX_LENGTH);
+        return this.metadataOrUndefined(MAX_LENGTH);
     }
     get min() {
-        return this.propertyOrUndefined(MIN);
+        return this.metadataOrUndefined(MIN);
     }
     get minLength() {
-        return this.propertyOrUndefined(MIN_LENGTH);
+        return this.metadataOrUndefined(MIN_LENGTH);
     }
     get pattern() {
-        return this.propertyOrUndefined(PATTERN);
+        return this.metadataOrUndefined(PATTERN);
     }
     get required() {
-        return this.propertyOrUndefined(REQUIRED);
+        return this.metadataOrUndefined(REQUIRED);
     }
-    property(prop) {
-        return this.propertyState.get(prop);
+    metadata(key) {
+        return this.metadataState.get(key);
     }
-    hasProperty(prop) {
-        return this.propertyState.has(prop);
+    hasMetadata(key) {
+        return this.metadataState.has(key);
     }
     /**
      * Marks this specific field as touched.
@@ -3043,13 +3041,13 @@ function email(path, config) {
  * @experimental 21.0.0
  */
 function max(path, maxValue, config) {
-    const MAX_MEMO = property(path, (ctx) => computed(() => (typeof maxValue === 'number' ? maxValue : maxValue(ctx))));
-    aggregateProperty(path, MAX, ({ state }) => state.property(MAX_MEMO)());
+    const MAX_MEMO = metadata(path, (ctx) => computed(() => (typeof maxValue === 'number' ? maxValue : maxValue(ctx))));
+    aggregateMetadata(path, MAX, ({ state }) => state.metadata(MAX_MEMO)());
     validate(path, (ctx) => {
         if (isEmpty(ctx.value())) {
             return undefined;
         }
-        const max = ctx.state.property(MAX_MEMO)();
+        const max = ctx.state.metadata(MAX_MEMO)();
         if (max === undefined || Number.isNaN(max)) {
             return undefined;
         }
@@ -3083,13 +3081,13 @@ function max(path, maxValue, config) {
  * @experimental 21.0.0
  */
 function maxLength(path, maxLength, config) {
-    const MAX_LENGTH_MEMO = property(path, (ctx) => computed(() => (typeof maxLength === 'number' ? maxLength : maxLength(ctx))));
-    aggregateProperty(path, MAX_LENGTH, ({ state }) => state.property(MAX_LENGTH_MEMO)());
+    const MAX_LENGTH_MEMO = metadata(path, (ctx) => computed(() => (typeof maxLength === 'number' ? maxLength : maxLength(ctx))));
+    aggregateMetadata(path, MAX_LENGTH, ({ state }) => state.metadata(MAX_LENGTH_MEMO)());
     validate(path, (ctx) => {
         if (isEmpty(ctx.value())) {
             return undefined;
         }
-        const maxLength = ctx.state.property(MAX_LENGTH_MEMO)();
+        const maxLength = ctx.state.metadata(MAX_LENGTH_MEMO)();
         if (maxLength === undefined) {
             return undefined;
         }
@@ -3122,13 +3120,13 @@ function maxLength(path, maxLength, config) {
  * @experimental 21.0.0
  */
 function min(path, minValue, config) {
-    const MIN_MEMO = property(path, (ctx) => computed(() => (typeof minValue === 'number' ? minValue : minValue(ctx))));
-    aggregateProperty(path, MIN, ({ state }) => state.property(MIN_MEMO)());
+    const MIN_MEMO = metadata(path, (ctx) => computed(() => (typeof minValue === 'number' ? minValue : minValue(ctx))));
+    aggregateMetadata(path, MIN, ({ state }) => state.metadata(MIN_MEMO)());
     validate(path, (ctx) => {
         if (isEmpty(ctx.value())) {
             return undefined;
         }
-        const min = ctx.state.property(MIN_MEMO)();
+        const min = ctx.state.metadata(MIN_MEMO)();
         if (min === undefined || Number.isNaN(min)) {
             return undefined;
         }
@@ -3162,13 +3160,13 @@ function min(path, minValue, config) {
  * @experimental 21.0.0
  */
 function minLength(path, minLength, config) {
-    const MIN_LENGTH_MEMO = property(path, (ctx) => computed(() => (typeof minLength === 'number' ? minLength : minLength(ctx))));
-    aggregateProperty(path, MIN_LENGTH, ({ state }) => state.property(MIN_LENGTH_MEMO)());
+    const MIN_LENGTH_MEMO = metadata(path, (ctx) => computed(() => (typeof minLength === 'number' ? minLength : minLength(ctx))));
+    aggregateMetadata(path, MIN_LENGTH, ({ state }) => state.metadata(MIN_LENGTH_MEMO)());
     validate(path, (ctx) => {
         if (isEmpty(ctx.value())) {
             return undefined;
         }
-        const minLength = ctx.state.property(MIN_LENGTH_MEMO)();
+        const minLength = ctx.state.metadata(MIN_LENGTH_MEMO)();
         if (minLength === undefined) {
             return undefined;
         }
@@ -3200,13 +3198,13 @@ function minLength(path, minLength, config) {
  * @experimental 21.0.0
  */
 function pattern(path, pattern, config) {
-    const PATTERN_MEMO = property(path, (ctx) => computed(() => (pattern instanceof RegExp ? pattern : pattern(ctx))));
-    aggregateProperty(path, PATTERN, ({ state }) => state.property(PATTERN_MEMO)());
+    const PATTERN_MEMO = metadata(path, (ctx) => computed(() => (pattern instanceof RegExp ? pattern : pattern(ctx))));
+    aggregateMetadata(path, PATTERN, ({ state }) => state.metadata(PATTERN_MEMO)());
     validate(path, (ctx) => {
         if (isEmpty(ctx.value())) {
             return undefined;
         }
-        const pattern = ctx.state.property(PATTERN_MEMO)();
+        const pattern = ctx.state.metadata(PATTERN_MEMO)();
         if (pattern === undefined) {
             return undefined;
         }
@@ -3240,10 +3238,10 @@ function pattern(path, pattern, config) {
  * @experimental 21.0.0
  */
 function required(path, config) {
-    const REQUIRED_MEMO = property(path, (ctx) => computed(() => (config?.when ? config.when(ctx) : true)));
-    aggregateProperty(path, REQUIRED, ({ state }) => state.property(REQUIRED_MEMO)());
+    const REQUIRED_MEMO = metadata(path, (ctx) => computed(() => (config?.when ? config.when(ctx) : true)));
+    aggregateMetadata(path, REQUIRED, ({ state }) => state.metadata(REQUIRED_MEMO)());
     validate(path, (ctx) => {
-        if (ctx.state.property(REQUIRED_MEMO)() && isEmpty(ctx.value())) {
+        if (ctx.state.metadata(REQUIRED_MEMO)() && isEmpty(ctx.value())) {
             if (config?.error) {
                 return getOption(config.error, ctx);
             }
@@ -3275,12 +3273,12 @@ function validateStandardSchema(path, schema) {
     // handles the sync result, and the async validator handles the Promise.
     // We memoize the result of the validation function here, so that it is only run once for both
     // validators, it can then be passed through both sync & async validation.
-    const VALIDATOR_MEMO = property(path, ({ value }) => {
+    const VALIDATOR_MEMO = metadata(path, ({ value }) => {
         return computed(() => schema['~standard'].validate(value()));
     });
     validateTree(path, ({ state, fieldOf }) => {
         // Skip sync validation if the result is a Promise.
-        const result = state.property(VALIDATOR_MEMO)();
+        const result = state.metadata(VALIDATOR_MEMO)();
         if (_isPromise(result)) {
             return [];
         }
@@ -3289,7 +3287,7 @@ function validateStandardSchema(path, schema) {
     validateAsync(path, {
         params: ({ state }) => {
             // Skip async validation if the result is *not* a Promise.
-            const result = state.property(VALIDATOR_MEMO)();
+            const result = state.metadata(VALIDATOR_MEMO)();
             return _isPromise(result) ? result : undefined;
         },
         factory: (params) => {
@@ -3319,5 +3317,5 @@ function standardIssueToFormTreeError(field, issue) {
     return addDefaultField(standardSchemaError(issue), target);
 }
 
-export { AggregateProperty, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, Property, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateProperty, andProperty, apply, applyEach, applyWhen, applyWhenValue, createProperty, customError, disabled, email, emailError, form, hidden, listProperty, max, maxError, maxLength, maxLengthError, maxProperty, min, minError, minLength, minLengthError, minProperty, orProperty, pattern, patternError, property, readonly, reducedProperty, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 //# sourceMappingURL=signals.mjs.map
