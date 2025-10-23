@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-ef34e39
+ * @license Angular v21.1.0-next.0+sha-13d8ccc
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1586,13 +1586,13 @@ class Field {
             });
         }, { injector: this.injector });
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-ef34e39", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.1.0-next.0+sha-ef34e39", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-13d8ccc", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.1.0-next.0+sha-13d8ccc", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
             { provide: FIELD, useExisting: Field },
             { provide: NgControl, useFactory: () => inject(Field).ɵgetOrCreateNgControl() },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-ef34e39", ngImport: i0, type: Field, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-13d8ccc", ngImport: i0, type: Field, decorators: [{
             type: Directive,
             args: [{
                     selector: '[field]',
