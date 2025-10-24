@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-e47ef3e
+ * @license Angular v21.1.0-next.0+sha-0d38cbf
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1567,8 +1567,16 @@ class Field {
         const controlValueAccessor = this.controlValueAccessor;
         // TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131711472
         // * check if values changed since last update before writing.
-        controlValueAccessor.writeValue(this.state().value());
-        controlValueAccessor.setDisabledState?.(this.state().disabled());
+        // These values remain reactive
+        const value = this.state().value();
+        const disabled = this.state().disabled();
+        // The CVA is accessed in a reactive context (the template executation)
+        // Since we don't control the implementation of the CVA and it can have underlying signals
+        // We need to untrack to prevent writing to a signal in a reactive context
+        untracked(() => {
+            controlValueAccessor.writeValue(value);
+            controlValueAccessor.setDisabledState?.(disabled);
+        });
     }
     // TODO: https://github.com/orgs/angular/projects/60/views/1?pane=issue&itemId=131861631
     ɵregister() {
@@ -1586,13 +1594,13 @@ class Field {
             });
         }, { injector: this.injector });
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-e47ef3e", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.1.0-next.0+sha-e47ef3e", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-0d38cbf", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.1.0-next.0+sha-0d38cbf", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
             { provide: FIELD, useExisting: Field },
             { provide: NgControl, useFactory: () => inject(Field).ɵgetOrCreateNgControl() },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-e47ef3e", ngImport: i0, type: Field, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-0d38cbf", ngImport: i0, type: Field, decorators: [{
             type: Directive,
             args: [{
                     selector: '[field]',
