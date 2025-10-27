@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-b478e91
+ * @license Angular v21.1.0-next.0+sha-a5678f6
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1387,6 +1387,7 @@ function validateAsync(path, opts) {
     });
     pathNode.logic.addAsyncErrorRule((ctx) => {
         const res = ctx.state.metadata(RESOURCE);
+        let errors;
         switch (res.status()) {
             case 'idle':
                 return undefined;
@@ -1398,11 +1399,11 @@ function validateAsync(path, opts) {
                 if (!res.hasValue()) {
                     return undefined;
                 }
-                const errors = opts.errors(res.value(), ctx);
+                errors = opts.onSuccess(res.value(), ctx);
                 return addDefaultField(errors, ctx.field);
             case 'error':
-                // TODO: Design error handling for async validation. For now, just throw the error.
-                throw res.error();
+                errors = opts.onError(res.error(), ctx);
+                return addDefaultField(errors, ctx.field);
         }
     });
 }
@@ -1423,7 +1424,8 @@ function validateHttp(path, opts) {
     validateAsync(path, {
         params: opts.request,
         factory: (request) => httpResource(request, opts.options),
-        errors: opts.errors,
+        onSuccess: opts.onSuccess,
+        onError: opts.onError,
     });
 }
 
@@ -1594,13 +1596,13 @@ class Field {
             });
         }, { injector: this.injector });
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-b478e91", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.1.0-next.0+sha-b478e91", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-a5678f6", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.1.0-next.0+sha-a5678f6", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
             { provide: FIELD, useExisting: Field },
             { provide: NgControl, useFactory: () => inject(Field).ɵgetOrCreateNgControl() },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-b478e91", ngImport: i0, type: Field, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.1.0-next.0+sha-a5678f6", ngImport: i0, type: Field, decorators: [{
             type: Directive,
             args: [{
                     selector: '[field]',
@@ -3304,9 +3306,10 @@ function validateStandardSchema(path, schema) {
                 loader: async ({ params }) => (await params)?.issues ?? [],
             });
         },
-        errors: (issues, { fieldOf }) => {
+        onSuccess: (issues, { fieldOf }) => {
             return issues.map((issue) => standardIssueToFormTreeError(fieldOf(path), issue));
         },
+        onError: () => { },
     });
 }
 /**
