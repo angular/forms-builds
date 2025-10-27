@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.9+sha-9e8b4eb
+ * @license Angular v21.0.0-next.9+sha-a1b4e38
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1570,7 +1570,7 @@ class Field {
         // These values remain reactive
         const value = this.state().value();
         const disabled = this.state().disabled();
-        // The CVA is accessed in a reactive context (the template executation)
+        // The CVA is accessed in a reactive context (the template execution)
         // Since we don't control the implementation of the CVA and it can have underlying signals
         // We need to untrack to prevent writing to a signal in a reactive context
         untracked(() => {
@@ -1594,13 +1594,13 @@ class Field {
             });
         }, { injector: this.injector });
     }
-    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.9+sha-9e8b4eb", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.9+sha-9e8b4eb", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
+    static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "21.0.0-next.9+sha-a1b4e38", ngImport: i0, type: Field, deps: [], target: i0.ɵɵFactoryTarget.Directive });
+    static ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "17.1.0", version: "21.0.0-next.9+sha-a1b4e38", type: Field, isStandalone: true, selector: "[field]", inputs: { field: { classPropertyName: "field", publicName: "field", isSignal: true, isRequired: true, transformFunction: null } }, providers: [
             { provide: FIELD, useExisting: Field },
             { provide: NgControl, useFactory: () => inject(Field).ɵgetOrCreateNgControl() },
         ], ngImport: i0 });
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.9+sha-9e8b4eb", ngImport: i0, type: Field, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "21.0.0-next.9+sha-a1b4e38", ngImport: i0, type: Field, decorators: [{
             type: Directive,
             args: [{
                     selector: '[field]',
