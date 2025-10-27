@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.9+sha-04dd75b
+ * @license Angular v21.0.0-next.9+sha-8511759
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1021,6 +1021,11 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
      */
     readonly factory: (params: Signal<TParams | undefined>) => ResourceRef<TResult | undefined>;
     /**
+     * A function to handle errors thrown by httpResource (HTTP errors, network errors, etc.).
+     * Receives the error and the field context, returns a list of validation errors.
+     */
+    readonly onError: (error: unknown, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
+    /**
      * A function that takes the resource result, and the current field context and maps it to a list
      * of validation errors.
      *
@@ -1031,7 +1036,7 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
      *   A targeted error will show up as an error on its target field rather than the field being validated.
      *   If a field is not given, the error is assumed to apply to the field being validated.
      */
-    readonly errors: MapToErrorsFn<TValue, TResult, TPathKind>;
+    readonly onSuccess: MapToErrorsFn<TValue, TResult, TPathKind>;
 }
 /**
  * Options that indicate how to create an httpResource for async validation for a field,
@@ -1064,7 +1069,12 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
      *   A targeted error will show up as an error on its target field rather than the field being validated.
      *   If a field is not given, the error is assumed to apply to the field being validated.
      */
-    readonly errors: MapToErrorsFn<TValue, TResult, TPathKind>;
+    readonly onSuccess: MapToErrorsFn<TValue, TResult, TPathKind>;
+    /**
+     * A function to handle errors thrown by httpResource (HTTP errors, network errors, etc.).
+     * Receives the error and the field context, returns a list of validation errors.
+     */
+    readonly onError: (error: unknown, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
     /**
      * The options to use when creating the httpResource.
      */
