@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.9+sha-b41a070
+ * @license Angular v21.0.0-next.9+sha-6e004ca
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -695,6 +695,143 @@ const MIN_LENGTH = maxMetadataKey();
 const MAX_LENGTH = minMetadataKey();
 const PATTERN = listMetadataKey();
 
+function requiredError(options) {
+  return new RequiredValidationError(options);
+}
+function minError(min, options) {
+  return new MinValidationError(min, options);
+}
+function maxError(max, options) {
+  return new MaxValidationError(max, options);
+}
+function minLengthError(minLength, options) {
+  return new MinLengthValidationError(minLength, options);
+}
+function maxLengthError(maxLength, options) {
+  return new MaxLengthValidationError(maxLength, options);
+}
+function patternError(pattern, options) {
+  return new PatternValidationError(pattern, options);
+}
+function emailError(options) {
+  return new EmailValidationError(options);
+}
+function standardSchemaError(issue, options) {
+  return new StandardSchemaValidationError(issue, options);
+}
+function customError(obj) {
+  return new CustomValidationError(obj);
+}
+class CustomValidationError {
+  __brand = undefined;
+  kind = '';
+  field;
+  message;
+  constructor(options) {
+    if (options) {
+      Object.assign(this, options);
+    }
+  }
+}
+class _NgValidationError {
+  __brand = undefined;
+  kind = '';
+  field;
+  message;
+  constructor(options) {
+    if (options) {
+      Object.assign(this, options);
+    }
+  }
+}
+class RequiredValidationError extends _NgValidationError {
+  kind = 'required';
+}
+class MinValidationError extends _NgValidationError {
+  min;
+  kind = 'min';
+  constructor(min, options) {
+    super(options);
+    this.min = min;
+  }
+}
+class MaxValidationError extends _NgValidationError {
+  max;
+  kind = 'max';
+  constructor(max, options) {
+    super(options);
+    this.max = max;
+  }
+}
+class MinLengthValidationError extends _NgValidationError {
+  minLength;
+  kind = 'minLength';
+  constructor(minLength, options) {
+    super(options);
+    this.minLength = minLength;
+  }
+}
+class MaxLengthValidationError extends _NgValidationError {
+  maxLength;
+  kind = 'maxLength';
+  constructor(maxLength, options) {
+    super(options);
+    this.maxLength = maxLength;
+  }
+}
+class PatternValidationError extends _NgValidationError {
+  pattern;
+  kind = 'pattern';
+  constructor(pattern, options) {
+    super(options);
+    this.pattern = pattern;
+  }
+}
+class EmailValidationError extends _NgValidationError {
+  kind = 'email';
+}
+class StandardSchemaValidationError extends _NgValidationError {
+  issue;
+  kind = 'standardSchema';
+  constructor(issue, options) {
+    super(options);
+    this.issue = issue;
+  }
+}
+const NgValidationError = _NgValidationError;
+
+function getLengthOrSize(value) {
+  const v = value;
+  return typeof v.length === 'number' ? v.length : v.size;
+}
+function getOption(opt, ctx) {
+  return opt instanceof Function ? opt(ctx) : opt;
+}
+function isEmpty(value) {
+  if (typeof value === 'number') {
+    return isNaN(value);
+  }
+  return value === '' || value === false || value == null;
+}
+function isPlainError(error) {
+  return typeof error === 'object' && (Object.getPrototypeOf(error) === Object.prototype || Object.getPrototypeOf(error) === null);
+}
+function ensureCustomValidationError(error) {
+  if (isPlainError(error)) {
+    return customError(error);
+  }
+  return error;
+}
+function ensureCustomValidationResult(result) {
+  if (result === null || result === undefined) {
+    return result;
+  }
+  if (isArray(result)) {
+    return result.map(ensureCustomValidationError);
+  }
+  return ensureCustomValidationError(result);
+}
+
 function disabled(path, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
@@ -729,7 +866,9 @@ function hidden(path, logic) {
 function validate(path, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.logic.addSyncErrorRule(ctx => addDefaultField(logic(ctx), ctx.field));
+  pathNode.logic.addSyncErrorRule(ctx => {
+    return ensureCustomValidationResult(addDefaultField(logic(ctx), ctx.field));
+  });
 }
 function validateTree(path, logic) {
   assertPathIsCurrent(path);
@@ -930,7 +1069,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0-next.9+sha-b41a070",
+    version: "21.0.0-next.9+sha-6e004ca",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -938,7 +1077,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0-next.9+sha-b41a070",
+    version: "21.0.0-next.9+sha-6e004ca",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -963,7 +1102,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0-next.9+sha-b41a070",
+  version: "21.0.0-next.9+sha-6e004ca",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1290,7 +1429,7 @@ function makeChildrenMapSignal(node, valueSignal, identitySymbol, pathNode, logi
           childrenMap?.delete(key);
           continue;
         }
-        if (isValueArray && isObject(childValue)) {
+        if (isValueArray && isObject(childValue) && !isArray(childValue)) {
           trackingId = childValue[identitySymbol] ??= Symbol(ngDevMode ? `id:${globalId++}` : '');
         }
         const identity = trackingId ?? key;
@@ -1683,125 +1822,6 @@ function markAllAsTouched(node) {
   for (const child of node.structure.children()) {
     markAllAsTouched(child);
   }
-}
-
-function requiredError(options) {
-  return new RequiredValidationError(options);
-}
-function minError(min, options) {
-  return new MinValidationError(min, options);
-}
-function maxError(max, options) {
-  return new MaxValidationError(max, options);
-}
-function minLengthError(minLength, options) {
-  return new MinLengthValidationError(minLength, options);
-}
-function maxLengthError(maxLength, options) {
-  return new MaxLengthValidationError(maxLength, options);
-}
-function patternError(pattern, options) {
-  return new PatternValidationError(pattern, options);
-}
-function emailError(options) {
-  return new EmailValidationError(options);
-}
-function standardSchemaError(issue, options) {
-  return new StandardSchemaValidationError(issue, options);
-}
-function customError(obj) {
-  return new CustomValidationError(obj);
-}
-class CustomValidationError {
-  __brand = undefined;
-  kind = '';
-  field;
-  message;
-  constructor(options) {
-    if (options) {
-      Object.assign(this, options);
-    }
-  }
-}
-class _NgValidationError {
-  __brand = undefined;
-  kind = '';
-  field;
-  message;
-  constructor(options) {
-    if (options) {
-      Object.assign(this, options);
-    }
-  }
-}
-class RequiredValidationError extends _NgValidationError {
-  kind = 'required';
-}
-class MinValidationError extends _NgValidationError {
-  min;
-  kind = 'min';
-  constructor(min, options) {
-    super(options);
-    this.min = min;
-  }
-}
-class MaxValidationError extends _NgValidationError {
-  max;
-  kind = 'max';
-  constructor(max, options) {
-    super(options);
-    this.max = max;
-  }
-}
-class MinLengthValidationError extends _NgValidationError {
-  minLength;
-  kind = 'minLength';
-  constructor(minLength, options) {
-    super(options);
-    this.minLength = minLength;
-  }
-}
-class MaxLengthValidationError extends _NgValidationError {
-  maxLength;
-  kind = 'maxLength';
-  constructor(maxLength, options) {
-    super(options);
-    this.maxLength = maxLength;
-  }
-}
-class PatternValidationError extends _NgValidationError {
-  pattern;
-  kind = 'pattern';
-  constructor(pattern, options) {
-    super(options);
-    this.pattern = pattern;
-  }
-}
-class EmailValidationError extends _NgValidationError {
-  kind = 'email';
-}
-class StandardSchemaValidationError extends _NgValidationError {
-  issue;
-  kind = 'standardSchema';
-  constructor(issue, options) {
-    super(options);
-    this.issue = issue;
-  }
-}
-const NgValidationError = _NgValidationError;
-
-function getLengthOrSize(value) {
-  const v = value;
-  return typeof v.length === 'number' ? v.length : v.size;
-}
-function getOption(opt, ctx) {
-  return opt instanceof Function ? opt(ctx) : opt;
-}
-function isEmpty(value) {
-  if (typeof value === 'number') {
-    return isNaN(value);
-  }
-  return value === '' || value === false || value == null;
 }
 
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
