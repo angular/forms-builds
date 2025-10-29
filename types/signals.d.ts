@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.0+sha-2a06e2b
+ * @license Angular v21.0.0-rc.0+sha-981fabc
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -607,6 +607,7 @@ type OneOrMany<T> = T | readonly T[];
  *
  * @experimental 21.0.0
  */
+type PathKind = PathKind.Root | PathKind.Child | PathKind.Item;
 declare namespace PathKind {
     /**
      * The `PathKind` for a `FieldPath` that is at the root of its field tree.
@@ -632,7 +633,6 @@ declare namespace PathKind {
         [ɵɵTYPE]: 'item';
     }
 }
-type PathKind = PathKind.Root | PathKind.Child | PathKind.Item;
 /**
  * A status indicating whether a field is unsubmitted, submitted, or currently submitting.
  *
