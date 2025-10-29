@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.9+sha-6e004ca
+ * @license Angular v21.0.0-next.9+sha-95344c1
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -548,33 +548,45 @@ function bindLevel(predicate, depth) {
 const PATH = Symbol('PATH');
 class FieldPathNode {
   keys;
-  logic;
+  parent;
+  keyInParent;
   root;
   children = new Map();
   fieldPathProxy = new Proxy(this, FIELD_PATH_PROXY_HANDLER);
-  constructor(keys, logic, root) {
+  logicBuilder;
+  constructor(keys, root, parent, keyInParent) {
     this.keys = keys;
-    this.logic = logic;
+    this.parent = parent;
+    this.keyInParent = keyInParent;
     this.root = root ?? this;
+    if (!parent) {
+      this.logicBuilder = LogicNodeBuilder.newRoot();
+    }
+  }
+  get builder() {
+    if (this.logicBuilder) {
+      return this.logicBuilder;
+    }
+    return this.parent.builder.getChild(this.keyInParent);
   }
   get element() {
     return this.getChild(DYNAMIC);
   }
   getChild(key) {
     if (!this.children.has(key)) {
-      this.children.set(key, new FieldPathNode([...this.keys, key], this.logic.getChild(key), this.root));
+      this.children.set(key, new FieldPathNode([...this.keys, key], this.root, this, key));
     }
     return this.children.get(key);
   }
   mergeIn(other, predicate) {
     const path = other.compile();
-    this.logic.mergeIn(path.logic, predicate);
+    this.builder.mergeIn(path.builder, predicate);
   }
   static unwrapFieldPath(formPath) {
     return formPath[PATH];
   }
   static newRoot() {
-    return new FieldPathNode([], LogicNodeBuilder.newRoot(), undefined);
+    return new FieldPathNode([], undefined, undefined, undefined);
   }
 }
 const FIELD_PATH_PROXY_HANDLER = {
@@ -835,7 +847,7 @@ function ensureCustomValidationResult(result) {
 function disabled(path, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.logic.addDisabledReasonRule(ctx => {
+  pathNode.builder.addDisabledReasonRule(ctx => {
     let result = true;
     if (typeof logic === 'string') {
       result = logic;
@@ -856,29 +868,29 @@ function disabled(path, logic) {
 function readonly(path, logic = () => true) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.logic.addReadonlyRule(logic);
+  pathNode.builder.addReadonlyRule(logic);
 }
 function hidden(path, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.logic.addHiddenRule(logic);
+  pathNode.builder.addHiddenRule(logic);
 }
 function validate(path, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.logic.addSyncErrorRule(ctx => {
+  pathNode.builder.addSyncErrorRule(ctx => {
     return ensureCustomValidationResult(addDefaultField(logic(ctx), ctx.field));
   });
 }
 function validateTree(path, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.logic.addSyncTreeErrorRule(ctx => addDefaultField(logic(ctx), ctx.field));
+  pathNode.builder.addSyncTreeErrorRule(ctx => addDefaultField(logic(ctx), ctx.field));
 }
 function aggregateMetadata(path, key, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.logic.addAggregateMetadataRule(key, logic);
+  pathNode.builder.addAggregateMetadataRule(key, logic);
 }
 function metadata(path, ...rest) {
   assertPathIsCurrent(path);
@@ -891,7 +903,7 @@ function metadata(path, ...rest) {
   }
   key ??= createMetadataKey();
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.logic.addMetadataFactory(key, factory);
+  pathNode.builder.addMetadataFactory(key, factory);
   return key;
 }
 
@@ -911,7 +923,7 @@ function validateAsync(path, opts) {
     }] : []));
     return opts.factory(params);
   });
-  pathNode.logic.addAsyncErrorRule(ctx => {
+  pathNode.builder.addAsyncErrorRule(ctx => {
     const res = ctx.state.metadata(RESOURCE);
     let errors;
     switch (res.status()) {
@@ -1069,7 +1081,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0-next.9+sha-6e004ca",
+    version: "21.0.0-next.9+sha-95344c1",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1077,7 +1089,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0-next.9+sha-6e004ca",
+    version: "21.0.0-next.9+sha-95344c1",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1102,7 +1114,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0-next.9+sha-6e004ca",
+  version: "21.0.0-next.9+sha-95344c1",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1142,7 +1154,7 @@ class FieldNodeContext {
         const targetPathNode = FieldPathNode.unwrapFieldPath(target);
         let field = this.node;
         let stepsRemaining = getBoundPathDepth();
-        while (stepsRemaining > 0 || !field.structure.logic.hasLogic(targetPathNode.root.logic)) {
+        while (stepsRemaining > 0 || !field.structure.logic.hasLogic(targetPathNode.root.builder)) {
           stepsRemaining--;
           field = field.structure.parent;
           if (field === undefined) {
@@ -1682,7 +1694,7 @@ class BasicFieldAdapter {
       fieldManager,
       value,
       pathNode,
-      logic: pathNode.logic.build(),
+      logic: pathNode.builder.build(),
       fieldAdapter: adapter
     });
   }

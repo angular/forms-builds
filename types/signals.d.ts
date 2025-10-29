@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-next.9+sha-6e004ca
+ * @license Angular v21.0.0-next.9+sha-95344c1
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -44,6 +44,9 @@ declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'c
 
 /**
  * Lightweight DI token provided by the {@link Field} directive.
+ *
+ * @category control
+ * @experimental 21.0.0
  */
 declare const FIELD: InjectionToken<Field<unknown>>;
 /**
@@ -1688,8 +1691,10 @@ declare class SchemaImpl {
 declare class FieldPathNode {
     /** The property keys used to navigate from the root path to this path. */
     readonly keys: PropertyKey[];
-    /** The logic builder used to accumulate logic on this path node. */
-    readonly logic: LogicNodeBuilder;
+    /** The parent of this path node. */
+    private readonly parent;
+    /** The key of this node in its parent. */
+    private readonly keyInParent;
     /** The root path node from which this path node is descended. */
     readonly root: FieldPathNode;
     /**
@@ -1701,11 +1706,20 @@ declare class FieldPathNode {
      * A proxy that wraps the path node, allowing navigation to its child paths via property access.
      */
     readonly fieldPathProxy: FieldPath<any>;
+    /**
+     * For a root path node this will contain the root logic builder. For non-root nodes,
+     * they determine their logic builder from their parent so this is undefined.
+     */
+    private readonly logicBuilder;
     protected constructor(
     /** The property keys used to navigate from the root path to this path. */
-    keys: PropertyKey[], 
+    keys: PropertyKey[], root: FieldPathNode | undefined, 
+    /** The parent of this path node. */
+    parent: FieldPathNode | undefined, 
+    /** The key of this node in its parent. */
+    keyInParent: PropertyKey | undefined);
     /** The logic builder used to accumulate logic on this path node. */
-    logic: LogicNodeBuilder, root: FieldPathNode);
+    get builder(): LogicNodeBuilder;
     /**
      * Gets the special path node containing the per-element logic that applies to *all* children paths.
      */
