@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-a54bea5
+ * @license Angular v21.1.0-next.0+sha-59635bb
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -386,7 +386,7 @@ declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: Va
  * @category validation
  * @experimental 21.0.0
  */
-declare function customError<E extends Partial<ValidationErrorWithField>>(obj: WithField<E>): CustomValidationError;
+declare function customError<E extends Partial<ValidationError.WithField>>(obj: WithField<E>): CustomValidationError;
 /**
  * Create a custom error
  * @param obj The object to create an error from
@@ -394,7 +394,7 @@ declare function customError<E extends Partial<ValidationErrorWithField>>(obj: W
  * @category validation
  * @experimental 21.0.0
  */
-declare function customError<E extends Partial<ValidationErrorWithField>>(obj?: E): WithoutField<CustomValidationError>;
+declare function customError<E extends Partial<ValidationError.WithField>>(obj?: E): WithoutField<CustomValidationError>;
 /**
  * Common interface for all validation errors.
  *
@@ -412,34 +412,36 @@ interface ValidationError {
     /** Human readable error message. */
     readonly message?: string;
 }
-/**
- * Validation error with a field.
- *
- * This is returned from field state, e.g., catField.errors() would be of a list of errors with
- * `field: catField` bound to state.
- */
-interface ValidationErrorWithField extends ValidationError {
-    /** The field associated with this error. */
-    readonly field: FieldTree<unknown>;
-}
-/**
- * Validation error with optional field.
- *
- * This is generally used in places where the result might have a field.
- * e.g., as a result of a `validateTree`, or when handling form submission.
- */
-interface ValidationErrorWithOptionalField extends ValidationError {
-    /** The field associated with this error. */
-    readonly field?: FieldTree<unknown>;
-}
-/**
- * Validation error with no field.
- *
- * This is used to strongly enforce that fields are not allowed in validation result.
- */
-interface ValidationErrorWithoutField extends ValidationError {
-    /** The field associated with this error. */
-    readonly field?: never;
+declare namespace ValidationError {
+    /**
+     * Validation error with a field.
+     *
+     * This is returned from field state, e.g., catField.errors() would be of a list of errors with
+     * `field: catField` bound to state.
+     */
+    interface WithField extends ValidationError {
+        /** The field associated with this error. */
+        readonly field: FieldTree<unknown>;
+    }
+    /**
+     * Validation error with optional field.
+     *
+     * This is generally used in places where the result might have a field.
+     * e.g., as a result of a `validateTree`, or when handling form submission.
+     */
+    interface WithOptionalField extends ValidationError {
+        /** The field associated with this error. */
+        readonly field?: FieldTree<unknown>;
+    }
+    /**
+     * Validation error with no field.
+     *
+     * This is used to strongly enforce that fields are not allowed in validation result.
+     */
+    interface WithoutField extends ValidationError {
+        /** The field associated with this error. */
+        readonly field?: never;
+    }
 }
 /**
  * A custom error that may contain additional properties
@@ -673,7 +675,7 @@ type ValidationSuccess = null | undefined | void;
  * @category types
  * @experimental 21.0.0
  */
-type TreeValidationResult<E extends ValidationErrorWithOptionalField = ValidationErrorWithOptionalField> = ValidationSuccess | OneOrMany<E>;
+type TreeValidationResult<E extends ValidationError.WithOptionalField = ValidationError.WithOptionalField> = ValidationSuccess | OneOrMany<E>;
 /**
  * A validation result where all errors explicitly define their target field.
  *
@@ -772,11 +774,11 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      */
     readonly hidden: Signal<boolean>;
     readonly disabledReasons: Signal<readonly DisabledReason[]>;
-    readonly errors: Signal<ValidationErrorWithField[]>;
+    readonly errors: Signal<ValidationError.WithField[]>;
     /**
      * A signal containing the {@link errors} of the field and its descendants.
      */
-    readonly errorSummary: Signal<ValidationErrorWithField[]>;
+    readonly errorSummary: Signal<ValidationError.WithField[]>;
     /**
      * A signal indicating whether the field's value is currently valid.
      *
@@ -921,7 +923,7 @@ type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx
  * @category validation
  * @experimental 21.0.0
  */
-type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult<ValidationErrorWithoutField>, TPathKind>;
+type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult<ValidationError.WithoutField>, TPathKind>;
 /**
  * A function that takes the `FieldContext` for the field being validated and returns a
  * `TreeValidationResult` indicating errors for the field and its sub-fields.
@@ -1492,11 +1494,11 @@ declare class LogicContainer {
     /** Logic that determines if the field is read-only. */
     readonly readonly: BooleanOrLogic;
     /** Logic that produces synchronous validation errors for the field. */
-    readonly syncErrors: ArrayMergeIgnoreLogic<ValidationErrorWithField, null>;
+    readonly syncErrors: ArrayMergeIgnoreLogic<ValidationError.WithField, null>;
     /** Logic that produces synchronous validation errors for the field's subtree. */
-    readonly syncTreeErrors: ArrayMergeIgnoreLogic<ValidationErrorWithField, null>;
+    readonly syncTreeErrors: ArrayMergeIgnoreLogic<ValidationError.WithField, null>;
     /** Logic that produces asynchronous validation results (errors or 'pending'). */
-    readonly asyncErrors: ArrayMergeIgnoreLogic<ValidationErrorWithField | 'pending', null>;
+    readonly asyncErrors: ArrayMergeIgnoreLogic<ValidationError.WithField | 'pending', null>;
     /** A map of aggregate metadata keys to the `AbstractLogic` instances that compute their values. */
     private readonly aggregateMetadataKeys;
     /** A map of metadata keys to the factory functions that create their values. */
@@ -1609,9 +1611,9 @@ declare class LogicNodeBuilder extends AbstractLogicNodeBuilder {
     addHiddenRule(logic: LogicFn<any, boolean>): void;
     addDisabledReasonRule(logic: LogicFn<any, DisabledReason | undefined>): void;
     addReadonlyRule(logic: LogicFn<any, boolean>): void;
-    addSyncErrorRule(logic: LogicFn<any, ValidationResult<ValidationErrorWithField>>): void;
-    addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult<ValidationErrorWithField>>): void;
-    addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult<ValidationErrorWithField>>): void;
+    addSyncErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithField>>): void;
+    addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithField>>): void;
+    addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult<ValidationError.WithField>>): void;
     addAggregateMetadataRule<T>(key: AggregateMetadataKey<unknown, T>, logic: LogicFn<any, T>): void;
     addMetadataFactory<D>(key: MetadataKey<D>, factory: (ctx: FieldContext<any>) => D): void;
     getChild(key: PropertyKey): LogicNodeBuilder;
@@ -1863,7 +1865,7 @@ declare class FieldSubmitState {
      */
     readonly selfSubmitting: WritableSignal<boolean>;
     /** Server errors that are associated with this field. */
-    readonly serverErrors: WritableSignal<readonly ValidationErrorWithField[]>;
+    readonly serverErrors: WritableSignal<readonly ValidationError.WithField[]>;
     constructor(node: FieldNode);
     /**
      * Whether this form is currently in the process of being submitted.
@@ -1877,14 +1879,14 @@ interface ValidationState {
      * The full set of synchronous tree errors visible to this field. This includes ones that are
      * targeted at a descendant field rather than at this field.
      */
-    rawSyncTreeErrors: Signal<ValidationErrorWithField[]>;
+    rawSyncTreeErrors: Signal<ValidationError.WithField[]>;
     /**
      * The full set of synchronous errors for this field, including synchronous tree errors and server
      * errors. Server errors are considered "synchronous" because they are imperatively added. From
      * the perspective of the field state they are either there or not, they are never in a pending
      * state.
      */
-    syncErrors: Signal<ValidationErrorWithField[]>;
+    syncErrors: Signal<ValidationError.WithField[]>;
     /**
      * Whether the field is considered valid according solely to its synchronous validators.
      * Errors resulting from a previous submit attempt are also considered for this state.
@@ -1895,21 +1897,21 @@ interface ValidationState {
      * targeted at a descendant field rather than at this field, as well as sentinel 'pending' values
      * indicating that the validator is still running and an error could still occur.
      */
-    rawAsyncErrors: Signal<(ValidationErrorWithField | 'pending')[]>;
+    rawAsyncErrors: Signal<(ValidationError.WithField | 'pending')[]>;
     /**
      * The asynchronous tree errors visible to this field that are specifically targeted at this field
      * rather than a descendant. This also includes all 'pending' sentinel values, since those could
      * theoretically result in errors for this field.
      */
-    asyncErrors: Signal<(ValidationErrorWithField | 'pending')[]>;
+    asyncErrors: Signal<(ValidationError.WithField | 'pending')[]>;
     /**
      * The combined set of all errors that currently apply to this field.
      */
-    errors: Signal<ValidationErrorWithField[]>;
+    errors: Signal<ValidationError.WithField[]>;
     /**
      * The combined set of all errors that currently apply to this field and its descendants.
      */
-    errorSummary: Signal<ValidationErrorWithField[]>;
+    errorSummary: Signal<ValidationError.WithField[]>;
     /**
      * Whether this field has any asynchronous validators still pending.
      */
@@ -1991,8 +1993,8 @@ declare class FieldNode implements FieldState<unknown> {
     get logicNode(): LogicNode;
     get value(): WritableSignal<unknown>;
     get keyInParent(): Signal<string | number>;
-    get errors(): Signal<ValidationErrorWithField[]>;
-    get errorSummary(): Signal<ValidationErrorWithField[]>;
+    get errors(): Signal<ValidationError.WithField[]>;
+    get errorSummary(): Signal<ValidationError.WithField[]>;
     get pending(): Signal<boolean>;
     get valid(): Signal<boolean>;
     get invalid(): Signal<boolean>;
@@ -2721,5 +2723,5 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  */
 declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
 
-export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
-export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, FieldContext, FieldPath, FieldState, FieldTree, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldPath, MaybeFieldTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationError, ValidationErrorWithField, ValidationErrorWithOptionalField, ValidationErrorWithoutField, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, ValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, FieldContext, FieldPath, FieldState, FieldTree, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldPath, MaybeFieldTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
