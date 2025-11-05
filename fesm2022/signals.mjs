@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-5b210e9
+ * @license Angular v21.1.0-next.0+sha-41be02d
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1081,7 +1081,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.0+sha-5b210e9",
+    version: "21.1.0-next.0+sha-41be02d",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1089,7 +1089,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.0+sha-5b210e9",
+    version: "21.1.0-next.0+sha-41be02d",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1114,7 +1114,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.0+sha-5b210e9",
+  version: "21.1.0-next.0+sha-41be02d",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1588,10 +1588,10 @@ class FieldNode {
     return this.metadataOrUndefined(MIN_LENGTH);
   }
   get pattern() {
-    return this.metadataOrUndefined(PATTERN);
+    return this.metadataOrUndefined(PATTERN) ?? EMPTY;
   }
   get required() {
-    return this.metadataOrUndefined(REQUIRED);
+    return this.metadataOrUndefined(REQUIRED) ?? FALSE;
   }
   metadata(key) {
     return this.metadataState.get(key);
@@ -1622,6 +1622,12 @@ class FieldNode {
     return options.kind === 'root' ? new RootFieldNodeStructure(this, options.pathNode, options.logic, options.fieldManager, options.value, options.fieldAdapter, FieldNode.newChild) : new ChildFieldNodeStructure(this, options.pathNode, options.logic, options.parent, options.identityInParent, options.initialKeyInParent, options.fieldAdapter, FieldNode.newChild);
   }
 }
+const EMPTY = computed(() => [], ...(ngDevMode ? [{
+  debugName: "EMPTY"
+}] : []));
+const FALSE = computed(() => false, ...(ngDevMode ? [{
+  debugName: "FALSE"
+}] : []));
 
 class FieldNodeState {
   node;

@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-5b210e9
+ * @license Angular v21.1.0-next.0+sha-41be02d
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -2010,8 +2010,8 @@ declare class FieldNode implements FieldState<unknown> {
     get maxLength(): Signal<number | undefined> | undefined;
     get min(): Signal<number | undefined> | undefined;
     get minLength(): Signal<number | undefined> | undefined;
-    get pattern(): Signal<readonly RegExp[]> | undefined;
-    get required(): Signal<boolean> | undefined;
+    get pattern(): Signal<readonly RegExp[]>;
+    get required(): Signal<boolean>;
     metadata<M>(key: AggregateMetadataKey<M, any>): Signal<M>;
     metadata<M>(key: MetadataKey<M>): M | undefined;
     hasMetadata(key: MetadataKey<any> | AggregateMetadataKey<any, any>): boolean;
