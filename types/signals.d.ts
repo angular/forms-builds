@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.1+sha-3bed9f0
+ * @license Angular v21.0.0-rc.1+sha-e90f9e4
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,6 +7,7 @@
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import * as i0 from '@angular/core';
 import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵFieldState as _FieldState, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
+import * as _angular_forms from '@angular/forms';
 import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
@@ -71,7 +72,7 @@ declare const FIELD: InjectionToken<Field<unknown>>;
 declare class Field<T> implements _Control<T> {
     private readonly injector;
     readonly field: i0.InputSignal<FieldTree<T>>;
-    readonly state: i0.Signal<FieldState<T, string | number>>;
+    readonly state: i0.Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
     readonly [_CONTROL]: undefined;
     /** Any `ControlValueAccessor` instances provided on the host element. */
     private readonly controlValueAccessors;
@@ -716,18 +717,18 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  * @category types
  * @experimental 21.0.0
  */
-type FieldTree<TValue, TKey extends string | number = string | number> = (() => FieldState<TValue, TKey>) & (TValue extends Array<infer U> ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TValue extends Record<string, any> ? Subfields<TValue> : unknown);
+type FieldTree<TModel, TKey extends string | number = string | number> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey> : FieldState<TModel, TKey>) & (TModel extends AbstractControl ? unknown : TModel extends Array<infer U> ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TModel extends Record<string, any> ? Subfields<TModel> : unknown);
 /**
- * The sub-fields that a user can navigate to from a `FieldTree<TValue>`.
+ * The sub-fields that a user can navigate to from a `FieldTree<TModel>`.
  *
- * @template TValue The type of the data which the parent field is wrapped around.
+ * @template TModel The type of the data which the parent field is wrapped around.
  *
  * @experimental 21.0.0
  */
-type Subfields<TValue> = {
-    readonly [K in keyof TValue as TValue[K] extends Function ? never : K]: MaybeFieldTree<TValue[K], string>;
+type Subfields<TModel> = {
+    readonly [K in keyof TModel as TModel[K] extends Function ? never : K]: MaybeFieldTree<TModel[K], string>;
 } & {
-    [Symbol.iterator](): Iterator<[string, MaybeFieldTree<TValue[keyof TValue], string>]>;
+    [Symbol.iterator](): Iterator<[string, MaybeFieldTree<TModel[keyof TModel], string>]>;
 };
 /**
  * An iterable object with the same shape as a readonly array.
@@ -744,12 +745,12 @@ type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Sy
  * For example `MaybeField<{a: number} | undefined, TKey>` would be equivalent to
  * `undefined | FieldTree<{a: number}, TKey>`.
  *
- * @template TValue The type of the data which the field is wrapped around.
+ * @template TModel The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
  *
  * @experimental 21.0.0
  */
-type MaybeFieldTree<TValue, TKey extends string | number = string | number> = (TValue & undefined) | FieldTree<Exclude<TValue, undefined>, TKey>;
+type MaybeFieldTree<TModel, TKey extends string | number = string | number> = (TModel & undefined) | FieldTree<Exclude<TModel, undefined>, TKey>;
 /**
  * Contains all of the state (e.g. value, statuses, etc.) associated with a `FieldTree`, exposed as
  * signals.
@@ -844,6 +845,31 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
     reset(): void;
 }
 /**
+ * This is FieldState also providing access to the wrapped FormControl.
+ *
+ * @category interop
+ * @experimental 21.0.0
+ */
+type CompatFieldState<TControl extends AbstractControl, TKey extends string | number = string | number> = FieldState<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, TKey> & {
+    control: Signal<TControl>;
+};
+/**
+ * Allows declaring whether the Rules are supported for a given path.
+ *
+ * @experimental 21.0.0
+ **/
+type SchemaPathRules = SchemaPathRules.Supported | SchemaPathRules.Unsupported;
+declare namespace SchemaPathRules {
+    /**
+     * Used for paths that support settings rules.
+     */
+    type Supported = 1;
+    /**
+     * Used for paths that do not support settings rules, e.g., compatPath.
+     */
+    type Unsupported = 2;
+}
+/**
  * An object that represents a location in the `FieldTree` tree structure and is used to bind logic to a
  * particular part of the structure prior to the creation of the form. Because the `FieldPath`
  * exists prior to the form's creation, it cannot be used to access any of the field state.
@@ -854,10 +880,34 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
  * @category types
  * @experimental 21.0.0
  */
-type FieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = {
-    [ɵɵTYPE]: [TValue, TPathKind];
-} & (TValue extends Array<unknown> ? unknown : TValue extends Record<string, any> ? {
-    [K in keyof TValue]: MaybeFieldPath<TValue[K], PathKind.Child>;
+type SchemaPath<TValue, TSupportsRules extends SchemaPathRules = SchemaPathRules.Supported, TPathKind extends PathKind = PathKind.Root> = {
+    [ɵɵTYPE]: {
+        value: () => TValue;
+        supportsRules: TSupportsRules;
+        pathKind: TPathKind;
+    };
+};
+/**
+ * Schema path used if the value is an AbstractControl.
+ *
+ * @category interop
+ * @experimental 21.0.0
+ */
+type CompatSchemaPath<TControl extends AbstractControl, TPathKind extends PathKind = PathKind.Root> = SchemaPath<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, SchemaPathRules.Unsupported, TPathKind> & {
+    [ɵɵTYPE]: {
+        control: TControl;
+    };
+};
+/**
+ * Nested schema path.
+ *
+ * It mirrors the structure of a given data structure, and allows applying rules to the appropriate
+ * fields.
+ *
+ * @experimental 21.0.0
+ */
+type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = (TModel extends AbstractControl ? CompatSchemaPath<TModel, TPathKind> : SchemaPath<TModel, SchemaPathRules.Supported, TPathKind>) & (TModel extends AbstractControl ? unknown : TModel extends Array<any> ? unknown : TModel extends Record<string, any> ? {
+    [K in keyof TModel]: MaybeSchemaPathTree<TModel[K], PathKind.Child>;
 } : unknown);
 /**
  * Helper type for defining `FieldPath`. Given a type `TValue` that may include `undefined`, it
@@ -871,7 +921,7 @@ type FieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = {
  *
  * @experimental 21.0.0
  */
-type MaybeFieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = (TValue & undefined) | FieldPath<Exclude<TValue, undefined>, TPathKind>;
+type MaybeSchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = (TModel & undefined) | SchemaPathTree<Exclude<TModel, undefined>, TPathKind>;
 /**
  * Defines logic for a form.
  *
@@ -880,29 +930,29 @@ type MaybeFieldPath<TValue, TPathKind extends PathKind = PathKind.Root> = (TValu
  * @category types
  * @experimental 21.0.0
  */
-type Schema<in TValue> = {
-    [ɵɵTYPE]: SchemaFn<TValue, PathKind.Root>;
+type Schema<in TModel> = {
+    [ɵɵTYPE]: SchemaFn<TModel, PathKind.Root>;
 };
 /**
  * Function that defines rules for a schema.
  *
- * @template TValue The type of data stored in the form that this schema function is attached to.
+ * @template TModel The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
  *
  * @category types
  * @experimental 21.0.0
  */
-type SchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = (p: FieldPath<TValue, TPathKind>) => void;
+type SchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = (p: SchemaPathTree<TModel, TPathKind>) => void;
 /**
  * A schema or schema definition function.
  *
- * @template TValue The type of data stored in the form that this schema function is attached to.
+ * @template TModel The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
  *
  * @category types
  * @experimental 21.0.0
  */
-type SchemaOrSchemaFn<TValue, TPathKind extends PathKind = PathKind.Root> = Schema<TValue> | SchemaFn<TValue, TPathKind>;
+type SchemaOrSchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = Schema<TModel> | SchemaFn<TModel, TPathKind>;
 /**
  * A function that receives the `FieldContext` for the field the logic is bound to and returns
  * a specific result type.
@@ -970,11 +1020,10 @@ interface RootFieldContext<TValue> {
     /** The current field. */
     readonly field: FieldTree<TValue>;
     /** Gets the value of the field represented by the given path. */
-    readonly valueOf: <P>(p: FieldPath<P>) => P;
-    /** Gets the state of the field represented by the given path. */
-    readonly stateOf: <P>(p: FieldPath<P>) => FieldState<P>;
-    /** Gets the field represented by the given path. */
-    readonly fieldOf: <P>(p: FieldPath<P>) => FieldTree<P>;
+    valueOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): PValue;
+    stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): CompatFieldState<PControl>;
+    stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): FieldState<PValue>;
+    fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): FieldTree<PModel>;
 }
 /**
  * Field context that is available for all fields that are a child of another field.
@@ -1116,7 +1165,7 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
  * @category validation
  * @experimental 21.0.0
  */
-declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, opts: AsyncValidatorOptions<TValue, TParams, TResult, TPathKind>): void;
+declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: AsyncValidatorOptions<TValue, TParams, TResult, TPathKind>): void;
 /**
  * Adds async validation to the field corresponding to the given path based on an httpResource.
  * Async validation for a field only runs once all synchronous validation is passing.
@@ -1130,7 +1179,7 @@ declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathK
  * @category validation
  * @experimental 21.0.0
  */
-declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, opts: HttpValidatorOptions<TValue, TResult, TPathKind>): void;
+declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: HttpValidatorOptions<TValue, TResult, TPathKind>): void;
 
 /**
  * The base set of properties shared by all form control contracts.
@@ -1284,7 +1333,7 @@ interface FormCheckboxControl extends FormUiControl {
  * @category logic
  * @experimental 21.0.0
  */
-declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic?: string | NoInfer<LogicFn<TValue, boolean | string, TPathKind>>): void;
+declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: string | NoInfer<LogicFn<TValue, boolean | string, TPathKind>>): void;
 /**
  * Adds logic to a field to conditionally make it readonly. A readonly field does not contribute to
  * the validation, touched/dirty, or other state of its parent field.
@@ -1297,7 +1346,7 @@ declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @category logic
  * @experimental 21.0.0
  */
-declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
+declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
 /**
  * Adds logic to a field to conditionally hide it. A hidden field does not contribute to the
  * validation, touched/dirty, or other state of its parent field.
@@ -1318,7 +1367,7 @@ declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @category logic
  * @experimental 21.0.0
  */
-declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
+declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
 /**
  * Adds logic to a field to determine if the field has validation errors.
  *
@@ -1330,7 +1379,7 @@ declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path
  * @category logic
  * @experimental 21.0.0
  */
-declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<FieldValidator<TValue, TPathKind>>): void;
+declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<FieldValidator<TValue, TPathKind>>): void;
 /**
  * Adds logic to a field to determine if the field or any of its child fields has validation errors.
  *
@@ -1343,7 +1392,7 @@ declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @category logic
  * @experimental 21.0.0
  */
-declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
+declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
 /**
  * Adds a value to an {@link AggregateMetadataKey} of a field.
  *
@@ -1357,7 +1406,7 @@ declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root
  * @category logic
  * @experimental 21.0.0
  */
-declare function aggregateMetadata<TValue, TMetadataItem, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, key: AggregateMetadataKey<any, TMetadataItem>, logic: NoInfer<LogicFn<TValue, TMetadataItem, TPathKind>>): void;
+declare function aggregateMetadata<TValue, TMetadataItem, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: AggregateMetadataKey<any, TMetadataItem>, logic: NoInfer<LogicFn<TValue, TMetadataItem, TPathKind>>): void;
 /**
  * Creates a new {@link MetadataKey} and defines the value of the new metadata key for the given field.
  *
@@ -1369,7 +1418,7 @@ declare function aggregateMetadata<TValue, TMetadataItem, TPathKind extends Path
  * @category logic
  * @experimental 21.0.0
  */
-declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
+declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
 /**
  * Defines the value of a {@link MetadataKey} for a given field.
  *
@@ -1382,7 +1431,7 @@ declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.R
  * @category logic
  * @experimental 21.0.0
  */
-declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, key: MetadataKey<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
+declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: MetadataKey<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
 
 /** Represents a result that should be ignored because its predicate indicates it is not active. */
 declare const IGNORED: unique symbol;
@@ -1397,7 +1446,7 @@ interface Predicate {
      * The path which this predicate was created for. This is used to determine the correct
      * `FieldContext` to pass to the predicate function.
      */
-    readonly path: FieldPath<any>;
+    readonly path: SchemaPath<any>;
 }
 /**
  * Represents a predicate that is bound to a particular depth in the field tree. This is needed for
@@ -1709,7 +1758,7 @@ declare class FieldPathNode {
     /**
      * A proxy that wraps the path node, allowing navigation to its child paths via property access.
      */
-    readonly fieldPathProxy: FieldPath<any>;
+    readonly fieldPathProxy: SchemaPath<any>;
     /**
      * For a root path node this will contain the root logic builder. For non-root nodes,
      * they determine their logic builder from their parent so this is undefined.
@@ -1740,7 +1789,7 @@ declare class FieldPathNode {
      */
     mergeIn(other: SchemaImpl, predicate?: Predicate): void;
     /** Extracts the underlying path node from the given path proxy. */
-    static unwrapFieldPath(formPath: FieldPath<unknown>): FieldPathNode;
+    static unwrapFieldPath(formPath: SchemaPath<unknown, SchemaPathRules>): FieldPathNode;
     /** Creates a new root path node to be passed in to a schema function. */
     static newRoot(): FieldPathNode;
 }
@@ -2302,12 +2351,12 @@ interface FormOptions {
  * structure will match the shape of the model and any changes to the form data will be written to
  * the model.
  * @return A `FieldTree` representing a form around the data model.
- * @template TValue The type of the data model.
+ * @template TModel The type of the data model.
  *
  * @category structure
  * @experimental 21.0.0
  */
-declare function form<TValue>(model: WritableSignal<TValue>): FieldTree<TValue>;
+declare function form<TModel>(model: WritableSignal<TModel>): FieldTree<TModel>;
 /**
  * Creates a form wrapped around the given model data. A form is represented as simply a `FieldTree`
  * of the model data.
@@ -2353,7 +2402,7 @@ declare function form<TValue>(model: WritableSignal<TValue>): FieldTree<TValue>;
  * @category structure
  * @experimental 21.0.0
  */
-declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: SchemaOrSchemaFn<TValue> | FormOptions): FieldTree<TValue>;
+declare function form<TModel>(model: WritableSignal<TModel>, schemaOrOptions: SchemaOrSchemaFn<TModel> | FormOptions): FieldTree<TModel>;
 /**
  * Creates a form wrapped around the given model data. A form is represented as simply a `FieldTree`
  * of the model data.
@@ -2392,12 +2441,12 @@ declare function form<TValue>(model: WritableSignal<TValue>, schemaOrOptions: Sc
  * @param schema A schema or a function used to specify logic for the form (e.g. validation, disabled fields, etc.)
  * @param options The form options
  * @return A `FieldTree` representing a form around the data model.
- * @template TValue The type of the data model.
+ * @template TModel The type of the data model.
  *
  * @category structure
  * @experimental 21.0.0
  */
-declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSchemaFn<TValue>, options: FormOptions): FieldTree<TValue>;
+declare function form<TModel>(model: WritableSignal<TModel>, schema: SchemaOrSchemaFn<TModel>, options: FormOptions): FieldTree<TModel>;
 /**
  * Applies a schema to each item of an array.
  *
@@ -2436,7 +2485,7 @@ declare function form<TValue>(model: WritableSignal<TValue>, schema: SchemaOrSch
  * @category structure
  * @experimental 21.0.0
  */
-declare function applyEach<TValue>(path: FieldPath<TValue[]>, schema: NoInfer<SchemaOrSchemaFn<TValue, PathKind.Item>>): void;
+declare function applyEach<TValue>(path: SchemaPath<TValue[]>, schema: NoInfer<SchemaOrSchemaFn<TValue, PathKind.Item>>): void;
 /**
  * Applies a predefined schema to a given `FieldPath`.
  *
@@ -2458,7 +2507,7 @@ declare function applyEach<TValue>(path: FieldPath<TValue[]>, schema: NoInfer<Sc
  * @category structure
  * @experimental 21.0.0
  */
-declare function apply<TValue>(path: FieldPath<TValue>, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
+declare function apply<TValue>(path: SchemaPath<TValue>, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
 /**
  * Conditionally applies a predefined schema to a given `FieldPath`.
  *
@@ -2470,7 +2519,7 @@ declare function apply<TValue>(path: FieldPath<TValue>, schema: NoInfer<SchemaOr
  * @category structure
  * @experimental 21.0.0
  */
-declare function applyWhen<TValue>(path: FieldPath<TValue>, logic: LogicFn<TValue, boolean>, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
+declare function applyWhen<TValue>(path: SchemaPath<TValue>, logic: LogicFn<TValue, boolean>, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
 /**
  * Conditionally applies a predefined schema to a given `FieldPath`.
  *
@@ -2484,7 +2533,7 @@ declare function applyWhen<TValue>(path: FieldPath<TValue>, logic: LogicFn<TValu
  * @category structure
  * @experimental 21.0.0
  */
-declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: FieldPath<TValue>, predicate: (value: TValue) => value is TNarrowed, schema: SchemaOrSchemaFn<TNarrowed>): void;
+declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: SchemaPath<TValue>, predicate: (value: TValue) => value is TNarrowed, schema: SchemaOrSchemaFn<TNarrowed>): void;
 /**
  * Conditionally applies a predefined schema to a given `FieldPath`.
  *
@@ -2497,7 +2546,7 @@ declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: FieldPat
  * @category structure
  * @experimental 21.0.0
  */
-declare function applyWhenValue<TValue>(path: FieldPath<TValue>, predicate: (value: TValue) => boolean, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
+declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (value: TValue) => boolean, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
 /**
  * Submits a given `FieldTree` using the given action function and applies any server errors
  * resulting from the action to the field. Server errors returned by the `action` will be integrated
@@ -2527,12 +2576,12 @@ declare function applyWhenValue<TValue>(path: FieldPath<TValue>, predicate: (val
  * @param form The field to submit.
  * @param action An asynchronous action used to submit the field. The action may return server
  * errors.
- * @template TValue The data type of the field being submitted.
+ * @template TModel The data type of the field being submitted.
  *
  * @category submission
  * @experimental 21.0.0
  */
-declare function submit<TValue>(form: FieldTree<TValue>, action: (form: FieldTree<TValue>) => Promise<TreeValidationResult>): Promise<void>;
+declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTree<TModel>) => Promise<TreeValidationResult>): Promise<void>;
 /**
  * Creates a `Schema` that adds logic rules to a form.
  * @param fn A **non-reactive** function that sets up reactive logic rules for the form.
@@ -2577,7 +2626,7 @@ type BaseValidatorConfig<TValue, TPathKind extends PathKind = PathKind.Root> = {
  * @category validation
  * @experimental 21.0.0
  */
-declare function email<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<string, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
+declare function email<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<string, SchemaPathRules.Supported, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the value to be less than or equal to the
@@ -2595,7 +2644,7 @@ declare function email<TPathKind extends PathKind = PathKind.Root>(path: FieldPa
  * @category validation
  * @experimental 21.0.0
  */
-declare function max<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<number, TPathKind>, maxValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
+declare function max<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<number, SchemaPathRules.Supported, TPathKind>, maxValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the length of the value to be less than or
@@ -2614,7 +2663,7 @@ declare function max<TPathKind extends PathKind = PathKind.Root>(path: FieldPath
  * @category validation
  * @experimental 21.0.0
  */
-declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, maxLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
+declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, maxLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the value to be greater than or equal to
@@ -2632,7 +2681,7 @@ declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  * @category validation
  * @experimental 21.0.0
  */
-declare function min<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<number, TPathKind>, minValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
+declare function min<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<number, SchemaPathRules.Supported, TPathKind>, minValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the length of the value to be greater than or
@@ -2651,7 +2700,7 @@ declare function min<TPathKind extends PathKind = PathKind.Root>(path: FieldPath
  * @category validation
  * @experimental 21.0.0
  */
-declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, minLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
+declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, minLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the value to match a specific regex pattern.
@@ -2668,7 +2717,7 @@ declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  * @category validation
  * @experimental 21.0.0
  */
-declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: FieldPath<string, TPathKind>, pattern: RegExp | LogicFn<string | undefined, RegExp | undefined, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
+declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<string, SchemaPathRules.Supported, TPathKind>, pattern: RegExp | LogicFn<string | undefined, RegExp | undefined, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the value to be non-empty.
@@ -2687,7 +2736,7 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Field
  * @category validation
  * @experimental 21.0.0
  */
-declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(path: FieldPath<TValue, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind> & {
+declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind> & {
     when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
 }): void;
 
@@ -2723,7 +2772,7 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  * @category validation
  * @experimental 21.0.0
  */
-declare function validateStandardSchema<TSchema, TValue extends IgnoreUnknownProperties<TSchema>>(path: FieldPath<TValue>, schema: StandardSchemaV1<TSchema>): void;
+declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema>): void;
 
-export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, ValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
-export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, DisabledReason, FieldContext, FieldPath, FieldState, FieldTree, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldPath, MaybeFieldTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, CompatFieldState, CompatSchemaPath, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
