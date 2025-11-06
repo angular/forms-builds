@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.1+sha-f0ffd9b
+ * @license Angular v21.0.0-rc.1+sha-26995e2
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -726,6 +726,8 @@ type FieldTree<TValue, TKey extends string | number = string | number> = (() => 
  */
 type Subfields<TValue> = {
     readonly [K in keyof TValue as TValue[K] extends Function ? never : K]: MaybeFieldTree<TValue[K], string>;
+} & {
+    [Symbol.iterator](): Iterator<[string, MaybeFieldTree<TValue[keyof TValue], string>]>;
 };
 /**
  * An iterable object with the same shape as a readonly array.
