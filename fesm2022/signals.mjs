@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-de1f22c
+ * @license Angular v21.1.0-next.0+sha-e87f423
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1081,7 +1081,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.0+sha-de1f22c",
+    version: "21.1.0-next.0+sha-e87f423",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1089,7 +1089,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.0+sha-de1f22c",
+    version: "21.1.0-next.0+sha-e87f423",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1114,7 +1114,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.0+sha-de1f22c",
+  version: "21.1.0-next.0+sha-e87f423",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1235,7 +1235,7 @@ class FieldMetadataState {
 }
 
 const FIELD_PROXY_HANDLER = {
-  get(getTgt, p) {
+  get(getTgt, p, receiver) {
     const tgt = getTgt();
     const child = tgt.structure.getChild(p);
     if (child !== undefined) {
@@ -1250,7 +1250,28 @@ const FIELD_PROXY_HANDLER = {
         return Array.prototype[p];
       }
     }
+    if (isObject(value)) {
+      if (p === Symbol.iterator) {
+        return function* () {
+          for (const key in receiver) {
+            yield [key, receiver[key]];
+          }
+        };
+      }
+    }
     return undefined;
+  },
+  getOwnPropertyDescriptor(getTgt, prop) {
+    const value = untracked(getTgt().value);
+    const desc = Reflect.getOwnPropertyDescriptor(value, prop);
+    if (desc && !desc.configurable) {
+      desc.configurable = true;
+    }
+    return desc;
+  },
+  ownKeys(getTgt) {
+    const value = untracked(getTgt().value);
+    return typeof value === 'object' && value !== null ? Reflect.ownKeys(value) : [];
   }
 };
 
