@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-26fed34
+ * @license Angular v21.1.0-next.0+sha-9f76fb6
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import { httpResource } from '@angular/common/http';
 import * as i0 from '@angular/core';
 import { computed, untracked, InjectionToken, inject, Injector, input, ɵCONTROL as _CONTROL, effect, Directive, runInInjectionContext, linkedSignal, signal, APP_ID, ɵisPromise as _isPromise, resource } from '@angular/core';
-import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { Validators, NG_VALUE_ACCESSOR, NgControl, AbstractControl } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
 function isArray(value) {
@@ -1081,7 +1081,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.0+sha-26fed34",
+    version: "21.1.0-next.0+sha-9f76fb6",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1089,7 +1089,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.0+sha-26fed34",
+    version: "21.1.0-next.0+sha-9f76fb6",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1114,7 +1114,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.0+sha-26fed34",
+  version: "21.1.0-next.0+sha-9f76fb6",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1196,9 +1196,15 @@ class FieldNodeContext {
   }, ...(ngDevMode ? [{
     debugName: "index"
   }] : []));
-  fieldOf = p => this.resolve(p);
+  fieldTreeOf = p => this.resolve(p);
   stateOf = p => this.resolve(p)();
-  valueOf = p => this.resolve(p)().value();
+  valueOf = p => {
+    const result = this.resolve(p)().value();
+    if (result instanceof AbstractControl) {
+      throw new Error(`Tried to read an 'AbstractControl' value form a 'form()'. Did you mean to use 'compatForm()' instead?`);
+    }
+    return result;
+  };
 }
 
 class FieldMetadataState {
@@ -1787,6 +1793,7 @@ function normalizeFormArgs(args) {
   }
   return [model, schema, options];
 }
+
 function form(...args) {
   const [model, schema, options] = normalizeFormArgs(args);
   const injector = options?.injector ?? inject(Injector);
@@ -2039,13 +2046,13 @@ function validateStandardSchema(path, schema) {
   });
   validateTree(path, ({
     state,
-    fieldOf
+    fieldTreeOf
   }) => {
     const result = state.metadata(VALIDATOR_MEMO)();
     if (_isPromise(result)) {
       return [];
     }
-    return result.issues?.map(issue => standardIssueToFormTreeError(fieldOf(path), issue)) ?? [];
+    return result.issues?.map(issue => standardIssueToFormTreeError(fieldTreeOf(path), issue)) ?? [];
   });
   validateAsync(path, {
     params: ({
@@ -2063,9 +2070,9 @@ function validateStandardSchema(path, schema) {
       });
     },
     onSuccess: (issues, {
-      fieldOf
+      fieldTreeOf
     }) => {
-      return issues.map(issue => standardIssueToFormTreeError(fieldOf(path), issue));
+      return issues.map(issue => standardIssueToFormTreeError(fieldTreeOf(path), issue));
     },
     onError: () => {}
   });
