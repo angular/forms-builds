@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-88f55b4
+ * @license Angular v21.1.0-next.0+sha-faccf03
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -717,7 +717,7 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  * @category types
  * @experimental 21.0.0
  */
-type FieldTree<TModel, TKey extends string | number = string | number> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey> : FieldState<TModel, TKey>) & (TModel extends AbstractControl ? unknown : TModel extends Array<infer U> ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TModel extends Record<string, any> ? Subfields<TModel> : unknown);
+type FieldTree<TModel, TKey extends string | number = string | number> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey> : FieldState<TModel, TKey>) & ([TModel] extends [AbstractControl] ? unknown : [TModel] extends [Array<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TModel extends Record<string, any> ? Subfields<TModel> : unknown);
 /**
  * The sub-fields that a user can navigate to from a `FieldTree<TModel>`.
  *
@@ -1021,9 +1021,13 @@ interface RootFieldContext<TValue> {
     readonly field: FieldTree<TValue>;
     /** Gets the value of the field represented by the given path. */
     valueOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): PValue;
+    /** Gets the state of the field represented by the given path. */
     stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): CompatFieldState<PControl>;
     stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): FieldState<PValue>;
+    /** Gets the field represented by the given path. */
     fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): FieldTree<PModel>;
+    /** The list of keys that lead from the root field to the current field. */
+    readonly pathKeys: Signal<readonly string[]>;
 }
 /**
  * Field context that is available for all fields that are a child of another field.
@@ -1044,6 +1048,12 @@ interface ItemFieldContext<TValue> extends ChildFieldContext<TValue> {
     /** The index of the current field in its parent field. */
     readonly index: Signal<number>;
 }
+/**
+ * Gets the item type of an object that is possibly an array.
+ *
+ * @experimental 21.0.0
+ */
+type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[keyof T];
 
 /**
  * A function that takes the result of an async operation and the current field context, and maps it
@@ -1774,10 +1784,6 @@ declare class FieldPathNode {
     /** The logic builder used to accumulate logic on this path node. */
     get builder(): LogicNodeBuilder;
     /**
-     * Gets the special path node containing the per-element logic that applies to *all* children paths.
-     */
-    get element(): FieldPathNode;
-    /**
      * Gets the path node for the given child property key.
      * Child paths are created automatically on first access if they do not exist already.
      */
@@ -2130,7 +2136,7 @@ declare abstract class FieldNodeStructure {
     /** The root field that this field descends from. */
     abstract readonly root: FieldNode;
     /** The list of property keys to follow to get from the `root` to this field. */
-    abstract readonly pathKeys: Signal<readonly PropertyKey[]>;
+    abstract readonly pathKeys: Signal<readonly string[]>;
     /** The parent field of this field. */
     abstract readonly parent: FieldNode | undefined;
     /** Added to array elements for tracking purposes. */
@@ -2157,7 +2163,7 @@ declare class RootFieldNodeStructure extends FieldNodeStructure {
     readonly value: WritableSignal<unknown>;
     get parent(): undefined;
     get root(): FieldNode;
-    get pathKeys(): Signal<readonly PropertyKey[]>;
+    get pathKeys(): Signal<readonly string[]>;
     get keyInParent(): Signal<string>;
     readonly childrenMap: Signal<Map<TrackingKey, FieldNode> | undefined>;
     /**
@@ -2179,7 +2185,7 @@ declare class RootFieldNodeStructure extends FieldNodeStructure {
 declare class ChildFieldNodeStructure extends FieldNodeStructure {
     readonly parent: ParentFieldNode;
     readonly root: FieldNode;
-    readonly pathKeys: Signal<readonly PropertyKey[]>;
+    readonly pathKeys: Signal<readonly string[]>;
     readonly keyInParent: Signal<string>;
     readonly value: WritableSignal<unknown>;
     readonly childrenMap: Signal<Map<TrackingKey, FieldNode> | undefined>;
@@ -2485,7 +2491,8 @@ declare function form<TModel>(model: WritableSignal<TModel>, schema: SchemaOrSch
  * @category structure
  * @experimental 21.0.0
  */
-declare function applyEach<TValue>(path: SchemaPath<TValue[]>, schema: NoInfer<SchemaOrSchemaFn<TValue, PathKind.Item>>): void;
+declare function applyEach<TValue extends ReadonlyArray<any>>(path: SchemaPath<TValue>, schema: NoInfer<SchemaOrSchemaFn<TValue[number], PathKind.Item>>): void;
+declare function applyEach<TValue extends Object>(path: SchemaPath<TValue>, schema: NoInfer<SchemaOrSchemaFn<ItemType<TValue>, PathKind.Child>>): void;
 /**
  * Applies a predefined schema to a given `FieldPath`.
  *
@@ -2775,4 +2782,4 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
 declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema>): void;
 
 export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
-export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, CompatFieldState, CompatSchemaPath, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, LogicFn, MapToErrorsFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, CompatFieldState, CompatSchemaPath, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MapToErrorsFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };

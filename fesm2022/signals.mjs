@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-88f55b4
+ * @license Angular v21.1.0-next.0+sha-faccf03
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -148,6 +148,21 @@ function addDefaultField(errors, field) {
     errors.field ??= field;
   }
   return errors;
+}
+
+let boundPathDepth = 0;
+function getBoundPathDepth() {
+  return boundPathDepth;
+}
+function setBoundPathDepthForResolution(fn, depth) {
+  return (...args) => {
+    try {
+      boundPathDepth = depth;
+      return fn(...args);
+    } finally {
+      boundPathDepth = 0;
+    }
+  };
 }
 
 const DYNAMIC = Symbol();
@@ -307,21 +322,6 @@ class LogicContainer {
   }
 }
 
-let boundPathDepth = 0;
-function getBoundPathDepth() {
-  return boundPathDepth;
-}
-function setBoundPathDepthForResolution(fn, depth) {
-  return (...args) => {
-    try {
-      boundPathDepth = depth;
-      return fn(...args);
-    } finally {
-      boundPathDepth = 0;
-    }
-  };
-}
-
 class AbstractLogicNodeBuilder {
   depth;
   constructor(depth) {
@@ -362,6 +362,12 @@ class LogicNodeBuilder extends AbstractLogicNodeBuilder {
     this.getCurrent().addMetadataFactory(key, factory);
   }
   getChild(key) {
+    if (key === DYNAMIC) {
+      const children = this.getCurrent().children;
+      if (children.size > (children.has(DYNAMIC) ? 1 : 0)) {
+        this.current = undefined;
+      }
+    }
     return this.getCurrent().getChild(key);
   }
   hasLogic(builder) {
@@ -510,16 +516,16 @@ function getAllChildBuilders(builder, key) {
       return children;
     });
   } else if (builder instanceof NonMergeableLogicNodeBuilder) {
-    if (builder.children.has(key)) {
-      return [{
-        builder: builder.children.get(key),
-        predicates: []
-      }];
-    }
+    return [...(key !== DYNAMIC && builder.children.has(DYNAMIC) ? [{
+      builder: builder.getChild(DYNAMIC),
+      predicates: []
+    }] : []), ...(builder.children.has(key) ? [{
+      builder: builder.getChild(key),
+      predicates: []
+    }] : [])];
   } else {
     throw new Error('Unknown LogicNodeBuilder type');
   }
-  return [];
 }
 function createLogic(builder, predicates, depth) {
   const logic = new LogicContainer(predicates);
@@ -568,9 +574,6 @@ class FieldPathNode {
       return this.logicBuilder;
     }
     return this.parent.builder.getChild(this.keyInParent);
-  }
-  get element() {
-    return this.getChild(DYNAMIC);
   }
   getChild(key) {
     if (!this.children.has(key)) {
@@ -1081,7 +1084,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.0+sha-88f55b4",
+    version: "21.1.0-next.0+sha-faccf03",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1089,7 +1092,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.0+sha-88f55b4",
+    version: "21.1.0-next.0+sha-faccf03",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1114,7 +1117,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.0+sha-88f55b4",
+  version: "21.1.0-next.0+sha-faccf03",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1186,6 +1189,9 @@ class FieldNodeContext {
   }
   get key() {
     return this.node.structure.keyInParent;
+  }
+  get pathKeys() {
+    return this.node.structure.pathKeys;
   }
   index = computed(() => {
     const key = this.key();
@@ -1806,7 +1812,7 @@ function form(...args) {
 }
 function applyEach(path, schema) {
   assertPathIsCurrent(path);
-  const elementPath = FieldPathNode.unwrapFieldPath(path).element.fieldPathProxy;
+  const elementPath = FieldPathNode.unwrapFieldPath(path).getChild(DYNAMIC).fieldPathProxy;
   apply(elementPath, schema);
 }
 function apply(path, schema) {
