@@ -1,12 +1,12 @@
 /**
- * @license Angular v21.1.0-next.0+sha-033ea75
+ * @license Angular v21.1.0-next.0+sha-850f0d6
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵFieldState as _FieldState, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
+import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵInteropControl as _InteropControl, ɵFieldState as _FieldState, Signal, ResourceRef, InputSignal, ModelSignal, OutputRef, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
 import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
@@ -79,12 +79,9 @@ declare class Field<T> implements _Control<T> {
     /** A lazily instantiated fake `NgControl`. */
     private interopNgControl;
     /** A `ControlValueAccessor`, if configured, for the host component. */
-    private get controlValueAccessor();
-    get ɵhasInteropControl(): boolean;
+    get ɵinteropControl(): _InteropControl | undefined;
     /** Lazily instantiates a fake `NgControl` for this field. */
-    ɵgetOrCreateNgControl(): InteropNgControl;
-    ɵinteropControlCreate(): void;
-    ɵinteropControlUpdate(): void;
+    protected getOrCreateNgControl(): InteropNgControl;
     ɵregister(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<Field<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<Field<any>, "[field]", never, { "field": { "alias": "field"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
