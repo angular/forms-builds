@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.1+sha-aada582
+ * @license Angular v21.0.0-rc.1+sha-781a329
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1044,32 +1044,11 @@ class Field {
     self: true
   });
   interopNgControl;
-  get controlValueAccessor() {
+  get ɵinteropControl() {
     return this.controlValueAccessors?.[0] ?? this.interopNgControl?.valueAccessor ?? undefined;
   }
-  get ɵhasInteropControl() {
-    return this.controlValueAccessor !== undefined;
-  }
-  ɵgetOrCreateNgControl() {
+  getOrCreateNgControl() {
     return this.interopNgControl ??= new InteropNgControl(this.state);
-  }
-  ɵinteropControlCreate() {
-    const controlValueAccessor = this.controlValueAccessor;
-    controlValueAccessor.registerOnChange(value => {
-      const state = this.state();
-      state.value.set(value);
-      state.markAsDirty();
-    });
-    controlValueAccessor.registerOnTouched(() => this.state().markAsTouched());
-  }
-  ɵinteropControlUpdate() {
-    const controlValueAccessor = this.controlValueAccessor;
-    const value = this.state().value();
-    const disabled = this.state().disabled();
-    untracked(() => {
-      controlValueAccessor.writeValue(value);
-      controlValueAccessor.setDisabledState?.(disabled);
-    });
   }
   ɵregister() {
     effect(onCleanup => {
@@ -1084,7 +1063,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0-rc.1+sha-aada582",
+    version: "21.0.0-rc.1+sha-781a329",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1092,7 +1071,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0-rc.1+sha-aada582",
+    version: "21.0.0-rc.1+sha-781a329",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1110,14 +1089,14 @@ class Field {
       useExisting: Field
     }, {
       provide: NgControl,
-      useFactory: () => inject(Field).ɵgetOrCreateNgControl()
+      useFactory: () => inject(Field).getOrCreateNgControl()
     }],
     ngImport: i0
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0-rc.1+sha-aada582",
+  version: "21.0.0-rc.1+sha-781a329",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1129,7 +1108,7 @@ i0.ɵɵngDeclareClassMetadata({
         useExisting: Field
       }, {
         provide: NgControl,
-        useFactory: () => inject(Field).ɵgetOrCreateNgControl()
+        useFactory: () => inject(Field).getOrCreateNgControl()
       }]
     }]
   }],
