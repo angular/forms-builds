@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.1+sha-8e73f54
+ * @license Angular v21.0.0-rc.1+sha-a3cb1df
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -717,7 +717,7 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  * @category types
  * @experimental 21.0.0
  */
-type FieldTree<TModel, TKey extends string | number = string | number> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey> : FieldState<TModel, TKey>) & ([TModel] extends [AbstractControl] ? unknown : [TModel] extends [Array<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TModel extends Record<string, any> ? Subfields<TModel> : unknown);
+type FieldTree<TModel, TKey extends string | number = string | number> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey> : FieldState<TModel, TKey>) & ([TModel] extends [AbstractControl] ? object : [TModel] extends [Array<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TModel extends Record<string, any> ? Subfields<TModel> : object);
 /**
  * The sub-fields that a user can navigate to from a `FieldTree<TModel>`.
  *
