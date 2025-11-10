@@ -1,5 +1,5 @@
 /**
- * @license Angular v20.3.10+sha-fedb083
+ * @license Angular v20.3.10+sha-b20bf5d
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -604,6 +604,8 @@ declare class CheckboxControlValueAccessor extends BuiltInControlValueAccessor i
  * @description
  * Defines the map of errors returned from failed validation checks.
  *
+ * @see [Defining custom validators](guide/forms/form-validation#defining-custom-validators)
+ *
  * @publicApi
  */
 type ValidationErrors = {
@@ -765,6 +767,8 @@ declare class MinValidator extends AbstractValidatorDirective {
  * }
  * ```
  *
+ * @see [Creating asynchronous validators](guide/forms/form-validation#creating-asynchronous-validators)
+ *
  * @publicApi
  */
 interface AsyncValidator extends Validator {
@@ -877,6 +881,8 @@ declare class EmailValidator extends AbstractValidatorDirective {
  * A function that receives a control and synchronously returns a map of
  * validation errors if present, otherwise null.
  *
+ * @see [Defining custom validators](guide/forms/form-validation#defining-custom-validators)
+ *
  * @publicApi
  */
 interface ValidatorFn {
@@ -886,6 +892,8 @@ interface ValidatorFn {
  * @description
  * A function that receives a control and returns a Promise or observable
  * that emits validation errors if present, otherwise null.
+ *
+ * @see [Creating asynchronous validators](guide/forms/form-validation#creating-asynchronous-validators)
  *
  * @publicApi
  */
@@ -1064,6 +1072,9 @@ type ɵFormArrayRawValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, A
  * form's hierarchy. Do not modify the array of `AbstractControl`s used to instantiate
  * the `FormArray` directly, as that result in strange and unexpected behavior such
  * as broken change detection.
+ *
+ * @see [FormArray: Dynamic, Homogenous Collections](guide/forms/typed-forms#formcontrol-getting-started)
+ * @see [Creating dynamic forms](guide/forms/reactive-forms#creating-dynamic-forms)
  *
  * @publicApi
  */
@@ -1578,6 +1589,9 @@ interface ɵFormControlCtor {
  * console.log(control.value); // 'Drew'
  * console.log(control.status); // 'DISABLED'
  * ```
+ *
+ * @see [FormControl: Getting Started](guide/forms/typed-forms#formcontrol-getting-started)
+ *
  */
 interface FormControl<TValue = any> extends AbstractControl<TValue> {
     /**
@@ -1865,6 +1879,9 @@ type ɵOptionalKeys<T> = {
  * Notice that `c.value.one` has type `string|null|undefined`. This is because calling `c.reset({})`
  * without providing the optional key `one` will cause it to become `null`.
  *
+ * @see [Grouping form controls](guide/forms/reactive-forms#grouping-form-controls)
+ * @see [FormGroup and FormRecord](guide/forms/typed-forms#formgroup-and-formrecord)
+ *
  * @publicApi
  */
 declare class FormGroup<TControl extends {
@@ -2151,6 +2168,8 @@ declare const isFormGroup: (control: unknown) => control is FormGroup;
  * numbers.addControl('bob', new FormControl('415-234-567'));
  * numbers.removeControl('bill');
  * ```
+ *
+ * @see [FormGroup and FormRecord](guide/forms/typed-forms#formgroup-and-formrecord)
  *
  * @publicApi
  */
@@ -4802,6 +4821,8 @@ declare class FormBuilder {
  * `NonNullableFormBuilder` is similar to {@link FormBuilder}, but automatically constructed
  * {@link FormControl} elements have `{nonNullable: true}` and are non-nullable.
  *
+ * @see [FormBuilder and NonNullableFormBuilder](guide/forms/typed-forms#formbuilder-and-nonnullableformbuilder)
+ *
  * @publicApi
  */
 declare abstract class NonNullableFormBuilder {
@@ -4890,6 +4911,8 @@ declare class UntypedFormBuilder extends FormBuilder {
  * }
  * ```
  *
+ * @see [Defining custom validators](guide/forms/form-validation#defining-custom-validators)
+ *
  * @publicApi
  */
 declare const NG_VALIDATORS: InjectionToken<readonly (Function | Validator)[]>;
@@ -4919,6 +4942,8 @@ declare const NG_VALIDATORS: InjectionToken<readonly (Function | Validator)[]>;
  *   }
  * }
  * ```
+ *
+ * @see [Implementing a custom async validator](guide/forms/form-validation#implementing-a-custom-async-validator)
  *
  * @publicApi
  */
