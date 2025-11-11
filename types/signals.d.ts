@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.1+sha-fc3a28e
+ * @license Angular v21.0.0-rc.1+sha-a278ee3
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -128,7 +128,7 @@ declare class AggregateMetadataKey<TAcc, TItem> {
  *
  * @experimental 21.0.0
  */
-declare function reducedMetadataKey<TAcc, TItem>(reduce: (acc: TAcc, item: TItem) => TAcc, getInitial: () => TAcc): AggregateMetadataKey<TAcc, TItem>;
+declare function reducedMetadataKey<TAcc, TItem>(reduce: (acc: TAcc, item: TItem) => TAcc, getInitial: NoInfer<() => TAcc>): AggregateMetadataKey<TAcc, TItem>;
 /**
  * Creates an {@link AggregateMetadataKey} that reduces its individual values into a list.
  *
@@ -1051,6 +1051,18 @@ interface ItemFieldContext<TValue> extends ChildFieldContext<TValue> {
  * @experimental 21.0.0
  */
 type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[keyof T];
+/**
+ * A function that defines custom debounce logic for a field.
+ *
+ * This function receives the {@link FieldContext} for the field and should return a `Promise<void>`
+ * to delay an update, or `void` to apply an update immediately.
+ *
+ * @template TValue The type of value stored in the field.
+ * @template TPathKind The kind of path the debouncer is applied to (root field, child field, or item of an array).
+ *
+ * @experimental 21.0.0
+ */
+type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>) => Promise<void> | void;
 
 /**
  * A function that takes the result of an async operation and the current field context, and maps it
@@ -1328,6 +1340,20 @@ interface FormCheckboxControl extends FormUiControl {
 }
 
 /**
+ * Configures the frequency at which a form field is updated by UI events.
+ *
+ * When this rule is applied, updates from the UI to the form model will be delayed until either
+ * the field is touched, or the most recently debounced update resolves.
+ *
+ * @param path The target path to debounce.
+ * @param durationOrDebouncer Either a debounce duration in milliseconds, or a custom
+ *     {@link Debouncer} function.
+ *
+ * @experimental 21.0.0
+ */
+declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
+
+/**
  * Adds logic to a field to conditionally disable it. A disabled field does not contribute to the
  * validation, touched/dirty, or other state of its parent field.
  *
@@ -1584,7 +1610,7 @@ declare class LogicContainer {
      * @param key The `AggregateMetadataKey` for which to get the logic.
      * @returns The `AbstractLogic` associated with the key.
      */
-    getAggregateMetadata<T>(key: AggregateMetadataKey<unknown, T>): AbstractLogic<T>;
+    getAggregateMetadata<T>(key: AggregateMetadataKey<any, T>): AbstractLogic<T>;
     /**
      * Adds a factory function for a given metadata key.
      * @param key The `MetadataKey` to associate the factory with.
@@ -1672,7 +1698,7 @@ declare class LogicNodeBuilder extends AbstractLogicNodeBuilder {
     addSyncErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithField>>): void;
     addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithField>>): void;
     addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult<ValidationError.WithField>>): void;
-    addAggregateMetadataRule<T>(key: AggregateMetadataKey<unknown, T>, logic: LogicFn<any, T>): void;
+    addAggregateMetadataRule<T>(key: AggregateMetadataKey<any, T>, logic: LogicFn<any, T>): void;
     addMetadataFactory<D>(key: MetadataKey<D>, factory: (ctx: FieldContext<any>) => D): void;
     getChild(key: PropertyKey): LogicNodeBuilder;
     hasLogic(builder: AbstractLogicNodeBuilder): boolean;
@@ -1898,6 +1924,7 @@ declare class FieldNodeState {
      */
     readonly hidden: Signal<boolean>;
     readonly name: Signal<string>;
+    debouncer(): Promise<void> | void;
     /** Whether this field is considered non-interactive.
      *
      * A field is considered non-interactive if one of the following is true:
@@ -2036,16 +2063,23 @@ declare class FieldNode implements FieldState<unknown> {
     readonly metadataState: FieldMetadataState;
     readonly nodeState: FieldNodeState;
     readonly submitState: FieldSubmitState;
-    private _context;
     readonly fieldAdapter: FieldAdapter;
+    private _context;
     get context(): FieldContext<unknown>;
     /**
      * Proxy to this node which allows navigation of the form graph below it.
      */
     readonly fieldProxy: FieldTree<any>;
     constructor(options: FieldNodeOptions);
+    /**
+     * The most recent promise returned by the debouncer, or `undefined` if no debounce is active.
+     * This is used to ensure that only the most recent debounce operation updates the field's value.
+     */
+    private readonly pendingSync;
     get logicNode(): LogicNode;
     get value(): WritableSignal<unknown>;
+    private _controlValue;
+    get controlValue(): Signal<unknown>;
     get keyInParent(): Signal<string | number>;
     get errors(): Signal<ValidationError.WithField[]>;
     get errorSummary(): Signal<ValidationError.WithField[]>;
@@ -2085,6 +2119,26 @@ declare class FieldNode implements FieldState<unknown> {
      * Note this does not change the data model, which can be reset directly if desired.
      */
     reset(): void;
+    /**
+     * Sets the control value of the field. This value may be debounced before it is synchronized with
+     * the field's {@link value} signal, depending on the debounce configuration.
+     */
+    setControlValue(newValue: unknown): void;
+    /**
+     * Synchronizes the {@link controlValue} with the {@link value} signal immediately.
+     *
+     * This also clears any pending debounce operations.
+     */
+    private sync;
+    /**
+     * Initiates a debounced {@link sync}.
+     *
+     * If a debouncer is configured, the synchronization will occur after the debouncer. If no
+     * debouncer is configured, the synchronization happens immediately. If a new
+     * {@link setControlValue} call occurs while a debounce is pending, the previous debounce
+     * operation is ignored in favor of the new one.
+     */
+    private debounceSync;
     /**
      * Creates a new root field node for a new form.
      */
@@ -2762,5 +2816,5 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  */
 declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema>): void;
 
-export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
-export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, CompatFieldState, CompatSchemaPath, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MapToErrorsFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, debounce, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export type { AsyncValidationResult, AsyncValidatorOptions, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormCheckboxControl, FormOptions, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MapToErrorsFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };

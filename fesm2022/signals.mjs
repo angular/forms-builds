@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.1+sha-fc3a28e
+ * @license Angular v21.0.0-rc.1+sha-a278ee3
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -957,6 +957,21 @@ function validateHttp(path, opts) {
   });
 }
 
+const DEBOUNCER = reducedMetadataKey((_, item) => item, () => undefined);
+
+function debounce(path, durationOrDebouncer) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  const debouncer = typeof durationOrDebouncer === 'function' ? durationOrDebouncer : durationOrDebouncer > 0 ? debounceForDuration(durationOrDebouncer) : immediate;
+  pathNode.builder.addAggregateMetadataRule(DEBOUNCER, () => debouncer);
+}
+function debounceForDuration(durationInMilliseconds) {
+  return () => {
+    return new Promise(resolve => setTimeout(resolve, durationInMilliseconds));
+  };
+}
+function immediate() {}
+
 class InteropNgControl {
   field;
   constructor(field) {
@@ -1063,7 +1078,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0-rc.1+sha-fc3a28e",
+    version: "21.0.0-rc.1+sha-a278ee3",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1071,7 +1086,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0-rc.1+sha-fc3a28e",
+    version: "21.0.0-rc.1+sha-a278ee3",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1096,7 +1111,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0-rc.1+sha-fc3a28e",
+  version: "21.0.0-rc.1+sha-a278ee3",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1519,8 +1534,8 @@ class FieldNode {
   metadataState;
   nodeState;
   submitState;
-  _context = undefined;
   fieldAdapter;
+  _context = undefined;
   get context() {
     return this._context ??= new FieldNodeContext(this);
   }
@@ -1533,11 +1548,25 @@ class FieldNode {
     this.metadataState = new FieldMetadataState(this);
     this.submitState = new FieldSubmitState(this);
   }
+  pendingSync = linkedSignal(...(ngDevMode ? [{
+    debugName: "pendingSync",
+    source: () => this.value(),
+    computation: () => undefined
+  }] : [{
+    source: () => this.value(),
+    computation: () => undefined
+  }]));
   get logicNode() {
     return this.structure.logic;
   }
   get value() {
     return this.structure.value;
+  }
+  _controlValue = linkedSignal(() => this.value(), ...(ngDevMode ? [{
+    debugName: "_controlValue"
+  }] : []));
+  get controlValue() {
+    return this._controlValue.asReadonly();
   }
   get keyInParent() {
     return this.structure.keyInParent;
@@ -1613,6 +1642,7 @@ class FieldNode {
   }
   markAsTouched() {
     this.nodeState.markAsTouched();
+    this.sync();
   }
   markAsDirty() {
     this.nodeState.markAsDirty();
@@ -1622,6 +1652,28 @@ class FieldNode {
     this.nodeState.markAsPristine();
     for (const child of this.structure.children()) {
       child.reset();
+    }
+  }
+  setControlValue(newValue) {
+    this._controlValue.set(newValue);
+    this.markAsDirty();
+    this.debounceSync();
+  }
+  sync() {
+    this.value.set(this.controlValue());
+    this.pendingSync.set(undefined);
+  }
+  debounceSync() {
+    const promise = this.nodeState.debouncer();
+    if (promise) {
+      promise.then(() => {
+        if (promise === this.pendingSync()) {
+          this.sync();
+        }
+      });
+      this.pendingSync.set(promise);
+    } else {
+      this.sync();
     }
   }
   static newRoot(fieldManager, value, pathNode, adapter) {
@@ -1700,6 +1752,16 @@ class FieldNodeState {
   }, ...(ngDevMode ? [{
     debugName: "name"
   }] : []));
+  debouncer() {
+    if (this.node.logicNode.logic.hasAggregateMetadata(DEBOUNCER)) {
+      const debouncerLogic = this.node.logicNode.logic.getAggregateMetadata(DEBOUNCER);
+      const debouncer = debouncerLogic.compute(this.node.context);
+      if (debouncer) {
+        return debouncer(this.node.context);
+      }
+    }
+    return this.node.structure.parent?.nodeState.debouncer();
+  }
   isNonInteractive = computed(() => this.hidden() || this.disabled() || this.readonly(), ...(ngDevMode ? [{
     debugName: "isNonInteractive"
   }] : []));
@@ -2071,5 +2133,5 @@ function standardIssueToFormTreeError(field, issue) {
   return addDefaultField(standardSchemaError(issue), target);
 }
 
-export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, debounce, disabled, email, emailError, form, hidden, listMetadataKey, max, maxError, maxLength, maxLengthError, maxMetadataKey, metadata, min, minError, minLength, minLengthError, minMetadataKey, orMetadataKey, pattern, patternError, readonly, reducedMetadataKey, required, requiredError, schema, standardSchemaError, submit, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 //# sourceMappingURL=signals.mjs.map
