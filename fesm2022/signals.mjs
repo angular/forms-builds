@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-4609991
+ * @license Angular v21.1.0-next.0+sha-8e81d0a
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1078,7 +1078,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.0+sha-4609991",
+    version: "21.1.0-next.0+sha-8e81d0a",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1086,7 +1086,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.0+sha-4609991",
+    version: "21.1.0-next.0+sha-8e81d0a",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1111,7 +1111,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.0+sha-4609991",
+  version: "21.1.0-next.0+sha-8e81d0a",
   ngImport: i0,
   type: Field,
   decorators: [{
