@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.2+sha-2406172
+ * @license Angular v21.0.0-rc.2+sha-16d51f6
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1054,15 +1054,15 @@ type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[k
 /**
  * A function that defines custom debounce logic for a field.
  *
- * This function receives the {@link FieldContext} for the field and should return a `Promise<void>`
- * to delay an update, or `void` to apply an update immediately.
- *
+ * @param context The field context.
+ * @param abortSignal An `AbortSignal` used to communicate that the debounced operation was aborted.
+ * @returns A `Promise<void>` to debounce an update, or `void` to apply an update immediately.
  * @template TValue The type of value stored in the field.
  * @template TPathKind The kind of path the debouncer is applied to (root field, child field, or item of an array).
  *
  * @experimental 21.0.0
  */
-type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>) => Promise<void> | void;
+type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>, abortSignal: AbortSignal) => Promise<void> | void;
 
 /**
  * A function that takes the result of an async operation and the current field context, and maps it
@@ -1924,7 +1924,10 @@ declare class FieldNodeState {
      */
     readonly hidden: Signal<boolean>;
     readonly name: Signal<string>;
-    debouncer(): Promise<void> | void;
+    /**
+     * An optional {@link Debouncer} factory for this field.
+     */
+    readonly debouncer: Signal<((signal: AbortSignal) => Promise<void> | void) | undefined>;
     /** Whether this field is considered non-interactive.
      *
      * A field is considered non-interactive if one of the following is true:
@@ -2072,8 +2075,11 @@ declare class FieldNode implements FieldState<unknown> {
     readonly fieldProxy: FieldTree<any>;
     constructor(options: FieldNodeOptions);
     /**
-     * The most recent promise returned by the debouncer, or `undefined` if no debounce is active.
-     * This is used to ensure that only the most recent debounce operation updates the field's value.
+     * The `AbortController` for the currently debounced sync, or `undefined` if there is none.
+     *
+     * This is used to cancel a pending debounced sync when {@link setControlValue} is called again
+     * before the pending debounced sync resolves. It will also cancel any pending debounced sync
+     * automatically when recomputed due to `value` being set directly from others sources.
      */
     private readonly pendingSync;
     get logicNode(): LogicNode;
@@ -2126,17 +2132,15 @@ declare class FieldNode implements FieldState<unknown> {
     setControlValue(newValue: unknown): void;
     /**
      * Synchronizes the {@link controlValue} with the {@link value} signal immediately.
-     *
-     * This also clears any pending debounce operations.
      */
     private sync;
     /**
      * Initiates a debounced {@link sync}.
      *
-     * If a debouncer is configured, the synchronization will occur after the debouncer. If no
-     * debouncer is configured, the synchronization happens immediately. If a new
-     * {@link setControlValue} call occurs while a debounce is pending, the previous debounce
-     * operation is ignored in favor of the new one.
+     * If a debouncer is configured, the synchronization will occur after the debouncer resolves. If
+     * no debouncer is configured, the synchronization happens immediately. If {@link setControlValue}
+     * is called again while a debounce is pending, the previous debounce operation is aborted in
+     * favor of the new one.
      */
     private debounceSync;
     /**

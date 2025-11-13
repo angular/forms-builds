@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.2+sha-2406172
+ * @license Angular v21.0.0-rc.2+sha-16d51f6
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -966,8 +966,11 @@ function debounce(path, durationOrDebouncer) {
   pathNode.builder.addAggregateMetadataRule(DEBOUNCER, () => debouncer);
 }
 function debounceForDuration(durationInMilliseconds) {
-  return () => {
-    return new Promise(resolve => setTimeout(resolve, durationInMilliseconds));
+  return (_context, abortSignal) => {
+    return new Promise(resolve => {
+      const timeoutId = setTimeout(resolve, durationInMilliseconds);
+      abortSignal.addEventListener('abort', () => clearTimeout(timeoutId));
+    });
   };
 }
 function immediate() {}
@@ -1078,7 +1081,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0-rc.2+sha-2406172",
+    version: "21.0.0-rc.2+sha-16d51f6",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -1086,7 +1089,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0-rc.2+sha-2406172",
+    version: "21.0.0-rc.2+sha-16d51f6",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -1111,7 +1114,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0-rc.2+sha-2406172",
+  version: "21.0.0-rc.2+sha-16d51f6",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -1551,10 +1554,16 @@ class FieldNode {
   pendingSync = linkedSignal(...(ngDevMode ? [{
     debugName: "pendingSync",
     source: () => this.value(),
-    computation: () => undefined
+    computation: (_source, previous) => {
+      previous?.value?.abort();
+      return undefined;
+    }
   }] : [{
     source: () => this.value(),
-    computation: () => undefined
+    computation: (_source, previous) => {
+      previous?.value?.abort();
+      return undefined;
+    }
   }]));
   get logicNode() {
     return this.structure.logic;
@@ -1642,6 +1651,7 @@ class FieldNode {
   }
   markAsTouched() {
     this.nodeState.markAsTouched();
+    this.pendingSync()?.abort();
     this.sync();
   }
   markAsDirty() {
@@ -1661,20 +1671,22 @@ class FieldNode {
   }
   sync() {
     this.value.set(this.controlValue());
-    this.pendingSync.set(undefined);
   }
-  debounceSync() {
-    const promise = this.nodeState.debouncer();
-    if (promise) {
-      promise.then(() => {
-        if (promise === this.pendingSync()) {
-          this.sync();
+  async debounceSync() {
+    this.pendingSync()?.abort();
+    const debouncer = this.nodeState.debouncer();
+    if (debouncer) {
+      const controller = new AbortController();
+      const promise = debouncer(controller.signal);
+      if (promise) {
+        this.pendingSync.set(controller);
+        await promise;
+        if (controller.signal.aborted) {
+          return;
         }
-      });
-      this.pendingSync.set(promise);
-    } else {
-      this.sync();
+      }
     }
+    this.sync();
   }
   static newRoot(fieldManager, value, pathNode, adapter) {
     return adapter.newRoot(fieldManager, value, pathNode, adapter);
@@ -1752,16 +1764,18 @@ class FieldNodeState {
   }, ...(ngDevMode ? [{
     debugName: "name"
   }] : []));
-  debouncer() {
+  debouncer = computed(() => {
     if (this.node.logicNode.logic.hasAggregateMetadata(DEBOUNCER)) {
       const debouncerLogic = this.node.logicNode.logic.getAggregateMetadata(DEBOUNCER);
       const debouncer = debouncerLogic.compute(this.node.context);
       if (debouncer) {
-        return debouncer(this.node.context);
+        return signal => debouncer(this.node.context, signal);
       }
     }
-    return this.node.structure.parent?.nodeState.debouncer();
-  }
+    return this.node.structure.parent?.nodeState.debouncer?.();
+  }, ...(ngDevMode ? [{
+    debugName: "debouncer"
+  }] : []));
   isNonInteractive = computed(() => this.hidden() || this.disabled() || this.readonly(), ...(ngDevMode ? [{
     debugName: "isNonInteractive"
   }] : []));
