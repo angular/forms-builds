@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "21.0.0-rc.2+sha-4b0f208",
+  "version": "21.0.0-rc.2+sha-d7101de",
   "description": "Angular - directives and services for creating forms",
   "author": "angular",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "21.0.0-rc.2+sha-4b0f208",
-    "@angular/common": "21.0.0-rc.2+sha-4b0f208",
-    "@angular/platform-browser": "21.0.0-rc.2+sha-4b0f208",
+    "@angular/core": "21.0.0-rc.2+sha-d7101de",
+    "@angular/common": "21.0.0-rc.2+sha-d7101de",
+    "@angular/platform-browser": "21.0.0-rc.2+sha-d7101de",
     "@standard-schema/spec": "^1.0.0",
     "rxjs": "^6.5.3 || ^7.4.0"
   },
