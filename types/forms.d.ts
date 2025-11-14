@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.2+sha-c2a52fd
+ * @license Angular v21.0.0-rc.2+sha-f550f4a
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -4020,12 +4020,12 @@ declare class FormGroupName extends AbstractFormGroupDirective implements OnInit
  *
  * Syncs a nested `FormArray` to a DOM element.
  *
- * This directive is designed to be used with a parent `FormGroupDirective`/`FormGroupArray` (selector:
+ * This directive is designed to be used with a parent `FormGroupDirective`/`FormArrayDirective` (selector:
  * `[formGroup]`/`[formArray]`).
  *
  * It accepts the string name of the nested `FormArray` you want to link, and
  * will look for a `FormArray` registered with that name in the parent
- * `FormGroup`/`FormArray` instance you passed into `FormGroupDirective`/`FormGroupArray`.
+ * `FormGroup`/`FormArray` instance you passed into `FormGroupDirective`/`FormArrayDirective`.
  *
  * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see {@link AbstractControl}
