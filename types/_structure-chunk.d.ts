@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.2+sha-3228cce
+ * @license Angular v21.0.0-rc.2+sha-e1a7c35
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -902,7 +902,7 @@ type CompatSchemaPath<TControl extends AbstractControl, TPathKind extends PathKi
  *
  * @experimental 21.0.0
  */
-type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = (TModel extends AbstractControl ? CompatSchemaPath<TModel, TPathKind> : SchemaPath<TModel, SchemaPathRules.Supported, TPathKind>) & (TModel extends AbstractControl ? unknown : TModel extends Array<any> ? unknown : TModel extends Record<string, any> ? {
+type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = ([TModel] extends [AbstractControl] ? CompatSchemaPath<TModel, TPathKind> : SchemaPath<TModel, SchemaPathRules.Supported, TPathKind>) & (TModel extends AbstractControl ? unknown : TModel extends Array<any> ? unknown : TModel extends Record<string, any> ? {
     [K in keyof TModel]: MaybeSchemaPathTree<TModel[K], PathKind.Child>;
 } : unknown);
 /**

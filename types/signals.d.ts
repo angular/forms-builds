@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.2+sha-3228cce
+ * @license Angular v21.0.0-rc.2+sha-e1a7c35
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -464,7 +464,7 @@ declare function email<TPathKind extends PathKind = PathKind.Root>(path: SchemaP
  * @category validation
  * @experimental 21.0.0
  */
-declare function max<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<number, SchemaPathRules.Supported, TPathKind>, maxValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
+declare function max<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<number | string | null, SchemaPathRules.Supported, TPathKind>, maxValue: number | LogicFn<number | string | null, number | undefined, TPathKind>, config?: BaseValidatorConfig<number | string | null, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the length of the value to be less than or
@@ -501,7 +501,7 @@ declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  * @category validation
  * @experimental 21.0.0
  */
-declare function min<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<number, SchemaPathRules.Supported, TPathKind>, minValue: number | LogicFn<number, number | undefined, TPathKind>, config?: BaseValidatorConfig<number, TPathKind>): void;
+declare function min<TValue extends number | string | null, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, minValue: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the length of the value to be greater than or

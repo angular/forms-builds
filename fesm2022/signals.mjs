@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0-rc.2+sha-3228cce
+ * @license Angular v21.0.0-rc.2+sha-e1a7c35
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -381,7 +381,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.0-rc.2+sha-3228cce",
+    version: "21.0.0-rc.2+sha-e1a7c35",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -389,7 +389,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.0-rc.2+sha-3228cce",
+    version: "21.0.0-rc.2+sha-e1a7c35",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -414,7 +414,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.0-rc.2+sha-3228cce",
+  version: "21.0.0-rc.2+sha-e1a7c35",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -474,7 +474,9 @@ function max(path, maxValue, config) {
     if (max === undefined || Number.isNaN(max)) {
       return undefined;
     }
-    if (ctx.value() > max) {
+    const value = ctx.value();
+    const numValue = !value && value !== 0 ? NaN : Number(value);
+    if (numValue > max) {
       if (config?.error) {
         return getOption(config.error, ctx);
       } else {
@@ -526,7 +528,9 @@ function min(path, minValue, config) {
     if (min === undefined || Number.isNaN(min)) {
       return undefined;
     }
-    if (ctx.value() < min) {
+    const value = ctx.value();
+    const numValue = !value && value !== 0 ? NaN : Number(value);
+    if (numValue < min) {
       if (config?.error) {
         return getOption(config.error, ctx);
       } else {
