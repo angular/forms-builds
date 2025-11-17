@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-3760feb
+ * @license Angular v21.1.0-next.0+sha-9e7ddca
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -381,7 +381,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.0+sha-3760feb",
+    version: "21.1.0-next.0+sha-9e7ddca",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -389,7 +389,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.0+sha-3760feb",
+    version: "21.1.0-next.0+sha-9e7ddca",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -414,7 +414,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.0+sha-3760feb",
+  version: "21.1.0-next.0+sha-9e7ddca",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -659,7 +659,9 @@ function standardIssueToFormTreeError(field, issue) {
     const pathKey = typeof pathPart === 'object' ? pathPart.key : pathPart;
     target = target[pathKey];
   }
-  return addDefaultField(standardSchemaError(issue), target);
+  return addDefaultField(standardSchemaError(issue, {
+    message: issue.message
+  }), target);
 }
 
 export { CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, createMetadataKey, customError, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
