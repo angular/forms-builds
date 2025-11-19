@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0+sha-47fc721
+ * @license Angular v21.0.0+sha-e0026c8
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1722,6 +1722,7 @@ declare class FieldNode implements FieldState<unknown> {
      * Note this does not change the data model, which can be reset directly if desired.
      */
     reset(): void;
+    private _reset;
     /**
      * Sets the control value of the field. This value may be debounced before it is synchronized with
      * the field's {@link value} signal, depending on the debounce configuration.
