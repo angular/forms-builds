@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-b5ae62c
+ * @license Angular v21.1.0-next.0+sha-0f4b11c
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -223,9 +223,11 @@ function validateAsync(path, opts) {
         return undefined;
       }
       return opts.params(ctx);
-    }, ...(ngDevMode ? [{
-      debugName: "params"
-    }] : []));
+    }, {
+      ...(ngDevMode ? {
+        debugName: "params"
+      } : {})
+    });
     return opts.factory(params);
   });
   pathNode.builder.addAsyncErrorRule(ctx => {
@@ -350,12 +352,16 @@ class InteropNgControl {
 const FIELD = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'FIELD' : '');
 class Field {
   injector = inject(Injector);
-  field = input.required(...(ngDevMode ? [{
-    debugName: "field"
-  }] : []));
-  state = computed(() => this.field()(), ...(ngDevMode ? [{
-    debugName: "state"
-  }] : []));
+  field = input.required({
+    ...(ngDevMode ? {
+      debugName: "field"
+    } : {})
+  });
+  state = computed(() => this.field()(), {
+    ...(ngDevMode ? {
+      debugName: "state"
+    } : {})
+  });
   [_CONTROL] = undefined;
   controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
     optional: true,
@@ -381,7 +387,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.0+sha-b5ae62c",
+    version: "21.1.0-next.0+sha-0f4b11c",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -389,7 +395,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.0+sha-b5ae62c",
+    version: "21.1.0-next.0+sha-0f4b11c",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -414,7 +420,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.0+sha-b5ae62c",
+  version: "21.1.0-next.0+sha-0f4b11c",
   ngImport: i0,
   type: Field,
   decorators: [{
