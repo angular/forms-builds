@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0+sha-102cb87
+ * @license Angular v21.0.0+sha-9852033
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -61,53 +61,71 @@ class FieldValidationState {
       return [];
     }
     return [...this.node.logicNode.logic.syncTreeErrors.compute(this.node.context), ...(this.node.structure.parent?.validationState.rawSyncTreeErrors() ?? [])];
-  }, ...(ngDevMode ? [{
-    debugName: "rawSyncTreeErrors"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "rawSyncTreeErrors"
+    } : {})
+  });
   syncErrors = computed(() => {
     if (this.shouldSkipValidation()) {
       return [];
     }
     return [...this.node.logicNode.logic.syncErrors.compute(this.node.context), ...this.syncTreeErrors(), ...normalizeErrors(this.node.submitState.serverErrors())];
-  }, ...(ngDevMode ? [{
-    debugName: "syncErrors"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "syncErrors"
+    } : {})
+  });
   syncValid = computed(() => {
     if (this.shouldSkipValidation()) {
       return true;
     }
     return reduceChildren(this.node, this.syncErrors().length === 0, (child, value) => value && child.validationState.syncValid(), shortCircuitFalse);
-  }, ...(ngDevMode ? [{
-    debugName: "syncValid"
-  }] : []));
-  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.field === this.node.fieldProxy), ...(ngDevMode ? [{
-    debugName: "syncTreeErrors"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "syncValid"
+    } : {})
+  });
+  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.field === this.node.fieldProxy), {
+    ...(ngDevMode ? {
+      debugName: "syncTreeErrors"
+    } : {})
+  });
   rawAsyncErrors = computed(() => {
     if (this.shouldSkipValidation()) {
       return [];
     }
     return [...this.node.logicNode.logic.asyncErrors.compute(this.node.context), ...(this.node.structure.parent?.validationState.rawAsyncErrors() ?? [])];
-  }, ...(ngDevMode ? [{
-    debugName: "rawAsyncErrors"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "rawAsyncErrors"
+    } : {})
+  });
   asyncErrors = computed(() => {
     if (this.shouldSkipValidation()) {
       return [];
     }
     return this.rawAsyncErrors().filter(err => err === 'pending' || err.field === this.node.fieldProxy);
-  }, ...(ngDevMode ? [{
-    debugName: "asyncErrors"
-  }] : []));
-  errors = computed(() => [...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], ...(ngDevMode ? [{
-    debugName: "errors"
-  }] : []));
-  errorSummary = computed(() => reduceChildren(this.node, this.errors(), (child, result) => [...result, ...child.errorSummary()]), ...(ngDevMode ? [{
-    debugName: "errorSummary"
-  }] : []));
-  pending = computed(() => reduceChildren(this.node, this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), ...(ngDevMode ? [{
-    debugName: "pending"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "asyncErrors"
+    } : {})
+  });
+  errors = computed(() => [...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], {
+    ...(ngDevMode ? {
+      debugName: "errors"
+    } : {})
+  });
+  errorSummary = computed(() => reduceChildren(this.node, this.errors(), (child, result) => [...result, ...child.errorSummary()]), {
+    ...(ngDevMode ? {
+      debugName: "errorSummary"
+    } : {})
+  });
+  pending = computed(() => reduceChildren(this.node, this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), {
+    ...(ngDevMode ? {
+      debugName: "pending"
+    } : {})
+  });
   status = computed(() => {
     if (this.shouldSkipValidation()) {
       return 'valid';
@@ -121,18 +139,26 @@ class FieldValidationState {
       }
       return 'valid';
     }, v => v === 'invalid');
-  }, ...(ngDevMode ? [{
-    debugName: "status"
-  }] : []));
-  valid = computed(() => this.status() === 'valid', ...(ngDevMode ? [{
-    debugName: "valid"
-  }] : []));
-  invalid = computed(() => this.status() === 'invalid', ...(ngDevMode ? [{
-    debugName: "invalid"
-  }] : []));
-  shouldSkipValidation = computed(() => this.node.hidden() || this.node.disabled() || this.node.readonly(), ...(ngDevMode ? [{
-    debugName: "shouldSkipValidation"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "status"
+    } : {})
+  });
+  valid = computed(() => this.status() === 'valid', {
+    ...(ngDevMode ? {
+      debugName: "valid"
+    } : {})
+  });
+  invalid = computed(() => this.status() === 'invalid', {
+    ...(ngDevMode ? {
+      debugName: "invalid"
+    } : {})
+  });
+  shouldSkipValidation = computed(() => this.node.hidden() || this.node.disabled() || this.node.readonly(), {
+    ...(ngDevMode ? {
+      debugName: "shouldSkipValidation"
+    } : {})
+  });
 }
 function normalizeErrors(error) {
   if (error === undefined) {
@@ -742,9 +768,11 @@ class FieldNodeContext {
           }
         }
         return field.fieldProxy;
-      }, ...(ngDevMode ? [{
-        debugName: "resolver"
-      }] : []));
+      }, {
+        ...(ngDevMode ? {
+          debugName: "resolver"
+        } : {})
+      });
       this.cache.set(target, resolver);
     }
     return this.cache.get(target)();
@@ -770,9 +798,11 @@ class FieldNodeContext {
       throw new Error(`RuntimeError: cannot access index, parent field is not an array`);
     }
     return Number(key);
-  }, ...(ngDevMode ? [{
-    debugName: "index"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "index"
+    } : {})
+  });
   fieldTreeOf = p => this.resolve(p);
   stateOf = p => this.resolve(p)();
   valueOf = p => {
@@ -801,9 +831,11 @@ class FieldMetadataState {
     }
     if (!this.metadata.has(key)) {
       const logic = this.node.logicNode.logic.getAggregateMetadata(key);
-      const result = computed(() => logic.compute(this.node.context), ...(ngDevMode ? [{
-        debugName: "result"
-      }] : []));
+      const result = computed(() => logic.compute(this.node.context), {
+        ...(ngDevMode ? {
+          debugName: "result"
+        } : {})
+      });
       this.metadata.set(key, result);
     }
     return this.metadata.get(key);
@@ -957,9 +989,11 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
     super(logic);
     this.parent = parent;
     this.root = this.parent.structure.root;
-    this.pathKeys = computed(() => [...parent.structure.pathKeys(), this.keyInParent()], ...(ngDevMode ? [{
-      debugName: "pathKeys"
-    }] : []));
+    this.pathKeys = computed(() => [...parent.structure.pathKeys(), this.keyInParent()], {
+      ...(ngDevMode ? {
+        debugName: "pathKeys"
+      } : {})
+    });
     if (identityInParent === undefined) {
       const key = initialKeyInParent;
       this.keyInParent = computed(() => {
@@ -967,9 +1001,11 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
           throw new Error(`RuntimeError: orphan field, looking for property '${key}' of ${getDebugName(parent)}`);
         }
         return key;
-      }, ...(ngDevMode ? [{
-        debugName: "keyInParent"
-      }] : []));
+      }, {
+        ...(ngDevMode ? {
+          debugName: "keyInParent"
+        } : {})
+      });
     } else {
       let lastKnownKey = initialKeyInParent;
       this.keyInParent = computed(() => {
@@ -988,9 +1024,11 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
           }
         }
         throw new Error(`RuntimeError: orphan field, can't find element in array ${getDebugName(parent)}`);
-      }, ...(ngDevMode ? [{
-        debugName: "keyInParent"
-      }] : []));
+      }, {
+        ...(ngDevMode ? {
+          debugName: "keyInParent"
+        } : {})
+      });
     }
     this.value = deepSignal(this.parent.structure.value, this.keyInParent);
     this.childrenMap = makeChildrenMapSignal(node, this.value, this.identitySymbol, pathNode, logic, adapter, createChildNode);
@@ -998,14 +1036,18 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
   }
 }
 let globalId = 0;
-const ROOT_PATH_KEYS = computed(() => [], ...(ngDevMode ? [{
-  debugName: "ROOT_PATH_KEYS"
-}] : []));
+const ROOT_PATH_KEYS = computed(() => [], {
+  ...(ngDevMode ? {
+    debugName: "ROOT_PATH_KEYS"
+  } : {})
+});
 const ROOT_KEY_IN_PARENT = computed(() => {
   throw new Error(`RuntimeError: the top-level field in the form has no parent`);
-}, ...(ngDevMode ? [{
-  debugName: "ROOT_KEY_IN_PARENT"
-}] : []));
+}, {
+  ...(ngDevMode ? {
+    debugName: "ROOT_KEY_IN_PARENT"
+  } : {})
+});
 function makeChildrenMapSignal(node, valueSignal, identitySymbol, pathNode, logic, adapter, createChildNode) {
   return linkedSignal({
     source: valueSignal,
@@ -1083,26 +1125,29 @@ function getDebugName(node) {
 
 class FieldSubmitState {
   node;
-  selfSubmitting = signal(false, ...(ngDevMode ? [{
-    debugName: "selfSubmitting"
-  }] : []));
+  selfSubmitting = signal(false, {
+    ...(ngDevMode ? {
+      debugName: "selfSubmitting"
+    } : {})
+  });
   serverErrors;
   constructor(node) {
     this.node = node;
-    this.serverErrors = linkedSignal(...(ngDevMode ? [{
-      debugName: "serverErrors",
+    this.serverErrors = linkedSignal({
+      ...(ngDevMode ? {
+        debugName: "serverErrors"
+      } : {}),
       source: this.node.structure.value,
       computation: () => []
-    }] : [{
-      source: this.node.structure.value,
-      computation: () => []
-    }]));
+    });
   }
   submitting = computed(() => {
     return this.selfSubmitting() || (this.node.structure.parent?.submitting() ?? false);
-  }, ...(ngDevMode ? [{
-    debugName: "submitting"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "submitting"
+    } : {})
+  });
 }
 
 class FieldNode {
@@ -1125,29 +1170,27 @@ class FieldNode {
     this.metadataState = new FieldMetadataState(this);
     this.submitState = new FieldSubmitState(this);
   }
-  pendingSync = linkedSignal(...(ngDevMode ? [{
-    debugName: "pendingSync",
+  pendingSync = linkedSignal({
+    ...(ngDevMode ? {
+      debugName: "pendingSync"
+    } : {}),
     source: () => this.value(),
     computation: (_source, previous) => {
       previous?.value?.abort();
       return undefined;
     }
-  }] : [{
-    source: () => this.value(),
-    computation: (_source, previous) => {
-      previous?.value?.abort();
-      return undefined;
-    }
-  }]));
+  });
   get logicNode() {
     return this.structure.logic;
   }
   get value() {
     return this.structure.value;
   }
-  _controlValue = linkedSignal(() => this.value(), ...(ngDevMode ? [{
-    debugName: "_controlValue"
-  }] : []));
+  _controlValue = linkedSignal(() => this.value(), {
+    ...(ngDevMode ? {
+      debugName: "_controlValue"
+    } : {})
+  });
   get controlValue() {
     return this._controlValue.asReadonly();
   }
@@ -1275,21 +1318,29 @@ class FieldNode {
     return options.kind === 'root' ? new RootFieldNodeStructure(this, options.pathNode, options.logic, options.fieldManager, options.value, options.fieldAdapter, FieldNode.newChild) : new ChildFieldNodeStructure(this, options.pathNode, options.logic, options.parent, options.identityInParent, options.initialKeyInParent, options.fieldAdapter, FieldNode.newChild);
   }
 }
-const EMPTY = computed(() => [], ...(ngDevMode ? [{
-  debugName: "EMPTY"
-}] : []));
-const FALSE = computed(() => false, ...(ngDevMode ? [{
-  debugName: "FALSE"
-}] : []));
+const EMPTY = computed(() => [], {
+  ...(ngDevMode ? {
+    debugName: "EMPTY"
+  } : {})
+});
+const FALSE = computed(() => false, {
+  ...(ngDevMode ? {
+    debugName: "FALSE"
+  } : {})
+});
 
 class FieldNodeState {
   node;
-  selfTouched = signal(false, ...(ngDevMode ? [{
-    debugName: "selfTouched"
-  }] : []));
-  selfDirty = signal(false, ...(ngDevMode ? [{
-    debugName: "selfDirty"
-  }] : []));
+  selfTouched = signal(false, {
+    ...(ngDevMode ? {
+      debugName: "selfTouched"
+    } : {})
+  });
+  selfDirty = signal(false, {
+    ...(ngDevMode ? {
+      debugName: "selfDirty"
+    } : {})
+  });
   markAsTouched() {
     this.selfTouched.set(true);
   }
@@ -1302,45 +1353,61 @@ class FieldNodeState {
   markAsUntouched() {
     this.selfTouched.set(false);
   }
-  fieldBindings = signal([], ...(ngDevMode ? [{
-    debugName: "fieldBindings"
-  }] : []));
+  fieldBindings = signal([], {
+    ...(ngDevMode ? {
+      debugName: "fieldBindings"
+    } : {})
+  });
   constructor(node) {
     this.node = node;
   }
   dirty = computed(() => {
     const selfDirtyValue = this.selfDirty() && !this.isNonInteractive();
     return reduceChildren(this.node, selfDirtyValue, (child, value) => value || child.nodeState.dirty(), shortCircuitTrue);
-  }, ...(ngDevMode ? [{
-    debugName: "dirty"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "dirty"
+    } : {})
+  });
   touched = computed(() => {
     const selfTouchedValue = this.selfTouched() && !this.isNonInteractive();
     return reduceChildren(this.node, selfTouchedValue, (child, value) => value || child.nodeState.touched(), shortCircuitTrue);
-  }, ...(ngDevMode ? [{
-    debugName: "touched"
-  }] : []));
-  disabledReasons = computed(() => [...(this.node.structure.parent?.nodeState.disabledReasons() ?? []), ...this.node.logicNode.logic.disabledReasons.compute(this.node.context)], ...(ngDevMode ? [{
-    debugName: "disabledReasons"
-  }] : []));
-  disabled = computed(() => !!this.disabledReasons().length, ...(ngDevMode ? [{
-    debugName: "disabled"
-  }] : []));
-  readonly = computed(() => (this.node.structure.parent?.nodeState.readonly() || this.node.logicNode.logic.readonly.compute(this.node.context)) ?? false, ...(ngDevMode ? [{
-    debugName: "readonly"
-  }] : []));
-  hidden = computed(() => (this.node.structure.parent?.nodeState.hidden() || this.node.logicNode.logic.hidden.compute(this.node.context)) ?? false, ...(ngDevMode ? [{
-    debugName: "hidden"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "touched"
+    } : {})
+  });
+  disabledReasons = computed(() => [...(this.node.structure.parent?.nodeState.disabledReasons() ?? []), ...this.node.logicNode.logic.disabledReasons.compute(this.node.context)], {
+    ...(ngDevMode ? {
+      debugName: "disabledReasons"
+    } : {})
+  });
+  disabled = computed(() => !!this.disabledReasons().length, {
+    ...(ngDevMode ? {
+      debugName: "disabled"
+    } : {})
+  });
+  readonly = computed(() => (this.node.structure.parent?.nodeState.readonly() || this.node.logicNode.logic.readonly.compute(this.node.context)) ?? false, {
+    ...(ngDevMode ? {
+      debugName: "readonly"
+    } : {})
+  });
+  hidden = computed(() => (this.node.structure.parent?.nodeState.hidden() || this.node.logicNode.logic.hidden.compute(this.node.context)) ?? false, {
+    ...(ngDevMode ? {
+      debugName: "hidden"
+    } : {})
+  });
   name = computed(() => {
     const parent = this.node.structure.parent;
     if (!parent) {
       return this.node.structure.fieldManager.rootName;
     }
     return `${parent.name()}.${this.node.structure.keyInParent()}`;
-  }, ...(ngDevMode ? [{
-    debugName: "name"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "name"
+    } : {})
+  });
   debouncer = computed(() => {
     if (this.node.logicNode.logic.hasAggregateMetadata(DEBOUNCER)) {
       const debouncerLogic = this.node.logicNode.logic.getAggregateMetadata(DEBOUNCER);
@@ -1350,12 +1417,16 @@ class FieldNodeState {
       }
     }
     return this.node.structure.parent?.nodeState.debouncer?.();
-  }, ...(ngDevMode ? [{
-    debugName: "debouncer"
-  }] : []));
-  isNonInteractive = computed(() => this.hidden() || this.disabled() || this.readonly(), ...(ngDevMode ? [{
-    debugName: "isNonInteractive"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "debouncer"
+    } : {})
+  });
+  isNonInteractive = computed(() => this.hidden() || this.disabled() || this.readonly(), {
+    ...(ngDevMode ? {
+      debugName: "isNonInteractive"
+    } : {})
+  });
 }
 
 class BasicFieldAdapter {
