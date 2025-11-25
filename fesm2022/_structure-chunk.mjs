@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0+sha-9aa3e92
+ * @license Angular v21.0.0+sha-e3f5f34
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1274,10 +1274,13 @@ class FieldNode {
   markAsDirty() {
     this.nodeState.markAsDirty();
   }
-  reset() {
-    untracked(() => this._reset());
+  reset(value) {
+    untracked(() => this._reset(value));
   }
-  _reset() {
+  _reset(value) {
+    if (value) {
+      this.value.set(value);
+    }
     this.nodeState.markAsUntouched();
     this.nodeState.markAsPristine();
     for (const child of this.structure.children()) {
