@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.0.0+sha-477df38
+ * @license Angular v21.0.0+sha-9aa3e92
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵInteropControl as _InteropControl, ɵFieldState as _FieldState, Signal, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
+import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵInteropControl as _InteropControl, ɵFieldState as _FieldState, Signal, Provider, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
 import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
@@ -70,6 +70,8 @@ declare const FIELD: InjectionToken<Field<unknown>>;
  */
 declare class Field<T> implements _Control<T> {
     private readonly injector;
+    private config;
+    readonly classes: (readonly [string, i0.Signal<boolean>])[];
     readonly field: i0.InputSignal<FieldTree<T>>;
     readonly state: i0.Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
     readonly [_CONTROL]: undefined;
@@ -1062,6 +1064,24 @@ type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[k
  * @experimental 21.0.0
  */
 type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>, abortSignal: AbortSignal) => Promise<void> | void;
+
+/**
+ * Configuration options for signal forms.
+ *
+ * @experimental 21.0.1
+ */
+interface SignalFormsConfig {
+    /** A map of CSS class names to predicate functions that determine when to apply them. */
+    classes?: {
+        [className: string]: (state: FieldState<unknown>) => boolean;
+    };
+}
+/**
+ * Provides configuration options for signal forms.
+ *
+ * @experimental 21.0.1
+ */
+declare function provideSignalFormsConfig(config: SignalFormsConfig): Provider[];
 
 /** Represents a result that should be ignored because its predicate indicates it is not active. */
 declare const IGNORED: unique symbol;
@@ -2237,5 +2257,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, reducedMetadataKey, requiredError, schema, standardSchemaError, submit };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };

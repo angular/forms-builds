@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.0+sha-477df38
+ * @license Angular v21.0.0+sha-9aa3e92
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -302,5 +302,15 @@ function compatForm(...args) {
   return form(model, schema, options);
 }
 
-export { CompatValidationError, compatForm };
+const NG_STATUS_CLASSES = {
+  'ng-touched': state => state.touched(),
+  'ng-untouched': state => !state.touched(),
+  'ng-dirty': state => state.dirty(),
+  'ng-pristine': state => !state.dirty(),
+  'ng-valid': state => state.valid(),
+  'ng-invalid': state => state.invalid(),
+  'ng-pending': state => state.pending()
+};
+
+export { CompatValidationError, NG_STATUS_CLASSES, compatForm };
 //# sourceMappingURL=signals-compat.mjs.map

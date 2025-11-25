@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.0.0+sha-477df38
+ * @license Angular v21.0.0+sha-9aa3e92
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { WritableSignal } from '@angular/core';
-import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError } from './_structure-chunk.js';
+import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError, SignalFormsConfig } from './_structure-chunk.js';
 import { AbstractControl } from '@angular/forms';
 import '@standard-schema/spec';
 
@@ -130,5 +130,13 @@ declare class CompatValidationError<T = unknown> implements ValidationError {
     });
 }
 
-export { CompatValidationError, compatForm };
+/**
+ * A value that can be used for `SignalFormsConfig.classes` to automatically add
+ * the `ng-*` status classes from reactive forms.
+ *
+ * @experimental 21.0.1
+ */
+declare const NG_STATUS_CLASSES: SignalFormsConfig['classes'];
+
+export { CompatValidationError, NG_STATUS_CLASSES, compatForm };
 export type { CompatFormOptions };
