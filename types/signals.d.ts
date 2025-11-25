@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-67d41e9
+ * @license Angular v21.1.0-next.0+sha-c70e246
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import { Signal, ResourceRef, InputSignal, ModelSignal, OutputRef } from '@angular/core';
 import { PathKind, FieldContext, TreeValidationResult, SchemaPath, SchemaPathRules, WithOptionalField, ValidationError, DisabledReason, Debouncer, LogicFn, FieldValidator, TreeValidator, AggregateMetadataKey, MetadataKey, OneOrMany, SchemaPathTree } from './_structure-chunk.js';
-export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, CustomValidationError, EmailValidationError, FIELD, Field, FieldState, FieldTree, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, StandardSchemaValidationError, Subfields, SubmittedStatus, ValidationResult, ValidationSuccess, Validator, WithField, WithoutField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, reducedMetadataKey, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
+export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, CustomValidationError, EmailValidationError, FIELD, Field, FieldState, FieldTree, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, SubmittedStatus, ValidationResult, ValidationSuccess, Validator, WithField, WithoutField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 import '@angular/forms';
 
