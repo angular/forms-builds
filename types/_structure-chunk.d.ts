@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-c70e246
+ * @license Angular v21.1.0-next.0+sha-dec222d
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -839,8 +839,10 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
      *
      * Note this does not change the data model, which can be reset directly if desired.
+     *
+     * @param value Optional value to set to the form. If not passed, the value will not be changed.
      */
-    reset(): void;
+    reset(value?: TValue): void;
 }
 /**
  * This is FieldState also providing access to the wrapped FormControl.
@@ -1740,8 +1742,10 @@ declare class FieldNode implements FieldState<unknown> {
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
      *
      * Note this does not change the data model, which can be reset directly if desired.
+     *
+     * @param value Optional value to set to the form. If not passed, the value will not be changed.
      */
-    reset(): void;
+    reset(value?: unknown): void;
     private _reset;
     /**
      * Sets the control value of the field. This value may be debounced before it is synchronized with
