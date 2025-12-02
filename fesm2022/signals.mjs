@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.2+sha-017672f
+ * @license Angular v21.0.2+sha-5a80a48
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -223,11 +223,9 @@ function validateAsync(path, opts) {
         return undefined;
       }
       return opts.params(ctx);
-    }, {
-      ...(ngDevMode ? {
-        debugName: "params"
-      } : {})
-    });
+    }, ...(ngDevMode ? [{
+      debugName: "params"
+    }] : []));
     return opts.factory(params);
   });
   pathNode.builder.addAsyncErrorRule(ctx => {
@@ -365,16 +363,12 @@ class Field {
     optional: true
   });
   classes = Object.entries(this.config?.classes ?? {}).map(([className, computation]) => [className, computed(() => computation(this.state()))]);
-  field = input.required({
-    ...(ngDevMode ? {
-      debugName: "field"
-    } : {})
-  });
-  state = computed(() => this.field()(), {
-    ...(ngDevMode ? {
-      debugName: "state"
-    } : {})
-  });
+  field = input.required(...(ngDevMode ? [{
+    debugName: "field"
+  }] : []));
+  state = computed(() => this.field()(), ...(ngDevMode ? [{
+    debugName: "state"
+  }] : []));
   [_CONTROL] = undefined;
   controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
     optional: true,
@@ -400,7 +394,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.2+sha-017672f",
+    version: "21.0.2+sha-5a80a48",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -408,7 +402,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.2+sha-017672f",
+    version: "21.0.2+sha-5a80a48",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -433,7 +427,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.2+sha-017672f",
+  version: "21.0.2+sha-5a80a48",
   ngImport: i0,
   type: Field,
   decorators: [{
