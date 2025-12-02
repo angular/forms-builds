@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-c5a3bbb
+ * @license Angular v21.1.0-next.0+sha-a784995
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -23,7 +23,7 @@ type CompatFormOptions = Omit<FormOptions, 'adapter'>;
  * compatibility with Reactive forms by accepting Reactive controls as a part of the data.
  *
  * @example
- * ```
+ * ```ts
  * const lastName = new FormControl('lastName');
  *
  * const nameModel = signal({
@@ -36,6 +36,7 @@ type CompatFormOptions = Omit<FormOptions, 'adapter'>;
  * });
  *
  * nameForm.last().value(); // lastName, not FormControl
+ * ```
  *
  * @param model A writable signal that contains the model data for the form. The resulting field
  * structure will match the shape of the model and any changes to the form data will be written to
@@ -52,7 +53,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>): FieldTree<TM
  * compatibility with Reactive forms by accepting Reactive controls as a part of the data.
  *
  * @example
- * ```
+ * ```ts
  * const lastName = new FormControl('lastName');
  *
  * const nameModel = signal({
@@ -85,7 +86,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptio
  * compatibility with Reactive forms by accepting Reactive controls as a part of the data.
  *
  * @example
- * ```
+ * ```ts
  * const lastName = new FormControl('lastName');
  *
  * const nameModel = signal({
