@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.0+sha-f35b2ef
+ * @license Angular v21.1.0-next.0+sha-e30e61b
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -75,11 +75,9 @@ class CompatNodeState extends FieldNodeState {
     const controlDisabled = getControlStatusSignal(options, c => c.disabled);
     this.disabled = computed(() => {
       return controlDisabled() || this.disabledReasons().length > 0;
-    }, {
-      ...(ngDevMode ? {
-        debugName: "disabled"
-      } : {})
-    });
+    }, ...(ngDevMode ? [{
+      debugName: "disabled"
+    }] : []));
   }
   markAsDirty() {
     this.control().markAsDirty();
@@ -128,16 +126,12 @@ class CompatStructure extends FieldNodeStructure {
   };
   root;
   pathKeys;
-  children = signal([], {
-    ...(ngDevMode ? {
-      debugName: "children"
-    } : {})
-  });
-  childrenMap = signal(undefined, {
-    ...(ngDevMode ? {
-      debugName: "childrenMap"
-    } : {})
-  });
+  children = signal([], ...(ngDevMode ? [{
+    debugName: "children"
+  }] : []));
+  childrenMap = signal(undefined, ...(ngDevMode ? [{
+    debugName: "childrenMap"
+  }] : []));
   parent;
   fieldManager;
   constructor(node, options) {
@@ -146,11 +140,9 @@ class CompatStructure extends FieldNodeStructure {
     this.parent = getParentFromOptions(options);
     this.root = this.parent?.structure.root ?? node;
     this.fieldManager = getFieldManagerFromOptions(options);
-    this.pathKeys = computed(() => this.parent ? [...this.parent.structure.pathKeys(), this.keyInParent()] : [], {
-      ...(ngDevMode ? {
-        debugName: "pathKeys"
-      } : {})
-    });
+    this.pathKeys = computed(() => this.parent ? [...this.parent.structure.pathKeys(), this.keyInParent()] : [], ...(ngDevMode ? [{
+      debugName: "pathKeys"
+    }] : []));
   }
   getChild() {
     return undefined;
@@ -199,16 +191,12 @@ function extractNestedReactiveErrors(control) {
   return errors;
 }
 
-const EMPTY_ARRAY_SIGNAL = computed(() => [], {
-  ...(ngDevMode ? {
-    debugName: "EMPTY_ARRAY_SIGNAL"
-  } : {})
-});
-const TRUE_SIGNAL = computed(() => true, {
-  ...(ngDevMode ? {
-    debugName: "TRUE_SIGNAL"
-  } : {})
-});
+const EMPTY_ARRAY_SIGNAL = computed(() => [], ...(ngDevMode ? [{
+  debugName: "EMPTY_ARRAY_SIGNAL"
+}] : []));
+const TRUE_SIGNAL = computed(() => true, ...(ngDevMode ? [{
+  debugName: "TRUE_SIGNAL"
+}] : []));
 class CompatValidationState {
   syncValid;
   errors;
@@ -234,11 +222,9 @@ class CompatValidationState {
   shouldSkipValidation = TRUE_SIGNAL;
   status = computed(() => {
     return calculateValidationSelfStatus(this);
-  }, {
-    ...(ngDevMode ? {
-      debugName: "status"
-    } : {})
-  });
+  }, ...(ngDevMode ? [{
+    debugName: "status"
+  }] : []));
 }
 
 class CompatFieldAdapter {
