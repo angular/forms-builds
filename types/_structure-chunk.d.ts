@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.2+sha-c0e0010
+ * @license Angular v21.0.2+sha-8e0df40
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -569,7 +569,7 @@ declare class StandardSchemaValidationError extends _NgValidationError {
  * is one of the standard kinds, allowing you to switch on the kind to further narrow the type.
  *
  * @example
- * ```
+ * ```ts
  * const f = form(...);
  * for (const e of form().errors()) {
  *   if (e instanceof NgValidationError) {
@@ -2022,7 +2022,7 @@ interface FormOptions {
  * as well.
  *
  * @example
- * ```
+ * ```ts
  * const nameModel = signal({first: '', last: ''});
  * const nameForm = form(nameModel);
  * nameForm.first().value.set('John');
@@ -2049,7 +2049,7 @@ declare function form<TModel>(model: WritableSignal<TModel>): FieldTree<TModel>;
  * as well.
  *
  * @example
- * ```
+ * ```ts
  * const nameModel = signal({first: '', last: ''});
  * const nameForm = form(nameModel);
  * nameForm.first().value.set('John');
@@ -2062,7 +2062,7 @@ declare function form<TModel>(model: WritableSignal<TModel>): FieldTree<TModel>;
  * function that builds the schema by binding logic to a parts of the field structure.
  *
  * @example
- * ```
+ * ```ts
  * const nameForm = form(signal({first: '', last: ''}), (name) => {
  *   required(name.first);
  *   pattern(name.last, /^[a-z]+$/i, {message: 'Alphabet characters only'});
@@ -2095,7 +2095,7 @@ declare function form<TModel>(model: WritableSignal<TModel>, schemaOrOptions: Sc
  * as well.
  *
  * @example
- * ```
+ * ```ts
  * const nameModel = signal({first: '', last: ''});
  * const nameForm = form(nameModel);
  * nameForm.first().value.set('John');
@@ -2108,7 +2108,7 @@ declare function form<TModel>(model: WritableSignal<TModel>, schemaOrOptions: Sc
  * function that builds the schema by binding logic to a parts of the field structure.
  *
  * @example
- * ```
+ * ```ts
  * const nameForm = form(signal({first: '', last: ''}), (name) => {
  *   required(name.first);
  *   validate(name.last, ({value}) => !/^[a-z]+$/i.test(value()) ? customError({kind: 'alphabet-only'}) : undefined);
@@ -2134,7 +2134,7 @@ declare function form<TModel>(model: WritableSignal<TModel>, schema: SchemaOrSch
  * Applies a schema to each item of an array.
  *
  * @example
- * ```
+ * ```ts
  * const nameSchema = schema<{first: string, last: string}>((name) => {
  *   required(name.first);
  *   required(name.last);
@@ -2158,7 +2158,7 @@ declare function applyEach<TValue extends Object>(path: SchemaPath<TValue>, sche
  * Applies a predefined schema to a given `FieldPath`.
  *
  * @example
- * ```
+ * ```ts
  * const nameSchema = schema<{first: string, last: string}>((name) => {
  *   required(name.first);
  *   required(name.last);
@@ -2222,7 +2222,7 @@ declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (va
  * server error.
  *
  * @example
- * ```
+ * ```ts
  * async function registerNewUser(registrationForm: FieldTree<{username: string, password: string}>) {
  *   const result = await myClient.registerNewUser(registrationForm().value());
  *   if (result.errorCode === myClient.ErrorCode.USERNAME_TAKEN) {
