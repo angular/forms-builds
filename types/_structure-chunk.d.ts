@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.0.2+sha-6491df9
+ * @license Angular v21.0.2+sha-6b4ab87
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵInteropControl as _InteropControl, ɵFieldState as _FieldState, Signal, Provider, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
+import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵInteropControl as _InteropControl, ɵFieldState as _FieldState, Signal, Provider, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
 import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
@@ -74,7 +74,10 @@ declare class Field<T> implements _Control<T> {
     readonly classes: (readonly [string, i0.Signal<boolean>])[];
     readonly field: i0.InputSignal<FieldTree<T>>;
     readonly state: i0.Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
-    readonly [_CONTROL]: undefined;
+    readonly [_CONTROL]: {
+        readonly create: typeof __controlCreate;
+        readonly update: typeof _controlUpdate;
+    };
     /** Any `ControlValueAccessor` instances provided on the host element. */
     private readonly controlValueAccessors;
     /** A lazily instantiated fake `NgControl`. */

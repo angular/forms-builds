@@ -1,12 +1,12 @@
 /**
- * @license Angular v21.0.2+sha-6491df9
+ * @license Angular v21.0.2+sha-6b4ab87
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { httpResource } from '@angular/common/http';
 import * as i0 from '@angular/core';
-import { computed, InjectionToken, inject, Injector, input, ɵCONTROL as _CONTROL, effect, Directive, ɵisPromise as _isPromise, resource } from '@angular/core';
+import { computed, InjectionToken, inject, Injector, input, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { isArray, assertPathIsCurrent, addDefaultField, FieldPathNode, createMetadataKey, DEBOUNCER, REQUIRED, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN } from './_structure-chunk.mjs';
 export { AggregateMetadataKey, MetadataKey, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, form, listMetadataKey, maxMetadataKey, minMetadataKey, orMetadataKey, reducedMetadataKey, schema, submit } from './_structure-chunk.mjs';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
@@ -357,6 +357,10 @@ class InteropNgControl {
 }
 
 const FIELD = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'FIELD' : '');
+const controlInstructions = {
+  create: __controlCreate,
+  update: _controlUpdate
+};
 class Field {
   injector = inject(Injector);
   config = inject(SIGNAL_FORMS_CONFIG, {
@@ -369,7 +373,7 @@ class Field {
   state = computed(() => this.field()(), ...(ngDevMode ? [{
     debugName: "state"
   }] : []));
-  [_CONTROL] = undefined;
+  [_CONTROL] = controlInstructions;
   controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
     optional: true,
     self: true
@@ -394,7 +398,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.2+sha-6491df9",
+    version: "21.0.2+sha-6b4ab87",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -402,7 +406,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.2+sha-6491df9",
+    version: "21.0.2+sha-6b4ab87",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -427,7 +431,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.2+sha-6491df9",
+  version: "21.0.2+sha-6b4ab87",
   ngImport: i0,
   type: Field,
   decorators: [{
