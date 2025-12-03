@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.1.0-next.0+sha-d608784
+ * @license Angular v21.1.0-next.0+sha-7d1e502
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
-import { Signal, ResourceRef, InputSignal, ModelSignal, OutputRef } from '@angular/core';
+import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef } from '@angular/core';
 import { PathKind, FieldContext, TreeValidationResult, SchemaPath, SchemaPathRules, WithOptionalField, ValidationError, DisabledReason, Debouncer, LogicFn, FieldValidator, TreeValidator, AggregateMetadataKey, MetadataKey, OneOrMany, SchemaPathTree } from './_structure-chunk.js';
 export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, CustomValidationError, EmailValidationError, FIELD, Field, FieldState, FieldTree, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, SubmittedStatus, ValidationResult, ValidationSuccess, Validator, WithField, WithoutField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
 import { StandardSchemaV1 } from '@standard-schema/spec';
@@ -158,82 +158,82 @@ interface FormUiControl {
      * An input to receive the errors for the field. If implemented, the `Field` directive will
      * automatically bind errors from the bound field to this input.
      */
-    readonly errors?: InputSignal<readonly WithOptionalField<ValidationError>[]>;
+    readonly errors?: InputSignal<readonly WithOptionalField<ValidationError>[]> | InputSignalWithTransform<readonly WithOptionalField<ValidationError>[], unknown>;
     /**
      * An input to receive the disabled status for the field. If implemented, the `Field` directive
      * will automatically bind the disabled status from the bound field to this input.
      */
-    readonly disabled?: InputSignal<boolean>;
+    readonly disabled?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
     /**
      * An input to receive the reasons for the disablement of the field. If implemented, the `Field`
      * directive will automatically bind the disabled reason from the bound field to this input.
      */
-    readonly disabledReasons?: InputSignal<readonly WithOptionalField<DisabledReason>[]>;
+    readonly disabledReasons?: InputSignal<readonly WithOptionalField<DisabledReason>[]> | InputSignalWithTransform<readonly WithOptionalField<DisabledReason>[], unknown>;
     /**
      * An input to receive the readonly status for the field. If implemented, the `Field` directive
      * will automatically bind the readonly status from the bound field to this input.
      */
-    readonly readonly?: InputSignal<boolean>;
+    readonly readonly?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
     /**
      * An input to receive the hidden status for the field. If implemented, the `Field` directive
      * will automatically bind the hidden status from the bound field to this input.
      */
-    readonly hidden?: InputSignal<boolean>;
+    readonly hidden?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
     /**
      * An input to receive the invalid status for the field. If implemented, the `Field` directive
      * will automatically bind the invalid status from the bound field to this input.
      */
-    readonly invalid?: InputSignal<boolean>;
+    readonly invalid?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
     /**
      * An input to receive the pending status for the field. If implemented, the `Field` directive
      * will automatically bind the pending status from the bound field to this input.
      */
-    readonly pending?: InputSignal<boolean>;
+    readonly pending?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
     /**
      * An input to receive the touched status for the field. If implemented, the `Field` directive
      * will automatically bind the touched status from the bound field to this input.
      */
-    readonly touched?: ModelSignal<boolean> | InputSignal<boolean> | OutputRef<boolean>;
+    readonly touched?: ModelSignal<boolean> | InputSignal<boolean> | InputSignalWithTransform<boolean, unknown> | OutputRef<boolean>;
     /**
      * An input to receive the dirty status for the field. If implemented, the `Field` directive
      * will automatically bind the dirty status from the bound field to this input.
      */
-    readonly dirty?: InputSignal<boolean>;
+    readonly dirty?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
     /**
      * An input to receive the name for the field. If implemented, the `Field` directive will
      * automatically bind the name from the bound field to this input.
      */
-    readonly name?: InputSignal<string>;
+    readonly name?: InputSignal<string> | InputSignalWithTransform<string, unknown>;
     /**
      * An input to receive the required status for the field. If implemented, the `Field` directive
      * will automatically bind the required status from the bound field to this input.
      */
-    readonly required?: InputSignal<boolean>;
+    readonly required?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
     /**
      * An input to receive the min value for the field. If implemented, the `Field` directive will
      * automatically bind the min value from the bound field to this input.
      */
-    readonly min?: InputSignal<number | undefined>;
+    readonly min?: InputSignal<number | undefined> | InputSignalWithTransform<number | undefined, unknown>;
     /**
      * An input to receive the min length for the field. If implemented, the `Field` directive will
      * automatically bind the min length from the bound field to this input.
      */
-    readonly minLength?: InputSignal<number | undefined>;
+    readonly minLength?: InputSignal<number | undefined> | InputSignalWithTransform<number | undefined, unknown>;
     /**
      * An input to receive the max value for the field. If implemented, the `Field` directive will
      * automatically bind the max value from the bound field to this input.
      */
-    readonly max?: InputSignal<number | undefined>;
+    readonly max?: InputSignal<number | undefined> | InputSignalWithTransform<number | undefined, unknown>;
     /**
      * An input to receive the max length for the field. If implemented, the `Field` directive will
      * automatically bind the max length from the bound field to this input.
      */
-    readonly maxLength?: InputSignal<number | undefined>;
+    readonly maxLength?: InputSignal<number | undefined> | InputSignalWithTransform<number | undefined, unknown>;
     /**
      * An input to receive the value patterns for the field. If implemented, the `Field` directive
      * will automatically bind the value patterns from the bound field to this input.
      */
-    readonly pattern?: InputSignal<readonly RegExp[]>;
+    readonly pattern?: InputSignal<readonly RegExp[]> | InputSignalWithTransform<readonly RegExp[], unknown>;
 }
 /**
  * A contract for a form control that edits a `FieldTree` of type `TValue`. Any component that
