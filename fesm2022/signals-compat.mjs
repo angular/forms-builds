@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.1+sha-fc23fcd
+ * @license Angular v21.1.0-next.1+sha-b96f65a
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -129,13 +129,15 @@ class CompatStructure extends FieldNodeStructure {
   children = signal([], ...(ngDevMode ? [{
     debugName: "children"
   }] : []));
-  childrenMap = signal(undefined, ...(ngDevMode ? [{
+  childrenMap = computed(() => undefined, ...(ngDevMode ? [{
     debugName: "childrenMap"
   }] : []));
   parent;
   fieldManager;
   constructor(node, options) {
-    super(options.logic);
+    super(options.logic, node, () => {
+      throw new Error(`Compat nodes don't have children.`);
+    });
     this.value = getControlValueSignal(options);
     this.parent = getParentFromOptions(options);
     this.root = this.parent?.structure.root ?? node;

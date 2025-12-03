@@ -1,10 +1,10 @@
 /**
- * @license Angular v21.1.0-next.1+sha-fc23fcd
+ * @license Angular v21.1.0-next.1+sha-b96f65a
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { computed, untracked, runInInjectionContext, linkedSignal, Injector, signal, APP_ID, effect, inject } from '@angular/core';
+import { computed, untracked, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, inject } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
@@ -15,20 +15,6 @@ function isObject(value) {
   return (typeof value === 'object' || typeof value === 'function') && value != null;
 }
 
-function reduceChildren(node, initialValue, fn, shortCircuit) {
-  const childrenMap = node.structure.childrenMap();
-  if (!childrenMap) {
-    return initialValue;
-  }
-  let value = initialValue;
-  for (const child of childrenMap.values()) {
-    if (shortCircuit?.(value)) {
-      break;
-    }
-    value = fn(child, value);
-  }
-  return value;
-}
 function shortCircuitFalse(value) {
   return !value;
 }
@@ -76,7 +62,7 @@ class FieldValidationState {
     if (this.shouldSkipValidation()) {
       return true;
     }
-    return reduceChildren(this.node, this.syncErrors().length === 0, (child, value) => value && child.validationState.syncValid(), shortCircuitFalse);
+    return this.node.structure.reduceChildren(this.syncErrors().length === 0, (child, value) => value && child.validationState.syncValid(), shortCircuitFalse);
   }, ...(ngDevMode ? [{
     debugName: "syncValid"
   }] : []));
@@ -102,10 +88,10 @@ class FieldValidationState {
   errors = computed(() => [...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], ...(ngDevMode ? [{
     debugName: "errors"
   }] : []));
-  errorSummary = computed(() => reduceChildren(this.node, this.errors(), (child, result) => [...result, ...child.errorSummary()]), ...(ngDevMode ? [{
+  errorSummary = computed(() => this.node.structure.reduceChildren(this.errors(), (child, result) => [...result, ...child.errorSummary()]), ...(ngDevMode ? [{
     debugName: "errorSummary"
   }] : []));
-  pending = computed(() => reduceChildren(this.node, this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), ...(ngDevMode ? [{
+  pending = computed(() => this.node.structure.reduceChildren(this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), ...(ngDevMode ? [{
     debugName: "pending"
   }] : []));
   status = computed(() => {
@@ -113,7 +99,7 @@ class FieldValidationState {
       return 'valid';
     }
     let ownStatus = calculateValidationSelfStatus(this);
-    return reduceChildren(this.node, ownStatus, (child, value) => {
+    return this.node.structure.reduceChildren(ownStatus, (child, value) => {
       if (value === 'invalid' || child.validationState.status() === 'invalid') {
         return 'invalid';
       } else if (value === 'unknown' || child.validationState.status() === 'unknown') {
@@ -830,7 +816,10 @@ const FIELD_PROXY_HANDLER = {
         return tgt.value().length;
       }
       if (p === Symbol.iterator) {
-        return Array.prototype[p];
+        return () => {
+          tgt.value();
+          return Array.prototype[Symbol.iterator].apply(tgt.fieldProxy);
+        };
       }
     }
     if (isObject(value)) {
@@ -885,6 +874,8 @@ function valueForWrite(sourceValue, newPropValue, prop) {
 
 class FieldNodeStructure {
   logic;
+  node;
+  createChildNode;
   identitySymbol = Symbol();
   _injector = undefined;
   get injector() {
@@ -894,32 +885,113 @@ class FieldNodeStructure {
     });
     return this._injector;
   }
-  constructor(logic) {
+  constructor(logic, node, createChildNode) {
     this.logic = logic;
+    this.node = node;
+    this.createChildNode = createChildNode;
   }
   children() {
-    return this.childrenMap()?.values() ?? [];
+    const map = this.childrenMap();
+    if (map === undefined) {
+      return [];
+    }
+    return Array.from(map.byPropertyKey.values()).map(child => untracked(child.reader));
   }
   getChild(key) {
+    const strKey = key.toString();
+    let reader = untracked(this.childrenMap)?.byPropertyKey.get(strKey)?.reader;
+    if (!reader) {
+      reader = this.createReader(strKey);
+    }
+    return reader();
+  }
+  reduceChildren(initialValue, fn, shortCircuit) {
     const map = this.childrenMap();
-    const value = this.value();
-    if (!map || !isObject(value)) {
-      return undefined;
+    if (!map) {
+      return initialValue;
     }
-    if (isArray(value)) {
-      const childValue = value[key];
-      if (isObject(childValue) && childValue.hasOwnProperty(this.identitySymbol)) {
-        key = childValue[this.identitySymbol];
+    let value = initialValue;
+    for (const child of map.byPropertyKey.values()) {
+      if (shortCircuit?.(value)) {
+        break;
       }
+      value = fn(untracked(child.reader), value);
     }
-    return map.get(typeof key === 'number' ? key.toString() : key);
+    return value;
   }
   destroy() {
     this.injector.destroy();
   }
+  createChildrenMap() {
+    return linkedSignal({
+      source: this.value,
+      computation: (value, previous) => {
+        if (!isObject(value)) {
+          return undefined;
+        }
+        const prevData = previous?.value ?? {
+          byPropertyKey: new Map()
+        };
+        let data;
+        const parentIsArray = isArray(value);
+        if (prevData !== undefined) {
+          if (parentIsArray) {
+            data = maybeRemoveStaleArrayFields(prevData, value, this.identitySymbol);
+          } else {
+            data = maybeRemoveStaleObjectFields(prevData, value);
+          }
+        }
+        for (const key of Object.keys(value)) {
+          let trackingKey = undefined;
+          const childValue = value[key];
+          if (childValue === undefined) {
+            if (prevData.byPropertyKey.has(key)) {
+              data ??= {
+                ...prevData
+              };
+              data.byPropertyKey.delete(key);
+            }
+            continue;
+          }
+          if (parentIsArray && isObject(childValue) && !isArray(childValue)) {
+            trackingKey = childValue[this.identitySymbol] ??= Symbol(ngDevMode ? `id:${globalId++}` : '');
+          }
+          let childNode;
+          if (trackingKey) {
+            if (!prevData.byTrackingKey?.has(trackingKey)) {
+              data ??= {
+                ...prevData
+              };
+              data.byTrackingKey ??= new Map();
+              data.byTrackingKey.set(trackingKey, this.createChildNode(key, trackingKey, parentIsArray));
+            }
+            childNode = (data ?? prevData).byTrackingKey.get(trackingKey);
+          }
+          const child = prevData.byPropertyKey.get(key);
+          if (child === undefined) {
+            data ??= {
+              ...prevData
+            };
+            data.byPropertyKey.set(key, {
+              reader: this.createReader(key),
+              node: childNode ?? this.createChildNode(key, trackingKey, parentIsArray)
+            });
+          } else if (childNode && childNode !== child.node) {
+            data ??= {
+              ...prevData
+            };
+            child.node = childNode;
+          }
+        }
+        return data ?? prevData;
+      }
+    });
+  }
+  createReader(key) {
+    return computed(() => this.childrenMap()?.byPropertyKey.get(key)?.node);
+  }
 }
 class RootFieldNodeStructure extends FieldNodeStructure {
-  node;
   fieldManager;
   value;
   get parent() {
@@ -935,15 +1007,15 @@ class RootFieldNodeStructure extends FieldNodeStructure {
     return ROOT_KEY_IN_PARENT;
   }
   childrenMap;
-  constructor(node, pathNode, logic, fieldManager, value, adapter, createChildNode) {
-    super(logic);
-    this.node = node;
+  constructor(node, logic, fieldManager, value, createChildNode) {
+    super(logic, node, createChildNode);
     this.fieldManager = fieldManager;
     this.value = value;
-    this.childrenMap = makeChildrenMapSignal(node, value, this.identitySymbol, pathNode, logic, adapter, createChildNode);
+    this.childrenMap = this.createChildrenMap();
   }
 }
 class ChildFieldNodeStructure extends FieldNodeStructure {
+  logic;
   parent;
   root;
   pathKeys;
@@ -953,8 +1025,9 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
   get fieldManager() {
     return this.root.structure.fieldManager;
   }
-  constructor(node, pathNode, logic, parent, identityInParent, initialKeyInParent, adapter, createChildNode) {
-    super(logic);
+  constructor(node, logic, parent, identityInParent, initialKeyInParent, createChildNode) {
+    super(logic, node, createChildNode);
+    this.logic = logic;
     this.parent = parent;
     this.root = this.parent.structure.root;
     this.pathKeys = computed(() => [...parent.structure.pathKeys(), this.keyInParent()], ...(ngDevMode ? [{
@@ -963,7 +1036,7 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
     if (identityInParent === undefined) {
       const key = initialKeyInParent;
       this.keyInParent = computed(() => {
-        if (parent.structure.childrenMap()?.get(key) !== node) {
+        if (parent.structure.getChild(key) !== node) {
           throw new Error(`RuntimeError: orphan field, looking for property '${key}' of ${getDebugName(parent)}`);
         }
         return key;
@@ -993,7 +1066,7 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
       }] : []));
     }
     this.value = deepSignal(this.parent.structure.value, this.keyInParent);
-    this.childrenMap = makeChildrenMapSignal(node, this.value, this.identitySymbol, pathNode, logic, adapter, createChildNode);
+    this.childrenMap = this.createChildrenMap();
     this.fieldManager.structures.add(this);
   }
 }
@@ -1006,79 +1079,49 @@ const ROOT_KEY_IN_PARENT = computed(() => {
 }, ...(ngDevMode ? [{
   debugName: "ROOT_KEY_IN_PARENT"
 }] : []));
-function makeChildrenMapSignal(node, valueSignal, identitySymbol, pathNode, logic, adapter, createChildNode) {
-  return linkedSignal({
-    source: valueSignal,
-    computation: (value, previous) => {
-      let childrenMap = previous?.value;
-      if (!isObject(value)) {
-        return undefined;
-      }
-      const isValueArray = isArray(value);
-      if (childrenMap !== undefined) {
-        let oldKeys = undefined;
-        if (isValueArray) {
-          oldKeys = new Set(childrenMap.keys());
-          for (let i = 0; i < value.length; i++) {
-            const childValue = value[i];
-            if (isObject(childValue) && childValue.hasOwnProperty(identitySymbol)) {
-              oldKeys.delete(childValue[identitySymbol]);
-            } else {
-              oldKeys.delete(i.toString());
-            }
-          }
-          for (const key of oldKeys) {
-            childrenMap.delete(key);
-          }
-        } else {
-          for (let key of childrenMap.keys()) {
-            if (!value.hasOwnProperty(key)) {
-              childrenMap.delete(key);
-            }
-          }
-        }
-      }
-      for (let key of Object.keys(value)) {
-        let trackingId = undefined;
-        const childValue = value[key];
-        if (childValue === undefined) {
-          childrenMap?.delete(key);
-          continue;
-        }
-        if (isValueArray && isObject(childValue) && !isArray(childValue)) {
-          trackingId = childValue[identitySymbol] ??= Symbol(ngDevMode ? `id:${globalId++}` : '');
-        }
-        const identity = trackingId ?? key;
-        if (childrenMap?.has(identity)) {
-          continue;
-        }
-        let childPath;
-        let childLogic;
-        if (isValueArray) {
-          childPath = pathNode.getChild(DYNAMIC);
-          childLogic = logic.getChild(DYNAMIC);
-        } else {
-          childPath = pathNode.getChild(key);
-          childLogic = logic.getChild(key);
-        }
-        childrenMap ??= new Map();
-        childrenMap.set(identity, createChildNode({
-          kind: 'child',
-          parent: node,
-          pathNode: childPath,
-          logic: childLogic,
-          initialKeyInParent: key,
-          identityInParent: trackingId,
-          fieldAdapter: adapter
-        }));
-      }
-      return childrenMap;
-    },
-    equal: () => false
-  });
-}
 function getDebugName(node) {
   return `<root>.${node.structure.pathKeys().join('.')}`;
+}
+function maybeRemoveStaleArrayFields(prevData, value, identitySymbol) {
+  let data;
+  const oldKeys = new Set(prevData.byPropertyKey.keys());
+  const oldTracking = new Set(prevData.byTrackingKey?.keys());
+  for (let i = 0; i < value.length; i++) {
+    const childValue = value[i];
+    oldKeys.delete(i.toString());
+    if (isObject(childValue) && childValue.hasOwnProperty(identitySymbol)) {
+      oldTracking.delete(childValue[identitySymbol]);
+    }
+  }
+  if (oldKeys.size > 0) {
+    data ??= {
+      ...prevData
+    };
+    for (const key of oldKeys) {
+      data.byPropertyKey.delete(key);
+    }
+  }
+  if (oldTracking.size > 0) {
+    data ??= {
+      ...prevData
+    };
+    for (const id of oldTracking) {
+      data.byTrackingKey?.delete(id);
+    }
+  }
+  return data;
+}
+function maybeRemoveStaleObjectFields(prevData, value) {
+  let data;
+  for (const key of prevData.byPropertyKey.keys()) {
+    if (!value.hasOwnProperty(key)) {
+      data ??= {
+        ...prevData
+      };
+      data.byPropertyKey.delete(key);
+    }
+  }
+  return data;
 }
 
 class FieldSubmitState {
@@ -1116,7 +1159,9 @@ class FieldNode {
     return this._context ??= new FieldNodeContext(this);
   }
   fieldProxy = new Proxy(() => this, FIELD_PROXY_HANDLER);
+  pathNode;
   constructor(options) {
+    this.pathNode = options.pathNode;
     this.fieldAdapter = options.fieldAdapter;
     this.structure = this.fieldAdapter.createStructure(this, options);
     this.validationState = this.fieldAdapter.createValidationState(this, options);
@@ -1266,11 +1311,28 @@ class FieldNode {
   static newRoot(fieldManager, value, pathNode, adapter) {
     return adapter.newRoot(fieldManager, value, pathNode, adapter);
   }
-  static newChild(options) {
-    return options.fieldAdapter.newChild(options);
-  }
   createStructure(options) {
-    return options.kind === 'root' ? new RootFieldNodeStructure(this, options.pathNode, options.logic, options.fieldManager, options.value, options.fieldAdapter, FieldNode.newChild) : new ChildFieldNodeStructure(this, options.pathNode, options.logic, options.parent, options.identityInParent, options.initialKeyInParent, options.fieldAdapter, FieldNode.newChild);
+    return options.kind === 'root' ? new RootFieldNodeStructure(this, options.logic, options.fieldManager, options.value, this.newChild.bind(this)) : new ChildFieldNodeStructure(this, options.logic, options.parent, options.identityInParent, options.initialKeyInParent, this.newChild.bind(this));
+  }
+  newChild(key, trackingId, isArray) {
+    let childPath;
+    let childLogic;
+    if (isArray) {
+      childPath = this.pathNode.getChild(DYNAMIC);
+      childLogic = this.structure.logic.getChild(DYNAMIC);
+    } else {
+      childPath = this.pathNode.getChild(key);
+      childLogic = this.structure.logic.getChild(key);
+    }
+    return this.fieldAdapter.newChild({
+      kind: 'child',
+      parent: this,
+      pathNode: childPath,
+      logic: childLogic,
+      initialKeyInParent: key,
+      identityInParent: trackingId,
+      fieldAdapter: this.fieldAdapter
+    });
   }
 }
 const EMPTY = computed(() => [], ...(ngDevMode ? [{
@@ -1308,13 +1370,13 @@ class FieldNodeState {
   }
   dirty = computed(() => {
     const selfDirtyValue = this.selfDirty() && !this.isNonInteractive();
-    return reduceChildren(this.node, selfDirtyValue, (child, value) => value || child.nodeState.dirty(), shortCircuitTrue);
+    return this.node.structure.reduceChildren(selfDirtyValue, (child, value) => value || child.nodeState.dirty(), shortCircuitTrue);
   }, ...(ngDevMode ? [{
     debugName: "dirty"
   }] : []));
   touched = computed(() => {
     const selfTouchedValue = this.selfTouched() && !this.isNonInteractive();
-    return reduceChildren(this.node, selfTouchedValue, (child, value) => value || child.nodeState.touched(), shortCircuitTrue);
+    return this.node.structure.reduceChildren(selfTouchedValue, (child, value) => value || child.nodeState.touched(), shortCircuitTrue);
   }, ...(ngDevMode ? [{
     debugName: "touched"
   }] : []));

@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.1+sha-fc23fcd
+ * @license Angular v21.1.0-next.1+sha-b96f65a
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1695,6 +1695,7 @@ declare class FieldNode implements FieldState<unknown> {
      * Proxy to this node which allows navigation of the form graph below it.
      */
     readonly fieldProxy: FieldTree<any>;
+    private readonly pathNode;
     constructor(options: FieldNodeOptions);
     /**
      * The `AbortController` for the currently debounced sync, or `undefined` if there is none.
@@ -1772,11 +1773,8 @@ declare class FieldNode implements FieldState<unknown> {
      * Creates a new root field node for a new form.
      */
     static newRoot<T>(fieldManager: FormFieldManager, value: WritableSignal<T>, pathNode: FieldPathNode, adapter: FieldAdapter): FieldNode;
-    /**
-     * Creates a child field node based on the given options.
-     */
-    private static newChild;
     createStructure(options: FieldNodeOptions): RootFieldNodeStructure | ChildFieldNodeStructure;
+    private newChild;
 }
 /**
  * Field node of a field that has children.
@@ -1798,12 +1796,16 @@ interface ParentFieldNode extends FieldNode {
 type TrackingKey = PropertyKey & {
     __brand: 'FieldIdentity';
 };
+type ChildNodeCtor = (key: string, trackingKey: TrackingKey | undefined, isArray: boolean) => FieldNode;
 /** Structural component of a `FieldNode` which tracks its path, parent, and children. */
 declare abstract class FieldNodeStructure {
-    /** The logic to apply to this field. */
-    readonly logic: LogicNode;
-    /** Computed map of child fields, based on the current value of this field. */
-    abstract readonly childrenMap: Signal<Map<TrackingKey, FieldNode> | undefined>;
+    /**
+     * Computed map of child fields, based on the current value of this field.
+     *
+     * This structure reacts to `this.value` and produces a new `ChildrenData` when the
+     * value changes structurally (fields added/removed/moved).
+     */
+    protected abstract readonly childrenMap: Signal<ChildrenData | undefined>;
     /** The field's value. */
     abstract readonly value: WritableSignal<unknown>;
     /**
@@ -1819,33 +1821,47 @@ declare abstract class FieldNodeStructure {
     abstract readonly pathKeys: Signal<readonly string[]>;
     /** The parent field of this field. */
     abstract readonly parent: FieldNode | undefined;
+    readonly logic: LogicNode;
+    readonly node: FieldNode;
+    readonly createChildNode: ChildNodeCtor;
     /** Added to array elements for tracking purposes. */
     readonly identitySymbol: symbol;
     /** Lazily initialized injector. Do not access directly, access via `injector` getter instead. */
     private _injector;
     /** Lazily initialized injector. */
     get injector(): DestroyableInjector;
-    constructor(
-    /** The logic to apply to this field. */
-    logic: LogicNode);
+    constructor(logic: LogicNode, node: FieldNode, createChildNode: ChildNodeCtor);
     /** Gets the child fields of this field. */
     children(): Iterable<FieldNode>;
     /** Retrieve a child `FieldNode` of this node by property key. */
     getChild(key: PropertyKey): FieldNode | undefined;
+    /**
+     * Perform a reduction over a field's children (if any) and return the result.
+     *
+     * Optionally, the reduction is short circuited based on the provided `shortCircuit` function.
+     */
+    reduceChildren<T>(initialValue: T, fn: (child: FieldNode, value: T) => T, shortCircuit?: (value: T) => boolean): T;
     /** Destroys the field when it is no longer needed. */
     destroy(): void;
+    protected createChildrenMap(): Signal<ChildrenData | undefined>;
+    /**
+     * Creates a "reader" computed for the given key.
+     *
+     * A reader is a computed signal that memoizes the access of the `FieldNode` stored at this key
+     * (or returns `undefined` if no such field exists). Accessing fields via the reader ensures that
+     * reactive consumers aren't notified unless the field at a key actually changes.
+     */
+    private createReader;
 }
 /** The structural component of a `FieldNode` that is the root of its field tree. */
 declare class RootFieldNodeStructure extends FieldNodeStructure {
-    /** The full field node that corresponds to this structure. */
-    private readonly node;
     readonly fieldManager: FormFieldManager;
     readonly value: WritableSignal<unknown>;
     get parent(): undefined;
     get root(): FieldNode;
     get pathKeys(): Signal<readonly string[]>;
     get keyInParent(): Signal<string>;
-    readonly childrenMap: Signal<Map<TrackingKey, FieldNode> | undefined>;
+    protected readonly childrenMap: Signal<ChildrenData | undefined>;
     /**
      * Creates the structure for the root node of a field tree.
      *
@@ -1859,16 +1875,17 @@ declare class RootFieldNodeStructure extends FieldNodeStructure {
      */
     constructor(
     /** The full field node that corresponds to this structure. */
-    node: FieldNode, pathNode: FieldPathNode, logic: LogicNode, fieldManager: FormFieldManager, value: WritableSignal<unknown>, adapter: FieldAdapter, createChildNode: (options: ChildFieldNodeOptions) => FieldNode);
+    node: FieldNode, logic: LogicNode, fieldManager: FormFieldManager, value: WritableSignal<unknown>, createChildNode: ChildNodeCtor);
 }
 /** The structural component of a child `FieldNode` within a field tree. */
 declare class ChildFieldNodeStructure extends FieldNodeStructure {
+    readonly logic: LogicNode;
     readonly parent: ParentFieldNode;
     readonly root: FieldNode;
     readonly pathKeys: Signal<readonly string[]>;
     readonly keyInParent: Signal<string>;
     readonly value: WritableSignal<unknown>;
-    readonly childrenMap: Signal<Map<TrackingKey, FieldNode> | undefined>;
+    readonly childrenMap: Signal<ChildrenData | undefined>;
     get fieldManager(): FormFieldManager;
     /**
      * Creates the structure for a child field node in a field tree.
@@ -1882,7 +1899,7 @@ declare class ChildFieldNodeStructure extends FieldNodeStructure {
      * @param adapter Adapter that knows how to create new fields and appropriate state.
      * @param createChildNode A factory function to create child nodes for this field.
      */
-    constructor(node: FieldNode, pathNode: FieldPathNode, logic: LogicNode, parent: ParentFieldNode, identityInParent: TrackingKey | undefined, initialKeyInParent: string, adapter: FieldAdapter, createChildNode: (options: ChildFieldNodeOptions) => FieldNode);
+    constructor(node: FieldNode, logic: LogicNode, parent: ParentFieldNode, identityInParent: TrackingKey | undefined, initialKeyInParent: string, createChildNode: ChildNodeCtor);
 }
 /** Options passed when constructing a root field node. */
 interface RootFieldNodeOptions {
@@ -1918,6 +1935,38 @@ interface ChildFieldNodeOptions {
 }
 /** Options passed when constructing a field node. */
 type FieldNodeOptions = RootFieldNodeOptions | ChildFieldNodeOptions;
+/**
+ * Derived data regarding child fields for a specific parent field.
+ */
+interface ChildrenData {
+    /**
+     * Tracks `ChildData` for each property key within the parent.
+     */
+    readonly byPropertyKey: ReadonlyMap<string, ChildData>;
+    /**
+     * Tracks the instance of child `FieldNode`s by their tracking key, which is always 1:1 with the
+     * fields, even if they move around in the parent.
+     */
+    readonly byTrackingKey?: ReadonlyMap<TrackingKey, FieldNode>;
+}
+/**
+ * Data for a specific child within a parent.
+ */
+interface ChildData {
+    /**
+     * A computed signal to access the `FieldNode` currently stored at a specific key.
+     *
+     * Because this is a computed, it only updates whenever the `FieldNode` at that key changes.
+     * Because `ChildData` is always associated with a specific key via `ChildrenData.byPropertyKey`,
+     * this computed gives a stable way to watch the field stored for a given property and only
+     * receives notifications when that field changes.
+     */
+    readonly reader: Signal<FieldNode | undefined>;
+    /**
+     * The child `FieldNode` currently stored at this key.
+     */
+    node: FieldNode;
+}
 
 /**
  * Manages the collection of fields associated with a given `form`.
