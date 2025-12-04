@@ -1,263 +1,16 @@
 /**
- * @license Angular v21.1.0-next.1+sha-b96f65a
+ * @license Angular v21.1.0-next.1+sha-5be3304
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { httpResource } from '@angular/common/http';
+import { assertPathIsCurrent, DEBOUNCER, FieldPathNode, REQUIRED, isArray, addDefaultField, metadata, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN } from './_structure-chunk.mjs';
+export { AggregateMetadataKey, MetadataKey, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, form, listMetadataKey, maxMetadataKey, minMetadataKey, orMetadataKey, reducedMetadataKey, schema, submit } from './_structure-chunk.mjs';
 import * as i0 from '@angular/core';
-import { computed, InjectionToken, inject, Injector, input, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
-import { isArray, assertPathIsCurrent, addDefaultField, FieldPathNode, createMetadataKey, DEBOUNCER, REQUIRED, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN } from './_structure-chunk.mjs';
-export { AggregateMetadataKey, MetadataKey, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, form, listMetadataKey, maxMetadataKey, minMetadataKey, orMetadataKey, reducedMetadataKey, schema, submit } from './_structure-chunk.mjs';
+import { InjectionToken, inject, Injector, computed, input, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { httpResource } from '@angular/common/http';
 import '@angular/core/primitives/signals';
-
-function requiredError(options) {
-  return new RequiredValidationError(options);
-}
-function minError(min, options) {
-  return new MinValidationError(min, options);
-}
-function maxError(max, options) {
-  return new MaxValidationError(max, options);
-}
-function minLengthError(minLength, options) {
-  return new MinLengthValidationError(minLength, options);
-}
-function maxLengthError(maxLength, options) {
-  return new MaxLengthValidationError(maxLength, options);
-}
-function patternError(pattern, options) {
-  return new PatternValidationError(pattern, options);
-}
-function emailError(options) {
-  return new EmailValidationError(options);
-}
-function standardSchemaError(issue, options) {
-  return new StandardSchemaValidationError(issue, options);
-}
-function customError(obj) {
-  return new CustomValidationError(obj);
-}
-class CustomValidationError {
-  __brand = undefined;
-  kind = '';
-  field;
-  message;
-  constructor(options) {
-    if (options) {
-      Object.assign(this, options);
-    }
-  }
-}
-class _NgValidationError {
-  __brand = undefined;
-  kind = '';
-  field;
-  message;
-  constructor(options) {
-    if (options) {
-      Object.assign(this, options);
-    }
-  }
-}
-class RequiredValidationError extends _NgValidationError {
-  kind = 'required';
-}
-class MinValidationError extends _NgValidationError {
-  min;
-  kind = 'min';
-  constructor(min, options) {
-    super(options);
-    this.min = min;
-  }
-}
-class MaxValidationError extends _NgValidationError {
-  max;
-  kind = 'max';
-  constructor(max, options) {
-    super(options);
-    this.max = max;
-  }
-}
-class MinLengthValidationError extends _NgValidationError {
-  minLength;
-  kind = 'minLength';
-  constructor(minLength, options) {
-    super(options);
-    this.minLength = minLength;
-  }
-}
-class MaxLengthValidationError extends _NgValidationError {
-  maxLength;
-  kind = 'maxLength';
-  constructor(maxLength, options) {
-    super(options);
-    this.maxLength = maxLength;
-  }
-}
-class PatternValidationError extends _NgValidationError {
-  pattern;
-  kind = 'pattern';
-  constructor(pattern, options) {
-    super(options);
-    this.pattern = pattern;
-  }
-}
-class EmailValidationError extends _NgValidationError {
-  kind = 'email';
-}
-class StandardSchemaValidationError extends _NgValidationError {
-  issue;
-  kind = 'standardSchema';
-  constructor(issue, options) {
-    super(options);
-    this.issue = issue;
-  }
-}
-const NgValidationError = _NgValidationError;
-
-function getLengthOrSize(value) {
-  const v = value;
-  return typeof v.length === 'number' ? v.length : v.size;
-}
-function getOption(opt, ctx) {
-  return opt instanceof Function ? opt(ctx) : opt;
-}
-function isEmpty(value) {
-  if (typeof value === 'number') {
-    return isNaN(value);
-  }
-  return value === '' || value === false || value == null;
-}
-function isPlainError(error) {
-  return typeof error === 'object' && (Object.getPrototypeOf(error) === Object.prototype || Object.getPrototypeOf(error) === null);
-}
-function ensureCustomValidationError(error) {
-  if (isPlainError(error)) {
-    return customError(error);
-  }
-  return error;
-}
-function ensureCustomValidationResult(result) {
-  if (result === null || result === undefined) {
-    return result;
-  }
-  if (isArray(result)) {
-    return result.map(ensureCustomValidationError);
-  }
-  return ensureCustomValidationError(result);
-}
-
-function disabled(path, logic) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addDisabledReasonRule(ctx => {
-    let result = true;
-    if (typeof logic === 'string') {
-      result = logic;
-    } else if (logic) {
-      result = logic(ctx);
-    }
-    if (typeof result === 'string') {
-      return {
-        field: ctx.field,
-        message: result
-      };
-    }
-    return result ? {
-      field: ctx.field
-    } : undefined;
-  });
-}
-function readonly(path, logic = () => true) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addReadonlyRule(logic);
-}
-function hidden(path, logic) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addHiddenRule(logic);
-}
-function validate(path, logic) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addSyncErrorRule(ctx => {
-    return ensureCustomValidationResult(addDefaultField(logic(ctx), ctx.field));
-  });
-}
-function validateTree(path, logic) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addSyncTreeErrorRule(ctx => addDefaultField(logic(ctx), ctx.field));
-}
-function aggregateMetadata(path, key, logic) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addAggregateMetadataRule(key, logic);
-}
-function metadata(path, ...rest) {
-  assertPathIsCurrent(path);
-  let key;
-  let factory;
-  if (rest.length === 2) {
-    [key, factory] = rest;
-  } else {
-    [factory] = rest;
-  }
-  key ??= createMetadataKey();
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addMetadataFactory(key, factory);
-  return key;
-}
-
-function validateAsync(path, opts) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  const RESOURCE = metadata(path, ctx => {
-    const params = computed(() => {
-      const node = ctx.stateOf(path);
-      const validationState = node.validationState;
-      if (validationState.shouldSkipValidation() || !validationState.syncValid()) {
-        return undefined;
-      }
-      return opts.params(ctx);
-    }, ...(ngDevMode ? [{
-      debugName: "params"
-    }] : []));
-    return opts.factory(params);
-  });
-  pathNode.builder.addAsyncErrorRule(ctx => {
-    const res = ctx.state.metadata(RESOURCE);
-    let errors;
-    switch (res.status()) {
-      case 'idle':
-        return undefined;
-      case 'loading':
-      case 'reloading':
-        return 'pending';
-      case 'resolved':
-      case 'local':
-        if (!res.hasValue()) {
-          return undefined;
-        }
-        errors = opts.onSuccess(res.value(), ctx);
-        return addDefaultField(errors, ctx.field);
-      case 'error':
-        errors = opts.onError(res.error(), ctx);
-        return addDefaultField(errors, ctx.field);
-    }
-  });
-}
-function validateHttp(path, opts) {
-  validateAsync(path, {
-    params: opts.request,
-    factory: request => httpResource(request, opts.options),
-    onSuccess: opts.onSuccess,
-    onError: opts.onError
-  });
-}
 
 function debounce(path, durationOrDebouncer) {
   assertPathIsCurrent(path);
@@ -398,7 +151,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.1+sha-b96f65a",
+    version: "21.1.0-next.1+sha-5be3304",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -406,7 +159,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.1+sha-b96f65a",
+    version: "21.1.0-next.1+sha-5be3304",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -431,7 +184,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.1+sha-b96f65a",
+  version: "21.1.0-next.1+sha-5be3304",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -458,6 +211,197 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
+
+function aggregateMetadata(path, key, logic) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addAggregateMetadataRule(key, logic);
+}
+
+function disabled(path, logic) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addDisabledReasonRule(ctx => {
+    let result = true;
+    if (typeof logic === 'string') {
+      result = logic;
+    } else if (logic) {
+      result = logic(ctx);
+    }
+    if (typeof result === 'string') {
+      return {
+        field: ctx.field,
+        message: result
+      };
+    }
+    return result ? {
+      field: ctx.field
+    } : undefined;
+  });
+}
+
+function hidden(path, logic) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addHiddenRule(logic);
+}
+
+function readonly(path, logic = () => true) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addReadonlyRule(logic);
+}
+
+function requiredError(options) {
+  return new RequiredValidationError(options);
+}
+function minError(min, options) {
+  return new MinValidationError(min, options);
+}
+function maxError(max, options) {
+  return new MaxValidationError(max, options);
+}
+function minLengthError(minLength, options) {
+  return new MinLengthValidationError(minLength, options);
+}
+function maxLengthError(maxLength, options) {
+  return new MaxLengthValidationError(maxLength, options);
+}
+function patternError(pattern, options) {
+  return new PatternValidationError(pattern, options);
+}
+function emailError(options) {
+  return new EmailValidationError(options);
+}
+function standardSchemaError(issue, options) {
+  return new StandardSchemaValidationError(issue, options);
+}
+function customError(obj) {
+  return new CustomValidationError(obj);
+}
+class CustomValidationError {
+  __brand = undefined;
+  kind = '';
+  field;
+  message;
+  constructor(options) {
+    if (options) {
+      Object.assign(this, options);
+    }
+  }
+}
+class _NgValidationError {
+  __brand = undefined;
+  kind = '';
+  field;
+  message;
+  constructor(options) {
+    if (options) {
+      Object.assign(this, options);
+    }
+  }
+}
+class RequiredValidationError extends _NgValidationError {
+  kind = 'required';
+}
+class MinValidationError extends _NgValidationError {
+  min;
+  kind = 'min';
+  constructor(min, options) {
+    super(options);
+    this.min = min;
+  }
+}
+class MaxValidationError extends _NgValidationError {
+  max;
+  kind = 'max';
+  constructor(max, options) {
+    super(options);
+    this.max = max;
+  }
+}
+class MinLengthValidationError extends _NgValidationError {
+  minLength;
+  kind = 'minLength';
+  constructor(minLength, options) {
+    super(options);
+    this.minLength = minLength;
+  }
+}
+class MaxLengthValidationError extends _NgValidationError {
+  maxLength;
+  kind = 'maxLength';
+  constructor(maxLength, options) {
+    super(options);
+    this.maxLength = maxLength;
+  }
+}
+class PatternValidationError extends _NgValidationError {
+  pattern;
+  kind = 'pattern';
+  constructor(pattern, options) {
+    super(options);
+    this.pattern = pattern;
+  }
+}
+class EmailValidationError extends _NgValidationError {
+  kind = 'email';
+}
+class StandardSchemaValidationError extends _NgValidationError {
+  issue;
+  kind = 'standardSchema';
+  constructor(issue, options) {
+    super(options);
+    this.issue = issue;
+  }
+}
+const NgValidationError = _NgValidationError;
+
+function getLengthOrSize(value) {
+  const v = value;
+  return typeof v.length === 'number' ? v.length : v.size;
+}
+function getOption(opt, ctx) {
+  return opt instanceof Function ? opt(ctx) : opt;
+}
+function isEmpty(value) {
+  if (typeof value === 'number') {
+    return isNaN(value);
+  }
+  return value === '' || value === false || value == null;
+}
+function isPlainError(error) {
+  return typeof error === 'object' && (Object.getPrototypeOf(error) === Object.prototype || Object.getPrototypeOf(error) === null);
+}
+function ensureCustomValidationError(error) {
+  if (isPlainError(error)) {
+    return customError(error);
+  }
+  return error;
+}
+function ensureCustomValidationResult(result) {
+  if (result === null || result === undefined) {
+    return result;
+  }
+  if (isArray(result)) {
+    return result.map(ensureCustomValidationError);
+  }
+  return ensureCustomValidationError(result);
+}
+
+function validate(path, logic) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addSyncErrorRule(ctx => {
+    return ensureCustomValidationResult(addDefaultField(logic(ctx), ctx.field));
+  });
+}
+
+function validateTree(path, logic) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addSyncTreeErrorRule(ctx => addDefaultField(logic(ctx), ctx.field));
+}
 
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 function email(path, config) {
@@ -631,6 +575,45 @@ function required(path, config) {
   });
 }
 
+function validateAsync(path, opts) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  const RESOURCE = metadata(path, ctx => {
+    const params = computed(() => {
+      const node = ctx.stateOf(path);
+      const validationState = node.validationState;
+      if (validationState.shouldSkipValidation() || !validationState.syncValid()) {
+        return undefined;
+      }
+      return opts.params(ctx);
+    }, ...(ngDevMode ? [{
+      debugName: "params"
+    }] : []));
+    return opts.factory(params);
+  });
+  pathNode.builder.addAsyncErrorRule(ctx => {
+    const res = ctx.state.metadata(RESOURCE);
+    let errors;
+    switch (res.status()) {
+      case 'idle':
+        return undefined;
+      case 'loading':
+      case 'reloading':
+        return 'pending';
+      case 'resolved':
+      case 'local':
+        if (!res.hasValue()) {
+          return undefined;
+        }
+        errors = opts.onSuccess(res.value(), ctx);
+        return addDefaultField(errors, ctx.field);
+      case 'error':
+        errors = opts.onError(res.error(), ctx);
+        return addDefaultField(errors, ctx.field);
+    }
+  });
+}
+
 function validateStandardSchema(path, schema) {
   const VALIDATOR_MEMO = metadata(path, ({
     value
@@ -681,5 +664,14 @@ function standardIssueToFormTreeError(field, issue) {
   }), target);
 }
 
-export { CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, createMetadataKey, customError, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+function validateHttp(path, opts) {
+  validateAsync(path, {
+    params: opts.request,
+    factory: request => httpResource(request, opts.options),
+    onSuccess: opts.onSuccess,
+    onError: opts.onError
+  });
+}
+
+export { CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, customError, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 //# sourceMappingURL=signals.mjs.map

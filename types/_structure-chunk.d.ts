@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.1+sha-b96f65a
+ * @license Angular v21.1.0-next.1+sha-5be3304
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -207,6 +207,31 @@ declare const MAX_LENGTH: AggregateMetadataKey<number | undefined, number | unde
  * @experimental 21.0.0
  */
 declare const PATTERN: AggregateMetadataKey<RegExp[], RegExp | undefined>;
+/**
+ * Creates a new {@link MetadataKey} and defines the value of the new metadata key for the given field.
+ *
+ * @param path The path to define the metadata for.
+ * @param factory A factory function that creates the value for the metadata.
+ *   This function is **not** reactive. It is run once when the field is created.
+ * @returns The newly created metadata key
+ *
+ * @category logic
+ * @experimental 21.0.0
+ */
+declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
+/**
+ * Defines the value of a {@link MetadataKey} for a given field.
+ *
+ * @param path The path to define the metadata for.
+ * @param key  The metadata key to define.
+ * @param factory A factory function that creates the value for the metadata.
+ *   This function is **not** reactive. It is run once when the field is created.
+ * @returns The given metadata key
+ *
+ * @category logic
+ * @experimental 21.0.0
+ */
+declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: MetadataKey<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
 
 /**
  * Options used to create a `ValidationError`.
@@ -2313,5 +2338,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit };
+export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, metadata, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit };
 export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };

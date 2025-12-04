@@ -1,144 +1,12 @@
 /**
- * @license Angular v21.1.0-next.1+sha-b96f65a
+ * @license Angular v21.1.0-next.1+sha-5be3304
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { computed, untracked, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, inject } from '@angular/core';
+import { untracked, computed, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, inject } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
-
-function isArray(value) {
-  return Array.isArray(value);
-}
-function isObject(value) {
-  return (typeof value === 'object' || typeof value === 'function') && value != null;
-}
-
-function shortCircuitFalse(value) {
-  return !value;
-}
-function shortCircuitTrue(value) {
-  return value;
-}
-function getInjectorFromOptions(options) {
-  if (options.kind === 'root') {
-    return options.fieldManager.injector;
-  }
-  return options.parent.structure.root.structure.injector;
-}
-
-function calculateValidationSelfStatus(state) {
-  if (state.errors().length > 0) {
-    return 'invalid';
-  }
-  if (state.pending()) {
-    return 'unknown';
-  }
-  return 'valid';
-}
-class FieldValidationState {
-  node;
-  constructor(node) {
-    this.node = node;
-  }
-  rawSyncTreeErrors = computed(() => {
-    if (this.shouldSkipValidation()) {
-      return [];
-    }
-    return [...this.node.logicNode.logic.syncTreeErrors.compute(this.node.context), ...(this.node.structure.parent?.validationState.rawSyncTreeErrors() ?? [])];
-  }, ...(ngDevMode ? [{
-    debugName: "rawSyncTreeErrors"
-  }] : []));
-  syncErrors = computed(() => {
-    if (this.shouldSkipValidation()) {
-      return [];
-    }
-    return [...this.node.logicNode.logic.syncErrors.compute(this.node.context), ...this.syncTreeErrors(), ...normalizeErrors(this.node.submitState.serverErrors())];
-  }, ...(ngDevMode ? [{
-    debugName: "syncErrors"
-  }] : []));
-  syncValid = computed(() => {
-    if (this.shouldSkipValidation()) {
-      return true;
-    }
-    return this.node.structure.reduceChildren(this.syncErrors().length === 0, (child, value) => value && child.validationState.syncValid(), shortCircuitFalse);
-  }, ...(ngDevMode ? [{
-    debugName: "syncValid"
-  }] : []));
-  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.field === this.node.fieldProxy), ...(ngDevMode ? [{
-    debugName: "syncTreeErrors"
-  }] : []));
-  rawAsyncErrors = computed(() => {
-    if (this.shouldSkipValidation()) {
-      return [];
-    }
-    return [...this.node.logicNode.logic.asyncErrors.compute(this.node.context), ...(this.node.structure.parent?.validationState.rawAsyncErrors() ?? [])];
-  }, ...(ngDevMode ? [{
-    debugName: "rawAsyncErrors"
-  }] : []));
-  asyncErrors = computed(() => {
-    if (this.shouldSkipValidation()) {
-      return [];
-    }
-    return this.rawAsyncErrors().filter(err => err === 'pending' || err.field === this.node.fieldProxy);
-  }, ...(ngDevMode ? [{
-    debugName: "asyncErrors"
-  }] : []));
-  errors = computed(() => [...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], ...(ngDevMode ? [{
-    debugName: "errors"
-  }] : []));
-  errorSummary = computed(() => this.node.structure.reduceChildren(this.errors(), (child, result) => [...result, ...child.errorSummary()]), ...(ngDevMode ? [{
-    debugName: "errorSummary"
-  }] : []));
-  pending = computed(() => this.node.structure.reduceChildren(this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), ...(ngDevMode ? [{
-    debugName: "pending"
-  }] : []));
-  status = computed(() => {
-    if (this.shouldSkipValidation()) {
-      return 'valid';
-    }
-    let ownStatus = calculateValidationSelfStatus(this);
-    return this.node.structure.reduceChildren(ownStatus, (child, value) => {
-      if (value === 'invalid' || child.validationState.status() === 'invalid') {
-        return 'invalid';
-      } else if (value === 'unknown' || child.validationState.status() === 'unknown') {
-        return 'unknown';
-      }
-      return 'valid';
-    }, v => v === 'invalid');
-  }, ...(ngDevMode ? [{
-    debugName: "status"
-  }] : []));
-  valid = computed(() => this.status() === 'valid', ...(ngDevMode ? [{
-    debugName: "valid"
-  }] : []));
-  invalid = computed(() => this.status() === 'invalid', ...(ngDevMode ? [{
-    debugName: "invalid"
-  }] : []));
-  shouldSkipValidation = computed(() => this.node.hidden() || this.node.disabled() || this.node.readonly(), ...(ngDevMode ? [{
-    debugName: "shouldSkipValidation"
-  }] : []));
-}
-function normalizeErrors(error) {
-  if (error === undefined) {
-    return [];
-  }
-  if (isArray(error)) {
-    return error;
-  }
-  return [error];
-}
-function addDefaultField(errors, field) {
-  if (isArray(errors)) {
-    for (const error of errors) {
-      error.field ??= field;
-    }
-  } else if (errors) {
-    errors.field ??= field;
-  }
-  return errors;
-}
 
 let boundPathDepth = 0;
 function getBoundPathDepth() {
@@ -153,6 +21,13 @@ function setBoundPathDepthForResolution(fn, depth) {
       boundPathDepth = 0;
     }
   };
+}
+
+function isArray(value) {
+  return Array.isArray(value);
+}
+function isObject(value) {
+  return (typeof value === 'object' || typeof value === 'function') && value != null;
 }
 
 const DYNAMIC = Symbol();
@@ -699,8 +574,147 @@ const MAX = minMetadataKey();
 const MIN_LENGTH = maxMetadataKey();
 const MAX_LENGTH = minMetadataKey();
 const PATTERN = listMetadataKey();
+function metadata(path, ...rest) {
+  assertPathIsCurrent(path);
+  let key;
+  let factory;
+  if (rest.length === 2) {
+    [key, factory] = rest;
+  } else {
+    [factory] = rest;
+  }
+  key ??= createMetadataKey();
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addMetadataFactory(key, factory);
+  return key;
+}
 
 const DEBOUNCER = reducedMetadataKey((_, item) => item, () => undefined);
+
+function shortCircuitFalse(value) {
+  return !value;
+}
+function shortCircuitTrue(value) {
+  return value;
+}
+function getInjectorFromOptions(options) {
+  if (options.kind === 'root') {
+    return options.fieldManager.injector;
+  }
+  return options.parent.structure.root.structure.injector;
+}
+
+function calculateValidationSelfStatus(state) {
+  if (state.errors().length > 0) {
+    return 'invalid';
+  }
+  if (state.pending()) {
+    return 'unknown';
+  }
+  return 'valid';
+}
+class FieldValidationState {
+  node;
+  constructor(node) {
+    this.node = node;
+  }
+  rawSyncTreeErrors = computed(() => {
+    if (this.shouldSkipValidation()) {
+      return [];
+    }
+    return [...this.node.logicNode.logic.syncTreeErrors.compute(this.node.context), ...(this.node.structure.parent?.validationState.rawSyncTreeErrors() ?? [])];
+  }, ...(ngDevMode ? [{
+    debugName: "rawSyncTreeErrors"
+  }] : []));
+  syncErrors = computed(() => {
+    if (this.shouldSkipValidation()) {
+      return [];
+    }
+    return [...this.node.logicNode.logic.syncErrors.compute(this.node.context), ...this.syncTreeErrors(), ...normalizeErrors(this.node.submitState.serverErrors())];
+  }, ...(ngDevMode ? [{
+    debugName: "syncErrors"
+  }] : []));
+  syncValid = computed(() => {
+    if (this.shouldSkipValidation()) {
+      return true;
+    }
+    return this.node.structure.reduceChildren(this.syncErrors().length === 0, (child, value) => value && child.validationState.syncValid(), shortCircuitFalse);
+  }, ...(ngDevMode ? [{
+    debugName: "syncValid"
+  }] : []));
+  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.field === this.node.fieldProxy), ...(ngDevMode ? [{
+    debugName: "syncTreeErrors"
+  }] : []));
+  rawAsyncErrors = computed(() => {
+    if (this.shouldSkipValidation()) {
+      return [];
+    }
+    return [...this.node.logicNode.logic.asyncErrors.compute(this.node.context), ...(this.node.structure.parent?.validationState.rawAsyncErrors() ?? [])];
+  }, ...(ngDevMode ? [{
+    debugName: "rawAsyncErrors"
+  }] : []));
+  asyncErrors = computed(() => {
+    if (this.shouldSkipValidation()) {
+      return [];
+    }
+    return this.rawAsyncErrors().filter(err => err === 'pending' || err.field === this.node.fieldProxy);
+  }, ...(ngDevMode ? [{
+    debugName: "asyncErrors"
+  }] : []));
+  errors = computed(() => [...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], ...(ngDevMode ? [{
+    debugName: "errors"
+  }] : []));
+  errorSummary = computed(() => this.node.structure.reduceChildren(this.errors(), (child, result) => [...result, ...child.errorSummary()]), ...(ngDevMode ? [{
+    debugName: "errorSummary"
+  }] : []));
+  pending = computed(() => this.node.structure.reduceChildren(this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), ...(ngDevMode ? [{
+    debugName: "pending"
+  }] : []));
+  status = computed(() => {
+    if (this.shouldSkipValidation()) {
+      return 'valid';
+    }
+    let ownStatus = calculateValidationSelfStatus(this);
+    return this.node.structure.reduceChildren(ownStatus, (child, value) => {
+      if (value === 'invalid' || child.validationState.status() === 'invalid') {
+        return 'invalid';
+      } else if (value === 'unknown' || child.validationState.status() === 'unknown') {
+        return 'unknown';
+      }
+      return 'valid';
+    }, v => v === 'invalid');
+  }, ...(ngDevMode ? [{
+    debugName: "status"
+  }] : []));
+  valid = computed(() => this.status() === 'valid', ...(ngDevMode ? [{
+    debugName: "valid"
+  }] : []));
+  invalid = computed(() => this.status() === 'invalid', ...(ngDevMode ? [{
+    debugName: "invalid"
+  }] : []));
+  shouldSkipValidation = computed(() => this.node.hidden() || this.node.disabled() || this.node.readonly(), ...(ngDevMode ? [{
+    debugName: "shouldSkipValidation"
+  }] : []));
+}
+function normalizeErrors(error) {
+  if (error === undefined) {
+    return [];
+  }
+  if (isArray(error)) {
+    return error;
+  }
+  return [error];
+}
+function addDefaultField(errors, field) {
+  if (isArray(errors)) {
+    for (const error of errors) {
+      error.field ??= field;
+    }
+  } else if (errors) {
+    errors.field ??= field;
+  }
+  return errors;
+}
 
 class FieldNodeContext {
   node;
@@ -1568,5 +1582,5 @@ function markAllAsTouched(node) {
   }
 }
 
-export { AggregateMetadataKey, BasicFieldAdapter, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, PATTERN, REQUIRED, addDefaultField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createMetadataKey, form, getInjectorFromOptions, isArray, listMetadataKey, maxMetadataKey, minMetadataKey, normalizeFormArgs, orMetadataKey, reducedMetadataKey, schema, submit };
+export { AggregateMetadataKey, BasicFieldAdapter, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, PATTERN, REQUIRED, addDefaultField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createMetadataKey, form, getInjectorFromOptions, isArray, listMetadataKey, maxMetadataKey, metadata, minMetadataKey, normalizeFormArgs, orMetadataKey, reducedMetadataKey, schema, submit };
 //# sourceMappingURL=_structure-chunk.mjs.map
