@@ -1,151 +1,15 @@
 /**
- * @license Angular v21.0.3+sha-c3bd22d
+ * @license Angular v21.0.3+sha-28e7546
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
-import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef } from '@angular/core';
-import { PathKind, FieldContext, TreeValidationResult, SchemaPath, SchemaPathRules, WithOptionalField, ValidationError, DisabledReason, Debouncer, LogicFn, FieldValidator, TreeValidator, AggregateMetadataKey, MetadataKey, OneOrMany, SchemaPathTree } from './_structure-chunk.js';
-export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, CustomValidationError, EmailValidationError, FIELD, Field, FieldState, FieldTree, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, SubmittedStatus, ValidationResult, ValidationSuccess, Validator, WithField, WithoutField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
+import { InputSignal, InputSignalWithTransform, ModelSignal, OutputRef, Signal, ResourceRef } from '@angular/core';
+import { WithOptionalField, ValidationError, DisabledReason, PathKind, SchemaPath, SchemaPathRules, Debouncer, AggregateMetadataKey, LogicFn, FieldValidator, TreeValidator, OneOrMany, SchemaPathTree, FieldContext, TreeValidationResult } from './_structure-chunk.js';
+export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, CustomValidationError, EmailValidationError, FIELD, Field, FieldState, FieldTree, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, SubmittedStatus, ValidationResult, ValidationSuccess, Validator, WithField, WithoutField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, metadata, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
 import { StandardSchemaV1 } from '@standard-schema/spec';
+import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import '@angular/forms';
-
-/**
- * A function that takes the result of an async operation and the current field context, and maps it
- * to a list of validation errors.
- *
- * @param result The result of the async operation.
- * @param ctx The context for the field the validator is attached to.
- * @return A validation error, or list of validation errors to report based on the result of the async operation.
- *   The returned errors can optionally specify a field that the error should be targeted to.
- *   A targeted error will show up as an error on its target field rather than the field being validated.
- *   If a field is not given, the error is assumed to apply to the field being validated.
- * @template TValue The type of value stored in the field being validated.
- * @template TResult The type of result returned by the async operation
- * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
- *
- * @experimental 21.0.0
- */
-type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> = (result: TResult, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
-/**
- * Options that indicate how to create a resource for async validation for a field,
- * and map its result to validation errors.
- *
- * @template TValue The type of value stored in the field being validated.
- * @template TParams The type of parameters to the resource.
- * @template TResult The type of result returned by the resource
- * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
- *
- * @category validation
- * @experimental 21.0.0
- */
-interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root> {
-    /**
-     * A function that receives the field context and returns the params for the resource.
-     *
-     * @param ctx The field context for the field being validated.
-     * @returns The params for the resource.
-     */
-    readonly params: (ctx: FieldContext<TValue, TPathKind>) => TParams;
-    /**
-     * A function that receives the resource params and returns a resource of the given params.
-     * The given params should be used as is to create the resource.
-     * The forms system will report the params as `undefined` when this validation doesn't need to be run.
-     *
-     * @param params The params to use for constructing the resource
-     * @returns A reference to the constructed resource.
-     */
-    readonly factory: (params: Signal<TParams | undefined>) => ResourceRef<TResult | undefined>;
-    /**
-     * A function to handle errors thrown by httpResource (HTTP errors, network errors, etc.).
-     * Receives the error and the field context, returns a list of validation errors.
-     */
-    readonly onError: (error: unknown, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
-    /**
-     * A function that takes the resource result, and the current field context and maps it to a list
-     * of validation errors.
-     *
-     * @param result The resource result.
-     * @param ctx The context for the field the validator is attached to.
-     * @return A validation error, or list of validation errors to report based on the resource result.
-     *   The returned errors can optionally specify a field that the error should be targeted to.
-     *   A targeted error will show up as an error on its target field rather than the field being validated.
-     *   If a field is not given, the error is assumed to apply to the field being validated.
-     */
-    readonly onSuccess: MapToErrorsFn<TValue, TResult, TPathKind>;
-}
-/**
- * Options that indicate how to create an httpResource for async validation for a field,
- * and map its result to validation errors.
- *
- * @template TValue The type of value stored in the field being validated.
- * @template TResult The type of result returned by the httpResource
- * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
- *
- * @category validation
- * @experimental 21.0.0
- */
-interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = PathKind.Root> {
-    /**
-     * A function that receives the field context and returns the url or request for the httpResource.
-     * If given a URL, the underlying httpResource will perform an HTTP GET on it.
-     *
-     * @param ctx The field context for the field being validated.
-     * @returns The URL or request for creating the httpResource.
-     */
-    readonly request: ((ctx: FieldContext<TValue, TPathKind>) => string | undefined) | ((ctx: FieldContext<TValue, TPathKind>) => HttpResourceRequest | undefined);
-    /**
-     * A function that takes the httpResource result, and the current field context and maps it to a
-     * list of validation errors.
-     *
-     * @param result The httpResource result.
-     * @param ctx The context for the field the validator is attached to.
-     * @return A validation error, or list of validation errors to report based on the httpResource result.
-     *   The returned errors can optionally specify a field that the error should be targeted to.
-     *   A targeted error will show up as an error on its target field rather than the field being validated.
-     *   If a field is not given, the error is assumed to apply to the field being validated.
-     */
-    readonly onSuccess: MapToErrorsFn<TValue, TResult, TPathKind>;
-    /**
-     * A function to handle errors thrown by httpResource (HTTP errors, network errors, etc.).
-     * Receives the error and the field context, returns a list of validation errors.
-     */
-    readonly onError: (error: unknown, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
-    /**
-     * The options to use when creating the httpResource.
-     */
-    readonly options?: HttpResourceOptions<TResult, unknown>;
-}
-/**
- * Adds async validation to the field corresponding to the given path based on a resource.
- * Async validation for a field only runs once all synchronous validation is passing.
- *
- * @param path A path indicating the field to bind the async validation logic to.
- * @param opts The async validation options.
- * @template TValue The type of value stored in the field being validated.
- * @template TParams The type of parameters to the resource.
- * @template TResult The type of result returned by the resource
- * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: AsyncValidatorOptions<TValue, TParams, TResult, TPathKind>): void;
-/**
- * Adds async validation to the field corresponding to the given path based on an httpResource.
- * Async validation for a field only runs once all synchronous validation is passing.
- *
- * @param path A path indicating the field to bind the async validation logic to.
- * @param opts The http validation options.
- * @template TValue The type of value stored in the field being validated.
- * @template TResult The type of result returned by the httpResource
- * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: HttpValidatorOptions<TValue, TResult, TPathKind>): void;
 
 /**
  * The base set of properties shared by all form control contracts.
@@ -301,6 +165,21 @@ interface FormCheckboxControl extends FormUiControl {
 declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
 
 /**
+ * Adds a value to an {@link AggregateMetadataKey} of a field.
+ *
+ * @param path The target path to set the aggregate metadata on.
+ * @param key The aggregate metadata key
+ * @param logic A function that receives the `FieldContext` and returns a value to add to the aggregate metadata.
+ * @template TValue The type of value stored in the field the logic is bound to.
+ * @template TMetadataItem The type of value the metadata aggregates over.
+ * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @category logic
+ * @experimental 21.0.0
+ */
+declare function aggregateMetadata<TValue, TMetadataItem, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: AggregateMetadataKey<any, TMetadataItem>, logic: NoInfer<LogicFn<TValue, TMetadataItem, TPathKind>>): void;
+
+/**
  * Adds logic to a field to conditionally disable it. A disabled field does not contribute to the
  * validation, touched/dirty, or other state of its parent field.
  *
@@ -314,19 +193,7 @@ declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @experimental 21.0.0
  */
 declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: string | NoInfer<LogicFn<TValue, boolean | string, TPathKind>>): void;
-/**
- * Adds logic to a field to conditionally make it readonly. A readonly field does not contribute to
- * the validation, touched/dirty, or other state of its parent field.
- *
- * @param path The target path to make readonly.
- * @param logic A reactive function that returns `true` when the field is readonly.
- * @template TValue The type of value stored in the field the logic is bound to.
- * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
- *
- * @category logic
- * @experimental 21.0.0
- */
-declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
+
 /**
  * Adds logic to a field to conditionally hide it. A hidden field does not contribute to the
  * validation, touched/dirty, or other state of its parent field.
@@ -348,6 +215,21 @@ declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @experimental 21.0.0
  */
 declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
+
+/**
+ * Adds logic to a field to conditionally make it readonly. A readonly field does not contribute to
+ * the validation, touched/dirty, or other state of its parent field.
+ *
+ * @param path The target path to make readonly.
+ * @param logic A reactive function that returns `true` when the field is readonly.
+ * @template TValue The type of value stored in the field the logic is bound to.
+ * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @category logic
+ * @experimental 21.0.0
+ */
+declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
+
 /**
  * Adds logic to a field to determine if the field has validation errors.
  *
@@ -360,6 +242,7 @@ declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path
  * @experimental 21.0.0
  */
 declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<FieldValidator<TValue, TPathKind>>): void;
+
 /**
  * Adds logic to a field to determine if the field or any of its child fields has validation errors.
  *
@@ -373,45 +256,6 @@ declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @experimental 21.0.0
  */
 declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
-/**
- * Adds a value to an {@link AggregateMetadataKey} of a field.
- *
- * @param path The target path to set the aggregate metadata on.
- * @param key The aggregate metadata key
- * @param logic A function that receives the `FieldContext` and returns a value to add to the aggregate metadata.
- * @template TValue The type of value stored in the field the logic is bound to.
- * @template TMetadataItem The type of value the metadata aggregates over.
- * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
- *
- * @category logic
- * @experimental 21.0.0
- */
-declare function aggregateMetadata<TValue, TMetadataItem, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: AggregateMetadataKey<any, TMetadataItem>, logic: NoInfer<LogicFn<TValue, TMetadataItem, TPathKind>>): void;
-/**
- * Creates a new {@link MetadataKey} and defines the value of the new metadata key for the given field.
- *
- * @param path The path to define the metadata for.
- * @param factory A factory function that creates the value for the metadata.
- *   This function is **not** reactive. It is run once when the field is created.
- * @returns The newly created metadata key
- *
- * @category logic
- * @experimental 21.0.0
- */
-declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
-/**
- * Defines the value of a {@link MetadataKey} for a given field.
- *
- * @param path The path to define the metadata for.
- * @param key  The metadata key to define.
- * @param factory A factory function that creates the value for the metadata.
- *   This function is **not** reactive. It is run once when the field is created.
- * @returns The given metadata key
- *
- * @category logic
- * @experimental 21.0.0
- */
-declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: MetadataKey<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
 
 /** Represents a value that has a length or size, such as an array or string, or set. */
 type ValueWithLengthOrSize = {
@@ -594,5 +438,142 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  */
 declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema>): void;
 
-export { AggregateMetadataKey, Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, MetadataKey, OneOrMany, PathKind, SchemaPath, SchemaPathRules, SchemaPathTree, TreeValidationResult, TreeValidator, ValidationError, WithOptionalField, aggregateMetadata, debounce, disabled, email, hidden, max, maxLength, metadata, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+/**
+ * A function that takes the result of an async operation and the current field context, and maps it
+ * to a list of validation errors.
+ *
+ * @param result The result of the async operation.
+ * @param ctx The context for the field the validator is attached to.
+ * @return A validation error, or list of validation errors to report based on the result of the async operation.
+ *   The returned errors can optionally specify a field that the error should be targeted to.
+ *   A targeted error will show up as an error on its target field rather than the field being validated.
+ *   If a field is not given, the error is assumed to apply to the field being validated.
+ * @template TValue The type of value stored in the field being validated.
+ * @template TResult The type of result returned by the async operation
+ * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @experimental 21.0.0
+ */
+type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> = (result: TResult, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
+/**
+ * Options that indicate how to create a resource for async validation for a field,
+ * and map its result to validation errors.
+ *
+ * @template TValue The type of value stored in the field being validated.
+ * @template TParams The type of parameters to the resource.
+ * @template TResult The type of result returned by the resource
+ * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root> {
+    /**
+     * A function that receives the field context and returns the params for the resource.
+     *
+     * @param ctx The field context for the field being validated.
+     * @returns The params for the resource.
+     */
+    readonly params: (ctx: FieldContext<TValue, TPathKind>) => TParams;
+    /**
+     * A function that receives the resource params and returns a resource of the given params.
+     * The given params should be used as is to create the resource.
+     * The forms system will report the params as `undefined` when this validation doesn't need to be run.
+     *
+     * @param params The params to use for constructing the resource
+     * @returns A reference to the constructed resource.
+     */
+    readonly factory: (params: Signal<TParams | undefined>) => ResourceRef<TResult | undefined>;
+    /**
+     * A function to handle errors thrown by httpResource (HTTP errors, network errors, etc.).
+     * Receives the error and the field context, returns a list of validation errors.
+     */
+    readonly onError: (error: unknown, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
+    /**
+     * A function that takes the resource result, and the current field context and maps it to a list
+     * of validation errors.
+     *
+     * @param result The resource result.
+     * @param ctx The context for the field the validator is attached to.
+     * @return A validation error, or list of validation errors to report based on the resource result.
+     *   The returned errors can optionally specify a field that the error should be targeted to.
+     *   A targeted error will show up as an error on its target field rather than the field being validated.
+     *   If a field is not given, the error is assumed to apply to the field being validated.
+     */
+    readonly onSuccess: MapToErrorsFn<TValue, TResult, TPathKind>;
+}
+/**
+ * Adds async validation to the field corresponding to the given path based on a resource.
+ * Async validation for a field only runs once all synchronous validation is passing.
+ *
+ * @param path A path indicating the field to bind the async validation logic to.
+ * @param opts The async validation options.
+ * @template TValue The type of value stored in the field being validated.
+ * @template TParams The type of parameters to the resource.
+ * @template TResult The type of result returned by the resource
+ * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: AsyncValidatorOptions<TValue, TParams, TResult, TPathKind>): void;
+
+/**
+ * Options that indicate how to create an httpResource for async validation for a field,
+ * and map its result to validation errors.
+ *
+ * @template TValue The type of value stored in the field being validated.
+ * @template TResult The type of result returned by the httpResource
+ * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = PathKind.Root> {
+    /**
+     * A function that receives the field context and returns the url or request for the httpResource.
+     * If given a URL, the underlying httpResource will perform an HTTP GET on it.
+     *
+     * @param ctx The field context for the field being validated.
+     * @returns The URL or request for creating the httpResource.
+     */
+    readonly request: ((ctx: FieldContext<TValue, TPathKind>) => string | undefined) | ((ctx: FieldContext<TValue, TPathKind>) => HttpResourceRequest | undefined);
+    /**
+     * A function that takes the httpResource result, and the current field context and maps it to a
+     * list of validation errors.
+     *
+     * @param result The httpResource result.
+     * @param ctx The context for the field the validator is attached to.
+     * @return A validation error, or list of validation errors to report based on the httpResource result.
+     *   The returned errors can optionally specify a field that the error should be targeted to.
+     *   A targeted error will show up as an error on its target field rather than the field being validated.
+     *   If a field is not given, the error is assumed to apply to the field being validated.
+     */
+    readonly onSuccess: MapToErrorsFn<TValue, TResult, TPathKind>;
+    /**
+     * A function to handle errors thrown by httpResource (HTTP errors, network errors, etc.).
+     * Receives the error and the field context, returns a list of validation errors.
+     */
+    readonly onError: (error: unknown, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
+    /**
+     * The options to use when creating the httpResource.
+     */
+    readonly options?: HttpResourceOptions<TResult, unknown>;
+}
+/**
+ * Adds async validation to the field corresponding to the given path based on an httpResource.
+ * Async validation for a field only runs once all synchronous validation is passing.
+ *
+ * @param path A path indicating the field to bind the async validation logic to.
+ * @param opts The http validation options.
+ * @template TValue The type of value stored in the field being validated.
+ * @template TResult The type of result returned by the httpResource
+ * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: HttpValidatorOptions<TValue, TResult, TPathKind>): void;
+
+export { AggregateMetadataKey, Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, SchemaPathTree, TreeValidationResult, TreeValidator, ValidationError, WithOptionalField, aggregateMetadata, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, MapToErrorsFn, RemoveStringIndexUnknownKey };
