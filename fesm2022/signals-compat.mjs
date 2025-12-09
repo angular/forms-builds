@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.1+sha-253dc95
+ * @license Angular v21.1.0-next.1+sha-9ace7d7
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -121,9 +121,7 @@ function getControlValueSignal(options) {
 }
 class CompatStructure extends FieldNodeStructure {
   value;
-  keyInParent = () => {
-    throw new Error('Compat nodes do not use keyInParent.');
-  };
+  keyInParent;
   root;
   pathKeys;
   children = signal([], ...(ngDevMode ? [{
@@ -142,6 +140,9 @@ class CompatStructure extends FieldNodeStructure {
     this.parent = getParentFromOptions(options);
     this.root = this.parent?.structure.root ?? node;
     this.fieldManager = getFieldManagerFromOptions(options);
+    const identityInParent = options.kind === 'child' ? options.identityInParent : undefined;
+    const initialKeyInParent = options.kind === 'child' ? options.initialKeyInParent : undefined;
+    this.keyInParent = this.createKeyInParent(options, identityInParent, initialKeyInParent);
     this.pathKeys = computed(() => this.parent ? [...this.parent.structure.pathKeys(), this.keyInParent()] : [], ...(ngDevMode ? [{
       debugName: "pathKeys"
     }] : []));

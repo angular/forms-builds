@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.1.0-next.1+sha-253dc95
+ * @license Angular v21.1.0-next.1+sha-9ace7d7
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵControl as _Control, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵInteropControl as _InteropControl, ɵFieldState as _FieldState, Signal, Provider, WritableSignal, DestroyableInjector, Injector } from '@angular/core';
+import { InjectionToken, ɵControl as _Control, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Signal, ɵFieldState as _FieldState, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
 import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
@@ -69,169 +69,656 @@ declare const FIELD: InjectionToken<Field<unknown>>;
  * @experimental 21.0.0
  */
 declare class Field<T> implements _Control<T> {
-    private readonly injector;
-    private config;
-    readonly classes: (readonly [string, i0.Signal<boolean>])[];
+    readonly element: HTMLElement;
+    readonly injector: Injector;
     readonly field: i0.InputSignal<FieldTree<T>>;
     readonly state: i0.Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
     readonly [_CONTROL]: {
         readonly create: typeof __controlCreate;
         readonly update: typeof _controlUpdate;
     };
+    private config;
     /** Any `ControlValueAccessor` instances provided on the host element. */
     private readonly controlValueAccessors;
     /** A lazily instantiated fake `NgControl`. */
     private interopNgControl;
-    /** A `ControlValueAccessor`, if configured, for the host component. */
-    get ɵinteropControl(): _InteropControl | undefined;
     /** Lazily instantiates a fake `NgControl` for this field. */
     protected getOrCreateNgControl(): InteropNgControl;
-    ɵregister(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<Field<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<Field<any>, "[field]", never, { "field": { "alias": "field"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
 /**
- * Represents metadata that may be defined on a field when it is created using a `metadata` rule
- * in the schema. A particular `MetadataKey` can only be defined on a particular field **once**.
+ * Sets a value for the {@link MetadataKey} for this field.
+ *
+ * This value is combined via a reduce operation defined by the particular key,
+ * since multiple rules in the schema might set values for it.
+ *
+ * @param path The target path to set the metadata for.
+ * @param key The metadata key
+ * @param logic A function that receives the `FieldContext` and returns a value for the metadata.
+ * @template TValue The type of value stored in the field the logic is bound to.
+ * @template TKey The type of metadata key.
+ * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
  * @experimental 21.0.0
  */
-declare class MetadataKey<TValue> {
-    private brand;
-    /** Use {@link createMetadataKey}. */
-    private constructor();
-}
+declare function metadata<TValue, TKey extends MetadataKey<any, any, any>, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: TKey, logic: NoInfer<LogicFn<TValue, MetadataSetterType<TKey>, TPathKind>>): TKey;
 /**
- * Creates a {@link MetadataKey}.
+ * A reducer that determines the accumulated value for a metadata key by reducing the individual
+ * values contributed from `metadata()` rules.
  *
- * @experimental 21.0.0
+ * @template TAcc The accumulated type of the reduce operation.
+ * @template TItem The type of the individual items that are reduced over.
+ * @experimental 21.0.2
  */
-declare function createMetadataKey<TValue>(): MetadataKey<TValue>;
+interface MetadataReducer<TAcc, TItem> {
+    /** The reduce function. */
+    reduce: (acc: TAcc, item: TItem) => TAcc;
+    /** Gets the initial accumulated value. */
+    getInitial: () => TAcc;
+}
+declare const MetadataReducer: {
+    /** Creates a reducer that accumulates a list of its individual item values. */
+    readonly list: <TItem>() => MetadataReducer<TItem[], TItem | undefined>;
+    /** Creates a reducer that accumulates the min of its individual item values. */
+    readonly min: () => MetadataReducer<number | undefined, number | undefined>;
+    /** Creates a reducer that accumulates a the max of its individual item values. */
+    readonly max: () => MetadataReducer<number | undefined, number | undefined>;
+    /** Creates a reducer that logically or's its accumulated value with each individual item value. */
+    readonly or: () => MetadataReducer<boolean, boolean>;
+    /** Creates a reducer that logically and's its accumulated value with each individual item value. */
+    readonly and: () => MetadataReducer<boolean, boolean>;
+    /** Creates a reducer that always takes the next individual item value as the accumulated value. */
+    readonly override: typeof override;
+};
+declare function override<T>(): MetadataReducer<T | undefined, T>;
+declare function override<T>(getInitial: () => T): MetadataReducer<T, T>;
 /**
  * Represents metadata that is aggregated from multiple parts according to the key's reducer
  * function. A value can be contributed to the aggregated value for a field using an
- * `aggregateMetadata` rule in the schema. There may be multiple rules in a schema that contribute
- * values to the same `AggregateMetadataKey` of the same field.
+ * `metadata` rule in the schema. There may be multiple rules in a schema that contribute
+ * values to the same `MetadataKey` of the same field.
+ *
+ * @template TRead The type read from the `FieldState` for this key
+ * @template TWrite The type written to this key using the `metadata()` rule
+ * @template TAcc The type of the reducer's accumulated value.
  *
  * @experimental 21.0.0
  */
-declare class AggregateMetadataKey<TAcc, TItem> {
-    readonly reduce: (acc: TAcc, item: TItem) => TAcc;
-    readonly getInitial: () => TAcc;
+declare class MetadataKey<TRead, TWrite, TAcc> {
+    readonly reducer: MetadataReducer<TAcc, TWrite>;
+    readonly create: ((s: Signal<TAcc>) => TRead) | undefined;
     private brand;
     /** Use {@link reducedMetadataKey}. */
-    private constructor();
+    protected constructor(reducer: MetadataReducer<TAcc, TWrite>, create: ((s: Signal<TAcc>) => TRead) | undefined);
 }
 /**
- * Creates an {@link AggregateMetadataKey} that reduces its individual values into an accumulated
- * value using the given `reduce` and `getInitial` functions.
- * @param reduce The reducer function.
- * @param getInitial A function that gets the initial value for the reduce operation.
+ * Extracts the the type that can be set into the given metadata key type using the `metadata()` rule.
+ *
+ * @template TKey The `MetadataKey` type
  *
  * @experimental 21.0.0
  */
-declare function reducedMetadataKey<TAcc, TItem>(reduce: (acc: TAcc, item: TItem) => TAcc, getInitial: NoInfer<() => TAcc>): AggregateMetadataKey<TAcc, TItem>;
+type MetadataSetterType<TKey> = TKey extends MetadataKey<any, infer TWrite, any> ? TWrite : never;
 /**
- * Creates an {@link AggregateMetadataKey} that reduces its individual values into a list.
+ * Creates a metadata key used to contain a computed value.
+ * The last value set on a given field tree node overrides any previously set values.
+ *
+ * @template TWrite The type written to this key using the `metadata()` rule
  *
  * @experimental 21.0.0
  */
-declare function listMetadataKey<TItem>(): AggregateMetadataKey<TItem[], TItem | undefined>;
+declare function createMetadataKey<TWrite>(): MetadataKey<Signal<TWrite | undefined>, TWrite, TWrite | undefined>;
 /**
- * Creates {@link AggregateMetadataKey} that reduces its individual values by taking their min.
+ * Creates a metadata key used to contain a computed value.
+ *
+ * @param reducer The reducer used to combine individually set values into the final computed value.
+ * @template TWrite The type written to this key using the `metadata()` rule
+ * @template TAcc The type of the reducer's accumulated value.
  *
  * @experimental 21.0.0
  */
-declare function minMetadataKey(): AggregateMetadataKey<number | undefined, number | undefined>;
+declare function createMetadataKey<TWrite, TAcc>(reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<Signal<TAcc>, TWrite, TAcc>;
 /**
- * Creates {@link AggregateMetadataKey} that reduces its individual values by taking their max.
+ * Creates a metadata key that exposes a managed value based on the accumulated result of the values
+ * written to the key. The accumulated value takes the last value set on a given field tree node,
+ * overriding any previously set values.
+ *
+ * @param create A function that receives a signal of the accumulated value and returns the managed
+ *   value based on it. This function runs during the construction of the `FieldTree` node,
+ *   and runs in the injection context of that node.
+ * @template TRead The type read from the `FieldState` for this key
+ * @template TWrite The type written to this key using the `metadata()` rule
  *
  * @experimental 21.0.0
  */
-declare function maxMetadataKey(): AggregateMetadataKey<number | undefined, number | undefined>;
+declare function createManagedMetadataKey<TRead, TWrite>(create: (s: Signal<TWrite | undefined>) => TRead): MetadataKey<TRead, TWrite, TWrite | undefined>;
 /**
- * Creates an {@link AggregateMetadataKey} that reduces its individual values by logically or-ing
- * them.
+ * Creates a metadata key that exposes a managed value based on the accumulated result of the values
+ * written to the key.
+ *
+ * @param create A function that receives a signal of the accumulated value and returns the managed
+ *   value based on it. This function runs during the construction of the `FieldTree` node,
+ *   and runs in the injection context of that node.
+ * @param reducer The reducer used to combine individual value written to the key,
+ *   this will determine the accumulated value that the create function receives.
+ * @template TRead The type read from the `FieldState` for this key
+ * @template TWrite The type written to this key using the `metadata()` rule
+ * @template TAcc The type of the reducer's accumulated value.
  *
  * @experimental 21.0.0
  */
-declare function orMetadataKey(): AggregateMetadataKey<boolean, boolean>;
+declare function createManagedMetadataKey<TRead, TWrite, TAcc>(create: (s: Signal<TAcc>) => TRead, reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<TRead, TWrite, TAcc>;
 /**
- * Creates an {@link AggregateMetadataKey} that reduces its individual values by logically and-ing
- * them.
- *
- * @experimental 21.0.0
- */
-declare function andMetadataKey(): AggregateMetadataKey<boolean, boolean>;
-/**
- * An {@link AggregateMetadataKey} representing whether the field is required.
+ * A {@link MetadataKey} representing whether the field is required.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const REQUIRED: AggregateMetadataKey<boolean, boolean>;
+declare const REQUIRED: MetadataKey<Signal<boolean>, boolean, boolean>;
 /**
- * An {@link AggregateMetadataKey} representing the min value of the field.
+ * A {@link MetadataKey} representing the min value of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const MIN: AggregateMetadataKey<number | undefined, number | undefined>;
+declare const MIN: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
 /**
- * An {@link AggregateMetadataKey} representing the max value of the field.
+ * A {@link MetadataKey} representing the max value of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const MAX: AggregateMetadataKey<number | undefined, number | undefined>;
+declare const MAX: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
 /**
- * An {@link AggregateMetadataKey} representing the min length of the field.
+ * A {@link MetadataKey} representing the min length of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const MIN_LENGTH: AggregateMetadataKey<number | undefined, number | undefined>;
+declare const MIN_LENGTH: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
 /**
- * An {@link AggregateMetadataKey} representing the max length of the field.
+ * A {@link MetadataKey} representing the max length of the field.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const MAX_LENGTH: AggregateMetadataKey<number | undefined, number | undefined>;
+declare const MAX_LENGTH: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
 /**
- * An {@link AggregateMetadataKey} representing the patterns the field must match.
+ * A {@link MetadataKey} representing the patterns the field must match.
  *
  * @category validation
  * @experimental 21.0.0
  */
-declare const PATTERN: AggregateMetadataKey<RegExp[], RegExp | undefined>;
+declare const PATTERN: MetadataKey<Signal<RegExp[]>, RegExp | undefined, RegExp[]>;
+
 /**
- * Creates a new {@link MetadataKey} and defines the value of the new metadata key for the given field.
+ * Symbol used to retain generic type information when it would otherwise be lost.
+ */
+declare const ɵɵTYPE: unique symbol;
+/**
+ * A type that represents either a single value of type `T` or a readonly array of `T`.
+ * @template T The type of the value(s).
  *
- * @param path The path to define the metadata for.
- * @param factory A factory function that creates the value for the metadata.
- *   This function is **not** reactive. It is run once when the field is created.
- * @returns The newly created metadata key
+ * @experimental 21.0.0
+ */
+type OneOrMany<T> = T | readonly T[];
+/**
+ * The kind of `FieldPath` (`Root`, `Child` of another `FieldPath`, or `Item` in a `FieldPath` array)
+ *
+ * @experimental 21.0.0
+ */
+type PathKind = PathKind.Root | PathKind.Child | PathKind.Item;
+declare namespace PathKind {
+    /**
+     * The `PathKind` for a `FieldPath` that is at the root of its field tree.
+     */
+    interface Root {
+        /**
+         * The `ɵɵTYPE` is constructed to allow the `extends` clause on `Child` and `Item` to narrow the
+         * type. Another way to think about this is, if we have a function that expects this kind of
+         * path, the `ɵɵTYPE` lists the kinds of path we are allowed to pass to it.
+         */
+        [ɵɵTYPE]: 'root' | 'child' | 'item';
+    }
+    /**
+     * The `PathKind` for a `FieldPath` that is a child of another `FieldPath`.
+     */
+    interface Child extends PathKind.Root {
+        [ɵɵTYPE]: 'child' | 'item';
+    }
+    /**
+     * The `PathKind` for a `FieldPath` that is an item in a `FieldPath` array.
+     */
+    interface Item extends PathKind.Child {
+        [ɵɵTYPE]: 'item';
+    }
+}
+/**
+ * A status indicating whether a field is unsubmitted, submitted, or currently submitting.
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type SubmittedStatus = 'unsubmitted' | 'submitted' | 'submitting';
+/**
+ * A reason for a field's disablement.
  *
  * @category logic
  * @experimental 21.0.0
  */
-declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
+interface DisabledReason {
+    /** The field that is disabled. */
+    readonly field: FieldTree<unknown>;
+    /** A user-facing message describing the reason for the disablement. */
+    readonly message?: string;
+}
 /**
- * Defines the value of a {@link MetadataKey} for a given field.
+ * The absence of an error which indicates a successful validation result.
  *
- * @param path The path to define the metadata for.
- * @param key  The metadata key to define.
- * @param factory A factory function that creates the value for the metadata.
- *   This function is **not** reactive. It is run once when the field is created.
- * @returns The given metadata key
- *
- * @category logic
+ * @category types
  * @experimental 21.0.0
  */
-declare function metadata<TValue, TData, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: MetadataKey<TData>, factory: (ctx: FieldContext<TValue, TPathKind>) => TData): MetadataKey<TData>;
+type ValidationSuccess = null | undefined | void;
+/**
+ * The result of running a tree validation function.
+ *
+ * The result may be one of the following:
+ * 1. A {@link ValidationSuccess} to indicate no errors.
+ * 2. A {@link ValidationError} without a field to indicate an error on the field being validated.
+ * 3. A {@link ValidationError} with a field to indicate an error on the target field.
+ * 4. A list of {@link ValidationError} with or without fields to indicate multiple errors.
+ *
+ * @template E the type of error (defaults to {@link ValidationError}).
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type TreeValidationResult<E extends ValidationError.WithOptionalField = ValidationError.WithOptionalField> = ValidationSuccess | OneOrMany<E>;
+/**
+ * A validation result where all errors explicitly define their target field.
+ *
+ * The result may be one of the following:
+ * 1. A {@link ValidationSuccess} to indicate no errors.
+ * 2. A {@link ValidationError} with a field to indicate an error on the target field.
+ * 3. A list of {@link ValidationError} with fields to indicate multiple errors.
+ *
+ * @template E the type of error (defaults to {@link ValidationError}).
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type ValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<E>;
+/**
+ * An asynchronous validation result where all errors explicitly define their target field.
+ *
+ * The result may be one of the following:
+ * 1. A {@link ValidationResult} to indicate the result if resolved.
+ * 5. 'pending' if the validation is not yet resolved.
+ *
+ * @template E the type of error (defaults to {@link ValidationError}).
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type AsyncValidationResult<E extends ValidationError = ValidationError> = ValidationResult<E> | 'pending';
+/**
+ * An object that represents a tree of fields in a form. This includes both primitive value fields
+ * (e.g. fields that contain a `string` or `number`), as well as "grouping fields" that contain
+ * sub-fields. `FieldTree` objects are arranged in a tree whose structure mimics the structure of the
+ * underlying data. For example a `FieldTree<{x: number}>` has a property `x` which contains a
+ * `FieldTree<number>`. To access the state associated with a field, call it as a function.
+ *
+ * @template TValue The type of the data which the field is wrapped around.
+ * @template TKey The type of the property key which this field resides under in its parent.
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type FieldTree<TModel, TKey extends string | number = string | number> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey> : FieldState<TModel, TKey>) & ([TModel] extends [AbstractControl] ? object : [TModel] extends [Array<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TModel extends Record<string, any> ? Subfields<TModel> : object);
+/**
+ * The sub-fields that a user can navigate to from a `FieldTree<TModel>`.
+ *
+ * @template TModel The type of the data which the parent field is wrapped around.
+ *
+ * @experimental 21.0.0
+ */
+type Subfields<TModel> = {
+    readonly [K in keyof TModel as TModel[K] extends Function ? never : K]: MaybeFieldTree<TModel[K], string>;
+} & {
+    [Symbol.iterator](): Iterator<[string, MaybeFieldTree<TModel[keyof TModel], string>]>;
+};
+/**
+ * An iterable object with the same shape as a readonly array.
+ *
+ * @template T The array item type.
+ *
+ * @experimental 21.0.0
+ */
+type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Symbol.iterator>;
+/**
+ * Helper type for defining `FieldTree`. Given a type `TValue` that may include `undefined`, it extracts
+ * the `undefined` outside the `FieldTree` type.
+ *
+ * For example `MaybeField<{a: number} | undefined, TKey>` would be equivalent to
+ * `undefined | FieldTree<{a: number}, TKey>`.
+ *
+ * @template TModel The type of the data which the field is wrapped around.
+ * @template TKey The type of the property key which this field resides under in its parent.
+ *
+ * @experimental 21.0.0
+ */
+type MaybeFieldTree<TModel, TKey extends string | number = string | number> = (TModel & undefined) | FieldTree<Exclude<TModel, undefined>, TKey>;
+/**
+ * Contains all of the state (e.g. value, statuses, etc.) associated with a `FieldTree`, exposed as
+ * signals.
+ *
+ * @category structure
+ * @experimental 21.0.0
+ */
+interface FieldState<TValue, TKey extends string | number = string | number> extends _FieldState<TValue> {
+    /**
+     * A signal indicating whether field value has been changed by user.
+     */
+    readonly dirty: Signal<boolean>;
+    /**
+     * A signal indicating whether a field is hidden.
+     *
+     * When a field is hidden it is ignored when determining the valid, touched, and dirty states.
+     *
+     * Note: This doesn't hide the field in the template, that must be done manually.
+     * ```
+     * @if (!field.hidden()) {
+     *   ...
+     * }
+     * ```
+     */
+    readonly hidden: Signal<boolean>;
+    readonly disabledReasons: Signal<readonly DisabledReason[]>;
+    readonly errors: Signal<ValidationError.WithField[]>;
+    /**
+     * A signal containing the {@link errors} of the field and its descendants.
+     */
+    readonly errorSummary: Signal<ValidationError.WithField[]>;
+    /**
+     * A signal indicating whether the field's value is currently valid.
+     *
+     * Note: `valid()` is not the same as `!invalid()`.
+     * - `valid()` is `true` when there are no validation errors *and* no pending validators.
+     * - `invalid()` is `true` when there are validation errors, regardless of pending validators.
+     *
+     * Ex: consider the situation where a field has 3 validators, 2 of which have no errors and 1 of
+     * which is still pending. In this case `valid()` is `false` because of the pending validator.
+     * However `invalid()` is also `false` because there are no errors.
+     */
+    readonly valid: Signal<boolean>;
+    /**
+     * A signal indicating whether the field's value is currently invalid.
+     *
+     * Note: `invalid()` is not the same as `!valid()`.
+     * - `invalid()` is `true` when there are validation errors, regardless of pending validators.
+     * - `valid()` is `true` when there are no validation errors *and* no pending validators.
+     *
+     * Ex: consider the situation where a field has 3 validators, 2 of which have no errors and 1 of
+     * which is still pending. In this case `invalid()` is `false` because there are no errors.
+     * However `valid()` is also `false` because of the pending validator.
+     */
+    readonly invalid: Signal<boolean>;
+    /**
+     * Whether there are any validators still pending for this field.
+     */
+    readonly pending: Signal<boolean>;
+    /**
+     * A signal indicating whether the field is currently in the process of being submitted.
+     */
+    readonly submitting: Signal<boolean>;
+    /**
+     * The property key in the parent field under which this field is stored. If the parent field is
+     * array-valued, for example, this is the index of this field in that array.
+     */
+    readonly keyInParent: Signal<TKey>;
+    /**
+     * The {@link Field} directives that bind this field to a UI control.
+     */
+    readonly fieldBindings: Signal<readonly Field<unknown>[]>;
+    /**
+     * Reads a metadata value from the field.
+     * @param key The metadata key to read.
+     */
+    metadata<M>(key: MetadataKey<M, any, any>): M | undefined;
+    /**
+     * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
+     *
+     * Note this does not change the data model, which can be reset directly if desired.
+     *
+     * @param value Optional value to set to the form. If not passed, the value will not be changed.
+     */
+    reset(value?: TValue): void;
+}
+/**
+ * This is FieldState also providing access to the wrapped FormControl.
+ *
+ * @category interop
+ * @experimental 21.0.0
+ */
+type CompatFieldState<TControl extends AbstractControl, TKey extends string | number = string | number> = FieldState<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, TKey> & {
+    control: Signal<TControl>;
+};
+/**
+ * Allows declaring whether the Rules are supported for a given path.
+ *
+ * @experimental 21.0.0
+ **/
+type SchemaPathRules = SchemaPathRules.Supported | SchemaPathRules.Unsupported;
+declare namespace SchemaPathRules {
+    /**
+     * Used for paths that support settings rules.
+     */
+    type Supported = 1;
+    /**
+     * Used for paths that do not support settings rules, e.g., compatPath.
+     */
+    type Unsupported = 2;
+}
+/**
+ * An object that represents a location in the `FieldTree` tree structure and is used to bind logic to a
+ * particular part of the structure prior to the creation of the form. Because the `FieldPath`
+ * exists prior to the form's creation, it cannot be used to access any of the field state.
+ *
+ * @template TValue The type of the data which the form is wrapped around.
+ * @template TPathKind The kind of path (root field, child field, or item of an array)
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type SchemaPath<TValue, TSupportsRules extends SchemaPathRules = SchemaPathRules.Supported, TPathKind extends PathKind = PathKind.Root> = {
+    [ɵɵTYPE]: {
+        value: () => TValue;
+        supportsRules: TSupportsRules;
+        pathKind: TPathKind;
+    };
+};
+/**
+ * Schema path used if the value is an AbstractControl.
+ *
+ * @category interop
+ * @experimental 21.0.0
+ */
+type CompatSchemaPath<TControl extends AbstractControl, TPathKind extends PathKind = PathKind.Root> = SchemaPath<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, SchemaPathRules.Unsupported, TPathKind> & {
+    [ɵɵTYPE]: {
+        control: TControl;
+    };
+};
+/**
+ * Nested schema path.
+ *
+ * It mirrors the structure of a given data structure, and allows applying rules to the appropriate
+ * fields.
+ *
+ * @experimental 21.0.0
+ */
+type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = ([TModel] extends [AbstractControl] ? CompatSchemaPath<TModel, TPathKind> : SchemaPath<TModel, SchemaPathRules.Supported, TPathKind>) & (TModel extends AbstractControl ? unknown : TModel extends Array<any> ? unknown : TModel extends Record<string, any> ? {
+    [K in keyof TModel]: MaybeSchemaPathTree<TModel[K], PathKind.Child>;
+} : unknown);
+/**
+ * Helper type for defining `FieldPath`. Given a type `TValue` that may include `undefined`, it
+ * extracts the `undefined` outside the `FieldPath` type.
+ *
+ * For example `MaybeFieldPath<{a: number} | undefined, PathKind.Child>` would be equivalent to
+ * `undefined | FieldTree<{a: number}, PathKind.child>`.
+ *
+ * @template TValue The type of the data which the field is wrapped around.
+ * @template TPathKind The kind of path (root field, child field, or item of an array)
+ *
+ * @experimental 21.0.0
+ */
+type MaybeSchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = (TModel & undefined) | SchemaPathTree<Exclude<TModel, undefined>, TPathKind>;
+/**
+ * Defines logic for a form.
+ *
+ * @template TValue The type of data stored in the form that this schema is attached to.
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type Schema<in TModel> = {
+    [ɵɵTYPE]: SchemaFn<TModel, PathKind.Root>;
+};
+/**
+ * Function that defines rules for a schema.
+ *
+ * @template TModel The type of data stored in the form that this schema function is attached to.
+ * @template TPathKind The kind of path this schema function can be bound to.
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type SchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = (p: SchemaPathTree<TModel, TPathKind>) => void;
+/**
+ * A schema or schema definition function.
+ *
+ * @template TModel The type of data stored in the form that this schema function is attached to.
+ * @template TPathKind The kind of path this schema function can be bound to.
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type SchemaOrSchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = Schema<TModel> | SchemaFn<TModel, TPathKind>;
+/**
+ * A function that receives the `FieldContext` for the field the logic is bound to and returns
+ * a specific result type.
+ *
+ * @template TValue The data type for the field the logic is bound to.
+ * @template TReturn The type of the result returned by the logic function.
+ * @template TPathKind The kind of path the logic is applied to (root field, child field, or item of an array)
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx: FieldContext<TValue, TPathKind>) => TReturn;
+/**
+ * A function that takes the `FieldContext` for the field being validated and returns a
+ * `ValidationResult` indicating errors for the field.
+ *
+ * @template TValue The type of value stored in the field being validated
+ * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult<ValidationError.WithoutField>, TPathKind>;
+/**
+ * A function that takes the `FieldContext` for the field being validated and returns a
+ * `TreeValidationResult` indicating errors for the field and its sub-fields.
+ *
+ * @template TValue The type of value stored in the field being validated
+ * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, TreeValidationResult, TPathKind>;
+/**
+ * A function that takes the `FieldContext` for the field being validated and returns a
+ * `ValidationResult` indicating errors for the field and its sub-fields. In a `Validator` all
+ * errors must explicitly define their target field.
+ *
+ * @template TValue The type of value stored in the field being validated
+ * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult, TPathKind>;
+/**
+ * Provides access to the state of the current field as well as functions that can be used to look
+ * up state of other fields based on a `FieldPath`.
+ *
+ * @category types
+ * @experimental 21.0.0
+ */
+type FieldContext<TValue, TPathKind extends PathKind = PathKind.Root> = TPathKind extends PathKind.Item ? ItemFieldContext<TValue> : TPathKind extends PathKind.Child ? ChildFieldContext<TValue> : RootFieldContext<TValue>;
+/**
+ * The base field context that is available for all fields.
+ *
+ * @experimental 21.0.0
+ */
+interface RootFieldContext<TValue> {
+    /** A signal containing the value of the current field. */
+    readonly value: Signal<TValue>;
+    /** The state of the current field. */
+    readonly state: FieldState<TValue>;
+    /** The current field. */
+    readonly field: FieldTree<TValue>;
+    /** Gets the value of the field represented by the given path. */
+    valueOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): PValue;
+    /** Gets the state of the field represented by the given path. */
+    stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): CompatFieldState<PControl>;
+    stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): FieldState<PValue>;
+    /** Gets the field represented by the given path. */
+    fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): FieldTree<PModel>;
+    /** The list of keys that lead from the root field to the current field. */
+    readonly pathKeys: Signal<readonly string[]>;
+}
+/**
+ * Field context that is available for all fields that are a child of another field.
+ *
+ * @category structure
+ * @experimental 21.0.0
+ */
+interface ChildFieldContext<TValue> extends RootFieldContext<TValue> {
+    /** The key of the current field in its parent field. */
+    readonly key: Signal<string>;
+}
+/**
+ * Field context that is available for all fields that are an item in an array field.
+ *
+ * @experimental 21.0.0
+ */
+interface ItemFieldContext<TValue> extends ChildFieldContext<TValue> {
+    /** The index of the current field in its parent field. */
+    readonly index: Signal<number>;
+}
+/**
+ * Gets the item type of an object that is possibly an array.
+ *
+ * @experimental 21.0.0
+ */
+type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[keyof T];
+/**
+ * A function that defines custom debounce logic for a field.
+ *
+ * @param context The field context.
+ * @param abortSignal An `AbortSignal` used to communicate that the debounced operation was aborted.
+ * @returns A `Promise<void>` to debounce an update, or `void` to apply an update immediately.
+ * @template TValue The type of value stored in the field.
+ * @template TPathKind The kind of path the debouncer is applied to (root field, child field, or item of an array).
+ *
+ * @experimental 21.0.0
+ */
+type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>, abortSignal: AbortSignal) => Promise<void> | void;
 
 /**
  * Options used to create a `ValidationError`.
@@ -621,481 +1108,6 @@ declare const NgValidationError: abstract new () => NgValidationError;
 type NgValidationError = RequiredValidationError | MinValidationError | MaxValidationError | MinLengthValidationError | MaxLengthValidationError | PatternValidationError | EmailValidationError | StandardSchemaValidationError;
 
 /**
- * Symbol used to retain generic type information when it would otherwise be lost.
- */
-declare const ɵɵTYPE: unique symbol;
-/**
- * A type that represents either a single value of type `T` or a readonly array of `T`.
- * @template T The type of the value(s).
- *
- * @experimental 21.0.0
- */
-type OneOrMany<T> = T | readonly T[];
-/**
- * The kind of `FieldPath` (`Root`, `Child` of another `FieldPath`, or `Item` in a `FieldPath` array)
- *
- * @experimental 21.0.0
- */
-type PathKind = PathKind.Root | PathKind.Child | PathKind.Item;
-declare namespace PathKind {
-    /**
-     * The `PathKind` for a `FieldPath` that is at the root of its field tree.
-     */
-    interface Root {
-        /**
-         * The `ɵɵTYPE` is constructed to allow the `extends` clause on `Child` and `Item` to narrow the
-         * type. Another way to think about this is, if we have a function that expects this kind of
-         * path, the `ɵɵTYPE` lists the kinds of path we are allowed to pass to it.
-         */
-        [ɵɵTYPE]: 'root' | 'child' | 'item';
-    }
-    /**
-     * The `PathKind` for a `FieldPath` that is a child of another `FieldPath`.
-     */
-    interface Child extends PathKind.Root {
-        [ɵɵTYPE]: 'child' | 'item';
-    }
-    /**
-     * The `PathKind` for a `FieldPath` that is an item in a `FieldPath` array.
-     */
-    interface Item extends PathKind.Child {
-        [ɵɵTYPE]: 'item';
-    }
-}
-/**
- * A status indicating whether a field is unsubmitted, submitted, or currently submitting.
- *
- * @category types
- * @experimental 21.0.0
- */
-type SubmittedStatus = 'unsubmitted' | 'submitted' | 'submitting';
-/**
- * A reason for a field's disablement.
- *
- * @category logic
- * @experimental 21.0.0
- */
-interface DisabledReason {
-    /** The field that is disabled. */
-    readonly field: FieldTree<unknown>;
-    /** A user-facing message describing the reason for the disablement. */
-    readonly message?: string;
-}
-/**
- * The absence of an error which indicates a successful validation result.
- *
- * @category types
- * @experimental 21.0.0
- */
-type ValidationSuccess = null | undefined | void;
-/**
- * The result of running a tree validation function.
- *
- * The result may be one of the following:
- * 1. A {@link ValidationSuccess} to indicate no errors.
- * 2. A {@link ValidationError} without a field to indicate an error on the field being validated.
- * 3. A {@link ValidationError} with a field to indicate an error on the target field.
- * 4. A list of {@link ValidationError} with or without fields to indicate multiple errors.
- *
- * @template E the type of error (defaults to {@link ValidationError}).
- *
- * @category types
- * @experimental 21.0.0
- */
-type TreeValidationResult<E extends ValidationError.WithOptionalField = ValidationError.WithOptionalField> = ValidationSuccess | OneOrMany<E>;
-/**
- * A validation result where all errors explicitly define their target field.
- *
- * The result may be one of the following:
- * 1. A {@link ValidationSuccess} to indicate no errors.
- * 2. A {@link ValidationError} with a field to indicate an error on the target field.
- * 3. A list of {@link ValidationError} with fields to indicate multiple errors.
- *
- * @template E the type of error (defaults to {@link ValidationError}).
- *
- * @category types
- * @experimental 21.0.0
- */
-type ValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<E>;
-/**
- * An asynchronous validation result where all errors explicitly define their target field.
- *
- * The result may be one of the following:
- * 1. A {@link ValidationResult} to indicate the result if resolved.
- * 5. 'pending' if the validation is not yet resolved.
- *
- * @template E the type of error (defaults to {@link ValidationError}).
- *
- * @category types
- * @experimental 21.0.0
- */
-type AsyncValidationResult<E extends ValidationError = ValidationError> = ValidationResult<E> | 'pending';
-/**
- * An object that represents a tree of fields in a form. This includes both primitive value fields
- * (e.g. fields that contain a `string` or `number`), as well as "grouping fields" that contain
- * sub-fields. `FieldTree` objects are arranged in a tree whose structure mimics the structure of the
- * underlying data. For example a `FieldTree<{x: number}>` has a property `x` which contains a
- * `FieldTree<number>`. To access the state associated with a field, call it as a function.
- *
- * @template TValue The type of the data which the field is wrapped around.
- * @template TKey The type of the property key which this field resides under in its parent.
- *
- * @category types
- * @experimental 21.0.0
- */
-type FieldTree<TModel, TKey extends string | number = string | number> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey> : FieldState<TModel, TKey>) & ([TModel] extends [AbstractControl] ? object : [TModel] extends [Array<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TModel extends Record<string, any> ? Subfields<TModel> : object);
-/**
- * The sub-fields that a user can navigate to from a `FieldTree<TModel>`.
- *
- * @template TModel The type of the data which the parent field is wrapped around.
- *
- * @experimental 21.0.0
- */
-type Subfields<TModel> = {
-    readonly [K in keyof TModel as TModel[K] extends Function ? never : K]: MaybeFieldTree<TModel[K], string>;
-} & {
-    [Symbol.iterator](): Iterator<[string, MaybeFieldTree<TModel[keyof TModel], string>]>;
-};
-/**
- * An iterable object with the same shape as a readonly array.
- *
- * @template T The array item type.
- *
- * @experimental 21.0.0
- */
-type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Symbol.iterator>;
-/**
- * Helper type for defining `FieldTree`. Given a type `TValue` that may include `undefined`, it extracts
- * the `undefined` outside the `FieldTree` type.
- *
- * For example `MaybeField<{a: number} | undefined, TKey>` would be equivalent to
- * `undefined | FieldTree<{a: number}, TKey>`.
- *
- * @template TModel The type of the data which the field is wrapped around.
- * @template TKey The type of the property key which this field resides under in its parent.
- *
- * @experimental 21.0.0
- */
-type MaybeFieldTree<TModel, TKey extends string | number = string | number> = (TModel & undefined) | FieldTree<Exclude<TModel, undefined>, TKey>;
-/**
- * Contains all of the state (e.g. value, statuses, etc.) associated with a `FieldTree`, exposed as
- * signals.
- *
- * @category structure
- * @experimental 21.0.0
- */
-interface FieldState<TValue, TKey extends string | number = string | number> extends _FieldState<TValue> {
-    /**
-     * A signal indicating whether field value has been changed by user.
-     */
-    readonly dirty: Signal<boolean>;
-    /**
-     * A signal indicating whether a field is hidden.
-     *
-     * When a field is hidden it is ignored when determining the valid, touched, and dirty states.
-     *
-     * Note: This doesn't hide the field in the template, that must be done manually.
-     * ```
-     * @if (!field.hidden()) {
-     *   ...
-     * }
-     * ```
-     */
-    readonly hidden: Signal<boolean>;
-    readonly disabledReasons: Signal<readonly DisabledReason[]>;
-    readonly errors: Signal<ValidationError.WithField[]>;
-    /**
-     * A signal containing the {@link errors} of the field and its descendants.
-     */
-    readonly errorSummary: Signal<ValidationError.WithField[]>;
-    /**
-     * A signal indicating whether the field's value is currently valid.
-     *
-     * Note: `valid()` is not the same as `!invalid()`.
-     * - `valid()` is `true` when there are no validation errors *and* no pending validators.
-     * - `invalid()` is `true` when there are validation errors, regardless of pending validators.
-     *
-     * Ex: consider the situation where a field has 3 validators, 2 of which have no errors and 1 of
-     * which is still pending. In this case `valid()` is `false` because of the pending validator.
-     * However `invalid()` is also `false` because there are no errors.
-     */
-    readonly valid: Signal<boolean>;
-    /**
-     * A signal indicating whether the field's value is currently invalid.
-     *
-     * Note: `invalid()` is not the same as `!valid()`.
-     * - `invalid()` is `true` when there are validation errors, regardless of pending validators.
-     * - `valid()` is `true` when there are no validation errors *and* no pending validators.
-     *
-     * Ex: consider the situation where a field has 3 validators, 2 of which have no errors and 1 of
-     * which is still pending. In this case `invalid()` is `false` because there are no errors.
-     * However `valid()` is also `false` because of the pending validator.
-     */
-    readonly invalid: Signal<boolean>;
-    /**
-     * Whether there are any validators still pending for this field.
-     */
-    readonly pending: Signal<boolean>;
-    /**
-     * A signal indicating whether the field is currently in the process of being submitted.
-     */
-    readonly submitting: Signal<boolean>;
-    /**
-     * The property key in the parent field under which this field is stored. If the parent field is
-     * array-valued, for example, this is the index of this field in that array.
-     */
-    readonly keyInParent: Signal<TKey>;
-    /**
-     * The {@link Field} directives that bind this field to a UI control.
-     */
-    readonly fieldBindings: Signal<readonly Field<unknown>[]>;
-    /**
-     * Reads an aggregate metadata value from the field.
-     * @param key The metadata key to read.
-     */
-    metadata<M>(key: AggregateMetadataKey<M, any>): Signal<M>;
-    /**
-     * Reads a metadata value from the field.
-     * @param key The metadata key to read.
-     */
-    metadata<M>(key: MetadataKey<M>): M | undefined;
-    /**
-     * Checks whether the given metadata key has been defined for this field.
-     */
-    hasMetadata(key: MetadataKey<any> | AggregateMetadataKey<any, any>): boolean;
-    /**
-     * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
-     *
-     * Note this does not change the data model, which can be reset directly if desired.
-     *
-     * @param value Optional value to set to the form. If not passed, the value will not be changed.
-     */
-    reset(value?: TValue): void;
-}
-/**
- * This is FieldState also providing access to the wrapped FormControl.
- *
- * @category interop
- * @experimental 21.0.0
- */
-type CompatFieldState<TControl extends AbstractControl, TKey extends string | number = string | number> = FieldState<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, TKey> & {
-    control: Signal<TControl>;
-};
-/**
- * Allows declaring whether the Rules are supported for a given path.
- *
- * @experimental 21.0.0
- **/
-type SchemaPathRules = SchemaPathRules.Supported | SchemaPathRules.Unsupported;
-declare namespace SchemaPathRules {
-    /**
-     * Used for paths that support settings rules.
-     */
-    type Supported = 1;
-    /**
-     * Used for paths that do not support settings rules, e.g., compatPath.
-     */
-    type Unsupported = 2;
-}
-/**
- * An object that represents a location in the `FieldTree` tree structure and is used to bind logic to a
- * particular part of the structure prior to the creation of the form. Because the `FieldPath`
- * exists prior to the form's creation, it cannot be used to access any of the field state.
- *
- * @template TValue The type of the data which the form is wrapped around.
- * @template TPathKind The kind of path (root field, child field, or item of an array)
- *
- * @category types
- * @experimental 21.0.0
- */
-type SchemaPath<TValue, TSupportsRules extends SchemaPathRules = SchemaPathRules.Supported, TPathKind extends PathKind = PathKind.Root> = {
-    [ɵɵTYPE]: {
-        value: () => TValue;
-        supportsRules: TSupportsRules;
-        pathKind: TPathKind;
-    };
-};
-/**
- * Schema path used if the value is an AbstractControl.
- *
- * @category interop
- * @experimental 21.0.0
- */
-type CompatSchemaPath<TControl extends AbstractControl, TPathKind extends PathKind = PathKind.Root> = SchemaPath<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, SchemaPathRules.Unsupported, TPathKind> & {
-    [ɵɵTYPE]: {
-        control: TControl;
-    };
-};
-/**
- * Nested schema path.
- *
- * It mirrors the structure of a given data structure, and allows applying rules to the appropriate
- * fields.
- *
- * @experimental 21.0.0
- */
-type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = ([TModel] extends [AbstractControl] ? CompatSchemaPath<TModel, TPathKind> : SchemaPath<TModel, SchemaPathRules.Supported, TPathKind>) & (TModel extends AbstractControl ? unknown : TModel extends Array<any> ? unknown : TModel extends Record<string, any> ? {
-    [K in keyof TModel]: MaybeSchemaPathTree<TModel[K], PathKind.Child>;
-} : unknown);
-/**
- * Helper type for defining `FieldPath`. Given a type `TValue` that may include `undefined`, it
- * extracts the `undefined` outside the `FieldPath` type.
- *
- * For example `MaybeFieldPath<{a: number} | undefined, PathKind.Child>` would be equivalent to
- * `undefined | FieldTree<{a: number}, PathKind.child>`.
- *
- * @template TValue The type of the data which the field is wrapped around.
- * @template TPathKind The kind of path (root field, child field, or item of an array)
- *
- * @experimental 21.0.0
- */
-type MaybeSchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = (TModel & undefined) | SchemaPathTree<Exclude<TModel, undefined>, TPathKind>;
-/**
- * Defines logic for a form.
- *
- * @template TValue The type of data stored in the form that this schema is attached to.
- *
- * @category types
- * @experimental 21.0.0
- */
-type Schema<in TModel> = {
-    [ɵɵTYPE]: SchemaFn<TModel, PathKind.Root>;
-};
-/**
- * Function that defines rules for a schema.
- *
- * @template TModel The type of data stored in the form that this schema function is attached to.
- * @template TPathKind The kind of path this schema function can be bound to.
- *
- * @category types
- * @experimental 21.0.0
- */
-type SchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = (p: SchemaPathTree<TModel, TPathKind>) => void;
-/**
- * A schema or schema definition function.
- *
- * @template TModel The type of data stored in the form that this schema function is attached to.
- * @template TPathKind The kind of path this schema function can be bound to.
- *
- * @category types
- * @experimental 21.0.0
- */
-type SchemaOrSchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = Schema<TModel> | SchemaFn<TModel, TPathKind>;
-/**
- * A function that receives the `FieldContext` for the field the logic is bound to and returns
- * a specific result type.
- *
- * @template TValue The data type for the field the logic is bound to.
- * @template TReturn The type of the result returned by the logic function.
- * @template TPathKind The kind of path the logic is applied to (root field, child field, or item of an array)
- *
- * @category types
- * @experimental 21.0.0
- */
-type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx: FieldContext<TValue, TPathKind>) => TReturn;
-/**
- * A function that takes the `FieldContext` for the field being validated and returns a
- * `ValidationResult` indicating errors for the field.
- *
- * @template TValue The type of value stored in the field being validated
- * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
- *
- * @category validation
- * @experimental 21.0.0
- */
-type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult<ValidationError.WithoutField>, TPathKind>;
-/**
- * A function that takes the `FieldContext` for the field being validated and returns a
- * `TreeValidationResult` indicating errors for the field and its sub-fields.
- *
- * @template TValue The type of value stored in the field being validated
- * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
- *
- * @category types
- * @experimental 21.0.0
- */
-type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, TreeValidationResult, TPathKind>;
-/**
- * A function that takes the `FieldContext` for the field being validated and returns a
- * `ValidationResult` indicating errors for the field and its sub-fields. In a `Validator` all
- * errors must explicitly define their target field.
- *
- * @template TValue The type of value stored in the field being validated
- * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
- *
- * @category types
- * @experimental 21.0.0
- */
-type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult, TPathKind>;
-/**
- * Provides access to the state of the current field as well as functions that can be used to look
- * up state of other fields based on a `FieldPath`.
- *
- * @category types
- * @experimental 21.0.0
- */
-type FieldContext<TValue, TPathKind extends PathKind = PathKind.Root> = TPathKind extends PathKind.Item ? ItemFieldContext<TValue> : TPathKind extends PathKind.Child ? ChildFieldContext<TValue> : RootFieldContext<TValue>;
-/**
- * The base field context that is available for all fields.
- *
- * @experimental 21.0.0
- */
-interface RootFieldContext<TValue> {
-    /** A signal containing the value of the current field. */
-    readonly value: Signal<TValue>;
-    /** The state of the current field. */
-    readonly state: FieldState<TValue>;
-    /** The current field. */
-    readonly field: FieldTree<TValue>;
-    /** Gets the value of the field represented by the given path. */
-    valueOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): PValue;
-    /** Gets the state of the field represented by the given path. */
-    stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): CompatFieldState<PControl>;
-    stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): FieldState<PValue>;
-    /** Gets the field represented by the given path. */
-    fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): FieldTree<PModel>;
-    /** The list of keys that lead from the root field to the current field. */
-    readonly pathKeys: Signal<readonly string[]>;
-}
-/**
- * Field context that is available for all fields that are a child of another field.
- *
- * @category structure
- * @experimental 21.0.0
- */
-interface ChildFieldContext<TValue> extends RootFieldContext<TValue> {
-    /** The key of the current field in its parent field. */
-    readonly key: Signal<string>;
-}
-/**
- * Field context that is available for all fields that are an item in an array field.
- *
- * @experimental 21.0.0
- */
-interface ItemFieldContext<TValue> extends ChildFieldContext<TValue> {
-    /** The index of the current field in its parent field. */
-    readonly index: Signal<number>;
-}
-/**
- * Gets the item type of an object that is possibly an array.
- *
- * @experimental 21.0.0
- */
-type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[keyof T];
-/**
- * A function that defines custom debounce logic for a field.
- *
- * @param context The field context.
- * @param abortSignal An `AbortSignal` used to communicate that the debounced operation was aborted.
- * @returns A `Promise<void>` to debounce an update, or `void` to apply an update immediately.
- * @template TValue The type of value stored in the field.
- * @template TPathKind The kind of path the debouncer is applied to (root field, child field, or item of an array).
- *
- * @experimental 21.0.0
- */
-type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>, abortSignal: AbortSignal) => Promise<void> | void;
-
-/**
  * Configuration options for signal forms.
  *
  * @experimental 21.0.1
@@ -1230,41 +1242,27 @@ declare class LogicContainer {
     readonly syncTreeErrors: ArrayMergeIgnoreLogic<ValidationError.WithField, null>;
     /** Logic that produces asynchronous validation results (errors or 'pending'). */
     readonly asyncErrors: ArrayMergeIgnoreLogic<ValidationError.WithField | 'pending', null>;
-    /** A map of aggregate metadata keys to the `AbstractLogic` instances that compute their values. */
-    private readonly aggregateMetadataKeys;
-    /** A map of metadata keys to the factory functions that create their values. */
-    private readonly metadataFactories;
+    /** A map of metadata keys to the `AbstractLogic` instances that compute their values. */
+    private readonly metadata;
     /**
      * Constructs a new `Logic` container.
      * @param predicates An array of predicates that must all be true for the logic
      *   functions within this container to be active.
      */
     constructor(predicates: ReadonlyArray<BoundPredicate>);
-    /** Checks whether there is logic for the given aggregate metadata key. */
-    hasAggregateMetadata(key: AggregateMetadataKey<any, any>): boolean;
+    /** Checks whether there is logic for the given metadata key. */
+    hasMetadata(key: MetadataKey<any, any, any>): boolean;
     /**
-     * Gets an iterable of [aggregate metadata, logic function] pairs.
-     * @returns An iterable of aggregate metadata entries.
+     * Gets an iterable of [metadata key, logic function] pairs.
+     * @returns An iterable of metadata keys.
      */
-    getAggregateMetadataEntries(): MapIterator<[AggregateMetadataKey<unknown, unknown>, AbstractLogic<unknown, unknown>]>;
+    getMetadataKeys(): MapIterator<MetadataKey<unknown, unknown, unknown>>;
     /**
-     * Gets an iterable of [metadata, value factory function] pairs.
-     * @returns An iterable of metadata factory entries.
-     */
-    getMetadataFactoryEntries(): MapIterator<[MetadataKey<unknown>, (ctx: FieldContext<unknown>) => unknown]>;
-    /**
-     * Retrieves or creates the `AbstractLogic` for a given aggregate metadata key.
-     * @param key The `AggregateMetadataKey` for which to get the logic.
+     * Retrieves or creates the `AbstractLogic` for a given metadata key.
+     * @param key The `MetadataKey` for which to get the logic.
      * @returns The `AbstractLogic` associated with the key.
      */
-    getAggregateMetadata<T>(key: AggregateMetadataKey<any, T>): AbstractLogic<T>;
-    /**
-     * Adds a factory function for a given metadata key.
-     * @param key The `MetadataKey` to associate the factory with.
-     * @param factory The factory function.
-     * @throws If a factory is already defined for the given key.
-     */
-    addMetadataFactory(key: MetadataKey<unknown>, factory: (ctx: FieldContext<unknown>) => unknown): void;
+    getMetadata<T>(key: MetadataKey<any, T, any>): AbstractLogic<T>;
     /**
      * Merges logic from another `Logic` instance into this one.
      * @param other The `Logic` instance to merge from.
@@ -1296,10 +1294,8 @@ declare abstract class AbstractLogicNodeBuilder {
     abstract addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult>): void;
     /** Adds a rule for asynchronous validation errors for a field. */
     abstract addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult>): void;
-    /** Adds a rule to compute aggregate metadata for a field. */
-    abstract addAggregateMetadataRule<M>(key: AggregateMetadataKey<unknown, M>, logic: LogicFn<any, M>): void;
-    /** Adds a factory function to produce a data value associated with a field. */
-    abstract addMetadataFactory<D>(key: MetadataKey<D>, factory: (ctx: FieldContext<any>) => D): void;
+    /** Adds a rule to compute metadata for a field. */
+    abstract addMetadataRule<M>(key: MetadataKey<unknown, M, unknown>, logic: LogicFn<any, M>): void;
     /**
      * Gets a builder for a child node associated with the given property key.
      * @param key The property key of the child.
@@ -1345,8 +1341,7 @@ declare class LogicNodeBuilder extends AbstractLogicNodeBuilder {
     addSyncErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithField>>): void;
     addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithField>>): void;
     addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult<ValidationError.WithField>>): void;
-    addAggregateMetadataRule<T>(key: AggregateMetadataKey<any, T>, logic: LogicFn<any, T>): void;
-    addMetadataFactory<D>(key: MetadataKey<D>, factory: (ctx: FieldContext<any>) => D): void;
+    addMetadataRule<T>(key: MetadataKey<unknown, T, any>, logic: LogicFn<any, T>): void;
     getChild(key: PropertyKey): LogicNodeBuilder;
     hasLogic(builder: AbstractLogicNodeBuilder): boolean;
     /**
@@ -1475,13 +1470,13 @@ declare class FieldPathNode {
  */
 declare class FieldMetadataState {
     private readonly node;
-    /** A map of all `MetadataKey` and `AggregateMetadataKey` that have been defined for this field. */
+    /** A map of all `MetadataKey` that have been defined for this field. */
     private readonly metadata;
     constructor(node: FieldNode);
-    /** Gets the value of a `MetadataKey` or `AggregateMetadataKey` for the field. */
-    get<T>(key: MetadataKey<T> | AggregateMetadataKey<T, unknown>): T | undefined | Signal<T>;
+    /** Gets the value of an `MetadataKey` for the field. */
+    get<T>(key: MetadataKey<T, unknown, unknown>): T | undefined;
     /** Checks whether the current metadata state has the given metadata key. */
-    has(key: MetadataKey<any> | AggregateMetadataKey<any, any>): boolean;
+    has(key: MetadataKey<any, any, any>): boolean;
 }
 
 /**
@@ -1749,16 +1744,14 @@ declare class FieldNode implements FieldState<unknown> {
     get fieldBindings(): Signal<readonly Field<unknown>[]>;
     get submitting(): Signal<boolean>;
     get name(): Signal<string>;
-    private metadataOrUndefined;
     get max(): Signal<number | undefined> | undefined;
     get maxLength(): Signal<number | undefined> | undefined;
     get min(): Signal<number | undefined> | undefined;
     get minLength(): Signal<number | undefined> | undefined;
     get pattern(): Signal<readonly RegExp[]>;
     get required(): Signal<boolean>;
-    metadata<M>(key: AggregateMetadataKey<M, any>): Signal<M>;
-    metadata<M>(key: MetadataKey<M>): M | undefined;
-    hasMetadata(key: MetadataKey<any> | AggregateMetadataKey<any, any>): boolean;
+    metadata<M>(key: MetadataKey<M, any, any>): M | undefined;
+    hasMetadata(key: MetadataKey<any, any, any>): boolean;
     /**
      * Marks this specific field as touched.
      */
@@ -1868,6 +1861,19 @@ declare abstract class FieldNodeStructure {
     reduceChildren<T>(initialValue: T, fn: (child: FieldNode, value: T) => T, shortCircuit?: (value: T) => boolean): T;
     /** Destroys the field when it is no longer needed. */
     destroy(): void;
+    /**
+     * Creates a keyInParent signal for a field node.
+     *
+     * For root nodes, returns ROOT_KEY_IN_PARENT which throws when accessed.
+     * For child nodes, creates a computed that tracks the field's current key in its parent,
+     * with special handling for tracked array elements.
+     *
+     * @param options The field node options
+     * @param identityInParent The tracking identity (only for tracked array children)
+     * @param initialKeyInParent The initial key in parent (only for child nodes)
+     * @returns A signal representing the field's key in its parent
+     */
+    protected createKeyInParent(options: FieldNodeOptions, identityInParent: TrackingKey | undefined, initialKeyInParent: string | undefined): Signal<string>;
     protected createChildrenMap(): Signal<ChildrenData | undefined>;
     /**
      * Creates a "reader" computed for the given key.
@@ -2338,5 +2344,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { AggregateMetadataKey, CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, metadata, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export { CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, customError, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
