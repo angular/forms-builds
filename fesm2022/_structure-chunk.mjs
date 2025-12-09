@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.3+sha-7f96799
+ * @license Angular v21.0.3+sha-96bb4c6
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -21,6 +21,19 @@ function setBoundPathDepthForResolution(fn, depth) {
       boundPathDepth = 0;
     }
   };
+}
+
+function shortCircuitFalse(value) {
+  return !value;
+}
+function shortCircuitTrue(value) {
+  return value;
+}
+function getInjectorFromOptions(options) {
+  if (options.kind === 'root') {
+    return options.fieldManager.injector;
+  }
+  return options.parent.structure.root.structure.injector;
 }
 
 function isArray(value) {
@@ -90,10 +103,10 @@ class ArrayMergeLogic extends ArrayMergeIgnoreLogic {
     super(predicates, undefined);
   }
 }
-class AggregateMetadataMergeLogic extends AbstractLogic {
+class MetadataMergeLogic extends AbstractLogic {
   key;
   get defaultValue() {
-    return this.key.getInitial();
+    return this.key.reducer.getInitial();
   }
   constructor(predicates, key) {
     super(predicates);
@@ -101,13 +114,13 @@ class AggregateMetadataMergeLogic extends AbstractLogic {
   }
   compute(ctx) {
     if (this.fns.length === 0) {
-      return this.key.getInitial();
+      return this.key.reducer.getInitial();
     }
-    let acc = this.key.getInitial();
+    let acc = this.key.reducer.getInitial();
     for (let i = 0; i < this.fns.length; i++) {
       const item = this.fns[i](ctx);
       if (item !== IGNORED) {
-        acc = this.key.reduce(acc, item);
+        acc = this.key.reducer.reduce(acc, item);
       }
     }
     return acc;
@@ -139,8 +152,7 @@ class LogicContainer {
   syncErrors;
   syncTreeErrors;
   asyncErrors;
-  aggregateMetadataKeys = new Map();
-  metadataFactories = new Map();
+  metadata = new Map();
   constructor(predicates) {
     this.predicates = predicates;
     this.hidden = new BooleanOrLogic(predicates);
@@ -150,26 +162,17 @@ class LogicContainer {
     this.syncTreeErrors = ArrayMergeIgnoreLogic.ignoreNull(predicates);
     this.asyncErrors = ArrayMergeIgnoreLogic.ignoreNull(predicates);
   }
-  hasAggregateMetadata(key) {
-    return this.aggregateMetadataKeys.has(key);
+  hasMetadata(key) {
+    return this.metadata.has(key);
   }
-  getAggregateMetadataEntries() {
-    return this.aggregateMetadataKeys.entries();
+  getMetadataKeys() {
+    return this.metadata.keys();
   }
-  getMetadataFactoryEntries() {
-    return this.metadataFactories.entries();
-  }
-  getAggregateMetadata(key) {
-    if (!this.aggregateMetadataKeys.has(key)) {
-      this.aggregateMetadataKeys.set(key, new AggregateMetadataMergeLogic(this.predicates, key));
+  getMetadata(key) {
+    if (!this.metadata.has(key)) {
+      this.metadata.set(key, new MetadataMergeLogic(this.predicates, key));
     }
-    return this.aggregateMetadataKeys.get(key);
-  }
-  addMetadataFactory(key, factory) {
-    if (this.metadataFactories.has(key)) {
-      throw new Error(`Can't define value twice for the same MetadataKey`);
-    }
-    this.metadataFactories.set(key, factory);
+    return this.metadata.get(key);
   }
   mergeIn(other) {
     this.hidden.mergeIn(other.hidden);
@@ -178,11 +181,9 @@ class LogicContainer {
     this.syncErrors.mergeIn(other.syncErrors);
     this.syncTreeErrors.mergeIn(other.syncTreeErrors);
     this.asyncErrors.mergeIn(other.asyncErrors);
-    for (const [key, metadataLogic] of other.getAggregateMetadataEntries()) {
-      this.getAggregateMetadata(key).mergeIn(metadataLogic);
-    }
-    for (const [key, metadataFactory] of other.getMetadataFactoryEntries()) {
-      this.addMetadataFactory(key, metadataFactory);
+    for (const key of other.getMetadataKeys()) {
+      const metadataLogic = other.metadata.get(key);
+      this.getMetadata(key).mergeIn(metadataLogic);
     }
   }
 }
@@ -220,11 +221,8 @@ class LogicNodeBuilder extends AbstractLogicNodeBuilder {
   addAsyncErrorRule(logic) {
     this.getCurrent().addAsyncErrorRule(logic);
   }
-  addAggregateMetadataRule(key, logic) {
-    this.getCurrent().addAggregateMetadataRule(key, logic);
-  }
-  addMetadataFactory(key, factory) {
-    this.getCurrent().addMetadataFactory(key, factory);
+  addMetadataRule(key, logic) {
+    this.getCurrent().addMetadataRule(key, logic);
   }
   getChild(key) {
     if (key === DYNAMIC) {
@@ -296,11 +294,8 @@ class NonMergeableLogicNodeBuilder extends AbstractLogicNodeBuilder {
   addAsyncErrorRule(logic) {
     this.logic.asyncErrors.push(setBoundPathDepthForResolution(logic, this.depth));
   }
-  addAggregateMetadataRule(key, logic) {
-    this.logic.getAggregateMetadata(key).push(setBoundPathDepthForResolution(logic, this.depth));
-  }
-  addMetadataFactory(key, factory) {
-    this.logic.addMetadataFactory(key, setBoundPathDepthForResolution(factory, this.depth));
+  addMetadataRule(key, logic) {
+    this.logic.getMetadata(key).push(setBoundPathDepthForResolution(logic, this.depth));
   }
   getChild(key) {
     if (!this.children.has(key)) {
@@ -518,91 +513,82 @@ function assertPathIsCurrent(path) {
   }
 }
 
-class MetadataKey {
-  brand;
-  constructor() {}
-}
-function createMetadataKey() {
-  return new MetadataKey();
-}
-class AggregateMetadataKey {
-  reduce;
-  getInitial;
-  brand;
-  constructor(reduce, getInitial) {
-    this.reduce = reduce;
-    this.getInitial = getInitial;
-  }
-}
-function reducedMetadataKey(reduce, getInitial) {
-  return new AggregateMetadataKey(reduce, getInitial);
-}
-function listMetadataKey() {
-  return reducedMetadataKey((acc, item) => item === undefined ? acc : [...acc, item], () => []);
-}
-function minMetadataKey() {
-  return reducedMetadataKey((prev, next) => {
-    if (prev === undefined) {
-      return next;
-    }
-    if (next === undefined) {
-      return prev;
-    }
-    return Math.min(prev, next);
-  }, () => undefined);
-}
-function maxMetadataKey() {
-  return reducedMetadataKey((prev, next) => {
-    if (prev === undefined) {
-      return next;
-    }
-    if (next === undefined) {
-      return prev;
-    }
-    return Math.max(prev, next);
-  }, () => undefined);
-}
-function orMetadataKey() {
-  return reducedMetadataKey((prev, next) => prev || next, () => false);
-}
-function andMetadataKey() {
-  return reducedMetadataKey((prev, next) => prev && next, () => true);
-}
-const REQUIRED = orMetadataKey();
-const MIN = maxMetadataKey();
-const MAX = minMetadataKey();
-const MIN_LENGTH = maxMetadataKey();
-const MAX_LENGTH = minMetadataKey();
-const PATTERN = listMetadataKey();
-function metadata(path, ...rest) {
+function metadata(path, key, logic) {
   assertPathIsCurrent(path);
-  let key;
-  let factory;
-  if (rest.length === 2) {
-    [key, factory] = rest;
-  } else {
-    [factory] = rest;
-  }
-  key ??= createMetadataKey();
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addMetadataFactory(key, factory);
+  pathNode.builder.addMetadataRule(key, logic);
   return key;
 }
-
-const DEBOUNCER = reducedMetadataKey((_, item) => item, () => undefined);
-
-function shortCircuitFalse(value) {
-  return !value;
+const MetadataReducer = {
+  list() {
+    return {
+      reduce: (acc, item) => item === undefined ? acc : [...acc, item],
+      getInitial: () => []
+    };
+  },
+  min() {
+    return {
+      reduce: (acc, item) => {
+        if (acc === undefined || item === undefined) {
+          return acc ?? item;
+        }
+        return Math.min(acc, item);
+      },
+      getInitial: () => undefined
+    };
+  },
+  max() {
+    return {
+      reduce: (prev, next) => {
+        if (prev === undefined || next === undefined) {
+          return prev ?? next;
+        }
+        return Math.max(prev, next);
+      },
+      getInitial: () => undefined
+    };
+  },
+  or() {
+    return {
+      reduce: (prev, next) => prev || next,
+      getInitial: () => false
+    };
+  },
+  and() {
+    return {
+      reduce: (prev, next) => prev && next,
+      getInitial: () => true
+    };
+  },
+  override
+};
+function override(getInitial) {
+  return {
+    reduce: (_, item) => item,
+    getInitial: () => getInitial?.()
+  };
 }
-function shortCircuitTrue(value) {
-  return value;
-}
-function getInjectorFromOptions(options) {
-  if (options.kind === 'root') {
-    return options.fieldManager.injector;
+class MetadataKey {
+  reducer;
+  create;
+  brand;
+  constructor(reducer, create) {
+    this.reducer = reducer;
+    this.create = create;
   }
-  return options.parent.structure.root.structure.injector;
 }
+function createMetadataKey(reducer) {
+  return new MetadataKey(reducer ?? MetadataReducer.override());
+}
+function createManagedMetadataKey(create, reducer) {
+  return new MetadataKey(reducer ?? MetadataReducer.override(), create);
+}
+const REQUIRED = createMetadataKey(MetadataReducer.or());
+const MIN = createMetadataKey(MetadataReducer.max());
+const MAX = createMetadataKey(MetadataReducer.min());
+const MIN_LENGTH = createMetadataKey(MetadataReducer.max());
+const MAX_LENGTH = createMetadataKey(MetadataReducer.min());
+const PATTERN = createMetadataKey(MetadataReducer.list());
 
 function calculateValidationSelfStatus(state) {
   if (state.errors().length > 0) {
@@ -716,6 +702,8 @@ function addDefaultField(errors, field) {
   return errors;
 }
 
+const DEBOUNCER = createMetadataKey();
+
 class FieldNodeContext {
   node;
   cache = new WeakMap();
@@ -789,31 +777,28 @@ class FieldMetadataState {
   metadata = new Map();
   constructor(node) {
     this.node = node;
-    untracked(() => runInInjectionContext(this.node.structure.injector, () => {
-      for (const [key, factory] of this.node.logicNode.logic.getMetadataFactoryEntries()) {
-        this.metadata.set(key, factory(this.node.context));
+    for (const key of this.node.logicNode.logic.getMetadataKeys()) {
+      if (key.create) {
+        const logic = this.node.logicNode.logic.getMetadata(key);
+        const result = untracked(() => runInInjectionContext(this.node.structure.injector, () => key.create(computed(() => logic.compute(this.node.context)))));
+        this.metadata.set(key, result);
       }
-    }));
+    }
   }
   get(key) {
-    if (key instanceof MetadataKey) {
-      return this.metadata.get(key);
-    }
-    if (!this.metadata.has(key)) {
-      const logic = this.node.logicNode.logic.getAggregateMetadata(key);
-      const result = computed(() => logic.compute(this.node.context), ...(ngDevMode ? [{
-        debugName: "result"
-      }] : []));
-      this.metadata.set(key, result);
+    if (this.has(key)) {
+      if (!this.metadata.has(key)) {
+        if (key.create) {
+          throw Error('Managed metadata cannot be created lazily');
+        }
+        const logic = this.node.logicNode.logic.getMetadata(key);
+        this.metadata.set(key, computed(() => logic.compute(this.node.context)));
+      }
     }
     return this.metadata.get(key);
   }
   has(key) {
-    if (key instanceof AggregateMetadataKey) {
-      return this.node.logicNode.logic.hasAggregateMetadata(key);
-    } else {
-      return this.metadata.has(key);
-    }
+    return this.node.logicNode.logic.hasMetadata(key);
   }
 }
 
@@ -936,6 +921,39 @@ class FieldNodeStructure {
   destroy() {
     this.injector.destroy();
   }
+  createKeyInParent(options, identityInParent, initialKeyInParent) {
+    if (options.kind === 'root') {
+      return ROOT_KEY_IN_PARENT;
+    }
+    if (identityInParent === undefined) {
+      const key = initialKeyInParent;
+      return computed(() => {
+        if (this.parent.structure.getChild(key) !== this.node) {
+          throw new Error(`RuntimeError: orphan field, looking for property '${key}' of ${getDebugName(this.parent)}`);
+        }
+        return key;
+      });
+    } else {
+      let lastKnownKey = initialKeyInParent;
+      return computed(() => {
+        const parentValue = this.parent.structure.value();
+        if (!isArray(parentValue)) {
+          throw new Error(`RuntimeError: orphan field, expected ${getDebugName(this.parent)} to be an array`);
+        }
+        const data = parentValue[lastKnownKey];
+        if (isObject(data) && data.hasOwnProperty(this.parent.structure.identitySymbol) && data[this.parent.structure.identitySymbol] === identityInParent) {
+          return lastKnownKey;
+        }
+        for (let i = 0; i < parentValue.length; i++) {
+          const data = parentValue[i];
+          if (isObject(data) && data.hasOwnProperty(this.parent.structure.identitySymbol) && data[this.parent.structure.identitySymbol] === identityInParent) {
+            return lastKnownKey = i.toString();
+          }
+        }
+        throw new Error(`RuntimeError: orphan field, can't find element in array ${getDebugName(this.parent)}`);
+      });
+    }
+  }
   createChildrenMap() {
     return linkedSignal({
       source: this.value,
@@ -1044,41 +1062,18 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
     this.logic = logic;
     this.parent = parent;
     this.root = this.parent.structure.root;
+    this.keyInParent = this.createKeyInParent({
+      kind: 'child',
+      parent,
+      pathNode: undefined,
+      logic,
+      initialKeyInParent,
+      identityInParent,
+      fieldAdapter: undefined
+    }, identityInParent, initialKeyInParent);
     this.pathKeys = computed(() => [...parent.structure.pathKeys(), this.keyInParent()], ...(ngDevMode ? [{
       debugName: "pathKeys"
     }] : []));
-    if (identityInParent === undefined) {
-      const key = initialKeyInParent;
-      this.keyInParent = computed(() => {
-        if (parent.structure.getChild(key) !== node) {
-          throw new Error(`RuntimeError: orphan field, looking for property '${key}' of ${getDebugName(parent)}`);
-        }
-        return key;
-      }, ...(ngDevMode ? [{
-        debugName: "keyInParent"
-      }] : []));
-    } else {
-      let lastKnownKey = initialKeyInParent;
-      this.keyInParent = computed(() => {
-        const parentValue = parent.structure.value();
-        if (!isArray(parentValue)) {
-          throw new Error(`RuntimeError: orphan field, expected ${getDebugName(parent)} to be an array`);
-        }
-        const data = parentValue[lastKnownKey];
-        if (isObject(data) && data.hasOwnProperty(parent.structure.identitySymbol) && data[parent.structure.identitySymbol] === identityInParent) {
-          return lastKnownKey;
-        }
-        for (let i = 0; i < parentValue.length; i++) {
-          const data = parentValue[i];
-          if (isObject(data) && data.hasOwnProperty(parent.structure.identitySymbol) && data[parent.structure.identitySymbol] === identityInParent) {
-            return lastKnownKey = i.toString();
-          }
-        }
-        throw new Error(`RuntimeError: orphan field, can't find element in array ${getDebugName(parent)}`);
-      }, ...(ngDevMode ? [{
-        debugName: "keyInParent"
-      }] : []));
-    }
     this.value = deepSignal(this.parent.structure.value, this.keyInParent);
     this.childrenMap = this.createChildrenMap();
     this.fieldManager.structures.add(this);
@@ -1250,26 +1245,23 @@ class FieldNode {
   get name() {
     return this.nodeState.name;
   }
-  metadataOrUndefined(key) {
-    return this.hasMetadata(key) ? this.metadata(key) : undefined;
-  }
   get max() {
-    return this.metadataOrUndefined(MAX);
+    return this.metadata(MAX);
   }
   get maxLength() {
-    return this.metadataOrUndefined(MAX_LENGTH);
+    return this.metadata(MAX_LENGTH);
   }
   get min() {
-    return this.metadataOrUndefined(MIN);
+    return this.metadata(MIN);
   }
   get minLength() {
-    return this.metadataOrUndefined(MIN_LENGTH);
+    return this.metadata(MIN_LENGTH);
   }
   get pattern() {
-    return this.metadataOrUndefined(PATTERN) ?? EMPTY;
+    return this.metadata(PATTERN) ?? EMPTY;
   }
   get required() {
-    return this.metadataOrUndefined(REQUIRED) ?? FALSE;
+    return this.metadata(REQUIRED) ?? FALSE;
   }
   metadata(key) {
     return this.metadataState.get(key);
@@ -1416,8 +1408,8 @@ class FieldNodeState {
     debugName: "name"
   }] : []));
   debouncer = computed(() => {
-    if (this.node.logicNode.logic.hasAggregateMetadata(DEBOUNCER)) {
-      const debouncerLogic = this.node.logicNode.logic.getAggregateMetadata(DEBOUNCER);
+    if (this.node.logicNode.logic.hasMetadata(DEBOUNCER)) {
+      const debouncerLogic = this.node.logicNode.logic.getMetadata(DEBOUNCER);
       const debouncer = debouncerLogic.compute(this.node.context);
       if (debouncer) {
         return signal => debouncer(this.node.context, signal);
@@ -1582,5 +1574,5 @@ function markAllAsTouched(node) {
   }
 }
 
-export { AggregateMetadataKey, BasicFieldAdapter, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, PATTERN, REQUIRED, addDefaultField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createMetadataKey, form, getInjectorFromOptions, isArray, listMetadataKey, maxMetadataKey, metadata, minMetadataKey, normalizeFormArgs, orMetadataKey, reducedMetadataKey, schema, submit };
+export { BasicFieldAdapter, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, form, getInjectorFromOptions, isArray, metadata, normalizeFormArgs, schema, submit };
 //# sourceMappingURL=_structure-chunk.mjs.map

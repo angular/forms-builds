@@ -1,32 +1,16 @@
 /**
- * @license Angular v21.0.3+sha-7f96799
+ * @license Angular v21.0.3+sha-96bb4c6
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { assertPathIsCurrent, DEBOUNCER, FieldPathNode, REQUIRED, isArray, addDefaultField, metadata, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN } from './_structure-chunk.mjs';
-export { AggregateMetadataKey, MetadataKey, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, form, listMetadataKey, maxMetadataKey, minMetadataKey, orMetadataKey, reducedMetadataKey, schema, submit } from './_structure-chunk.mjs';
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, Injector, computed, input, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
+import { InjectionToken, inject, ElementRef, Injector, input, computed, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { assertPathIsCurrent, FieldPathNode, isArray, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER } from './_structure-chunk.mjs';
+export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema, submit } from './_structure-chunk.mjs';
 import { httpResource } from '@angular/common/http';
 import '@angular/core/primitives/signals';
-
-function debounce(path, durationOrDebouncer) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  const debouncer = typeof durationOrDebouncer === 'function' ? durationOrDebouncer : durationOrDebouncer > 0 ? debounceForDuration(durationOrDebouncer) : immediate;
-  pathNode.builder.addAggregateMetadataRule(DEBOUNCER, () => debouncer);
-}
-function debounceForDuration(durationInMilliseconds) {
-  return (_context, abortSignal) => {
-    return new Promise(resolve => {
-      const timeoutId = setTimeout(resolve, durationInMilliseconds);
-      abortSignal.addEventListener('abort', () => clearTimeout(timeoutId));
-    });
-  };
-}
-function immediate() {}
 
 const SIGNAL_FORMS_CONFIG = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'SIGNAL_FORMS_CONFIG' : '');
 
@@ -102,24 +86,21 @@ class InteropNgControl {
   valueAccessor = null;
   hasValidator(validator) {
     if (validator === Validators.required) {
-      return this.field().metadata(REQUIRED)();
+      return this.field().required();
     }
     return false;
   }
   updateValueAndValidity() {}
 }
 
-const FIELD = new InjectionToken(typeof ngDevMode !== undefined && ngDevMode ? 'FIELD' : '');
+const FIELD = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FIELD' : '');
 const controlInstructions = {
   create: __controlCreate,
   update: _controlUpdate
 };
 class Field {
+  element = inject(ElementRef).nativeElement;
   injector = inject(Injector);
-  config = inject(SIGNAL_FORMS_CONFIG, {
-    optional: true
-  });
-  classes = Object.entries(this.config?.classes ?? {}).map(([className, computation]) => [className, computed(() => computation(this.state()))]);
   field = input.required(...(ngDevMode ? [{
     debugName: "field"
   }] : []));
@@ -127,6 +108,10 @@ class Field {
     debugName: "state"
   }] : []));
   [_CONTROL] = controlInstructions;
+  config = inject(SIGNAL_FORMS_CONFIG, {
+    optional: true
+  });
+  classes = Object.entries(this.config?.classes ?? {}).map(([className, computation]) => [className, computed(() => computation(this.state()))]);
   controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
     optional: true,
     self: true
@@ -151,7 +136,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.3+sha-7f96799",
+    version: "21.0.3+sha-96bb4c6",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -159,7 +144,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.3+sha-7f96799",
+    version: "21.0.3+sha-96bb4c6",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -184,7 +169,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.3+sha-7f96799",
+  version: "21.0.3+sha-96bb4c6",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -211,12 +196,6 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }
 });
-
-function aggregateMetadata(path, key, logic) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addAggregateMetadataRule(key, logic);
-}
 
 function disabled(path, logic) {
   assertPathIsCurrent(path);
@@ -397,12 +376,6 @@ function validate(path, logic) {
   });
 }
 
-function validateTree(path, logic) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addSyncTreeErrorRule(ctx => addDefaultField(logic(ctx), ctx.field));
-}
-
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 function email(path, config) {
   validate(path, ctx => {
@@ -423,8 +396,8 @@ function email(path, config) {
 }
 
 function max(path, maxValue, config) {
-  const MAX_MEMO = metadata(path, ctx => computed(() => typeof maxValue === 'number' ? maxValue : maxValue(ctx)));
-  aggregateMetadata(path, MAX, ({
+  const MAX_MEMO = metadata(path, createMetadataKey(), ctx => typeof maxValue === 'number' ? maxValue : maxValue(ctx));
+  metadata(path, MAX, ({
     state
   }) => state.metadata(MAX_MEMO)());
   validate(path, ctx => {
@@ -451,8 +424,8 @@ function max(path, maxValue, config) {
 }
 
 function maxLength(path, maxLength, config) {
-  const MAX_LENGTH_MEMO = metadata(path, ctx => computed(() => typeof maxLength === 'number' ? maxLength : maxLength(ctx)));
-  aggregateMetadata(path, MAX_LENGTH, ({
+  const MAX_LENGTH_MEMO = metadata(path, createMetadataKey(), ctx => typeof maxLength === 'number' ? maxLength : maxLength(ctx));
+  metadata(path, MAX_LENGTH, ({
     state
   }) => state.metadata(MAX_LENGTH_MEMO)());
   validate(path, ctx => {
@@ -477,8 +450,8 @@ function maxLength(path, maxLength, config) {
 }
 
 function min(path, minValue, config) {
-  const MIN_MEMO = metadata(path, ctx => computed(() => typeof minValue === 'number' ? minValue : minValue(ctx)));
-  aggregateMetadata(path, MIN, ({
+  const MIN_MEMO = metadata(path, createMetadataKey(), ctx => typeof minValue === 'number' ? minValue : minValue(ctx));
+  metadata(path, MIN, ({
     state
   }) => state.metadata(MIN_MEMO)());
   validate(path, ctx => {
@@ -505,8 +478,8 @@ function min(path, minValue, config) {
 }
 
 function minLength(path, minLength, config) {
-  const MIN_LENGTH_MEMO = metadata(path, ctx => computed(() => typeof minLength === 'number' ? minLength : minLength(ctx)));
-  aggregateMetadata(path, MIN_LENGTH, ({
+  const MIN_LENGTH_MEMO = metadata(path, createMetadataKey(), ctx => typeof minLength === 'number' ? minLength : minLength(ctx));
+  metadata(path, MIN_LENGTH, ({
     state
   }) => state.metadata(MIN_LENGTH_MEMO)());
   validate(path, ctx => {
@@ -531,8 +504,8 @@ function minLength(path, minLength, config) {
 }
 
 function pattern(path, pattern, config) {
-  const PATTERN_MEMO = metadata(path, ctx => computed(() => pattern instanceof RegExp ? pattern : pattern(ctx)));
-  aggregateMetadata(path, PATTERN, ({
+  const PATTERN_MEMO = metadata(path, createMetadataKey(), ctx => pattern instanceof RegExp ? pattern : pattern(ctx));
+  metadata(path, PATTERN, ({
     state
   }) => state.metadata(PATTERN_MEMO)());
   validate(path, ctx => {
@@ -557,8 +530,8 @@ function pattern(path, pattern, config) {
 }
 
 function required(path, config) {
-  const REQUIRED_MEMO = metadata(path, ctx => computed(() => config?.when ? config.when(ctx) : true));
-  aggregateMetadata(path, REQUIRED, ({
+  const REQUIRED_MEMO = metadata(path, createMetadataKey(), ctx => config?.when ? config.when(ctx) : true);
+  metadata(path, REQUIRED, ({
     state
   }) => state.metadata(REQUIRED_MEMO)());
   validate(path, ctx => {
@@ -578,18 +551,14 @@ function required(path, config) {
 function validateAsync(path, opts) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  const RESOURCE = metadata(path, ctx => {
-    const params = computed(() => {
-      const node = ctx.stateOf(path);
-      const validationState = node.validationState;
-      if (validationState.shouldSkipValidation() || !validationState.syncValid()) {
-        return undefined;
-      }
-      return opts.params(ctx);
-    }, ...(ngDevMode ? [{
-      debugName: "params"
-    }] : []));
-    return opts.factory(params);
+  const RESOURCE = createManagedMetadataKey(opts.factory);
+  metadata(path, RESOURCE, ctx => {
+    const node = ctx.stateOf(path);
+    const validationState = node.validationState;
+    if (validationState.shouldSkipValidation() || !validationState.syncValid()) {
+      return undefined;
+    }
+    return opts.params(ctx);
   });
   pathNode.builder.addAsyncErrorRule(ctx => {
     const res = ctx.state.metadata(RESOURCE);
@@ -614,11 +583,17 @@ function validateAsync(path, opts) {
   });
 }
 
+function validateTree(path, logic) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addSyncTreeErrorRule(ctx => addDefaultField(logic(ctx), ctx.field));
+}
+
 function validateStandardSchema(path, schema) {
-  const VALIDATOR_MEMO = metadata(path, ({
+  const VALIDATOR_MEMO = metadata(path, createMetadataKey(), ({
     value
   }) => {
-    return computed(() => schema['~standard'].validate(value()));
+    return schema['~standard'].validate(value());
   });
   validateTree(path, ({
     state,
@@ -628,7 +603,7 @@ function validateStandardSchema(path, schema) {
     if (_isPromise(result)) {
       return [];
     }
-    return result.issues?.map(issue => standardIssueToFormTreeError(fieldTreeOf(path), issue)) ?? [];
+    return result?.issues?.map(issue => standardIssueToFormTreeError(fieldTreeOf(path), issue)) ?? [];
   });
   validateAsync(path, {
     params: ({
@@ -673,5 +648,21 @@ function validateHttp(path, opts) {
   });
 }
 
-export { CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, aggregateMetadata, customError, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+function debounce(path, durationOrDebouncer) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  const debouncer = typeof durationOrDebouncer === 'function' ? durationOrDebouncer : durationOrDebouncer > 0 ? debounceForDuration(durationOrDebouncer) : immediate;
+  pathNode.builder.addMetadataRule(DEBOUNCER, () => debouncer);
+}
+function debounceForDuration(durationInMilliseconds) {
+  return (_context, abortSignal) => {
+    return new Promise(resolve => {
+      const timeoutId = setTimeout(resolve, durationInMilliseconds);
+      abortSignal.addEventListener('abort', () => clearTimeout(timeoutId));
+    });
+  };
+}
+function immediate() {}
+
+export { CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, customError, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 //# sourceMappingURL=signals.mjs.map

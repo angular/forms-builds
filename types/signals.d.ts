@@ -1,12 +1,12 @@
 /**
- * @license Angular v21.0.3+sha-7f96799
+ * @license Angular v21.0.3+sha-96bb4c6
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { InputSignal, InputSignalWithTransform, ModelSignal, OutputRef, Signal, ResourceRef } from '@angular/core';
-import { WithOptionalField, ValidationError, DisabledReason, PathKind, SchemaPath, SchemaPathRules, Debouncer, AggregateMetadataKey, LogicFn, FieldValidator, TreeValidator, OneOrMany, SchemaPathTree, FieldContext, TreeValidationResult } from './_structure-chunk.js';
-export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, CustomValidationError, EmailValidationError, FIELD, Field, FieldState, FieldTree, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, SubmittedStatus, ValidationResult, ValidationSuccess, Validator, WithField, WithoutField, andMetadataKey, apply, applyEach, applyWhen, applyWhenValue, createMetadataKey, customError, emailError, form, listMetadataKey, maxError, maxLengthError, maxMetadataKey, metadata, minError, minLengthError, minMetadataKey, orMetadataKey, patternError, provideSignalFormsConfig, reducedMetadataKey, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
+import { WithOptionalField, ValidationError, DisabledReason, PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, SchemaPathTree, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, Debouncer } from './_structure-chunk.js';
+export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, CustomValidationError, EmailValidationError, FIELD, Field, FieldState, FieldTree, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, SubmittedStatus, ValidationResult, ValidationSuccess, Validator, WithField, WithoutField, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, customError, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import '@angular/forms';
@@ -151,35 +151,6 @@ interface FormCheckboxControl extends FormUiControl {
 }
 
 /**
- * Configures the frequency at which a form field is updated by UI events.
- *
- * When this rule is applied, updates from the UI to the form model will be delayed until either
- * the field is touched, or the most recently debounced update resolves.
- *
- * @param path The target path to debounce.
- * @param durationOrDebouncer Either a debounce duration in milliseconds, or a custom
- *     {@link Debouncer} function.
- *
- * @experimental 21.0.0
- */
-declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
-
-/**
- * Adds a value to an {@link AggregateMetadataKey} of a field.
- *
- * @param path The target path to set the aggregate metadata on.
- * @param key The aggregate metadata key
- * @param logic A function that receives the `FieldContext` and returns a value to add to the aggregate metadata.
- * @template TValue The type of value stored in the field the logic is bound to.
- * @template TMetadataItem The type of value the metadata aggregates over.
- * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
- *
- * @category logic
- * @experimental 21.0.0
- */
-declare function aggregateMetadata<TValue, TMetadataItem, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: AggregateMetadataKey<any, TMetadataItem>, logic: NoInfer<LogicFn<TValue, TMetadataItem, TPathKind>>): void;
-
-/**
  * Adds logic to a field to conditionally disable it. A disabled field does not contribute to the
  * validation, touched/dirty, or other state of its parent field.
  *
@@ -229,33 +200,6 @@ declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path
  * @experimental 21.0.0
  */
 declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
-
-/**
- * Adds logic to a field to determine if the field has validation errors.
- *
- * @param path The target path to add the validation logic to.
- * @param logic A `Validator` that returns the current validation errors.
- * @template TValue The type of value stored in the field the logic is bound to.
- * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
- *
- * @category logic
- * @experimental 21.0.0
- */
-declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<FieldValidator<TValue, TPathKind>>): void;
-
-/**
- * Adds logic to a field to determine if the field or any of its child fields has validation errors.
- *
- * @param path The target path to add the validation logic to.
- * @param logic A `TreeValidator` that returns the current validation errors.
- *   Errors returned by the validator may specify a target field to indicate an error on a child field.
- * @template TValue The type of value stored in the field the logic is bound to.
- * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
- *
- * @category logic
- * @experimental 21.0.0
- */
-declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
 
 /** Represents a value that has a length or size, such as an array or string, or set. */
 type ValueWithLengthOrSize = {
@@ -439,6 +383,19 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
 declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema>): void;
 
 /**
+ * Adds logic to a field to determine if the field has validation errors.
+ *
+ * @param path The target path to add the validation logic to.
+ * @param logic A `Validator` that returns the current validation errors.
+ * @template TValue The type of value stored in the field the logic is bound to.
+ * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @category logic
+ * @experimental 21.0.0
+ */
+declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<FieldValidator<TValue, TPathKind>>): void;
+
+/**
  * A function that takes the result of an async operation and the current field context, and maps it
  * to a list of validation errors.
  *
@@ -575,5 +532,33 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
  */
 declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: HttpValidatorOptions<TValue, TResult, TPathKind>): void;
 
-export { AggregateMetadataKey, Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, SchemaPathTree, TreeValidationResult, TreeValidator, ValidationError, WithOptionalField, aggregateMetadata, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+/**
+ * Adds logic to a field to determine if the field or any of its child fields has validation errors.
+ *
+ * @param path The target path to add the validation logic to.
+ * @param logic A `TreeValidator` that returns the current validation errors.
+ *   Errors returned by the validator may specify a target field to indicate an error on a child field.
+ * @template TValue The type of value stored in the field the logic is bound to.
+ * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @category logic
+ * @experimental 21.0.0
+ */
+declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
+
+/**
+ * Configures the frequency at which a form field is updated by UI events.
+ *
+ * When this rule is applied, updates from the UI to the form model will be delayed until either
+ * the field is touched, or the most recently debounced update resolves.
+ *
+ * @param path The target path to debounce.
+ * @param durationOrDebouncer Either a debounce duration in milliseconds, or a custom
+ *     {@link Debouncer} function.
+ *
+ * @experimental 21.0.0
+ */
+declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
+
+export { Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, SchemaPathTree, TreeValidationResult, TreeValidator, ValidationError, WithOptionalField, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, MapToErrorsFn, RemoveStringIndexUnknownKey };
