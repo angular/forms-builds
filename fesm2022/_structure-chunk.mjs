@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.1+sha-d0a34a6
+ * @license Angular v21.1.0-next.1+sha-14713d0
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1281,7 +1281,7 @@ class FieldNode {
     untracked(() => this._reset(value));
   }
   _reset(value) {
-    if (value) {
+    if (value !== undefined) {
       this.value.set(value);
     }
     this.nodeState.markAsUntouched();
