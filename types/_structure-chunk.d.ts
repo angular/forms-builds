@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.0.4+sha-69d243a
+ * @license Angular v21.0.4+sha-4fd2b72
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵControl as _Control, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Signal, ɵFieldState as _FieldState, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
+import { InjectionToken, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Signal, ɵFieldState as _FieldState, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
 import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
@@ -68,7 +68,7 @@ declare const FIELD: InjectionToken<Field<unknown>>;
  * @category control
  * @experimental 21.0.0
  */
-declare class Field<T> implements _Control<T> {
+declare class Field<T> {
     readonly element: HTMLElement;
     readonly injector: Injector;
     readonly field: i0.InputSignal<FieldTree<T>>;
