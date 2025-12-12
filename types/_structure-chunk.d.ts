@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.5+sha-87d20fd
+ * @license Angular v21.0.5+sha-81772b4
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1115,7 +1115,7 @@ type NgValidationError = RequiredValidationError | MinValidationError | MaxValid
 interface SignalFormsConfig {
     /** A map of CSS class names to predicate functions that determine when to apply them. */
     classes?: {
-        [className: string]: (state: FieldState<unknown>) => boolean;
+        [className: string]: (state: Field<unknown>) => boolean;
     };
 }
 /**
