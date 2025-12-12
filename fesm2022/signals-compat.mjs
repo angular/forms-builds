@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.3+sha-23547f0
+ * @license Angular v21.1.0-next.3+sha-348f149
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -292,13 +292,27 @@ function compatForm(...args) {
 }
 
 const NG_STATUS_CLASSES = {
-  'ng-touched': state => state.touched(),
-  'ng-untouched': state => !state.touched(),
-  'ng-dirty': state => state.dirty(),
-  'ng-pristine': state => !state.dirty(),
-  'ng-valid': state => state.valid(),
-  'ng-invalid': state => state.invalid(),
-  'ng-pending': state => state.pending()
+  'ng-touched': ({
+    state
+  }) => state().touched(),
+  'ng-untouched': ({
+    state
+  }) => !state().touched(),
+  'ng-dirty': ({
+    state
+  }) => state().dirty(),
+  'ng-pristine': ({
+    state
+  }) => !state().dirty(),
+  'ng-valid': ({
+    state
+  }) => state().valid(),
+  'ng-invalid': ({
+    state
+  }) => state().invalid(),
+  'ng-pending': ({
+    state
+  }) => state().pending()
 };
 
 export { CompatValidationError, NG_STATUS_CLASSES, compatForm };
