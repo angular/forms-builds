@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.1.0-next.3+sha-a2aa8fe
+ * @license Angular v21.1.0-next.3+sha-44d4439
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, BasicFieldAdapter, form, normalizeFormArgs } from './_structure-chunk.mjs';
-import { linkedSignal, untracked, runInInjectionContext, computed, signal } from '@angular/core';
+import { linkedSignal, untracked, runInInjectionContext, computed, signal, ɵRuntimeError as _RuntimeError } from '@angular/core';
 import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReplaySubject } from 'rxjs';
@@ -134,7 +134,7 @@ class CompatStructure extends FieldNodeStructure {
   fieldManager;
   constructor(node, options) {
     super(options.logic, node, () => {
-      throw new Error(`Compat nodes don't have children.`);
+      throw new _RuntimeError(1911, ngDevMode && `Compat nodes don't have children.`);
     });
     this.value = getControlValueSignal(options);
     this.parent = getParentFromOptions(options);

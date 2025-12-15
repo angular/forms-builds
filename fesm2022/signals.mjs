@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.1.0-next.3+sha-a2aa8fe
+ * @license Angular v21.1.0-next.3+sha-44d4439
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, inject, ElementRef, Injector, input, computed, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
+import { InjectionToken, ɵRuntimeError as _RuntimeError, inject, ElementRef, Injector, input, computed, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { assertPathIsCurrent, FieldPathNode, isArray, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER } from './_structure-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema, submit } from './_structure-chunk.mjs';
@@ -81,7 +81,7 @@ class InteropNgControl {
     if (this.field().pending()) {
       return 'PENDING';
     }
-    throw Error('AssertionError: unknown form control status');
+    throw new _RuntimeError(1910, ngDevMode && 'Unknown form control status');
   }
   valueAccessor = null;
   hasValidator(validator) {
@@ -136,7 +136,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.3+sha-a2aa8fe",
+    version: "21.1.0-next.3+sha-44d4439",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -144,7 +144,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.3+sha-a2aa8fe",
+    version: "21.1.0-next.3+sha-44d4439",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -169,7 +169,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.3+sha-a2aa8fe",
+  version: "21.1.0-next.3+sha-44d4439",
   ngImport: i0,
   type: Field,
   decorators: [{

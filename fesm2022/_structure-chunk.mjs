@@ -1,10 +1,10 @@
 /**
- * @license Angular v21.1.0-next.3+sha-a2aa8fe
+ * @license Angular v21.1.0-next.3+sha-44d4439
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { untracked, computed, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, inject } from '@angular/core';
+import { untracked, ɵRuntimeError as _RuntimeError, computed, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, inject } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
@@ -384,7 +384,7 @@ function getAllChildBuilders(builder, key) {
       predicates: []
     }] : [])];
   } else {
-    throw new Error('Unknown LogicNodeBuilder type');
+    throw new _RuntimeError(1909, ngDevMode && 'Unknown LogicNodeBuilder type');
   }
 }
 function createLogic(builder, predicates, depth) {
@@ -400,7 +400,7 @@ function createLogic(builder, predicates, depth) {
   } else if (builder instanceof NonMergeableLogicNodeBuilder) {
     logic.mergeIn(builder.logic);
   } else {
-    throw new Error('Unknown LogicNodeBuilder type');
+    throw new _RuntimeError(1909, ngDevMode && 'Unknown LogicNodeBuilder type');
   }
   return logic;
 }
@@ -509,7 +509,7 @@ function isSchemaOrSchemaFn(value) {
 }
 function assertPathIsCurrent(path) {
   if (currentCompilingNode !== FieldPathNode.unwrapFieldPath(path).root) {
-    throw new Error(`A FieldPath can only be used directly within the Schema that owns it,` + ` **not** outside of it or within a sub-schema.`);
+    throw new _RuntimeError(1908, ngDevMode && `A FieldPath can only be used directly within the Schema that owns it, **not** outside of it or within a sub-schema.`);
   }
 }
 
@@ -720,13 +720,13 @@ class FieldNodeContext {
           stepsRemaining--;
           field = field.structure.parent;
           if (field === undefined) {
-            throw new Error('Path is not part of this field tree.');
+            throw new _RuntimeError(1900, ngDevMode && 'Path is not part of this field tree.');
           }
         }
         for (let key of targetPathNode.keys) {
           field = field.structure.getChild(key);
           if (field === undefined) {
-            throw new Error(`Cannot resolve path .${targetPathNode.keys.join('.')} relative to field ${['<root>', ...this.node.structure.pathKeys()].join('.')}.`);
+            throw new _RuntimeError(1901, ngDevMode && `Cannot resolve path .${targetPathNode.keys.join('.')} relative to field ${['<root>', ...this.node.structure.pathKeys()].join('.')}.`);
           }
         }
         return field.fieldProxy;
@@ -755,7 +755,7 @@ class FieldNodeContext {
   index = computed(() => {
     const key = this.key();
     if (!isArray(untracked(this.node.structure.parent.value))) {
-      throw new Error(`RuntimeError: cannot access index, parent field is not an array`);
+      throw new _RuntimeError(1906, ngDevMode && 'Cannot access index, parent field is not an array.');
     }
     return Number(key);
   }, ...(ngDevMode ? [{
@@ -766,7 +766,7 @@ class FieldNodeContext {
   valueOf = p => {
     const result = this.resolve(p)().value();
     if (result instanceof AbstractControl) {
-      throw new Error(`Tried to read an 'AbstractControl' value form a 'form()'. Did you mean to use 'compatForm()' instead?`);
+      throw new _RuntimeError(1907, ngDevMode && `Tried to read an 'AbstractControl' value from a 'form()'. Did you mean to use 'compatForm()' instead?`);
     }
     return result;
   };
@@ -929,7 +929,7 @@ class FieldNodeStructure {
       const key = initialKeyInParent;
       return computed(() => {
         if (this.parent.structure.getChild(key) !== this.node) {
-          throw new Error(`RuntimeError: orphan field, looking for property '${key}' of ${getDebugName(this.parent)}`);
+          throw new _RuntimeError(1902, ngDevMode && `Orphan field, looking for property '${key}' of ${getDebugName(this.parent)}`);
         }
         return key;
       });
@@ -938,7 +938,7 @@ class FieldNodeStructure {
       return computed(() => {
         const parentValue = this.parent.structure.value();
         if (!isArray(parentValue)) {
-          throw new Error(`RuntimeError: orphan field, expected ${getDebugName(this.parent)} to be an array`);
+          throw new _RuntimeError(1903, ngDevMode && `Orphan field, expected ${getDebugName(this.parent)} to be an array`);
         }
         const data = parentValue[lastKnownKey];
         if (isObject(data) && data.hasOwnProperty(this.parent.structure.identitySymbol) && data[this.parent.structure.identitySymbol] === identityInParent) {
@@ -950,7 +950,7 @@ class FieldNodeStructure {
             return lastKnownKey = i.toString();
           }
         }
-        throw new Error(`RuntimeError: orphan field, can't find element in array ${getDebugName(this.parent)}`);
+        throw new _RuntimeError(1904, ngDevMode && `Orphan field, can't find element in array ${getDebugName(this.parent)}`);
       });
     }
   }
@@ -1084,7 +1084,7 @@ const ROOT_PATH_KEYS = computed(() => [], ...(ngDevMode ? [{
   debugName: "ROOT_PATH_KEYS"
 }] : []));
 const ROOT_KEY_IN_PARENT = computed(() => {
-  throw new Error(`RuntimeError: the top-level field in the form has no parent`);
+  throw new _RuntimeError(1905, ngDevMode && 'The top-level field in the form has no parent.');
 }, ...(ngDevMode ? [{
   debugName: "ROOT_KEY_IN_PARENT"
 }] : []));
