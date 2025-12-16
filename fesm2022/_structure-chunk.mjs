@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.3+sha-bf2e508
+ * @license Angular v21.1.0-next.3+sha-ae0c590
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -628,7 +628,7 @@ class FieldValidationState {
   }, ...(ngDevMode ? [{
     debugName: "syncValid"
   }] : []));
-  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.field === this.node.fieldProxy), ...(ngDevMode ? [{
+  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.fieldTree === this.node.fieldProxy), ...(ngDevMode ? [{
     debugName: "syncTreeErrors"
   }] : []));
   rawAsyncErrors = computed(() => {
@@ -643,7 +643,7 @@ class FieldValidationState {
     if (this.shouldSkipValidation()) {
       return [];
     }
-    return this.rawAsyncErrors().filter(err => err === 'pending' || err.field === this.node.fieldProxy);
+    return this.rawAsyncErrors().filter(err => err === 'pending' || err.fieldTree === this.node.fieldProxy);
   }, ...(ngDevMode ? [{
     debugName: "asyncErrors"
   }] : []));
@@ -691,13 +691,13 @@ function normalizeErrors(error) {
   }
   return [error];
 }
-function addDefaultField(errors, field) {
+function addDefaultField(errors, fieldTree) {
   if (isArray(errors)) {
     for (const error of errors) {
-      error.field ??= field;
+      error.fieldTree ??= fieldTree;
     }
   } else if (errors) {
-    errors.field ??= field;
+    errors.fieldTree ??= fieldTree;
   }
   return errors;
 }
@@ -737,7 +737,7 @@ class FieldNodeContext {
     }
     return this.cache.get(target)();
   }
-  get field() {
+  get fieldTree() {
     return this.node.fieldProxy;
   }
   get state() {
@@ -1552,7 +1552,7 @@ function setServerErrors(submittedField, errors) {
   const errorsByField = new Map();
   for (const error of errors) {
     const errorWithField = addDefaultField(error, submittedField.fieldProxy);
-    const field = errorWithField.field();
+    const field = errorWithField.fieldTree();
     let fieldErrors = errorsByField.get(field);
     if (!fieldErrors) {
       fieldErrors = [];

@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.3+sha-bf2e508
+ * @license Angular v21.1.0-next.3+sha-ae0c590
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -136,7 +136,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.3+sha-bf2e508",
+    version: "21.1.0-next.3+sha-ae0c590",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -144,7 +144,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.3+sha-bf2e508",
+    version: "21.1.0-next.3+sha-ae0c590",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -169,7 +169,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.3+sha-bf2e508",
+  version: "21.1.0-next.3+sha-ae0c590",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -209,12 +209,12 @@ function disabled(path, logic) {
     }
     if (typeof result === 'string') {
       return {
-        field: ctx.field,
+        fieldTree: ctx.fieldTree,
         message: result
       };
     }
     return result ? {
-      field: ctx.field
+      fieldTree: ctx.fieldTree
     } : undefined;
   });
 }
@@ -261,7 +261,7 @@ function customError(obj) {
 class CustomValidationError {
   __brand = undefined;
   kind = '';
-  field;
+  fieldTree;
   message;
   constructor(options) {
     if (options) {
@@ -272,7 +272,7 @@ class CustomValidationError {
 class _NgValidationError {
   __brand = undefined;
   kind = '';
-  field;
+  fieldTree;
   message;
   constructor(options) {
     if (options) {
@@ -372,7 +372,7 @@ function validate(path, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
   pathNode.builder.addSyncErrorRule(ctx => {
-    return ensureCustomValidationResult(addDefaultField(logic(ctx), ctx.field));
+    return ensureCustomValidationResult(addDefaultField(logic(ctx), ctx.fieldTree));
   });
 }
 
@@ -575,10 +575,10 @@ function validateAsync(path, opts) {
           return undefined;
         }
         errors = opts.onSuccess(res.value(), ctx);
-        return addDefaultField(errors, ctx.field);
+        return addDefaultField(errors, ctx.fieldTree);
       case 'error':
         errors = opts.onError(res.error(), ctx);
-        return addDefaultField(errors, ctx.field);
+        return addDefaultField(errors, ctx.fieldTree);
     }
   });
 }
@@ -586,7 +586,7 @@ function validateAsync(path, opts) {
 function validateTree(path, logic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addSyncTreeErrorRule(ctx => addDefaultField(logic(ctx), ctx.field));
+  pathNode.builder.addSyncTreeErrorRule(ctx => addDefaultField(logic(ctx), ctx.fieldTree));
 }
 
 function validateStandardSchema(path, schema) {
@@ -628,8 +628,8 @@ function validateStandardSchema(path, schema) {
     onError: () => {}
   });
 }
-function standardIssueToFormTreeError(field, issue) {
-  let target = field;
+function standardIssueToFormTreeError(fieldTree, issue) {
+  let target = fieldTree;
   for (const pathPart of issue.path ?? []) {
     const pathKey = typeof pathPart === 'object' ? pathPart.key : pathPart;
     target = target[pathKey];

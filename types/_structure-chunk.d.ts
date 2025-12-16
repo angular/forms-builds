@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.3+sha-bf2e508
+ * @license Angular v21.1.0-next.3+sha-ae0c590
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -311,7 +311,7 @@ type SubmittedStatus = 'unsubmitted' | 'submitted' | 'submitting';
  */
 interface DisabledReason {
     /** The field that is disabled. */
-    readonly field: FieldTree<unknown>;
+    readonly fieldTree: FieldTree<unknown>;
     /** A user-facing message describing the reason for the disablement. */
     readonly message?: string;
 }
@@ -716,7 +716,7 @@ interface RootFieldContext<TValue> {
     /** The state of the current field. */
     readonly state: FieldState<TValue>;
     /** The current field. */
-    readonly field: FieldTree<TValue>;
+    readonly fieldTree: FieldTree<TValue>;
     /** Gets the value of the field represented by the given path. */
     valueOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): PValue;
     /** Gets the state of the field represented by the given path. */
@@ -779,7 +779,7 @@ interface ValidationErrorOptions {
  * @experimental 21.0.0
  */
 type WithField<T> = T & {
-    field: FieldTree<unknown>;
+    fieldTree: FieldTree<unknown>;
 };
 /**
  * A type that allows the given type `T` to optionally have a `field` property.
@@ -787,8 +787,8 @@ type WithField<T> = T & {
  *
  * @experimental 21.0.0
  */
-type WithOptionalField<T> = Omit<T, 'field'> & {
-    field?: FieldTree<unknown>;
+type WithOptionalField<T> = Omit<T, 'fieldTree'> & {
+    fieldTree?: FieldTree<unknown>;
 };
 /**
  * A type that ensures the given type `T` does not have a `field` property.
@@ -797,7 +797,7 @@ type WithOptionalField<T> = Omit<T, 'field'> & {
  * @experimental 21.0.0
  */
 type WithoutField<T> = T & {
-    field: never;
+    fieldTree: never;
 };
 /**
  * Create a required error associated with the target field
@@ -980,7 +980,7 @@ declare namespace ValidationError {
      */
     interface WithField extends ValidationError {
         /** The field associated with this error. */
-        readonly field: FieldTree<unknown>;
+        readonly fieldTree: FieldTree<unknown>;
     }
     /**
      * Validation error with optional field.
@@ -990,7 +990,7 @@ declare namespace ValidationError {
      */
     interface WithOptionalField extends ValidationError {
         /** The field associated with this error. */
-        readonly field?: FieldTree<unknown>;
+        readonly fieldTree?: FieldTree<unknown>;
     }
     /**
      * Validation error with no field.
@@ -1018,7 +1018,7 @@ declare class CustomValidationError implements ValidationError {
     /** Identifies the kind of error. */
     readonly kind: string;
     /** The field associated with this error. */
-    readonly field: FieldTree<unknown>;
+    readonly fieldTree: FieldTree<unknown>;
     /** Human readable error message. */
     readonly message?: string;
     constructor(options?: ValidationErrorOptions);
@@ -1035,7 +1035,7 @@ declare abstract class _NgValidationError implements ValidationError {
     /** Identifies the kind of error. */
     readonly kind: string;
     /** The field associated with this error. */
-    readonly field: FieldTree<unknown>;
+    readonly fieldTree: FieldTree<unknown>;
     /** Human readable error message. */
     readonly message?: string;
     constructor(options?: ValidationErrorOptions);

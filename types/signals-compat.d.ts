@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.3+sha-bf2e508
+ * @license Angular v21.1.0-next.3+sha-ae0c590
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -121,7 +121,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>, schema: Schem
 declare class CompatValidationError<T = unknown> implements ValidationError {
     readonly kind: string;
     readonly control: AbstractControl;
-    readonly field: FieldTree<unknown>;
+    readonly fieldTree: FieldTree<unknown>;
     readonly context: T;
     readonly message?: string;
     constructor({ context, kind, control }: {
