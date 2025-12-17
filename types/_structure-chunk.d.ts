@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-e2a9938
+ * @license Angular v21.1.0-next.4+sha-99ad18a
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1635,8 +1635,8 @@ declare class FieldSubmitState {
      * and is still in the process of submitting.
      */
     readonly selfSubmitting: WritableSignal<boolean>;
-    /** Server errors that are associated with this field. */
-    readonly serverErrors: WritableSignal<readonly ValidationError.WithField[]>;
+    /** Submission errors that are associated with this field. */
+    readonly submissionErrors: WritableSignal<readonly ValidationError.WithField[]>;
     constructor(node: FieldNode);
     /**
      * Whether this form is currently in the process of being submitted.
@@ -1652,8 +1652,8 @@ interface ValidationState {
      */
     rawSyncTreeErrors: Signal<ValidationError.WithField[]>;
     /**
-     * The full set of synchronous errors for this field, including synchronous tree errors and server
-     * errors. Server errors are considered "synchronous" because they are imperatively added. From
+     * The full set of synchronous errors for this field, including synchronous tree errors and submission
+     * errors. Submission errors are considered "synchronous" because they are imperatively added. From
      * the perspective of the field state they are either there or not, they are never in a pending
      * state.
      */
@@ -2344,10 +2344,10 @@ declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: SchemaPa
  */
 declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (value: TValue) => boolean, schema: NoInfer<SchemaOrSchemaFn<TValue>>): void;
 /**
- * Submits a given `FieldTree` using the given action function and applies any server errors
- * resulting from the action to the field. Server errors returned by the `action` will be integrated
+ * Submits a given `FieldTree` using the given action function and applies any submission errors
+ * resulting from the action to the field. Submission errors returned by the `action` will be integrated
  * into the field as a `ValidationError` on the sub-field indicated by the `field` property of the
- * server error.
+ * submission error.
  *
  * @example
  * ```ts
@@ -2370,7 +2370,7 @@ declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (va
  * ```
  *
  * @param form The field to submit.
- * @param action An asynchronous action used to submit the field. The action may return server
+ * @param action An asynchronous action used to submit the field. The action may return submission
  * errors.
  * @template TModel The data type of the field being submitted.
  *
