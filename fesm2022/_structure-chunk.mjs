@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.6+sha-0edbee4
+ * @license Angular v21.0.6+sha-59b3790
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -616,7 +616,7 @@ class FieldValidationState {
     if (this.shouldSkipValidation()) {
       return [];
     }
-    return [...this.node.logicNode.logic.syncErrors.compute(this.node.context), ...this.syncTreeErrors(), ...normalizeErrors(this.node.submitState.serverErrors())];
+    return [...this.node.logicNode.logic.syncErrors.compute(this.node.context), ...this.syncTreeErrors(), ...normalizeErrors(this.node.submitState.submissionErrors())];
   }, ...(ngDevMode ? [{
     debugName: "syncErrors"
   }] : []));
@@ -1138,12 +1138,12 @@ class FieldSubmitState {
   selfSubmitting = signal(false, ...(ngDevMode ? [{
     debugName: "selfSubmitting"
   }] : []));
-  serverErrors;
+  submissionErrors;
   constructor(node) {
     this.node = node;
-    this.serverErrors = linkedSignal({
+    this.submissionErrors = linkedSignal({
       ...(ngDevMode ? {
-        debugName: "serverErrors"
+        debugName: "submissionErrors"
       } : {}),
       source: this.node.structure.value,
       computation: () => []
@@ -1540,12 +1540,12 @@ async function submit(form, action) {
   node.submitState.selfSubmitting.set(true);
   try {
     const errors = await action(form);
-    errors && setServerErrors(node, errors);
+    errors && setSubmissionErrors(node, errors);
   } finally {
     node.submitState.selfSubmitting.set(false);
   }
 }
-function setServerErrors(submittedField, errors) {
+function setSubmissionErrors(submittedField, errors) {
   if (!isArray(errors)) {
     errors = [errors];
   }
@@ -1561,7 +1561,7 @@ function setServerErrors(submittedField, errors) {
     fieldErrors.push(errorWithField);
   }
   for (const [field, fieldErrors] of errorsByField) {
-    field.submitState.serverErrors.set(fieldErrors);
+    field.submitState.submissionErrors.set(fieldErrors);
   }
 }
 function schema(fn) {
