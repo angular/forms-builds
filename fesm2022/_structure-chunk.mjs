@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-5a146b3
+ * @license Angular v21.1.0-next.4+sha-d868a5b
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -789,7 +789,7 @@ class FieldMetadataState {
     if (this.has(key)) {
       if (!this.metadata.has(key)) {
         if (key.create) {
-          throw Error('Managed metadata cannot be created lazily');
+          throw new _RuntimeError(1912, ngDevMode && 'Managed metadata cannot be created lazily');
         }
         const logic = this.node.logicNode.logic.getMetadata(key);
         this.metadata.set(key, computed(() => logic.compute(this.node.context)));

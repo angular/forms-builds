@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-5a146b3
+ * @license Angular v21.1.0-next.4+sha-d868a5b
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1073,7 +1073,7 @@ type ɵFormArrayRawValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, A
  * the `FormArray` directly, as that result in strange and unexpected behavior such
  * as broken change detection.
  *
- * @see [FormArray: Dynamic, Homogenous Collections](guide/forms/typed-forms#formcontrol-getting-started)
+ * @see [FormArray: Dynamic, Homogenous Collections](guide/forms/typed-forms#formarray-dynamic-homogenous-collections)
  * @see [Creating dynamic forms](guide/forms/reactive-forms#creating-dynamic-forms)
  *
  * @publicApi
