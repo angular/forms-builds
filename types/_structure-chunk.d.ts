@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-6a94300
+ * @license Angular v21.1.0-next.4+sha-e6631f0
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1192,7 +1192,7 @@ interface Predicate {
  *
  * Consider the following example:
  *
- * ```
+ * ```ts
  * const s = schema(p => {
  *   disabled(p.data);
  *   applyWhen(p.next, ({valueOf}) => valueOf(p.data) === 1, s);
