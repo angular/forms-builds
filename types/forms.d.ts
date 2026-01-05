@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-a9283ca
+ * @license Angular v21.1.0-next.4+sha-821d565
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -2867,6 +2867,9 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * * `emitEvent`: When true or not supplied (the default), the `events`
      * observable emits a `TouchedChangeEvent` with the `touched` property being `true`.
      * When false, no events are emitted.
+     *
+     * @see [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
+     *
      */
     markAsTouched(opts?: {
         onlySelf?: boolean;
@@ -2881,6 +2884,9 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * * `emitEvent`: When true or not supplied (the default), the `events`
      * observable emits a `PristineChangeEvent` with the `pristine` property being `false`.
      * When false, no events are emitted.
+     *
+     * @see [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
+     *
      */
     markAllAsDirty(opts?: {
         emitEvent?: boolean;
@@ -2894,6 +2900,9 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * * `emitEvent`: When true or not supplied (the default), the `events`
      * observable emits a `TouchedChangeEvent` with the `touched` property being `true`.
      * When false, no events are emitted.
+     *
+     * @see [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
+     *
      */
     markAllAsTouched(opts?: {
         emitEvent?: boolean;
@@ -2915,6 +2924,9 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * * `emitEvent`: When true or not supplied (the default), the `events`
      * observable emits a `TouchedChangeEvent` with the `touched` property being `false`.
      * When false, no events are emitted.
+     *
+     * @see [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
+     *
      */
     markAsUntouched(opts?: {
         onlySelf?: boolean;
@@ -2935,6 +2947,9 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * * `emitEvent`: When true or not supplied (the default), the `events`
      * observable emits a `PristineChangeEvent` with the `pristine` property being `false`.
      * When false, no events are emitted.
+     *
+     * @see [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
+     *
      */
     markAsDirty(opts?: {
         onlySelf?: boolean;
@@ -2958,6 +2973,9 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * * `emitEvent`: When true or not supplied (the default), the `events`
      * observable emits a `PristineChangeEvent` with the `pristine` property being `true`.
      * When false, no events are emitted.
+     *
+     * @see [Managing form control state](guide/forms/reactive-forms#managing-form-control-state)
+     *
      */
     markAsPristine(opts?: {
         onlySelf?: boolean;
@@ -3064,6 +3082,9 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * `valueChanges` and `events`
      * observables emit events with the latest status and value when the control is updated.
      * When false, no events are emitted.
+     *
+     * @see [Understanding propagation control](guide/forms/reactive-forms#understanding-event-emission)
+     *
      */
     updateValueAndValidity(opts?: {
         onlySelf?: boolean;
