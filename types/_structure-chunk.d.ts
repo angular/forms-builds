@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-f05d0fe
+ * @license Angular v21.1.0-next.4+sha-b93d5ec
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -692,7 +692,7 @@ type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn
  *
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
- *
+ * @see [Signal Form Validation](/guide/forms/signals/validation)
  * @category types
  * @experimental 21.0.0
  */
@@ -962,6 +962,8 @@ declare function customError<E extends Partial<ValidationError.WithField>>(obj?:
  * It's also used by the creation functions to create an instance
  * (e.g. `requiredError`, `minError`, etc.).
  *
+ * @see [Signal Form Validation](guide/forms/signals/validation)
+ * @see [Signal Form Validation Errors](guide/forms/signals/validation#validation-errors)
  * @category validation
  * @experimental 21.0.0
  */
