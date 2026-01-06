@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-53d3ae0
+ * @license Angular v21.1.0-next.4+sha-2d85ae5
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1236,8 +1236,8 @@ class FieldNode {
   get readonly() {
     return this.nodeState.readonly;
   }
-  get fieldBindings() {
-    return this.nodeState.fieldBindings;
+  get formFieldBindings() {
+    return this.nodeState.formFieldBindings;
   }
   get submitting() {
     return this.submitState.submitting;
@@ -1368,8 +1368,8 @@ class FieldNodeState {
   markAsUntouched() {
     this.selfTouched.set(false);
   }
-  fieldBindings = signal([], ...(ngDevMode ? [{
-    debugName: "fieldBindings"
+  formFieldBindings = signal([], ...(ngDevMode ? [{
+    debugName: "formFieldBindings"
   }] : []));
   constructor(node) {
     this.node = node;

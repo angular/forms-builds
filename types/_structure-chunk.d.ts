@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-53d3ae0
+ * @license Angular v21.1.0-next.4+sha-2d85ae5
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -86,6 +86,52 @@ declare class Field<T> {
     protected getOrCreateNgControl(): InteropNgControl;
     static ɵfac: i0.ɵɵFactoryDeclaration<Field<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<Field<any>, "[field]", never, { "field": { "alias": "field"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
+}
+
+/**
+ * Lightweight DI token provided by the {@link FormField} directive.
+ *
+ * @category control
+ * @experimental 21.0.0
+ */
+declare const FORM_FIELD: InjectionToken<FormField<unknown>>;
+/**
+ * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
+ * 1. A native HTML input or textarea
+ * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
+ * 3. A component that provides a `ControlValueAccessor`. This should only be used for backwards
+ *    compatibility with reactive forms. Prefer options (1) and (2).
+ *
+ * This directive has several responsibilities:
+ * 1. Two-way binds the field state's value with the UI control's value
+ * 2. Binds additional forms related state on the field state to the UI control (disabled, required, etc.)
+ * 3. Relays relevant events on the control to the field state (e.g. marks touched on blur)
+ * 4. Provides a fake `NgControl` that implements a subset of the features available on the
+ *    reactive forms `NgControl`. This is provided to improve interoperability with controls
+ *    designed to work with reactive forms. It should not be used by controls written for signal
+ *    forms.
+ *
+ * @category control
+ * @experimental 21.0.0
+ */
+declare class FormField<T> {
+    readonly element: HTMLElement;
+    readonly injector: Injector;
+    readonly formField: i0.InputSignal<FieldTree<T>>;
+    readonly state: i0.Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
+    readonly [_CONTROL]: {
+        readonly create: typeof __controlCreate;
+        readonly update: typeof _controlUpdate;
+    };
+    private config;
+    /** Any `ControlValueAccessor` instances provided on the host element. */
+    private readonly controlValueAccessors;
+    /** A lazily instantiated fake `NgControl`. */
+    private interopNgControl;
+    /** Lazily instantiates a fake `NgControl` for this form field. */
+    protected getOrCreateNgControl(): InteropNgControl;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormField<any>, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", never, { "formField": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
 /**
@@ -482,7 +528,7 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
     /**
      * The {@link Field} directives that bind this field to a UI control.
      */
-    readonly fieldBindings: Signal<readonly Field<unknown>[]>;
+    readonly formFieldBindings: Signal<readonly (Field<unknown> | FormField<unknown>)[]>;
     /**
      * Reads a metadata value from the field.
      * @param key The metadata key to read.
@@ -1162,7 +1208,7 @@ type NgValidationError = RequiredValidationError | MinValidationError | MaxValid
 interface SignalFormsConfig {
     /** A map of CSS class names to predicate functions that determine when to apply them. */
     classes?: {
-        [className: string]: (state: Field<unknown>) => boolean;
+        [className: string]: (state: Field<unknown> | FormField<unknown>) => boolean;
     };
 }
 /**
@@ -1562,8 +1608,8 @@ declare class FieldNodeState {
      * Marks this specific field as not touched.
      */
     markAsUntouched(): void;
-    /** The {@link Field} directives that bind this field to a UI control. */
-    readonly fieldBindings: i0.WritableSignal<readonly Field<unknown>[]>;
+    /** The {@link FormField} directives that bind this field to a UI control. */
+    readonly formFieldBindings: i0.WritableSignal<readonly (Field<unknown> | FormField<unknown>)[]>;
     constructor(node: FieldNode);
     /**
      * Whether this field is considered dirty.
@@ -1788,7 +1834,7 @@ declare class FieldNode implements FieldState<unknown> {
     get disabledReasons(): Signal<readonly DisabledReason[]>;
     get hidden(): Signal<boolean>;
     get readonly(): Signal<boolean>;
-    get fieldBindings(): Signal<readonly Field<unknown>[]>;
+    get formFieldBindings(): Signal<readonly (Field<unknown> | FormField<unknown>)[]>;
     get submitting(): Signal<boolean>;
     get name(): Signal<string>;
     get max(): Signal<number | undefined> | undefined;
@@ -2391,5 +2437,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { CustomValidationError, EmailValidationError, FIELD, Field, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, customError, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
+export { CustomValidationError, EmailValidationError, FIELD, FORM_FIELD, Field, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, customError, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
 export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
