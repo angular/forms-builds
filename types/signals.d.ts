@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.6+sha-9d33cf3
+ * @license Angular v21.0.6+sha-45bfd82
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -92,6 +92,7 @@ type BaseValidatorConfig<TValue, TPathKind extends PathKind = PathKind.Root> = {
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Email Validation](guide/forms/signals/validation#email)
  * @category validation
  * @experimental 21.0.0
  */
@@ -110,6 +111,7 @@ declare function email<TPathKind extends PathKind = PathKind.Root>(path: SchemaP
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Max Validation](guide/forms/signals/validation#min-and-max)
  * @category validation
  * @experimental 21.0.0
  */
@@ -129,6 +131,7 @@ declare function max<TPathKind extends PathKind = PathKind.Root>(path: SchemaPat
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Max Length Validation](guide/forms/signals/validation#minlength-and-maxlength)
  * @category validation
  * @experimental 21.0.0
  */
@@ -147,6 +150,7 @@ declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Min Validation](guide/forms/signals/validation#min-and-max)
  * @category validation
  * @experimental 21.0.0
  */
@@ -166,6 +170,7 @@ declare function min<TValue extends number | string | null, TPathKind extends Pa
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Min Length Validation](guide/forms/signals/validation#minlength-and-maxlength)
  * @category validation
  * @experimental 21.0.0
  */
@@ -183,6 +188,7 @@ declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Pattern Validation](guide/forms/signals/validation#pattern)
  * @category validation
  * @experimental 21.0.0
  */
@@ -202,6 +208,7 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Schem
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Required Validation](guide/forms/signals/validation#required)
  * @category validation
  * @experimental 21.0.0
  */
@@ -238,6 +245,7 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  *   or a partial of it.
  * @template TValue The type of value stored in the field being validated.
  *
+ * @see [Signal Form Schema Validation](guide/forms/signals/validation#integration-with-schema-validation-libraries)
  * @category validation
  * @experimental 21.0.0
  */
@@ -281,7 +289,7 @@ type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> 
  * @template TParams The type of parameters to the resource.
  * @template TResult The type of result returned by the resource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
- *
+ * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
  * @category validation
  * @experimental 21.0.0
  */
@@ -331,6 +339,7 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
  * @template TResult The type of result returned by the resource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
  * @category validation
  * @experimental 21.0.0
  */
@@ -388,6 +397,7 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
  * @template TResult The type of result returned by the httpResource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
+ * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
  * @category validation
  * @experimental 21.0.0
  */
