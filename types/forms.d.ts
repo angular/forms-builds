@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.6+sha-8f26a52
+ * @license Angular v21.0.6+sha-b16c2f5
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -2769,8 +2769,6 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      *
      * @usageNotes
      *
-     * ### Reference to a ValidatorFn
-     *
      * ```ts
      * // Reference to the RequiredValidator
      * const ctrl = new FormControl<string | null>('', Validators.required);
@@ -2808,8 +2806,6 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * validator must be a reference to the exact same function that was provided.
      *
      * @usageNotes
-     *
-     * ### Reference to a ValidatorFn
      *
      * ```ts
      * // Reference to the RequiredValidator
