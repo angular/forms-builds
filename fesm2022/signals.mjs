@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-0d6ac92
+ * @license Angular v21.1.0-next.4+sha-8c8c5b2
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -136,7 +136,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.4+sha-0d6ac92",
+    version: "21.1.0-next.4+sha-8c8c5b2",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -144,7 +144,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.4+sha-0d6ac92",
+    version: "21.1.0-next.4+sha-8c8c5b2",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -169,7 +169,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.4+sha-0d6ac92",
+  version: "21.1.0-next.4+sha-8c8c5b2",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -240,7 +240,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0-next.4+sha-0d6ac92",
+    version: "21.1.0-next.4+sha-8c8c5b2",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -248,7 +248,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0-next.4+sha-0d6ac92",
+    version: "21.1.0-next.4+sha-8c8c5b2",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -273,7 +273,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0-next.4+sha-0d6ac92",
+  version: "21.1.0-next.4+sha-8c8c5b2",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -761,8 +761,17 @@ function debounce(path, durationOrDebouncer) {
 function debounceForDuration(durationInMilliseconds) {
   return (_context, abortSignal) => {
     return new Promise(resolve => {
-      const timeoutId = setTimeout(resolve, durationInMilliseconds);
-      abortSignal.addEventListener('abort', () => clearTimeout(timeoutId));
+      let timeoutId;
+      const onAbort = () => {
+        clearTimeout(timeoutId);
+      };
+      timeoutId = setTimeout(() => {
+        abortSignal.removeEventListener('abort', onAbort);
+        resolve();
+      }, durationInMilliseconds);
+      abortSignal.addEventListener('abort', onAbort, {
+        once: true
+      });
     });
   };
 }
