@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-next.4+sha-090484c
+ * @license Angular v21.1.0-next.4+sha-46dbd18
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1574,5 +1574,5 @@ function markAllAsTouched(node) {
   }
 }
 
-export { BasicFieldAdapter, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, form, getInjectorFromOptions, isArray, metadata, normalizeFormArgs, schema, submit };
+export { BasicFieldAdapter, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, form, getInjectorFromOptions, metadata, normalizeFormArgs, schema, submit };
 //# sourceMappingURL=_structure-chunk.mjs.map
