@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.6+sha-c3adc5a
+ * @license Angular v21.0.6+sha-ff53175
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -985,22 +985,6 @@ declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: Wit
  */
 declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutField<StandardSchemaValidationError>;
 /**
- * Create a custom error associated with the target field
- * @param obj The object to create an error from
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare function customError<E extends Partial<ValidationError.WithField>>(obj: WithField<E>): CustomValidationError;
-/**
- * Create a custom error
- * @param obj The object to create an error from
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare function customError<E extends Partial<ValidationError.WithField>>(obj?: E): WithoutField<CustomValidationError>;
-/**
  * Common interface for all validation errors.
  *
  * This can be returned from validators.
@@ -1047,29 +1031,8 @@ declare namespace ValidationError {
      */
     interface WithoutField extends ValidationError {
         /** The field associated with this error. */
-        readonly field?: never;
+        readonly fieldTree?: never;
     }
-}
-/**
- * A custom error that may contain additional properties
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare class CustomValidationError implements ValidationError {
-    /** Brand the class to avoid Typescript structural matching */
-    private __brand;
-    /**
-     * Allow the user to attach arbitrary other properties.
-     */
-    [key: PropertyKey]: unknown;
-    /** Identifies the kind of error. */
-    readonly kind: string;
-    /** The field associated with this error. */
-    readonly fieldTree: FieldTree<unknown>;
-    /** Human readable error message. */
-    readonly message?: string;
-    constructor(options?: ValidationErrorOptions);
 }
 /**
  * Internal version of `NgValidationError`, we create this separately so we can change its type on
@@ -2287,7 +2250,7 @@ declare function form<TModel>(model: WritableSignal<TModel>, schemaOrOptions: Sc
  * ```ts
  * const nameForm = form(signal({first: '', last: ''}), (name) => {
  *   required(name.first);
- *   validate(name.last, ({value}) => !/^[a-z]+$/i.test(value()) ? customError({kind: 'alphabet-only'}) : undefined);
+ *   validate(name.last, ({value}) => !/^[a-z]+$/i.test(value()) ? {kind: 'alphabet-only'} : undefined);
  * });
  * nameForm().valid(); // false
  * nameForm().value.set({first: 'John', last: 'Doe'});
@@ -2437,5 +2400,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { CustomValidationError, EmailValidationError, FIELD, FORM_FIELD, Field, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, customError, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
+export { EmailValidationError, FIELD, FORM_FIELD, Field, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
 export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };

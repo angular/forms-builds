@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.6+sha-c3adc5a
+ * @license Angular v21.0.6+sha-ff53175
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import * as i0 from '@angular/core';
 import { InjectionToken, ɵRuntimeError as _RuntimeError, inject, ElementRef, Injector, input, computed, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
-import { assertPathIsCurrent, FieldPathNode, isArray, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER } from './_structure-chunk.mjs';
+import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER } from './_structure-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema, submit } from './_structure-chunk.mjs';
 import { httpResource } from '@angular/common/http';
 import '@angular/core/primitives/signals';
@@ -136,7 +136,7 @@ class Field {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.6+sha-c3adc5a",
+    version: "21.0.6+sha-ff53175",
     ngImport: i0,
     type: Field,
     deps: [],
@@ -144,7 +144,7 @@ class Field {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.6+sha-c3adc5a",
+    version: "21.0.6+sha-ff53175",
     type: Field,
     isStandalone: true,
     selector: "[field]",
@@ -169,7 +169,7 @@ class Field {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.6+sha-c3adc5a",
+  version: "21.0.6+sha-ff53175",
   ngImport: i0,
   type: Field,
   decorators: [{
@@ -240,7 +240,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.6+sha-c3adc5a",
+    version: "21.0.6+sha-ff53175",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -248,7 +248,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.6+sha-c3adc5a",
+    version: "21.0.6+sha-ff53175",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -273,7 +273,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.6+sha-c3adc5a",
+  version: "21.0.6+sha-ff53175",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -335,6 +335,28 @@ function readonly(path, logic = () => true) {
   pathNode.builder.addReadonlyRule(logic);
 }
 
+function getLengthOrSize(value) {
+  const v = value;
+  return typeof v.length === 'number' ? v.length : v.size;
+}
+function getOption(opt, ctx) {
+  return opt instanceof Function ? opt(ctx) : opt;
+}
+function isEmpty(value) {
+  if (typeof value === 'number') {
+    return isNaN(value);
+  }
+  return value === '' || value === false || value == null;
+}
+
+function validate(path, logic) {
+  assertPathIsCurrent(path);
+  const pathNode = FieldPathNode.unwrapFieldPath(path);
+  pathNode.builder.addSyncErrorRule(ctx => {
+    return addDefaultField(logic(ctx), ctx.fieldTree);
+  });
+}
+
 function requiredError(options) {
   return new RequiredValidationError(options);
 }
@@ -358,20 +380,6 @@ function emailError(options) {
 }
 function standardSchemaError(issue, options) {
   return new StandardSchemaValidationError(issue, options);
-}
-function customError(obj) {
-  return new CustomValidationError(obj);
-}
-class CustomValidationError {
-  __brand = undefined;
-  kind = '';
-  fieldTree;
-  message;
-  constructor(options) {
-    if (options) {
-      Object.assign(this, options);
-    }
-  }
 }
 class _NgValidationError {
   __brand = undefined;
@@ -439,46 +447,6 @@ class StandardSchemaValidationError extends _NgValidationError {
   }
 }
 const NgValidationError = _NgValidationError;
-
-function getLengthOrSize(value) {
-  const v = value;
-  return typeof v.length === 'number' ? v.length : v.size;
-}
-function getOption(opt, ctx) {
-  return opt instanceof Function ? opt(ctx) : opt;
-}
-function isEmpty(value) {
-  if (typeof value === 'number') {
-    return isNaN(value);
-  }
-  return value === '' || value === false || value == null;
-}
-function isPlainError(error) {
-  return typeof error === 'object' && (Object.getPrototypeOf(error) === Object.prototype || Object.getPrototypeOf(error) === null);
-}
-function ensureCustomValidationError(error) {
-  if (isPlainError(error)) {
-    return customError(error);
-  }
-  return error;
-}
-function ensureCustomValidationResult(result) {
-  if (result === null || result === undefined) {
-    return result;
-  }
-  if (isArray(result)) {
-    return result.map(ensureCustomValidationError);
-  }
-  return ensureCustomValidationError(result);
-}
-
-function validate(path, logic) {
-  assertPathIsCurrent(path);
-  const pathNode = FieldPathNode.unwrapFieldPath(path);
-  pathNode.builder.addSyncErrorRule(ctx => {
-    return ensureCustomValidationResult(addDefaultField(logic(ctx), ctx.fieldTree));
-  });
-}
 
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 function email(path, config) {
@@ -777,5 +745,5 @@ function debounceForDuration(durationInMilliseconds) {
 }
 function immediate() {}
 
-export { CustomValidationError, EmailValidationError, FIELD, FORM_FIELD, Field, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, customError, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { EmailValidationError, FIELD, FORM_FIELD, Field, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 //# sourceMappingURL=signals.mjs.map
