@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-5c16caa
+ * @license Angular v21.2.0-next.0+sha-0aaadaf
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -40,52 +40,6 @@ declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'c
     valueAccessor: ControlValueAccessor | null;
     hasValidator(validator: ValidatorFn): boolean;
     updateValueAndValidity(): void;
-}
-
-/**
- * Lightweight DI token provided by the {@link Field} directive.
- *
- * @category control
- * @experimental 21.0.0
- */
-declare const FIELD: InjectionToken<Field<unknown>>;
-/**
- * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
- * 1. A native HTML input or textarea
- * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
- * 3. A component that provides a `ControlValueAccessor`. This should only be used for backwards
- *    compatibility with reactive forms. Prefer options (1) and (2).
- *
- * This directive has several responsibilities:
- * 1. Two-way binds the field's value with the UI control's value
- * 2. Binds additional forms related state on the field to the UI control (disabled, required, etc.)
- * 3. Relays relevant events on the control to the field (e.g. marks field touched on blur)
- * 4. Provides a fake `NgControl` that implements a subset of the features available on the
- *    reactive forms `NgControl`. This is provided to improve interoperability with controls
- *    designed to work with reactive forms. It should not be used by controls written for signal
- *    forms.
- *
- * @category control
- * @experimental 21.0.0
- */
-declare class Field<T> {
-    readonly element: HTMLElement;
-    readonly injector: Injector;
-    readonly field: i0.InputSignal<FieldTree<T>>;
-    readonly state: i0.Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
-    readonly [_CONTROL]: {
-        readonly create: typeof __controlCreate;
-        readonly update: typeof _controlUpdate;
-    };
-    private config;
-    /** Any `ControlValueAccessor` instances provided on the host element. */
-    private readonly controlValueAccessors;
-    /** A lazily instantiated fake `NgControl`. */
-    private interopNgControl;
-    /** Lazily instantiates a fake `NgControl` for this field. */
-    protected getOrCreateNgControl(): InteropNgControl;
-    static ɵfac: i0.ɵɵFactoryDeclaration<Field<any>, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<Field<any>, "[field]", never, { "field": { "alias": "field"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
 /**
@@ -526,9 +480,9 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      */
     readonly keyInParent: Signal<TKey>;
     /**
-     * The {@link Field} directives that bind this field to a UI control.
+     * The {@link FormField} directives that bind this field to a UI control.
      */
-    readonly formFieldBindings: Signal<readonly (Field<unknown> | FormField<unknown>)[]>;
+    readonly formFieldBindings: Signal<readonly FormField<unknown>[]>;
     /**
      * Reads a metadata value from the field.
      * @param key The metadata key to read.
@@ -1171,7 +1125,7 @@ type NgValidationError = RequiredValidationError | MinValidationError | MaxValid
 interface SignalFormsConfig {
     /** A map of CSS class names to predicate functions that determine when to apply them. */
     classes?: {
-        [className: string]: (state: Field<unknown> | FormField<unknown>) => boolean;
+        [className: string]: (state: FormField<unknown>) => boolean;
     };
 }
 /**
@@ -1572,7 +1526,7 @@ declare class FieldNodeState {
      */
     markAsUntouched(): void;
     /** The {@link FormField} directives that bind this field to a UI control. */
-    readonly formFieldBindings: i0.WritableSignal<readonly (Field<unknown> | FormField<unknown>)[]>;
+    readonly formFieldBindings: i0.WritableSignal<readonly FormField<unknown>[]>;
     constructor(node: FieldNode);
     /**
      * Whether this field is considered dirty.
@@ -1797,7 +1751,7 @@ declare class FieldNode implements FieldState<unknown> {
     get disabledReasons(): Signal<readonly DisabledReason[]>;
     get hidden(): Signal<boolean>;
     get readonly(): Signal<boolean>;
-    get formFieldBindings(): Signal<readonly (Field<unknown> | FormField<unknown>)[]>;
+    get formFieldBindings(): Signal<readonly FormField<unknown>[]>;
     get submitting(): Signal<boolean>;
     get name(): Signal<string>;
     get max(): Signal<number | undefined> | undefined;
@@ -2401,5 +2355,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { EmailValidationError, FIELD, FORM_FIELD, Field, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
+export { EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
 export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
