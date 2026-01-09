@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.0.8+sha-5bc072e
+ * @license Angular v21.0.8+sha-615a77b
  * (c) 2010-2025 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -93,110 +93,6 @@ class InteropNgControl {
   updateValueAndValidity() {}
 }
 
-const FIELD = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FIELD' : '');
-const controlInstructions$1 = {
-  create: __controlCreate,
-  update: _controlUpdate
-};
-class Field {
-  element = inject(ElementRef).nativeElement;
-  injector = inject(Injector);
-  field = input.required(...(ngDevMode ? [{
-    debugName: "field"
-  }] : []));
-  state = computed(() => this.field()(), ...(ngDevMode ? [{
-    debugName: "state"
-  }] : []));
-  [_CONTROL] = controlInstructions$1;
-  config = inject(SIGNAL_FORMS_CONFIG, {
-    optional: true
-  });
-  classes = Object.entries(this.config?.classes ?? {}).map(([className, computation]) => [className, computed(() => computation(this))]);
-  controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
-    optional: true,
-    self: true
-  });
-  interopNgControl;
-  get ɵinteropControl() {
-    return this.controlValueAccessors?.[0] ?? this.interopNgControl?.valueAccessor ?? undefined;
-  }
-  getOrCreateNgControl() {
-    return this.interopNgControl ??= new InteropNgControl(this.state);
-  }
-  ɵregister() {
-    effect(onCleanup => {
-      const fieldNode = this.state();
-      fieldNode.nodeState.formFieldBindings.update(controls => [...controls, this]);
-      onCleanup(() => {
-        fieldNode.nodeState.formFieldBindings.update(controls => controls.filter(c => c !== this));
-      });
-    }, {
-      injector: this.injector
-    });
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "21.0.8+sha-5bc072e",
-    ngImport: i0,
-    type: Field,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
-    version: "21.0.8+sha-5bc072e",
-    type: Field,
-    isStandalone: true,
-    selector: "[field]",
-    inputs: {
-      field: {
-        classPropertyName: "field",
-        publicName: "field",
-        isSignal: true,
-        isRequired: true,
-        transformFunction: null
-      }
-    },
-    providers: [{
-      provide: FIELD,
-      useExisting: Field
-    }, {
-      provide: NgControl,
-      useFactory: () => inject(Field).getOrCreateNgControl()
-    }],
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "21.0.8+sha-5bc072e",
-  ngImport: i0,
-  type: Field,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[field]',
-      providers: [{
-        provide: FIELD,
-        useExisting: Field
-      }, {
-        provide: NgControl,
-        useFactory: () => inject(Field).getOrCreateNgControl()
-      }]
-    }]
-  }],
-  propDecorators: {
-    field: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "field",
-        required: true
-      }]
-    }]
-  }
-});
-
 const FORM_FIELD = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FORM_FIELD' : '');
 const controlInstructions = {
   create: __controlCreate,
@@ -240,7 +136,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.0.8+sha-5bc072e",
+    version: "21.0.8+sha-615a77b",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -248,7 +144,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.0.8+sha-5bc072e",
+    version: "21.0.8+sha-615a77b",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -273,7 +169,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.0.8+sha-5bc072e",
+  version: "21.0.8+sha-615a77b",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -745,5 +641,5 @@ function debounceForDuration(durationInMilliseconds) {
 }
 function immediate() {}
 
-export { EmailValidationError, FIELD, FORM_FIELD, Field, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 //# sourceMappingURL=signals.mjs.map
