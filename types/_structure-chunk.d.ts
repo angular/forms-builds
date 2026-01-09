@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-rc.0+sha-f41d721
+ * @license Angular v21.1.0-rc.0+sha-0c23d02
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -2357,7 +2357,7 @@ declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (va
 /**
  * Submits a given `FieldTree` using the given action function and applies any submission errors
  * resulting from the action to the field. Submission errors returned by the `action` will be integrated
- * into the field as a `ValidationError` on the sub-field indicated by the `field` property of the
+ * into the field as a `ValidationError` on the sub-field indicated by the `fieldTree` property of the
  * submission error.
  *
  * @example
@@ -2366,8 +2366,9 @@ declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (va
  *   const result = await myClient.registerNewUser(registrationForm().value());
  *   if (result.errorCode === myClient.ErrorCode.USERNAME_TAKEN) {
  *     return [{
- *       field: registrationForm.username,
- *       error: {kind: 'server', message: 'Username already taken'}
+ *       fieldTree: registrationForm.username,
+ *       kind: 'server',
+ *       message: 'Username already taken'
  *     }];
  *   }
  *   return undefined;
