@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-b228355
+ * @license Angular v21.2.0-next.0+sha-511d9ca
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -84,6 +84,8 @@ declare class FormField<T> {
     private interopNgControl;
     /** Lazily instantiates a fake `NgControl` for this form field. */
     protected getOrCreateNgControl(): InteropNgControl;
+    /** Focuses this UI control. */
+    focus?(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormField<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", never, { "formField": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
@@ -496,6 +498,11 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      * @param value Optional value to set to the form. If not passed, the value will not be changed.
      */
     reset(value?: TValue): void;
+    /**
+     * Focuses the first UI control in the DOM that is bound to this field state.
+     * If no UI control is bound, does nothing.
+     */
+    focusBoundControl(): void;
 }
 /**
  * This is FieldState also providing access to the wrapped FormControl.
@@ -1727,6 +1734,16 @@ declare class FieldNode implements FieldState<unknown> {
     readonly fieldProxy: FieldTree<any>;
     private readonly pathNode;
     constructor(options: FieldNodeOptions);
+    focusBoundControl(): void;
+    /**
+     * Gets the Field directive binding that should be focused when the developer calls
+     * `focusBoundControl` on this node.
+     *
+     * This will prioritize focusable bindings to this node, and if multiple exist, it will return
+     * the first one in the DOM. If no focusable bindings exist on this node, it will return the
+     * first focusable binding in the DOM for any descendant node of this one.
+     */
+    private getBindingForFocus;
     /**
      * The `AbortController` for the currently debounced sync, or `undefined` if there is none.
      *
@@ -1860,7 +1877,7 @@ declare abstract class FieldNodeStructure {
     get injector(): DestroyableInjector;
     constructor(logic: LogicNode, node: FieldNode, createChildNode: ChildNodeCtor);
     /** Gets the child fields of this field. */
-    children(): Iterable<FieldNode>;
+    children(): readonly FieldNode[];
     /** Retrieve a child `FieldNode` of this node by property key. */
     getChild(key: PropertyKey): FieldNode | undefined;
     /**
