@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0-rc.0+sha-654ed65
+ * @license Angular v21.1.0-rc.0+sha-1ea5c97
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1178,6 +1178,14 @@ class FieldNode {
     this.metadataState = new FieldMetadataState(this);
     this.submitState = new FieldSubmitState(this);
   }
+  focusBoundControl() {
+    this.getBindingForFocus()?.focus();
+  }
+  getBindingForFocus() {
+    const own = this.formFieldBindings().filter(b => b.focus !== undefined).reduce(firstInDom, undefined);
+    if (own) return own;
+    return this.structure.children().map(child => child.getBindingForFocus()).reduce(firstInDom, undefined);
+  }
   pendingSync = linkedSignal({
     ...(ngDevMode ? {
       debugName: "pendingSync"
@@ -1347,6 +1355,12 @@ const EMPTY = computed(() => [], ...(ngDevMode ? [{
 const FALSE = computed(() => false, ...(ngDevMode ? [{
   debugName: "FALSE"
 }] : []));
+function firstInDom(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+  const position = a.element.compareDocumentPosition(b.element);
+  return position & Node.DOCUMENT_POSITION_PRECEDING ? b : a;
+}
 
 class FieldNodeState {
   node;
