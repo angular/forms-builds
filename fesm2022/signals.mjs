@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.1.0+sha-c0446da
+ * @license Angular v21.1.0+sha-0643f54
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵRuntimeError as _RuntimeError, inject, ElementRef, Injector, input, computed, ɵCONTROL as _CONTROL, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
+import { InjectionToken, ɵRuntimeError as _RuntimeError, inject, ElementRef, Injector, input, computed, signal, ɵCONTROL as _CONTROL, untracked, effect, Directive, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER } from './_structure-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema, submit } from './_structure-chunk.mjs';
@@ -107,6 +107,9 @@ class FormField {
   state = computed(() => this.formField()(), ...(ngDevMode ? [{
     debugName: "state"
   }] : []));
+  bindingOptions = signal(undefined, ...(ngDevMode ? [{
+    debugName: "bindingOptions"
+  }] : []));
   [_CONTROL] = controlInstructions;
   config = inject(SIGNAL_FORMS_CONFIG, {
     optional: true
@@ -123,7 +126,11 @@ class FormField {
   getOrCreateNgControl() {
     return this.interopNgControl ??= new InteropNgControl(this.state);
   }
-  ɵregister() {
+  registerAsBinding(bindingOptions) {
+    if (untracked(this.bindingOptions)) {
+      throw new _RuntimeError(1913, ngDevMode && 'FormField already registered as a binding');
+    }
+    this.bindingOptions.set(bindingOptions);
     effect(onCleanup => {
       const fieldNode = this.state();
       fieldNode.nodeState.formFieldBindings.update(controls => [...controls, this]);
@@ -134,9 +141,17 @@ class FormField {
       injector: this.injector
     });
   }
+  focus() {
+    const bindingOptions = untracked(this.bindingOptions);
+    if (bindingOptions?.focus) {
+      bindingOptions.focus();
+    } else {
+      this.element.focus();
+    }
+  }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.1.0+sha-c0446da",
+    version: "21.1.0+sha-0643f54",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -144,7 +159,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.1.0+sha-c0446da",
+    version: "21.1.0+sha-0643f54",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -169,7 +184,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.1.0+sha-c0446da",
+  version: "21.1.0+sha-0643f54",
   ngImport: i0,
   type: FormField,
   decorators: [{

@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.1.0+sha-c0446da
+ * @license Angular v21.1.0+sha-0643f54
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Signal, ɵFieldState as _FieldState, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
+import { ɵFormFieldBindingOptions as _FormFieldBindingOptions, InjectionToken, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Signal, ɵFieldState as _FieldState, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
 import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
@@ -42,6 +42,15 @@ declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'c
     updateValueAndValidity(): void;
 }
 
+interface FormFieldBindingOptions extends _FormFieldBindingOptions {
+    /**
+     * Focuses the binding.
+     *
+     * If not specified, Signal Forms will attempt to focus the host element of the `FormField` when
+     * asked to focus this binding.
+     */
+    focus?: VoidFunction;
+}
 /**
  * Lightweight DI token provided by the {@link FormField} directive.
  *
@@ -73,6 +82,7 @@ declare class FormField<T> {
     readonly injector: Injector;
     readonly formField: i0.InputSignal<FieldTree<T>>;
     readonly state: i0.Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
+    private readonly bindingOptions;
     readonly [_CONTROL]: {
         readonly create: typeof __controlCreate;
         readonly update: typeof _controlUpdate;
@@ -84,8 +94,15 @@ declare class FormField<T> {
     private interopNgControl;
     /** Lazily instantiates a fake `NgControl` for this form field. */
     protected getOrCreateNgControl(): InteropNgControl;
+    /**
+     * Registers this `FormField` as a binding on its associated `FieldState`.
+     *
+     * This method should be called at most once for a given `FormField`. A `FormField` placed on a
+     * custom control (`FormUiControl`) automatically registers that custom control as a binding.
+     */
+    registerAsBinding(bindingOptions?: FormFieldBindingOptions): void;
     /** Focuses this UI control. */
-    focus?(): void;
+    focus(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormField<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", never, { "formField": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
@@ -2373,4 +2390,4 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
 export { EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
