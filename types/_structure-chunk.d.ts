@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.0+sha-ded654d
+ * @license Angular v21.1.0+sha-32ad1e0
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1822,6 +1822,10 @@ declare class FieldNode implements FieldState<unknown> {
      * Synchronizes the {@link controlValue} with the {@link value} signal immediately.
      */
     private sync;
+    /**
+     * If there is a pending sync, abort it and sync immediately.
+     */
+    private flushSync;
     /**
      * Initiates a debounced {@link sync}.
      *
