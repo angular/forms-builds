@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-e55260f-with-local-changes
+ * @license Angular v21.2.0-next.0+sha-5d46554-with-local-changes
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -510,7 +510,7 @@ interface FormUiControl {
      * If the focus method is not implemented, Signal Forms will attempt to focus the host element
      * when asked to focus this control.
      */
-    focus?(): void;
+    focus?(options?: FocusOptions): void;
 }
 /**
  * A contract for a form control that edits a `FieldTree` of type `TValue`. Any component that

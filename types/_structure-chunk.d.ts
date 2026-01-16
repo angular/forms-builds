@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-e55260f-with-local-changes
+ * @license Angular v21.2.0-next.0+sha-5d46554-with-local-changes
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -49,7 +49,7 @@ interface FormFieldBindingOptions extends _FormFieldBindingOptions {
      * If not specified, Signal Forms will attempt to focus the host element of the `FormField` when
      * asked to focus this binding.
      */
-    focus?: VoidFunction;
+    focus?(options?: FocusOptions): void;
 }
 /**
  * Lightweight DI token provided by the {@link FormField} directive.
@@ -102,7 +102,7 @@ declare class FormField<T> {
      */
     registerAsBinding(bindingOptions?: FormFieldBindingOptions): void;
     /** Focuses this UI control. */
-    focus(): void;
+    focus(options?: FocusOptions): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormField<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", never, { "formField": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
@@ -518,8 +518,9 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
     /**
      * Focuses the first UI control in the DOM that is bound to this field state.
      * If no UI control is bound, does nothing.
+     * @param options Optional focus options to pass to the native focus() method.
      */
-    focusBoundControl(): void;
+    focusBoundControl(options?: FocusOptions): void;
 }
 /**
  * This is FieldState also providing access to the wrapped FormControl.
@@ -1751,7 +1752,7 @@ declare class FieldNode implements FieldState<unknown> {
     readonly fieldProxy: FieldTree<any>;
     private readonly pathNode;
     constructor(options: FieldNodeOptions);
-    focusBoundControl(): void;
+    focusBoundControl(options?: FocusOptions): void;
     /**
      * Gets the Field directive binding that should be focused when the developer calls
      * `focusBoundControl` on this node.

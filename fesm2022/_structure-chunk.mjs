@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-e55260f-with-local-changes
+ * @license Angular v21.2.0-next.0+sha-5d46554-with-local-changes
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1178,8 +1178,8 @@ class FieldNode {
     this.metadataState = new FieldMetadataState(this);
     this.submitState = new FieldSubmitState(this);
   }
-  focusBoundControl() {
-    this.getBindingForFocus()?.focus();
+  focusBoundControl(options) {
+    this.getBindingForFocus()?.focus(options);
   }
   getBindingForFocus() {
     const own = this.formFieldBindings().filter(b => b.focus !== undefined).reduce(firstInDom, undefined);
