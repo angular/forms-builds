@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-54fc393
+ * @license Angular v21.2.0-next.0+sha-52bc020
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1278,9 +1278,10 @@ class FieldNode {
     return this.metadataState.has(key);
   }
   markAsTouched() {
-    this.nodeState.markAsTouched();
-    this.pendingSync()?.abort();
-    this.sync();
+    untracked(() => {
+      this.nodeState.markAsTouched();
+      this.flushSync();
+    });
   }
   markAsDirty() {
     this.nodeState.markAsDirty();
@@ -1299,12 +1300,21 @@ class FieldNode {
     }
   }
   setControlValue(newValue) {
-    this._controlValue.set(newValue);
-    this.markAsDirty();
-    this.debounceSync();
+    untracked(() => {
+      this._controlValue.set(newValue);
+      this.markAsDirty();
+      this.debounceSync();
+    });
   }
   sync() {
     this.value.set(this.controlValue());
+  }
+  flushSync() {
+    const pending = this.pendingSync();
+    if (pending && !pending.signal.aborted) {
+      pending.abort();
+      this.sync();
+    }
   }
   async debounceSync() {
     this.pendingSync()?.abort();
