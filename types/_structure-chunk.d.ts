@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-fc73252
+ * @license Angular v21.2.0-next.0+sha-75c40e7
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -315,13 +315,6 @@ declare namespace PathKind {
         [ɵɵTYPE]: 'item';
     }
 }
-/**
- * A status indicating whether a field is unsubmitted, submitted, or currently submitting.
- *
- * @category types
- * @experimental 21.0.0
- */
-type SubmittedStatus = 'unsubmitted' | 'submitted' | 'submitting';
 /**
  * A reason for a field's disablement.
  *
@@ -2395,4 +2388,4 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
 export { EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, SubmittedStatus, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };

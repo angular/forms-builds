@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-fc73252
+ * @license Angular v21.2.0-next.0+sha-75c40e7
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -4538,7 +4538,7 @@ declare class NgForm extends ControlContainer implements Form, AfterViewInit {
  * and `FormArray` instances to child `FormControlName`, `FormGroupName`,
  * and `FormArrayName` directives.
  *
- * @see [Reactive Forms Guide](guide/reactive-forms)
+ * @see [Reactive Forms Guide](guide/forms/reactive-forms)
  * @see {@link AbstractControl}
  *
  * @usageNotes
