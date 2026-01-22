@@ -1,111 +1,14 @@
 /**
- * @license Angular v21.2.0-next.0+sha-085784e
+ * @license Angular v21.2.0-next.0+sha-ebae211
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { ɵFormFieldBindingOptions as _FormFieldBindingOptions, InjectionToken, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Signal, ɵFieldState as _FieldState, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
+import { Signal, ɵFieldState as _FieldState, ɵFormFieldBindingOptions as _FormFieldBindingOptions, InjectionToken, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
-import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
+import { AbstractControl, NgControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
-
-/**
- * Properties of both NgControl & AbstractControl that are supported by the InteropNgControl.
- */
-type InteropSharedKeys = 'value' | 'valid' | 'invalid' | 'touched' | 'untouched' | 'disabled' | 'enabled' | 'errors' | 'pristine' | 'dirty' | 'status';
-/**
- * A fake version of `NgControl` provided by the `Field` directive. This allows interoperability
- * with a wider range of components designed to work with reactive forms, in particular ones that
- * inject the `NgControl`. The interop control does not implement *all* properties and methods of
- * the real `NgControl`, but does implement some of the most commonly used ones that have a clear
- * equivalent in signal forms.
- */
-declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'control' | 'valueAccessor'>, Pick<AbstractControl<unknown>, InteropSharedKeys | 'hasValidator'> {
-    protected field: () => FieldState<unknown>;
-    constructor(field: () => FieldState<unknown>);
-    readonly control: AbstractControl<any, any>;
-    get value(): any;
-    get valid(): boolean;
-    get invalid(): boolean;
-    get pending(): boolean | null;
-    get disabled(): boolean;
-    get enabled(): boolean;
-    get errors(): ValidationErrors | null;
-    get pristine(): boolean;
-    get dirty(): boolean;
-    get touched(): boolean;
-    get untouched(): boolean;
-    get status(): FormControlStatus;
-    valueAccessor: ControlValueAccessor | null;
-    hasValidator(validator: ValidatorFn): boolean;
-    updateValueAndValidity(): void;
-}
-
-interface FormFieldBindingOptions extends _FormFieldBindingOptions {
-    /**
-     * Focuses the binding.
-     *
-     * If not specified, Signal Forms will attempt to focus the host element of the `FormField` when
-     * asked to focus this binding.
-     */
-    focus?(options?: FocusOptions): void;
-}
-/**
- * Lightweight DI token provided by the {@link FormField} directive.
- *
- * @category control
- * @experimental 21.0.0
- */
-declare const FORM_FIELD: InjectionToken<FormField<unknown>>;
-/**
- * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
- * 1. A native HTML input or textarea
- * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
- * 3. A component that provides a `ControlValueAccessor`. This should only be used for backwards
- *    compatibility with reactive forms. Prefer options (1) and (2).
- *
- * This directive has several responsibilities:
- * 1. Two-way binds the field state's value with the UI control's value
- * 2. Binds additional forms related state on the field state to the UI control (disabled, required, etc.)
- * 3. Relays relevant events on the control to the field state (e.g. marks touched on blur)
- * 4. Provides a fake `NgControl` that implements a subset of the features available on the
- *    reactive forms `NgControl`. This is provided to improve interoperability with controls
- *    designed to work with reactive forms. It should not be used by controls written for signal
- *    forms.
- *
- * @category control
- * @experimental 21.0.0
- */
-declare class FormField<T> {
-    readonly element: HTMLElement;
-    readonly injector: Injector;
-    readonly formField: i0.InputSignal<FieldTree<T>>;
-    readonly state: i0.Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
-    private readonly bindingOptions;
-    readonly [_CONTROL]: {
-        readonly create: typeof __controlCreate;
-        readonly update: typeof _controlUpdate;
-    };
-    private config;
-    /** Any `ControlValueAccessor` instances provided on the host element. */
-    private readonly controlValueAccessors;
-    /** A lazily instantiated fake `NgControl`. */
-    private interopNgControl;
-    /** Lazily instantiates a fake `NgControl` for this form field. */
-    protected getOrCreateNgControl(): InteropNgControl;
-    /**
-     * Registers this `FormField` as a binding on its associated `FieldState`.
-     *
-     * This method should be called at most once for a given `FormField`. A `FormField` placed on a
-     * custom control (`FormUiControl`) automatically registers that custom control as a binding.
-     */
-    registerAsBinding(bindingOptions?: FormFieldBindingOptions): void;
-    /** Focuses this UI control. */
-    focus(options?: FocusOptions): void;
-    static ɵfac: i0.ɵɵFactoryDeclaration<FormField<any>, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", never, { "formField": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
-}
 
 /**
  * Sets a value for the {@link MetadataKey} for this field.
@@ -348,7 +251,7 @@ type ValidationSuccess = null | undefined | void;
  * @category types
  * @experimental 21.0.0
  */
-type TreeValidationResult<E extends ValidationError.WithOptionalField = ValidationError.WithOptionalField> = ValidationSuccess | OneOrMany<E>;
+type TreeValidationResult<E extends ValidationError.WithOptionalFieldTree = ValidationError.WithOptionalFieldTree> = ValidationSuccess | OneOrMany<E>;
 /**
  * A validation result where all errors explicitly define their target field.
  *
@@ -449,11 +352,11 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      */
     readonly hidden: Signal<boolean>;
     readonly disabledReasons: Signal<readonly DisabledReason[]>;
-    readonly errors: Signal<ValidationError.WithField[]>;
+    readonly errors: Signal<ValidationError.WithFieldTree[]>;
     /**
      * A signal containing the {@link errors} of the field and its descendants.
      */
-    readonly errorSummary: Signal<ValidationError.WithField[]>;
+    readonly errorSummary: Signal<ValidationError.WithFieldTree[]>;
     /**
      * A signal indicating whether the field's value is currently valid.
      *
@@ -691,7 +594,7 @@ type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx
  * @category validation
  * @experimental 21.0.0
  */
-type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult<ValidationError.WithoutField>, TPathKind>;
+type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult<ValidationError.WithoutFieldTree>, TPathKind>;
 /**
  * A function that takes the `FieldContext` for the field being validated and returns a
  * `TreeValidationResult` indicating errors for the field and its sub-fields.
@@ -784,6 +687,106 @@ type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[k
 type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>, abortSignal: AbortSignal) => Promise<void> | void;
 
 /**
+ * Properties of both NgControl & AbstractControl that are supported by the InteropNgControl.
+ */
+type InteropSharedKeys = 'value' | 'valid' | 'invalid' | 'touched' | 'untouched' | 'disabled' | 'enabled' | 'errors' | 'pristine' | 'dirty' | 'status';
+/**
+ * A fake version of `NgControl` provided by the `Field` directive. This allows interoperability
+ * with a wider range of components designed to work with reactive forms, in particular ones that
+ * inject the `NgControl`. The interop control does not implement *all* properties and methods of
+ * the real `NgControl`, but does implement some of the most commonly used ones that have a clear
+ * equivalent in signal forms.
+ */
+declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'control' | 'valueAccessor'>, Pick<AbstractControl<unknown>, InteropSharedKeys | 'hasValidator'> {
+    protected field: () => FieldState<unknown>;
+    constructor(field: () => FieldState<unknown>);
+    readonly control: AbstractControl<any, any>;
+    get value(): any;
+    get valid(): boolean;
+    get invalid(): boolean;
+    get pending(): boolean | null;
+    get disabled(): boolean;
+    get enabled(): boolean;
+    get errors(): ValidationErrors | null;
+    get pristine(): boolean;
+    get dirty(): boolean;
+    get touched(): boolean;
+    get untouched(): boolean;
+    get status(): FormControlStatus;
+    valueAccessor: ControlValueAccessor | null;
+    hasValidator(validator: ValidatorFn): boolean;
+    updateValueAndValidity(): void;
+}
+
+interface FormFieldBindingOptions<TValue> extends _FormFieldBindingOptions {
+    /**
+     * Focuses the binding.
+     *
+     * If not specified, Signal Forms will attempt to focus the host element of the `FormField` when
+     * asked to focus this binding.
+     */
+    focus?(options?: FocusOptions): void;
+    readonly parseErrors?: Signal<ValidationError.WithoutFieldTree[]>;
+}
+/**
+ * Lightweight DI token provided by the {@link FormField} directive.
+ *
+ * @category control
+ * @experimental 21.0.0
+ */
+declare const FORM_FIELD: InjectionToken<FormField<unknown>>;
+/**
+ * Binds a form `FieldTree` to a UI control that edits it. A UI control can be one of several things:
+ * 1. A native HTML input or textarea
+ * 2. A signal forms custom control that implements `FormValueControl` or `FormCheckboxControl`
+ * 3. A component that provides a `ControlValueAccessor`. This should only be used for backwards
+ *    compatibility with reactive forms. Prefer options (1) and (2).
+ *
+ * This directive has several responsibilities:
+ * 1. Two-way binds the field state's value with the UI control's value
+ * 2. Binds additional forms related state on the field state to the UI control (disabled, required, etc.)
+ * 3. Relays relevant events on the control to the field state (e.g. marks touched on blur)
+ * 4. Provides a fake `NgControl` that implements a subset of the features available on the
+ *    reactive forms `NgControl`. This is provided to improve interoperability with controls
+ *    designed to work with reactive forms. It should not be used by controls written for signal
+ *    forms.
+ *
+ * @category control
+ * @experimental 21.0.0
+ */
+declare class FormField<T> {
+    readonly element: HTMLElement;
+    readonly injector: Injector;
+    readonly fieldTree: i0.InputSignal<FieldTree<T>>;
+    readonly state: Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
+    private readonly bindingOptions;
+    /** Errors associated with this form field. */
+    readonly errors: Signal<ValidationError.WithFieldTree[]>;
+    readonly [_CONTROL]: {
+        readonly create: typeof __controlCreate;
+        readonly update: typeof _controlUpdate;
+    };
+    private config;
+    /** Any `ControlValueAccessor` instances provided on the host element. */
+    private readonly controlValueAccessors;
+    /** A lazily instantiated fake `NgControl`. */
+    private interopNgControl;
+    /** Lazily instantiates a fake `NgControl` for this form field. */
+    protected getOrCreateNgControl(): InteropNgControl;
+    /**
+     * Registers this `FormField` as a binding on its associated `FieldState`.
+     *
+     * This method should be called at most once for a given `FormField`. A `FormField` placed on a
+     * custom control (`FormUiControl`) automatically registers that custom control as a binding.
+     */
+    registerAsBinding(bindingOptions?: FormFieldBindingOptions<T>): void;
+    /** Focuses this UI control. */
+    focus(options?: FocusOptions): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<FormField<any>, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", ["formField"], { "fieldTree": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
+}
+
+/**
  * Options used to create a `ValidationError`.
  */
 interface ValidationErrorOptions {
@@ -796,34 +799,40 @@ interface ValidationErrorOptions {
  *
  * @experimental 21.0.0
  */
-type WithField<T> = T & {
+type WithFieldTree<T> = T & {
     fieldTree: FieldTree<unknown>;
 };
+/** @deprecated Use `WithFieldTree` instead  */
+type WithField<T> = WithFieldTree<T>;
 /**
  * A type that allows the given type `T` to optionally have a `field` property.
  * @template T The type to optionally add a `field` to.
  *
  * @experimental 21.0.0
  */
-type WithOptionalField<T> = Omit<T, 'fieldTree'> & {
+type WithOptionalFieldTree<T> = Omit<T, 'fieldTree'> & {
     fieldTree?: FieldTree<unknown>;
 };
+/** @deprecated Use `WithOptionalFieldTree` instead  */
+type WithOptionalField<T> = WithOptionalFieldTree<T>;
 /**
  * A type that ensures the given type `T` does not have a `field` property.
  * @template T The type to remove the `field` from.
  *
  * @experimental 21.0.0
  */
-type WithoutField<T> = T & {
+type WithoutFieldTree<T> = T & {
     fieldTree: never;
 };
+/** @deprecated Use `WithoutFieldTree` instead  */
+type WithoutField<T> = WithoutFieldTree<T>;
 /**
  * Create a required error associated with the target field
  * @param options The validation error options
  *
  * @experimental 21.0.0
  */
-declare function requiredError(options: WithField<ValidationErrorOptions>): RequiredValidationError;
+declare function requiredError(options: WithFieldTree<ValidationErrorOptions>): RequiredValidationError;
 /**
  * Create a required error
  * @param options The optional validation error options
@@ -831,7 +840,7 @@ declare function requiredError(options: WithField<ValidationErrorOptions>): Requ
  * @category validation
  * @experimental 21.0.0
  */
-declare function requiredError(options?: ValidationErrorOptions): WithoutField<RequiredValidationError>;
+declare function requiredError(options?: ValidationErrorOptions): WithoutFieldTree<RequiredValidationError>;
 /**
  * Create a min value error associated with the target field
  * @param min The min value constraint
@@ -840,7 +849,7 @@ declare function requiredError(options?: ValidationErrorOptions): WithoutField<R
  * @category validation
  * @experimental 21.0.0
  */
-declare function minError(min: number, options: WithField<ValidationErrorOptions>): MinValidationError;
+declare function minError(min: number, options: WithFieldTree<ValidationErrorOptions>): MinValidationError;
 /**
  * Create a min value error
  * @param min The min value constraint
@@ -849,7 +858,7 @@ declare function minError(min: number, options: WithField<ValidationErrorOptions
  * @category validation
  * @experimental 21.0.0
  */
-declare function minError(min: number, options?: ValidationErrorOptions): WithoutField<MinValidationError>;
+declare function minError(min: number, options?: ValidationErrorOptions): WithoutFieldTree<MinValidationError>;
 /**
  * Create a max value error associated with the target field
  * @param max The max value constraint
@@ -858,7 +867,7 @@ declare function minError(min: number, options?: ValidationErrorOptions): Withou
  * @category validation
  * @experimental 21.0.0
  */
-declare function maxError(max: number, options: WithField<ValidationErrorOptions>): MaxValidationError;
+declare function maxError(max: number, options: WithFieldTree<ValidationErrorOptions>): MaxValidationError;
 /**
  * Create a max value error
  * @param max The max value constraint
@@ -867,7 +876,7 @@ declare function maxError(max: number, options: WithField<ValidationErrorOptions
  * @category validation
  * @experimental 21.0.0
  */
-declare function maxError(max: number, options?: ValidationErrorOptions): WithoutField<MaxValidationError>;
+declare function maxError(max: number, options?: ValidationErrorOptions): WithoutFieldTree<MaxValidationError>;
 /**
  * Create a minLength error associated with the target field
  * @param minLength The minLength constraint
@@ -876,7 +885,7 @@ declare function maxError(max: number, options?: ValidationErrorOptions): Withou
  * @category validation
  * @experimental 21.0.0
  */
-declare function minLengthError(minLength: number, options: WithField<ValidationErrorOptions>): MinLengthValidationError;
+declare function minLengthError(minLength: number, options: WithFieldTree<ValidationErrorOptions>): MinLengthValidationError;
 /**
  * Create a minLength error
  * @param minLength The minLength constraint
@@ -885,7 +894,7 @@ declare function minLengthError(minLength: number, options: WithField<Validation
  * @category validation
  * @experimental 21.0.0
  */
-declare function minLengthError(minLength: number, options?: ValidationErrorOptions): WithoutField<MinLengthValidationError>;
+declare function minLengthError(minLength: number, options?: ValidationErrorOptions): WithoutFieldTree<MinLengthValidationError>;
 /**
  * Create a maxLength error associated with the target field
  * @param maxLength The maxLength constraint
@@ -894,7 +903,7 @@ declare function minLengthError(minLength: number, options?: ValidationErrorOpti
  * @category validation
  * @experimental 21.0.0
  */
-declare function maxLengthError(maxLength: number, options: WithField<ValidationErrorOptions>): MaxLengthValidationError;
+declare function maxLengthError(maxLength: number, options: WithFieldTree<ValidationErrorOptions>): MaxLengthValidationError;
 /**
  * Create a maxLength error
  * @param maxLength The maxLength constraint
@@ -903,7 +912,7 @@ declare function maxLengthError(maxLength: number, options: WithField<Validation
  * @category validation
  * @experimental 21.0.0
  */
-declare function maxLengthError(maxLength: number, options?: ValidationErrorOptions): WithoutField<MaxLengthValidationError>;
+declare function maxLengthError(maxLength: number, options?: ValidationErrorOptions): WithoutFieldTree<MaxLengthValidationError>;
 /**
  * Create a pattern matching error associated with the target field
  * @param pattern The violated pattern
@@ -912,7 +921,7 @@ declare function maxLengthError(maxLength: number, options?: ValidationErrorOpti
  * @category validation
  * @experimental 21.0.0
  */
-declare function patternError(pattern: RegExp, options: WithField<ValidationErrorOptions>): PatternValidationError;
+declare function patternError(pattern: RegExp, options: WithFieldTree<ValidationErrorOptions>): PatternValidationError;
 /**
  * Create a pattern matching error
  * @param pattern The violated pattern
@@ -921,7 +930,7 @@ declare function patternError(pattern: RegExp, options: WithField<ValidationErro
  * @category validation
  * @experimental 21.0.0
  */
-declare function patternError(pattern: RegExp, options?: ValidationErrorOptions): WithoutField<PatternValidationError>;
+declare function patternError(pattern: RegExp, options?: ValidationErrorOptions): WithoutFieldTree<PatternValidationError>;
 /**
  * Create an email format error associated with the target field
  * @param options The validation error options
@@ -929,7 +938,7 @@ declare function patternError(pattern: RegExp, options?: ValidationErrorOptions)
  * @category validation
  * @experimental 21.0.0
  */
-declare function emailError(options: WithField<ValidationErrorOptions>): EmailValidationError;
+declare function emailError(options: WithFieldTree<ValidationErrorOptions>): EmailValidationError;
 /**
  * Create an email format error
  * @param options The optional validation error options
@@ -937,7 +946,7 @@ declare function emailError(options: WithField<ValidationErrorOptions>): EmailVa
  * @category validation
  * @experimental 21.0.0
  */
-declare function emailError(options?: ValidationErrorOptions): WithoutField<EmailValidationError>;
+declare function emailError(options?: ValidationErrorOptions): WithoutFieldTree<EmailValidationError>;
 /**
  * Create a standard schema issue error associated with the target field
  * @param issue The standard schema issue
@@ -946,7 +955,7 @@ declare function emailError(options?: ValidationErrorOptions): WithoutField<Emai
  * @category validation
  * @experimental 21.0.0
  */
-declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: WithField<ValidationErrorOptions>): StandardSchemaValidationError;
+declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: WithFieldTree<ValidationErrorOptions>): StandardSchemaValidationError;
 /**
  * Create a standard schema issue error
  * @param issue The standard schema issue
@@ -955,7 +964,7 @@ declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: Wit
  * @category validation
  * @experimental 21.0.0
  */
-declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutField<StandardSchemaValidationError>;
+declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutFieldTree<StandardSchemaValidationError>;
 /**
  * Common interface for all validation errors.
  *
@@ -977,14 +986,23 @@ interface ValidationError {
 }
 declare namespace ValidationError {
     /**
-     * Validation error with a field.
+     * Validation error with an associated field tree.
      *
      * This is returned from field state, e.g., catField.errors() would be of a list of errors with
      * `field: catField` bound to state.
      */
-    interface WithField extends ValidationError {
+    interface WithFieldTree extends ValidationError {
         /** The field associated with this error. */
         readonly fieldTree: FieldTree<unknown>;
+        readonly formField?: FormField<unknown>;
+    }
+    /** @deprecated Use `ValidationError.WithFieldTree` instead  */
+    type WithField = WithFieldTree;
+    /**
+     * Validation error with an associated field tree and specific form field binding.
+     */
+    interface WithFormField extends WithFieldTree {
+        readonly formField: FormField<unknown>;
     }
     /**
      * Validation error with optional field.
@@ -992,19 +1010,24 @@ declare namespace ValidationError {
      * This is generally used in places where the result might have a field.
      * e.g., as a result of a `validateTree`, or when handling form submission.
      */
-    interface WithOptionalField extends ValidationError {
+    interface WithOptionalFieldTree extends ValidationError {
         /** The field associated with this error. */
         readonly fieldTree?: FieldTree<unknown>;
     }
+    /** @deprecated Use `ValidationError.WithOptionalFieldTree` instead  */
+    type WithOptionalField = WithOptionalFieldTree;
     /**
      * Validation error with no field.
      *
      * This is used to strongly enforce that fields are not allowed in validation result.
      */
-    interface WithoutField extends ValidationError {
+    interface WithoutFieldTree extends ValidationError {
         /** The field associated with this error. */
         readonly fieldTree?: never;
+        readonly formField?: never;
     }
+    /** @deprecated Use `ValidationError.WithoutFieldTree` instead  */
+    type WithoutField = WithoutFieldTree;
 }
 /**
  * Internal version of `NgValidationError`, we create this separately so we can change its type on
@@ -1265,11 +1288,11 @@ declare class LogicContainer {
     /** Logic that determines if the field is read-only. */
     readonly readonly: BooleanOrLogic;
     /** Logic that produces synchronous validation errors for the field. */
-    readonly syncErrors: ArrayMergeIgnoreLogic<ValidationError.WithField, null>;
+    readonly syncErrors: ArrayMergeIgnoreLogic<ValidationError.WithFieldTree, null>;
     /** Logic that produces synchronous validation errors for the field's subtree. */
-    readonly syncTreeErrors: ArrayMergeIgnoreLogic<ValidationError.WithField, null>;
+    readonly syncTreeErrors: ArrayMergeIgnoreLogic<ValidationError.WithFieldTree, null>;
     /** Logic that produces asynchronous validation results (errors or 'pending'). */
-    readonly asyncErrors: ArrayMergeIgnoreLogic<ValidationError.WithField | 'pending', null>;
+    readonly asyncErrors: ArrayMergeIgnoreLogic<ValidationError.WithFieldTree | 'pending', null>;
     /** A map of metadata keys to the `AbstractLogic` instances that compute their values. */
     private readonly metadata;
     /**
@@ -1366,9 +1389,9 @@ declare class LogicNodeBuilder extends AbstractLogicNodeBuilder {
     addHiddenRule(logic: LogicFn<any, boolean>): void;
     addDisabledReasonRule(logic: LogicFn<any, DisabledReason | undefined>): void;
     addReadonlyRule(logic: LogicFn<any, boolean>): void;
-    addSyncErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithField>>): void;
-    addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithField>>): void;
-    addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult<ValidationError.WithField>>): void;
+    addSyncErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithFieldTree>>): void;
+    addSyncTreeErrorRule(logic: LogicFn<any, ValidationResult<ValidationError.WithFieldTree>>): void;
+    addAsyncErrorRule(logic: LogicFn<any, AsyncValidationResult<ValidationError.WithFieldTree>>): void;
     addMetadataRule<T>(key: MetadataKey<unknown, T, any>, logic: LogicFn<any, T>): void;
     getChild(key: PropertyKey): LogicNodeBuilder;
     hasLogic(builder: AbstractLogicNodeBuilder): boolean;
@@ -1619,7 +1642,7 @@ declare class FieldSubmitState {
      */
     readonly selfSubmitting: WritableSignal<boolean>;
     /** Submission errors that are associated with this field. */
-    readonly submissionErrors: WritableSignal<readonly ValidationError.WithField[]>;
+    readonly submissionErrors: WritableSignal<readonly ValidationError.WithFieldTree[]>;
     constructor(node: FieldNode);
     /**
      * Whether this form is currently in the process of being submitted.
@@ -1633,14 +1656,14 @@ interface ValidationState {
      * The full set of synchronous tree errors visible to this field. This includes ones that are
      * targeted at a descendant field rather than at this field.
      */
-    rawSyncTreeErrors: Signal<ValidationError.WithField[]>;
+    rawSyncTreeErrors: Signal<ValidationError.WithFieldTree[]>;
     /**
      * The full set of synchronous errors for this field, including synchronous tree errors and submission
      * errors. Submission errors are considered "synchronous" because they are imperatively added. From
      * the perspective of the field state they are either there or not, they are never in a pending
      * state.
      */
-    syncErrors: Signal<ValidationError.WithField[]>;
+    syncErrors: Signal<ValidationError.WithFieldTree[]>;
     /**
      * Whether the field is considered valid according solely to its synchronous validators.
      * Errors resulting from a previous submit attempt are also considered for this state.
@@ -1651,21 +1674,22 @@ interface ValidationState {
      * targeted at a descendant field rather than at this field, as well as sentinel 'pending' values
      * indicating that the validator is still running and an error could still occur.
      */
-    rawAsyncErrors: Signal<(ValidationError.WithField | 'pending')[]>;
+    rawAsyncErrors: Signal<(ValidationError.WithFieldTree | 'pending')[]>;
     /**
      * The asynchronous tree errors visible to this field that are specifically targeted at this field
      * rather than a descendant. This also includes all 'pending' sentinel values, since those could
      * theoretically result in errors for this field.
      */
-    asyncErrors: Signal<(ValidationError.WithField | 'pending')[]>;
+    asyncErrors: Signal<(ValidationError.WithFieldTree | 'pending')[]>;
     /**
      * The combined set of all errors that currently apply to this field.
      */
-    errors: Signal<ValidationError.WithField[]>;
+    errors: Signal<ValidationError.WithFieldTree[]>;
+    parseErrors: Signal<ValidationError.WithFormField[]>;
     /**
      * The combined set of all errors that currently apply to this field and its descendants.
      */
-    errorSummary: Signal<ValidationError.WithField[]>;
+    errorSummary: Signal<ValidationError.WithFieldTree[]>;
     /**
      * Whether this field has any asynchronous validators still pending.
      */
@@ -1768,8 +1792,9 @@ declare class FieldNode implements FieldState<unknown> {
     private _controlValue;
     get controlValue(): Signal<unknown>;
     get keyInParent(): Signal<string | number>;
-    get errors(): Signal<ValidationError.WithField[]>;
-    get errorSummary(): Signal<ValidationError.WithField[]>;
+    get errors(): Signal<ValidationError.WithFieldTree[]>;
+    get parseErrors(): Signal<ValidationError.WithFormField[]>;
+    get errorSummary(): Signal<ValidationError.WithFieldTree[]>;
     get pending(): Signal<boolean>;
     get valid(): Signal<boolean>;
     get invalid(): Signal<boolean>;
@@ -2388,4 +2413,4 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
 export { EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithOptionalField, WithoutField };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };

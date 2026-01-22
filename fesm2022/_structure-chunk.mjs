@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-085784e
+ * @license Angular v21.2.0-next.0+sha-ebae211
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -647,7 +647,10 @@ class FieldValidationState {
   }, ...(ngDevMode ? [{
     debugName: "asyncErrors"
   }] : []));
-  errors = computed(() => [...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], ...(ngDevMode ? [{
+  parseErrors = computed(() => this.node.formFieldBindings().flatMap(field => field.parseErrors()), ...(ngDevMode ? [{
+    debugName: "parseErrors"
+  }] : []));
+  errors = computed(() => [...this.parseErrors(), ...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], ...(ngDevMode ? [{
     debugName: "errors"
   }] : []));
   errorSummary = computed(() => this.node.structure.reduceChildren(this.errors(), (child, result) => [...result, ...child.errorSummary()]), ...(ngDevMode ? [{
@@ -1213,6 +1216,9 @@ class FieldNode {
   }
   get errors() {
     return this.validationState.errors;
+  }
+  get parseErrors() {
+    return this.validationState.parseErrors;
   }
   get errorSummary() {
     return this.validationState.errorSummary;

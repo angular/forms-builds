@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-085784e
+ * @license Angular v21.2.0-next.0+sha-ebae211
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -101,14 +101,27 @@ const controlInstructions = {
 class FormField {
   element = inject(ElementRef).nativeElement;
   injector = inject(Injector);
-  formField = input.required(...(ngDevMode ? [{
-    debugName: "formField"
-  }] : []));
-  state = computed(() => this.formField()(), ...(ngDevMode ? [{
+  fieldTree = input.required({
+    ...(ngDevMode ? {
+      debugName: "fieldTree"
+    } : {}),
+    alias: 'formField'
+  });
+  state = computed(() => this.fieldTree()(), ...(ngDevMode ? [{
     debugName: "state"
   }] : []));
   bindingOptions = signal(undefined, ...(ngDevMode ? [{
     debugName: "bindingOptions"
+  }] : []));
+  parseErrors = computed(() => this.bindingOptions()?.parseErrors?.().map(err => ({
+    ...err,
+    fieldTree: this.fieldTree(),
+    formField: this
+  })) ?? [], ...(ngDevMode ? [{
+    debugName: "parseErrors"
+  }] : []));
+  errors = computed(() => this.state().errors().filter(err => !err.formField || err.formField === this), ...(ngDevMode ? [{
+    debugName: "errors"
   }] : []));
   [_CONTROL] = controlInstructions;
   config = inject(SIGNAL_FORMS_CONFIG, {
@@ -151,7 +164,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.0+sha-085784e",
+    version: "21.2.0-next.0+sha-ebae211",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -159,13 +172,13 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.0+sha-085784e",
+    version: "21.2.0-next.0+sha-ebae211",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
     inputs: {
-      formField: {
-        classPropertyName: "formField",
+      fieldTree: {
+        classPropertyName: "fieldTree",
         publicName: "formField",
         isSignal: true,
         isRequired: true,
@@ -179,18 +192,20 @@ class FormField {
       provide: NgControl,
       useFactory: () => inject(FormField).getOrCreateNgControl()
     }],
+    exportAs: ["formField"],
     ngImport: i0
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.0+sha-085784e",
+  version: "21.2.0-next.0+sha-ebae211",
   ngImport: i0,
   type: FormField,
   decorators: [{
     type: Directive,
     args: [{
       selector: '[formField]',
+      exportAs: 'formField',
       providers: [{
         provide: FORM_FIELD,
         useExisting: FormField
@@ -201,7 +216,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }],
   propDecorators: {
-    formField: [{
+    fieldTree: [{
       type: i0.Input,
       args: [{
         isSignal: true,

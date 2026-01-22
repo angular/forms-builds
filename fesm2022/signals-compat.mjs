@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-085784e
+ * @license Angular v21.2.0-next.0+sha-ebae211
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -206,6 +206,9 @@ class CompatValidationState {
   pending;
   invalid;
   valid;
+  parseErrors = computed(() => [], ...(ngDevMode ? [{
+    debugName: "parseErrors"
+  }] : []));
   constructor(options) {
     this.syncValid = getControlStatusSignal(options, c => c.status === 'VALID');
     this.errors = getControlStatusSignal(options, extractNestedReactiveErrors);

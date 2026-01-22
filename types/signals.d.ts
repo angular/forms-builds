@@ -1,12 +1,12 @@
 /**
- * @license Angular v21.2.0-next.0+sha-085784e
+ * @license Angular v21.2.0-next.0+sha-ebae211
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef } from '@angular/core';
-import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, SchemaPathTree, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalField, DisabledReason, Debouncer } from './_structure-chunk.js';
-export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, FieldState, FieldTree, FormField, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationResult, ValidationSuccess, Validator, WithField, WithoutField, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
+import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, SchemaPathTree, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer } from './_structure-chunk.js';
+export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, FieldState, FieldTree, FormField, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithoutField, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import '@angular/forms';
@@ -423,12 +423,12 @@ declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root
  * @category control
  * @experimental 21.0.0
  */
-interface FormUiControl {
+interface FormUiControl<TValue> {
     /**
      * An input to receive the errors for the field. If implemented, the `Field` directive will
      * automatically bind errors from the bound field to this input.
      */
-    readonly errors?: InputSignal<readonly WithOptionalField<ValidationError>[]> | InputSignalWithTransform<readonly WithOptionalField<ValidationError>[], unknown>;
+    readonly errors?: InputSignal<readonly ValidationError.WithOptionalFieldTree[]> | InputSignalWithTransform<readonly ValidationError.WithOptionalFieldTree[], unknown>;
     /**
      * An input to receive the disabled status for the field. If implemented, the `Field` directive
      * will automatically bind the disabled status from the bound field to this input.
@@ -438,7 +438,7 @@ interface FormUiControl {
      * An input to receive the reasons for the disablement of the field. If implemented, the `Field`
      * directive will automatically bind the disabled reason from the bound field to this input.
      */
-    readonly disabledReasons?: InputSignal<readonly WithOptionalField<DisabledReason>[]> | InputSignalWithTransform<readonly WithOptionalField<DisabledReason>[], unknown>;
+    readonly disabledReasons?: InputSignal<readonly WithOptionalFieldTree<DisabledReason>[]> | InputSignalWithTransform<readonly WithOptionalFieldTree<DisabledReason>[], unknown>;
     /**
      * An input to receive the readonly status for the field. If implemented, the `Field` directive
      * will automatically bind the readonly status from the bound field to this input.
@@ -505,6 +505,12 @@ interface FormUiControl {
      */
     readonly pattern?: InputSignal<readonly RegExp[]> | InputSignalWithTransform<readonly RegExp[], unknown>;
     /**
+     * A signal containing the current parse errors for the control.
+     * This allows the control to communicate to the form that there are additional validation errors
+     * beyond those produced by the schema, due to being unable to parse the user's input.
+     */
+    readonly parseErrors?: Signal<ValidationError.WithoutFieldTree[]>;
+    /**
      * Focuses the UI control.
      *
      * If the focus method is not implemented, Signal Forms will attempt to focus the host element
@@ -525,7 +531,7 @@ interface FormUiControl {
  * @category control
  * @experimental 21.0.0
  */
-interface FormValueControl<TValue> extends FormUiControl {
+interface FormValueControl<TValue> extends FormUiControl<TValue> {
     /**
      * The value is the only required property in this contract. A component that wants to integrate
      * with the `Field` directive via this contract, *must* provide a `model()` that will be kept in
@@ -549,7 +555,7 @@ interface FormValueControl<TValue> extends FormUiControl {
  * @category control
  * @experimental 21.0.0
  */
-interface FormCheckboxControl extends FormUiControl {
+interface FormCheckboxControl extends FormUiControl<boolean> {
     /**
      * The checked is the only required property in this contract. A component that wants to integrate
      * with the `Field` directive, *must* provide a `model()` that will be kept in sync with the
@@ -577,5 +583,5 @@ interface FormCheckboxControl extends FormUiControl {
  */
 declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
 
-export { Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, SchemaPathTree, TreeValidationResult, TreeValidator, ValidationError, WithOptionalField, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
+export { Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, SchemaPathTree, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
 export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, MapToErrorsFn, RemoveStringIndexUnknownKey };
