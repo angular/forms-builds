@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.0+sha-d306737
+ * @license Angular v21.2.0-next.0+sha-8efee1c
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -653,7 +653,13 @@ class FieldValidationState {
   errors = computed(() => [...this.parseErrors(), ...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], ...(ngDevMode ? [{
     debugName: "errors"
   }] : []));
-  errorSummary = computed(() => this.node.structure.reduceChildren(this.errors(), (child, result) => [...result, ...child.errorSummary()]), ...(ngDevMode ? [{
+  errorSummary = computed(() => {
+    const errors = this.node.structure.reduceChildren(this.errors(), (child, result) => [...result, ...child.errorSummary()]);
+    if (typeof ngServerMode === 'undefined' || !ngServerMode) {
+      untracked(() => errors.sort(compareErrorPosition));
+    }
+    return errors;
+  }, ...(ngDevMode ? [{
     debugName: "errorSummary"
   }] : []));
   pending = computed(() => this.node.structure.reduceChildren(this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), ...(ngDevMode ? [{
@@ -703,6 +709,20 @@ function addDefaultField(errors, fieldTree) {
     errors.fieldTree ??= fieldTree;
   }
   return errors;
+}
+function getFirstBoundElement(error) {
+  if (error.formField) return error.formField.element;
+  return error.fieldTree().formFieldBindings().reduce((el, binding) => {
+    if (!el || !binding.element) return el ?? binding.element;
+    return el.compareDocumentPosition(binding.element) & Node.DOCUMENT_POSITION_PRECEDING ? binding.element : el;
+  }, undefined);
+}
+function compareErrorPosition(a, b) {
+  const aEl = getFirstBoundElement(a);
+  const bEl = getFirstBoundElement(b);
+  if (aEl === bEl) return 0;
+  if (aEl === undefined || bEl === undefined) return aEl === undefined ? 1 : -1;
+  return aEl.compareDocumentPosition(bEl) & Node.DOCUMENT_POSITION_PRECEDING ? 1 : -1;
 }
 
 const DEBOUNCER = createMetadataKey();
