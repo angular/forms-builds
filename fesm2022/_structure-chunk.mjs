@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.1+sha-3de87e1
+ * @license Angular v21.1.1+sha-9f99b14
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1557,8 +1557,11 @@ function applyWhenValue(path, predicate, schema) {
 }
 async function submit(form, action) {
   const node = form();
-  markAllAsTouched(node);
-  if (node.invalid()) {
+  const invalid = untracked(() => {
+    markAllAsTouched(node);
+    return node.invalid();
+  });
+  if (invalid) {
     return;
   }
   node.submitState.selfSubmitting.set(true);
@@ -1592,6 +1595,9 @@ function schema(fn) {
   return SchemaImpl.create(fn);
 }
 function markAllAsTouched(node) {
+  if (node.validationState.shouldSkipValidation()) {
+    return;
+  }
   node.markAsTouched();
   for (const child of node.structure.children()) {
     markAllAsTouched(child);
