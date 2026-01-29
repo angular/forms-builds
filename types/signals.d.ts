@@ -1,15 +1,15 @@
 /**
- * @license Angular v21.2.0-next.1+sha-6990f88
+ * @license Angular v21.2.0-next.1+sha-a67e007
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef } from '@angular/core';
-import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, SchemaPathTree, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer } from './_structure-chunk.js';
-export { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, FieldState, FieldTree, FormField, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithoutField, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit } from './_structure-chunk.js';
-import { StandardSchemaV1 } from '@standard-schema/spec';
+import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer } from './_structure-chunk.js';
+export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, FieldState, FieldTree, FormField, FormFieldBindingOptions, FormOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithoutField, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import '@angular/forms';
+import '@standard-schema/spec';
 
 /**
  * Adds logic to a field to conditionally disable it. A disabled field does not contribute to the
@@ -215,41 +215,6 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Schem
 declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind> & {
     when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
 }): void;
-
-/**
- * Utility type that removes a string index key when its value is `unknown`,
- * i.e. `{[key: string]: unknown}`. It allows specific string keys to pass through, even if their
- * value is `unknown`, e.g. `{key: unknown}`.
- *
- * @experimental 21.0.0
- */
-type RemoveStringIndexUnknownKey<K, V> = string extends K ? unknown extends V ? never : K : K;
-/**
- * Utility type that recursively ignores unknown string index properties on the given object.
- * We use this on the `TSchema` type in `validateStandardSchema` in order to accommodate Zod's
- * `looseObject` which includes `{[key: string]: unknown}` as part of the type.
- *
- * @experimental 21.0.0
- */
-type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
-    [K in keyof T as RemoveStringIndexUnknownKey<K, T[K]>]: IgnoreUnknownProperties<T[K]>;
-} : T;
-/**
- * Validates a field using a `StandardSchemaV1` compatible validator (e.g. a Zod validator).
- *
- * See https://github.com/standard-schema/standard-schema for more about standard schema.
- *
- * @param path The `FieldPath` to the field to validate.
- * @param schema The standard schema compatible validator to use for validation.
- * @template TSchema The type validated by the schema. This may be either the full `TValue` type,
- *   or a partial of it.
- * @template TValue The type of value stored in the field being validated.
- *
- * @see [Signal Form Schema Validation](guide/forms/signals/validation#integration-with-schema-validation-libraries)
- * @category validation
- * @experimental 21.0.0
- */
-declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema>): void;
 
 /**
  * Adds logic to a field to determine if the field has validation errors.
@@ -583,5 +548,5 @@ interface FormCheckboxControl extends FormUiControl<boolean> {
  */
 declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
 
-export { Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, SchemaPathTree, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateStandardSchema, validateTree };
-export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, IgnoreUnknownProperties, MapToErrorsFn, RemoveStringIndexUnknownKey };
+export { Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateTree };
+export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, MapToErrorsFn };

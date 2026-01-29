@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.2.0-next.1+sha-6990f88
+ * @license Angular v21.2.0-next.1+sha-a67e007
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { Signal, ɵFieldState as _FieldState, ɵFormFieldBindingOptions as _FormFieldBindingOptions, InjectionToken, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
+import { Signal, WritableSignal, InjectionToken, Injector, Provider, DestroyableInjector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
 import { AbstractControl, NgControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
@@ -177,6 +177,70 @@ declare const MAX_LENGTH: MetadataKey<Signal<number | undefined>, number | undef
 declare const PATTERN: MetadataKey<Signal<RegExp[]>, RegExp | undefined, RegExp[]>;
 
 /**
+ * Utility type that removes a string index key when its value is `unknown`,
+ * i.e. `{[key: string]: unknown}`. It allows specific string keys to pass through, even if their
+ * value is `unknown`, e.g. `{key: unknown}`.
+ *
+ * @experimental 21.0.0
+ */
+type RemoveStringIndexUnknownKey<K, V> = string extends K ? unknown extends V ? never : K : K;
+/**
+ * Utility type that recursively ignores unknown string index properties on the given object.
+ * We use this on the `TSchema` type in `validateStandardSchema` in order to accommodate Zod's
+ * `looseObject` which includes `{[key: string]: unknown}` as part of the type.
+ *
+ * @experimental 21.0.0
+ */
+type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
+    [K in keyof T as RemoveStringIndexUnknownKey<K, T[K]>]: IgnoreUnknownProperties<T[K]>;
+} : T;
+/**
+ * Validates a field using a `StandardSchemaV1` compatible validator (e.g. a Zod validator).
+ *
+ * See https://github.com/standard-schema/standard-schema for more about standard schema.
+ *
+ * @param path The `FieldPath` to the field to validate.
+ * @param schema The standard schema compatible validator to use for validation.
+ * @template TSchema The type validated by the schema. This may be either the full `TValue` type,
+ *   or a partial of it.
+ * @template TValue The type of value stored in the field being validated.
+ *
+ * @see [Signal Form Schema Validation](guide/forms/signals/validation#integration-with-schema-validation-libraries)
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema>): void;
+/**
+ * Create a standard schema issue error associated with the target field
+ * @param issue The standard schema issue
+ * @param options The validation error options
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: WithFieldTree<ValidationErrorOptions>): StandardSchemaValidationError;
+/**
+ * Create a standard schema issue error
+ * @param issue The standard schema issue
+ * @param options The optional validation error options
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutFieldTree<StandardSchemaValidationError>;
+/**
+ * An error used to indicate an issue validating against a standard schema.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare class StandardSchemaValidationError extends BaseNgValidationError {
+    readonly issue: StandardSchemaV1.Issue;
+    readonly kind = "standardSchema";
+    constructor(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions);
+}
+
+/**
  * Symbol used to retain generic type information when it would otherwise be lost.
  */
 declare const ɵɵTYPE: unique symbol;
@@ -333,7 +397,64 @@ type MaybeFieldTree<TModel, TKey extends string | number = string | number> = (T
  * @category structure
  * @experimental 21.0.0
  */
-interface FieldState<TValue, TKey extends string | number = string | number> extends _FieldState<TValue> {
+interface FieldState<TValue, TKey extends string | number = string | number> {
+    /**
+     * A writable signal containing the value for this field.
+     *
+     * Updating this signal will update the data model that the field is bound to.
+     *
+     * While updates from the UI control are eventually reflected here, they may be delayed if
+     * debounced.
+     */
+    readonly value: WritableSignal<TValue>;
+    /**
+     * A signal indicating whether the field is currently disabled.
+     */
+    readonly disabled: Signal<boolean>;
+    /**
+     * A signal indicating the field's maximum value, if applicable.
+     *
+     * Applies to `<input>` with a numeric or date `type` attribute and custom controls.
+     */
+    readonly max?: Signal<number | undefined>;
+    /**
+     * A signal indicating the field's maximum string length, if applicable.
+     *
+     * Applies to `<input>`, `<textarea>`, and custom controls.
+     */
+    readonly maxLength?: Signal<number | undefined>;
+    /**
+     * A signal indicating the field's minimum value, if applicable.
+     *
+     * Applies to `<input>` with a numeric or date `type` attribute and custom controls.
+     */
+    readonly min?: Signal<number | undefined>;
+    /**
+     * A signal indicating the field's minimum string length, if applicable.
+     *
+     * Applies to `<input>`, `<textarea>`, and custom controls.
+     */
+    readonly minLength?: Signal<number | undefined>;
+    /**
+     * A signal of a unique name for the field, by default based on the name of its parent field.
+     */
+    readonly name: Signal<string>;
+    /**
+     * A signal indicating the patterns the field must match.
+     */
+    readonly pattern: Signal<readonly RegExp[]>;
+    /**
+     * A signal indicating whether the field is currently readonly.
+     */
+    readonly readonly: Signal<boolean>;
+    /**
+     * A signal indicating whether the field is required.
+     */
+    readonly required: Signal<boolean>;
+    /**
+     * A signal indicating whether the field has been touched by the user.
+     */
+    readonly touched: Signal<boolean>;
     /**
      * A signal indicating whether field value has been changed by user.
      */
@@ -398,6 +519,26 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      * The {@link FormField} directives that bind this field to a UI control.
      */
     readonly formFieldBindings: Signal<readonly FormField<unknown>[]>;
+    /**
+     * A signal containing the value of the control to which this field is bound.
+     *
+     * This differs from {@link value} in that it's not subject to debouncing, and thus is used to
+     * buffer debounced updates from the control to the field. This will also not take into account
+     * the {@link controlValue} of children.
+     */
+    readonly controlValue: Signal<TValue>;
+    /**
+     * Sets {@link controlValue} immediately and triggers synchronization to {@link value}.
+     */
+    setControlValue(value: TValue): void;
+    /**
+     * Sets the dirty status of the field to `true`.
+     */
+    markAsDirty(): void;
+    /**
+     * Sets the touched status of the field to `true`.
+     */
+    markAsTouched(): void;
     /**
      * Reads a metadata value from the field.
      * @param key The metadata key to read.
@@ -718,14 +859,18 @@ declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'c
     updateValueAndValidity(): void;
 }
 
-interface FormFieldBindingOptions<TValue> extends _FormFieldBindingOptions {
+declare const ɵNgFieldDirective: unique symbol;
+interface FormFieldBindingOptions {
     /**
      * Focuses the binding.
      *
      * If not specified, Signal Forms will attempt to focus the host element of the `FormField` when
      * asked to focus this binding.
      */
-    focus?(options?: FocusOptions): void;
+    readonly focus?: (focusOptions?: FocusOptions) => void;
+    /**
+     * Source of parse errors for this binding.
+     */
     readonly parseErrors?: Signal<ValidationError.WithoutFieldTree[]>;
 }
 /**
@@ -755,33 +900,64 @@ declare const FORM_FIELD: InjectionToken<FormField<unknown>>;
  * @experimental 21.0.0
  */
 declare class FormField<T> {
-    readonly element: HTMLElement;
-    readonly injector: Injector;
     readonly fieldTree: i0.InputSignal<FieldTree<T>>;
+    /**
+     * `FieldState` for the currently bound field.
+     */
     readonly state: Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
-    private readonly bindingOptions;
-    /** Errors associated with this form field. */
-    readonly errors: Signal<ValidationError.WithFieldTree[]>;
-    readonly [_CONTROL]: {
-        readonly create: typeof __controlCreate;
-        readonly update: typeof _controlUpdate;
-    };
-    private config;
+    /**
+     * The node injector for the element this field binding.
+     */
+    readonly injector: Injector;
+    /**
+     * The DOM element hosting this field binding.
+     */
+    readonly element: HTMLElement;
+    private readonly elementIsNativeFormElement;
+    private readonly elementAcceptsNumericValues;
+    private readonly elementAcceptsTextualValues;
+    /**
+     * Current focus implementation, set by `registerAsBinding`.
+     */
+    private focuser;
     /** Any `ControlValueAccessor` instances provided on the host element. */
     private readonly controlValueAccessors;
+    private readonly config;
+    private readonly parseErrorsSource;
     /** A lazily instantiated fake `NgControl`. */
-    private interopNgControl;
+    private _interopNgControl;
     /** Lazily instantiates a fake `NgControl` for this form field. */
-    protected getOrCreateNgControl(): InteropNgControl;
+    protected get interopNgControl(): InteropNgControl;
+    /** Errors associated with this form field. */
+    readonly errors: Signal<ValidationError.WithFieldTree[]>;
+    /** Whether this `FormField` has been registered as a binding on its associated `FieldState`. */
+    private isFieldBinding;
+    /**
+     * Creates an `afterRenderEffect` that applies the configured class bindings to the host element
+     * if needed.
+     */
+    private installClassBindingEffect;
+    /**
+     * Focuses this field binding.
+     *
+     * By default, this will focus the host DOM element. However, custom `FormUiControl`s can
+     * implement custom focusing behavior.
+     */
+    focus(options?: FocusOptions): void;
     /**
      * Registers this `FormField` as a binding on its associated `FieldState`.
      *
      * This method should be called at most once for a given `FormField`. A `FormField` placed on a
      * custom control (`FormUiControl`) automatically registers that custom control as a binding.
      */
-    registerAsBinding(bindingOptions?: FormFieldBindingOptions<T>): void;
-    /** Focuses this UI control. */
-    focus(options?: FocusOptions): void;
+    registerAsBinding(bindingOptions?: FormFieldBindingOptions): void;
+    /**
+     * The presence of this symbol tells the template type-checker that this directive is a control
+     * directive and should be type-checked as such. We don't use the `ɵngControlCreate` method below
+     * as it's marked internal and removed from the public API. A symbol is used instead to avoid
+     * polluting the public API with the marker.
+     */
+    readonly [ɵNgFieldDirective]: true;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormField<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", ["formField"], { "fieldTree": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
@@ -948,24 +1124,6 @@ declare function emailError(options: WithFieldTree<ValidationErrorOptions>): Ema
  */
 declare function emailError(options?: ValidationErrorOptions): WithoutFieldTree<EmailValidationError>;
 /**
- * Create a standard schema issue error associated with the target field
- * @param issue The standard schema issue
- * @param options The validation error options
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: WithFieldTree<ValidationErrorOptions>): StandardSchemaValidationError;
-/**
- * Create a standard schema issue error
- * @param issue The standard schema issue
- * @param options The optional validation error options
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutFieldTree<StandardSchemaValidationError>;
-/**
  * Common interface for all validation errors.
  *
  * This can be returned from validators.
@@ -1035,7 +1193,7 @@ declare namespace ValidationError {
  *
  * @experimental 21.0.0
  */
-declare abstract class _NgValidationError implements ValidationError {
+declare abstract class BaseNgValidationError implements ValidationError {
     /** Brand the class to avoid Typescript structural matching */
     private __brand;
     /** Identifies the kind of error. */
@@ -1052,7 +1210,7 @@ declare abstract class _NgValidationError implements ValidationError {
  * @category validation
  * @experimental 21.0.0
  */
-declare class RequiredValidationError extends _NgValidationError {
+declare class RequiredValidationError extends BaseNgValidationError {
     readonly kind = "required";
 }
 /**
@@ -1061,7 +1219,7 @@ declare class RequiredValidationError extends _NgValidationError {
  * @category validation
  * @experimental 21.0.0
  */
-declare class MinValidationError extends _NgValidationError {
+declare class MinValidationError extends BaseNgValidationError {
     readonly min: number;
     readonly kind = "min";
     constructor(min: number, options?: ValidationErrorOptions);
@@ -1072,7 +1230,7 @@ declare class MinValidationError extends _NgValidationError {
  * @category validation
  * @experimental 21.0.0
  */
-declare class MaxValidationError extends _NgValidationError {
+declare class MaxValidationError extends BaseNgValidationError {
     readonly max: number;
     readonly kind = "max";
     constructor(max: number, options?: ValidationErrorOptions);
@@ -1083,7 +1241,7 @@ declare class MaxValidationError extends _NgValidationError {
  * @category validation
  * @experimental 21.0.0
  */
-declare class MinLengthValidationError extends _NgValidationError {
+declare class MinLengthValidationError extends BaseNgValidationError {
     readonly minLength: number;
     readonly kind = "minLength";
     constructor(minLength: number, options?: ValidationErrorOptions);
@@ -1094,7 +1252,7 @@ declare class MinLengthValidationError extends _NgValidationError {
  * @category validation
  * @experimental 21.0.0
  */
-declare class MaxLengthValidationError extends _NgValidationError {
+declare class MaxLengthValidationError extends BaseNgValidationError {
     readonly maxLength: number;
     readonly kind = "maxLength";
     constructor(maxLength: number, options?: ValidationErrorOptions);
@@ -1105,7 +1263,7 @@ declare class MaxLengthValidationError extends _NgValidationError {
  * @category validation
  * @experimental 21.0.0
  */
-declare class PatternValidationError extends _NgValidationError {
+declare class PatternValidationError extends BaseNgValidationError {
     readonly pattern: RegExp;
     readonly kind = "pattern";
     constructor(pattern: RegExp, options?: ValidationErrorOptions);
@@ -1116,19 +1274,8 @@ declare class PatternValidationError extends _NgValidationError {
  * @category validation
  * @experimental 21.0.0
  */
-declare class EmailValidationError extends _NgValidationError {
+declare class EmailValidationError extends BaseNgValidationError {
     readonly kind = "email";
-}
-/**
- * An error used to indicate an issue validating against a standard schema.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare class StandardSchemaValidationError extends _NgValidationError {
-    readonly issue: StandardSchemaV1.Issue;
-    readonly kind = "standardSchema";
-    constructor(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions);
 }
 /**
  * The base class for all built-in, non-custom errors. This class can be used to check if an error
@@ -2412,5 +2559,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: (form: FieldTre
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };
