@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.1+sha-af76b9d
+ * @license Angular v21.2.0-next.1+sha-26d1215
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -526,11 +526,7 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
      * buffer debounced updates from the control to the field. This will also not take into account
      * the {@link controlValue} of children.
      */
-    readonly controlValue: Signal<TValue>;
-    /**
-     * Sets {@link controlValue} immediately and triggers synchronization to {@link value}.
-     */
-    setControlValue(value: TValue): void;
+    readonly controlValue: WritableSignal<TValue>;
     /**
      * Sets the dirty status of the field to `true`.
      */
@@ -1908,6 +1904,7 @@ declare class FieldNode implements FieldState<unknown> {
     readonly nodeState: FieldNodeState;
     readonly submitState: FieldSubmitState;
     readonly fieldAdapter: FieldAdapter;
+    readonly controlValue: WritableSignal<unknown>;
     private _context;
     get context(): FieldContext<unknown>;
     /**
@@ -1936,8 +1933,6 @@ declare class FieldNode implements FieldState<unknown> {
     private readonly pendingSync;
     get logicNode(): LogicNode;
     get value(): WritableSignal<unknown>;
-    private _controlValue;
-    get controlValue(): Signal<unknown>;
     get keyInParent(): Signal<string | number>;
     get errors(): Signal<ValidationError.WithFieldTree[]>;
     get parseErrors(): Signal<ValidationError.WithFormField[]>;
@@ -1980,10 +1975,9 @@ declare class FieldNode implements FieldState<unknown> {
     reset(value?: unknown): void;
     private _reset;
     /**
-     * Sets the control value of the field. This value may be debounced before it is synchronized with
-     * the field's {@link value} signal, depending on the debounce configuration.
+     * Creates a linked signal that initiates a {@link debounceSync} when set.
      */
-    setControlValue(newValue: unknown): void;
+    private controlValueSignal;
     /**
      * Synchronizes the {@link controlValue} with the {@link value} signal immediately.
      */
@@ -1996,9 +1990,9 @@ declare class FieldNode implements FieldState<unknown> {
      * Initiates a debounced {@link sync}.
      *
      * If a debouncer is configured, the synchronization will occur after the debouncer resolves. If
-     * no debouncer is configured, the synchronization happens immediately. If {@link setControlValue}
-     * is called again while a debounce is pending, the previous debounce operation is aborted in
-     * favor of the new one.
+     * no debouncer is configured, the synchronization happens immediately. If {@link controlValue} is
+     * updated again while a debounce is pending, the previous debounce operation is aborted in favor
+     * of the new one.
      */
     private debounceSync;
     /**

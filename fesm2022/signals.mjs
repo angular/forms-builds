@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.1+sha-af76b9d
+ * @license Angular v21.2.0-next.1+sha-26d1215
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -237,7 +237,7 @@ function bindingUpdated(bindings, key, value) {
 }
 
 function cvaControlCreate(host, parent) {
-  parent.controlValueAccessor.registerOnChange(value => parent.state().setControlValue(value));
+  parent.controlValueAccessor.registerOnChange(value => parent.state().controlValue.set(value));
   parent.controlValueAccessor.registerOnTouched(() => parent.state().markAsTouched());
   parent.registerAsBinding();
   const bindings = createBindings();
@@ -262,7 +262,7 @@ function cvaControlCreate(host, parent) {
 }
 
 function customControlCreate(host, parent) {
-  host.listenToCustomControlModel(value => parent.state().setControlValue(value));
+  host.listenToCustomControlModel(value => parent.state().controlValue.set(value));
   host.listenToCustomControlOutput('touchedChange', () => parent.state().markAsTouched());
   parent.registerAsBinding(host.customControl);
   const bindings = createBindings();
@@ -335,7 +335,7 @@ function nativeControlCreate(host, parent) {
   const input = parent.nativeFormElement;
   host.listenToDom('input', () => {
     const state = parent.state();
-    state.setControlValue(getNativeControlValue(input, state.value));
+    state.controlValue.set(getNativeControlValue(input, state.value));
   });
   host.listenToDom('blur', () => parent.state().markAsTouched());
   parent.registerAsBinding();
@@ -502,7 +502,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.1+sha-af76b9d",
+    version: "21.2.0-next.1+sha-26d1215",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -510,7 +510,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.1+sha-af76b9d",
+    version: "21.2.0-next.1+sha-26d1215",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -539,7 +539,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.1+sha-af76b9d",
+  version: "21.2.0-next.1+sha-26d1215",
   ngImport: i0,
   type: FormField,
   decorators: [{

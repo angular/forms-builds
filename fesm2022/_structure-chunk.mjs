@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.1+sha-af76b9d
+ * @license Angular v21.2.0-next.1+sha-26d1215
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1186,6 +1186,7 @@ class FieldNode {
   nodeState;
   submitState;
   fieldAdapter;
+  controlValue;
   _context = undefined;
   get context() {
     return this._context ??= new FieldNodeContext(this);
@@ -1200,6 +1201,7 @@ class FieldNode {
     this.nodeState = this.fieldAdapter.createNodeState(this, options);
     this.metadataState = new FieldMetadataState(this);
     this.submitState = new FieldSubmitState(this);
+    this.controlValue = this.controlValueSignal();
   }
   focusBoundControl(options) {
     this.getBindingForFocus()?.focus(options);
@@ -1224,12 +1226,6 @@ class FieldNode {
   }
   get value() {
     return this.structure.value;
-  }
-  _controlValue = linkedSignal(() => this.value(), ...(ngDevMode ? [{
-    debugName: "_controlValue"
-  }] : []));
-  get controlValue() {
-    return this._controlValue.asReadonly();
   }
   get keyInParent() {
     return this.structure.keyInParent;
@@ -1325,12 +1321,25 @@ class FieldNode {
       child._reset();
     }
   }
-  setControlValue(newValue) {
-    untracked(() => {
-      this._controlValue.set(newValue);
+  controlValueSignal() {
+    const controlValue = linkedSignal(this.value, ...(ngDevMode ? [{
+      debugName: "controlValue"
+    }] : []));
+    const {
+      set,
+      update
+    } = controlValue;
+    controlValue.set = newValue => {
+      set(newValue);
       this.markAsDirty();
       this.debounceSync();
-    });
+    };
+    controlValue.update = updateFn => {
+      update(updateFn);
+      this.markAsDirty();
+      this.debounceSync();
+    };
+    return controlValue;
   }
   sync() {
     this.value.set(this.controlValue());
@@ -1343,8 +1352,10 @@ class FieldNode {
     }
   }
   async debounceSync() {
-    this.pendingSync()?.abort();
-    const debouncer = this.nodeState.debouncer();
+    const debouncer = untracked(() => {
+      this.pendingSync()?.abort();
+      return this.nodeState.debouncer();
+    });
     if (debouncer) {
       const controller = new AbortController();
       const promise = debouncer(controller.signal);
