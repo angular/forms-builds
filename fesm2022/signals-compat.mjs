@@ -1,12 +1,13 @@
 /**
- * @license Angular v21.2.0-next.1+sha-8ab433a
+ * @license Angular v21.2.0-next.1+sha-68ba9c4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, BasicFieldAdapter, form, normalizeFormArgs } from './_structure-chunk.mjs';
-import { linkedSignal, untracked, runInInjectionContext, computed, signal, ɵRuntimeError as _RuntimeError } from '@angular/core';
-import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, extractNestedReactiveErrors, BasicFieldAdapter, form, normalizeFormArgs, signalErrorsToValidationErrors } from './_structure-chunk.mjs';
+export { CompatValidationError } from './_structure-chunk.mjs';
+import { linkedSignal, untracked, runInInjectionContext, computed, signal, ɵRuntimeError as _RuntimeError, EventEmitter, inject, Injector, effect } from '@angular/core';
+import { AbstractControl, ValueChangeEvent, StatusChangeEvent, TouchedChangeEvent, PristineChangeEvent, FormResetEvent } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReplaySubject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -152,48 +153,6 @@ class CompatStructure extends FieldNodeStructure {
   }
 }
 
-class CompatValidationError {
-  kind = 'compat';
-  control;
-  fieldTree;
-  context;
-  message;
-  constructor({
-    context,
-    kind,
-    control
-  }) {
-    this.context = context;
-    this.kind = kind;
-    this.control = control;
-  }
-}
-
-function reactiveErrorsToSignalErrors(errors, control) {
-  if (errors === null) {
-    return [];
-  }
-  return Object.entries(errors).map(([kind, context]) => {
-    return new CompatValidationError({
-      context,
-      kind,
-      control
-    });
-  });
-}
-function extractNestedReactiveErrors(control) {
-  const errors = [];
-  if (control.errors) {
-    errors.push(...reactiveErrorsToSignalErrors(control.errors, control));
-  }
-  if (control instanceof FormGroup || control instanceof FormArray) {
-    for (const c of Object.values(control.controls)) {
-      errors.push(...extractNestedReactiveErrors(c));
-    }
-  }
-  return errors;
-}
-
 const EMPTY_ARRAY_SIGNAL = computed(() => [], ...(ngDevMode ? [{
   debugName: "EMPTY_ARRAY_SIGNAL"
 }] : []));
@@ -318,5 +277,385 @@ const NG_STATUS_CLASSES = {
   }) => state().pending()
 };
 
-export { CompatValidationError, NG_STATUS_CLASSES, compatForm };
+class SignalFormControl extends AbstractControl {
+  fieldTree;
+  sourceValue;
+  fieldState;
+  initialValue;
+  pendingParentNotifications = 0;
+  onChangeCallbacks = [];
+  onDisabledChangeCallbacks = [];
+  valueChanges = new EventEmitter();
+  statusChanges = new EventEmitter();
+  constructor(value, schemaOrOptions, options) {
+    super(null, null);
+    const [model, schema, opts] = normalizeFormArgs([signal(value), schemaOrOptions, options]);
+    this.sourceValue = model;
+    this.initialValue = value;
+    const injector = opts?.injector ?? inject(Injector);
+    const rawTree = schema ? compatForm(this.sourceValue, schema, {
+      injector
+    }) : compatForm(this.sourceValue, {
+      injector
+    });
+    this.fieldTree = wrapFieldTreeForSyncUpdates(rawTree, () => this.parent?.updateValueAndValidity({
+      sourceControl: this
+    }));
+    this.fieldState = this.fieldTree();
+    this.defineCompatProperties();
+    effect(() => {
+      const value = this.sourceValue();
+      untracked(() => {
+        this.notifyParentUnlessPending();
+        this.valueChanges.emit(value);
+        this.emitControlEvent(new ValueChangeEvent(value, this));
+      });
+    }, {
+      injector
+    });
+    effect(() => {
+      const status = this.status;
+      untracked(() => {
+        this.statusChanges.emit(status);
+      });
+      this.emitControlEvent(new StatusChangeEvent(status, this));
+    }, {
+      injector
+    });
+    effect(() => {
+      const isDisabled = this.disabled;
+      untracked(() => {
+        for (const fn of this.onDisabledChangeCallbacks) {
+          fn(isDisabled);
+        }
+      });
+    }, {
+      injector
+    });
+    effect(() => {
+      const isTouched = this.fieldState.touched();
+      this.emitControlEvent(new TouchedChangeEvent(isTouched, this));
+      const parent = this.parent;
+      if (!parent) {
+        return;
+      }
+      if (!isTouched) {
+        parent.markAsUntouched();
+      } else {
+        parent.markAsTouched();
+      }
+    }, {
+      injector
+    });
+    effect(() => {
+      const isDirty = this.fieldState.dirty();
+      this.emitControlEvent(new PristineChangeEvent(!isDirty, this));
+      const parent = this.parent;
+      if (!parent) {
+        return;
+      }
+      if (isDirty) {
+        parent.markAsDirty();
+      } else {
+        parent.markAsPristine();
+      }
+    }, {
+      injector
+    });
+  }
+  defineCompatProperties() {
+    const valueProp = getClosureSafeProperty({
+      value: getClosureSafeProperty
+    });
+    Object.defineProperty(this, valueProp, {
+      get: () => this.sourceValue()
+    });
+    const errorsProp = getClosureSafeProperty({
+      errors: getClosureSafeProperty
+    });
+    Object.defineProperty(this, errorsProp, {
+      get: () => signalErrorsToValidationErrors(this.fieldState.errors())
+    });
+  }
+  emitControlEvent(event) {
+    untracked(() => {
+      this._events.next(event);
+    });
+  }
+  setValue(value, options) {
+    this.updateValue(value, options);
+  }
+  patchValue(value, options) {
+    this.updateValue(value, options);
+  }
+  updateValue(value, options) {
+    const parent = this.scheduleParentUpdate(options);
+    this.sourceValue.set(value);
+    if (parent) {
+      this.updateParentValueAndValidity(parent, options?.emitEvent);
+    }
+    if (options?.emitModelToViewChange !== false) {
+      for (const fn of this.onChangeCallbacks) {
+        fn(value, true);
+      }
+    }
+  }
+  registerOnChange(fn) {
+    this.onChangeCallbacks.push(fn);
+  }
+  _unregisterOnChange(fn) {
+    removeListItem(this.onChangeCallbacks, fn);
+  }
+  registerOnDisabledChange(fn) {
+    this.onDisabledChangeCallbacks.push(fn);
+  }
+  _unregisterOnDisabledChange(fn) {
+    removeListItem(this.onDisabledChangeCallbacks, fn);
+  }
+  getRawValue() {
+    return this.value;
+  }
+  reset(value, options) {
+    if (isFormControlState(value)) {
+      throw unsupportedDisableEnableError();
+    }
+    const resetValue = value ?? this.initialValue;
+    this.fieldState.reset(resetValue);
+    if (value !== undefined) {
+      this.updateValue(value, options);
+    } else if (!options?.onlySelf) {
+      const parent = this.parent;
+      if (parent) {
+        this.updateParentValueAndValidity(parent, options?.emitEvent);
+      }
+    }
+    if (options?.emitEvent !== false) {
+      this.emitControlEvent(new FormResetEvent(this));
+    }
+  }
+  scheduleParentUpdate(options) {
+    const parent = options?.onlySelf ? null : this.parent;
+    if (options?.onlySelf || parent) {
+      this.pendingParentNotifications++;
+    }
+    return parent;
+  }
+  notifyParentUnlessPending() {
+    if (this.pendingParentNotifications > 0) {
+      this.pendingParentNotifications--;
+      return;
+    }
+    const parent = this.parent;
+    if (parent) {
+      this.updateParentValueAndValidity(parent);
+    }
+  }
+  updateParentValueAndValidity(parent, emitEvent) {
+    parent.updateValueAndValidity({
+      emitEvent,
+      sourceControl: this
+    });
+  }
+  propagateToParent(opts, fn) {
+    const parent = this.parent;
+    if (parent && !opts?.onlySelf) {
+      fn(parent);
+    }
+  }
+  get status() {
+    if (this.fieldState.disabled()) {
+      return 'DISABLED';
+    }
+    if (this.fieldState.valid()) {
+      return 'VALID';
+    }
+    if (this.fieldState.invalid()) {
+      return 'INVALID';
+    }
+    return 'PENDING';
+  }
+  get valid() {
+    return this.fieldState.valid();
+  }
+  get invalid() {
+    return this.fieldState.invalid();
+  }
+  get pending() {
+    return this.fieldState.pending();
+  }
+  get disabled() {
+    return this.fieldState.disabled();
+  }
+  get enabled() {
+    return !this.disabled;
+  }
+  get dirty() {
+    return this.fieldState.dirty();
+  }
+  set dirty(_) {
+    throw unsupportedFeatureError('Setting dirty directly is not supported. Instead use markAsDirty().');
+  }
+  get pristine() {
+    return !this.dirty;
+  }
+  set pristine(_) {
+    throw unsupportedFeatureError('Setting pristine directly is not supported. Instead use reset().');
+  }
+  get touched() {
+    return this.fieldState.touched();
+  }
+  set touched(_) {
+    throw unsupportedFeatureError('Setting touched directly is not supported. Instead use markAsTouched() or reset().');
+  }
+  get untouched() {
+    return !this.touched;
+  }
+  set untouched(_) {
+    throw unsupportedFeatureError('Setting untouched directly is not supported. Instead use reset().');
+  }
+  markAsTouched(opts) {
+    this.fieldState.markAsTouched();
+    this.propagateToParent(opts, parent => parent.markAsTouched(opts));
+  }
+  markAsDirty(opts) {
+    this.fieldState.markAsDirty();
+    this.propagateToParent(opts, parent => parent.markAsDirty(opts));
+  }
+  markAsPristine(opts) {
+    this.fieldState.markAsPristine();
+    this.propagateToParent(opts, parent => parent.markAsPristine(opts));
+  }
+  markAsUntouched(opts) {
+    this.fieldState.markAsUntouched();
+    this.propagateToParent(opts, parent => parent.markAsUntouched(opts));
+  }
+  updateValueAndValidity(_opts) {}
+  _updateValue() {}
+  _forEachChild(_cb) {}
+  _anyControls(_condition) {
+    return false;
+  }
+  _allControlsDisabled() {
+    return this.disabled;
+  }
+  _syncPendingControls() {
+    return false;
+  }
+  disable(_opts) {
+    throw unsupportedDisableEnableError();
+  }
+  enable(_opts) {
+    throw unsupportedDisableEnableError();
+  }
+  setValidators(_validators) {
+    throw unsupportedValidatorsError();
+  }
+  setAsyncValidators(_validators) {
+    throw unsupportedValidatorsError();
+  }
+  addValidators(_validators) {
+    throw unsupportedValidatorsError();
+  }
+  addAsyncValidators(_validators) {
+    throw unsupportedValidatorsError();
+  }
+  removeValidators(_validators) {
+    throw unsupportedValidatorsError();
+  }
+  removeAsyncValidators(_validators) {
+    throw unsupportedValidatorsError();
+  }
+  clearValidators() {
+    throw unsupportedValidatorsError();
+  }
+  clearAsyncValidators() {
+    throw unsupportedValidatorsError();
+  }
+  setErrors(_errors, _opts) {
+    throw unsupportedFeatureError(ngDevMode && 'Imperatively setting errors is not supported in signal forms. Errors are derived from validation rules.');
+  }
+  markAsPending(_opts) {
+    throw unsupportedFeatureError(ngDevMode && 'Imperatively marking as pending is not supported in signal forms. Pending state is derived from async validation status.');
+  }
+}
+class CachingWeakMap {
+  map = new WeakMap();
+  getOrCreate(key, create) {
+    const cached = this.map.get(key);
+    if (cached) {
+      return cached;
+    }
+    const value = create();
+    this.map.set(key, value);
+    return value;
+  }
+}
+function wrapFieldTreeForSyncUpdates(tree, onUpdate) {
+  const treeCache = new CachingWeakMap();
+  const stateCache = new CachingWeakMap();
+  const wrapState = state => {
+    const {
+      value
+    } = state;
+    const wrappedValue = Object.assign((...a) => value(...a), {
+      set: v => {
+        value.set(v);
+        onUpdate();
+      },
+      update: fn => {
+        value.update(fn);
+        onUpdate();
+      }
+    });
+    return Object.create(state, {
+      value: {
+        get: () => wrappedValue
+      }
+    });
+  };
+  const wrapTree = t => {
+    return treeCache.getOrCreate(t, () => {
+      return new Proxy(t, {
+        get(target, prop, receiver) {
+          const val = Reflect.get(target, prop, receiver);
+          if (typeof val === 'function' && typeof prop === 'string') {
+            return wrapTree(val);
+          }
+          return val;
+        },
+        apply(target, _, args) {
+          const state = target(...args);
+          return stateCache.getOrCreate(state, () => wrapState(state));
+        }
+      });
+    });
+  };
+  return wrapTree(tree);
+}
+function isFormControlState(formState) {
+  return typeof formState === 'object' && formState !== null && Object.keys(formState).length === 2 && 'value' in formState && 'disabled' in formState;
+}
+function unsupportedFeatureError(message) {
+  return new _RuntimeError(1920, message ?? false);
+}
+function unsupportedDisableEnableError() {
+  return unsupportedFeatureError(ngDevMode && 'Imperatively changing enabled/disabled status in form control is not supported in signal forms. Instead use a "disabled" rule to derive the disabled status from a signal.');
+}
+function unsupportedValidatorsError() {
+  return unsupportedFeatureError(ngDevMode && 'Dynamically adding and removing validators is not supported in signal forms. Instead use the "applyWhen" rule to conditionally apply validators based on a signal.');
+}
+function removeListItem(list, el) {
+  const index = list.indexOf(el);
+  if (index > -1) list.splice(index, 1);
+}
+function getClosureSafeProperty(objWithPropertyToExtract) {
+  for (let key in objWithPropertyToExtract) {
+    if (objWithPropertyToExtract[key] === getClosureSafeProperty) {
+      return key;
+    }
+  }
+  throw Error(typeof ngDevMode === 'undefined' || ngDevMode ? 'Could not find renamed property on target object.' : '');
+}
+
+export { NG_STATUS_CLASSES, SignalFormControl, compatForm };
 //# sourceMappingURL=signals-compat.mjs.map

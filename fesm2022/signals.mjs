@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.1+sha-8ab433a
+ * @license Angular v21.2.0-next.1+sha-68ba9c4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import * as i0 from '@angular/core';
 import { InjectionToken, ɵRuntimeError as _RuntimeError, untracked, input, inject, Renderer2, DestroyRef, computed, Injector, ElementRef, signal, afterRenderEffect, effect, Directive, ɵisPromise as _isPromise, resource } from '@angular/core';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
-import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER } from './_structure-chunk.mjs';
+import { signalErrorsToValidationErrors, assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER } from './_structure-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema, submit } from './_structure-chunk.mjs';
 import { httpResource } from '@angular/common/http';
 import '@angular/core/primitives/signals';
@@ -46,15 +46,7 @@ class InteropNgControl {
     return !this.field().disabled();
   }
   get errors() {
-    const errors = this.field().errors();
-    if (errors.length === 0) {
-      return null;
-    }
-    const errObj = {};
-    for (const error of errors) {
-      errObj[error.kind] = error;
-    }
-    return errObj;
+    return signalErrorsToValidationErrors(this.field().errors());
   }
   get pristine() {
     return !this.field().dirty();
@@ -502,7 +494,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.1+sha-8ab433a",
+    version: "21.2.0-next.1+sha-68ba9c4",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -510,7 +502,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.1+sha-8ab433a",
+    version: "21.2.0-next.1+sha-68ba9c4",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -539,7 +531,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.1+sha-8ab433a",
+  version: "21.2.0-next.1+sha-68ba9c4",
   ngImport: i0,
   type: FormField,
   decorators: [{

@@ -1,12 +1,63 @@
 /**
- * @license Angular v21.2.0-next.1+sha-8ab433a
+ * @license Angular v21.2.0-next.1+sha-68ba9c4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
+import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { untracked, ɵRuntimeError as _RuntimeError, computed, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, inject } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
+
+class CompatValidationError {
+  kind = 'compat';
+  control;
+  fieldTree;
+  context;
+  message;
+  constructor({
+    context,
+    kind,
+    control
+  }) {
+    this.context = context;
+    this.kind = kind;
+    this.control = control;
+  }
+}
+function signalErrorsToValidationErrors(errors) {
+  if (errors.length === 0) {
+    return null;
+  }
+  const errObj = {};
+  for (const error of errors) {
+    errObj[error.kind] = error instanceof CompatValidationError ? error.context : error;
+  }
+  return errObj;
+}
+function reactiveErrorsToSignalErrors(errors, control) {
+  if (errors === null) {
+    return [];
+  }
+  return Object.entries(errors).map(([kind, context]) => {
+    return new CompatValidationError({
+      context,
+      kind,
+      control
+    });
+  });
+}
+function extractNestedReactiveErrors(control) {
+  const errors = [];
+  if (control.errors) {
+    errors.push(...reactiveErrorsToSignalErrors(control.errors, control));
+  }
+  if (control instanceof FormGroup || control instanceof FormArray) {
+    for (const c of Object.values(control.controls)) {
+      errors.push(...extractNestedReactiveErrors(c));
+    }
+  }
+  return errors;
+}
 
 let boundPathDepth = 0;
 function getBoundPathDepth() {
@@ -1308,6 +1359,12 @@ class FieldNode {
   markAsDirty() {
     this.nodeState.markAsDirty();
   }
+  markAsPristine() {
+    this.nodeState.markAsPristine();
+  }
+  markAsUntouched() {
+    this.nodeState.markAsUntouched();
+  }
   reset(value) {
     untracked(() => this._reset(value));
   }
@@ -1641,5 +1698,5 @@ function markAllAsTouched(node) {
   }
 }
 
-export { BasicFieldAdapter, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, form, getInjectorFromOptions, metadata, normalizeFormArgs, schema, submit };
+export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, metadata, normalizeFormArgs, schema, signalErrorsToValidationErrors, submit };
 //# sourceMappingURL=_structure-chunk.mjs.map

@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.1+sha-8ab433a
+ * @license Angular v21.2.0-next.1+sha-68ba9c4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1965,6 +1965,14 @@ declare class FieldNode implements FieldState<unknown> {
      * Marks this specific field as dirty.
      */
     markAsDirty(): void;
+    /**
+     * Marks this specific field as pristine.
+     */
+    markAsPristine(): void;
+    /**
+     * Marks this specific field as untouched.
+     */
+    markAsUntouched(): void;
     /**
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
      *
