@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.1+sha-43d61ec
+ * @license Angular v21.2.0-next.1+sha-cab5ddd
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -15,7 +15,7 @@ import '@standard-schema/spec';
  * @category interop
  * @experimental 21.0.0
  */
-type CompatFormOptions = Omit<FormOptions, 'adapter'>;
+type CompatFormOptions<TModel> = Omit<FormOptions<TModel>, 'adapter'>;
 /**
  * Creates a compatibility form wrapped around the given model data.
  *
@@ -78,7 +78,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>): FieldTree<TM
  * @category interop
  * @experimental 21.0.0
  */
-declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptions: SchemaOrSchemaFn<TModel> | CompatFormOptions): FieldTree<TModel>;
+declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptions: SchemaOrSchemaFn<TModel> | CompatFormOptions<TModel>): FieldTree<TModel>;
 /**
  * Creates a compatibility form wrapped around the given model data.
  *
@@ -110,7 +110,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptio
  * @category interop
  * @experimental 21.0.0
  */
-declare function compatForm<TModel>(model: WritableSignal<TModel>, schema: SchemaOrSchemaFn<TModel>, options: CompatFormOptions): FieldTree<TModel>;
+declare function compatForm<TModel>(model: WritableSignal<TModel>, schema: SchemaOrSchemaFn<TModel>, options: CompatFormOptions<TModel>): FieldTree<TModel>;
 
 /**
  * An error used for compat errors.
@@ -191,7 +191,7 @@ declare class SignalFormControl<T> extends AbstractControl {
     private readonly onDisabledChangeCallbacks;
     readonly valueChanges: EventEmitter<T>;
     readonly statusChanges: EventEmitter<FormControlStatus>;
-    constructor(value: T, schemaOrOptions?: SchemaFn<T> | FormOptions, options?: FormOptions);
+    constructor(value: T, schemaOrOptions?: SchemaFn<T> | FormOptions<T>, options?: FormOptions<T>);
     /**
      * Defines properties using closure-safe names to prevent issues with property renaming optimizations.
      *

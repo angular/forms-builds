@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.1+sha-43d61ec
+ * @license Angular v21.2.0-next.1+sha-cab5ddd
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1570,9 +1570,11 @@ class BasicFieldAdapter {
 class FormFieldManager {
   injector;
   rootName;
-  constructor(injector, rootName) {
+  submitOptions;
+  constructor(injector, rootName, submitOptions) {
     this.injector = injector;
     this.rootName = rootName ?? `${this.injector.get(APP_ID)}.form${nextFormId++}`;
+    this.submitOptions = submitOptions;
   }
   structures = new Set();
   createFieldManagementEffect(root) {
@@ -1620,7 +1622,7 @@ function form(...args) {
   const [model, schema, options] = normalizeFormArgs(args);
   const injector = options?.injector ?? inject(Injector);
   const pathNode = runInInjectionContext(injector, () => SchemaImpl.rootCompile(schema));
-  const fieldManager = new FormFieldManager(injector, options?.name);
+  const fieldManager = new FormFieldManager(injector, options?.name, options?.submission);
   const adapter = options?.adapter ?? new BasicFieldAdapter();
   const fieldRoot = FieldNode.newRoot(fieldManager, model, pathNode, adapter);
   fieldManager.createFieldManagementEffect(fieldRoot.structure);
@@ -1649,19 +1651,39 @@ function applyWhenValue(path, predicate, schema) {
     value
   }) => predicate(value()), schema);
 }
-async function submit(form, action) {
+async function submit(form, options) {
   const node = form();
-  const invalid = untracked(() => {
-    markAllAsTouched(node);
-    return node.invalid();
-  });
-  if (invalid) {
-    return;
+  const opts = typeof options === 'function' ? {
+    action: options
+  } : {
+    ...(node.structure.fieldManager.submitOptions ?? {}),
+    ...(options ?? {})
+  };
+  const action = opts?.action;
+  if (!action) {
+    throw new _RuntimeError(1915, ngDevMode && 'Cannot submit form with no submit action. Specify the action when creating the form, or as an additional argument to `submit()`.');
   }
-  node.submitState.selfSubmitting.set(true);
+  const onInvalid = opts?.onInvalid;
+  const ignoreValidators = opts?.ignoreValidators ?? 'pending';
+  let shouldRunAction = true;
+  untracked(() => {
+    markAllAsTouched(node);
+    if (ignoreValidators === 'none') {
+      shouldRunAction = node.valid();
+    } else if (ignoreValidators === 'pending') {
+      shouldRunAction = !node.invalid();
+    }
+  });
   try {
-    const errors = await action(form);
-    errors && setSubmissionErrors(node, errors);
+    if (shouldRunAction) {
+      node.submitState.selfSubmitting.set(true);
+      const errors = await untracked(() => action?.(form));
+      errors && setSubmissionErrors(node, errors);
+      return !errors || isArray(errors) && errors.length === 0;
+    } else {
+      untracked(() => onInvalid?.(form));
+    }
+    return false;
   } finally {
     node.submitState.selfSubmitting.set(false);
   }
