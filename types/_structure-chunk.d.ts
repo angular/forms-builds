@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.1.2+sha-2cf4da0
+ * @license Angular v21.1.2+sha-04d518b
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,13 +7,33 @@
 import * as i0 from '@angular/core';
 import { ɵFormFieldBindingOptions as _FormFieldBindingOptions, InjectionToken, Injector, ɵCONTROL as _CONTROL, ɵɵcontrolCreate as __controlCreate, ɵcontrolUpdate as _controlUpdate, Signal, ɵFieldState as _FieldState, Provider, WritableSignal, DestroyableInjector } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
-import { NgControl, AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
 /**
- * Properties of both NgControl & AbstractControl that are supported by the InteropNgControl.
+ * Represents a combination of `NgControl` and `AbstractControl`.
+ *
+ * Note: We have this separate interface, rather than implementing the relevant parts of the two
+ * controls with something like `InteropNgControl implements Pick<NgControl, ...>, Pick<AbstractControl, ...>`
+ * because it confuses the internal JS minifier which can cause collisions in field names.
  */
-type InteropSharedKeys = 'value' | 'valid' | 'invalid' | 'touched' | 'untouched' | 'disabled' | 'enabled' | 'errors' | 'pristine' | 'dirty' | 'status';
+interface CombinedControl {
+    value: any;
+    valid: boolean;
+    invalid: boolean;
+    touched: boolean;
+    untouched: boolean;
+    disabled: boolean;
+    enabled: boolean;
+    errors: ValidationErrors | null;
+    pristine: boolean;
+    dirty: boolean;
+    status: FormControlStatus;
+    control: AbstractControl<any, any>;
+    valueAccessor: ControlValueAccessor | null;
+    hasValidator(validator: ValidatorFn): boolean;
+    updateValueAndValidity(): void;
+}
 /**
  * A fake version of `NgControl` provided by the `Field` directive. This allows interoperability
  * with a wider range of components designed to work with reactive forms, in particular ones that
@@ -21,7 +41,7 @@ type InteropSharedKeys = 'value' | 'valid' | 'invalid' | 'touched' | 'untouched'
  * the real `NgControl`, but does implement some of the most commonly used ones that have a clear
  * equivalent in signal forms.
  */
-declare class InteropNgControl implements Pick<NgControl, InteropSharedKeys | 'control' | 'valueAccessor'>, Pick<AbstractControl<unknown>, InteropSharedKeys | 'hasValidator'> {
+declare class InteropNgControl implements CombinedControl {
     protected field: () => FieldState<unknown>;
     constructor(field: () => FieldState<unknown>);
     readonly control: AbstractControl<any, any>;
