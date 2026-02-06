@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.2+sha-6fa2270
+ * @license Angular v21.2.0-next.2+sha-24c0c5a
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -200,7 +200,7 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  * See https://github.com/standard-schema/standard-schema for more about standard schema.
  *
  * @param path The `FieldPath` to the field to validate.
- * @param schema The standard schema compatible validator to use for validation.
+ * @param schema The standard schema compatible validator to use for validation, or a LogicFn that returns the schema.
  * @template TSchema The type validated by the schema. This may be either the full `TValue` type,
  *   or a partial of it.
  * @template TValue The type of value stored in the field being validated.
@@ -209,7 +209,7 @@ type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
  * @category validation
  * @experimental 21.0.0
  */
-declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema>): void;
+declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema> | LogicFn<TModel, StandardSchemaV1<unknown> | undefined>): void;
 /**
  * Create a standard schema issue error associated with the target field
  * @param issue The standard schema issue

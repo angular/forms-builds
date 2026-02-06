@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.2+sha-6fa2270
+ * @license Angular v21.2.0-next.2+sha-24c0c5a
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -494,7 +494,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.2+sha-6fa2270",
+    version: "21.2.0-next.2+sha-24c0c5a",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -502,7 +502,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.2+sha-6fa2270",
+    version: "21.2.0-next.2+sha-24c0c5a",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -531,7 +531,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.2+sha-6fa2270",
+  version: "21.2.0-next.2+sha-24c0c5a",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -910,17 +910,16 @@ function validateTree(path, logic) {
 }
 
 function validateStandardSchema(path, schema) {
-  const VALIDATOR_MEMO = metadata(path, createMetadataKey(), ({
-    value
-  }) => {
-    return schema['~standard'].validate(value());
+  const VALIDATOR_MEMO = metadata(path, createMetadataKey(), ctx => {
+    const resolvedSchema = typeof schema === 'function' ? schema(ctx) : schema;
+    return resolvedSchema ? resolvedSchema['~standard'].validate(ctx.value()) : undefined;
   });
   validateTree(path, ({
     state,
     fieldTreeOf
   }) => {
     const result = state.metadata(VALIDATOR_MEMO)();
-    if (_isPromise(result)) {
+    if (!result || _isPromise(result)) {
       return [];
     }
     return result?.issues?.map(issue => standardIssueToFormTreeError(fieldTreeOf(path), issue)) ?? [];
@@ -930,7 +929,7 @@ function validateStandardSchema(path, schema) {
       state
     }) => {
       const result = state.metadata(VALIDATOR_MEMO)();
-      return _isPromise(result) ? result : undefined;
+      return result && _isPromise(result) ? result : undefined;
     },
     factory: params => {
       return resource({
