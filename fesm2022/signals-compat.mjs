@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.2.0-next.2+sha-4b3b149
+ * @license Angular v21.2.0-next.2+sha-cb1163e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, extractNestedReactiveErrors, BasicFieldAdapter, form, normalizeFormArgs, signalErrorsToValidationErrors } from './_structure-chunk.mjs';
-export { CompatValidationError } from './_structure-chunk.mjs';
+import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, extractNestedReactiveErrors, BasicFieldAdapter, form, normalizeFormArgs, signalErrorsToValidationErrors } from './_validation_errors-chunk.mjs';
+export { CompatValidationError } from './_validation_errors-chunk.mjs';
 import { linkedSignal, untracked, runInInjectionContext, computed, signal, ɵRuntimeError as _RuntimeError, EventEmitter, inject, Injector, effect } from '@angular/core';
 import { AbstractControl, ValueChangeEvent, StatusChangeEvent, TouchedChangeEvent, PristineChangeEvent, FormResetEvent } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -493,25 +493,25 @@ class SignalFormControl extends AbstractControl {
     return this.fieldState.dirty();
   }
   set dirty(_) {
-    throw unsupportedFeatureError('Setting dirty directly is not supported. Instead use markAsDirty().');
+    throw unsupportedFeatureError(ngDevMode && 'Setting dirty directly is not supported. Instead use markAsDirty().');
   }
   get pristine() {
     return !this.dirty;
   }
   set pristine(_) {
-    throw unsupportedFeatureError('Setting pristine directly is not supported. Instead use reset().');
+    throw unsupportedFeatureError(ngDevMode && 'Setting pristine directly is not supported. Instead use reset().');
   }
   get touched() {
     return this.fieldState.touched();
   }
   set touched(_) {
-    throw unsupportedFeatureError('Setting touched directly is not supported. Instead use markAsTouched() or reset().');
+    throw unsupportedFeatureError(ngDevMode && 'Setting touched directly is not supported. Instead use markAsTouched() or reset().');
   }
   get untouched() {
     return !this.touched;
   }
   set untouched(_) {
-    throw unsupportedFeatureError('Setting untouched directly is not supported. Instead use reset().');
+    throw unsupportedFeatureError(ngDevMode && 'Setting untouched directly is not supported. Instead use reset().');
   }
   markAsTouched(opts) {
     this.fieldState.markAsTouched();

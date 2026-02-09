@@ -1,244 +1,14 @@
 /**
- * @license Angular v21.2.0-next.2+sha-4b3b149
+ * @license Angular v21.2.0-next.2+sha-cb1163e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { Signal, WritableSignal, InjectionToken, Injector, Provider } from '@angular/core';
+import { WritableSignal, Signal, InjectionToken, Injector, Provider } from '@angular/core';
 import * as _angular_forms from '@angular/forms';
 import { AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
-
-/**
- * Sets a value for the {@link MetadataKey} for this field.
- *
- * This value is combined via a reduce operation defined by the particular key,
- * since multiple rules in the schema might set values for it.
- *
- * @param path The target path to set the metadata for.
- * @param key The metadata key
- * @param logic A function that receives the `FieldContext` and returns a value for the metadata.
- * @template TValue The type of value stored in the field the logic is bound to.
- * @template TKey The type of metadata key.
- * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
- *
- * @category logic
- * @experimental 21.0.0
- */
-declare function metadata<TValue, TKey extends MetadataKey<any, any, any>, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: TKey, logic: NoInfer<LogicFn<TValue, MetadataSetterType<TKey>, TPathKind>>): TKey;
-/**
- * A reducer that determines the accumulated value for a metadata key by reducing the individual
- * values contributed from `metadata()` rules.
- *
- * @template TAcc The accumulated type of the reduce operation.
- * @template TItem The type of the individual items that are reduced over.
- * @experimental 21.0.2
- */
-interface MetadataReducer<TAcc, TItem> {
-    /** The reduce function. */
-    reduce: (acc: TAcc, item: TItem) => TAcc;
-    /** Gets the initial accumulated value. */
-    getInitial: () => TAcc;
-}
-declare const MetadataReducer: {
-    /** Creates a reducer that accumulates a list of its individual item values. */
-    readonly list: <TItem>() => MetadataReducer<TItem[], TItem | undefined>;
-    /** Creates a reducer that accumulates the min of its individual item values. */
-    readonly min: () => MetadataReducer<number | undefined, number | undefined>;
-    /** Creates a reducer that accumulates a the max of its individual item values. */
-    readonly max: () => MetadataReducer<number | undefined, number | undefined>;
-    /** Creates a reducer that logically or's its accumulated value with each individual item value. */
-    readonly or: () => MetadataReducer<boolean, boolean>;
-    /** Creates a reducer that logically and's its accumulated value with each individual item value. */
-    readonly and: () => MetadataReducer<boolean, boolean>;
-    /** Creates a reducer that always takes the next individual item value as the accumulated value. */
-    readonly override: typeof override;
-};
-declare function override<T>(): MetadataReducer<T | undefined, T>;
-declare function override<T>(getInitial: () => T): MetadataReducer<T, T>;
-/**
- * Represents metadata that is aggregated from multiple parts according to the key's reducer
- * function. A value can be contributed to the aggregated value for a field using an
- * `metadata` rule in the schema. There may be multiple rules in a schema that contribute
- * values to the same `MetadataKey` of the same field.
- *
- * @template TRead The type read from the `FieldState` for this key
- * @template TWrite The type written to this key using the `metadata()` rule
- * @template TAcc The type of the reducer's accumulated value.
- *
- * @experimental 21.0.0
- */
-declare class MetadataKey<TRead, TWrite, TAcc> {
-    readonly reducer: MetadataReducer<TAcc, TWrite>;
-    readonly create: ((s: Signal<TAcc>) => TRead) | undefined;
-    private brand;
-    /** Use {@link reducedMetadataKey}. */
-    protected constructor(reducer: MetadataReducer<TAcc, TWrite>, create: ((s: Signal<TAcc>) => TRead) | undefined);
-}
-/**
- * Extracts the the type that can be set into the given metadata key type using the `metadata()` rule.
- *
- * @template TKey The `MetadataKey` type
- *
- * @experimental 21.0.0
- */
-type MetadataSetterType<TKey> = TKey extends MetadataKey<any, infer TWrite, any> ? TWrite : never;
-/**
- * Creates a metadata key used to contain a computed value.
- * The last value set on a given field tree node overrides any previously set values.
- *
- * @template TWrite The type written to this key using the `metadata()` rule
- *
- * @experimental 21.0.0
- */
-declare function createMetadataKey<TWrite>(): MetadataKey<Signal<TWrite | undefined>, TWrite, TWrite | undefined>;
-/**
- * Creates a metadata key used to contain a computed value.
- *
- * @param reducer The reducer used to combine individually set values into the final computed value.
- * @template TWrite The type written to this key using the `metadata()` rule
- * @template TAcc The type of the reducer's accumulated value.
- *
- * @experimental 21.0.0
- */
-declare function createMetadataKey<TWrite, TAcc>(reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<Signal<TAcc>, TWrite, TAcc>;
-/**
- * Creates a metadata key that exposes a managed value based on the accumulated result of the values
- * written to the key. The accumulated value takes the last value set on a given field tree node,
- * overriding any previously set values.
- *
- * @param create A function that receives a signal of the accumulated value and returns the managed
- *   value based on it. This function runs during the construction of the `FieldTree` node,
- *   and runs in the injection context of that node.
- * @template TRead The type read from the `FieldState` for this key
- * @template TWrite The type written to this key using the `metadata()` rule
- *
- * @experimental 21.0.0
- */
-declare function createManagedMetadataKey<TRead, TWrite>(create: (s: Signal<TWrite | undefined>) => TRead): MetadataKey<TRead, TWrite, TWrite | undefined>;
-/**
- * Creates a metadata key that exposes a managed value based on the accumulated result of the values
- * written to the key.
- *
- * @param create A function that receives a signal of the accumulated value and returns the managed
- *   value based on it. This function runs during the construction of the `FieldTree` node,
- *   and runs in the injection context of that node.
- * @param reducer The reducer used to combine individual value written to the key,
- *   this will determine the accumulated value that the create function receives.
- * @template TRead The type read from the `FieldState` for this key
- * @template TWrite The type written to this key using the `metadata()` rule
- * @template TAcc The type of the reducer's accumulated value.
- *
- * @experimental 21.0.0
- */
-declare function createManagedMetadataKey<TRead, TWrite, TAcc>(create: (s: Signal<TAcc>) => TRead, reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<TRead, TWrite, TAcc>;
-/**
- * A {@link MetadataKey} representing whether the field is required.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare const REQUIRED: MetadataKey<Signal<boolean>, boolean, boolean>;
-/**
- * A {@link MetadataKey} representing the min value of the field.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare const MIN: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
-/**
- * A {@link MetadataKey} representing the max value of the field.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare const MAX: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
-/**
- * A {@link MetadataKey} representing the min length of the field.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare const MIN_LENGTH: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
-/**
- * A {@link MetadataKey} representing the max length of the field.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare const MAX_LENGTH: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
-/**
- * A {@link MetadataKey} representing the patterns the field must match.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare const PATTERN: MetadataKey<Signal<RegExp[]>, RegExp | undefined, RegExp[]>;
-
-/**
- * Utility type that removes a string index key when its value is `unknown`,
- * i.e. `{[key: string]: unknown}`. It allows specific string keys to pass through, even if their
- * value is `unknown`, e.g. `{key: unknown}`.
- *
- * @experimental 21.0.0
- */
-type RemoveStringIndexUnknownKey<K, V> = string extends K ? unknown extends V ? never : K : K;
-/**
- * Utility type that recursively ignores unknown string index properties on the given object.
- * We use this on the `TSchema` type in `validateStandardSchema` in order to accommodate Zod's
- * `looseObject` which includes `{[key: string]: unknown}` as part of the type.
- *
- * @experimental 21.0.0
- */
-type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
-    [K in keyof T as RemoveStringIndexUnknownKey<K, T[K]>]: IgnoreUnknownProperties<T[K]>;
-} : T;
-/**
- * Validates a field using a `StandardSchemaV1` compatible validator (e.g. a Zod validator).
- *
- * See https://github.com/standard-schema/standard-schema for more about standard schema.
- *
- * @param path The `FieldPath` to the field to validate.
- * @param schema The standard schema compatible validator to use for validation, or a LogicFn that returns the schema.
- * @template TSchema The type validated by the schema. This may be either the full `TValue` type,
- *   or a partial of it.
- * @template TValue The type of value stored in the field being validated.
- *
- * @see [Signal Form Schema Validation](guide/forms/signals/validation#integration-with-schema-validation-libraries)
- * @category validation
- * @experimental 21.0.0
- */
-declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema> | LogicFn<TModel, StandardSchemaV1<unknown> | undefined>): void;
-/**
- * Create a standard schema issue error associated with the target field
- * @param issue The standard schema issue
- * @param options The validation error options
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: WithFieldTree<ValidationErrorOptions>): StandardSchemaValidationError;
-/**
- * Create a standard schema issue error
- * @param issue The standard schema issue
- * @param options The optional validation error options
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutFieldTree<StandardSchemaValidationError>;
-/**
- * An error used to indicate an issue validating against a standard schema.
- *
- * @category validation
- * @experimental 21.0.0
- */
-declare class StandardSchemaValidationError extends BaseNgValidationError {
-    readonly issue: StandardSchemaV1.Issue;
-    readonly kind = "standardSchema";
-    constructor(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions);
-}
 
 /**
  * Symbol used to retain generic type information when it would otherwise be lost.
@@ -398,6 +168,10 @@ type MaybeFieldTree<TModel, TKey extends string | number = string | number> = (T
  * @experimental 21.0.0
  */
 interface FieldState<TValue, TKey extends string | number = string | number> {
+    /**
+     * The {@link FieldTree} associated with this field state.
+     */
+    readonly fieldTree: FieldTree<unknown, TKey>;
     /**
      * A writable signal containing the value for this field.
      *
@@ -824,6 +598,236 @@ type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[k
 type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>, abortSignal: AbortSignal) => Promise<void> | void;
 
 /**
+ * Sets a value for the {@link MetadataKey} for this field.
+ *
+ * This value is combined via a reduce operation defined by the particular key,
+ * since multiple rules in the schema might set values for it.
+ *
+ * @param path The target path to set the metadata for.
+ * @param key The metadata key
+ * @param logic A function that receives the `FieldContext` and returns a value for the metadata.
+ * @template TValue The type of value stored in the field the logic is bound to.
+ * @template TKey The type of metadata key.
+ * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @category logic
+ * @experimental 21.0.0
+ */
+declare function metadata<TValue, TKey extends MetadataKey<any, any, any>, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, key: TKey, logic: NoInfer<LogicFn<TValue, MetadataSetterType<TKey>, TPathKind>>): TKey;
+/**
+ * A reducer that determines the accumulated value for a metadata key by reducing the individual
+ * values contributed from `metadata()` rules.
+ *
+ * @template TAcc The accumulated type of the reduce operation.
+ * @template TItem The type of the individual items that are reduced over.
+ * @experimental 21.0.2
+ */
+interface MetadataReducer<TAcc, TItem> {
+    /** The reduce function. */
+    reduce: (acc: TAcc, item: TItem) => TAcc;
+    /** Gets the initial accumulated value. */
+    getInitial: () => TAcc;
+}
+declare const MetadataReducer: {
+    /** Creates a reducer that accumulates a list of its individual item values. */
+    readonly list: <TItem>() => MetadataReducer<TItem[], TItem | undefined>;
+    /** Creates a reducer that accumulates the min of its individual item values. */
+    readonly min: () => MetadataReducer<number | undefined, number | undefined>;
+    /** Creates a reducer that accumulates a the max of its individual item values. */
+    readonly max: () => MetadataReducer<number | undefined, number | undefined>;
+    /** Creates a reducer that logically or's its accumulated value with each individual item value. */
+    readonly or: () => MetadataReducer<boolean, boolean>;
+    /** Creates a reducer that logically and's its accumulated value with each individual item value. */
+    readonly and: () => MetadataReducer<boolean, boolean>;
+    /** Creates a reducer that always takes the next individual item value as the accumulated value. */
+    readonly override: typeof override;
+};
+declare function override<T>(): MetadataReducer<T | undefined, T>;
+declare function override<T>(getInitial: () => T): MetadataReducer<T, T>;
+/**
+ * Represents metadata that is aggregated from multiple parts according to the key's reducer
+ * function. A value can be contributed to the aggregated value for a field using an
+ * `metadata` rule in the schema. There may be multiple rules in a schema that contribute
+ * values to the same `MetadataKey` of the same field.
+ *
+ * @template TRead The type read from the `FieldState` for this key
+ * @template TWrite The type written to this key using the `metadata()` rule
+ * @template TAcc The type of the reducer's accumulated value.
+ *
+ * @experimental 21.0.0
+ */
+declare class MetadataKey<TRead, TWrite, TAcc> {
+    readonly reducer: MetadataReducer<TAcc, TWrite>;
+    readonly create: ((s: Signal<TAcc>) => TRead) | undefined;
+    private brand;
+    /** Use {@link reducedMetadataKey}. */
+    protected constructor(reducer: MetadataReducer<TAcc, TWrite>, create: ((s: Signal<TAcc>) => TRead) | undefined);
+}
+/**
+ * Extracts the the type that can be set into the given metadata key type using the `metadata()` rule.
+ *
+ * @template TKey The `MetadataKey` type
+ *
+ * @experimental 21.0.0
+ */
+type MetadataSetterType<TKey> = TKey extends MetadataKey<any, infer TWrite, any> ? TWrite : never;
+/**
+ * Creates a metadata key used to contain a computed value.
+ * The last value set on a given field tree node overrides any previously set values.
+ *
+ * @template TWrite The type written to this key using the `metadata()` rule
+ *
+ * @experimental 21.0.0
+ */
+declare function createMetadataKey<TWrite>(): MetadataKey<Signal<TWrite | undefined>, TWrite, TWrite | undefined>;
+/**
+ * Creates a metadata key used to contain a computed value.
+ *
+ * @param reducer The reducer used to combine individually set values into the final computed value.
+ * @template TWrite The type written to this key using the `metadata()` rule
+ * @template TAcc The type of the reducer's accumulated value.
+ *
+ * @experimental 21.0.0
+ */
+declare function createMetadataKey<TWrite, TAcc>(reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<Signal<TAcc>, TWrite, TAcc>;
+/**
+ * Creates a metadata key that exposes a managed value based on the accumulated result of the values
+ * written to the key. The accumulated value takes the last value set on a given field tree node,
+ * overriding any previously set values.
+ *
+ * @param create A function that receives a signal of the accumulated value and returns the managed
+ *   value based on it. This function runs during the construction of the `FieldTree` node,
+ *   and runs in the injection context of that node.
+ * @template TRead The type read from the `FieldState` for this key
+ * @template TWrite The type written to this key using the `metadata()` rule
+ *
+ * @experimental 21.0.0
+ */
+declare function createManagedMetadataKey<TRead, TWrite>(create: (s: Signal<TWrite | undefined>) => TRead): MetadataKey<TRead, TWrite, TWrite | undefined>;
+/**
+ * Creates a metadata key that exposes a managed value based on the accumulated result of the values
+ * written to the key.
+ *
+ * @param create A function that receives a signal of the accumulated value and returns the managed
+ *   value based on it. This function runs during the construction of the `FieldTree` node,
+ *   and runs in the injection context of that node.
+ * @param reducer The reducer used to combine individual value written to the key,
+ *   this will determine the accumulated value that the create function receives.
+ * @template TRead The type read from the `FieldState` for this key
+ * @template TWrite The type written to this key using the `metadata()` rule
+ * @template TAcc The type of the reducer's accumulated value.
+ *
+ * @experimental 21.0.0
+ */
+declare function createManagedMetadataKey<TRead, TWrite, TAcc>(create: (s: Signal<TAcc>) => TRead, reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<TRead, TWrite, TAcc>;
+/**
+ * A {@link MetadataKey} representing whether the field is required.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare const REQUIRED: MetadataKey<Signal<boolean>, boolean, boolean>;
+/**
+ * A {@link MetadataKey} representing the min value of the field.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare const MIN: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
+/**
+ * A {@link MetadataKey} representing the max value of the field.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare const MAX: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
+/**
+ * A {@link MetadataKey} representing the min length of the field.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare const MIN_LENGTH: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
+/**
+ * A {@link MetadataKey} representing the max length of the field.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare const MAX_LENGTH: MetadataKey<Signal<number | undefined>, number | undefined, number | undefined>;
+/**
+ * A {@link MetadataKey} representing the patterns the field must match.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare const PATTERN: MetadataKey<Signal<RegExp[]>, RegExp | undefined, RegExp[]>;
+
+/**
+ * Utility type that removes a string index key when its value is `unknown`,
+ * i.e. `{[key: string]: unknown}`. It allows specific string keys to pass through, even if their
+ * value is `unknown`, e.g. `{key: unknown}`.
+ *
+ * @experimental 21.0.0
+ */
+type RemoveStringIndexUnknownKey<K, V> = string extends K ? unknown extends V ? never : K : K;
+/**
+ * Utility type that recursively ignores unknown string index properties on the given object.
+ * We use this on the `TSchema` type in `validateStandardSchema` in order to accommodate Zod's
+ * `looseObject` which includes `{[key: string]: unknown}` as part of the type.
+ *
+ * @experimental 21.0.0
+ */
+type IgnoreUnknownProperties<T> = T extends Record<PropertyKey, unknown> ? {
+    [K in keyof T as RemoveStringIndexUnknownKey<K, T[K]>]: IgnoreUnknownProperties<T[K]>;
+} : T;
+/**
+ * Validates a field using a `StandardSchemaV1` compatible validator (e.g. a Zod validator).
+ *
+ * See https://github.com/standard-schema/standard-schema for more about standard schema.
+ *
+ * @param path The `FieldPath` to the field to validate.
+ * @param schema The standard schema compatible validator to use for validation, or a LogicFn that returns the schema.
+ * @template TSchema The type validated by the schema. This may be either the full `TValue` type,
+ *   or a partial of it.
+ * @template TValue The type of value stored in the field being validated.
+ *
+ * @see [Signal Form Schema Validation](guide/forms/signals/validation#integration-with-schema-validation-libraries)
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownProperties<TSchema>>(path: SchemaPath<TModel> & SchemaPathTree<TModel>, schema: StandardSchemaV1<TSchema> | LogicFn<TModel, StandardSchemaV1<unknown> | undefined>): void;
+/**
+ * Create a standard schema issue error associated with the target field
+ * @param issue The standard schema issue
+ * @param options The validation error options
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: WithFieldTree<ValidationErrorOptions>): StandardSchemaValidationError;
+/**
+ * Create a standard schema issue error
+ * @param issue The standard schema issue
+ * @param options The optional validation error options
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutFieldTree<StandardSchemaValidationError>;
+/**
+ * An error used to indicate an issue validating against a standard schema.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare class StandardSchemaValidationError extends BaseNgValidationError {
+    readonly issue: StandardSchemaV1.Issue;
+    readonly kind = "standardSchema";
+    constructor(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions);
+}
+
+/**
  * Represents a combination of `NgControl` and `AbstractControl`.
  *
  * Note: We have this separate interface, rather than implementing the relevant parts of the two
@@ -884,10 +888,6 @@ interface FormFieldBindingOptions {
      * asked to focus this binding.
      */
     readonly focus?: (focusOptions?: FocusOptions) => void;
-    /**
-     * Source of parse errors for this binding.
-     */
-    readonly parseErrors?: Signal<ValidationError.WithoutFieldTree[]>;
 }
 /**
  * Lightweight DI token provided by the {@link FormField} directive.

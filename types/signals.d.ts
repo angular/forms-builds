@@ -1,10 +1,10 @@
 /**
- * @license Angular v21.2.0-next.2+sha-4b3b149
+ * @license Angular v21.2.0-next.2+sha-cb1163e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef } from '@angular/core';
+import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef, WritableSignal } from '@angular/core';
 import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer } from './_structure-chunk.js';
 export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, FieldState, FieldTree, FormField, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithoutField, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
@@ -470,12 +470,6 @@ interface FormUiControl<TValue> {
      */
     readonly pattern?: InputSignal<readonly RegExp[]> | InputSignalWithTransform<readonly RegExp[], unknown>;
     /**
-     * A signal containing the current parse errors for the control.
-     * This allows the control to communicate to the form that there are additional validation errors
-     * beyond those produced by the schema, due to being unable to parse the user's input.
-     */
-    readonly parseErrors?: Signal<ValidationError.WithoutFieldTree[]>;
-    /**
      * Focuses the UI control.
      *
      * If the focus method is not implemented, Signal Forms will attempt to focus the host element
@@ -548,5 +542,78 @@ interface FormCheckboxControl extends FormUiControl<boolean> {
  */
 declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
 
-export { Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, validate, validateAsync, validateHttp, validateTree };
-export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, MapToErrorsFn };
+/**
+ * Options for `transformedValue`.
+ *
+ * @experimental 21.2.0
+ */
+interface TransformedValueOptions<TValue, TRaw> {
+    /**
+     * Parse the raw value into the model value.
+     *
+     * Should return an object containing the parsed result, which may contain:
+     *   - `value`: The parsed model value. If `undefined`, the model will not be updated.
+     *   - `errors`: Any parse errors encountered. If `undefined`, no errors are reported.
+     */
+    parse: (rawValue: TRaw) => {
+        value?: TValue;
+        errors?: readonly ValidationError.WithoutFieldTree[];
+    };
+    /**
+     * Format the model value into the raw value.
+     */
+    format: (value: TValue) => TRaw;
+}
+/**
+ * A writable signal representing a "raw" UI value that is synchronized with a model signal
+ * via parse/format transformations.
+ *
+ * @category control
+ * @experimental 21.2.0
+ */
+interface TransformedValueSignal<TRaw> extends WritableSignal<TRaw> {
+    /**
+     * The current parse errors resulting from the last transformation.
+     */
+    readonly parseErrors: Signal<readonly ValidationError.WithoutFieldTree[]>;
+}
+/**
+ * Creates a writable signal representing a "raw" UI value that is transformed to/from a model
+ * value via `parse` and `format` functions.
+ *
+ * This utility simplifies the creation of custom form controls that parse a user-facing value
+ * representation into an underlying model value. For example, a numeric input that displays and
+ * accepts string values but stores a number.
+ *
+ * @param value The model signal to synchronize with.
+ * @param options Configuration including `parse` and `format` functions.
+ * @returns A `TransformedValueSignal` representing the raw value with parse error tracking.
+ * @experimental 21.2.0
+ *
+ * @example
+ * ```ts
+ * @Component({
+ *   selector: 'number-input',
+ *   template: `<input [value]="rawValue()" (input)="rawValue.set($event.target.value)" />`,
+ * })
+ * export class NumberInput implements FormValueControl<number | null> {
+ *   readonly value = model.required<number | null>();
+ *
+ *   protected readonly rawValue = transformedValue(this.value, {
+ *     parse: (val) => {
+ *       if (val === '') return {value: null};
+ *       const num = Number(val);
+ *       if (Number.isNaN(num)) {
+ *         return {errors: [{kind: 'parse', message: `${val} is not numeric`}]};
+ *       }
+ *       return {value: num};
+ *     },
+ *     format: (val) => val?.toString() ?? '',
+ *   });
+ * }
+ * ```
+ */
+declare function transformedValue<TValue, TRaw>(value: ModelSignal<TValue>, options: TransformedValueOptions<TValue, TRaw>): TransformedValueSignal<TRaw>;
+
+export { Debouncer, DisabledReason, FieldContext, FieldValidator, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, transformedValue, validate, validateAsync, validateHttp, validateTree };
+export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, MapToErrorsFn, TransformedValueOptions, TransformedValueSignal };

@@ -1,15 +1,15 @@
 /**
- * @license Angular v21.2.0-next.2+sha-4b3b149
+ * @license Angular v21.2.0-next.2+sha-cb1163e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵRuntimeError as _RuntimeError, untracked, input, inject, Renderer2, DestroyRef, computed, Injector, ElementRef, signal, afterRenderEffect, effect, Directive, ɵisPromise as _isPromise, resource } from '@angular/core';
-import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
-import { signalErrorsToValidationErrors, assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER } from './_structure-chunk.mjs';
-export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema, submit } from './_structure-chunk.mjs';
+import { InjectionToken, ɵisPromise as _isPromise, resource, signal, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, Renderer2, DestroyRef, computed, Injector, ElementRef, afterRenderEffect, effect, Directive } from '@angular/core';
+import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER, signalErrorsToValidationErrors } from './_validation_errors-chunk.mjs';
+export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema, submit } from './_validation_errors-chunk.mjs';
 import { httpResource } from '@angular/common/http';
+import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import '@angular/core/primitives/signals';
 
 const SIGNAL_FORMS_CONFIG = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'SIGNAL_FORMS_CONFIG' : '');
@@ -20,545 +20,6 @@ function provideSignalFormsConfig(config) {
     useValue: config
   }];
 }
-
-class InteropNgControl {
-  field;
-  constructor(field) {
-    this.field = field;
-  }
-  control = this;
-  get value() {
-    return this.field().value();
-  }
-  get valid() {
-    return this.field().valid();
-  }
-  get invalid() {
-    return this.field().invalid();
-  }
-  get pending() {
-    return this.field().pending();
-  }
-  get disabled() {
-    return this.field().disabled();
-  }
-  get enabled() {
-    return !this.field().disabled();
-  }
-  get errors() {
-    return signalErrorsToValidationErrors(this.field().errors());
-  }
-  get pristine() {
-    return !this.field().dirty();
-  }
-  get dirty() {
-    return this.field().dirty();
-  }
-  get touched() {
-    return this.field().touched();
-  }
-  get untouched() {
-    return !this.field().touched();
-  }
-  get status() {
-    if (this.field().disabled()) {
-      return 'DISABLED';
-    }
-    if (this.field().valid()) {
-      return 'VALID';
-    }
-    if (this.field().invalid()) {
-      return 'INVALID';
-    }
-    if (this.field().pending()) {
-      return 'PENDING';
-    }
-    throw new _RuntimeError(1910, ngDevMode && 'Unknown form control status');
-  }
-  valueAccessor = null;
-  hasValidator(validator) {
-    if (validator === Validators.required) {
-      return this.field().required();
-    }
-    return false;
-  }
-  updateValueAndValidity() {}
-}
-
-function isNativeFormElement(element) {
-  return element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA';
-}
-function isNumericFormElement(element) {
-  if (element.tagName !== 'INPUT') {
-    return false;
-  }
-  const type = element.type;
-  return type === 'date' || type === 'datetime-local' || type === 'month' || type === 'number' || type === 'range' || type === 'time' || type === 'week';
-}
-function isTextualFormElement(element) {
-  return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
-}
-function getNativeControlValue(element, currentValue) {
-  switch (element.type) {
-    case 'checkbox':
-      return element.checked;
-    case 'number':
-    case 'range':
-    case 'datetime-local':
-      if (typeof untracked(currentValue) === 'number') {
-        return element.valueAsNumber;
-      }
-      break;
-    case 'date':
-    case 'month':
-    case 'time':
-    case 'week':
-      const value = untracked(currentValue);
-      if (value === null || value instanceof Date) {
-        return element.valueAsDate;
-      } else if (typeof value === 'number') {
-        return element.valueAsNumber;
-      }
-      break;
-  }
-  return element.value;
-}
-function setNativeControlValue(element, value) {
-  switch (element.type) {
-    case 'checkbox':
-      element.checked = value;
-      return;
-    case 'radio':
-      element.checked = value === element.value;
-      return;
-    case 'number':
-    case 'range':
-    case 'datetime-local':
-      if (typeof value === 'number') {
-        setNativeNumberControlValue(element, value);
-        return;
-      }
-      break;
-    case 'date':
-    case 'month':
-    case 'time':
-    case 'week':
-      if (value === null || value instanceof Date) {
-        element.valueAsDate = value;
-        return;
-      } else if (typeof value === 'number') {
-        setNativeNumberControlValue(element, value);
-        return;
-      }
-  }
-  element.value = value;
-}
-function setNativeNumberControlValue(element, value) {
-  if (isNaN(value)) {
-    element.value = '';
-  } else {
-    element.valueAsNumber = value;
-  }
-}
-function setNativeDomProperty(renderer, element, name, value) {
-  switch (name) {
-    case 'name':
-      renderer.setAttribute(element, name, value);
-      break;
-    case 'disabled':
-    case 'readonly':
-    case 'required':
-      if (value) {
-        renderer.setAttribute(element, name, '');
-      } else {
-        renderer.removeAttribute(element, name);
-      }
-      break;
-    case 'max':
-    case 'min':
-    case 'minLength':
-    case 'maxLength':
-      if (value !== undefined) {
-        renderer.setAttribute(element, name, value.toString());
-      } else {
-        renderer.removeAttribute(element, name);
-      }
-      break;
-  }
-}
-
-const FIELD_STATE_KEY_TO_CONTROL_BINDING = {
-  disabled: 'disabled',
-  disabledReasons: 'disabledReasons',
-  dirty: 'dirty',
-  errors: 'errors',
-  hidden: 'hidden',
-  invalid: 'invalid',
-  max: 'max',
-  maxLength: 'maxLength',
-  min: 'min',
-  minLength: 'minLength',
-  name: 'name',
-  pattern: 'pattern',
-  pending: 'pending',
-  readonly: 'readonly',
-  required: 'required',
-  touched: 'touched'
-};
-const CONTROL_BINDING_TO_FIELD_STATE_KEY = /* @__PURE__ */(() => {
-  const map = {};
-  for (const key of Object.keys(FIELD_STATE_KEY_TO_CONTROL_BINDING)) {
-    map[FIELD_STATE_KEY_TO_CONTROL_BINDING[key]] = key;
-  }
-  return map;
-})();
-function readFieldStateBindingValue(fieldState, key) {
-  const property = CONTROL_BINDING_TO_FIELD_STATE_KEY[key];
-  return fieldState[property]?.();
-}
-const CONTROL_BINDING_NAMES = /* @__PURE__ */(() => Object.values(FIELD_STATE_KEY_TO_CONTROL_BINDING))();
-function createBindings() {
-  return {};
-}
-function bindingUpdated(bindings, key, value) {
-  if (bindings[key] !== value) {
-    bindings[key] = value;
-    return true;
-  }
-  return false;
-}
-
-function cvaControlCreate(host, parent) {
-  parent.controlValueAccessor.registerOnChange(value => parent.state().controlValue.set(value));
-  parent.controlValueAccessor.registerOnTouched(() => parent.state().markAsTouched());
-  parent.registerAsBinding();
-  const bindings = createBindings();
-  return () => {
-    const fieldState = parent.state();
-    const value = fieldState.value();
-    if (bindingUpdated(bindings, 'controlValue', value)) {
-      untracked(() => parent.controlValueAccessor.writeValue(value));
-    }
-    for (const name of CONTROL_BINDING_NAMES) {
-      const value = readFieldStateBindingValue(fieldState, name);
-      if (bindingUpdated(bindings, name, value)) {
-        const propertyWasSet = host.setInputOnDirectives(name, value);
-        if (name === 'disabled' && parent.controlValueAccessor.setDisabledState) {
-          untracked(() => parent.controlValueAccessor.setDisabledState(value));
-        } else if (!propertyWasSet && parent.elementAcceptsNativeProperty(name)) {
-          setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
-        }
-      }
-    }
-  };
-}
-
-function customControlCreate(host, parent) {
-  host.listenToCustomControlModel(value => parent.state().controlValue.set(value));
-  host.listenToCustomControlOutput('touchedChange', () => parent.state().markAsTouched());
-  parent.registerAsBinding(host.customControl);
-  const bindings = createBindings();
-  return () => {
-    const state = parent.state();
-    const controlValue = state.controlValue();
-    if (bindingUpdated(bindings, 'controlValue', controlValue)) {
-      host.setCustomControlModelInput(controlValue);
-    }
-    for (const name of CONTROL_BINDING_NAMES) {
-      let value;
-      if (name === 'errors') {
-        value = parent.errors();
-      } else {
-        value = readFieldStateBindingValue(state, name);
-      }
-      if (bindingUpdated(bindings, name, value)) {
-        host.setInputOnDirectives(name, value);
-        if (parent.elementAcceptsNativeProperty(name) && !host.customControlHasInput(name)) {
-          setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
-        }
-      }
-    }
-  };
-}
-
-function observeSelectMutations(select, onMutation, destroyRef) {
-  if (typeof MutationObserver !== 'function') {
-    return;
-  }
-  const observer = new MutationObserver(mutations => {
-    if (mutations.some(m => isRelevantSelectMutation(m))) {
-      onMutation();
-    }
-  });
-  observer.observe(select, {
-    attributes: true,
-    attributeFilter: ['value'],
-    characterData: true,
-    childList: true,
-    subtree: true
-  });
-  destroyRef.onDestroy(() => observer.disconnect());
-}
-function isRelevantSelectMutation(mutation) {
-  if (mutation.type === 'childList' || mutation.type === 'characterData') {
-    if (mutation.target instanceof Comment) {
-      return false;
-    }
-    for (const node of mutation.addedNodes) {
-      if (!(node instanceof Comment)) {
-        return true;
-      }
-    }
-    for (const node of mutation.removedNodes) {
-      if (!(node instanceof Comment)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  if (mutation.type === 'attributes' && mutation.target instanceof HTMLOptionElement) {
-    return true;
-  }
-  return false;
-}
-
-function nativeControlCreate(host, parent) {
-  let updateMode = false;
-  const input = parent.nativeFormElement;
-  host.listenToDom('input', () => {
-    const state = parent.state();
-    state.controlValue.set(getNativeControlValue(input, state.value));
-  });
-  host.listenToDom('blur', () => parent.state().markAsTouched());
-  parent.registerAsBinding();
-  if (input.tagName === 'SELECT') {
-    observeSelectMutations(input, () => {
-      if (!updateMode) {
-        return;
-      }
-      input.value = parent.state().controlValue();
-    }, parent.destroyRef);
-  }
-  const bindings = createBindings();
-  return () => {
-    const state = parent.state();
-    const controlValue = state.controlValue();
-    if (bindingUpdated(bindings, 'controlValue', controlValue)) {
-      setNativeControlValue(input, controlValue);
-    }
-    for (const name of CONTROL_BINDING_NAMES) {
-      const value = readFieldStateBindingValue(state, name);
-      if (bindingUpdated(bindings, name, value)) {
-        host.setInputOnDirectives(name, value);
-        if (parent.elementAcceptsNativeProperty(name)) {
-          setNativeDomProperty(parent.renderer, input, name, value);
-        }
-      }
-    }
-    updateMode = true;
-  };
-}
-
-const ɵNgFieldDirective = Symbol();
-const FORM_FIELD = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FORM_FIELD' : '');
-class FormField {
-  fieldTree = input.required({
-    ...(ngDevMode ? {
-      debugName: "fieldTree"
-    } : {}),
-    alias: 'formField'
-  });
-  renderer = inject(Renderer2);
-  destroyRef = inject(DestroyRef);
-  state = computed(() => this.fieldTree()(), ...(ngDevMode ? [{
-    debugName: "state"
-  }] : []));
-  injector = inject(Injector);
-  element = inject(ElementRef).nativeElement;
-  elementIsNativeFormElement = isNativeFormElement(this.element);
-  elementAcceptsNumericValues = isNumericFormElement(this.element);
-  elementAcceptsTextualValues = isTextualFormElement(this.element);
-  nativeFormElement = this.elementIsNativeFormElement ? this.element : undefined;
-  focuser = options => this.element.focus(options);
-  controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
-    optional: true,
-    self: true
-  });
-  config = inject(SIGNAL_FORMS_CONFIG, {
-    optional: true
-  });
-  parseErrorsSource = signal(undefined, ...(ngDevMode ? [{
-    debugName: "parseErrorsSource"
-  }] : []));
-  _interopNgControl;
-  get interopNgControl() {
-    return this._interopNgControl ??= new InteropNgControl(this.state);
-  }
-  parseErrors = computed(() => this.parseErrorsSource()?.().map(err => ({
-    ...err,
-    fieldTree: untracked(this.fieldTree),
-    formField: this
-  })) ?? [], ...(ngDevMode ? [{
-    debugName: "parseErrors"
-  }] : []));
-  errors = computed(() => this.state().errors().filter(err => !err.formField || err.formField === this), ...(ngDevMode ? [{
-    debugName: "errors"
-  }] : []));
-  isFieldBinding = false;
-  get controlValueAccessor() {
-    return this.controlValueAccessors?.[0] ?? this.interopNgControl?.valueAccessor ?? undefined;
-  }
-  installClassBindingEffect() {
-    const classes = Object.entries(this.config?.classes ?? {}).map(([className, computation]) => [className, computed(() => computation(this))]);
-    if (classes.length === 0) {
-      return;
-    }
-    const bindings = createBindings();
-    afterRenderEffect({
-      write: () => {
-        for (const [className, computation] of classes) {
-          const active = computation();
-          if (bindingUpdated(bindings, className, active)) {
-            if (active) {
-              this.renderer.addClass(this.element, className);
-            } else {
-              this.renderer.removeClass(this.element, className);
-            }
-          }
-        }
-      }
-    }, {
-      injector: this.injector
-    });
-  }
-  focus(options) {
-    this.focuser(options);
-  }
-  registerAsBinding(bindingOptions) {
-    if (this.isFieldBinding) {
-      throw new _RuntimeError(1913, ngDevMode && 'FormField already registered as a binding');
-    }
-    this.isFieldBinding = true;
-    this.installClassBindingEffect();
-    if (bindingOptions?.focus) {
-      this.focuser = bindingOptions.focus;
-    }
-    if (bindingOptions?.parseErrors) {
-      this.parseErrorsSource.set(bindingOptions.parseErrors);
-    }
-    effect(onCleanup => {
-      const fieldNode = this.state();
-      fieldNode.nodeState.formFieldBindings.update(controls => [...controls, this]);
-      onCleanup(() => {
-        fieldNode.nodeState.formFieldBindings.update(controls => controls.filter(c => c !== this));
-      });
-    }, {
-      injector: this.injector
-    });
-  }
-  [ɵNgFieldDirective];
-  ɵngControlCreate(host) {
-    if (host.hasPassThrough) {
-      return;
-    }
-    if (this.controlValueAccessor) {
-      this.ɵngControlUpdate = cvaControlCreate(host, this);
-    } else if (host.customControl) {
-      this.ɵngControlUpdate = customControlCreate(host, this);
-    } else if (this.elementIsNativeFormElement) {
-      this.ɵngControlUpdate = nativeControlCreate(host, this);
-    } else {
-      throw new _RuntimeError(1914, ngDevMode && `${host.descriptor} is an invalid [formField] directive host. The host must be a native form control ` + `(such as <input>', '<select>', or '<textarea>') or a custom form control with a 'value' or ` + `'checked' model.`);
-    }
-  }
-  ɵngControlUpdate;
-  elementAcceptsNativeProperty(key) {
-    if (!this.elementIsNativeFormElement) {
-      return false;
-    }
-    switch (key) {
-      case 'min':
-      case 'max':
-        return this.elementAcceptsNumericValues;
-      case 'minLength':
-      case 'maxLength':
-        return this.elementAcceptsTextualValues;
-      case 'disabled':
-      case 'required':
-      case 'readonly':
-      case 'name':
-        return true;
-      default:
-        return false;
-    }
-  }
-  static ɵfac = i0.ɵɵngDeclareFactory({
-    minVersion: "12.0.0",
-    version: "21.2.0-next.2+sha-4b3b149",
-    ngImport: i0,
-    type: FormField,
-    deps: [],
-    target: i0.ɵɵFactoryTarget.Directive
-  });
-  static ɵdir = i0.ɵɵngDeclareDirective({
-    minVersion: "17.1.0",
-    version: "21.2.0-next.2+sha-4b3b149",
-    type: FormField,
-    isStandalone: true,
-    selector: "[formField]",
-    inputs: {
-      fieldTree: {
-        classPropertyName: "fieldTree",
-        publicName: "formField",
-        isSignal: true,
-        isRequired: true,
-        transformFunction: null
-      }
-    },
-    providers: [{
-      provide: FORM_FIELD,
-      useExisting: FormField
-    }, {
-      provide: NgControl,
-      useFactory: () => inject(FormField).interopNgControl
-    }],
-    exportAs: ["formField"],
-    controlCreate: {
-      passThroughInput: "formField"
-    },
-    ngImport: i0
-  });
-}
-i0.ɵɵngDeclareClassMetadata({
-  minVersion: "12.0.0",
-  version: "21.2.0-next.2+sha-4b3b149",
-  ngImport: i0,
-  type: FormField,
-  decorators: [{
-    type: Directive,
-    args: [{
-      selector: '[formField]',
-      exportAs: 'formField',
-      providers: [{
-        provide: FORM_FIELD,
-        useExisting: FormField
-      }, {
-        provide: NgControl,
-        useFactory: () => inject(FormField).interopNgControl
-      }]
-    }]
-  }],
-  propDecorators: {
-    fieldTree: [{
-      type: i0.Input,
-      args: [{
-        isSignal: true,
-        alias: "formField",
-        required: true
-      }]
-    }]
-  }
-});
 
 function disabled(path, logic) {
   assertPathIsCurrent(path);
@@ -1004,5 +465,584 @@ function debounceForDuration(durationInMilliseconds) {
 }
 function immediate() {}
 
-export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
+const FORM_FIELD_PARSE_ERRORS = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FORM_FIELD_PARSE_ERRORS' : '');
+
+function transformedValue(value, options) {
+  const {
+    parse,
+    format
+  } = options;
+  const parseErrors = signal([], ...(ngDevMode ? [{
+    debugName: "parseErrors"
+  }] : []));
+  const rawValue = linkedSignal(() => format(value()), ...(ngDevMode ? [{
+    debugName: "rawValue"
+  }] : []));
+  const formFieldParseErrors = inject(FORM_FIELD_PARSE_ERRORS, {
+    self: true,
+    optional: true
+  });
+  if (formFieldParseErrors) {
+    formFieldParseErrors.set(parseErrors);
+  }
+  const result = rawValue;
+  const originalSet = result.set.bind(result);
+  result.set = newRawValue => {
+    const result = parse(newRawValue);
+    parseErrors.set(result.errors ?? []);
+    if (result.value !== undefined) {
+      value.set(result.value);
+    }
+    originalSet(newRawValue);
+  };
+  result.update = updateFn => {
+    result.set(updateFn(rawValue()));
+  };
+  result.parseErrors = parseErrors.asReadonly();
+  return result;
+}
+
+class InteropNgControl {
+  field;
+  constructor(field) {
+    this.field = field;
+  }
+  control = this;
+  get value() {
+    return this.field().value();
+  }
+  get valid() {
+    return this.field().valid();
+  }
+  get invalid() {
+    return this.field().invalid();
+  }
+  get pending() {
+    return this.field().pending();
+  }
+  get disabled() {
+    return this.field().disabled();
+  }
+  get enabled() {
+    return !this.field().disabled();
+  }
+  get errors() {
+    return signalErrorsToValidationErrors(this.field().errors());
+  }
+  get pristine() {
+    return !this.field().dirty();
+  }
+  get dirty() {
+    return this.field().dirty();
+  }
+  get touched() {
+    return this.field().touched();
+  }
+  get untouched() {
+    return !this.field().touched();
+  }
+  get status() {
+    if (this.field().disabled()) {
+      return 'DISABLED';
+    }
+    if (this.field().valid()) {
+      return 'VALID';
+    }
+    if (this.field().invalid()) {
+      return 'INVALID';
+    }
+    if (this.field().pending()) {
+      return 'PENDING';
+    }
+    throw new _RuntimeError(1910, ngDevMode && 'Unknown form control status');
+  }
+  valueAccessor = null;
+  hasValidator(validator) {
+    if (validator === Validators.required) {
+      return this.field().required();
+    }
+    return false;
+  }
+  updateValueAndValidity() {}
+}
+
+const FIELD_STATE_KEY_TO_CONTROL_BINDING = {
+  disabled: 'disabled',
+  disabledReasons: 'disabledReasons',
+  dirty: 'dirty',
+  errors: 'errors',
+  hidden: 'hidden',
+  invalid: 'invalid',
+  max: 'max',
+  maxLength: 'maxLength',
+  min: 'min',
+  minLength: 'minLength',
+  name: 'name',
+  pattern: 'pattern',
+  pending: 'pending',
+  readonly: 'readonly',
+  required: 'required',
+  touched: 'touched'
+};
+const CONTROL_BINDING_TO_FIELD_STATE_KEY = /* @__PURE__ */(() => {
+  const map = {};
+  for (const key of Object.keys(FIELD_STATE_KEY_TO_CONTROL_BINDING)) {
+    map[FIELD_STATE_KEY_TO_CONTROL_BINDING[key]] = key;
+  }
+  return map;
+})();
+function readFieldStateBindingValue(fieldState, key) {
+  const property = CONTROL_BINDING_TO_FIELD_STATE_KEY[key];
+  return fieldState[property]?.();
+}
+const CONTROL_BINDING_NAMES = /* @__PURE__ */(() => Object.values(FIELD_STATE_KEY_TO_CONTROL_BINDING))();
+function createBindings() {
+  return {};
+}
+function bindingUpdated(bindings, key, value) {
+  if (bindings[key] !== value) {
+    bindings[key] = value;
+    return true;
+  }
+  return false;
+}
+
+function isNativeFormElement(element) {
+  return element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA';
+}
+function isNumericFormElement(element) {
+  if (element.tagName !== 'INPUT') {
+    return false;
+  }
+  const type = element.type;
+  return type === 'date' || type === 'datetime-local' || type === 'month' || type === 'number' || type === 'range' || type === 'time' || type === 'week';
+}
+function isTextualFormElement(element) {
+  return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
+}
+function getNativeControlValue(element, currentValue) {
+  switch (element.type) {
+    case 'checkbox':
+      return element.checked;
+    case 'number':
+    case 'range':
+    case 'datetime-local':
+      if (typeof untracked(currentValue) === 'number') {
+        return element.valueAsNumber;
+      }
+      break;
+    case 'date':
+    case 'month':
+    case 'time':
+    case 'week':
+      const value = untracked(currentValue);
+      if (value === null || value instanceof Date) {
+        return element.valueAsDate;
+      } else if (typeof value === 'number') {
+        return element.valueAsNumber;
+      }
+      break;
+  }
+  return element.value;
+}
+function setNativeControlValue(element, value) {
+  switch (element.type) {
+    case 'checkbox':
+      element.checked = value;
+      return;
+    case 'radio':
+      element.checked = value === element.value;
+      return;
+    case 'number':
+    case 'range':
+    case 'datetime-local':
+      if (typeof value === 'number') {
+        setNativeNumberControlValue(element, value);
+        return;
+      }
+      break;
+    case 'date':
+    case 'month':
+    case 'time':
+    case 'week':
+      if (value === null || value instanceof Date) {
+        element.valueAsDate = value;
+        return;
+      } else if (typeof value === 'number') {
+        setNativeNumberControlValue(element, value);
+        return;
+      }
+  }
+  element.value = value;
+}
+function setNativeNumberControlValue(element, value) {
+  if (isNaN(value)) {
+    element.value = '';
+  } else {
+    element.valueAsNumber = value;
+  }
+}
+function setNativeDomProperty(renderer, element, name, value) {
+  switch (name) {
+    case 'name':
+      renderer.setAttribute(element, name, value);
+      break;
+    case 'disabled':
+    case 'readonly':
+    case 'required':
+      if (value) {
+        renderer.setAttribute(element, name, '');
+      } else {
+        renderer.removeAttribute(element, name);
+      }
+      break;
+    case 'max':
+    case 'min':
+    case 'minLength':
+    case 'maxLength':
+      if (value !== undefined) {
+        renderer.setAttribute(element, name, value.toString());
+      } else {
+        renderer.removeAttribute(element, name);
+      }
+      break;
+  }
+}
+
+function customControlCreate(host, parent) {
+  host.listenToCustomControlModel(value => parent.state().controlValue.set(value));
+  host.listenToCustomControlOutput('touchedChange', () => parent.state().markAsTouched());
+  parent.registerAsBinding(host.customControl);
+  const bindings = createBindings();
+  return () => {
+    const state = parent.state();
+    const controlValue = state.controlValue();
+    if (bindingUpdated(bindings, 'controlValue', controlValue)) {
+      host.setCustomControlModelInput(controlValue);
+    }
+    for (const name of CONTROL_BINDING_NAMES) {
+      let value;
+      if (name === 'errors') {
+        value = parent.errors();
+      } else {
+        value = readFieldStateBindingValue(state, name);
+      }
+      if (bindingUpdated(bindings, name, value)) {
+        host.setInputOnDirectives(name, value);
+        if (parent.elementAcceptsNativeProperty(name) && !host.customControlHasInput(name)) {
+          setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
+        }
+      }
+    }
+  };
+}
+
+function cvaControlCreate(host, parent) {
+  parent.controlValueAccessor.registerOnChange(value => parent.state().controlValue.set(value));
+  parent.controlValueAccessor.registerOnTouched(() => parent.state().markAsTouched());
+  parent.registerAsBinding();
+  const bindings = createBindings();
+  return () => {
+    const fieldState = parent.state();
+    const value = fieldState.value();
+    if (bindingUpdated(bindings, 'controlValue', value)) {
+      untracked(() => parent.controlValueAccessor.writeValue(value));
+    }
+    for (const name of CONTROL_BINDING_NAMES) {
+      const value = readFieldStateBindingValue(fieldState, name);
+      if (bindingUpdated(bindings, name, value)) {
+        const propertyWasSet = host.setInputOnDirectives(name, value);
+        if (name === 'disabled' && parent.controlValueAccessor.setDisabledState) {
+          untracked(() => parent.controlValueAccessor.setDisabledState(value));
+        } else if (!propertyWasSet && parent.elementAcceptsNativeProperty(name)) {
+          setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
+        }
+      }
+    }
+  };
+}
+
+function observeSelectMutations(select, onMutation, destroyRef) {
+  if (typeof MutationObserver !== 'function') {
+    return;
+  }
+  const observer = new MutationObserver(mutations => {
+    if (mutations.some(m => isRelevantSelectMutation(m))) {
+      onMutation();
+    }
+  });
+  observer.observe(select, {
+    attributes: true,
+    attributeFilter: ['value'],
+    characterData: true,
+    childList: true,
+    subtree: true
+  });
+  destroyRef.onDestroy(() => observer.disconnect());
+}
+function isRelevantSelectMutation(mutation) {
+  if (mutation.type === 'childList' || mutation.type === 'characterData') {
+    if (mutation.target instanceof Comment) {
+      return false;
+    }
+    for (const node of mutation.addedNodes) {
+      if (!(node instanceof Comment)) {
+        return true;
+      }
+    }
+    for (const node of mutation.removedNodes) {
+      if (!(node instanceof Comment)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  if (mutation.type === 'attributes' && mutation.target instanceof HTMLOptionElement) {
+    return true;
+  }
+  return false;
+}
+
+function nativeControlCreate(host, parent) {
+  let updateMode = false;
+  const input = parent.nativeFormElement;
+  host.listenToDom('input', () => {
+    const state = parent.state();
+    state.controlValue.set(getNativeControlValue(input, state.value));
+  });
+  host.listenToDom('blur', () => parent.state().markAsTouched());
+  parent.registerAsBinding();
+  if (input.tagName === 'SELECT') {
+    observeSelectMutations(input, () => {
+      if (!updateMode) {
+        return;
+      }
+      input.value = parent.state().controlValue();
+    }, parent.destroyRef);
+  }
+  const bindings = createBindings();
+  return () => {
+    const state = parent.state();
+    const controlValue = state.controlValue();
+    if (bindingUpdated(bindings, 'controlValue', controlValue)) {
+      setNativeControlValue(input, controlValue);
+    }
+    for (const name of CONTROL_BINDING_NAMES) {
+      const value = readFieldStateBindingValue(state, name);
+      if (bindingUpdated(bindings, name, value)) {
+        host.setInputOnDirectives(name, value);
+        if (parent.elementAcceptsNativeProperty(name)) {
+          setNativeDomProperty(parent.renderer, input, name, value);
+        }
+      }
+    }
+    updateMode = true;
+  };
+}
+
+const ɵNgFieldDirective = Symbol();
+const FORM_FIELD = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FORM_FIELD' : '');
+class FormField {
+  fieldTree = input.required({
+    ...(ngDevMode ? {
+      debugName: "fieldTree"
+    } : {}),
+    alias: 'formField'
+  });
+  renderer = inject(Renderer2);
+  destroyRef = inject(DestroyRef);
+  state = computed(() => this.fieldTree()(), ...(ngDevMode ? [{
+    debugName: "state"
+  }] : []));
+  injector = inject(Injector);
+  element = inject(ElementRef).nativeElement;
+  elementIsNativeFormElement = isNativeFormElement(this.element);
+  elementAcceptsNumericValues = isNumericFormElement(this.element);
+  elementAcceptsTextualValues = isTextualFormElement(this.element);
+  nativeFormElement = this.elementIsNativeFormElement ? this.element : undefined;
+  focuser = options => this.element.focus(options);
+  controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
+    optional: true,
+    self: true
+  });
+  config = inject(SIGNAL_FORMS_CONFIG, {
+    optional: true
+  });
+  parseErrorsSource = signal(undefined, ...(ngDevMode ? [{
+    debugName: "parseErrorsSource"
+  }] : []));
+  _interopNgControl;
+  get interopNgControl() {
+    return this._interopNgControl ??= new InteropNgControl(this.state);
+  }
+  parseErrors = computed(() => this.parseErrorsSource()?.().map(err => ({
+    ...err,
+    fieldTree: untracked(this.fieldTree),
+    formField: this
+  })) ?? [], ...(ngDevMode ? [{
+    debugName: "parseErrors"
+  }] : []));
+  errors = computed(() => this.state().errors().filter(err => !err.formField || err.formField === this), ...(ngDevMode ? [{
+    debugName: "errors"
+  }] : []));
+  isFieldBinding = false;
+  get controlValueAccessor() {
+    return this.controlValueAccessors?.[0] ?? this.interopNgControl?.valueAccessor ?? undefined;
+  }
+  installClassBindingEffect() {
+    const classes = Object.entries(this.config?.classes ?? {}).map(([className, computation]) => [className, computed(() => computation(this))]);
+    if (classes.length === 0) {
+      return;
+    }
+    const bindings = createBindings();
+    afterRenderEffect({
+      write: () => {
+        for (const [className, computation] of classes) {
+          const active = computation();
+          if (bindingUpdated(bindings, className, active)) {
+            if (active) {
+              this.renderer.addClass(this.element, className);
+            } else {
+              this.renderer.removeClass(this.element, className);
+            }
+          }
+        }
+      }
+    }, {
+      injector: this.injector
+    });
+  }
+  focus(options) {
+    this.focuser(options);
+  }
+  registerAsBinding(bindingOptions) {
+    if (this.isFieldBinding) {
+      throw new _RuntimeError(1913, ngDevMode && 'FormField already registered as a binding');
+    }
+    this.isFieldBinding = true;
+    this.installClassBindingEffect();
+    if (bindingOptions?.focus) {
+      this.focuser = bindingOptions.focus;
+    }
+    effect(onCleanup => {
+      const fieldNode = this.state();
+      fieldNode.nodeState.formFieldBindings.update(controls => [...controls, this]);
+      onCleanup(() => {
+        fieldNode.nodeState.formFieldBindings.update(controls => controls.filter(c => c !== this));
+      });
+    }, {
+      injector: this.injector
+    });
+  }
+  [ɵNgFieldDirective];
+  ɵngControlCreate(host) {
+    if (host.hasPassThrough) {
+      return;
+    }
+    if (this.controlValueAccessor) {
+      this.ɵngControlUpdate = cvaControlCreate(host, this);
+    } else if (host.customControl) {
+      this.ɵngControlUpdate = customControlCreate(host, this);
+    } else if (this.elementIsNativeFormElement) {
+      this.ɵngControlUpdate = nativeControlCreate(host, this);
+    } else {
+      throw new _RuntimeError(1914, ngDevMode && `${host.descriptor} is an invalid [formField] directive host. The host must be a native form control ` + `(such as <input>', '<select>', or '<textarea>') or a custom form control with a 'value' or ` + `'checked' model.`);
+    }
+  }
+  ɵngControlUpdate;
+  elementAcceptsNativeProperty(key) {
+    if (!this.elementIsNativeFormElement) {
+      return false;
+    }
+    switch (key) {
+      case 'min':
+      case 'max':
+        return this.elementAcceptsNumericValues;
+      case 'minLength':
+      case 'maxLength':
+        return this.elementAcceptsTextualValues;
+      case 'disabled':
+      case 'required':
+      case 'readonly':
+      case 'name':
+        return true;
+      default:
+        return false;
+    }
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "21.2.0-next.2+sha-cb1163e",
+    ngImport: i0,
+    type: FormField,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.1.0",
+    version: "21.2.0-next.2+sha-cb1163e",
+    type: FormField,
+    isStandalone: true,
+    selector: "[formField]",
+    inputs: {
+      fieldTree: {
+        classPropertyName: "fieldTree",
+        publicName: "formField",
+        isSignal: true,
+        isRequired: true,
+        transformFunction: null
+      }
+    },
+    providers: [{
+      provide: FORM_FIELD,
+      useExisting: FormField
+    }, {
+      provide: NgControl,
+      useFactory: () => inject(FormField).interopNgControl
+    }, {
+      provide: FORM_FIELD_PARSE_ERRORS,
+      useFactory: () => inject(FormField).parseErrorsSource
+    }],
+    exportAs: ["formField"],
+    controlCreate: {
+      passThroughInput: "formField"
+    },
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "21.2.0-next.2+sha-cb1163e",
+  ngImport: i0,
+  type: FormField,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: '[formField]',
+      exportAs: 'formField',
+      providers: [{
+        provide: FORM_FIELD,
+        useExisting: FormField
+      }, {
+        provide: NgControl,
+        useFactory: () => inject(FormField).interopNgControl
+      }, {
+        provide: FORM_FIELD_PARSE_ERRORS,
+        useFactory: () => inject(FormField).parseErrorsSource
+      }]
+    }]
+  }],
+  propDecorators: {
+    fieldTree: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "formField",
+        required: true
+      }]
+    }]
+  }
+});
+
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
 //# sourceMappingURL=signals.mjs.map

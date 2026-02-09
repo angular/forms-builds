@@ -1,63 +1,12 @@
 /**
- * @license Angular v21.2.0-next.2+sha-4b3b149
+ * @license Angular v21.2.0-next.2+sha-cb1163e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { untracked, ɵRuntimeError as _RuntimeError, computed, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, inject } from '@angular/core';
+import { AbstractControl, FormGroup, FormArray } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
-
-class CompatValidationError {
-  kind = 'compat';
-  control;
-  fieldTree;
-  context;
-  message;
-  constructor({
-    context,
-    kind,
-    control
-  }) {
-    this.context = context;
-    this.kind = kind;
-    this.control = control;
-  }
-}
-function signalErrorsToValidationErrors(errors) {
-  if (errors.length === 0) {
-    return null;
-  }
-  const errObj = {};
-  for (const error of errors) {
-    errObj[error.kind] = error instanceof CompatValidationError ? error.context : error;
-  }
-  return errObj;
-}
-function reactiveErrorsToSignalErrors(errors, control) {
-  if (errors === null) {
-    return [];
-  }
-  return Object.entries(errors).map(([kind, context]) => {
-    return new CompatValidationError({
-      context,
-      kind,
-      control
-    });
-  });
-}
-function extractNestedReactiveErrors(control) {
-  const errors = [];
-  if (control.errors) {
-    errors.push(...reactiveErrorsToSignalErrors(control.errors, control));
-  }
-  if (control instanceof FormGroup || control instanceof FormArray) {
-    for (const c of Object.values(control.controls)) {
-      errors.push(...extractNestedReactiveErrors(c));
-    }
-  }
-  return errors;
-}
 
 let boundPathDepth = 0;
 function getBoundPathDepth() {
@@ -679,7 +628,7 @@ class FieldValidationState {
   }, ...(ngDevMode ? [{
     debugName: "syncValid"
   }] : []));
-  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.fieldTree === this.node.fieldProxy), ...(ngDevMode ? [{
+  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.fieldTree === this.node.fieldTree), ...(ngDevMode ? [{
     debugName: "syncTreeErrors"
   }] : []));
   rawAsyncErrors = computed(() => {
@@ -694,7 +643,7 @@ class FieldValidationState {
     if (this.shouldSkipValidation()) {
       return [];
     }
-    return this.rawAsyncErrors().filter(err => err === 'pending' || err.fieldTree === this.node.fieldProxy);
+    return this.rawAsyncErrors().filter(err => err === 'pending' || err.fieldTree === this.node.fieldTree);
   }, ...(ngDevMode ? [{
     debugName: "asyncErrors"
   }] : []));
@@ -803,7 +752,7 @@ class FieldNodeContext {
             throw new _RuntimeError(1901, ngDevMode && `Cannot resolve path .${targetPathNode.keys.join('.')} relative to field ${['<root>', ...this.node.structure.pathKeys()].join('.')}.`);
           }
         }
-        return field.fieldProxy;
+        return field.fieldTree;
       }, ...(ngDevMode ? [{
         debugName: "resolver"
       }] : []));
@@ -881,7 +830,7 @@ const FIELD_PROXY_HANDLER = {
     const tgt = getTgt();
     const child = tgt.structure.getChild(p);
     if (child !== undefined) {
-      return child.fieldProxy;
+      return child.fieldTree;
     }
     const value = untracked(tgt.value);
     if (isArray(value)) {
@@ -891,7 +840,7 @@ const FIELD_PROXY_HANDLER = {
       if (p === Symbol.iterator) {
         return () => {
           tgt.value();
-          return Array.prototype[Symbol.iterator].apply(tgt.fieldProxy);
+          return Array.prototype[Symbol.iterator].apply(tgt.fieldTree);
         };
       }
     }
@@ -1272,6 +1221,9 @@ class FieldNode {
       return undefined;
     }
   });
+  get fieldTree() {
+    return this.fieldProxy;
+  }
   get logicNode() {
     return this.structure.logic;
   }
@@ -1626,7 +1578,7 @@ function form(...args) {
   const adapter = options?.adapter ?? new BasicFieldAdapter();
   const fieldRoot = FieldNode.newRoot(fieldManager, model, pathNode, adapter);
   fieldManager.createFieldManagementEffect(fieldRoot.structure);
-  return fieldRoot.fieldProxy;
+  return fieldRoot.fieldTree;
 }
 function applyEach(path, schema) {
   assertPathIsCurrent(path);
@@ -1694,7 +1646,7 @@ function setSubmissionErrors(submittedField, errors) {
   }
   const errorsByField = new Map();
   for (const error of errors) {
-    const errorWithField = addDefaultField(error, submittedField.fieldProxy);
+    const errorWithField = addDefaultField(error, submittedField.fieldTree);
     const field = errorWithField.fieldTree();
     let fieldErrors = errorsByField.get(field);
     if (!fieldErrors) {
@@ -1720,5 +1672,56 @@ function markAllAsTouched(node) {
   }
 }
 
+class CompatValidationError {
+  kind = 'compat';
+  control;
+  fieldTree;
+  context;
+  message;
+  constructor({
+    context,
+    kind,
+    control
+  }) {
+    this.context = context;
+    this.kind = kind;
+    this.control = control;
+  }
+}
+function signalErrorsToValidationErrors(errors) {
+  if (errors.length === 0) {
+    return null;
+  }
+  const errObj = {};
+  for (const error of errors) {
+    errObj[error.kind] = error instanceof CompatValidationError ? error.context : error;
+  }
+  return errObj;
+}
+function reactiveErrorsToSignalErrors(errors, control) {
+  if (errors === null) {
+    return [];
+  }
+  return Object.entries(errors).map(([kind, context]) => {
+    return new CompatValidationError({
+      context,
+      kind,
+      control
+    });
+  });
+}
+function extractNestedReactiveErrors(control) {
+  const errors = [];
+  if (control.errors) {
+    errors.push(...reactiveErrorsToSignalErrors(control.errors, control));
+  }
+  if (control instanceof FormGroup || control instanceof FormArray) {
+    for (const c of Object.values(control.controls)) {
+      errors.push(...extractNestedReactiveErrors(c));
+    }
+  }
+  return errors;
+}
+
 export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, metadata, normalizeFormArgs, schema, signalErrorsToValidationErrors, submit };
-//# sourceMappingURL=_structure-chunk.mjs.map
+//# sourceMappingURL=_validation_errors-chunk.mjs.map
