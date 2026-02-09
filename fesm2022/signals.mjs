@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.2+sha-51cc914
+ * @license Angular v21.2.0-next.2+sha-760910e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -972,7 +972,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.2+sha-51cc914",
+    version: "21.2.0-next.2+sha-760910e",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -980,7 +980,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.2+sha-51cc914",
+    version: "21.2.0-next.2+sha-760910e",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1012,7 +1012,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.2+sha-51cc914",
+  version: "21.2.0-next.2+sha-760910e",
   ngImport: i0,
   type: FormField,
   decorators: [{
