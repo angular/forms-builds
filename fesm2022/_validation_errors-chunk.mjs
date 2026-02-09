@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.2+sha-e53c8ab
+ * @license Angular v21.2.0-next.2+sha-51cc914
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1604,19 +1604,21 @@ function applyWhenValue(path, predicate, schema) {
   }) => predicate(value()), schema);
 }
 async function submit(form, options) {
-  const node = form();
-  const opts = typeof options === 'function' ? {
-    action: options
-  } : {
-    ...(node.structure.fieldManager.submitOptions ?? {}),
-    ...(options ?? {})
+  const node = untracked(form);
+  const field = options === undefined ? node.structure.root.fieldProxy : form;
+  const detail = {
+    root: node.structure.root.fieldProxy,
+    submitted: form
   };
-  const action = opts?.action;
+  options = typeof options === 'function' ? {
+    action: options
+  } : options ?? node.structure.fieldManager.submitOptions;
+  const action = options?.action;
   if (!action) {
-    throw new _RuntimeError(1915, ngDevMode && 'Cannot submit form with no submit action. Specify the action when creating the form, or as an additional argument to `submit()`.');
+    throw new _RuntimeError(1915, (typeof ngDevMode === 'undefined' || ngDevMode) && 'Cannot submit form with no submit action. Specify the action when creating the form, or as an additional argument to `submit()`.');
   }
-  const onInvalid = opts?.onInvalid;
-  const ignoreValidators = opts?.ignoreValidators ?? 'pending';
+  const onInvalid = options?.onInvalid;
+  const ignoreValidators = options?.ignoreValidators ?? 'pending';
   let shouldRunAction = true;
   untracked(() => {
     markAllAsTouched(node);
@@ -1629,15 +1631,27 @@ async function submit(form, options) {
   try {
     if (shouldRunAction) {
       node.submitState.selfSubmitting.set(true);
-      const errors = await untracked(() => action?.(form));
+      const errors = await untracked(() => action?.(field, detail));
       errors && setSubmissionErrors(node, errors);
       return !errors || isArray(errors) && errors.length === 0;
     } else {
-      untracked(() => onInvalid?.(form));
+      untracked(() => onInvalid?.(field, detail));
     }
     return false;
   } finally {
     node.submitState.selfSubmitting.set(false);
+  }
+}
+function schema(fn) {
+  return SchemaImpl.create(fn);
+}
+function markAllAsTouched(node) {
+  if (node.validationState.shouldSkipValidation()) {
+    return;
+  }
+  node.markAsTouched();
+  for (const child of node.structure.children()) {
+    markAllAsTouched(child);
   }
 }
 function setSubmissionErrors(submittedField, errors) {
@@ -1657,18 +1671,6 @@ function setSubmissionErrors(submittedField, errors) {
   }
   for (const [field, fieldErrors] of errorsByField) {
     field.submitState.submissionErrors.set(fieldErrors);
-  }
-}
-function schema(fn) {
-  return SchemaImpl.create(fn);
-}
-function markAllAsTouched(node) {
-  if (node.validationState.shouldSkipValidation()) {
-    return;
-  }
-  node.markAsTouched();
-  for (const child of node.structure.children()) {
-    markAllAsTouched(child);
   }
 }
 

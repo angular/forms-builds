@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.2+sha-e53c8ab
+ * @license Angular v21.2.0-next.2+sha-51cc914
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -14,6 +14,46 @@ import { StandardSchemaV1 } from '@standard-schema/spec';
  * Symbol used to retain generic type information when it would otherwise be lost.
  */
 declare const ɵɵTYPE: unique symbol;
+/**
+ * Options that can be specified when submitting a form.
+ *
+ * @experimental 21.2.0
+ */
+interface FormSubmitOptions<TRootModel, TSubmittedModel> {
+    /**
+     * Function to run when submitting the form data (when form is valid).
+     *
+     * @param field The contextually relevant field for this action function (the root field when
+     *   specified during form creation, and the submitted field when specified as part of the
+     *   `submit()` call)
+     * @param detail An object containing the root field of the submitted form as well as the
+     *   submitted field itself
+     */
+    action: (field: FieldTree<TRootModel & TSubmittedModel>, detail: {
+        root: FieldTree<TRootModel>;
+        submitted: FieldTree<TSubmittedModel>;
+    }) => Promise<TreeValidationResult>;
+    /**
+     * Function to run when attempting to submit the form data but validation is failing.
+     *
+     * @param field The contextually relevant field for this onInvalid function (the root field when
+     *   specified during form creation, and the submitted field when specified as part of the
+     *   `submit()` call)
+     * @param detail An object containing the root field of the submitted form as well as the
+     *   submitted field itself
+     */
+    onInvalid?: (field: FieldTree<TRootModel & TSubmittedModel>, detail: {
+        root: FieldTree<TRootModel>;
+        submitted: FieldTree<TSubmittedModel>;
+    }) => void;
+    /**
+     * Whether to ignore any of the validators when submitting:
+     * - 'pending': Will submit if there are no invalid validators, pending validators do not block submission (default)
+     * - 'none': Will not submit unless all validators are passing, pending validators block submission
+     * - 'ignore': Will always submit regardless of invalid or pending validators
+     */
+    ignoreValidators?: 'pending' | 'none' | 'all';
+}
 /**
  * A type that represents either a single value of type `T` or a readonly array of `T`.
  * @template T The type of the value(s).
@@ -1340,24 +1380,6 @@ interface SignalFormsConfig {
 declare function provideSignalFormsConfig(config: SignalFormsConfig): Provider[];
 
 /**
- * Options that can be specified when submitting a form.
- *
- * @experimental 21.2.0
- */
-interface FormSubmitOptions<TModel> {
-    /** Function to run when submitting the form data (when form is valid). */
-    action: (form: FieldTree<TModel>) => Promise<TreeValidationResult>;
-    /** Function to run when attempting to submit the form data but validation is failing. */
-    onInvalid?: (form: FieldTree<TModel>) => void;
-    /**
-     * Whether to ignore any of the validators when submitting:
-     * - 'pending': Will submit if there are no invalid validators, pending validators do not block submission (default)
-     * - 'none': Will not submit unless all validators are passing, pending validators block submission
-     * - 'ignore': Will always submit regardless of invalid or pending validators
-     */
-    ignoreValidators?: 'pending' | 'none' | 'all';
-}
-/**
  * Options that may be specified when creating a form.
  *
  * @category structure
@@ -1372,7 +1394,7 @@ interface FormOptions<TModel> {
     /** The name of the root form, used in generating name attributes for the fields. */
     name?: string;
     /** Options that define how to handle form submission. */
-    submission?: FormSubmitOptions<TModel>;
+    submission?: FormSubmitOptions<TModel, unknown>;
 }
 /**
  * Creates a form wrapped around the given model data. A form is represented as simply a `FieldTree`
@@ -1613,8 +1635,8 @@ declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (va
  * @category submission
  * @experimental 21.0.0
  */
-declare function submit<TModel>(form: FieldTree<TModel>, options?: FormSubmitOptions<TModel>): Promise<boolean>;
-declare function submit<TModel>(form: FieldTree<TModel>, action: FormSubmitOptions<TModel>['action']): Promise<boolean>;
+declare function submit<TModel>(form: FieldTree<TModel>, options?: NoInfer<FormSubmitOptions<unknown, TModel>>): Promise<boolean>;
+declare function submit<TModel>(form: FieldTree<TModel>, action: NoInfer<FormSubmitOptions<unknown, TModel>['action']>): Promise<boolean>;
 /**
  * Creates a `Schema` that adds logic rules to a form.
  * @param fn A **non-reactive** function that sets up reactive logic rules for the form.
