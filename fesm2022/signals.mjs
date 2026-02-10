@@ -1,13 +1,13 @@
 /**
- * @license Angular v21.2.0-next.2+sha-bd2868e
+ * @license Angular v21.2.0-next.2+sha-ba009b6
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
 import { InjectionToken, ɵisPromise as _isPromise, resource, signal, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, Renderer2, DestroyRef, computed, Injector, ElementRef, afterRenderEffect, effect, Directive } from '@angular/core';
-import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER, signalErrorsToValidationErrors } from './_validation_errors-chunk.mjs';
-export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema, submit } from './_validation_errors-chunk.mjs';
+import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
+export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
 import { httpResource } from '@angular/common/http';
 import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import '@angular/core/primitives/signals';
@@ -972,7 +972,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.2+sha-bd2868e",
+    version: "21.2.0-next.2+sha-ba009b6",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -980,7 +980,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.2+sha-bd2868e",
+    version: "21.2.0-next.2+sha-ba009b6",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1012,7 +1012,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.2+sha-bd2868e",
+  version: "21.2.0-next.2+sha-ba009b6",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1044,5 +1044,77 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
+class FormRoot {
+  fieldTree = input.required({
+    ...(ngDevMode ? {
+      debugName: "fieldTree"
+    } : {}),
+    alias: 'formRoot'
+  });
+  onSubmit(event) {
+    event.preventDefault();
+    submit(this.fieldTree());
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "21.2.0-next.2+sha-ba009b6",
+    ngImport: i0,
+    type: FormRoot,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Directive
+  });
+  static ɵdir = i0.ɵɵngDeclareDirective({
+    minVersion: "17.1.0",
+    version: "21.2.0-next.2+sha-ba009b6",
+    type: FormRoot,
+    isStandalone: true,
+    selector: "form[formRoot]",
+    inputs: {
+      fieldTree: {
+        classPropertyName: "fieldTree",
+        publicName: "formRoot",
+        isSignal: true,
+        isRequired: true,
+        transformFunction: null
+      }
+    },
+    host: {
+      attributes: {
+        "novalidate": ""
+      },
+      listeners: {
+        "submit": "onSubmit($event)"
+      }
+    },
+    ngImport: i0
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "21.2.0-next.2+sha-ba009b6",
+  ngImport: i0,
+  type: FormRoot,
+  decorators: [{
+    type: Directive,
+    args: [{
+      selector: 'form[formRoot]',
+      host: {
+        'novalidate': '',
+        '(submit)': 'onSubmit($event)'
+      }
+    }]
+  }],
+  propDecorators: {
+    fieldTree: [{
+      type: i0.Input,
+      args: [{
+        isSignal: true,
+        alias: "formRoot",
+        required: true
+      }]
+    }]
+  }
+});
+
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
 //# sourceMappingURL=signals.mjs.map
