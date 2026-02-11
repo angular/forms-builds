@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.2+sha-ad81510
+ * @license Angular v21.2.0-next.3+sha-39cff9c
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -972,7 +972,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.2+sha-ad81510",
+    version: "21.2.0-next.3+sha-39cff9c",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -980,7 +980,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.2+sha-ad81510",
+    version: "21.2.0-next.3+sha-39cff9c",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1012,7 +1012,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.2+sha-ad81510",
+  version: "21.2.0-next.3+sha-39cff9c",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1057,7 +1057,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.2+sha-ad81510",
+    version: "21.2.0-next.3+sha-39cff9c",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1065,7 +1065,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.2+sha-ad81510",
+    version: "21.2.0-next.3+sha-39cff9c",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1091,7 +1091,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.2+sha-ad81510",
+  version: "21.2.0-next.3+sha-39cff9c",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
