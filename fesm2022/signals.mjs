@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.2.0-next.3+sha-17f1927
+ * @license Angular v21.2.0-next.3+sha-d75046b
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵisPromise as _isPromise, resource, signal, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, Renderer2, DestroyRef, computed, Injector, ElementRef, afterRenderEffect, effect, Directive } from '@angular/core';
+import { InjectionToken, ɵisPromise as _isPromise, resource, signal, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, Renderer2, DestroyRef, computed, Injector, ElementRef, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
 import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
 import { httpResource } from '@angular/common/http';
@@ -917,7 +917,7 @@ class FormField {
   }
   registerAsBinding(bindingOptions) {
     if (this.isFieldBinding) {
-      throw new _RuntimeError(1913, ngDevMode && 'FormField already registered as a binding');
+      throw new _RuntimeError(1913, typeof ngDevMode !== 'undefined' && ngDevMode && 'FormField already registered as a binding');
     }
     this.isFieldBinding = true;
     this.installClassBindingEffect();
@@ -933,6 +933,17 @@ class FormField {
     }, {
       injector: this.injector
     });
+    if (typeof ngDevMode !== 'undefined' && ngDevMode) {
+      effect(() => {
+        const fieldNode = this.state();
+        if (fieldNode.hidden()) {
+          const path = fieldNode.structure.pathKeys().join('.') || '<root>';
+          console.warn(_formatRuntimeError(1916, `Field '${path}' is hidden but is being rendered. ` + `Hidden fields should be removed from the DOM using @if.`));
+        }
+      }, {
+        injector: this.injector
+      });
+    }
   }
   [ɵNgFieldDirective];
   ɵngControlCreate(host) {
@@ -946,7 +957,7 @@ class FormField {
     } else if (this.elementIsNativeFormElement) {
       this.ɵngControlUpdate = nativeControlCreate(host, this);
     } else {
-      throw new _RuntimeError(1914, ngDevMode && `${host.descriptor} is an invalid [formField] directive host. The host must be a native form control ` + `(such as <input>', '<select>', or '<textarea>') or a custom form control with a 'value' or ` + `'checked' model.`);
+      throw new _RuntimeError(1914, typeof ngDevMode !== 'undefined' && ngDevMode && `${host.descriptor} is an invalid [formField] directive host. The host must be a native form control ` + `(such as <input>', '<select>', or '<textarea>') or a custom form control with a 'value' or ` + `'checked' model.`);
     }
   }
   ɵngControlUpdate;
@@ -972,7 +983,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.3+sha-17f1927",
+    version: "21.2.0-next.3+sha-d75046b",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -980,7 +991,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.3+sha-17f1927",
+    version: "21.2.0-next.3+sha-d75046b",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1012,7 +1023,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.3+sha-17f1927",
+  version: "21.2.0-next.3+sha-d75046b",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1057,7 +1068,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.3+sha-17f1927",
+    version: "21.2.0-next.3+sha-d75046b",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1065,7 +1076,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.3+sha-17f1927",
+    version: "21.2.0-next.3+sha-d75046b",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1091,7 +1102,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.3+sha-17f1927",
+  version: "21.2.0-next.3+sha-d75046b",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
