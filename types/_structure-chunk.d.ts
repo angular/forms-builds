@@ -1,12 +1,11 @@
 /**
- * @license Angular v21.2.0-next.3+sha-39cff9c
+ * @license Angular v21.2.0-next.3+sha-3606902
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
 import { WritableSignal, Signal, InjectionToken, Injector, Provider } from '@angular/core';
-import * as _angular_forms from '@angular/forms';
 import { AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
@@ -153,6 +152,16 @@ type ValidationResult<E extends ValidationError = ValidationError> = ValidationS
  * @experimental 21.0.0
  */
 type AsyncValidationResult<E extends ValidationError = ValidationError> = ValidationResult<E> | 'pending';
+/**
+ * A field accessor function that returns the state of the field.
+ *
+ * @template TValue The type of the value stored in the field.
+ * @template TKey The type of the property key which this field resides under in its parent.
+ *
+ * @category types
+ * @experimental 21.2.0
+ */
+type Field<TValue, TKey extends string | number = string | number> = () => FieldState<TValue, TKey>;
 /**
  * An object that represents a tree of fields in a form. This includes both primitive value fields
  * (e.g. fields that contain a `string` or `number`), as well as "grouping fields" that contain
@@ -956,11 +965,11 @@ declare const FORM_FIELD: InjectionToken<FormField<unknown>>;
  * @experimental 21.0.0
  */
 declare class FormField<T> {
-    readonly fieldTree: i0.InputSignal<FieldTree<T>>;
+    readonly field: i0.InputSignal<Field<T>>;
     /**
      * `FieldState` for the currently bound field.
      */
-    readonly state: Signal<[T] extends [_angular_forms.AbstractControl<any, any, any>] ? CompatFieldState<T, string | number> : FieldState<T, string | number>>;
+    readonly state: Signal<FieldState<T, string | number>>;
     /**
      * The node injector for the element this field binding.
      */
@@ -1015,7 +1024,7 @@ declare class FormField<T> {
      */
     readonly [ɵNgFieldDirective]: true;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormField<any>, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", ["formField"], { "fieldTree": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<FormField<any>, "[formField]", ["formField"], { "field": { "alias": "formField"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
 /**
@@ -1649,4 +1658,4 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: NoInfer<FormSub
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
 export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };

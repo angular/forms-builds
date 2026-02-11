@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.3+sha-39cff9c
+ * @license Angular v21.2.0-next.3+sha-3606902
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -843,15 +843,15 @@ function nativeControlCreate(host, parent) {
 const ɵNgFieldDirective = Symbol();
 const FORM_FIELD = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FORM_FIELD' : '');
 class FormField {
-  fieldTree = input.required({
+  field = input.required({
     ...(ngDevMode ? {
-      debugName: "fieldTree"
+      debugName: "field"
     } : {}),
     alias: 'formField'
   });
   renderer = inject(Renderer2);
   destroyRef = inject(DestroyRef);
-  state = computed(() => this.fieldTree()(), ...(ngDevMode ? [{
+  state = computed(() => this.field()(), ...(ngDevMode ? [{
     debugName: "state"
   }] : []));
   injector = inject(Injector);
@@ -877,7 +877,7 @@ class FormField {
   }
   parseErrors = computed(() => this.parseErrorsSource()?.().map(err => ({
     ...err,
-    fieldTree: untracked(this.fieldTree),
+    fieldTree: untracked(this.state).fieldTree,
     formField: this
   })) ?? [], ...(ngDevMode ? [{
     debugName: "parseErrors"
@@ -972,7 +972,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.3+sha-39cff9c",
+    version: "21.2.0-next.3+sha-3606902",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -980,13 +980,13 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.3+sha-39cff9c",
+    version: "21.2.0-next.3+sha-3606902",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
     inputs: {
-      fieldTree: {
-        classPropertyName: "fieldTree",
+      field: {
+        classPropertyName: "field",
         publicName: "formField",
         isSignal: true,
         isRequired: true,
@@ -1012,7 +1012,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.3+sha-39cff9c",
+  version: "21.2.0-next.3+sha-3606902",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1033,7 +1033,7 @@ i0.ɵɵngDeclareClassMetadata({
     }]
   }],
   propDecorators: {
-    fieldTree: [{
+    field: [{
       type: i0.Input,
       args: [{
         isSignal: true,
@@ -1057,7 +1057,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.3+sha-39cff9c",
+    version: "21.2.0-next.3+sha-3606902",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1065,7 +1065,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.3+sha-39cff9c",
+    version: "21.2.0-next.3+sha-3606902",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1091,7 +1091,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.3+sha-39cff9c",
+  version: "21.2.0-next.3+sha-3606902",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
