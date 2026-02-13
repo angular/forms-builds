@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.3+sha-2d99878
+ * @license Angular v21.2.0-next.3+sha-a6a0347
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import * as i0 from '@angular/core';
 import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef, WritableSignal } from '@angular/core';
 import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer, FieldTree } from './_structure-chunk.js';
-export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FormField, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithoutField, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
+export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FormField, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithoutField, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import '@angular/forms';
 import '@standard-schema/spec';
@@ -544,6 +544,19 @@ interface FormCheckboxControl extends FormUiControl<boolean> {
 declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
 
 /**
+ * Result of parsing a raw value into a model value.
+ */
+interface ParseResult<TValue> {
+    /**
+     * The parsed value, if parsing was successful.
+     */
+    readonly value?: TValue;
+    /**
+     * Errors encountered during parsing, if any.
+     */
+    readonly errors?: readonly ValidationError.WithoutFieldTree[];
+}
+/**
  * Options for `transformedValue`.
  *
  * @experimental 21.2.0
@@ -556,10 +569,7 @@ interface TransformedValueOptions<TValue, TRaw> {
      *   - `value`: The parsed model value. If `undefined`, the model will not be updated.
      *   - `errors`: Any parse errors encountered. If `undefined`, no errors are reported.
      */
-    parse: (rawValue: TRaw) => {
-        value?: TValue;
-        errors?: readonly ValidationError.WithoutFieldTree[];
-    };
+    parse: (rawValue: TRaw) => ParseResult<TValue>;
     /**
      * Format the model value into the raw value.
      */
@@ -643,4 +653,4 @@ declare class FormRoot<T> {
 }
 
 export { Debouncer, DisabledReason, FieldContext, FieldTree, FieldValidator, FormRoot, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, transformedValue, validate, validateAsync, validateHttp, validateTree };
-export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, MapToErrorsFn, TransformedValueOptions, TransformedValueSignal };
+export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, MapToErrorsFn, ParseResult, TransformedValueOptions, TransformedValueSignal };

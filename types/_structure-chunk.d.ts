@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.3+sha-2d99878
+ * @license Angular v21.2.0-next.3+sha-a6a0347
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1343,6 +1343,15 @@ declare class EmailValidationError extends BaseNgValidationError {
     readonly kind = "email";
 }
 /**
+ * An error used to indicate that a value entered in a native input does not parse.
+ *
+ * @category validation
+ * @experimental 21.2.0
+ */
+declare class NativeInputParseError extends BaseNgValidationError {
+    readonly kind = "parse";
+}
+/**
  * The base class for all built-in, non-custom errors. This class can be used to check if an error
  * is one of the standard kinds, allowing you to switch on the kind to further narrow the type.
  *
@@ -1368,7 +1377,7 @@ declare class EmailValidationError extends BaseNgValidationError {
  * @experimental 21.0.0
  */
 declare const NgValidationError: abstract new () => NgValidationError;
-type NgValidationError = RequiredValidationError | MinValidationError | MaxValidationError | MinLengthValidationError | MaxLengthValidationError | PatternValidationError | EmailValidationError | StandardSchemaValidationError;
+type NgValidationError = RequiredValidationError | MinValidationError | MaxValidationError | MinLengthValidationError | MaxLengthValidationError | PatternValidationError | EmailValidationError | StandardSchemaValidationError | NativeInputParseError;
 
 /**
  * Configuration options for signal forms.
@@ -1657,5 +1666,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: NoInfer<FormSub
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
 export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };

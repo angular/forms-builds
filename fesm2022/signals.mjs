@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.2.0-next.3+sha-2d99878
+ * @license Angular v21.2.0-next.3+sha-a6a0347
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵisPromise as _isPromise, resource, signal, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, Renderer2, DestroyRef, computed, Injector, ElementRef, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
+import { InjectionToken, ɵisPromise as _isPromise, resource, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, Renderer2, DestroyRef, computed, Injector, ElementRef, signal, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
 import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
 import { httpResource } from '@angular/common/http';
@@ -154,6 +154,9 @@ class PatternValidationError extends BaseNgValidationError {
 }
 class EmailValidationError extends BaseNgValidationError {
   kind = 'email';
+}
+class NativeInputParseError extends BaseNgValidationError {
+  kind = 'parse';
 }
 const NgValidationError = BaseNgValidationError;
 
@@ -467,38 +470,53 @@ function immediate() {}
 
 const FORM_FIELD_PARSE_ERRORS = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FORM_FIELD_PARSE_ERRORS' : '');
 
+function createParser(getValue, setValue, parse) {
+  const errors = linkedSignal({
+    ...(ngDevMode ? {
+      debugName: "errors"
+    } : {}),
+    source: getValue,
+    computation: () => []
+  });
+  const setRawValue = rawValue => {
+    const result = parse(rawValue);
+    errors.set(result.errors ?? []);
+    if (result.value !== undefined) {
+      setValue(result.value);
+    }
+  };
+  return {
+    errors: errors.asReadonly(),
+    setRawValue
+  };
+}
+
 function transformedValue(value, options) {
   const {
     parse,
     format
   } = options;
-  const parseErrors = signal([], ...(ngDevMode ? [{
-    debugName: "parseErrors"
-  }] : []));
-  const rawValue = linkedSignal(() => format(value()), ...(ngDevMode ? [{
-    debugName: "rawValue"
-  }] : []));
+  const parser = createParser(value, value.set, parse);
   const formFieldParseErrors = inject(FORM_FIELD_PARSE_ERRORS, {
     self: true,
     optional: true
   });
   if (formFieldParseErrors) {
-    formFieldParseErrors.set(parseErrors);
+    formFieldParseErrors.set(parser.errors);
   }
+  const rawValue = linkedSignal(() => format(value()), ...(ngDevMode ? [{
+    debugName: "rawValue"
+  }] : []));
   const result = rawValue;
+  result.parseErrors = parser.errors;
   const originalSet = result.set.bind(result);
   result.set = newRawValue => {
-    const result = parse(newRawValue);
-    parseErrors.set(result.errors ?? []);
-    if (result.value !== undefined) {
-      value.set(result.value);
-    }
+    parser.setRawValue(newRawValue);
     originalSet(newRawValue);
   };
   result.update = updateFn => {
     result.set(updateFn(rawValue()));
   };
-  result.parseErrors = parseErrors.asReadonly();
   return result;
 }
 
@@ -621,29 +639,46 @@ function isTextualFormElement(element) {
   return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
 }
 function getNativeControlValue(element, currentValue) {
+  let modelValue;
+  if (element.validity.badInput) {
+    return {
+      errors: [new NativeInputParseError()]
+    };
+  }
   switch (element.type) {
     case 'checkbox':
-      return element.checked;
+      return {
+        value: element.checked
+      };
     case 'number':
     case 'range':
     case 'datetime-local':
-      if (typeof untracked(currentValue) === 'number') {
-        return element.valueAsNumber;
+      modelValue = untracked(currentValue);
+      if (typeof modelValue === 'number' || modelValue === null) {
+        return {
+          value: element.value === '' ? null : element.valueAsNumber
+        };
       }
       break;
     case 'date':
     case 'month':
     case 'time':
     case 'week':
-      const value = untracked(currentValue);
-      if (value === null || value instanceof Date) {
-        return element.valueAsDate;
-      } else if (typeof value === 'number') {
-        return element.valueAsNumber;
+      modelValue = untracked(currentValue);
+      if (modelValue === null || modelValue instanceof Date) {
+        return {
+          value: element.valueAsDate
+        };
+      } else if (typeof modelValue === 'number') {
+        return {
+          value: element.valueAsNumber
+        };
       }
       break;
   }
-  return element.value;
+  return {
+    value: element.value
+  };
 }
 function setNativeControlValue(element, value) {
   switch (element.type) {
@@ -658,6 +693,9 @@ function setNativeControlValue(element, value) {
     case 'datetime-local':
       if (typeof value === 'number') {
         setNativeNumberControlValue(element, value);
+        return;
+      } else if (value === null) {
+        element.value = '';
         return;
       }
       break;
@@ -803,13 +841,12 @@ function isRelevantSelectMutation(mutation) {
   return false;
 }
 
-function nativeControlCreate(host, parent) {
+function nativeControlCreate(host, parent, parseErrorsSource) {
   let updateMode = false;
   const input = parent.nativeFormElement;
-  host.listenToDom('input', () => {
-    const state = parent.state();
-    state.controlValue.set(getNativeControlValue(input, state.value));
-  });
+  const parser = createParser(() => parent.state().value(), rawValue => parent.state().controlValue.set(rawValue), () => getNativeControlValue(input, parent.state().value));
+  parseErrorsSource.set(parser.errors);
+  host.listenToDom('input', () => parser.setRawValue(undefined));
   host.listenToDom('blur', () => parent.state().markAsTouched());
   parent.registerAsBinding();
   if (input.tagName === 'SELECT') {
@@ -955,7 +992,7 @@ class FormField {
     } else if (host.customControl) {
       this.ɵngControlUpdate = customControlCreate(host, this);
     } else if (this.elementIsNativeFormElement) {
-      this.ɵngControlUpdate = nativeControlCreate(host, this);
+      this.ɵngControlUpdate = nativeControlCreate(host, this, this.parseErrorsSource);
     } else {
       throw new _RuntimeError(1914, typeof ngDevMode !== 'undefined' && ngDevMode && `${host.descriptor} is an invalid [formField] directive host. The host must be a native form control ` + `(such as <input>', '<select>', or '<textarea>') or a custom form control with a 'value' or ` + `'checked' model.`);
     }
@@ -983,7 +1020,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.3+sha-2d99878",
+    version: "21.2.0-next.3+sha-a6a0347",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -991,7 +1028,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.3+sha-2d99878",
+    version: "21.2.0-next.3+sha-a6a0347",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1023,7 +1060,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.3+sha-2d99878",
+  version: "21.2.0-next.3+sha-a6a0347",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1068,7 +1105,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-next.3+sha-2d99878",
+    version: "21.2.0-next.3+sha-a6a0347",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1076,7 +1113,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-next.3+sha-2d99878",
+    version: "21.2.0-next.3+sha-a6a0347",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1102,7 +1139,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-next.3+sha-2d99878",
+  version: "21.2.0-next.3+sha-a6a0347",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
@@ -1127,5 +1164,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
 //# sourceMappingURL=signals.mjs.map
