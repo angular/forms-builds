@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.3+sha-dea0819
+ * @license Angular v21.2.0-next.3+sha-b481294
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -389,7 +389,7 @@ declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root
  * @category control
  * @experimental 21.0.0
  */
-interface FormUiControl<TValue> {
+interface FormUiControl {
     /**
      * An input to receive the errors for the field. If implemented, the `Field` directive will
      * automatically bind errors from the bound field to this input.
@@ -491,7 +491,7 @@ interface FormUiControl<TValue> {
  * @category control
  * @experimental 21.0.0
  */
-interface FormValueControl<TValue> extends FormUiControl<TValue> {
+interface FormValueControl<TValue> extends FormUiControl {
     /**
      * The value is the only required property in this contract. A component that wants to integrate
      * with the `Field` directive via this contract, *must* provide a `model()` that will be kept in
@@ -515,7 +515,7 @@ interface FormValueControl<TValue> extends FormUiControl<TValue> {
  * @category control
  * @experimental 21.0.0
  */
-interface FormCheckboxControl extends FormUiControl<boolean> {
+interface FormCheckboxControl extends FormUiControl {
     /**
      * The checked is the only required property in this contract. A component that wants to integrate
      * with the `Field` directive, *must* provide a `model()` that will be kept in sync with the
