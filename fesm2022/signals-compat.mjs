@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-next.3+sha-8de0d25
+ * @license Angular v21.2.0-next.3+sha-680e1c0
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -25,10 +25,8 @@ class CompatFieldNode extends FieldNode {
 function makeCreateDestroySubject() {
   let destroy$ = new ReplaySubject(1);
   return () => {
-    if (destroy$) {
-      destroy$.next();
-      destroy$.complete();
-    }
+    destroy$.next();
+    destroy$.complete();
     return destroy$ = new ReplaySubject(1);
   };
 }
