@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.3.0-next.0+sha-a3731a1
+ * @license Angular v21.3.0-next.0+sha-a5a1829
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef, WritableSignal } from '@angular/core';
+import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal } from '@angular/core';
 import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer, FieldTree } from './_structure-chunk.js';
 export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FormField, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithoutField, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
@@ -429,7 +429,7 @@ interface FormUiControl {
      * An input to receive the touched status for the field. If implemented, the `Field` directive
      * will automatically bind the touched status from the bound field to this input.
      */
-    readonly touched?: ModelSignal<boolean> | InputSignal<boolean> | InputSignalWithTransform<boolean, unknown> | OutputRef<boolean>;
+    readonly touched?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
     /**
      * An input to receive the dirty status for the field. If implemented, the `Field` directive
      * will automatically bind the dirty status from the bound field to this input.
@@ -470,6 +470,10 @@ interface FormUiControl {
      * will automatically bind the value patterns from the bound field to this input.
      */
     readonly pattern?: InputSignal<readonly RegExp[]> | InputSignalWithTransform<readonly RegExp[], unknown>;
+    /**
+     * An output to emit when the control is touched.
+     */
+    readonly touch?: OutputRef<void>;
     /**
      * Focuses the UI control.
      *
