@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.0+sha-c89d94b
+ * @license Angular v22.0.0-next.0+sha-9a3f5cb
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -558,7 +558,7 @@ interface ParseResult<TValue> {
     /**
      * Errors encountered during parsing, if any.
      */
-    readonly errors?: readonly ValidationError.WithoutFieldTree[];
+    readonly error?: OneOrMany<ValidationError.WithoutFieldTree>;
 }
 /**
  * Options for `transformedValue`.
@@ -571,7 +571,7 @@ interface TransformedValueOptions<TValue, TRaw> {
      *
      * Should return an object containing the parsed result, which may contain:
      *   - `value`: The parsed model value. If `undefined`, the model will not be updated.
-     *   - `errors`: Any parse errors encountered. If `undefined`, no errors are reported.
+     *   - `error`: Any parse errors encountered. If `undefined`, no errors are reported.
      */
     parse: (rawValue: TRaw) => ParseResult<TValue>;
     /**
@@ -619,7 +619,7 @@ interface TransformedValueSignal<TRaw> extends WritableSignal<TRaw> {
  *       if (val === '') return {value: null};
  *       const num = Number(val);
  *       if (Number.isNaN(num)) {
- *         return {errors: [{kind: 'parse', message: `${val} is not numeric`}]};
+ *         return {error: {kind: 'parse', message: `${val} is not numeric`}};
  *       }
  *       return {value: num};
  *     },
