@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-rc.0+sha-35f0663
+ * @license Angular v21.2.0-rc.0+sha-31bf694
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -67,6 +67,15 @@ function isEmpty(value) {
     return isNaN(value);
   }
   return value === '' || value === false || value == null;
+}
+function normalizeErrors(error) {
+  if (error === undefined) {
+    return [];
+  }
+  if (Array.isArray(error)) {
+    return error;
+  }
+  return [error];
 }
 
 function validate(path, logic) {
@@ -480,10 +489,11 @@ function createParser(getValue, setValue, parse) {
   });
   const setRawValue = rawValue => {
     const result = parse(rawValue);
+    errors.set(normalizeErrors(result.error));
     if (result.value !== undefined) {
       setValue(result.value);
     }
-    errors.set(result.errors ?? []);
+    errors.set(normalizeErrors(result.error));
   };
   return {
     errors: errors.asReadonly(),
@@ -642,7 +652,7 @@ function getNativeControlValue(element, currentValue) {
   let modelValue;
   if (element.validity.badInput) {
     return {
-      errors: [new NativeInputParseError()]
+      error: new NativeInputParseError()
     };
   }
   switch (element.type) {
@@ -1020,7 +1030,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-rc.0+sha-35f0663",
+    version: "21.2.0-rc.0+sha-31bf694",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1028,7 +1038,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-rc.0+sha-35f0663",
+    version: "21.2.0-rc.0+sha-31bf694",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1060,7 +1070,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-rc.0+sha-35f0663",
+  version: "21.2.0-rc.0+sha-31bf694",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1105,7 +1115,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "21.2.0-rc.0+sha-35f0663",
+    version: "21.2.0-rc.0+sha-31bf694",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1113,7 +1123,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "21.2.0-rc.0+sha-35f0663",
+    version: "21.2.0-rc.0+sha-31bf694",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1139,7 +1149,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "21.2.0-rc.0+sha-35f0663",
+  version: "21.2.0-rc.0+sha-31bf694",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
