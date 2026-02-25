@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.0-rc.0+sha-a25f742
+ * @license Angular v21.2.0-rc.0+sha-fe7b26e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -548,7 +548,7 @@ declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  */
 interface ParseResult<TValue> {
     /**
-     * The parsed value, if parsing was successful.
+     * The parsed value. If omitted, the model is not updated.
      */
     readonly value?: TValue;
     /**
@@ -595,6 +595,14 @@ interface TransformedValueSignal<TRaw> extends WritableSignal<TRaw> {
  * This utility simplifies the creation of custom form controls that parse a user-facing value
  * representation into an underlying model value. For example, a numeric input that displays and
  * accepts string values but stores a number.
+ *
+ * Parse errors are exposed via the returned signal’s `parseErrors()` property.
+ * When `transformedValue` is used within a Signal Forms field context, parse errors are also
+ * reported to the nearest field automatically. When no field context is present, no automatic
+ * reporting occurs and `parseErrors` can be consumed directly.
+ *
+ * Note: `parse` may return both a `value` and an `error`. Returning `value` updates the model;
+ * omitting it leaves the model unchanged.
  *
  * @param value The model signal to synchronize with.
  * @param options Configuration including `parse` and `format` functions.
