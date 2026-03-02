@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.0+sha-73b6135
+ * @license Angular v22.0.0-next.0+sha-2206efa
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -41,7 +41,7 @@ type CompatFormOptions<TModel> = Omit<FormOptions<TModel>, 'adapter'>;
  * @param model A writable signal that contains the model data for the form. The resulting field
  * structure will match the shape of the model and any changes to the form data will be written to
  * the model.
-
+ *
  * @category interop
  * @experimental 21.0.0
  */
