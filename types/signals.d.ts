@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.1+sha-8ca0237
+ * @license Angular v21.2.1+sha-670d166
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -536,12 +536,12 @@ interface FormCheckboxControl extends FormUiControl {
  * the field is touched, or the most recently debounced update resolves.
  *
  * @param path The target path to debounce.
- * @param durationOrDebouncer Either a debounce duration in milliseconds, or a custom
- *     {@link Debouncer} function.
+ * @param config A debounce configuration, which can be either a debounce duration in milliseconds,
+ *     `'blur'` to debounce until the field is blurred, or a custom {@link Debouncer} function.
  *
  * @experimental 21.0.0
  */
-declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, durationOrDebouncer: number | Debouncer<TValue, TPathKind>): void;
+declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, config: number | 'blur' | Debouncer<TValue, TPathKind>): void;
 
 /**
  * Result of parsing a raw value into a model value.
