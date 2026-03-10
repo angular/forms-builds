@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.0.0-next.1+sha-02a617e
+ * @license Angular v22.0.0-next.1+sha-57ba621
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { WritableSignal, EventEmitter } from '@angular/core';
-import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError, SignalFormsConfig, SchemaFn } from './_structure-chunk.js';
+import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError, ReadonlyFieldTree, SignalFormsConfig, SchemaFn } from './_structure-chunk.js';
 import { AbstractControl, FormControlStatus, FormControlState } from '@angular/forms';
 import '@standard-schema/spec';
 
@@ -121,7 +121,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>, schema: Schem
 declare class CompatValidationError<T = unknown> implements ValidationError {
     readonly kind: string;
     readonly control: AbstractControl;
-    readonly fieldTree: FieldTree<unknown>;
+    readonly fieldTree: ReadonlyFieldTree<unknown>;
     readonly context: T;
     readonly message?: string;
     constructor({ context, kind, control }: {

@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.0.0-next.1+sha-02a617e
+ * @license Angular v22.0.0-next.1+sha-57ba621
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { WritableSignal, Signal, InjectionToken, Injector, Provider } from '@angular/core';
+import { Signal, WritableSignal, Injector, InjectionToken, Provider } from '@angular/core';
 import { AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
@@ -99,7 +99,7 @@ declare namespace PathKind {
  */
 interface DisabledReason {
     /** The field that is disabled. */
-    readonly fieldTree: FieldTree<unknown>;
+    readonly fieldTree: ReadonlyFieldTree<unknown>;
     /** A user-facing message describing the reason for the disablement. */
     readonly message?: string;
 }
@@ -165,28 +165,38 @@ type Field<TValue, TKey extends string | number = string | number> = () => Field
 /**
  * An object that represents a tree of fields in a form. This includes both primitive value fields
  * (e.g. fields that contain a `string` or `number`), as well as "grouping fields" that contain
- * sub-fields. `FieldTree` objects are arranged in a tree whose structure mimics the structure of the
- * underlying data. For example a `FieldTree<{x: number}>` has a property `x` which contains a
+ * sub-fields. `FieldTree` objects are arranged in a tree whose structure mimics the structure of
+ * the underlying data. For example a `FieldTree<{x: number}>` has a property `x` which contains a
  * `FieldTree<number>`. To access the state associated with a field, call it as a function.
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
+ * @template TMode Determines whether the field state is readonly or writable. Defaults to writable.
+ *   For readonly, use {@link ReadonlyFieldTree}.
  *
  * @category types
  * @experimental 21.0.0
  */
-type FieldTree<TModel, TKey extends string | number = string | number> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey> : FieldState<TModel, TKey>) & ([TModel] extends [AbstractControl] ? object : [TModel] extends [ReadonlyArray<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number>> : TModel extends Record<string, any> ? Subfields<TModel> : object);
+type FieldTree<TModel, TKey extends string | number = string | number, TMode extends 'writable' | 'readonly' = 'writable'> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey, TMode> : FieldStateByMode<TModel, TKey, TMode>) & ([TModel] extends [AbstractControl] ? object : [TModel] extends [ReadonlyArray<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number, TMode>> : TModel extends Record<string, any> ? Subfields<TModel, TMode> : object);
+/**
+ * A readonly {@link FieldTree}.
+ *
+ * @category types
+ * @experimental 21.3.0
+ */
+type ReadonlyFieldTree<TModel, TKey extends string | number = string | number> = FieldTree<TModel, TKey, 'readonly'>;
 /**
  * The sub-fields that a user can navigate to from a `FieldTree<TModel>`.
  *
  * @template TModel The type of the data which the parent field is wrapped around.
+ * @template TMode Determines whether the field state is readonly or writable.
  *
  * @experimental 21.0.0
  */
-type Subfields<TModel> = {
-    readonly [K in keyof TModel as TModel[K] extends Function ? never : K]: MaybeFieldTree<TModel[K], string>;
+type Subfields<TModel, TMode extends 'writable' | 'readonly' = 'writable'> = {
+    readonly [K in keyof TModel as TModel[K] extends Function ? never : K]: MaybeFieldTree<TModel[K], string, TMode>;
 } & {
-    [Symbol.iterator](): Iterator<[string, MaybeFieldTree<TModel[keyof TModel], string>]>;
+    [Symbol.iterator](): Iterator<[string, MaybeFieldTree<TModel[keyof TModel], string, TMode>]>;
 };
 /**
  * An iterable object with the same shape as a readonly array.
@@ -197,30 +207,33 @@ type Subfields<TModel> = {
  */
 type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Symbol.iterator>;
 /**
- * Helper type for defining `FieldTree`. Given a type `TValue` that may include `undefined`, it extracts
- * the `undefined` outside the `FieldTree` type.
+ * Helper type for defining `FieldTree`. Given a type `TValue` that may include `undefined`,
+ * it extracts the `undefined` outside the `FieldTree` type.
  *
- * For example `MaybeField<{a: number} | undefined, TKey>` would be equivalent to
+ * For example `MaybeFieldTree<{a: number} | undefined, TKey>` would be equivalent to
  * `undefined | FieldTree<{a: number}, TKey>`.
  *
  * @template TModel The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
+ * @template TMode Determines whether the field state is readonly or writable.
  *
- * @experimental 21.0.0
+ * @experimental 21.3.0
  */
-type MaybeFieldTree<TModel, TKey extends string | number = string | number> = (TModel & undefined) | FieldTree<Exclude<TModel, undefined>, TKey>;
+type MaybeFieldTree<TModel, TKey extends string | number = string | number, TMode extends 'writable' | 'readonly' = 'writable'> = (TModel & undefined) | FieldTree<Exclude<TModel, undefined>, TKey, TMode>;
 /**
- * Contains all of the state (e.g. value, statuses, etc.) associated with a `FieldTree`, exposed as
- * signals.
+ * A readonly view of a {@link FieldTree}'s state.
+ *
+ * @template TValue The type of the data which the field is wrapped around.
+ * @template TKey The type of the property key which this field resides under in its parent.
  *
  * @category structure
- * @experimental 21.0.0
+ * @experimental 21.3.0
  */
-interface FieldState<TValue, TKey extends string | number = string | number> {
+interface ReadonlyFieldState<TValue, TKey extends string | number = string | number> {
     /**
      * The {@link FieldTree} associated with this field state.
      */
-    readonly fieldTree: FieldTree<unknown, TKey>;
+    readonly fieldTree: ReadonlyFieldTree<unknown, TKey>;
     /**
      * A writable signal containing the value for this field.
      *
@@ -229,7 +242,15 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
      * While updates from the UI control are eventually reflected here, they may be delayed if
      * debounced.
      */
-    readonly value: WritableSignal<TValue>;
+    readonly value: Signal<TValue>;
+    /**
+     * A signal containing the value of the control to which this field is bound.
+     *
+     * This differs from {@link value} in that it's not subject to debouncing, and thus is used to
+     * buffer debounced updates from the control to the field. This will also not take into account
+     * the {@link controlValue} of children.
+     */
+    readonly controlValue: Signal<TValue>;
     /**
      * A signal indicating whether the field is currently disabled.
      */
@@ -341,7 +362,47 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
     /**
      * The {@link FormField} directives that bind this field to a UI control.
      */
-    readonly formFieldBindings: Signal<readonly FormField<unknown>[]>;
+    readonly formFieldBindings: Signal<readonly FormFieldBinding[]>;
+    /**
+     * Reads a metadata value from the field.
+     * @param key The metadata key to read.
+     */
+    metadata<M>(key: MetadataKey<M, any, any>): M | undefined;
+    /**
+     * Checks whether a metadata value exists on the field.
+     * @param key The metadata key to check.
+     */
+    hasMetadata(key: MetadataKey<any, any, any>): boolean;
+    /**
+     * Focuses the first UI control in the DOM that is bound to this field state.
+     * If no UI control is bound, does nothing.
+     * @param options Optional focus options to pass to the native focus() method.
+     */
+    focusBoundControl(options?: FocusOptions): void;
+}
+/**
+ * A writable view of a {@link FieldTree}'s state.
+ *
+ * @template TValue The type of the data which the field is wrapped around.
+ * @template TKey The type of the property key which this field resides under in its parent.
+ *
+ * @category structure
+ * @experimental 21.0.0
+ */
+interface FieldState<TValue, TKey extends string | number = string | number> extends ReadonlyFieldState<TValue, TKey> {
+    /**
+     * The {@link FieldTree} associated with this field state.
+     */
+    readonly fieldTree: FieldTree<unknown, TKey>;
+    /**
+     * A writable signal containing the value for this field.
+     *
+     * Updating this signal will update the data model that the field is bound to.
+     *
+     * While updates from the UI control are eventually reflected here, they may be delayed if
+     * debounced.
+     */
+    readonly value: WritableSignal<TValue>;
     /**
      * A signal containing the value of the control to which this field is bound.
      *
@@ -359,11 +420,6 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
      */
     markAsTouched(): void;
     /**
-     * Reads a metadata value from the field.
-     * @param key The metadata key to read.
-     */
-    metadata<M>(key: MetadataKey<M, any, any>): M | undefined;
-    /**
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
      *
      * Note this does not change the data model, which can be reset directly if desired.
@@ -371,12 +427,6 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
      * @param value Optional value to set to the form. If not passed, the value will not be changed.
      */
     reset(value?: TValue): void;
-    /**
-     * Focuses the first UI control in the DOM that is bound to this field state.
-     * If no UI control is bound, does nothing.
-     * @param options Optional focus options to pass to the native focus() method.
-     */
-    focusBoundControl(options?: FocusOptions): void;
 }
 /**
  * This is FieldState also providing access to the wrapped FormControl.
@@ -384,9 +434,51 @@ interface FieldState<TValue, TKey extends string | number = string | number> {
  * @category interop
  * @experimental 21.0.0
  */
-type CompatFieldState<TControl extends AbstractControl, TKey extends string | number = string | number> = FieldState<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, TKey> & {
+type CompatFieldState<TControl extends AbstractControl, TKey extends string | number = string | number, TMode extends 'writable' | 'readonly' = 'writable'> = FieldStateByMode<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, TKey, TMode> & {
     control: Signal<TControl>;
 };
+/**
+ * A readonly {@link CompatFieldState}.
+ *
+ * @category interop
+ * @experimental 21.3.0
+ */
+type ReadonlyCompatFieldState<TControl extends AbstractControl, TKey extends string | number = string | number> = CompatFieldState<TControl, TKey, 'readonly'>;
+/**
+ * Helper type that resolves to either a {@link FieldState} or {@link ReadonlyFieldState} based on
+ * the access mode.
+ *
+ * @template TValue The type of the value stored in the field.
+ * @template TKey The type of the property key.
+ * @template TMode The access mode ('readonly' or 'writable').
+ */
+type FieldStateByMode<TValue, TKey extends string | number, TMode extends 'writable' | 'readonly'> = TMode extends 'writable' ? FieldState<TValue, TKey> : ReadonlyFieldState<TValue, TKey>;
+/**
+ * Represents a binding between a field and a UI control through a {@link FormField} directive.
+ *
+ * @experimental 21.3.0
+ */
+interface FormFieldBinding {
+    /**
+     * The HTML element on which the {@link FormField} directive is applied.
+     */
+    readonly element: HTMLElement;
+    /**
+     * The node injector for the element hosting this field binding.
+     */
+    readonly injector: Injector;
+    /**
+     * The {@link FieldState} of the field bound to the {@link FormField} directive.
+     */
+    readonly state: Signal<ReadonlyFieldState<unknown>>;
+    /**
+     * Focuses this field binding.
+     *
+     * By default, this will focus {@link element}. However, custom controls can implement their own
+     * focus behavior.
+     */
+    focus(options?: FocusOptions): void;
+}
 /**
  * Allows declaring whether the Rules are supported for a given path.
  *
@@ -595,16 +687,16 @@ interface RootFieldContext<TValue> {
     /** A signal containing the value of the current field. */
     readonly value: Signal<TValue>;
     /** The state of the current field. */
-    readonly state: FieldState<TValue>;
+    readonly state: ReadonlyFieldState<TValue>;
     /** The current field. */
-    readonly fieldTree: FieldTree<TValue>;
+    readonly fieldTree: ReadonlyFieldTree<TValue>;
     /** Gets the value of the field represented by the given path. */
     valueOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): PValue;
     /** Gets the state of the field represented by the given path. */
-    stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): CompatFieldState<PControl>;
-    stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): FieldState<PValue>;
+    stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): ReadonlyCompatFieldState<PControl>;
+    stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): ReadonlyFieldState<PValue>;
     /** Gets the field represented by the given path. */
-    fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): FieldTree<PModel>;
+    fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): ReadonlyFieldTree<PModel>;
     /** The list of keys that lead from the root field to the current field. */
     readonly pathKeys: Signal<readonly string[]>;
 }
@@ -908,8 +1000,8 @@ interface CombinedControl {
  * equivalent in signal forms.
  */
 declare class InteropNgControl implements CombinedControl {
-    protected field: () => FieldState<unknown>;
-    constructor(field: () => FieldState<unknown>);
+    protected field: () => ReadonlyFieldState<unknown>;
+    constructor(field: () => ReadonlyFieldState<unknown>);
     readonly control: AbstractControl<any, any>;
     get value(): any;
     get valid(): boolean;
@@ -965,13 +1057,16 @@ declare const FORM_FIELD: InjectionToken<FormField<unknown>>;
  * @experimental 21.0.0
  */
 declare class FormField<T> {
+    /**
+     * The field to bind to the underlying form control.
+     */
     readonly field: i0.InputSignal<Field<T>>;
     /**
      * `FieldState` for the currently bound field.
      */
     readonly state: Signal<FieldState<T, string | number>>;
     /**
-     * The node injector for the element this field binding.
+     * The node injector for the DOM element hosting this field binding.
      */
     readonly injector: Injector;
     /**
@@ -1041,7 +1136,7 @@ interface ValidationErrorOptions {
  * @experimental 21.0.0
  */
 type WithFieldTree<T> = T & {
-    fieldTree: FieldTree<unknown>;
+    fieldTree: ReadonlyFieldTree<unknown>;
 };
 /** @deprecated Use `WithFieldTree` instead  */
 type WithField<T> = WithFieldTree<T>;
@@ -1052,7 +1147,7 @@ type WithField<T> = WithFieldTree<T>;
  * @experimental 21.0.0
  */
 type WithOptionalFieldTree<T> = Omit<T, 'fieldTree'> & {
-    fieldTree?: FieldTree<unknown>;
+    fieldTree?: ReadonlyFieldTree<unknown>;
 };
 /** @deprecated Use `WithOptionalFieldTree` instead  */
 type WithOptionalField<T> = WithOptionalFieldTree<T>;
@@ -1216,7 +1311,7 @@ declare namespace ValidationError {
      */
     interface WithFieldTree extends ValidationError {
         /** The field associated with this error. */
-        readonly fieldTree: FieldTree<unknown>;
+        readonly fieldTree: ReadonlyFieldTree<unknown>;
         readonly formField?: FormField<unknown>;
     }
     /** @deprecated Use `ValidationError.WithFieldTree` instead  */
@@ -1235,7 +1330,7 @@ declare namespace ValidationError {
      */
     interface WithOptionalFieldTree extends ValidationError {
         /** The field associated with this error. */
-        readonly fieldTree?: FieldTree<unknown>;
+        readonly fieldTree?: ReadonlyFieldTree<unknown>;
     }
     /** @deprecated Use `ValidationError.WithOptionalFieldTree` instead  */
     type WithOptionalField = WithOptionalFieldTree;
@@ -1264,7 +1359,7 @@ declare abstract class BaseNgValidationError implements ValidationError {
     /** Identifies the kind of error. */
     readonly kind: string;
     /** The field associated with this error. */
-    readonly fieldTree: FieldTree<unknown>;
+    readonly fieldTree: ReadonlyFieldTree<unknown>;
     /** Human readable error message. */
     readonly message?: string;
     constructor(options?: ValidationErrorOptions);
@@ -1387,7 +1482,7 @@ type NgValidationError = RequiredValidationError | MinValidationError | MaxValid
 interface SignalFormsConfig {
     /** A map of CSS class names to predicate functions that determine when to apply them. */
     classes?: {
-        [className: string]: (state: FormField<unknown>) => boolean;
+        [className: string]: (formField: FormFieldBinding) => boolean;
     };
 }
 /**
@@ -1667,4 +1762,4 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: NoInfer<FormSub
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
 export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldTree, FieldValidator, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldStateByMode, FieldTree, FieldValidator, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };
