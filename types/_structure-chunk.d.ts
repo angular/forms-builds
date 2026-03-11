@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.1+sha-b401c18
+ * @license Angular v22.0.0-next.1+sha-3c2d95a
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -16,7 +16,7 @@ declare const ɵɵTYPE: unique symbol;
 /**
  * Options that can be specified when submitting a form.
  *
- * @experimental 21.2.0
+ * @experimental 21.2
  */
 interface FormSubmitOptions<TRootModel, TSubmittedModel> {
     /**
@@ -57,13 +57,13 @@ interface FormSubmitOptions<TRootModel, TSubmittedModel> {
  * A type that represents either a single value of type `T` or a readonly array of `T`.
  * @template T The type of the value(s).
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type OneOrMany<T> = T | readonly T[];
 /**
  * The kind of `FieldPath` (`Root`, `Child` of another `FieldPath`, or `Item` in a `FieldPath` array)
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type PathKind = PathKind.Root | PathKind.Child | PathKind.Item;
 declare namespace PathKind {
@@ -95,7 +95,7 @@ declare namespace PathKind {
  * A reason for a field's disablement.
  *
  * @category logic
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 interface DisabledReason {
     /** The field that is disabled. */
@@ -107,7 +107,7 @@ interface DisabledReason {
  * The absence of an error which indicates a successful validation result.
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type ValidationSuccess = null | undefined | void;
 /**
@@ -122,7 +122,7 @@ type ValidationSuccess = null | undefined | void;
  * @template E the type of error (defaults to {@link ValidationError}).
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type TreeValidationResult<E extends ValidationError.WithOptionalFieldTree = ValidationError.WithOptionalFieldTree> = ValidationSuccess | OneOrMany<E>;
 /**
@@ -136,7 +136,7 @@ type TreeValidationResult<E extends ValidationError.WithOptionalFieldTree = Vali
  * @template E the type of error (defaults to {@link ValidationError}).
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type ValidationResult<E extends ValidationError = ValidationError> = ValidationSuccess | OneOrMany<E>;
 /**
@@ -149,7 +149,7 @@ type ValidationResult<E extends ValidationError = ValidationError> = ValidationS
  * @template E the type of error (defaults to {@link ValidationError}).
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type AsyncValidationResult<E extends ValidationError = ValidationError> = ValidationResult<E> | 'pending';
 /**
@@ -159,7 +159,7 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  * @template TKey The type of the property key which this field resides under in its parent.
  *
  * @category types
- * @experimental 21.2.0
+ * @experimental 21.2
  */
 type Field<TValue, TKey extends string | number = string | number> = () => FieldState<TValue, TKey>;
 /**
@@ -175,14 +175,14 @@ type Field<TValue, TKey extends string | number = string | number> = () => Field
  *   For readonly, use {@link ReadonlyFieldTree}.
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type FieldTree<TModel, TKey extends string | number = string | number, TMode extends 'writable' | 'readonly' = 'writable'> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey, TMode> : FieldStateByMode<TModel, TKey, TMode>) & ([TModel] extends [AbstractControl] ? object : [TModel] extends [ReadonlyArray<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number, TMode>> : TModel extends Record<string, any> ? Subfields<TModel, TMode> : object);
 /**
  * A readonly {@link FieldTree}.
  *
  * @category types
- * @experimental 21.3.0
+ * @experimental 22.0
  */
 type ReadonlyFieldTree<TModel, TKey extends string | number = string | number> = FieldTree<TModel, TKey, 'readonly'>;
 /**
@@ -191,7 +191,7 @@ type ReadonlyFieldTree<TModel, TKey extends string | number = string | number> =
  * @template TModel The type of the data which the parent field is wrapped around.
  * @template TMode Determines whether the field state is readonly or writable.
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type Subfields<TModel, TMode extends 'writable' | 'readonly' = 'writable'> = {
     readonly [K in keyof TModel as TModel[K] extends Function ? never : K]: MaybeFieldTree<TModel[K], string, TMode>;
@@ -203,7 +203,7 @@ type Subfields<TModel, TMode extends 'writable' | 'readonly' = 'writable'> = {
  *
  * @template T The array item type.
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Symbol.iterator>;
 /**
@@ -217,7 +217,7 @@ type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Sy
  * @template TKey The type of the property key which this field resides under in its parent.
  * @template TMode Determines whether the field state is readonly or writable.
  *
- * @experimental 21.3.0
+ * @experimental 22.0
  */
 type MaybeFieldTree<TModel, TKey extends string | number = string | number, TMode extends 'writable' | 'readonly' = 'writable'> = (TModel & undefined) | FieldTree<Exclude<TModel, undefined>, TKey, TMode>;
 /**
@@ -227,7 +227,7 @@ type MaybeFieldTree<TModel, TKey extends string | number = string | number, TMod
  * @template TKey The type of the property key which this field resides under in its parent.
  *
  * @category structure
- * @experimental 21.3.0
+ * @experimental 22.0
  */
 interface ReadonlyFieldState<TValue, TKey extends string | number = string | number> {
     /**
@@ -387,7 +387,7 @@ interface ReadonlyFieldState<TValue, TKey extends string | number = string | num
  * @template TKey The type of the property key which this field resides under in its parent.
  *
  * @category structure
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 interface FieldState<TValue, TKey extends string | number = string | number> extends ReadonlyFieldState<TValue, TKey> {
     /**
@@ -432,7 +432,7 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
  * This is FieldState also providing access to the wrapped FormControl.
  *
  * @category interop
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type CompatFieldState<TControl extends AbstractControl, TKey extends string | number = string | number, TMode extends 'writable' | 'readonly' = 'writable'> = FieldStateByMode<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, TKey, TMode> & {
     control: Signal<TControl>;
@@ -441,7 +441,7 @@ type CompatFieldState<TControl extends AbstractControl, TKey extends string | nu
  * A readonly {@link CompatFieldState}.
  *
  * @category interop
- * @experimental 21.3.0
+ * @experimental 22.0
  */
 type ReadonlyCompatFieldState<TControl extends AbstractControl, TKey extends string | number = string | number> = CompatFieldState<TControl, TKey, 'readonly'>;
 /**
@@ -456,7 +456,7 @@ type FieldStateByMode<TValue, TKey extends string | number, TMode extends 'writa
 /**
  * Represents a binding between a field and a UI control through a {@link FormField} directive.
  *
- * @experimental 21.3.0
+ * @experimental 22.0
  */
 interface FormFieldBinding {
     /**
@@ -482,7 +482,7 @@ interface FormFieldBinding {
 /**
  * Allows declaring whether the Rules are supported for a given path.
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  **/
 type SchemaPathRules = SchemaPathRules.Supported | SchemaPathRules.Unsupported;
 declare namespace SchemaPathRules {
@@ -504,7 +504,7 @@ declare namespace SchemaPathRules {
  * @template TPathKind The kind of path (root field, child field, or item of an array)
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type SchemaPath<TValue, TSupportsRules extends SchemaPathRules = SchemaPathRules.Supported, TPathKind extends PathKind = PathKind.Root> = {
     [ɵɵTYPE]: {
@@ -517,7 +517,7 @@ type SchemaPath<TValue, TSupportsRules extends SchemaPathRules = SchemaPathRules
  * Schema path used if the value is an AbstractControl.
  *
  * @category interop
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type CompatSchemaPath<TControl extends AbstractControl, TPathKind extends PathKind = PathKind.Root> = SchemaPath<TControl extends AbstractControl<unknown, infer TValue> ? TValue : never, SchemaPathRules.Unsupported, TPathKind> & {
     [ɵɵTYPE]: {
@@ -530,7 +530,7 @@ type CompatSchemaPath<TControl extends AbstractControl, TPathKind extends PathKi
  * It mirrors the structure of a given data structure, and allows applying rules to the appropriate
  * fields.
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = ([TModel] extends [AbstractControl] ? CompatSchemaPath<TModel, TPathKind> : SchemaPath<TModel, SchemaPathRules.Supported, TPathKind>) & (TModel extends AbstractControl ? unknown : TModel extends ReadonlyArray<any> ? unknown : TModel extends Record<string, any> ? {
     [K in keyof TModel]: MaybeSchemaPathTree<TModel[K], PathKind.Child>;
@@ -545,7 +545,7 @@ type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = ([TMod
  * @template TValue The type of the data which the field is wrapped around.
  * @template TPathKind The kind of path (root field, child field, or item of an array)
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type MaybeSchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = (TModel & undefined) | SchemaPathTree<Exclude<TModel, undefined>, TPathKind>;
 /**
@@ -587,7 +587,7 @@ type MaybeSchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = (
  * @template TModel Data type.
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type Schema<in TModel> = {
     [ɵɵTYPE]: SchemaFn<TModel, PathKind.Root>;
@@ -611,7 +611,7 @@ type Schema<in TModel> = {
  * @template TPathKind The kind of path this schema function can be bound to.
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type SchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = (p: SchemaPathTree<TModel, TPathKind>) => void;
 /**
@@ -621,7 +621,7 @@ type SchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = (p: SchemaPa
  * @template TPathKind The kind of path this schema function can be bound to.
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type SchemaOrSchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = Schema<TModel> | SchemaFn<TModel, TPathKind>;
 /**
@@ -633,7 +633,7 @@ type SchemaOrSchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = Sche
  * @template TPathKind The kind of path the logic is applied to (root field, child field, or item of an array)
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx: FieldContext<TValue, TPathKind>) => TReturn;
 /**
@@ -644,7 +644,7 @@ type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  *
  * @category validation
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult<ValidationError.WithoutFieldTree>, TPathKind>;
 /**
@@ -655,7 +655,7 @@ type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicF
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, TreeValidationResult, TPathKind>;
 /**
@@ -667,7 +667,7 @@ type TreeValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  * @see [Signal Form Validation](/guide/forms/signals/validation)
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TValue, ValidationResult, TPathKind>;
 /**
@@ -675,13 +675,13 @@ type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TVa
  * up state of other fields based on a `FieldPath`.
  *
  * @category types
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type FieldContext<TValue, TPathKind extends PathKind = PathKind.Root> = TPathKind extends PathKind.Item ? ItemFieldContext<TValue> : TPathKind extends PathKind.Child ? ChildFieldContext<TValue> : RootFieldContext<TValue>;
 /**
  * The base field context that is available for all fields.
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 interface RootFieldContext<TValue> {
     /** A signal containing the value of the current field. */
@@ -704,7 +704,7 @@ interface RootFieldContext<TValue> {
  * Field context that is available for all fields that are a child of another field.
  *
  * @category structure
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 interface ChildFieldContext<TValue> extends RootFieldContext<TValue> {
     /** The key of the current field in its parent field. */
@@ -713,7 +713,7 @@ interface ChildFieldContext<TValue> extends RootFieldContext<TValue> {
 /**
  * Field context that is available for all fields that are an item in an array field.
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 interface ItemFieldContext<TValue> extends ChildFieldContext<TValue> {
     /** The index of the current field in its parent field. */
@@ -722,7 +722,7 @@ interface ItemFieldContext<TValue> extends ChildFieldContext<TValue> {
 /**
  * Gets the item type of an object that is possibly an array.
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[keyof T];
 /**
@@ -734,7 +734,7 @@ type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[k
  * @template TValue The type of value stored in the field.
  * @template TPathKind The kind of path the debouncer is applied to (root field, child field, or item of an array).
  *
- * @experimental 21.0.0
+ * @experimental 21.0
  */
 type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>, abortSignal: AbortSignal) => Promise<void> | void;
 
