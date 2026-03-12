@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.3+sha-432a3de
+ * @license Angular v22.0.0-next.3+sha-bb628d8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1138,8 +1138,6 @@ interface ValidationErrorOptions {
 type WithFieldTree<T> = T & {
     fieldTree: ReadonlyFieldTree<unknown>;
 };
-/** @deprecated Use `WithFieldTree` instead  */
-type WithField<T> = WithFieldTree<T>;
 /**
  * A type that allows the given type `T` to optionally have a `field` property.
  * @template T The type to optionally add a `field` to.
@@ -1149,8 +1147,6 @@ type WithField<T> = WithFieldTree<T>;
 type WithOptionalFieldTree<T> = Omit<T, 'fieldTree'> & {
     fieldTree?: ReadonlyFieldTree<unknown>;
 };
-/** @deprecated Use `WithOptionalFieldTree` instead  */
-type WithOptionalField<T> = WithOptionalFieldTree<T>;
 /**
  * A type that ensures the given type `T` does not have a `field` property.
  * @template T The type to remove the `field` from.
@@ -1160,8 +1156,6 @@ type WithOptionalField<T> = WithOptionalFieldTree<T>;
 type WithoutFieldTree<T> = T & {
     fieldTree: never;
 };
-/** @deprecated Use `WithoutFieldTree` instead  */
-type WithoutField<T> = WithoutFieldTree<T>;
 /**
  * Create a required error associated with the target field
  * @param options The validation error options
@@ -1762,4 +1756,4 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: NoInfer<FormSub
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
 export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldStateByMode, FieldTree, FieldValidator, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithOptionalFieldTree, WithoutField, WithoutFieldTree };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldStateByMode, FieldTree, FieldValidator, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithOptionalFieldTree, WithoutFieldTree };
