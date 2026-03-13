@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.0.0-next.3+sha-412788f
+ * @license Angular v22.0.0-next.3+sha-e127927
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { Signal, WritableSignal, Injector, InjectionToken, Provider } from '@angular/core';
+import { Signal, Injector, WritableSignal, InjectionToken, Provider } from '@angular/core';
 import { AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 

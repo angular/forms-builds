@@ -1,15 +1,15 @@
 /**
- * @license Angular v22.0.0-next.3+sha-412788f
+ * @license Angular v22.0.0-next.3+sha-e127927
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, ɵisPromise as _isPromise, resource, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, computed, Renderer2, DestroyRef, Injector, ElementRef, signal, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
+import { InjectionToken, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, computed, Renderer2, DestroyRef, Injector, ElementRef, signal, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
+import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
 import { httpResource } from '@angular/common/http';
-import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import '@angular/core/primitives/signals';
 
 const SIGNAL_FORMS_CONFIG = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'SIGNAL_FORMS_CONFIG' : '');
@@ -1051,7 +1051,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.3+sha-412788f",
+    version: "22.0.0-next.3+sha-e127927",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1059,7 +1059,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.3+sha-412788f",
+    version: "22.0.0-next.3+sha-e127927",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1091,7 +1091,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.3+sha-412788f",
+  version: "22.0.0-next.3+sha-e127927",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1136,7 +1136,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.3+sha-412788f",
+    version: "22.0.0-next.3+sha-e127927",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1144,7 +1144,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.3+sha-412788f",
+    version: "22.0.0-next.3+sha-e127927",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1170,7 +1170,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.3+sha-412788f",
+  version: "22.0.0-next.3+sha-e127927",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
