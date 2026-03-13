@@ -1,11 +1,11 @@
 /**
- * @license Angular v21.2.4+sha-334ae10
+ * @license Angular v21.2.4+sha-21cab20
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, Renderer2, ElementRef, OnDestroy, OnChanges, SimpleChanges, OnInit, Injector, EventEmitter, ChangeDetectorRef, AfterViewInit, Version, ModuleWithProviders } from '@angular/core';
+import { Renderer2, ElementRef, InjectionToken, OnDestroy, OnChanges, SimpleChanges, OnInit, Injector, EventEmitter, ChangeDetectorRef, AfterViewInit, Version, ModuleWithProviders } from '@angular/core';
 import { Observable } from 'rxjs';
 
 /**
