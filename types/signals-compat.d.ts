@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.3+sha-470cf43
+ * @license Angular v22.0.0-next.3+sha-a94958b
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -111,6 +111,64 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptio
  * @experimental 21.0.0
  */
 declare function compatForm<TModel>(model: WritableSignal<TModel>, schema: SchemaOrSchemaFn<TModel>, options: CompatFormOptions<TModel>): FieldTree<TModel>;
+
+/**
+ * Type utility that recursively unwraps the value type of a `FieldTree`.
+ *
+ * If the value type contains `AbstractControl` instances (common in compat mode),
+ * they are replaced with their underlying value types.
+ */
+type RawValue<T> = T extends AbstractControl<infer TValue, any> ? TValue : T extends (infer U)[] ? RawValue<U>[] : T extends object ? {
+    [K in keyof T]: RawValue<T[K]>;
+} : T;
+/**
+ * A type that recursively makes all properties of T optional.
+ * Used for the result of `extractValue` when filtering is applied.
+ * @experimental 21.2.0
+ */
+type DeepPartial<T> = (T extends (infer U)[] ? DeepPartial<U>[] : T extends object ? {
+    [K in keyof T]?: DeepPartial<T[K]>;
+} : T) | undefined;
+/**
+ * Criteria that determine whether a field should be included in the extraction.
+ *
+ * Each property is optional; when provided, the field must match the specified state.
+ *
+ * @category interop
+ * @experimental 21.2.0
+ */
+interface ExtractFilter {
+    readonly dirty?: boolean;
+    readonly touched?: boolean;
+    readonly enabled?: boolean;
+}
+/**
+ * Utility to unwrap a {@link FieldTree} into its underlying raw value.
+ *
+ * This function is recursive, so if the field tree represents an object or an array,
+ * the result will be an object or an array of the raw values of its children.
+ *
+ * @param field The field tree to extract the value from.
+ * @returns The raw value of the field tree.
+ *
+ * @category interop
+ * @experimental 21.2.0
+ */
+declare function extractValue<T>(field: FieldTree<T>): RawValue<T>;
+/**
+ * Utility to unwrap a {@link FieldTree} into its underlying raw value.
+ *
+ * This function is recursive, so if the field tree represents an object or an array,
+ * the result will be an object or an array of the raw values of its children.
+ *
+ * @param field The field tree to extract the value from.
+ * @param filter Criteria to include only fields matching certain state (dirty, touched, enabled).
+ * @returns A partial value containing only the fields matching the filter, or `undefined` if none match.
+ *
+ * @category interop
+ * @experimental 21.2.0
+ */
+declare function extractValue<T>(field: FieldTree<T>, filter: ExtractFilter): DeepPartial<RawValue<T>>;
 
 /**
  * An error used for compat errors.
@@ -262,5 +320,5 @@ declare class SignalFormControl<T> extends AbstractControl {
     }): void;
 }
 
-export { CompatValidationError, NG_STATUS_CLASSES, SignalFormControl, compatForm };
+export { CompatValidationError, NG_STATUS_CLASSES, SignalFormControl, compatForm, extractValue };
 export type { CompatFormOptions };
