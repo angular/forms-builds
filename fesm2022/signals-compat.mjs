@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.3+sha-a94958b
+ * @license Angular v22.0.0-next.3+sha-eeba51c
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -154,10 +154,8 @@ class CompatStructure extends FieldNodeStructure {
 const EMPTY_ARRAY_SIGNAL = computed(() => [], ...(ngDevMode ? [{
   debugName: "EMPTY_ARRAY_SIGNAL"
 }] : []));
-const TRUE_SIGNAL = computed(() => true, ...(ngDevMode ? [{
-  debugName: "TRUE_SIGNAL"
-}] : []));
 class CompatValidationState {
+  node;
   syncValid;
   errors;
   pending;
@@ -166,7 +164,8 @@ class CompatValidationState {
   parseErrors = computed(() => [], ...(ngDevMode ? [{
     debugName: "parseErrors"
   }] : []));
-  constructor(options) {
+  constructor(node, options) {
+    this.node = node;
     this.syncValid = getControlStatusSignal(options, c => c.status === 'VALID');
     this.errors = getControlStatusSignal(options, extractNestedReactiveErrors);
     this.pending = getControlStatusSignal(options, c => c.pending);
@@ -182,7 +181,9 @@ class CompatValidationState {
   rawSyncTreeErrors = EMPTY_ARRAY_SIGNAL;
   syncErrors = EMPTY_ARRAY_SIGNAL;
   rawAsyncErrors = EMPTY_ARRAY_SIGNAL;
-  shouldSkipValidation = TRUE_SIGNAL;
+  shouldSkipValidation = computed(() => this.node.hidden() || this.node.disabled() || this.node.readonly(), ...(ngDevMode ? [{
+    debugName: "shouldSkipValidation"
+  }] : []));
   status = computed(() => {
     return calculateValidationSelfStatus(this);
   }, ...(ngDevMode ? [{
@@ -221,7 +222,7 @@ class CompatFieldAdapter {
     if (!options.control) {
       return this.basicAdapter.createValidationState(node);
     }
-    return new CompatValidationState(options);
+    return new CompatValidationState(node, options);
   }
   newChild(options) {
     const value = options.parent.value()[options.initialKeyInParent];

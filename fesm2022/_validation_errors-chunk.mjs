@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.3+sha-a94958b
+ * @license Angular v22.0.0-next.3+sha-eeba51c
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1302,11 +1302,23 @@ class FieldNode {
   hasMetadata(key) {
     return this.metadataState.has(key);
   }
-  markAsTouched() {
+  markAsTouched(options) {
     untracked(() => {
-      this.nodeState.markAsTouched();
+      this.markAsTouchedInternal(options);
       this.flushSync();
     });
+  }
+  markAsTouchedInternal(options) {
+    if (this.validationState.shouldSkipValidation()) {
+      return;
+    }
+    this.nodeState.markAsTouched();
+    if (options?.skipDescendants) {
+      return;
+    }
+    for (const child of this.structure.children()) {
+      child.markAsTouchedInternal();
+    }
   }
   markAsDirty() {
     this.nodeState.markAsDirty();
@@ -1617,19 +1629,11 @@ async function submit(form, options) {
   if (!action) {
     throw new _RuntimeError(1915, (typeof ngDevMode === 'undefined' || ngDevMode) && 'Cannot submit form with no submit action. Specify the action when creating the form, or as an additional argument to `submit()`.');
   }
+  node.markAsTouched();
   const onInvalid = options?.onInvalid;
-  const ignoreValidators = options?.ignoreValidators ?? 'pending';
-  let shouldRunAction = true;
-  untracked(() => {
-    markAllAsTouched(node);
-    if (ignoreValidators === 'none') {
-      shouldRunAction = node.valid();
-    } else if (ignoreValidators === 'pending') {
-      shouldRunAction = !node.invalid();
-    }
-  });
+  const shouldRun = shouldRunAction(node, options?.ignoreValidators);
   try {
-    if (shouldRunAction) {
+    if (shouldRun) {
       node.submitState.selfSubmitting.set(true);
       const errors = await untracked(() => action?.(field, detail));
       errors && setSubmissionErrors(node, errors);
@@ -1645,13 +1649,14 @@ async function submit(form, options) {
 function schema(fn) {
   return SchemaImpl.create(fn);
 }
-function markAllAsTouched(node) {
-  if (node.validationState.shouldSkipValidation()) {
-    return;
-  }
-  node.markAsTouched();
-  for (const child of node.structure.children()) {
-    markAllAsTouched(child);
+function shouldRunAction(node, ignoreValidators) {
+  switch (ignoreValidators) {
+    case 'all':
+      return true;
+    case 'none':
+      return untracked(node.valid);
+    default:
+      return !untracked(node.invalid);
   }
 }
 function setSubmissionErrors(submittedField, errors) {

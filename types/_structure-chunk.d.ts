@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.3+sha-a94958b
+ * @license Angular v22.0.0-next.3+sha-eeba51c
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -52,6 +52,18 @@ interface FormSubmitOptions<TRootModel, TSubmittedModel> {
      * - 'ignore': Will always submit regardless of invalid or pending validators
      */
     ignoreValidators?: 'pending' | 'none' | 'all';
+}
+/**
+ * Options for the `markAsTouched` method.
+ *
+ * @experimental 21.2.0
+ */
+interface MarkAsTouchedOptions {
+    /**
+     * If `true`, only marks the current field as touched.
+     * If `false` or not provided, marks the field and all its descendants as touched.
+     */
+    skipDescendants?: boolean;
 }
 /**
  * A type that represents either a single value of type `T` or a readonly array of `T`.
@@ -416,9 +428,11 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      */
     markAsDirty(): void;
     /**
-     * Sets the touched status of the field to `true`.
+     * Sets the touched status of the field and its descendants to `true`.
+     *
+     * @param options Options for marking the field as touched.
      */
-    markAsTouched(): void;
+    markAsTouched(options?: MarkAsTouchedOptions): void;
     /**
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
      *
@@ -1756,4 +1770,4 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: NoInfer<FormSub
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
 export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
-export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldStateByMode, FieldTree, FieldValidator, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithOptionalFieldTree, WithoutFieldTree };
+export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldStateByMode, FieldTree, FieldValidator, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MarkAsTouchedOptions, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithOptionalFieldTree, WithoutFieldTree };
