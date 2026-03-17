@@ -1,12 +1,12 @@
 /**
- * @license Angular v22.0.0-next.3+sha-eeba51c
+ * @license Angular v22.0.0-next.3+sha-9769560
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
 import { InjectionToken, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, computed, Renderer2, DestroyRef, Injector, ElementRef, signal, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
-import { Validators, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { ɵFORM_FIELD_PARSE_ERRORS as _FORM_FIELD_PARSE_ERRORS, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, ɵisNativeFormElement as _isNativeFormElement, ɵisNumericFormElement as _isNumericFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
 import { httpResource } from '@angular/common/http';
@@ -498,8 +498,6 @@ function debounceUntilBlur() {
 }
 function immediate() {}
 
-const FORM_FIELD_PARSE_ERRORS = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FORM_FIELD_PARSE_ERRORS' : '');
-
 function createParser(getValue, setValue, parse) {
   const errors = linkedSignal({
     ...(ngDevMode ? {
@@ -528,7 +526,7 @@ function transformedValue(value, options) {
     format
   } = options;
   const parser = createParser(value, value.set, parse);
-  const formFieldParseErrors = inject(FORM_FIELD_PARSE_ERRORS, {
+  const formFieldParseErrors = inject(_FORM_FIELD_PARSE_ERRORS, {
     self: true,
     optional: true
   });
@@ -656,19 +654,6 @@ function bindingUpdated(bindings, key, value) {
   return false;
 }
 
-function isNativeFormElement(element) {
-  return element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA';
-}
-function isNumericFormElement(element) {
-  if (element.tagName !== 'INPUT') {
-    return false;
-  }
-  const type = element.type;
-  return type === 'date' || type === 'datetime-local' || type === 'month' || type === 'number' || type === 'range' || type === 'time' || type === 'week';
-}
-function isTextualFormElement(element) {
-  return element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
-}
 function getNativeControlValue(element, currentValue) {
   let modelValue;
   if (element.validity.badInput) {
@@ -751,32 +736,6 @@ function setNativeNumberControlValue(element, value) {
     element.valueAsNumber = value;
   }
 }
-function setNativeDomProperty(renderer, element, name, value) {
-  switch (name) {
-    case 'name':
-      renderer.setAttribute(element, name, value);
-      break;
-    case 'disabled':
-    case 'readonly':
-    case 'required':
-      if (value) {
-        renderer.setAttribute(element, name, '');
-      } else {
-        renderer.removeAttribute(element, name);
-      }
-      break;
-    case 'max':
-    case 'min':
-    case 'minLength':
-    case 'maxLength':
-      if (value !== undefined) {
-        renderer.setAttribute(element, name, value.toString());
-      } else {
-        renderer.removeAttribute(element, name);
-      }
-      break;
-  }
-}
 
 function customControlCreate(host, parent) {
   host.listenToCustomControlModel(value => parent.state().controlValue.set(value));
@@ -799,7 +758,7 @@ function customControlCreate(host, parent) {
       if (bindingUpdated(bindings, name, value)) {
         host.setInputOnDirectives(name, value);
         if (parent.elementAcceptsNativeProperty(name) && !host.customControlHasInput(name)) {
-          setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
+          _setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
         }
       }
     }
@@ -824,7 +783,7 @@ function cvaControlCreate(host, parent) {
         if (name === 'disabled' && parent.controlValueAccessor.setDisabledState) {
           untracked(() => parent.controlValueAccessor.setDisabledState(value));
         } else if (!propertyWasSet && parent.elementAcceptsNativeProperty(name)) {
-          setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
+          _setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
         }
       }
     }
@@ -900,7 +859,7 @@ function nativeControlCreate(host, parent, parseErrorsSource) {
       if (bindingUpdated(bindings, name, value)) {
         host.setInputOnDirectives(name, value);
         if (parent.elementAcceptsNativeProperty(name)) {
-          setNativeDomProperty(parent.renderer, input, name, value);
+          _setNativeDomProperty(parent.renderer, input, name, value);
         }
       }
     }
@@ -924,9 +883,9 @@ class FormField {
   destroyRef = inject(DestroyRef);
   injector = inject(Injector);
   element = inject(ElementRef).nativeElement;
-  elementIsNativeFormElement = isNativeFormElement(this.element);
-  elementAcceptsNumericValues = isNumericFormElement(this.element);
-  elementAcceptsTextualValues = isTextualFormElement(this.element);
+  elementIsNativeFormElement = _isNativeFormElement(this.element);
+  elementAcceptsNumericValues = _isNumericFormElement(this.element);
+  elementAcceptsTextualValues = _isTextualFormElement(this.element);
   nativeFormElement = this.elementIsNativeFormElement ? this.element : undefined;
   focuser = options => this.element.focus(options);
   controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
@@ -1051,7 +1010,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.3+sha-eeba51c",
+    version: "22.0.0-next.3+sha-9769560",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1059,7 +1018,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.3+sha-eeba51c",
+    version: "22.0.0-next.3+sha-9769560",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1079,7 +1038,7 @@ class FormField {
       provide: NgControl,
       useFactory: () => inject(FormField).interopNgControl
     }, {
-      provide: FORM_FIELD_PARSE_ERRORS,
+      provide: _FORM_FIELD_PARSE_ERRORS,
       useFactory: () => inject(FormField).parseErrorsSource
     }],
     exportAs: ["formField"],
@@ -1091,7 +1050,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.3+sha-eeba51c",
+  version: "22.0.0-next.3+sha-9769560",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1106,7 +1065,7 @@ i0.ɵɵngDeclareClassMetadata({
         provide: NgControl,
         useFactory: () => inject(FormField).interopNgControl
       }, {
-        provide: FORM_FIELD_PARSE_ERRORS,
+        provide: _FORM_FIELD_PARSE_ERRORS,
         useFactory: () => inject(FormField).parseErrorsSource
       }]
     }]
@@ -1136,7 +1095,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.3+sha-eeba51c",
+    version: "22.0.0-next.3+sha-9769560",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1144,7 +1103,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.3+sha-eeba51c",
+    version: "22.0.0-next.3+sha-9769560",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1170,7 +1129,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.3+sha-eeba51c",
+  version: "22.0.0-next.3+sha-9769560",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
