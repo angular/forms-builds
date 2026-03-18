@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.3+sha-1eaf920
+ * @license Angular v22.0.0-next.3+sha-730684b
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -732,6 +732,8 @@ class FieldNodeContext {
   cache = new WeakMap();
   constructor(node) {
     this.node = node;
+    this.fieldTreeOf = this.fieldTreeOf.bind(this);
+    this.stateOf = this.stateOf.bind(this);
   }
   resolve(target) {
     if (!this.cache.has(target)) {
@@ -784,8 +786,12 @@ class FieldNodeContext {
   }, ...(ngDevMode ? [{
     debugName: "index"
   }] : []));
-  fieldTreeOf = p => this.resolve(p);
-  stateOf = p => this.resolve(p)();
+  fieldTreeOf(p) {
+    return this.resolve(p);
+  }
+  stateOf(p) {
+    return this.resolve(p)();
+  }
   valueOf = p => {
     const result = this.resolve(p)().value();
     if (result instanceof AbstractControl) {

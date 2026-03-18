@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.3+sha-1eaf920
+ * @license Angular v22.0.0-next.3+sha-730684b
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -189,7 +189,7 @@ type Field<TValue, TKey extends string | number = string | number> = () => Field
  * @category types
  * @experimental 21.0
  */
-type FieldTree<TModel, TKey extends string | number = string | number, TMode extends 'writable' | 'readonly' = 'writable'> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey, TMode> : FieldStateByMode<TModel, TKey, TMode>) & ([TModel] extends [AbstractControl] ? object : [TModel] extends [ReadonlyArray<infer U>] ? ReadonlyArrayLike<MaybeFieldTree<U, number, TMode>> : TModel extends Record<string, any> ? Subfields<TModel, TMode> : object);
+type FieldTree<TModel, TKey extends string | number = string | number, TMode extends 'writable' | 'readonly' = 'writable'> = (() => [TModel] extends [AbstractControl] ? CompatFieldState<TModel, TKey, TMode> : FieldStateByMode<TModel, TKey, TMode>) & (TModel extends AbstractControl ? object : TModel extends ReadonlyArray<infer U> ? ReadonlyArrayLike<MaybeFieldTree<U, number, TMode>> : TModel extends Record<string, any> ? Subfields<TModel, TMode> : object);
 /**
  * A readonly {@link FieldTree}.
  *
@@ -217,7 +217,11 @@ type Subfields<TModel, TMode extends 'writable' | 'readonly' = 'writable'> = {
  *
  * @experimental 21.0
  */
-type ReadonlyArrayLike<T> = Pick<ReadonlyArray<T>, number | 'length' | typeof Symbol.iterator>;
+interface ReadonlyArrayLike<T> {
+    readonly [n: number]: T;
+    readonly length: number;
+    [Symbol.iterator](): IterableIterator<T>;
+}
 /**
  * Helper type for defining `FieldTree`. Given a type `TValue` that may include `undefined`,
  * it extracts the `undefined` outside the `FieldTree` type.
@@ -546,7 +550,9 @@ type CompatSchemaPath<TControl extends AbstractControl, TPathKind extends PathKi
  *
  * @experimental 21.0
  */
-type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = ([TModel] extends [AbstractControl] ? CompatSchemaPath<TModel, TPathKind> : SchemaPath<TModel, SchemaPathRules.Supported, TPathKind>) & (TModel extends AbstractControl ? unknown : TModel extends ReadonlyArray<any> ? unknown : TModel extends Record<string, any> ? {
+type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = ([TModel] extends [AbstractControl] ? CompatSchemaPath<TModel, TPathKind> : SchemaPath<TModel, SchemaPathRules.Supported, TPathKind>) & ([TModel] extends [AbstractControl] ? unknown : [
+    TModel
+] extends [ReadonlyArray<any>] ? unknown : TModel extends Record<string, any> ? {
     [K in keyof TModel]: MaybeSchemaPathTree<TModel[K], PathKind.Child>;
 } : unknown);
 /**
@@ -707,10 +713,10 @@ interface RootFieldContext<TValue> {
     /** Gets the value of the field represented by the given path. */
     valueOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): PValue;
     /** Gets the state of the field represented by the given path. */
-    stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): ReadonlyCompatFieldState<PControl>;
-    stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): ReadonlyFieldState<PValue>;
+    stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): [PControl] extends [any] ? ReadonlyCompatFieldState<PControl> : never;
+    stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): [PValue] extends [any] ? ReadonlyFieldState<PValue> : never;
     /** Gets the field represented by the given path. */
-    fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): ReadonlyFieldTree<PModel>;
+    fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): [PModel] extends [any] ? ReadonlyFieldTree<PModel> : never;
     /** The list of keys that lead from the root field to the current field. */
     readonly pathKeys: Signal<readonly string[]>;
 }
