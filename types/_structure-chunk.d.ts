@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-c9e6263
+ * @license Angular v22.0.0-next.4+sha-41b1410
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -445,6 +445,10 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      * @param value Optional value to set to the form. If not passed, the value will not be changed.
      */
     reset(value?: TValue): void;
+    /**
+     * Reloads all asynchronous validators for this field and its descendants.
+     */
+    reloadValidation(): void;
 }
 /**
  * This is FieldState also providing access to the wrapped FormControl.
@@ -805,6 +809,13 @@ declare const MetadataReducer: {
 };
 declare function override<T>(): MetadataReducer<T | undefined, T>;
 declare function override<T>(getInitial: () => T): MetadataReducer<T, T>;
+/**
+ * A symbol used to tag a `MetadataKey` as representing an asynchronous validation resource.
+ *
+ * @category validation
+ * @experimental 21.0.0
+ */
+declare const IS_ASYNC_VALIDATION_RESOURCE: unique symbol;
 /**
  * Represents metadata that is aggregated from multiple parts according to the key's reducer
  * function. A value can be contributed to the aggregated value for a field using an
@@ -1775,5 +1786,5 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: NoInfer<FormSub
  */
 declare function schema<TValue>(fn: SchemaFn<TValue>): Schema<TValue>;
 
-export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MetadataKey, MetadataReducer, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PathKind, PatternValidationError, REQUIRED, RequiredValidationError, SchemaPathRules, StandardSchemaValidationError, ValidationError, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective };
 export type { AsyncValidationResult, ChildFieldContext, CompatFieldState, CompatSchemaPath, Debouncer, DisabledReason, Field, FieldContext, FieldState, FieldStateByMode, FieldTree, FieldValidator, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, LogicFn, MarkAsTouchedOptions, MaybeFieldTree, MaybeSchemaPathTree, MetadataSetterType, OneOrMany, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPath, SchemaPathTree, SignalFormsConfig, Subfields, TreeValidationResult, TreeValidator, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithOptionalFieldTree, WithoutFieldTree };

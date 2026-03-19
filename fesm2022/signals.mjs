@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-c9e6263
+ * @license Angular v22.0.0-next.4+sha-41b1410
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import * as i0 from '@angular/core';
 import { InjectionToken, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, computed, Renderer2, DestroyRef, Injector, ElementRef, signal, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
 import { ɵFORM_FIELD_PARSE_ERRORS as _FORM_FIELD_PARSE_ERRORS, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, ɵisNativeFormElement as _isNativeFormElement, ɵisNumericFormElement as _isNumericFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
-import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
+import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, IS_ASYNC_VALIDATION_RESOURCE, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
 import { httpResource } from '@angular/common/http';
 import '@angular/core/primitives/signals';
@@ -345,6 +345,7 @@ function validateAsync(path, opts) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
   const RESOURCE = createManagedMetadataKey(opts.factory);
+  RESOURCE[IS_ASYNC_VALIDATION_RESOURCE] = true;
   metadata(path, RESOURCE, ctx => {
     const node = ctx.stateOf(path);
     const validationState = node.validationState;
@@ -692,6 +693,25 @@ function getNativeControlValue(element, currentValue) {
       }
       break;
   }
+  if (element.tagName === 'INPUT' && element.type === 'text') {
+    modelValue ??= untracked(currentValue);
+    if (typeof modelValue === 'number' || modelValue === null) {
+      if (element.value === '') {
+        return {
+          value: null
+        };
+      }
+      const parsed = Number(element.value);
+      if (Number.isNaN(parsed)) {
+        return {
+          error: new NativeInputParseError()
+        };
+      }
+      return {
+        value: parsed
+      };
+    }
+  }
   return {
     value: element.value
   };
@@ -726,6 +746,16 @@ function setNativeControlValue(element, value) {
         setNativeNumberControlValue(element, value);
         return;
       }
+  }
+  if (element.tagName === 'INPUT' && element.type === 'text') {
+    if (typeof value === 'number') {
+      element.value = isNaN(value) ? '' : String(value);
+      return;
+    }
+    if (value === null) {
+      element.value = '';
+      return;
+    }
   }
   element.value = value;
 }
@@ -1010,7 +1040,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.4+sha-c9e6263",
+    version: "22.0.0-next.4+sha-41b1410",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1018,7 +1048,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.4+sha-c9e6263",
+    version: "22.0.0-next.4+sha-41b1410",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1050,7 +1080,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.4+sha-c9e6263",
+  version: "22.0.0-next.4+sha-41b1410",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1095,7 +1125,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.4+sha-c9e6263",
+    version: "22.0.0-next.4+sha-41b1410",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1103,7 +1133,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.4+sha-c9e6263",
+    version: "22.0.0-next.4+sha-41b1410",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1129,7 +1159,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.4+sha-c9e6263",
+  version: "22.0.0-next.4+sha-41b1410",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
@@ -1154,5 +1184,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
 //# sourceMappingURL=signals.mjs.map

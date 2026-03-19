@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-c9e6263
+ * @license Angular v22.0.0-next.4+sha-41b1410
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -568,10 +568,12 @@ function override(getInitial) {
     getInitial: () => getInitial?.()
   };
 }
+const IS_ASYNC_VALIDATION_RESOURCE = Symbol('IS_ASYNC_VALIDATION_RESOURCE');
 class MetadataKey {
   reducer;
   create;
   brand;
+  [IS_ASYNC_VALIDATION_RESOURCE];
   constructor(reducer, create) {
     this.reducer = reducer;
     this.create = create;
@@ -1348,6 +1350,21 @@ class FieldNode {
       child._reset();
     }
   }
+  reloadValidation() {
+    untracked(() => this._reloadValidation());
+  }
+  _reloadValidation() {
+    const keys = this.logicNode.logic.getMetadataKeys();
+    for (const key of keys) {
+      if (key[IS_ASYNC_VALIDATION_RESOURCE]) {
+        const resource = this.metadata(key);
+        resource.reload?.();
+      }
+    }
+    for (const child of this.structure.children()) {
+      child._reloadValidation();
+    }
+  }
   controlValueSignal() {
     const controlValue = linkedSignal(this.value, ...(ngDevMode ? [{
       debugName: "controlValue"
@@ -1736,5 +1753,5 @@ function extractNestedReactiveErrors(control) {
   return errors;
 }
 
-export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, schema, signalErrorsToValidationErrors, submit };
+export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, schema, signalErrorsToValidationErrors, submit };
 //# sourceMappingURL=_validation_errors-chunk.mjs.map
