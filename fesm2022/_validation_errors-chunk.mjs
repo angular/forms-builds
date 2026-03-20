@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-50e599e
+ * @license Angular v22.0.0-next.4+sha-621c908
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -57,6 +57,9 @@ class AbstractLogic {
   mergeIn(other) {
     const fns = this.predicates ? other.fns.map(fn => wrapWithPredicates(this.predicates, fn)) : other.fns;
     this.fns.push(...fns);
+  }
+  hasRules() {
+    return this.fns.length > 0;
   }
 }
 class BooleanOrLogic extends AbstractLogic {
@@ -162,6 +165,9 @@ class LogicContainer {
     this.syncTreeErrors = ArrayMergeIgnoreLogic.ignoreNull(predicates);
     this.asyncErrors = ArrayMergeIgnoreLogic.ignoreNull(predicates);
   }
+  hasAnyLogic() {
+    return this.hidden.hasRules() || this.disabledReasons.hasRules() || this.readonly.hasRules() || this.syncErrors.hasRules() || this.syncTreeErrors.hasRules() || this.asyncErrors.hasRules() || this.metadata.size > 0;
+  }
   hasMetadata(key) {
     return this.metadata.has(key);
   }
@@ -241,6 +247,14 @@ class LogicNodeBuilder extends AbstractLogicNodeBuilder {
       builder: subBuilder
     }) => subBuilder.hasLogic(builder));
   }
+  hasRules() {
+    return this.all.length > 0;
+  }
+  anyChildHasLogic() {
+    return this.all.some(({
+      builder
+    }) => builder.anyChildHasLogic());
+  }
   mergeIn(other, predicate) {
     if (predicate) {
       this.all.push({
@@ -306,6 +320,17 @@ class NonMergeableLogicNodeBuilder extends AbstractLogicNodeBuilder {
   hasLogic(builder) {
     return this === builder;
   }
+  hasRules() {
+    return this.logic.hasAnyLogic() || this.children.size > 0;
+  }
+  anyChildHasLogic() {
+    for (const child of this.children.values()) {
+      if (child.hasRules()) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 class LeafLogicNode {
   builder;
@@ -337,7 +362,16 @@ class LeafLogicNode {
     }
   }
   hasLogic(builder) {
-    return this.builder?.hasLogic(builder) ?? false;
+    if (!this.builder) {
+      return false;
+    }
+    return this.builder.hasLogic(builder);
+  }
+  hasRules() {
+    return this.builder ? this.builder.hasRules() : false;
+  }
+  anyChildHasLogic() {
+    return this.builder ? this.builder.anyChildHasLogic() : false;
   }
 }
 class CompositeLogicNode {
@@ -355,6 +389,12 @@ class CompositeLogicNode {
   }
   hasLogic(builder) {
     return this.all.some(node => node.hasLogic(builder));
+  }
+  hasRules() {
+    return this.all.some(node => node.hasRules());
+  }
+  anyChildHasLogic() {
+    return this.all.some(child => child.anyChildHasLogic());
   }
 }
 function getAllChildBuilders(builder, key) {
@@ -908,6 +948,7 @@ class FieldNodeStructure {
   createChildNode;
   identitySymbol = Symbol();
   _injector = undefined;
+  _anyChildHasLogic;
   get injector() {
     this._injector ??= Injector.create({
       providers: [],
@@ -921,13 +962,26 @@ class FieldNodeStructure {
     this.createChildNode = createChildNode;
   }
   children() {
+    this.ensureChildrenMap();
     const map = this.childrenMap();
     if (map === undefined) {
       return [];
     }
     return Array.from(map.byPropertyKey.values()).map(child => untracked(child.reader));
   }
+  _areChildrenMaterialized() {
+    return untracked(this.childrenMap) !== undefined;
+  }
+  ensureChildrenMap() {
+    if (this._areChildrenMaterialized()) {
+      return;
+    }
+    untracked(() => {
+      this.childrenMap.update(current => this.computeChildrenMap(this.value(), current, true));
+    });
+  }
   getChild(key) {
+    this.ensureChildrenMap();
     const strKey = key.toString();
     let reader = untracked(this.childrenMap)?.byPropertyKey.get(strKey)?.reader;
     if (!reader) {
@@ -988,67 +1042,73 @@ class FieldNodeStructure {
   createChildrenMap() {
     return linkedSignal({
       source: this.value,
-      computation: (value, previous) => {
-        if (!isObject(value)) {
-          return undefined;
-        }
-        const prevData = previous?.value ?? {
-          byPropertyKey: new Map()
-        };
-        let data;
-        const parentIsArray = isArray(value);
-        if (prevData !== undefined) {
-          if (parentIsArray) {
-            data = maybeRemoveStaleArrayFields(prevData, value, this.identitySymbol);
-          } else {
-            data = maybeRemoveStaleObjectFields(prevData, value);
-          }
-        }
-        for (const key of Object.keys(value)) {
-          let trackingKey = undefined;
-          const childValue = value[key];
-          if (childValue === undefined) {
-            if (prevData.byPropertyKey.has(key)) {
-              data ??= {
-                ...prevData
-              };
-              data.byPropertyKey.delete(key);
-            }
-            continue;
-          }
-          if (parentIsArray && isObject(childValue) && !isArray(childValue)) {
-            trackingKey = childValue[this.identitySymbol] ??= Symbol(ngDevMode ? `id:${globalId++}` : '');
-          }
-          let childNode;
-          if (trackingKey) {
-            if (!prevData.byTrackingKey?.has(trackingKey)) {
-              data ??= {
-                ...prevData
-              };
-              data.byTrackingKey ??= new Map();
-              data.byTrackingKey.set(trackingKey, this.createChildNode(key, trackingKey, parentIsArray));
-            }
-            childNode = (data ?? prevData).byTrackingKey.get(trackingKey);
-          }
-          const child = prevData.byPropertyKey.get(key);
-          if (child === undefined) {
-            data ??= {
-              ...prevData
-            };
-            data.byPropertyKey.set(key, {
-              reader: this.createReader(key),
-              node: childNode ?? this.createChildNode(key, trackingKey, parentIsArray)
-            });
-          } else if (childNode && childNode !== child.node) {
-            data ??= {
-              ...prevData
-            };
-            child.node = childNode;
-          }
-        }
-        return data ?? prevData;
-      }
+      computation: (value, previous) => this.computeChildrenMap(value, previous?.value, false)
     });
+  }
+  computeChildrenMap(value, prevData, forceMaterialize) {
+    if (!isObject(value)) {
+      return undefined;
+    }
+    if (!forceMaterialize && prevData === undefined) {
+      if (!(this._anyChildHasLogic ??= this.logic.anyChildHasLogic())) {
+        return undefined;
+      }
+    }
+    prevData ??= {
+      byPropertyKey: new Map()
+    };
+    let materializedChildren;
+    const parentIsArray = isArray(value);
+    if (prevData !== undefined) {
+      if (parentIsArray) {
+        materializedChildren = maybeRemoveStaleArrayFields(prevData, value, this.identitySymbol);
+      } else {
+        materializedChildren = maybeRemoveStaleObjectFields(prevData, value);
+      }
+    }
+    for (const key of Object.keys(value)) {
+      let trackingKey = undefined;
+      const childValue = value[key];
+      if (childValue === undefined) {
+        if (prevData.byPropertyKey.has(key)) {
+          materializedChildren ??= {
+            ...prevData
+          };
+          materializedChildren.byPropertyKey.delete(key);
+        }
+        continue;
+      }
+      if (parentIsArray && isObject(childValue) && !isArray(childValue)) {
+        trackingKey = childValue[this.identitySymbol] ??= Symbol(ngDevMode ? `id:${globalId++}` : '');
+      }
+      let childNode;
+      if (trackingKey) {
+        if (!prevData.byTrackingKey?.has(trackingKey)) {
+          materializedChildren ??= {
+            ...prevData
+          };
+          materializedChildren.byTrackingKey ??= new Map();
+          materializedChildren.byTrackingKey.set(trackingKey, this.createChildNode(key, trackingKey, parentIsArray));
+        }
+        childNode = (materializedChildren ?? prevData).byTrackingKey.get(trackingKey);
+      }
+      const child = prevData.byPropertyKey.get(key);
+      if (child === undefined) {
+        materializedChildren ??= {
+          ...prevData
+        };
+        materializedChildren.byPropertyKey.set(key, {
+          reader: this.createReader(key),
+          node: childNode ?? this.createChildNode(key, trackingKey, parentIsArray)
+        });
+      } else if (childNode && childNode !== child.node) {
+        materializedChildren ??= {
+          ...prevData
+        };
+        child.node = childNode;
+      }
+    }
+    return materializedChildren ?? prevData;
   }
   createReader(key) {
     return computed(() => this.childrenMap()?.byPropertyKey.get(key)?.node);

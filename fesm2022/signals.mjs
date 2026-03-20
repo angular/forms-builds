@@ -1,14 +1,15 @@
 /**
- * @license Angular v22.0.0-next.4+sha-50e599e
+ * @license Angular v22.0.0-next.4+sha-621c908
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, input, computed, Renderer2, DestroyRef, Injector, ElementRef, signal, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
+import { InjectionToken, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, CSP_NONCE, PLATFORM_ID, Injectable, forwardRef, input, computed, Renderer2, DestroyRef, Injector, ElementRef, signal, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
 import { ɵFORM_FIELD_PARSE_ERRORS as _FORM_FIELD_PARSE_ERRORS, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, ɵisNativeFormElement as _isNativeFormElement, ɵisNumericFormElement as _isNumericFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, IS_ASYNC_VALIDATION_RESOURCE, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import '@angular/core/primitives/signals';
 
@@ -655,9 +656,9 @@ function bindingUpdated(bindings, key, value) {
   return false;
 }
 
-function getNativeControlValue(element, currentValue) {
+function getNativeControlValue(element, currentValue, validityMonitor) {
   let modelValue;
-  if (element.validity.badInput) {
+  if (isInput(element) && validityMonitor.isBadInput(element)) {
     return {
       error: new NativeInputParseError()
     };
@@ -766,6 +767,12 @@ function setNativeNumberControlValue(element, value) {
     element.valueAsNumber = value;
   }
 }
+function isInput(element) {
+  return element.tagName === 'INPUT';
+}
+function inputRequiresValidityTracking(input) {
+  return input.type === 'date' || input.type === 'datetime-local' || input.type === 'month' || input.type === 'time' || input.type === 'week';
+}
 
 function customControlCreate(host, parent) {
   host.listenToCustomControlModel(value => parent.state().controlValue.set(value));
@@ -861,13 +868,16 @@ function isRelevantSelectMutation(mutation) {
   return false;
 }
 
-function nativeControlCreate(host, parent, parseErrorsSource) {
+function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
   let updateMode = false;
   const input = parent.nativeFormElement;
-  const parser = createParser(() => parent.state().value(), rawValue => parent.state().controlValue.set(rawValue), () => getNativeControlValue(input, parent.state().value));
+  const parser = createParser(() => parent.state().value(), rawValue => parent.state().controlValue.set(rawValue), _rawValue => getNativeControlValue(input, parent.state().value, validityMonitor));
   parseErrorsSource.set(parser.errors);
   host.listenToDom('input', () => parser.setRawValue(undefined));
   host.listenToDom('blur', () => parent.state().markAsTouched());
+  if (isInput(input) && inputRequiresValidityTracking(input)) {
+    validityMonitor.watchValidity(input, () => parser.setRawValue(undefined));
+  }
   parent.registerAsBinding();
   if (input.tagName === 'SELECT') {
     observeSelectMutations(input, () => {
@@ -897,6 +907,112 @@ function nativeControlCreate(host, parent, parseErrorsSource) {
   };
 }
 
+class InputValidityMonitor {
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.4+sha-621c908",
+    ngImport: i0,
+    type: InputValidityMonitor,
+    deps: [],
+    target: i0.ɵɵFactoryTarget.Injectable
+  });
+  static ɵprov = i0.ɵɵngDeclareInjectable({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.4+sha-621c908",
+    ngImport: i0,
+    type: InputValidityMonitor,
+    providedIn: 'root',
+    useClass: i0.forwardRef(() => AnimationInputValidityMonitor)
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "22.0.0-next.4+sha-621c908",
+  ngImport: i0,
+  type: InputValidityMonitor,
+  decorators: [{
+    type: Injectable,
+    args: [{
+      providedIn: 'root',
+      useClass: forwardRef(() => AnimationInputValidityMonitor)
+    }]
+  }]
+});
+class AnimationInputValidityMonitor extends InputValidityMonitor {
+  document = inject(DOCUMENT);
+  cspNonce = inject(CSP_NONCE, {
+    optional: true
+  });
+  isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  injectedStyles = new WeakMap();
+  watchValidity(element, callback) {
+    if (!this.isBrowser) {
+      return;
+    }
+    const rootNode = element.getRootNode();
+    if (!this.injectedStyles.has(rootNode)) {
+      this.injectedStyles.set(rootNode, this.createTransitionStyle(rootNode));
+    }
+    element.addEventListener('animationstart', event => {
+      const animationEvent = event;
+      if (animationEvent.animationName === 'ng-valid' || animationEvent.animationName === 'ng-invalid') {
+        callback();
+      }
+    });
+  }
+  isBadInput(element) {
+    return element.validity?.badInput ?? false;
+  }
+  createTransitionStyle(rootNode) {
+    const element = this.document.createElement('style');
+    if (this.cspNonce) {
+      element.nonce = this.cspNonce;
+    }
+    element.textContent = `
+      @keyframes ng-valid {}
+      @keyframes ng-invalid {}
+      input:valid, textarea:valid {
+        animation: ng-valid 0.001s;
+      }
+      input:invalid, textarea:invalid {
+        animation: ng-invalid 0.001s;
+      }
+    `;
+    if (rootNode.nodeType === 9) {
+      rootNode.head?.appendChild(element);
+    } else {
+      rootNode.appendChild(element);
+    }
+    return element;
+  }
+  ngOnDestroy() {
+    this.injectedStyles.get(this.document)?.remove();
+  }
+  static ɵfac = i0.ɵɵngDeclareFactory({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.4+sha-621c908",
+    ngImport: i0,
+    type: AnimationInputValidityMonitor,
+    deps: null,
+    target: i0.ɵɵFactoryTarget.Injectable
+  });
+  static ɵprov = i0.ɵɵngDeclareInjectable({
+    minVersion: "12.0.0",
+    version: "22.0.0-next.4+sha-621c908",
+    ngImport: i0,
+    type: AnimationInputValidityMonitor
+  });
+}
+i0.ɵɵngDeclareClassMetadata({
+  minVersion: "12.0.0",
+  version: "22.0.0-next.4+sha-621c908",
+  ngImport: i0,
+  type: AnimationInputValidityMonitor,
+  decorators: [{
+    type: Injectable
+  }]
+});
+
 const ɵNgFieldDirective = Symbol();
 const FORM_FIELD = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'FORM_FIELD' : '');
 class FormField {
@@ -925,6 +1041,7 @@ class FormField {
   config = inject(SIGNAL_FORMS_CONFIG, {
     optional: true
   });
+  validityMonitor = inject(InputValidityMonitor);
   parseErrorsSource = signal(undefined, ...(ngDevMode ? [{
     debugName: "parseErrorsSource"
   }] : []));
@@ -1012,7 +1129,7 @@ class FormField {
     } else if (host.customControl) {
       this.ɵngControlUpdate = customControlCreate(host, this);
     } else if (this.elementIsNativeFormElement) {
-      this.ɵngControlUpdate = nativeControlCreate(host, this, this.parseErrorsSource);
+      this.ɵngControlUpdate = nativeControlCreate(host, this, this.parseErrorsSource, this.validityMonitor);
     } else {
       throw new _RuntimeError(1914, typeof ngDevMode !== 'undefined' && ngDevMode && `${host.descriptor} is an invalid [formField] directive host. The host must be a native form control ` + `(such as <input>', '<select>', or '<textarea>') or a custom form control with a 'value' or ` + `'checked' model.`);
     }
@@ -1040,7 +1157,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.4+sha-50e599e",
+    version: "22.0.0-next.4+sha-621c908",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1048,7 +1165,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.4+sha-50e599e",
+    version: "22.0.0-next.4+sha-621c908",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1080,7 +1197,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.4+sha-50e599e",
+  version: "22.0.0-next.4+sha-621c908",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1125,7 +1242,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.4+sha-50e599e",
+    version: "22.0.0-next.4+sha-621c908",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1133,7 +1250,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.4+sha-50e599e",
+    version: "22.0.0-next.4+sha-621c908",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1159,7 +1276,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.4+sha-50e599e",
+  version: "22.0.0-next.4+sha-621c908",
   ngImport: i0,
   type: FormRoot,
   decorators: [{

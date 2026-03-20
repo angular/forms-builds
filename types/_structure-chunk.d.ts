@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-50e599e
+ * @license Angular v22.0.0-next.4+sha-621c908
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1114,6 +1114,7 @@ declare class FormField<T> {
     /** Any `ControlValueAccessor` instances provided on the host element. */
     private readonly controlValueAccessors;
     private readonly config;
+    private readonly validityMonitor;
     private readonly parseErrorsSource;
     /** A lazily instantiated fake `NgControl`. */
     private _interopNgControl;
