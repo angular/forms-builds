@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-36edf48
+ * @license Angular v22.0.0-next.4+sha-0eeb1b5
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -644,7 +644,7 @@ declare function transformedValue<TValue, TRaw>(value: ModelSignal<TValue>, opti
  * It automatically:
  * 1. Sets `novalidate` on the form element to disable browser validation.
  * 2. Listens for the `submit` event, prevents the default behavior, and calls `submit()` on the
- * `FieldTree`.
+ * `FieldTree` if it defines its own submission options.
  *
  * @usageNotes
  *
