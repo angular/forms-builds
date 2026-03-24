@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-0eeb1b5
+ * @license Angular v22.0.0-next.4+sha-ee8d209
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -276,25 +276,25 @@ interface ReadonlyFieldState<TValue, TKey extends string | number = string | num
      *
      * Applies to `<input>` with a numeric or date `type` attribute and custom controls.
      */
-    readonly max?: Signal<number | undefined>;
+    readonly max: Signal<number | undefined> | undefined;
     /**
      * A signal indicating the field's maximum string length, if applicable.
      *
      * Applies to `<input>`, `<textarea>`, and custom controls.
      */
-    readonly maxLength?: Signal<number | undefined>;
+    readonly maxLength: Signal<number | undefined> | undefined;
     /**
      * A signal indicating the field's minimum value, if applicable.
      *
      * Applies to `<input>` with a numeric or date `type` attribute and custom controls.
      */
-    readonly min?: Signal<number | undefined>;
+    readonly min: Signal<number | undefined> | undefined;
     /**
      * A signal indicating the field's minimum string length, if applicable.
      *
      * Applies to `<input>`, `<textarea>`, and custom controls.
      */
-    readonly minLength?: Signal<number | undefined>;
+    readonly minLength: Signal<number | undefined> | undefined;
     /**
      * A signal of a unique name for the field, by default based on the name of its parent field.
      */
@@ -830,10 +830,10 @@ declare const IS_ASYNC_VALIDATION_RESOURCE: unique symbol;
  */
 declare class MetadataKey<TRead, TWrite, TAcc> {
     readonly reducer: MetadataReducer<TAcc, TWrite>;
-    readonly create: ((s: Signal<TAcc>) => TRead) | undefined;
+    readonly create: ((state: FieldState<unknown>, data: Signal<TAcc>) => TRead) | undefined;
     private brand;
     /** Use {@link reducedMetadataKey}. */
-    protected constructor(reducer: MetadataReducer<TAcc, TWrite>, create: ((s: Signal<TAcc>) => TRead) | undefined);
+    protected constructor(reducer: MetadataReducer<TAcc, TWrite>, create: ((state: FieldState<unknown>, data: Signal<TAcc>) => TRead) | undefined);
 }
 /**
  * Extracts the the type that can be set into the given metadata key type using the `metadata()` rule.
@@ -875,7 +875,7 @@ declare function createMetadataKey<TWrite, TAcc>(reducer: MetadataReducer<TAcc, 
  *
  * @experimental 21.0.0
  */
-declare function createManagedMetadataKey<TRead, TWrite>(create: (s: Signal<TWrite | undefined>) => TRead): MetadataKey<TRead, TWrite, TWrite | undefined>;
+declare function createManagedMetadataKey<TRead, TWrite>(create: (state: FieldState<unknown>, data: Signal<TWrite | undefined>) => TRead): MetadataKey<TRead, TWrite, TWrite | undefined>;
 /**
  * Creates a metadata key that exposes a managed value based on the accumulated result of the values
  * written to the key.
@@ -891,7 +891,7 @@ declare function createManagedMetadataKey<TRead, TWrite>(create: (s: Signal<TWri
  *
  * @experimental 21.0.0
  */
-declare function createManagedMetadataKey<TRead, TWrite, TAcc>(create: (s: Signal<TAcc>) => TRead, reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<TRead, TWrite, TAcc>;
+declare function createManagedMetadataKey<TRead, TWrite, TAcc>(create: (state: FieldState<unknown>, data: Signal<TAcc>) => TRead, reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<TRead, TWrite, TAcc>;
 /**
  * A {@link MetadataKey} representing whether the field is required.
  *

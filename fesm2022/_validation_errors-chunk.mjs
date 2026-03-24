@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-0eeb1b5
+ * @license Angular v22.0.0-next.4+sha-ee8d209
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -170,6 +170,9 @@ class LogicContainer {
   }
   hasMetadata(key) {
     return this.metadata.has(key);
+  }
+  hasMetadataKeys() {
+    return this.metadata.size > 0;
   }
   getMetadataKeys() {
     return this.metadata.keys();
@@ -848,13 +851,20 @@ class FieldMetadataState {
   metadata = new Map();
   constructor(node) {
     this.node = node;
-    for (const key of this.node.logicNode.logic.getMetadataKeys()) {
-      if (key.create) {
-        const logic = this.node.logicNode.logic.getMetadata(key);
-        const result = untracked(() => runInInjectionContext(this.node.structure.injector, () => key.create(computed(() => logic.compute(this.node.context)))));
-        this.metadata.set(key, result);
-      }
+  }
+  runMetadataCreateLifecycle() {
+    if (!this.node.logicNode.logic.hasMetadataKeys()) {
+      return;
     }
+    untracked(() => runInInjectionContext(this.node.structure.injector, () => {
+      for (const key of this.node.logicNode.logic.getMetadataKeys()) {
+        if (key.create) {
+          const logic = this.node.logicNode.logic.getMetadata(key);
+          const result = key.create(this.node, computed(() => logic.compute(this.node.context)));
+          this.metadata.set(key, result);
+        }
+      }
+    }));
   }
   get(key) {
     if (this.has(key)) {
@@ -1270,6 +1280,7 @@ class FieldNode {
     this.metadataState = new FieldMetadataState(this);
     this.submitState = new FieldSubmitState(this);
     this.controlValue = this.controlValueSignal();
+    this.metadataState.runMetadataCreateLifecycle();
   }
   focusBoundControl(options) {
     this.getBindingForFocus()?.focus(options);
