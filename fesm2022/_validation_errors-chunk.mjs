@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-ee8d209
+ * @license Angular v22.0.0-next.4+sha-d9712e6
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1377,6 +1377,9 @@ class FieldNode {
   }
   metadata(key) {
     return this.metadataState.get(key);
+  }
+  getError(kind) {
+    return this.errors().find(e => e.kind === kind);
   }
   hasMetadata(key) {
     return this.metadataState.has(key);

@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.4+sha-ee8d209
+ * @license Angular v22.0.0-next.4+sha-d9712e6
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -437,6 +437,16 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      * @param options Options for marking the field as touched.
      */
     markAsTouched(options?: MarkAsTouchedOptions): void;
+    /**
+     * Gets the first validation error of the given kind on this field.
+     *
+     * This method is reactive and will re-evaluate when the field's errors change if called
+     * within a reactive context (e.g. `computed` or `effect`).
+     *
+     * @param kind The kind of error (e.g. 'required', 'min').
+     * @returns The first matching error, or `undefined` if none.
+     */
+    getError(kind: string): ValidationError.WithFieldTree | undefined;
     /**
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
      *
