@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.0.0-next.4+sha-b5af15a
+ * @license Angular v22.0.0-next.4+sha-24e52d4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal } from '@angular/core';
+import { DebounceTimer, Signal, ResourceRef, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal } from '@angular/core';
 import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer, FieldTree } from './_structure-chunk.js';
 export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FieldStateByMode, FormField, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IS_ASYNC_VALIDATION_RESOURCE, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MarkAsTouchedOptions, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
@@ -268,6 +268,11 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
      */
     readonly params: (ctx: FieldContext<TValue, TPathKind>) => TParams;
     /**
+     * Duration in milliseconds to wait before triggering the async operation, or a function that
+     * returns a promise that resolves when the update should proceed.
+     */
+    readonly debounce?: DebounceTimer<TParams | undefined>;
+    /**
      * A function that receives the resource params and returns a resource of the given params.
      * The given params should be used as is to create the resource.
      * The forms system will report the params as `undefined` when this validation doesn't need to be run.
@@ -352,6 +357,11 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
      * The options to use when creating the httpResource.
      */
     readonly options?: HttpResourceOptions<TResult, unknown>;
+    /**
+     * Duration in milliseconds to wait before triggering the async operation, or a function that
+     * returns a promise that resolves when the update should proceed.
+     */
+    readonly debounce?: DebounceTimer<string | HttpResourceRequest | undefined>;
 }
 /**
  * Adds async validation to the field corresponding to the given path based on an httpResource.
