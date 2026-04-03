@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.6+sha-9c55fcb
+ * @license Angular v22.0.0-next.6+sha-394ad0c
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1115,8 +1115,8 @@ declare class FormField<T> {
      */
     readonly element: HTMLElement;
     private readonly elementIsNativeFormElement;
-    private readonly elementAcceptsNumericValues;
     private readonly elementAcceptsTextualValues;
+    private _elementAcceptsNumericValues;
     /**
      * Current focus implementation, set by `registerAsBinding`.
      */
