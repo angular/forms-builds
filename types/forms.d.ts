@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.7+sha-ef204bd
+ * @license Angular v21.2.7+sha-b0dc2fb
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1014,7 +1014,8 @@ type ɵFormArrayRawValue<T extends AbstractControl<any>> = ɵTypedOrUntyped<T, A
  *
  * A `FormArray` aggregates the values of each child `FormControl` into an array.
  * It calculates its status by reducing the status values of its children. For example, if one of
- * the controls in a `FormArray` is invalid, the entire array becomes invalid.
+ * the controls in a `FormArray` is invalid, the entire array becomes invalid. Similarly, if all
+ * controls in a `FormArray` are disabled, the entire array becomes disabled.
  *
  * `FormArray` accepts one generic argument, which is the type of the controls inside.
  * If you need a heterogenous array, use {@link UntypedFormArray}.
@@ -2543,7 +2544,8 @@ declare abstract class AbstractControl<TValue = any, TRawValue extends TValue = 
      * with a key-value pair for each member of the group.
      * * For a disabled `FormGroup`, the values of all controls as an object
      * with a key-value pair for each member of the group.
-     * * For a `FormArray`, the values of enabled controls as an array.
+     * * For an enabled `FormArray`, the values of enabled controls as an array.
+     * * For a disabled `FormArray`, the values of all controls as an array.
      *
      */
     readonly value: TValue;
