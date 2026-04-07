@@ -1,12 +1,12 @@
 /**
- * @license Angular v22.0.0-next.6+sha-a0aa830
+ * @license Angular v22.0.0-next.6+sha-de56d74
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
 import { InjectionToken, debounced, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, CSP_NONCE, PLATFORM_ID, Injectable, forwardRef, input, computed, Renderer2, DestroyRef, Injector, ElementRef, signal, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
-import { ɵFORM_FIELD_PARSE_ERRORS as _FORM_FIELD_PARSE_ERRORS, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, ɵisNativeFormElement as _isNativeFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, ɵisNumericFormElement as _isNumericFormElement, NgControl } from '@angular/forms';
+import { ɵFORM_FIELD_PARSE_ERRORS as _FORM_FIELD_PARSE_ERRORS, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, ɵisNativeFormElement as _isNativeFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, ɵselectValueAccessor as _selectValueAccessor, ɵisNumericFormElement as _isNumericFormElement, NgControl } from '@angular/forms';
 import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, IS_ASYNC_VALIDATION_RESOURCE, DEBOUNCER, signalErrorsToValidationErrors, submit } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -810,10 +810,13 @@ function customControlCreate(host, parent) {
 }
 
 function cvaControlCreate(host, parent) {
-  parent.controlValueAccessor.registerOnChange(value => parent.state().controlValue.set(value));
+  const bindings = createBindings();
+  parent.controlValueAccessor.registerOnChange(value => {
+    bindings['controlValue'] = value;
+    parent.state().controlValue.set(value);
+  });
   parent.controlValueAccessor.registerOnTouched(() => parent.state().markAsTouched());
   parent.registerAsBinding();
-  const bindings = createBindings();
   return () => {
     const fieldState = parent.state();
     const value = fieldState.value();
@@ -917,7 +920,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
 class InputValidityMonitor {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.6+sha-a0aa830",
+    version: "22.0.0-next.6+sha-de56d74",
     ngImport: i0,
     type: InputValidityMonitor,
     deps: [],
@@ -925,7 +928,7 @@ class InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-next.6+sha-a0aa830",
+    version: "22.0.0-next.6+sha-de56d74",
     ngImport: i0,
     type: InputValidityMonitor,
     providedIn: 'root',
@@ -934,7 +937,7 @@ class InputValidityMonitor {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.6+sha-a0aa830",
+  version: "22.0.0-next.6+sha-de56d74",
   ngImport: i0,
   type: InputValidityMonitor,
   decorators: [{
@@ -997,7 +1000,7 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.6+sha-a0aa830",
+    version: "22.0.0-next.6+sha-de56d74",
     ngImport: i0,
     type: AnimationInputValidityMonitor,
     deps: null,
@@ -1005,14 +1008,14 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-next.6+sha-a0aa830",
+    version: "22.0.0-next.6+sha-de56d74",
     ngImport: i0,
     type: AnimationInputValidityMonitor
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.6+sha-a0aa830",
+  version: "22.0.0-next.6+sha-de56d74",
   ngImport: i0,
   type: AnimationInputValidityMonitor,
   decorators: [{
@@ -1068,7 +1071,10 @@ class FormField {
   }] : []));
   isFieldBinding = false;
   get controlValueAccessor() {
-    return this.controlValueAccessors?.[0] ?? this.interopNgControl?.valueAccessor ?? undefined;
+    if (!this.controlValueAccessors || this.controlValueAccessors.length === 0) {
+      return this.interopNgControl?.valueAccessor ?? undefined;
+    }
+    return _selectValueAccessor(this.interopNgControl, this.controlValueAccessors) ?? undefined;
   }
   installClassBindingEffect() {
     const classes = Object.entries(this.config?.classes ?? {}).map(([className, computation]) => [className, computed(() => computation(this))]);
@@ -1164,7 +1170,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.6+sha-a0aa830",
+    version: "22.0.0-next.6+sha-de56d74",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1172,7 +1178,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.6+sha-a0aa830",
+    version: "22.0.0-next.6+sha-de56d74",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1204,7 +1210,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.6+sha-a0aa830",
+  version: "22.0.0-next.6+sha-de56d74",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1255,7 +1261,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.6+sha-a0aa830",
+    version: "22.0.0-next.6+sha-de56d74",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1263,7 +1269,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.6+sha-a0aa830",
+    version: "22.0.0-next.6+sha-de56d74",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1289,7 +1295,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.6+sha-a0aa830",
+  version: "22.0.0-next.6+sha-de56d74",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
