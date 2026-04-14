@@ -1,12 +1,12 @@
 /**
- * @license Angular v22.0.0-next.7+sha-c90b6b3
+ * @license Angular v22.0.0-next.7+sha-75f2cb8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
 import { Signal, Injector, WritableSignal, InjectionToken, Provider } from '@angular/core';
-import { AbstractControl, ValidationErrors, FormControlStatus, ControlValueAccessor, ValidatorFn } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
 /**
@@ -1009,58 +1009,6 @@ declare class StandardSchemaValidationError extends BaseNgValidationError {
     constructor(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions);
 }
 
-/**
- * Represents a combination of `NgControl` and `AbstractControl`.
- *
- * Note: We have this separate interface, rather than implementing the relevant parts of the two
- * controls with something like `InteropNgControl implements Pick<NgControl, ...>, Pick<AbstractControl, ...>`
- * because it confuses the internal JS minifier which can cause collisions in field names.
- */
-interface CombinedControl {
-    value: any;
-    valid: boolean;
-    invalid: boolean;
-    touched: boolean;
-    untouched: boolean;
-    disabled: boolean;
-    enabled: boolean;
-    errors: ValidationErrors | null;
-    pristine: boolean;
-    dirty: boolean;
-    status: FormControlStatus;
-    control: AbstractControl<any, any>;
-    valueAccessor: ControlValueAccessor | null;
-    hasValidator(validator: ValidatorFn): boolean;
-    updateValueAndValidity(): void;
-}
-/**
- * A fake version of `NgControl` provided by the `Field` directive. This allows interoperability
- * with a wider range of components designed to work with reactive forms, in particular ones that
- * inject the `NgControl`. The interop control does not implement *all* properties and methods of
- * the real `NgControl`, but does implement some of the most commonly used ones that have a clear
- * equivalent in signal forms.
- */
-declare class InteropNgControl implements CombinedControl {
-    protected field: () => ReadonlyFieldState<unknown>;
-    constructor(field: () => ReadonlyFieldState<unknown>);
-    readonly control: AbstractControl<any, any>;
-    get value(): any;
-    get valid(): boolean;
-    get invalid(): boolean;
-    get pending(): boolean | null;
-    get disabled(): boolean;
-    get enabled(): boolean;
-    get errors(): ValidationErrors | null;
-    get pristine(): boolean;
-    get dirty(): boolean;
-    get touched(): boolean;
-    get untouched(): boolean;
-    get status(): FormControlStatus;
-    valueAccessor: ControlValueAccessor | null;
-    hasValidator(validator: ValidatorFn): boolean;
-    updateValueAndValidity(): void;
-}
-
 declare const ɵNgFieldDirective: unique symbol;
 interface FormFieldBindingOptions {
     /**
@@ -1125,11 +1073,8 @@ declare class FormField<T> {
     private readonly controlValueAccessors;
     private readonly config;
     private readonly validityMonitor;
-    private readonly parseErrorsSource;
     /** A lazily instantiated fake `NgControl`. */
     private _interopNgControl;
-    /** Lazily instantiates a fake `NgControl` for this form field. */
-    protected get interopNgControl(): InteropNgControl;
     /** Errors associated with this form field. */
     readonly errors: Signal<ValidationError.WithFieldTree[]>;
     /** Whether this `FormField` has been registered as a binding on its associated `FieldState`. */
