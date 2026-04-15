@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.8+sha-c326548
+ * @license Angular v21.3.0-next.0+sha-4835277
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -57,9 +57,6 @@ class AbstractLogic {
   mergeIn(other) {
     const fns = this.predicates ? other.fns.map(fn => wrapWithPredicates(this.predicates, fn)) : other.fns;
     this.fns.push(...fns);
-  }
-  hasRules() {
-    return this.fns.length > 0;
   }
 }
 class BooleanOrLogic extends AbstractLogic {
@@ -165,14 +162,8 @@ class LogicContainer {
     this.syncTreeErrors = ArrayMergeIgnoreLogic.ignoreNull(predicates);
     this.asyncErrors = ArrayMergeIgnoreLogic.ignoreNull(predicates);
   }
-  hasAnyLogic() {
-    return this.hidden.hasRules() || this.disabledReasons.hasRules() || this.readonly.hasRules() || this.syncErrors.hasRules() || this.syncTreeErrors.hasRules() || this.asyncErrors.hasRules() || this.metadata.size > 0;
-  }
   hasMetadata(key) {
     return this.metadata.has(key);
-  }
-  hasMetadataKeys() {
-    return this.metadata.size > 0;
   }
   getMetadataKeys() {
     return this.metadata.keys();
@@ -250,14 +241,6 @@ class LogicNodeBuilder extends AbstractLogicNodeBuilder {
       builder: subBuilder
     }) => subBuilder.hasLogic(builder));
   }
-  hasRules() {
-    return this.all.length > 0;
-  }
-  anyChildHasLogic() {
-    return this.all.some(({
-      builder
-    }) => builder.anyChildHasLogic());
-  }
   mergeIn(other, predicate) {
     if (predicate) {
       this.all.push({
@@ -323,17 +306,6 @@ class NonMergeableLogicNodeBuilder extends AbstractLogicNodeBuilder {
   hasLogic(builder) {
     return this === builder;
   }
-  hasRules() {
-    return this.logic.hasAnyLogic() || this.children.size > 0;
-  }
-  anyChildHasLogic() {
-    for (const child of this.children.values()) {
-      if (child.hasRules()) {
-        return true;
-      }
-    }
-    return false;
-  }
 }
 class LeafLogicNode {
   builder;
@@ -365,16 +337,7 @@ class LeafLogicNode {
     }
   }
   hasLogic(builder) {
-    if (!this.builder) {
-      return false;
-    }
-    return this.builder.hasLogic(builder);
-  }
-  hasRules() {
-    return this.builder ? this.builder.hasRules() : false;
-  }
-  anyChildHasLogic() {
-    return this.builder ? this.builder.anyChildHasLogic() : false;
+    return this.builder?.hasLogic(builder) ?? false;
   }
 }
 class CompositeLogicNode {
@@ -392,12 +355,6 @@ class CompositeLogicNode {
   }
   hasLogic(builder) {
     return this.all.some(node => node.hasLogic(builder));
-  }
-  hasRules() {
-    return this.all.some(node => node.hasRules());
-  }
-  anyChildHasLogic() {
-    return this.all.some(child => child.anyChildHasLogic());
   }
 }
 function getAllChildBuilders(builder, key) {
@@ -611,12 +568,10 @@ function override(getInitial) {
     getInitial: () => getInitial?.()
   };
 }
-const IS_ASYNC_VALIDATION_RESOURCE = Symbol('IS_ASYNC_VALIDATION_RESOURCE');
 class MetadataKey {
   reducer;
   create;
   brand;
-  [IS_ASYNC_VALIDATION_RESOURCE];
   constructor(reducer, create) {
     this.reducer = reducer;
     this.create = create;
@@ -777,8 +732,6 @@ class FieldNodeContext {
   cache = new WeakMap();
   constructor(node) {
     this.node = node;
-    this.fieldTreeOf = this.fieldTreeOf.bind(this);
-    this.stateOf = this.stateOf.bind(this);
   }
   resolve(target) {
     if (!this.cache.has(target)) {
@@ -831,12 +784,8 @@ class FieldNodeContext {
   }, ...(ngDevMode ? [{
     debugName: "index"
   }] : []));
-  fieldTreeOf(p) {
-    return this.resolve(p);
-  }
-  stateOf(p) {
-    return this.resolve(p)();
-  }
+  fieldTreeOf = p => this.resolve(p);
+  stateOf = p => this.resolve(p)();
   valueOf = p => {
     const result = this.resolve(p)().value();
     if (result instanceof AbstractControl) {
@@ -851,20 +800,13 @@ class FieldMetadataState {
   metadata = new Map();
   constructor(node) {
     this.node = node;
-  }
-  runMetadataCreateLifecycle() {
-    if (!this.node.logicNode.logic.hasMetadataKeys()) {
-      return;
-    }
-    untracked(() => runInInjectionContext(this.node.structure.injector, () => {
-      for (const key of this.node.logicNode.logic.getMetadataKeys()) {
-        if (key.create) {
-          const logic = this.node.logicNode.logic.getMetadata(key);
-          const result = key.create(this.node, computed(() => logic.compute(this.node.context)));
-          this.metadata.set(key, result);
-        }
+    for (const key of this.node.logicNode.logic.getMetadataKeys()) {
+      if (key.create) {
+        const logic = this.node.logicNode.logic.getMetadata(key);
+        const result = untracked(() => runInInjectionContext(this.node.structure.injector, () => key.create(computed(() => logic.compute(this.node.context)))));
+        this.metadata.set(key, result);
       }
-    }));
+    }
   }
   get(key) {
     if (this.has(key)) {
@@ -958,7 +900,6 @@ class FieldNodeStructure {
   createChildNode;
   identitySymbol = Symbol();
   _injector = undefined;
-  _anyChildHasLogic;
   get injector() {
     this._injector ??= Injector.create({
       providers: [],
@@ -972,26 +913,13 @@ class FieldNodeStructure {
     this.createChildNode = createChildNode;
   }
   children() {
-    this.ensureChildrenMap();
     const map = this.childrenMap();
     if (map === undefined) {
       return [];
     }
     return Array.from(map.byPropertyKey.values()).map(child => untracked(child.reader));
   }
-  _areChildrenMaterialized() {
-    return untracked(this.childrenMap) !== undefined;
-  }
-  ensureChildrenMap() {
-    if (this._areChildrenMaterialized()) {
-      return;
-    }
-    untracked(() => {
-      this.childrenMap.update(current => this.computeChildrenMap(this.value(), current, true));
-    });
-  }
   getChild(key) {
-    this.ensureChildrenMap();
     const strKey = key.toString();
     let reader = untracked(this.childrenMap)?.byPropertyKey.get(strKey)?.reader;
     if (!reader) {
@@ -1052,73 +980,67 @@ class FieldNodeStructure {
   createChildrenMap() {
     return linkedSignal({
       source: this.value,
-      computation: (value, previous) => this.computeChildrenMap(value, previous?.value, false)
+      computation: (value, previous) => {
+        if (!isObject(value)) {
+          return undefined;
+        }
+        const prevData = previous?.value ?? {
+          byPropertyKey: new Map()
+        };
+        let data;
+        const parentIsArray = isArray(value);
+        if (prevData !== undefined) {
+          if (parentIsArray) {
+            data = maybeRemoveStaleArrayFields(prevData, value, this.identitySymbol);
+          } else {
+            data = maybeRemoveStaleObjectFields(prevData, value);
+          }
+        }
+        for (const key of Object.keys(value)) {
+          let trackingKey = undefined;
+          const childValue = value[key];
+          if (childValue === undefined) {
+            if (prevData.byPropertyKey.has(key)) {
+              data ??= {
+                ...prevData
+              };
+              data.byPropertyKey.delete(key);
+            }
+            continue;
+          }
+          if (parentIsArray && isObject(childValue) && !isArray(childValue)) {
+            trackingKey = childValue[this.identitySymbol] ??= Symbol(ngDevMode ? `id:${globalId++}` : '');
+          }
+          let childNode;
+          if (trackingKey) {
+            if (!prevData.byTrackingKey?.has(trackingKey)) {
+              data ??= {
+                ...prevData
+              };
+              data.byTrackingKey ??= new Map();
+              data.byTrackingKey.set(trackingKey, this.createChildNode(key, trackingKey, parentIsArray));
+            }
+            childNode = (data ?? prevData).byTrackingKey.get(trackingKey);
+          }
+          const child = prevData.byPropertyKey.get(key);
+          if (child === undefined) {
+            data ??= {
+              ...prevData
+            };
+            data.byPropertyKey.set(key, {
+              reader: this.createReader(key),
+              node: childNode ?? this.createChildNode(key, trackingKey, parentIsArray)
+            });
+          } else if (childNode && childNode !== child.node) {
+            data ??= {
+              ...prevData
+            };
+            child.node = childNode;
+          }
+        }
+        return data ?? prevData;
+      }
     });
-  }
-  computeChildrenMap(value, prevData, forceMaterialize) {
-    if (!isObject(value)) {
-      return undefined;
-    }
-    if (!forceMaterialize && prevData === undefined) {
-      if (!(this._anyChildHasLogic ??= this.logic.anyChildHasLogic())) {
-        return undefined;
-      }
-    }
-    prevData ??= {
-      byPropertyKey: new Map()
-    };
-    let materializedChildren;
-    const parentIsArray = isArray(value);
-    if (prevData !== undefined) {
-      if (parentIsArray) {
-        materializedChildren = maybeRemoveStaleArrayFields(prevData, value, this.identitySymbol);
-      } else {
-        materializedChildren = maybeRemoveStaleObjectFields(prevData, value);
-      }
-    }
-    for (const key of Object.keys(value)) {
-      let trackingKey = undefined;
-      const childValue = value[key];
-      if (childValue === undefined) {
-        if (prevData.byPropertyKey.has(key)) {
-          materializedChildren ??= {
-            ...prevData
-          };
-          materializedChildren.byPropertyKey.delete(key);
-        }
-        continue;
-      }
-      if (parentIsArray && isObject(childValue) && !isArray(childValue)) {
-        trackingKey = childValue[this.identitySymbol] ??= Symbol(ngDevMode ? `id:${globalId++}` : '');
-      }
-      let childNode;
-      if (trackingKey) {
-        if (!prevData.byTrackingKey?.has(trackingKey)) {
-          materializedChildren ??= {
-            ...prevData
-          };
-          materializedChildren.byTrackingKey ??= new Map();
-          materializedChildren.byTrackingKey.set(trackingKey, this.createChildNode(key, trackingKey, parentIsArray));
-        }
-        childNode = (materializedChildren ?? prevData).byTrackingKey.get(trackingKey);
-      }
-      const child = prevData.byPropertyKey.get(key);
-      if (child === undefined) {
-        materializedChildren ??= {
-          ...prevData
-        };
-        materializedChildren.byPropertyKey.set(key, {
-          reader: this.createReader(key),
-          node: childNode ?? this.createChildNode(key, trackingKey, parentIsArray)
-        });
-      } else if (childNode && childNode !== child.node) {
-        materializedChildren ??= {
-          ...prevData
-        };
-        child.node = childNode;
-      }
-    }
-    return materializedChildren ?? prevData;
   }
   createReader(key) {
     return computed(() => this.childrenMap()?.byPropertyKey.get(key)?.node);
@@ -1280,7 +1202,6 @@ class FieldNode {
     this.metadataState = new FieldMetadataState(this);
     this.submitState = new FieldSubmitState(this);
     this.controlValue = this.controlValueSignal();
-    this.metadataState.runMetadataCreateLifecycle();
   }
   focusBoundControl(options) {
     this.getBindingForFocus()?.focus(options);
@@ -1378,29 +1299,14 @@ class FieldNode {
   metadata(key) {
     return this.metadataState.get(key);
   }
-  getError(kind) {
-    return this.errors().find(e => e.kind === kind);
-  }
   hasMetadata(key) {
     return this.metadataState.has(key);
   }
-  markAsTouched(options) {
+  markAsTouched() {
     untracked(() => {
-      this.markAsTouchedInternal(options);
+      this.nodeState.markAsTouched();
       this.flushSync();
     });
-  }
-  markAsTouchedInternal(options) {
-    if (this.validationState.shouldSkipValidation()) {
-      return;
-    }
-    this.nodeState.markAsTouched();
-    if (options?.skipDescendants) {
-      return;
-    }
-    for (const child of this.structure.children()) {
-      child.markAsTouchedInternal();
-    }
   }
   markAsDirty() {
     this.nodeState.markAsDirty();
@@ -1422,21 +1328,6 @@ class FieldNode {
     this.nodeState.markAsPristine();
     for (const child of this.structure.children()) {
       child._reset();
-    }
-  }
-  reloadValidation() {
-    untracked(() => this._reloadValidation());
-  }
-  _reloadValidation() {
-    const keys = this.logicNode.logic.getMetadataKeys();
-    for (const key of keys) {
-      if (key[IS_ASYNC_VALIDATION_RESOURCE]) {
-        const resource = this.metadata(key);
-        resource.reload?.();
-      }
-    }
-    for (const child of this.structure.children()) {
-      child._reloadValidation();
     }
   }
   controlValueSignal() {
@@ -1726,11 +1617,19 @@ async function submit(form, options) {
   if (!action) {
     throw new _RuntimeError(1915, (typeof ngDevMode === 'undefined' || ngDevMode) && 'Cannot submit form with no submit action. Specify the action when creating the form, or as an additional argument to `submit()`.');
   }
-  node.markAsTouched();
   const onInvalid = options?.onInvalid;
-  const shouldRun = shouldRunAction(node, options?.ignoreValidators);
+  const ignoreValidators = options?.ignoreValidators ?? 'pending';
+  let shouldRunAction = true;
+  untracked(() => {
+    markAllAsTouched(node);
+    if (ignoreValidators === 'none') {
+      shouldRunAction = node.valid();
+    } else if (ignoreValidators === 'pending') {
+      shouldRunAction = !node.invalid();
+    }
+  });
   try {
-    if (shouldRun) {
+    if (shouldRunAction) {
       node.submitState.selfSubmitting.set(true);
       const errors = await untracked(() => action?.(field, detail));
       errors && setSubmissionErrors(node, errors);
@@ -1746,14 +1645,13 @@ async function submit(form, options) {
 function schema(fn) {
   return SchemaImpl.create(fn);
 }
-function shouldRunAction(node, ignoreValidators) {
-  switch (ignoreValidators) {
-    case 'all':
-      return true;
-    case 'none':
-      return untracked(node.valid);
-    default:
-      return !untracked(node.invalid);
+function markAllAsTouched(node) {
+  if (node.validationState.shouldSkipValidation()) {
+    return;
+  }
+  node.markAsTouched();
+  for (const child of node.structure.children()) {
+    markAllAsTouched(child);
   }
 }
 function setSubmissionErrors(submittedField, errors) {
@@ -1827,5 +1725,5 @@ function extractNestedReactiveErrors(control) {
   return errors;
 }
 
-export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, signalErrorsToValidationErrors, submit };
+export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, metadata, normalizeFormArgs, schema, signalErrorsToValidationErrors, submit };
 //# sourceMappingURL=_validation_errors-chunk.mjs.map

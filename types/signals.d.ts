@@ -1,13 +1,13 @@
 /**
- * @license Angular v22.0.0-next.8+sha-c326548
+ * @license Angular v21.3.0-next.0+sha-4835277
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { DebounceTimer, Signal, ResourceRef, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal } from '@angular/core';
+import { Signal, ResourceRef, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef, WritableSignal } from '@angular/core';
 import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer, FieldTree } from './_structure-chunk.js';
-export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FieldStateByMode, FormField, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IS_ASYNC_VALIDATION_RESOURCE, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MarkAsTouchedOptions, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
+export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FormField, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithField, WithFieldTree, WithOptionalField, WithoutField, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import '@angular/forms';
 import '@standard-schema/spec';
@@ -268,11 +268,6 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
      */
     readonly params: (ctx: FieldContext<TValue, TPathKind>) => TParams;
     /**
-     * Duration in milliseconds to wait before triggering the async operation, or a function that
-     * returns a promise that resolves when the update should proceed.
-     */
-    readonly debounce?: DebounceTimer<TParams | undefined>;
-    /**
      * A function that receives the resource params and returns a resource of the given params.
      * The given params should be used as is to create the resource.
      * The forms system will report the params as `undefined` when this validation doesn't need to be run.
@@ -357,11 +352,6 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
      * The options to use when creating the httpResource.
      */
     readonly options?: HttpResourceOptions<TResult, unknown>;
-    /**
-     * Duration in milliseconds to wait before triggering the async operation, or a function that
-     * returns a promise that resolves when the update should proceed.
-     */
-    readonly debounce?: DebounceTimer<string | HttpResourceRequest | undefined>;
 }
 /**
  * Adds async validation to the field corresponding to the given path based on an httpResource.
@@ -439,7 +429,7 @@ interface FormUiControl {
      * An input to receive the touched status for the field. If implemented, the `Field` directive
      * will automatically bind the touched status from the bound field to this input.
      */
-    readonly touched?: InputSignal<boolean> | InputSignalWithTransform<boolean, unknown>;
+    readonly touched?: ModelSignal<boolean> | InputSignal<boolean> | InputSignalWithTransform<boolean, unknown> | OutputRef<boolean>;
     /**
      * An input to receive the dirty status for the field. If implemented, the `Field` directive
      * will automatically bind the dirty status from the bound field to this input.
@@ -480,10 +470,6 @@ interface FormUiControl {
      * will automatically bind the value patterns from the bound field to this input.
      */
     readonly pattern?: InputSignal<readonly RegExp[]> | InputSignalWithTransform<readonly RegExp[], unknown>;
-    /**
-     * An output to emit when the control is touched.
-     */
-    readonly touch?: OutputRef<void>;
     /**
      * Focuses the UI control.
      *
@@ -654,7 +640,7 @@ declare function transformedValue<TValue, TRaw>(value: ModelSignal<TValue>, opti
  * It automatically:
  * 1. Sets `novalidate` on the form element to disable browser validation.
  * 2. Listens for the `submit` event, prevents the default behavior, and calls `submit()` on the
- * `FieldTree` if it defines its own submission options.
+ * `FieldTree`.
  *
  * @usageNotes
  *

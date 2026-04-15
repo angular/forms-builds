@@ -1,10 +1,10 @@
 /**
- * @license Angular v22.0.0-next.8+sha-c326548
+ * @license Angular v21.3.0-next.0+sha-4835277
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, extractNestedReactiveErrors, BasicFieldAdapter, normalizeFormArgs, form, isArray, isObject, signalErrorsToValidationErrors } from './_validation_errors-chunk.mjs';
+import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, extractNestedReactiveErrors, BasicFieldAdapter, normalizeFormArgs, form, signalErrorsToValidationErrors } from './_validation_errors-chunk.mjs';
 export { CompatValidationError } from './_validation_errors-chunk.mjs';
 import { linkedSignal, untracked, runInInjectionContext, computed, signal, ɵRuntimeError as _RuntimeError, EventEmitter, inject, Injector, effect } from '@angular/core';
 import { AbstractControl, ValueChangeEvent, StatusChangeEvent, TouchedChangeEvent, PristineChangeEvent, FormResetEvent } from '@angular/forms';
@@ -154,8 +154,10 @@ class CompatStructure extends FieldNodeStructure {
 const EMPTY_ARRAY_SIGNAL = computed(() => [], ...(ngDevMode ? [{
   debugName: "EMPTY_ARRAY_SIGNAL"
 }] : []));
+const TRUE_SIGNAL = computed(() => true, ...(ngDevMode ? [{
+  debugName: "TRUE_SIGNAL"
+}] : []));
 class CompatValidationState {
-  node;
   syncValid;
   errors;
   pending;
@@ -164,8 +166,7 @@ class CompatValidationState {
   parseErrors = computed(() => [], ...(ngDevMode ? [{
     debugName: "parseErrors"
   }] : []));
-  constructor(node, options) {
-    this.node = node;
+  constructor(options) {
     this.syncValid = getControlStatusSignal(options, c => c.status === 'VALID');
     this.errors = getControlStatusSignal(options, extractNestedReactiveErrors);
     this.pending = getControlStatusSignal(options, c => c.pending);
@@ -181,9 +182,7 @@ class CompatValidationState {
   rawSyncTreeErrors = EMPTY_ARRAY_SIGNAL;
   syncErrors = EMPTY_ARRAY_SIGNAL;
   rawAsyncErrors = EMPTY_ARRAY_SIGNAL;
-  shouldSkipValidation = computed(() => this.node.hidden() || this.node.disabled() || this.node.readonly(), ...(ngDevMode ? [{
-    debugName: "shouldSkipValidation"
-  }] : []));
+  shouldSkipValidation = TRUE_SIGNAL;
   status = computed(() => {
     return calculateValidationSelfStatus(this);
   }, ...(ngDevMode ? [{
@@ -222,7 +221,7 @@ class CompatFieldAdapter {
     if (!options.control) {
       return this.basicAdapter.createValidationState(node);
     }
-    return new CompatValidationState(node, options);
+    return new CompatValidationState(options);
   }
   newChild(options) {
     const value = options.parent.value()[options.initialKeyInParent];
@@ -250,79 +249,6 @@ function compatForm(...args) {
   };
   const schema = maybeSchema || (() => {});
   return form(model, schema, options);
-}
-
-function extractValue(field, filter) {
-  return untracked(() => visitFieldTree(field, filter));
-}
-function visitFieldTree(field, filter) {
-  const state = field();
-  const value = state.value();
-  const matchingChildren = extractChildren(field, value, filter);
-  if (matchingChildren !== undefined || isContainerNode(field, value)) {
-    return matchingChildren;
-  }
-  if (matchesFilter(state, filter)) {
-    return value;
-  }
-  return undefined;
-}
-function isContainerNode(field, value) {
-  return (isArray(value) || isObject(value)) && Object.keys(value).some(k => isFieldTreeNode(field[k]));
-}
-function extractChildren(field, value, filter) {
-  if (isArray(value)) {
-    const record = field;
-    const arrayValue = value;
-    const result = new Array(arrayValue.length);
-    let hasMatch = false;
-    for (let i = 0; i < arrayValue.length; i++) {
-      const child = record[i];
-      const childResult = visitFieldTree(child, filter);
-      if (childResult !== undefined) {
-        hasMatch = true;
-      }
-      result[i] = childResult;
-    }
-    return hasMatch ? result : undefined;
-  }
-  if (isObject(value)) {
-    const record = field;
-    const objectValue = value;
-    const entries = Object.keys(objectValue).map(key => {
-      const child = record[key];
-      return isFieldTreeNode(child) ? [key, child] : undefined;
-    }).filter(isKeyedChild).map(([key, child]) => {
-      const childResult = visitFieldTree(child, filter);
-      return childResult !== undefined ? [key, childResult] : undefined;
-    }).filter(v => v !== undefined);
-    return entries.length ? Object.fromEntries(entries) : undefined;
-  }
-  return undefined;
-}
-function isFieldTreeNode(value) {
-  return typeof value === 'function';
-}
-function isKeyedChild(value) {
-  return value !== undefined;
-}
-function matchesFilter(state, filter) {
-  if (!filter) {
-    return true;
-  }
-  if (filter.dirty !== undefined && state.dirty() !== filter.dirty) {
-    return false;
-  }
-  if (filter.touched !== undefined && state.touched() !== filter.touched) {
-    return false;
-  }
-  if (filter.enabled !== undefined) {
-    const enabled = !state.disabled();
-    if (enabled !== filter.enabled) {
-      return false;
-    }
-  }
-  return true;
 }
 
 const NG_STATUS_CLASSES = {
@@ -729,5 +655,5 @@ function getClosureSafeProperty(objWithPropertyToExtract) {
   throw Error(typeof ngDevMode === 'undefined' || ngDevMode ? 'Could not find renamed property on target object.' : '');
 }
 
-export { NG_STATUS_CLASSES, SignalFormControl, compatForm, extractValue };
+export { NG_STATUS_CLASSES, SignalFormControl, compatForm };
 //# sourceMappingURL=signals-compat.mjs.map
