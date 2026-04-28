@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.10+sha-fb7e67c
+ * @license Angular v21.2.10+sha-d07f502
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -952,7 +952,7 @@ class FieldNodeStructure {
       const key = initialKeyInParent;
       return computed(() => {
         if (this.parent.structure.getChild(key) !== this.node) {
-          throw new _RuntimeError(1902, ngDevMode && `Orphan field, looking for property '${key}' of ${getDebugName(this.parent)}`);
+          throw new _RuntimeError(-1902, ngDevMode && `Orphan field, looking for property '${key}' of ${getDebugName(this.parent)}`);
         }
         return key;
       });
