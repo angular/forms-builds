@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-4c9afb6
+ * @license Angular v22.0.0-next.10+sha-ebffd80
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -635,6 +635,16 @@ const MIN_LENGTH = createMetadataKey(MetadataReducer.max());
 const MAX_LENGTH = createMetadataKey(MetadataReducer.min());
 const PATTERN = createMetadataKey(MetadataReducer.list());
 
+function shallowArrayEquals(a, b) {
+  if (a === b) return true;
+  if (!a || !b) return false;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (!Object.is(a[i], b[i])) return false;
+  }
+  return true;
+}
+
 function calculateValidationSelfStatus(state) {
   if (state.errors().length > 0) {
     return 'invalid';
@@ -654,17 +664,23 @@ class FieldValidationState {
       return [];
     }
     return [...this.node.logicNode.logic.syncTreeErrors.compute(this.node.context), ...(this.node.structure.parent?.validationState.rawSyncTreeErrors() ?? [])];
-  }, ...(ngDevMode ? [{
-    debugName: "rawSyncTreeErrors"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "rawSyncTreeErrors"
+    } : {}),
+    equal: shallowArrayEquals
+  });
   syncErrors = computed(() => {
     if (this.shouldSkipValidation()) {
       return [];
     }
     return [...this.node.logicNode.logic.syncErrors.compute(this.node.context), ...this.syncTreeErrors(), ...normalizeErrors(this.node.submitState.submissionErrors())];
-  }, ...(ngDevMode ? [{
-    debugName: "syncErrors"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "syncErrors"
+    } : {}),
+    equal: shallowArrayEquals
+  });
   syncValid = computed(() => {
     if (this.shouldSkipValidation()) {
       return true;
@@ -673,40 +689,58 @@ class FieldValidationState {
   }, ...(ngDevMode ? [{
     debugName: "syncValid"
   }] : []));
-  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.fieldTree === this.node.fieldTree), ...(ngDevMode ? [{
-    debugName: "syncTreeErrors"
-  }] : []));
+  syncTreeErrors = computed(() => this.rawSyncTreeErrors().filter(err => err.fieldTree === this.node.fieldTree), {
+    ...(ngDevMode ? {
+      debugName: "syncTreeErrors"
+    } : {}),
+    equal: shallowArrayEquals
+  });
   rawAsyncErrors = computed(() => {
     if (this.shouldSkipValidation()) {
       return [];
     }
     return [...this.node.logicNode.logic.asyncErrors.compute(this.node.context), ...(this.node.structure.parent?.validationState.rawAsyncErrors() ?? [])];
-  }, ...(ngDevMode ? [{
-    debugName: "rawAsyncErrors"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "rawAsyncErrors"
+    } : {}),
+    equal: shallowArrayEquals
+  });
   asyncErrors = computed(() => {
     if (this.shouldSkipValidation()) {
       return [];
     }
     return this.rawAsyncErrors().filter(err => err === 'pending' || err.fieldTree === this.node.fieldTree);
-  }, ...(ngDevMode ? [{
-    debugName: "asyncErrors"
-  }] : []));
-  parseErrors = computed(() => this.node.formFieldBindings().flatMap(field => field.parseErrors()), ...(ngDevMode ? [{
-    debugName: "parseErrors"
-  }] : []));
-  errors = computed(() => [...this.parseErrors(), ...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], ...(ngDevMode ? [{
-    debugName: "errors"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "asyncErrors"
+    } : {}),
+    equal: shallowArrayEquals
+  });
+  parseErrors = computed(() => this.node.formFieldBindings().flatMap(field => field.parseErrors()), {
+    ...(ngDevMode ? {
+      debugName: "parseErrors"
+    } : {}),
+    equal: shallowArrayEquals
+  });
+  errors = computed(() => [...this.parseErrors(), ...this.syncErrors(), ...this.asyncErrors().filter(err => err !== 'pending')], {
+    ...(ngDevMode ? {
+      debugName: "errors"
+    } : {}),
+    equal: shallowArrayEquals
+  });
   errorSummary = computed(() => {
     const errors = this.node.structure.reduceChildren(this.errors(), (child, result) => [...result, ...child.errorSummary()]);
     if (typeof ngServerMode === 'undefined' || !ngServerMode) {
       untracked(() => errors.sort(compareErrorPosition));
     }
     return errors;
-  }, ...(ngDevMode ? [{
-    debugName: "errorSummary"
-  }] : []));
+  }, {
+    ...(ngDevMode ? {
+      debugName: "errorSummary"
+    } : {}),
+    equal: shallowArrayEquals
+  });
   pending = computed(() => this.node.structure.reduceChildren(this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), ...(ngDevMode ? [{
     debugName: "pending"
   }] : []));
@@ -1565,9 +1599,12 @@ class FieldNodeState {
   }, ...(ngDevMode ? [{
     debugName: "touched"
   }] : []));
-  disabledReasons = computed(() => [...(this.node.structure.parent?.nodeState.disabledReasons() ?? []), ...this.node.logicNode.logic.disabledReasons.compute(this.node.context)], ...(ngDevMode ? [{
-    debugName: "disabledReasons"
-  }] : []));
+  disabledReasons = computed(() => [...(this.node.structure.parent?.nodeState.disabledReasons() ?? []), ...this.node.logicNode.logic.disabledReasons.compute(this.node.context)], {
+    ...(ngDevMode ? {
+      debugName: "disabledReasons"
+    } : {}),
+    equal: shallowArrayEquals
+  });
   disabled = computed(() => !!this.disabledReasons().length, ...(ngDevMode ? [{
     debugName: "disabled"
   }] : []));
@@ -1827,5 +1864,5 @@ function extractNestedReactiveErrors(control) {
   return errors;
 }
 
-export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, signalErrorsToValidationErrors, submit };
+export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, shallowArrayEquals, signalErrorsToValidationErrors, submit };
 //# sourceMappingURL=_validation_errors-chunk.mjs.map
