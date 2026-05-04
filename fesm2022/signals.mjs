@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.0.0-next.10+sha-c84642a
+ * @license Angular v22.0.0-next.10+sha-4f048e7
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, debounced, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, signal, computed, CSP_NONCE, PLATFORM_ID, Injectable, forwardRef, input, Renderer2, DestroyRef, Injector, ElementRef, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
+import { InjectionToken, debounced, computed, ɵchain as _chain, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, signal, CSP_NONCE, PLATFORM_ID, Injectable, forwardRef, input, Renderer2, DestroyRef, Injector, ElementRef, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
 import { ɵFORM_FIELD_PARSE_ERRORS as _FORM_FIELD_PARSE_ERRORS, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, NG_VALIDATORS, ɵisNativeFormElement as _isNativeFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, ɵselectValueAccessor as _selectValueAccessor, ɵisNumericFormElement as _isNumericFormElement, NgControl } from '@angular/forms';
 import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, IS_ASYNC_VALIDATION_RESOURCE, DEBOUNCER, signalErrorsToValidationErrors, reactiveErrorsToSignalErrors, shallowArrayEquals, submit } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
@@ -348,7 +348,10 @@ function validateAsync(path, opts) {
   const RESOURCE = createManagedMetadataKey((_state, params) => {
     if (opts.debounce !== undefined) {
       const debouncedResource = debounced(() => params(), opts.debounce);
-      return opts.factory(debouncedResource.value);
+      const wrappedParams = computed(() => _chain(debouncedResource), ...(ngDevMode ? [{
+        debugName: "wrappedParams"
+      }] : []));
+      return opts.factory(wrappedParams);
     }
     return opts.factory(params);
   });
@@ -948,7 +951,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
 class InputValidityMonitor {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-c84642a",
+    version: "22.0.0-next.10+sha-4f048e7",
     ngImport: i0,
     type: InputValidityMonitor,
     deps: [],
@@ -956,7 +959,7 @@ class InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-c84642a",
+    version: "22.0.0-next.10+sha-4f048e7",
     ngImport: i0,
     type: InputValidityMonitor,
     providedIn: 'root',
@@ -965,7 +968,7 @@ class InputValidityMonitor {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-c84642a",
+  version: "22.0.0-next.10+sha-4f048e7",
   ngImport: i0,
   type: InputValidityMonitor,
   decorators: [{
@@ -1028,7 +1031,7 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-c84642a",
+    version: "22.0.0-next.10+sha-4f048e7",
     ngImport: i0,
     type: AnimationInputValidityMonitor,
     deps: null,
@@ -1036,14 +1039,14 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-c84642a",
+    version: "22.0.0-next.10+sha-4f048e7",
     ngImport: i0,
     type: AnimationInputValidityMonitor
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-c84642a",
+  version: "22.0.0-next.10+sha-4f048e7",
   ngImport: i0,
   type: AnimationInputValidityMonitor,
   decorators: [{
@@ -1201,7 +1204,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-c84642a",
+    version: "22.0.0-next.10+sha-4f048e7",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1209,7 +1212,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.10+sha-c84642a",
+    version: "22.0.0-next.10+sha-4f048e7",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1241,7 +1244,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-c84642a",
+  version: "22.0.0-next.10+sha-4f048e7",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1292,7 +1295,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-c84642a",
+    version: "22.0.0-next.10+sha-4f048e7",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1300,7 +1303,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.10+sha-c84642a",
+    version: "22.0.0-next.10+sha-4f048e7",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1326,7 +1329,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-c84642a",
+  version: "22.0.0-next.10+sha-4f048e7",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
