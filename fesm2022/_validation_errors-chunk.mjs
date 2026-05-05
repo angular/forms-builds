@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-4f048e7
+ * @license Angular v22.0.0-next.10+sha-fc52633
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -965,6 +965,9 @@ function deepSignal(source, prop) {
   const read = computed(() => source()[prop()]);
   read[SIGNAL] = source[SIGNAL];
   read.set = value => {
+    if (Object.is(untracked(read), value)) {
+      return;
+    }
     source.update(current => valueForWrite(current, value, prop()));
   };
   read.update = fn => {
