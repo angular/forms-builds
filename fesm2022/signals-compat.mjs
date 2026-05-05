@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-8a7f955
+ * @license Angular v22.0.0-next.10+sha-f81fa6e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -131,6 +131,7 @@ class CompatStructure extends FieldNodeStructure {
   }] : []));
   parent;
   fieldManager;
+  isOrphaned;
   constructor(node, options) {
     super(options.logic, node, () => {
       throw new _RuntimeError(1911, ngDevMode && `Compat nodes don't have children.`);
@@ -141,7 +142,9 @@ class CompatStructure extends FieldNodeStructure {
     this.fieldManager = getFieldManagerFromOptions(options);
     const identityInParent = options.kind === 'child' ? options.identityInParent : undefined;
     const initialKeyInParent = options.kind === 'child' ? options.initialKeyInParent : undefined;
-    this.keyInParent = this.createKeyInParent(options, identityInParent, initialKeyInParent);
+    const signals = this.createKeyOrOrphanSignals(options.kind, identityInParent, initialKeyInParent);
+    this.keyInParent = signals.keyInParent;
+    this.isOrphaned = signals.isOrphaned;
     this.pathKeys = computed(() => this.parent ? [...this.parent.structure.pathKeys(), this.keyInParent()] : [], ...(ngDevMode ? [{
       debugName: "pathKeys"
     }] : []));

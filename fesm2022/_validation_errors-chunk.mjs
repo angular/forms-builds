@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-8a7f955
+ * @license Angular v22.0.0-next.10+sha-f81fa6e
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -766,7 +766,7 @@ class FieldValidationState {
   invalid = computed(() => this.status() === 'invalid', ...(ngDevMode ? [{
     debugName: "invalid"
   }] : []));
-  shouldSkipValidation = computed(() => this.node.hidden() || this.node.disabled() || this.node.readonly(), ...(ngDevMode ? [{
+  shouldSkipValidation = computed(() => this.node.hidden() || this.node.disabled() || this.node.readonly() || this.node.structure.isOrphaned(), ...(ngDevMode ? [{
     debugName: "shouldSkipValidation"
   }] : []));
 }
@@ -989,6 +989,10 @@ function valueForWrite(sourceValue, newPropValue, prop) {
   }
 }
 
+const ORPHAN_TOKEN = Symbol(typeof ngDevMode !== 'undefined' && ngDevMode ? 'ORPHAN_TOKEN' : '');
+const FALSE_SIGNAL = computed(() => false, ...(ngDevMode ? [{
+  debugName: "FALSE_SIGNAL"
+}] : []));
 class FieldNodeStructure {
   logic;
   node;
@@ -1053,38 +1057,60 @@ class FieldNodeStructure {
   destroy() {
     this.injector.destroy();
   }
-  createKeyInParent(options, identityInParent, initialKeyInParent) {
-    if (options.kind === 'root') {
-      return ROOT_KEY_IN_PARENT;
+  createKeyOrOrphanSignals(kind, identityInParent, initialKeyInParent) {
+    if (kind === 'root') {
+      return {
+        keyInParent: ROOT_KEY_IN_PARENT,
+        isOrphaned: FALSE_SIGNAL
+      };
     }
-    if (identityInParent === undefined) {
-      const key = initialKeyInParent;
-      return computed(() => {
-        if (this.parent.structure.getChild(key) !== this.node) {
-          throw new _RuntimeError(-1902, ngDevMode && `Orphan field, looking for property '${key}' of ${getDebugName(this.parent)}`);
-        }
-        return key;
-      });
-    } else {
-      let lastKnownKey = initialKeyInParent;
-      return computed(() => {
-        const parentValue = this.parent.structure.value();
-        if (!isArray(parentValue)) {
-          throw new _RuntimeError(1903, ngDevMode && `Orphan field, expected ${getDebugName(this.parent)} to be an array`);
-        }
-        const data = parentValue[lastKnownKey];
-        if (isObject(data) && data.hasOwnProperty(this.parent.structure.identitySymbol) && data[this.parent.structure.identitySymbol] === identityInParent) {
-          return lastKnownKey;
-        }
-        for (let i = 0; i < parentValue.length; i++) {
-          const data = parentValue[i];
-          if (isObject(data) && data.hasOwnProperty(this.parent.structure.identitySymbol) && data[this.parent.structure.identitySymbol] === identityInParent) {
-            return lastKnownKey = i.toString();
+    const parent = this.parent;
+    let lastKnownKey = initialKeyInParent;
+    const keyOrOrphan = computed(() => {
+      if (parent.structure.isOrphaned()) {
+        return ORPHAN_TOKEN;
+      }
+      const map = parent.structure.childrenMap();
+      if (!map) {
+        return ORPHAN_TOKEN;
+      }
+      const lastKnownChild = map.byPropertyKey.get(lastKnownKey);
+      if (lastKnownChild && lastKnownChild.node === this.node) {
+        return lastKnownKey;
+      }
+      if (identityInParent === undefined) {
+        return ORPHAN_TOKEN;
+      } else {
+        for (const [key, child] of map.byPropertyKey) {
+          if (child.node === this.node) {
+            return lastKnownKey = key;
           }
         }
-        throw new _RuntimeError(1904, ngDevMode && `Orphan field, can't find element in array ${getDebugName(this.parent)}`);
-      });
-    }
+        return ORPHAN_TOKEN;
+      }
+    }, ...(ngDevMode ? [{
+      debugName: "keyOrOrphan"
+    }] : []));
+    const isOrphaned = computed(() => keyOrOrphan() === ORPHAN_TOKEN, ...(ngDevMode ? [{
+      debugName: "isOrphaned"
+    }] : []));
+    const keyInParent = computed(() => {
+      const key = keyOrOrphan();
+      if (key === ORPHAN_TOKEN) {
+        if (identityInParent === undefined) {
+          throw new _RuntimeError(-1902, ngDevMode && `Orphan field, looking for property '${initialKeyInParent}' of ${getDebugName(parent)}`);
+        } else {
+          throw new _RuntimeError(1904, ngDevMode && `Orphan field, can't find element in array ${getDebugName(parent)}`);
+        }
+      }
+      return key;
+    }, ...(ngDevMode ? [{
+      debugName: "keyInParent"
+    }] : []));
+    return {
+      keyInParent,
+      isOrphaned
+    };
   }
   createChildrenMap() {
     return linkedSignal({
@@ -1176,6 +1202,7 @@ class RootFieldNodeStructure extends FieldNodeStructure {
   get keyInParent() {
     return ROOT_KEY_IN_PARENT;
   }
+  isOrphaned = FALSE_SIGNAL;
   childrenMap;
   constructor(node, logic, fieldManager, value, createChildNode) {
     super(logic, node, createChildNode);
@@ -1192,6 +1219,7 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
   keyInParent;
   value;
   childrenMap;
+  isOrphaned;
   get fieldManager() {
     return this.root.structure.fieldManager;
   }
@@ -1200,15 +1228,9 @@ class ChildFieldNodeStructure extends FieldNodeStructure {
     this.logic = logic;
     this.parent = parent;
     this.root = this.parent.structure.root;
-    this.keyInParent = this.createKeyInParent({
-      kind: 'child',
-      parent,
-      pathNode: undefined,
-      logic,
-      initialKeyInParent,
-      identityInParent,
-      fieldAdapter: undefined
-    }, identityInParent, initialKeyInParent);
+    const signals = this.createKeyOrOrphanSignals('child', identityInParent, initialKeyInParent);
+    this.isOrphaned = signals.isOrphaned;
+    this.keyInParent = signals.keyInParent;
     this.pathKeys = computed(() => [...parent.structure.pathKeys(), this.keyInParent()], ...(ngDevMode ? [{
       debugName: "pathKeys"
     }] : []));
@@ -1422,12 +1444,18 @@ class FieldNode {
     return this.metadataState.has(key);
   }
   markAsTouched(options) {
+    if (this.structure.isOrphaned()) {
+      return;
+    }
     untracked(() => {
       this.markAsTouchedInternal(options);
       this.flushSync();
     });
   }
   markAsTouchedInternal(options) {
+    if (this.structure.isOrphaned()) {
+      return;
+    }
     if (this.validationState.shouldSkipValidation()) {
       return;
     }
@@ -1521,6 +1549,9 @@ class FieldNode {
           return;
         }
       }
+    }
+    if (this.structure.isOrphaned()) {
+      return;
     }
     this.sync();
   }
