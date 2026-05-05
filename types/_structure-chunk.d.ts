@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-fc52633
+ * @license Angular v22.0.0-next.10+sha-708631f
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1697,6 +1697,9 @@ declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (va
  * resulting from the action to the field. Submission errors returned by the `action` will be integrated
  * into the field as a `ValidationError` on the sub-field indicated by the `fieldTree` property of the
  * submission error.
+ *
+ * Concurrent submissions are prohibited. If a submit is already in progress for the given field or any
+ * of its parents, subsequent calls to `submit` will return `false` immediately without running the action.
  *
  * @example
  * ```ts
