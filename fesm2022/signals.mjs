@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-7745365
+ * @license Angular v22.0.0-next.10+sha-3b0ae5f
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -22,9 +22,15 @@ function provideSignalFormsConfig(config) {
   }];
 }
 
-function disabled(path, logic) {
+function disabled(path, configOrLogic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
+  let logic;
+  if (typeof configOrLogic === 'function' || typeof configOrLogic === 'string') {
+    logic = configOrLogic;
+  } else {
+    logic = configOrLogic?.when;
+  }
   pathNode.builder.addDisabledReasonRule(ctx => {
     let result = true;
     if (typeof logic === 'string') {
@@ -44,15 +50,24 @@ function disabled(path, logic) {
   });
 }
 
-function hidden(path, logic) {
+function hidden(path, configOrLogic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
+  const logic = typeof configOrLogic === 'function' ? configOrLogic : configOrLogic.when;
   pathNode.builder.addHiddenRule(logic);
 }
 
-function readonly(path, logic = () => true) {
+function readonly(path, configOrLogic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
+  let logic;
+  if (typeof configOrLogic === 'object' && configOrLogic !== null && 'when' in configOrLogic) {
+    logic = configOrLogic.when ?? (() => true);
+  } else if (typeof configOrLogic === 'function') {
+    logic = configOrLogic;
+  } else {
+    logic = () => true;
+  }
   pathNode.builder.addReadonlyRule(logic);
 }
 
@@ -195,6 +210,9 @@ const NgValidationError = BaseNgValidationError;
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 function email(path, config) {
   validate(path, ctx => {
+    if (config?.when && !config.when(ctx)) {
+      return undefined;
+    }
     if (isEmpty(ctx.value())) {
       return undefined;
     }
@@ -213,7 +231,12 @@ function email(path, config) {
 
 function max(path, maxValue, config) {
   const MAX_MEMO = createMetadataKey();
-  metadata(path, MAX_MEMO, ctx => typeof maxValue === 'function' ? maxValue(ctx) : maxValue);
+  metadata(path, MAX_MEMO, ctx => {
+    if (config?.when && !config.when(ctx)) {
+      return undefined;
+    }
+    return typeof maxValue === 'function' ? maxValue(ctx) : maxValue;
+  });
   metadata(path, MAX_NUMBER, ({
     state
   }) => state.metadata(MAX_MEMO)());
@@ -242,7 +265,12 @@ function max(path, maxValue, config) {
 
 function maxDate(path, maxDateValue, config) {
   const MAX_MEMO = createMetadataKey();
-  metadata(path, MAX_MEMO, ctx => typeof maxDateValue === 'function' ? maxDateValue(ctx) : maxDateValue);
+  metadata(path, MAX_MEMO, ctx => {
+    if (config?.when && !config.when(ctx)) {
+      return undefined;
+    }
+    return typeof maxDateValue === 'function' ? maxDateValue(ctx) : maxDateValue;
+  });
   metadata(path, MAX_DATE, ({
     state
   }) => state.metadata(MAX_MEMO)());
@@ -270,7 +298,12 @@ function maxDate(path, maxDateValue, config) {
 }
 
 function maxLength(path, maxLength, config) {
-  const MAX_LENGTH_MEMO = metadata(path, createMetadataKey(), ctx => typeof maxLength === 'number' ? maxLength : maxLength(ctx));
+  const MAX_LENGTH_MEMO = metadata(path, createMetadataKey(), ctx => {
+    if (config?.when && !config.when(ctx)) {
+      return undefined;
+    }
+    return typeof maxLength === 'number' ? maxLength : maxLength(ctx);
+  });
   metadata(path, MAX_LENGTH, ({
     state
   }) => state.metadata(MAX_LENGTH_MEMO)());
@@ -297,7 +330,12 @@ function maxLength(path, maxLength, config) {
 
 function min(path, minValue, config) {
   const MIN_MEMO = createMetadataKey();
-  metadata(path, MIN_MEMO, ctx => typeof minValue === 'function' ? minValue(ctx) : minValue);
+  metadata(path, MIN_MEMO, ctx => {
+    if (config?.when && !config.when(ctx)) {
+      return undefined;
+    }
+    return typeof minValue === 'function' ? minValue(ctx) : minValue;
+  });
   metadata(path, MIN_NUMBER, ({
     state
   }) => state.metadata(MIN_MEMO)());
@@ -326,7 +364,12 @@ function min(path, minValue, config) {
 
 function minDate(path, minDateValue, config) {
   const MIN_MEMO = createMetadataKey();
-  metadata(path, MIN_MEMO, ctx => typeof minDateValue === 'function' ? minDateValue(ctx) : minDateValue);
+  metadata(path, MIN_MEMO, ctx => {
+    if (config?.when && !config.when(ctx)) {
+      return undefined;
+    }
+    return typeof minDateValue === 'function' ? minDateValue(ctx) : minDateValue;
+  });
   metadata(path, MIN_DATE, ({
     state
   }) => state.metadata(MIN_MEMO)());
@@ -354,7 +397,12 @@ function minDate(path, minDateValue, config) {
 }
 
 function minLength(path, minLength, config) {
-  const MIN_LENGTH_MEMO = metadata(path, createMetadataKey(), ctx => typeof minLength === 'number' ? minLength : minLength(ctx));
+  const MIN_LENGTH_MEMO = metadata(path, createMetadataKey(), ctx => {
+    if (config?.when && !config.when(ctx)) {
+      return undefined;
+    }
+    return typeof minLength === 'number' ? minLength : minLength(ctx);
+  });
   metadata(path, MIN_LENGTH, ({
     state
   }) => state.metadata(MIN_LENGTH_MEMO)());
@@ -380,7 +428,12 @@ function minLength(path, minLength, config) {
 }
 
 function pattern(path, pattern, config) {
-  const PATTERN_MEMO = metadata(path, createMetadataKey(), ctx => pattern instanceof RegExp ? pattern : pattern(ctx));
+  const PATTERN_MEMO = metadata(path, createMetadataKey(), ctx => {
+    if (config?.when && !config.when(ctx)) {
+      return undefined;
+    }
+    return pattern instanceof RegExp ? pattern : pattern(ctx);
+  });
   metadata(path, PATTERN, ({
     state
   }) => state.metadata(PATTERN_MEMO)());
@@ -442,6 +495,9 @@ function validateAsync(path, opts) {
     const node = ctx.stateOf(path);
     const validationState = node.validationState;
     if (validationState.shouldSkipValidation() || !validationState.syncValid()) {
+      return undefined;
+    }
+    if (opts.when && !opts.when(ctx)) {
       return undefined;
     }
     return opts.params(ctx);
@@ -541,7 +597,8 @@ function validateHttp(path, opts) {
     debounce: opts.debounce,
     factory: request => httpResource(request, opts.options),
     onSuccess: opts.onSuccess,
-    onError: opts.onError
+    onError: opts.onError,
+    when: opts.when
   });
 }
 
@@ -1071,7 +1128,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
 class InputValidityMonitor {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-7745365",
+    version: "22.0.0-next.10+sha-3b0ae5f",
     ngImport: i0,
     type: InputValidityMonitor,
     deps: [],
@@ -1079,7 +1136,7 @@ class InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-7745365",
+    version: "22.0.0-next.10+sha-3b0ae5f",
     ngImport: i0,
     type: InputValidityMonitor,
     providedIn: 'root',
@@ -1088,7 +1145,7 @@ class InputValidityMonitor {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-7745365",
+  version: "22.0.0-next.10+sha-3b0ae5f",
   ngImport: i0,
   type: InputValidityMonitor,
   decorators: [{
@@ -1151,7 +1208,7 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-7745365",
+    version: "22.0.0-next.10+sha-3b0ae5f",
     ngImport: i0,
     type: AnimationInputValidityMonitor,
     deps: null,
@@ -1159,14 +1216,14 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-7745365",
+    version: "22.0.0-next.10+sha-3b0ae5f",
     ngImport: i0,
     type: AnimationInputValidityMonitor
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-7745365",
+  version: "22.0.0-next.10+sha-3b0ae5f",
   ngImport: i0,
   type: AnimationInputValidityMonitor,
   decorators: [{
@@ -1342,7 +1399,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-7745365",
+    version: "22.0.0-next.10+sha-3b0ae5f",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1350,7 +1407,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.10+sha-7745365",
+    version: "22.0.0-next.10+sha-3b0ae5f",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1384,7 +1441,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-7745365",
+  version: "22.0.0-next.10+sha-3b0ae5f",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1437,7 +1494,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-7745365",
+    version: "22.0.0-next.10+sha-3b0ae5f",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1445,7 +1502,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.10+sha-7745365",
+    version: "22.0.0-next.10+sha-3b0ae5f",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1471,7 +1528,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-7745365",
+  version: "22.0.0-next.10+sha-3b0ae5f",
   ngImport: i0,
   type: FormRoot,
   decorators: [{

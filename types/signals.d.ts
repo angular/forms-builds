@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-7745365
+ * @license Angular v22.0.0-next.10+sha-3b0ae5f
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -17,13 +17,22 @@ import '@standard-schema/spec';
  * validation, touched/dirty, or other state of its parent field.
  *
  * @param path The target path to add the disabled logic to.
- * @param logic A reactive function that returns `true` (or a string reason) when the field is disabled,
- *   and `false` when it is not disabled.
+ * @param config Optional configuration object.
+ *  - `when`: A reactive function that returns `true` (or a string reason) when the field is disabled,
+ *    and `false` when it is not disabled. Can also be a static string reason.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
  * @publicApi 22.0
+ */
+declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, config?: {
+    when?: string | NoInfer<LogicFn<TValue, boolean | string, TPathKind>>;
+}): void;
+/**
+ * Adds logic to a field to conditionally disable it.
+ *
+ * @deprecated Passing a function or string directly to `disabled` is deprecated. Use `{ when: ... }` instead.
  */
 declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: string | NoInfer<LogicFn<TValue, boolean | string, TPathKind>>): void;
 
@@ -40,12 +49,21 @@ declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * ```
  *
  * @param path The target path to add the hidden logic to.
- * @param logic A reactive function that returns `true` when the field is hidden.
+ * @param config Options object containing the `when` condition.
+ *  - `when`: A reactive function that returns `true` when the field is hidden.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
  * @publicApi 22.0
+ */
+declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, config: {
+    when: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
+}): void;
+/**
+ * Adds logic to a field to conditionally hide it.
+ *
+ * @deprecated Passing a function directly to `hidden` is deprecated. Use `{ when: ... }` instead.
  */
 declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
 
@@ -54,12 +72,21 @@ declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path
  * the validation, touched/dirty, or other state of its parent field.
  *
  * @param path The target path to make readonly.
- * @param logic A reactive function that returns `true` when the field is readonly.
+ * @param config Optional configuration object.
+ *  - `when`: A reactive function that returns `true` when the field is readonly.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
  * @publicApi 22.0
+ */
+declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, config?: {
+    when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
+}): void;
+/**
+ * Adds logic to a field to conditionally make it readonly.
+ *
+ * @deprecated Passing a function directly to `readonly` is deprecated. Use `{ when: ... }` instead.
  */
 declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
 
@@ -74,6 +101,8 @@ type BaseValidatorConfig<TValue, TPathKind extends PathKind = PathKind.Root> = {
     /** A user-facing error message to include with the error. */
     message?: string | LogicFn<TValue, string, TPathKind>;
     error?: never;
+    /** A function that receives the `FieldContext` and returns true if the validator should be applied. */
+    when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
 } | {
     /**
      * Custom validation error(s) to report instead of the default,
@@ -81,6 +110,8 @@ type BaseValidatorConfig<TValue, TPathKind extends PathKind = PathKind.Root> = {
      */
     error?: OneOrMany<ValidationError> | LogicFn<TValue, OneOrMany<ValidationError>, TPathKind>;
     message?: never;
+    /** A function that receives the `FieldContext` and returns true if the validator should be applied. */
+    when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
 };
 
 /**
@@ -338,6 +369,10 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
      *   If a field is not given, the error is assumed to apply to the field being validated.
      */
     readonly onSuccess: MapToErrorsFn<TValue, TResult, TPathKind>;
+    /**
+     * A function that receives the field context and returns true if the async validation should be run.
+     */
+    readonly when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
 }
 /**
  * Adds async validation to the field corresponding to the given path based on a resource.
@@ -402,6 +437,10 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
      * returns a promise that resolves when the update should proceed.
      */
     readonly debounce?: DebounceTimer<string | HttpResourceRequest | undefined>;
+    /**
+     * A function that receives the field context and returns true if the async validation should be run.
+     */
+    readonly when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
 }
 /**
  * Adds async validation to the field corresponding to the given path based on an httpResource.
