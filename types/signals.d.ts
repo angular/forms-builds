@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-5a7c1e6
+ * @license Angular v22.0.0-next.10+sha-849dba6
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -491,6 +491,10 @@ interface FormUiControl {
      * when asked to focus this control.
      */
     focus?(options?: FocusOptions): void;
+    /**
+     * Resets the UI control to its pristine state.
+     */
+    reset?(): void;
 }
 /**
  * A contract for a form control that edits a `FieldTree` of type `TValue`. Any component that

@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-5a7c1e6
+ * @license Angular v22.0.0-next.10+sha-849dba6
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1018,6 +1018,10 @@ interface FormFieldBindingOptions {
      * asked to focus this binding.
      */
     readonly focus?: (focusOptions?: FocusOptions) => void;
+    /**
+     * Resets the binding.
+     */
+    readonly reset?: () => void;
 }
 /**
  * Lightweight DI token provided by the {@link FormField} directive.
@@ -1080,6 +1084,11 @@ declare class FormField<T> {
     /** Whether this `FormField` has been registered as a binding on its associated `FieldState`. */
     private isFieldBinding;
     /**
+     * Current reset implementation, set by `registerAsBinding`.
+     */
+    private resetter;
+    private parseErrorsResetCallback?;
+    /**
      * Creates an `afterRenderEffect` that applies the configured class bindings to the host element
      * if needed.
      */
@@ -1091,6 +1100,10 @@ declare class FormField<T> {
      * implement custom focusing behavior.
      */
     focus(options?: FocusOptions): void;
+    /**
+     * Resets the bound control.
+     */
+    reset(): void;
     /**
      * Registers this `FormField` as a binding on its associated `FieldState`.
      *

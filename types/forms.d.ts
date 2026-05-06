@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-5a7c1e6
+ * @license Angular v22.0.0-next.10+sha-849dba6
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -3434,6 +3434,8 @@ declare abstract class NgControl extends AbstractControlDirective {
      */
     valueAccessor: ControlValueAccessor | null;
     protected isCustomControlBased: boolean;
+    private userOnReset?;
+    private resetSubscription?;
     private isNativeFormElement;
     /**
      * Raw `ControlValueAccessor`s retrieved from DI.
@@ -4167,15 +4169,16 @@ declare class FormArrayName extends ControlContainer implements OnInit, OnDestro
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormArrayName, "[formArrayName]", never, { "name": { "alias": "formArrayName"; "required": false; }; }, {}, never, never, false, never>;
 }
 
-/**
- * DI token that provides a writable signal that controls can use to set the signal of parse errors
- * for the `FormField` directive or reactive directives. Used internally by `transformedValue`.
- */
-declare const ɵFORM_FIELD_PARSE_ERRORS: InjectionToken<{
-    readonly set: (value: Signal<ReadonlyArray<{
+interface ɵFormControlIntegration {
+    readonly setParseErrors: (value: Signal<ReadonlyArray<{
         readonly kind: string;
     }>> | undefined) => void;
-}>;
+    onReset?: (value?: any) => void;
+}
+/**
+ * DI token that provides the ɵFormControlIntegration context for FVC/UI controls.
+ */
+declare const ɵFORM_CONTROL_INTEGRATION: InjectionToken<ɵFormControlIntegration>;
 /**
  * The type for CALL_SET_DISABLED_STATE. If `always`, then ControlValueAccessor will always call
  * `setDisabledState` when attached, which is the most correct behavior. Otherwise, it will only be
@@ -5498,5 +5501,5 @@ declare class ReactiveFormsModule {
     static ɵinj: i0.ɵɵInjectorDeclaration<ReactiveFormsModule>;
 }
 
-export { AbstractControl, AbstractControlDirective, AbstractFormDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, ControlEvent, DefaultValueAccessor, EmailValidator, FormArray, FormArrayDirective, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormRecord, FormResetEvent, FormSubmittedEvent, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NonNullableFormBuilder, NumberValueAccessor, PatternValidator, PristineChangeEvent, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, StatusChangeEvent, TouchedChangeEvent, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, VERSION, Validators, ValueChangeEvent, isFormArray, isFormControl, isFormGroup, isFormRecord, ɵFORM_FIELD_PARSE_ERRORS, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, isNativeFormElement as ɵisNativeFormElement, isNumericFormElement as ɵisNumericFormElement, isTextualFormElement as ɵisTextualFormElement, selectValueAccessor as ɵselectValueAccessor, setNativeDomProperty as ɵsetNativeDomProperty };
-export type { AbstractControlOptions, AsyncValidator, AsyncValidatorFn, ControlConfig, ControlValueAccessor, Form, FormControlOptions, FormControlState, FormControlStatus, SetDisabledStateOption, ValidationErrors, Validator, ValidatorFn, ɵCoerceStrArrToNumArr, ɵElement, ɵFormArrayRawValue, ɵFormArrayValue, ɵFormControlCtor, ɵFormGroupRawValue, ɵFormGroupValue, ɵGetProperty, NativeFormControl as ɵNativeFormControl, ɵNavigate, ɵOptionalKeys, ɵRawValue, ɵTokenize, ɵTypedOrUntyped, ɵValue, ɵWriteable };
+export { AbstractControl, AbstractControlDirective, AbstractFormDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, ControlEvent, DefaultValueAccessor, EmailValidator, FormArray, FormArrayDirective, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormRecord, FormResetEvent, FormSubmittedEvent, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NonNullableFormBuilder, NumberValueAccessor, PatternValidator, PristineChangeEvent, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, StatusChangeEvent, TouchedChangeEvent, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, VERSION, Validators, ValueChangeEvent, isFormArray, isFormControl, isFormGroup, isFormRecord, ɵFORM_CONTROL_INTEGRATION, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, isNativeFormElement as ɵisNativeFormElement, isNumericFormElement as ɵisNumericFormElement, isTextualFormElement as ɵisTextualFormElement, selectValueAccessor as ɵselectValueAccessor, setNativeDomProperty as ɵsetNativeDomProperty };
+export type { AbstractControlOptions, AsyncValidator, AsyncValidatorFn, ControlConfig, ControlValueAccessor, Form, FormControlOptions, FormControlState, FormControlStatus, SetDisabledStateOption, ValidationErrors, Validator, ValidatorFn, ɵCoerceStrArrToNumArr, ɵElement, ɵFormArrayRawValue, ɵFormArrayValue, ɵFormControlCtor, ɵFormControlIntegration, ɵFormGroupRawValue, ɵFormGroupValue, ɵGetProperty, NativeFormControl as ɵNativeFormControl, ɵNavigate, ɵOptionalKeys, ɵRawValue, ɵTokenize, ɵTypedOrUntyped, ɵValue, ɵWriteable };

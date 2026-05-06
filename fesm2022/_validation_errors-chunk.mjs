@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-5a7c1e6
+ * @license Angular v22.0.0-next.10+sha-849dba6
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1020,6 +1020,13 @@ class FieldNodeStructure {
     }
     return Array.from(map.byPropertyKey.values()).map(child => untracked(child.reader));
   }
+  materializedChildren() {
+    const map = this.childrenMap();
+    if (map === undefined) {
+      return [];
+    }
+    return Array.from(map.byPropertyKey.values()).map(child => child.node);
+  }
   _areChildrenMaterialized() {
     return untracked(this.childrenMap) !== undefined;
   }
@@ -1480,12 +1487,17 @@ class FieldNode {
     untracked(() => this._reset(value));
   }
   _reset(value) {
+    this.pendingSync()?.abort();
     if (value !== undefined) {
       this.value.set(value);
     }
+    this.controlValue.rawSet(this.value());
     this.nodeState.markAsUntouched();
     this.nodeState.markAsPristine();
-    for (const child of this.structure.children()) {
+    for (const binding of this.formFieldBindings()) {
+      binding.reset();
+    }
+    for (const child of this.structure.materializedChildren()) {
       child._reset();
     }
   }
@@ -1505,20 +1517,16 @@ class FieldNode {
     }
   }
   controlValueSignal() {
-    const controlValue = linkedSignal(this.value, ...(ngDevMode ? [{
-      debugName: "controlValue"
-    }] : []));
-    const {
-      set,
-      update
-    } = controlValue;
+    const controlValue = linkedSignal(this.value);
+    controlValue.rawSet = controlValue.set;
     controlValue.set = newValue => {
-      set(newValue);
+      controlValue.rawSet(newValue);
       this.markAsDirty();
       this.debounceSync();
     };
+    const rawUpdate = controlValue.update;
     controlValue.update = updateFn => {
-      update(updateFn);
+      rawUpdate(updateFn);
       this.markAsDirty();
       this.debounceSync();
     };
