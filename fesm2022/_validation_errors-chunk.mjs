@@ -1,5 +1,5 @@
 /**
- * @license Angular v21.2.11+sha-1aeebbe
+ * @license Angular v21.2.11+sha-9e38ed7
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1605,6 +1605,9 @@ function applyWhenValue(path, predicate, schema) {
 }
 async function submit(form, options) {
   const node = untracked(form);
+  if (untracked(node.submitState.submitting)) {
+    return false;
+  }
   const field = options === undefined ? node.structure.root.fieldProxy : form;
   const detail = {
     root: node.structure.root.fieldProxy,
