@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-849dba6
+ * @license Angular v22.0.0-next.10+sha-7745365
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -575,18 +575,18 @@ const MetadataReducer = {
         if (acc === undefined || item === undefined) {
           return acc ?? item;
         }
-        return Math.min(acc, item);
+        return item < acc ? item : acc;
       },
       getInitial: () => undefined
     };
   },
   max() {
     return {
-      reduce: (prev, next) => {
-        if (prev === undefined || next === undefined) {
-          return prev ?? next;
+      reduce: (acc, item) => {
+        if (acc === undefined || item === undefined) {
+          return acc ?? item;
         }
-        return Math.max(prev, next);
+        return item > acc ? item : acc;
       },
       getInitial: () => undefined
     };
@@ -628,9 +628,16 @@ function createMetadataKey(reducer) {
 function createManagedMetadataKey(create, reducer) {
   return new MetadataKey(reducer ?? MetadataReducer.override(), create);
 }
+function createLimitSelectionKey() {
+  return createMetadataKey();
+}
 const REQUIRED = createMetadataKey(MetadataReducer.or());
-const MIN = createMetadataKey(MetadataReducer.max());
-const MAX = createMetadataKey(MetadataReducer.min());
+const MIN = createLimitSelectionKey();
+const MIN_DATE = createMetadataKey(MetadataReducer.max());
+const MIN_NUMBER = createMetadataKey(MetadataReducer.max());
+const MAX = createLimitSelectionKey();
+const MAX_DATE = createMetadataKey(MetadataReducer.min());
+const MAX_NUMBER = createMetadataKey(MetadataReducer.min());
 const MIN_LENGTH = createMetadataKey(MetadataReducer.max());
 const MAX_LENGTH = createMetadataKey(MetadataReducer.min());
 const PATTERN = createMetadataKey(MetadataReducer.list());
@@ -1424,13 +1431,15 @@ class FieldNode {
     return this.nodeState.name;
   }
   get max() {
-    return this.metadata(MAX);
+    const maxKey = this.metadata(MAX)?.();
+    return maxKey ? this.metadata(maxKey) : undefined;
   }
   get maxLength() {
     return this.metadata(MAX_LENGTH);
   }
   get min() {
-    return this.metadata(MIN);
+    const minKey = this.metadata(MIN)?.();
+    return minKey ? this.metadata(minKey) : undefined;
   }
   get minLength() {
     return this.metadata(MIN_LENGTH);
@@ -1909,5 +1918,5 @@ function extractNestedReactiveErrors(control) {
   return errors;
 }
 
-export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, shallowArrayEquals, signalErrorsToValidationErrors, submit };
+export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, shallowArrayEquals, signalErrorsToValidationErrors, submit };
 //# sourceMappingURL=_validation_errors-chunk.mjs.map

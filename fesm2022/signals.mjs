@@ -1,14 +1,14 @@
 /**
- * @license Angular v22.0.0-next.10+sha-849dba6
+ * @license Angular v22.0.0-next.10+sha-7745365
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
 import { InjectionToken, debounced, computed, ɵchain as _chain, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, signal, CSP_NONCE, PLATFORM_ID, Injectable, forwardRef, input, Renderer2, DestroyRef, Injector, ElementRef, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
-import { ɵFORM_CONTROL_INTEGRATION as _FORM_CONTROL_INTEGRATION, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, NG_VALIDATORS, ɵisNativeFormElement as _isNativeFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, ɵselectValueAccessor as _selectValueAccessor, ɵisNumericFormElement as _isNumericFormElement, NgControl } from '@angular/forms';
-import { assertPathIsCurrent, FieldPathNode, addDefaultField, metadata, createMetadataKey, MAX, MAX_LENGTH, MIN, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, IS_ASYNC_VALIDATION_RESOURCE, DEBOUNCER, signalErrorsToValidationErrors, reactiveErrorsToSignalErrors, shallowArrayEquals, submit } from './_validation_errors-chunk.mjs';
-export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, form, schema } from './_validation_errors-chunk.mjs';
+import { ɵFORM_CONTROL_INTEGRATION as _FORM_CONTROL_INTEGRATION, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, NG_VALIDATORS, ɵisNativeFormElement as _isNativeFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, ɵselectValueAccessor as _selectValueAccessor, ɵelementAcceptsMinMax as _elementAcceptsMinMax, NgControl } from '@angular/forms';
+import { assertPathIsCurrent, FieldPathNode, addDefaultField, createMetadataKey, metadata, MAX_NUMBER, MAX, MAX_DATE, MAX_LENGTH, MIN_NUMBER, MIN, MIN_DATE, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, IS_ASYNC_VALIDATION_RESOURCE, DEBOUNCER, signalErrorsToValidationErrors, reactiveErrorsToSignalErrors, shallowArrayEquals, submit } from './_validation_errors-chunk.mjs';
+export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, createLimitSelectionKey, form, schema } from './_validation_errors-chunk.mjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import '@angular/core/primitives/signals';
@@ -93,8 +93,14 @@ function requiredError(options) {
 function minError(min, options) {
   return new MinValidationError(min, options);
 }
+function minDateError(minDate, options) {
+  return new MinDateValidationError(minDate, options);
+}
 function maxError(max, options) {
   return new MaxValidationError(max, options);
+}
+function maxDateError(maxDate, options) {
+  return new MaxDateValidationError(maxDate, options);
 }
 function minLengthError(minLength, options) {
   return new MinLengthValidationError(minLength, options);
@@ -130,12 +136,28 @@ class MinValidationError extends BaseNgValidationError {
     this.min = min;
   }
 }
+class MinDateValidationError extends BaseNgValidationError {
+  minDate;
+  kind = 'minDate';
+  constructor(minDate, options) {
+    super(options);
+    this.minDate = minDate;
+  }
+}
 class MaxValidationError extends BaseNgValidationError {
   max;
   kind = 'max';
   constructor(max, options) {
     super(options);
     this.max = max;
+  }
+}
+class MaxDateValidationError extends BaseNgValidationError {
+  maxDate;
+  kind = 'maxDate';
+  constructor(maxDate, options) {
+    super(options);
+    this.maxDate = maxDate;
   }
 }
 class MinLengthValidationError extends BaseNgValidationError {
@@ -190,25 +212,55 @@ function email(path, config) {
 }
 
 function max(path, maxValue, config) {
-  const MAX_MEMO = metadata(path, createMetadataKey(), ctx => typeof maxValue === 'number' ? maxValue : maxValue(ctx));
-  metadata(path, MAX, ({
+  const MAX_MEMO = createMetadataKey();
+  metadata(path, MAX_MEMO, ctx => typeof maxValue === 'function' ? maxValue(ctx) : maxValue);
+  metadata(path, MAX_NUMBER, ({
     state
   }) => state.metadata(MAX_MEMO)());
+  metadata(path, MAX, () => MAX_NUMBER);
   validate(path, ctx => {
-    if (isEmpty(ctx.value())) {
+    const value = ctx.value();
+    if (value === null || Number.isNaN(value)) {
       return undefined;
     }
     const max = ctx.state.metadata(MAX_MEMO)();
     if (max === undefined || Number.isNaN(max)) {
       return undefined;
     }
-    const value = ctx.value();
-    const numValue = !value && value !== 0 ? NaN : Number(value);
-    if (numValue > max) {
+    if (value > max) {
       if (config?.error) {
         return getOption(config.error, ctx);
       } else {
         return maxError(max, {
+          message: getOption(config?.message, ctx)
+        });
+      }
+    }
+    return undefined;
+  });
+}
+
+function maxDate(path, maxDateValue, config) {
+  const MAX_MEMO = createMetadataKey();
+  metadata(path, MAX_MEMO, ctx => typeof maxDateValue === 'function' ? maxDateValue(ctx) : maxDateValue);
+  metadata(path, MAX_DATE, ({
+    state
+  }) => state.metadata(MAX_MEMO)());
+  metadata(path, MAX, () => MAX_DATE);
+  validate(path, ctx => {
+    const value = ctx.value();
+    if (value === null || Number.isNaN(value.getTime())) {
+      return undefined;
+    }
+    const max = ctx.state.metadata(MAX_MEMO)();
+    if (max === undefined || Number.isNaN(max.getTime())) {
+      return undefined;
+    }
+    if (value > max) {
+      if (config?.error) {
+        return getOption(config.error, ctx);
+      } else {
+        return maxDateError(max, {
           message: getOption(config?.message, ctx)
         });
       }
@@ -244,25 +296,55 @@ function maxLength(path, maxLength, config) {
 }
 
 function min(path, minValue, config) {
-  const MIN_MEMO = metadata(path, createMetadataKey(), ctx => typeof minValue === 'number' ? minValue : minValue(ctx));
-  metadata(path, MIN, ({
+  const MIN_MEMO = createMetadataKey();
+  metadata(path, MIN_MEMO, ctx => typeof minValue === 'function' ? minValue(ctx) : minValue);
+  metadata(path, MIN_NUMBER, ({
     state
   }) => state.metadata(MIN_MEMO)());
+  metadata(path, MIN, () => MIN_NUMBER);
   validate(path, ctx => {
-    if (isEmpty(ctx.value())) {
+    const value = ctx.value();
+    if (value === null || Number.isNaN(value)) {
       return undefined;
     }
     const min = ctx.state.metadata(MIN_MEMO)();
     if (min === undefined || Number.isNaN(min)) {
       return undefined;
     }
-    const value = ctx.value();
-    const numValue = !value && value !== 0 ? NaN : Number(value);
-    if (numValue < min) {
+    if (value < min) {
       if (config?.error) {
         return getOption(config.error, ctx);
       } else {
         return minError(min, {
+          message: getOption(config?.message, ctx)
+        });
+      }
+    }
+    return undefined;
+  });
+}
+
+function minDate(path, minDateValue, config) {
+  const MIN_MEMO = createMetadataKey();
+  metadata(path, MIN_MEMO, ctx => typeof minDateValue === 'function' ? minDateValue(ctx) : minDateValue);
+  metadata(path, MIN_DATE, ({
+    state
+  }) => state.metadata(MIN_MEMO)());
+  metadata(path, MIN, () => MIN_DATE);
+  validate(path, ctx => {
+    const value = ctx.value();
+    if (value === null || Number.isNaN(value.getTime())) {
+      return undefined;
+    }
+    const min = ctx.state.metadata(MIN_MEMO)();
+    if (min === undefined || Number.isNaN(min.getTime())) {
+      return undefined;
+    }
+    if (value < min) {
+      if (config?.error) {
+        return getOption(config.error, ctx);
+      } else {
+        return minDateError(min, {
           message: getOption(config?.message, ctx)
         });
       }
@@ -792,6 +874,21 @@ function isInput(element) {
 function inputRequiresValidityTracking(input) {
   return input.type === 'date' || input.type === 'datetime-local' || input.type === 'month' || input.type === 'time' || input.type === 'week';
 }
+function formatDateForInput(date, type) {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  if (type === 'month') {
+    return `${year}-${month}`;
+  }
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+function formatDateForMinMax(name, value, type) {
+  if (value instanceof Date && (name === 'min' || name === 'max') && (type === 'date' || type === 'month')) {
+    return formatDateForInput(value, type);
+  }
+  return value;
+}
 
 function customControlCreate(host, parent) {
   host.listenToCustomControlModel(value => parent.state().controlValue.set(value));
@@ -814,7 +911,8 @@ function customControlCreate(host, parent) {
       if (bindingUpdated(bindings, name, value)) {
         host.setInputOnDirectives(name, value);
         if (parent.elementAcceptsNativeProperty(name) && !host.customControlHasInput(name)) {
-          _setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, value);
+          const domValue = formatDateForMinMax(name, value, parent.nativeFormElement.type);
+          _setNativeDomProperty(parent.renderer, parent.nativeFormElement, name, domValue);
         }
       }
     }
@@ -957,7 +1055,8 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
       if (bindingUpdated(bindings, name, value)) {
         host.setInputOnDirectives(name, value);
         if (parent.elementAcceptsNativeProperty(name)) {
-          _setNativeDomProperty(parent.renderer, input, name, value);
+          const domValue = formatDateForMinMax(name, value, input.type);
+          _setNativeDomProperty(parent.renderer, input, name, domValue);
         }
       }
     }
@@ -972,7 +1071,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
 class InputValidityMonitor {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-849dba6",
+    version: "22.0.0-next.10+sha-7745365",
     ngImport: i0,
     type: InputValidityMonitor,
     deps: [],
@@ -980,7 +1079,7 @@ class InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-849dba6",
+    version: "22.0.0-next.10+sha-7745365",
     ngImport: i0,
     type: InputValidityMonitor,
     providedIn: 'root',
@@ -989,7 +1088,7 @@ class InputValidityMonitor {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-849dba6",
+  version: "22.0.0-next.10+sha-7745365",
   ngImport: i0,
   type: InputValidityMonitor,
   decorators: [{
@@ -1052,7 +1151,7 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-849dba6",
+    version: "22.0.0-next.10+sha-7745365",
     ngImport: i0,
     type: AnimationInputValidityMonitor,
     deps: null,
@@ -1060,14 +1159,14 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-849dba6",
+    version: "22.0.0-next.10+sha-7745365",
     ngImport: i0,
     type: AnimationInputValidityMonitor
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-849dba6",
+  version: "22.0.0-next.10+sha-7745365",
   ngImport: i0,
   type: AnimationInputValidityMonitor,
   decorators: [{
@@ -1093,7 +1192,7 @@ class FormField {
   element = inject(ElementRef).nativeElement;
   elementIsNativeFormElement = _isNativeFormElement(this.element);
   elementAcceptsTextualValues = _isTextualFormElement(this.element);
-  _elementAcceptsNumericValues;
+  _elementAcceptsMinMax;
   nativeFormElement = this.elementIsNativeFormElement ? this.element : undefined;
   focuser = options => this.element.focus(options);
   controlValueAccessors = inject(NG_VALUE_ACCESSOR, {
@@ -1228,7 +1327,7 @@ class FormField {
     switch (key) {
       case 'min':
       case 'max':
-        return this._elementAcceptsNumericValues ??= _isNumericFormElement(this.element);
+        return this._elementAcceptsMinMax ??= _elementAcceptsMinMax(this.element);
       case 'minLength':
       case 'maxLength':
         return this.elementAcceptsTextualValues;
@@ -1243,7 +1342,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-849dba6",
+    version: "22.0.0-next.10+sha-7745365",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1251,7 +1350,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.10+sha-849dba6",
+    version: "22.0.0-next.10+sha-7745365",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1285,7 +1384,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-849dba6",
+  version: "22.0.0-next.10+sha-7745365",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1338,7 +1437,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-next.10+sha-849dba6",
+    version: "22.0.0-next.10+sha-7745365",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1346,7 +1445,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-next.10+sha-849dba6",
+    version: "22.0.0-next.10+sha-7745365",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1372,7 +1471,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-next.10+sha-849dba6",
+  version: "22.0.0-next.10+sha-7745365",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
@@ -1397,5 +1496,5 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MaxLengthValidationError, MaxValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxError, maxLength, maxLengthError, metadata, min, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MaxDateValidationError, MaxLengthValidationError, MaxValidationError, MinDateValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxDate, maxDateError, maxError, maxLength, maxLengthError, metadata, min, minDate, minDateError, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
 //# sourceMappingURL=signals.mjs.map

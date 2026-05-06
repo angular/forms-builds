@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-849dba6
+ * @license Angular v22.0.0-next.10+sha-7745365
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -5435,7 +5435,7 @@ type NativeFormControl = HTMLInputElement | HTMLSelectElement | (HTMLTextAreaEle
     type: 'textarea';
 });
 declare function isNativeFormElement(element: HTMLElement): element is NativeFormControl;
-declare function isNumericFormElement(element: HTMLElement): boolean;
+declare function elementAcceptsMinMax(element: HTMLElement): boolean;
 declare function isTextualFormElement(element: HTMLElement): boolean;
 /**
  * Updates the native DOM property on the given node.
@@ -5501,5 +5501,5 @@ declare class ReactiveFormsModule {
     static ɵinj: i0.ɵɵInjectorDeclaration<ReactiveFormsModule>;
 }
 
-export { AbstractControl, AbstractControlDirective, AbstractFormDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, ControlEvent, DefaultValueAccessor, EmailValidator, FormArray, FormArrayDirective, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormRecord, FormResetEvent, FormSubmittedEvent, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NonNullableFormBuilder, NumberValueAccessor, PatternValidator, PristineChangeEvent, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, StatusChangeEvent, TouchedChangeEvent, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, VERSION, Validators, ValueChangeEvent, isFormArray, isFormControl, isFormGroup, isFormRecord, ɵFORM_CONTROL_INTEGRATION, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, isNativeFormElement as ɵisNativeFormElement, isNumericFormElement as ɵisNumericFormElement, isTextualFormElement as ɵisTextualFormElement, selectValueAccessor as ɵselectValueAccessor, setNativeDomProperty as ɵsetNativeDomProperty };
+export { AbstractControl, AbstractControlDirective, AbstractFormDirective, AbstractFormGroupDirective, COMPOSITION_BUFFER_MODE, CheckboxControlValueAccessor, CheckboxRequiredValidator, ControlContainer, ControlEvent, DefaultValueAccessor, EmailValidator, FormArray, FormArrayDirective, FormArrayName, FormBuilder, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormRecord, FormResetEvent, FormSubmittedEvent, FormsModule, MaxLengthValidator, MaxValidator, MinLengthValidator, MinValidator, NG_ASYNC_VALIDATORS, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgControlStatus, NgControlStatusGroup, NgForm, NgModel, NgModelGroup, NgSelectOption, NonNullableFormBuilder, NumberValueAccessor, PatternValidator, PristineChangeEvent, RadioControlValueAccessor, RangeValueAccessor, ReactiveFormsModule, RequiredValidator, SelectControlValueAccessor, SelectMultipleControlValueAccessor, StatusChangeEvent, TouchedChangeEvent, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, VERSION, Validators, ValueChangeEvent, isFormArray, isFormControl, isFormGroup, isFormRecord, ɵFORM_CONTROL_INTEGRATION, ɵInternalFormsSharedModule, ɵNgNoValidate, ɵNgSelectMultipleOption, elementAcceptsMinMax as ɵelementAcceptsMinMax, isNativeFormElement as ɵisNativeFormElement, isTextualFormElement as ɵisTextualFormElement, selectValueAccessor as ɵselectValueAccessor, setNativeDomProperty as ɵsetNativeDomProperty };
 export type { AbstractControlOptions, AsyncValidator, AsyncValidatorFn, ControlConfig, ControlValueAccessor, Form, FormControlOptions, FormControlState, FormControlStatus, SetDisabledStateOption, ValidationErrors, Validator, ValidatorFn, ɵCoerceStrArrToNumArr, ɵElement, ɵFormArrayRawValue, ɵFormArrayValue, ɵFormControlCtor, ɵFormControlIntegration, ɵFormGroupRawValue, ɵFormGroupValue, ɵGetProperty, NativeFormControl as ɵNativeFormControl, ɵNavigate, ɵOptionalKeys, ɵRawValue, ɵTokenize, ɵTypedOrUntyped, ɵValue, ɵWriteable };

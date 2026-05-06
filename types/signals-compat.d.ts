@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-849dba6
+ * @license Angular v22.0.0-next.10+sha-7745365
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -13,7 +13,7 @@ import '@standard-schema/spec';
  * Options that may be specified when creating a compat form.
  *
  * @category interop
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 type CompatFormOptions<TModel> = Omit<FormOptions<TModel>, 'adapter'>;
 /**
@@ -43,7 +43,7 @@ type CompatFormOptions<TModel> = Omit<FormOptions<TModel>, 'adapter'>;
  * the model.
  *
  * @category interop
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function compatForm<TModel>(model: WritableSignal<TModel>): FieldTree<TModel>;
 /**
@@ -76,7 +76,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>): FieldTree<TM
  *   2. The form options (excluding adapter, since it's provided).
  *
  * @category interop
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptions: SchemaOrSchemaFn<TModel> | CompatFormOptions<TModel>): FieldTree<TModel>;
 /**
@@ -108,7 +108,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptio
  * @param options The form options (excluding adapter, since it's provided).
  *
  * @category interop
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function compatForm<TModel>(model: WritableSignal<TModel>, schema: SchemaOrSchemaFn<TModel>, options: CompatFormOptions<TModel>): FieldTree<TModel>;
 
@@ -124,7 +124,7 @@ type RawValue<T> = T extends AbstractControl<infer TValue, any> ? TValue : T ext
 /**
  * A type that recursively makes all properties of T optional.
  * Used for the result of `extractValue` when filtering is applied.
- * @experimental 21.2.0
+ * @publicApi 22.0
  */
 type DeepPartial<T> = (T extends (infer U)[] ? DeepPartial<U>[] : T extends object ? {
     [K in keyof T]?: DeepPartial<T[K]>;
@@ -135,7 +135,7 @@ type DeepPartial<T> = (T extends (infer U)[] ? DeepPartial<U>[] : T extends obje
  * Each property is optional; when provided, the field must match the specified state.
  *
  * @category interop
- * @experimental 21.2.0
+ * @publicApi 22.0
  */
 interface ExtractFilter {
     readonly dirty?: boolean;
@@ -152,7 +152,7 @@ interface ExtractFilter {
  * @returns The raw value of the field tree.
  *
  * @category interop
- * @experimental 21.2.0
+ * @publicApi 22.0
  */
 declare function extractValue<T>(field: FieldTree<T>): RawValue<T>;
 /**
@@ -166,14 +166,14 @@ declare function extractValue<T>(field: FieldTree<T>): RawValue<T>;
  * @returns A partial value containing only the fields matching the filter, or `undefined` if none match.
  *
  * @category interop
- * @experimental 21.2.0
+ * @publicApi 22.0
  */
 declare function extractValue<T>(field: FieldTree<T>, filter: ExtractFilter): DeepPartial<RawValue<T>>;
 
 /**
  * An error used for compat errors.
  *
- * @experimental 21.0.0
+ * @publicApi 22.0
  * @category interop
  */
 declare class CompatValidationError<T = unknown> implements ValidationError {
@@ -193,7 +193,7 @@ declare class CompatValidationError<T = unknown> implements ValidationError {
  * A value that can be used for `SignalFormsConfig.classes` to automatically add
  * the `ng-*` status classes from reactive forms.
  *
- * @experimental 21.0.1
+ * @publicApi 22.0
  */
 declare const NG_STATUS_CLASSES: SignalFormsConfig['classes'];
 
@@ -235,7 +235,7 @@ type ValueUpdateOptions = {
  *  </form>
  * ```
  *
- * @experimental
+ * @publicApi 22.0
  */
 declare class SignalFormControl<T> extends AbstractControl {
     /** Source FieldTree. */

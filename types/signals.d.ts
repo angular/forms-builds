@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-next.10+sha-849dba6
+ * @license Angular v22.0.0-next.10+sha-7745365
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import * as i0 from '@angular/core';
 import { DebounceTimer, Signal, ResourceRef, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal } from '@angular/core';
 import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer, FieldTree } from './_structure-chunk.js';
-export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FieldStateByMode, FormField, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IS_ASYNC_VALIDATION_RESOURCE, IgnoreUnknownProperties, ItemFieldContext, ItemType, MAX, MAX_LENGTH, MIN, MIN_LENGTH, MarkAsTouchedOptions, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createManagedMetadataKey, createMetadataKey, emailError, form, maxError, maxLengthError, metadata, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
+export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FieldStateByMode, FormField, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IS_ASYNC_VALIDATION_RESOURCE, IgnoreUnknownProperties, ItemFieldContext, ItemType, LimitKey, LimitSelectionKey, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MarkAsTouchedOptions, MaxDateValidationError, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinDateValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, emailError, form, maxDateError, maxError, maxLengthError, metadata, minDateError, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import '@angular/forms';
 import '@standard-schema/spec';
@@ -23,7 +23,7 @@ import '@standard-schema/spec';
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: string | NoInfer<LogicFn<TValue, boolean | string, TPathKind>>): void;
 
@@ -45,7 +45,7 @@ declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
 
@@ -59,7 +59,7 @@ declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function readonly<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic?: NoInfer<LogicFn<TValue, boolean, TPathKind>>): void;
 
@@ -95,13 +95,14 @@ type BaseValidatorConfig<TValue, TPathKind extends PathKind = PathKind.Root> = {
  *
  * @see [Signal Form Email Validation](guide/forms/signals/validation#email)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function email<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<string, SchemaPathRules.Supported, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the value to be less than or equal to the
  * given `maxValue`.
+ * This function can only be called on number paths.
  * This function can only be called on number paths.
  * In addition to binding a validator, this function adds `MAX` property to the field.
  *
@@ -114,9 +115,28 @@ declare function email<TPathKind extends PathKind = PathKind.Root>(path: SchemaP
  *
  * @see [Signal Form Max Validation](guide/forms/signals/validation#min-and-max)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
-declare function max<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<number | string | null, SchemaPathRules.Supported, TPathKind>, maxValue: number | LogicFn<number | string | null, number | undefined, TPathKind>, config?: BaseValidatorConfig<number | string | null, TPathKind>): void;
+declare function max<TValue extends number | null, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, maxValue: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
+
+/**
+ * Binds a validator to the given path that requires the value to be less than or equal to the
+ * given `maxDate`.
+ * This function can only be called on date paths.
+ * In addition to binding a validator, this function adds `MAX` property to the field.
+ *
+ * @param path Path of the field to validate
+ * @param maxDate The maximum date, or a LogicFn that returns the maximum date.
+ * @param config Optional, allows providing any of the following options:
+ *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.max(maxDate)`
+ *    or a function that receives the `FieldContext` and returns custom validation error(s).
+ * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @see [Signal Form Max Validation](guide/forms/signals/validation#min-and-max)
+ * @category validation
+ * @experimental 22.0.0
+ */
+declare function maxDate<TValue extends Date | null, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, maxDateValue: Date | LogicFn<TValue, Date | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the length of the value to be less than or
@@ -134,13 +154,14 @@ declare function max<TPathKind extends PathKind = PathKind.Root>(path: SchemaPat
  *
  * @see [Signal Form Max Length Validation](guide/forms/signals/validation#minlength-and-maxlength)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, maxLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the value to be greater than or equal to
  * the given `minValue`.
+ * This function can only be called on number paths.
  * This function can only be called on number paths.
  * In addition to binding a validator, this function adds `MIN` property to the field.
  *
@@ -153,9 +174,28 @@ declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  *
  * @see [Signal Form Min Validation](guide/forms/signals/validation#min-and-max)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
-declare function min<TValue extends number | string | null, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, minValue: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
+declare function min<TValue extends number | null, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, minValue: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
+
+/**
+ * Binds a validator to the given path that requires the value to be greater than or equal to
+ * the given `minDate`.
+ * This function can only be called on date paths.
+ * In addition to binding a validator, this function adds `MIN` property to the field.
+ *
+ * @param path Path of the field to validate
+ * @param minDate The minimum date, or a LogicFn that returns the minimum date.
+ * @param config Optional, allows providing any of the following options:
+ *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.min(minDate)`
+ *    or a function that receives the `FieldContext` and returns custom validation error(s).
+ * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @see [Signal Form Min Validation](guide/forms/signals/validation#min-and-max)
+ * @category validation
+ * @experimental 22.0.0
+ */
+declare function minDate<TValue extends Date | null, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, minDateValue: Date | LogicFn<TValue, Date | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
 /**
  * Binds a validator to the given path that requires the length of the value to be greater than or
@@ -173,7 +213,7 @@ declare function min<TValue extends number | string | null, TPathKind extends Pa
  *
  * @see [Signal Form Min Length Validation](guide/forms/signals/validation#minlength-and-maxlength)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, minLength: number | LogicFn<TValue, number | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
@@ -191,7 +231,7 @@ declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  *
  * @see [Signal Form Pattern Validation](guide/forms/signals/validation#pattern)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<string, SchemaPathRules.Supported, TPathKind>, pattern: RegExp | LogicFn<string | undefined, RegExp | undefined, TPathKind>, config?: BaseValidatorConfig<string, TPathKind>): void;
 
@@ -211,7 +251,7 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Schem
  *
  * @see [Signal Form Required Validation](guide/forms/signals/validation#required)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind> & {
     when?: NoInfer<LogicFn<TValue, boolean, TPathKind>>;
@@ -226,7 +266,7 @@ declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<FieldValidator<TValue, TPathKind>>): void;
 
@@ -244,7 +284,7 @@ declare function validate<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @template TResult The type of result returned by the async operation
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> = (result: TResult, ctx: FieldContext<TValue, TPathKind>) => TreeValidationResult;
 /**
@@ -257,7 +297,7 @@ type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> 
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root> {
     /**
@@ -312,7 +352,7 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
  *
  * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: AsyncValidatorOptions<TValue, TParams, TResult, TPathKind>): void;
 
@@ -325,7 +365,7 @@ declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathK
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = PathKind.Root> {
     /**
@@ -375,7 +415,7 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
  *
  * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
  * @category validation
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, opts: HttpValidatorOptions<TValue, TResult, TPathKind>): void;
 
@@ -389,7 +429,7 @@ declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathK
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
  * @category logic
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
 
@@ -397,9 +437,9 @@ declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root
  * The base set of properties shared by all form control contracts.
  *
  * @category control
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
-interface FormUiControl {
+interface FormUiControl<TValue> {
     /**
      * An input to receive the errors for the field. If implemented, the `Field` directive will
      * automatically bind errors from the bound field to this input.
@@ -459,7 +499,7 @@ interface FormUiControl {
      * An input to receive the min value for the field. If implemented, the `Field` directive will
      * automatically bind the min value from the bound field to this input.
      */
-    readonly min?: InputSignal<number | undefined> | InputSignalWithTransform<number | undefined, unknown>;
+    readonly min?: InputSignal<NonNullable<TValue> | undefined> | InputSignalWithTransform<NonNullable<TValue> | undefined, unknown>;
     /**
      * An input to receive the min length for the field. If implemented, the `Field` directive will
      * automatically bind the min length from the bound field to this input.
@@ -469,7 +509,7 @@ interface FormUiControl {
      * An input to receive the max value for the field. If implemented, the `Field` directive will
      * automatically bind the max value from the bound field to this input.
      */
-    readonly max?: InputSignal<number | undefined> | InputSignalWithTransform<number | undefined, unknown>;
+    readonly max?: InputSignal<NonNullable<TValue> | undefined> | InputSignalWithTransform<NonNullable<TValue> | undefined, unknown>;
     /**
      * An input to receive the max length for the field. If implemented, the `Field` directive will
      * automatically bind the max length from the bound field to this input.
@@ -507,9 +547,9 @@ interface FormUiControl {
  * @template TValue The type of `FieldTree` that the implementing component can edit.
  *
  * @category control
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
-interface FormValueControl<TValue> extends FormUiControl {
+interface FormValueControl<TValue> extends FormUiControl<TValue> {
     /**
      * The value is the only required property in this contract. A component that wants to integrate
      * with the `Field` directive via this contract, *must* provide a `model()` that will be kept in
@@ -531,9 +571,9 @@ interface FormValueControl<TValue> extends FormUiControl {
  * `Field` directive.
  *
  * @category control
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
-interface FormCheckboxControl extends FormUiControl {
+interface FormCheckboxControl extends FormUiControl<boolean> {
     /**
      * The checked is the only required property in this contract. A component that wants to integrate
      * with the `Field` directive, *must* provide a `model()` that will be kept in sync with the
@@ -557,7 +597,7 @@ interface FormCheckboxControl extends FormUiControl {
  * @param config A debounce configuration, which can be either a debounce duration in milliseconds,
  *     `'blur'` to debounce until the field is blurred, or a custom {@link Debouncer} function.
  *
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare function debounce<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, config: number | 'blur' | Debouncer<TValue, TPathKind>): void;
 
@@ -577,7 +617,7 @@ interface ParseResult<TValue> {
 /**
  * Options for `transformedValue`.
  *
- * @experimental 21.2.0
+ * @publicApi 22.0
  */
 interface TransformedValueOptions<TValue, TRaw> {
     /**
@@ -598,7 +638,7 @@ interface TransformedValueOptions<TValue, TRaw> {
  * via parse/format transformations.
  *
  * @category control
- * @experimental 21.2.0
+ * @publicApi 22.0
  */
 interface TransformedValueSignal<TRaw> extends WritableSignal<TRaw> {
     /**
@@ -625,7 +665,7 @@ interface TransformedValueSignal<TRaw> extends WritableSignal<TRaw> {
  * @param value The model signal to synchronize with.
  * @param options Configuration including `parse` and `format` functions.
  * @returns A `TransformedValueSignal` representing the raw value with parse error tracking.
- * @experimental 21.2.0
+ * @publicApi 22.0
  *
  * @example
  * ```ts
@@ -668,8 +708,7 @@ declare function transformedValue<TValue, TRaw>(value: ModelSignal<TValue>, opti
  * </form>
  * ```
  *
- * @publicApi
- * @experimental 21.0.0
+ * @publicApi 22.0
  */
 declare class FormRoot<T> {
     readonly fieldTree: i0.InputSignal<FieldTree<T>>;
@@ -678,5 +717,5 @@ declare class FormRoot<T> {
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormRoot<any>, "form[formRoot]", never, { "fieldTree": { "alias": "formRoot"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
-export { Debouncer, DisabledReason, FieldContext, FieldTree, FieldValidator, FormRoot, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxLength, min, minLength, pattern, readonly, required, transformedValue, validate, validateAsync, validateHttp, validateTree };
+export { Debouncer, DisabledReason, FieldContext, FieldTree, FieldValidator, FormRoot, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxDate, maxLength, min, minDate, minLength, pattern, readonly, required, transformedValue, validate, validateAsync, validateHttp, validateTree };
 export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, MapToErrorsFn, ParseResult, TransformedValueOptions, TransformedValueSignal };
