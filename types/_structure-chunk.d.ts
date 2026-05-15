@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.0-rc.0+sha-defb172
+ * @license Angular v22.0.0-rc.0+sha-08d5017
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1620,6 +1620,17 @@ interface FormOptions<TModel> {
     injector?: Injector;
     /** The name of the root form, used in generating name attributes for the fields. */
     name?: string;
+    /**
+     * Configuration options to expose this form as an experimental WebMCP AI agent tool.
+     *
+     * @experimental
+     */
+    experimentalWebMcpTool?: {
+        /** The unique name of the WebMCP tool to create from this form. */
+        name: string;
+        /** A description of the tool's purpose and usage information. */
+        description: string;
+    };
     /** Options that define how to handle form submission. */
     submission?: FormSubmitOptions<TModel, unknown>;
 }

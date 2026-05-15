@@ -1,10 +1,10 @@
 /**
- * @license Angular v22.0.0-rc.0+sha-defb172
+ * @license Angular v22.0.0-rc.0+sha-08d5017
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { untracked, ɵRuntimeError as _RuntimeError, computed, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, inject } from '@angular/core';
+import { untracked, ɵRuntimeError as _RuntimeError, computed, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, InjectionToken, inject } from '@angular/core';
 import { AbstractControl, FormGroup, FormArray } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
@@ -1749,6 +1749,8 @@ class FormFieldManager {
 }
 let nextFormId = 0;
 
+const REGISTER_WEBMCP_FORM = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'REGISTER_WEBMCP_FORM' : '');
+
 function normalizeFormArgs(args) {
   let model;
   let schema;
@@ -1775,6 +1777,24 @@ function form(...args) {
   const adapter = options?.adapter ?? new BasicFieldAdapter();
   const fieldRoot = FieldNode.newRoot(fieldManager, model, pathNode, adapter);
   fieldManager.createFieldManagementEffect(fieldRoot.structure);
+  const {
+    experimentalWebMcpTool
+  } = options ?? {};
+  if (experimentalWebMcpTool) {
+    const registerWebMcpForm = runInInjectionContext(injector, () => inject(REGISTER_WEBMCP_FORM, {
+      optional: true
+    }));
+    if (registerWebMcpForm) {
+      runInInjectionContext(injector, () => registerWebMcpForm(fieldRoot.fieldTree, {
+        name: experimentalWebMcpTool.name,
+        description: experimentalWebMcpTool.description
+      }));
+    } else {
+      if (typeof ngDevMode !== 'undefined' && ngDevMode) {
+        throw new Error(`Cannot register form "${experimentalWebMcpTool.name}" as a WebMCP tool. ` + `Make sure to use \`provideExperimentalWebMcpForms()\` in your application bootstrap configuration.`);
+      }
+    }
+  }
   return fieldRoot.fieldTree;
 }
 function applyEach(path, schema) {
@@ -1918,5 +1938,5 @@ function extractNestedReactiveErrors(control) {
   return errors;
 }
 
-export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MetadataKey, MetadataReducer, PATTERN, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, shallowArrayEquals, signalErrorsToValidationErrors, submit };
+export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MetadataKey, MetadataReducer, PATTERN, REGISTER_WEBMCP_FORM, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, shallowArrayEquals, signalErrorsToValidationErrors, submit };
 //# sourceMappingURL=_validation_errors-chunk.mjs.map

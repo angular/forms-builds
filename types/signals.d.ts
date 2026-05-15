@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.0.0-rc.0+sha-defb172
+ * @license Angular v22.0.0-rc.0+sha-08d5017
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { DebounceTimer, Signal, ResourceRef, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal } from '@angular/core';
+import { DebounceTimer, Signal, ResourceRef, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal, EnvironmentProviders } from '@angular/core';
 import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer, FieldTree } from './_structure-chunk.js';
 export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FieldStateByMode, FormField, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IS_ASYNC_VALIDATION_RESOURCE, IgnoreUnknownProperties, ItemFieldContext, ItemType, LimitKey, LimitSelectionKey, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MarkAsTouchedOptions, MaxDateValidationError, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinDateValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, emailError, form, maxDateError, maxError, maxLengthError, metadata, minDateError, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
@@ -756,5 +756,13 @@ declare class FormRoot<T> {
     static ɵdir: i0.ɵɵDirectiveDeclaration<FormRoot<any>, "form[formRoot]", never, { "fieldTree": { "alias": "formRoot"; "required": true; "isSignal": true; }; }, {}, never, never, true, never>;
 }
 
-export { Debouncer, DisabledReason, FieldContext, FieldTree, FieldValidator, FormRoot, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxDate, maxLength, min, minDate, minLength, pattern, readonly, required, transformedValue, validate, validateAsync, validateHttp, validateTree };
+/**
+ * Creates a provider that configures all signal forms with `experimentalWebMcpTool`
+ * to be registered as WebMCP tools.
+ *
+ * @experimental
+ */
+declare function provideExperimentalWebMcpForms(): EnvironmentProviders;
+
+export { Debouncer, DisabledReason, FieldContext, FieldTree, FieldValidator, FormRoot, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxDate, maxLength, min, minDate, minLength, pattern, provideExperimentalWebMcpForms, readonly, required, transformedValue, validate, validateAsync, validateHttp, validateTree };
 export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, MapToErrorsFn, ParseResult, TransformedValueOptions, TransformedValueSignal };

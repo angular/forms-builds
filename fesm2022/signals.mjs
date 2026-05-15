@@ -1,13 +1,13 @@
 /**
- * @license Angular v22.0.0-rc.0+sha-defb172
+ * @license Angular v22.0.0-rc.0+sha-08d5017
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { InjectionToken, debounced, computed, ɵchain as _chain, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, signal, CSP_NONCE, PLATFORM_ID, Injectable, forwardRef, input, Renderer2, DestroyRef, Injector, ElementRef, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive } from '@angular/core';
+import { InjectionToken, debounced, computed, ɵchain as _chain, resource, ɵisPromise as _isPromise, linkedSignal, inject, ɵRuntimeError as _RuntimeError, untracked, signal, CSP_NONCE, PLATFORM_ID, Injectable, forwardRef, input, Renderer2, DestroyRef, Injector, ElementRef, afterRenderEffect, effect, ɵformatRuntimeError as _formatRuntimeError, Directive, makeEnvironmentProviders, declareExperimentalWebMcpTool } from '@angular/core';
 import { ɵFORM_CONTROL_INTEGRATION as _FORM_CONTROL_INTEGRATION, Validators, ɵsetNativeDomProperty as _setNativeDomProperty, NG_VALIDATORS, ɵisNativeFormElement as _isNativeFormElement, ɵisTextualFormElement as _isTextualFormElement, NG_VALUE_ACCESSOR, ɵselectValueAccessor as _selectValueAccessor, ɵelementAcceptsMinMax as _elementAcceptsMinMax, NgControl } from '@angular/forms';
-import { assertPathIsCurrent, FieldPathNode, addDefaultField, createMetadataKey, metadata, MAX_NUMBER, MAX, MAX_DATE, MAX_LENGTH, MIN_NUMBER, MIN, MIN_DATE, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, IS_ASYNC_VALIDATION_RESOURCE, DEBOUNCER, signalErrorsToValidationErrors, reactiveErrorsToSignalErrors, shallowArrayEquals, submit } from './_validation_errors-chunk.mjs';
+import { assertPathIsCurrent, FieldPathNode, addDefaultField, createMetadataKey, metadata, MAX_NUMBER, MAX, MAX_DATE, MAX_LENGTH, MIN_NUMBER, MIN, MIN_DATE, MIN_LENGTH, PATTERN, REQUIRED, createManagedMetadataKey, IS_ASYNC_VALIDATION_RESOURCE, DEBOUNCER, signalErrorsToValidationErrors, reactiveErrorsToSignalErrors, shallowArrayEquals, submit, REGISTER_WEBMCP_FORM } from './_validation_errors-chunk.mjs';
 export { MetadataKey, MetadataReducer, apply, applyEach, applyWhen, applyWhenValue, createLimitSelectionKey, form, schema } from './_validation_errors-chunk.mjs';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { httpResource } from '@angular/common/http';
@@ -1128,7 +1128,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
 class InputValidityMonitor {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-rc.0+sha-defb172",
+    version: "22.0.0-rc.0+sha-08d5017",
     ngImport: i0,
     type: InputValidityMonitor,
     deps: [],
@@ -1136,7 +1136,7 @@ class InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-rc.0+sha-defb172",
+    version: "22.0.0-rc.0+sha-08d5017",
     ngImport: i0,
     type: InputValidityMonitor,
     providedIn: 'root',
@@ -1145,7 +1145,7 @@ class InputValidityMonitor {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-rc.0+sha-defb172",
+  version: "22.0.0-rc.0+sha-08d5017",
   ngImport: i0,
   type: InputValidityMonitor,
   decorators: [{
@@ -1208,7 +1208,7 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-rc.0+sha-defb172",
+    version: "22.0.0-rc.0+sha-08d5017",
     ngImport: i0,
     type: AnimationInputValidityMonitor,
     deps: null,
@@ -1216,14 +1216,14 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.0-rc.0+sha-defb172",
+    version: "22.0.0-rc.0+sha-08d5017",
     ngImport: i0,
     type: AnimationInputValidityMonitor
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-rc.0+sha-defb172",
+  version: "22.0.0-rc.0+sha-08d5017",
   ngImport: i0,
   type: AnimationInputValidityMonitor,
   decorators: [{
@@ -1399,7 +1399,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-rc.0+sha-defb172",
+    version: "22.0.0-rc.0+sha-08d5017",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1407,7 +1407,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-rc.0+sha-defb172",
+    version: "22.0.0-rc.0+sha-08d5017",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1441,7 +1441,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-rc.0+sha-defb172",
+  version: "22.0.0-rc.0+sha-08d5017",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1494,7 +1494,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.0-rc.0+sha-defb172",
+    version: "22.0.0-rc.0+sha-08d5017",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1502,7 +1502,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.0-rc.0+sha-defb172",
+    version: "22.0.0-rc.0+sha-08d5017",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1528,7 +1528,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.0-rc.0+sha-defb172",
+  version: "22.0.0-rc.0+sha-08d5017",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
@@ -1553,5 +1553,91 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MaxDateValidationError, MaxLengthValidationError, MaxValidationError, MinDateValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxDate, maxDateError, maxError, maxLength, maxLengthError, metadata, min, minDate, minDateError, minError, minLength, minLengthError, pattern, patternError, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
+const registerWebMcpForm = (formTree, options) => {
+  untracked(() => {
+    const node = formTree();
+    const inputSchema = inferSchemaFromFieldNode(node);
+    if (!inputSchema) {
+      throw new Error(`Could not accurately infer WebMCP schema for form "${options.name}". ` + `Ensure that the form model does not contain null, undefined, empty arrays, or unsupported types.`);
+    }
+    declareExperimentalWebMcpTool({
+      name: options.name,
+      description: options.description,
+      inputSchema,
+      execute: async args => {
+        node.value.set(args);
+        const success = await submit(formTree);
+        if (success) {
+          return {
+            content: [{
+              type: 'text',
+              text: 'Form submitted successfully.'
+            }]
+          };
+        } else {
+          const errorMessages = node.errorSummary().map(err => {
+            const fieldName = err.fieldTree().structure.pathKeys().join('.');
+            return `${fieldName ? `${fieldName}: ` : ''}${err.message || err.kind}`;
+          }).join('\n');
+          return {
+            content: [{
+              type: 'text',
+              text: `Form submission failed:\n${errorMessages}`
+            }]
+          };
+        }
+      }
+    });
+  });
+};
+function inferSchemaFromFieldNode(node) {
+  const value = node.value();
+  if (typeof value === 'string') return {
+    type: 'string'
+  };
+  if (typeof value === 'number') return {
+    type: 'number'
+  };
+  if (typeof value === 'boolean') return {
+    type: 'boolean'
+  };
+  if (value === null || value === undefined) return undefined;
+  if (Array.isArray(value)) {
+    if (value.length === 0) return undefined;
+    const firstChild = node.structure.getChild('0');
+    if (!firstChild) return undefined;
+    const itemSchema = inferSchemaFromFieldNode(firstChild);
+    if (!itemSchema) return undefined;
+    return {
+      type: 'array',
+      items: itemSchema
+    };
+  }
+  if (typeof value === 'object') {
+    const properties = {};
+    const required = [];
+    const children = node.structure.children();
+    for (const child of children) {
+      const key = child.keyInParent();
+      const childSchema = inferSchemaFromFieldNode(child);
+      if (!childSchema) return undefined;
+      properties[key] = childSchema;
+      if (child.required()) required.push(key.toString());
+    }
+    return {
+      type: 'object',
+      properties,
+      required
+    };
+  }
+  return undefined;
+}
+function provideExperimentalWebMcpForms() {
+  return makeEnvironmentProviders([{
+    provide: REGISTER_WEBMCP_FORM,
+    useValue: registerWebMcpForm
+  }]);
+}
+
+export { BaseNgValidationError, EmailValidationError, FORM_FIELD, FormField, FormRoot, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MaxDateValidationError, MaxLengthValidationError, MaxValidationError, MinDateValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, RequiredValidationError, StandardSchemaValidationError, createManagedMetadataKey, createMetadataKey, debounce, disabled, email, emailError, hidden, max, maxDate, maxDateError, maxError, maxLength, maxLengthError, metadata, min, minDate, minDateError, minError, minLength, minLengthError, pattern, patternError, provideExperimentalWebMcpForms, provideSignalFormsConfig, readonly, required, requiredError, standardSchemaError, submit, transformedValue, validate, validateAsync, validateHttp, validateStandardSchema, validateTree, ɵNgFieldDirective };
 //# sourceMappingURL=signals.mjs.map
