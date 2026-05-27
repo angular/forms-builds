@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.0+sha-140c4d0
+ * @license Angular v22.1.0-next.0+sha-6f56202
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -165,7 +165,7 @@ declare function max<TValue extends number | null, TPathKind extends PathKind = 
  *
  * @see [Signal Form Max Validation](guide/forms/signals/validation#min-and-max)
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare function maxDate<TValue extends Date | null, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, maxDateValue: Date | LogicFn<TValue, Date | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 
@@ -224,7 +224,7 @@ declare function min<TValue extends number | null, TPathKind extends PathKind = 
  *
  * @see [Signal Form Min Validation](guide/forms/signals/validation#min-and-max)
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare function minDate<TValue extends Date | null, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, minDateValue: Date | LogicFn<TValue, Date | undefined, TPathKind>, config?: BaseValidatorConfig<TValue, TPathKind>): void;
 

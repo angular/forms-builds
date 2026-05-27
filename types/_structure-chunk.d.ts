@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.0+sha-140c4d0
+ * @license Angular v22.1.0-next.0+sha-6f56202
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -849,7 +849,7 @@ declare class MetadataKey<TRead, TWrite, TAcc> {
  * Represents metadata that is used to define a valid limit for a field.
  *
  * @template TLimit The type the limit value.
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 type LimitKey<TLimit> = MetadataKey<Signal<NonNullable<TLimit> | undefined>, NonNullable<TLimit> | undefined, NonNullable<TLimit> | undefined>;
 /**
@@ -862,7 +862,7 @@ declare const LIMIT_SELECTION_KEY: unique symbol;
  * This indirection allows rules to bind a {@link LimitKey} of a specific limit type (e.g. `number`
  * or `Date`) matching the field's type to a generic {@link MetadataKey}.
  *
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 type LimitSelectionKey = MetadataKey<Signal<LimitKey<unknown> | undefined>, LimitKey<unknown>, LimitKey<unknown> | undefined> & {
     [LIMIT_SELECTION_KEY]: true;
@@ -927,7 +927,7 @@ declare function createManagedMetadataKey<TRead, TWrite, TAcc>(create: (state: F
 /**
  * Creates a {@link LimitSelectionKey}.
  *
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare function createLimitSelectionKey(): LimitSelectionKey;
 /**
@@ -951,14 +951,14 @@ declare const MIN: LimitSelectionKey;
  * A {@link MetadataKey} representing the minimum valid value of a date field.
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare const MIN_DATE: LimitKey<Date>;
 /**
  * A {@link MetadataKey} representing the minimum valid value of a number field.
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare const MIN_NUMBER: LimitKey<number>;
 /**
@@ -975,14 +975,14 @@ declare const MAX: LimitSelectionKey;
  * A {@link MetadataKey} representing the maximum valid value of a date field.
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare const MAX_DATE: LimitKey<Date>;
 /**
  * A {@link MetadataKey} representing the maximum valid value of a number field.
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare const MAX_NUMBER: LimitKey<number>;
 /**
@@ -1257,7 +1257,7 @@ declare function minError(min: number, options?: ValidationErrorOptions): Withou
  * @param options The validation error options
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare function minDateError(minDate: Date, options: WithFieldTree<ValidationErrorOptions>): MinDateValidationError;
 /**
@@ -1266,7 +1266,7 @@ declare function minDateError(minDate: Date, options: WithFieldTree<ValidationEr
  * @param options The optional validation error options
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare function minDateError(minDate: Date, options?: ValidationErrorOptions): WithoutFieldTree<MinDateValidationError>;
 /**
@@ -1293,7 +1293,7 @@ declare function maxError(max: number, options?: ValidationErrorOptions): Withou
  * @param options The validation error options
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare function maxDateError(maxDate: Date, options: WithFieldTree<ValidationErrorOptions>): MaxDateValidationError;
 /**
@@ -1302,7 +1302,7 @@ declare function maxDateError(maxDate: Date, options: WithFieldTree<ValidationEr
  * @param options The optional validation error options
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare function maxDateError(maxDate: Date, options?: ValidationErrorOptions): WithoutFieldTree<MaxDateValidationError>;
 /**
@@ -1480,7 +1480,7 @@ declare class MinValidationError extends BaseNgValidationError {
  * An error used to indicate that a date value is earlier than the minimum allowed.
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare class MinDateValidationError extends BaseNgValidationError {
     readonly minDate: Date;
@@ -1502,7 +1502,7 @@ declare class MaxValidationError extends BaseNgValidationError {
  * An error used to indicate that a date value is later than the maximum allowed.
  *
  * @category validation
- * @experimental 22.0.0
+ * @publicApi 22.0
  */
 declare class MaxDateValidationError extends BaseNgValidationError {
     readonly maxDate: Date;
