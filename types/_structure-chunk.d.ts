@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.0+sha-d109bf9
+ * @license Angular v22.1.0-next.0+sha-45e8fb5
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -446,6 +446,9 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
      * @param kind The kind of error (e.g. 'required', 'min').
      * @returns The first matching error, or `undefined` if none.
      */
+    getError<K extends NgValidationError['kind']>(kind: K): (Extract<NgValidationError, {
+        kind: K;
+    }> & ValidationError.WithFieldTree) | undefined;
     getError(kind: string): ValidationError.WithFieldTree | undefined;
     /**
      * Resets the {@link touched} and {@link dirty} state of the field and its descendants.
