@@ -1,6 +1,6 @@
 {
   "name": "@angular/forms",
-  "version": "22.1.0-next.1+sha-1566442",
+  "version": "22.1.0-next.1+sha-a849b6f",
   "description": "Angular - directives and services for creating forms",
   "author": "angular",
   "license": "MIT",
@@ -17,9 +17,9 @@
     "@mcp-b/webmcp-types": "^3.0.0"
   },
   "peerDependencies": {
-    "@angular/core": "22.1.0-next.1+sha-1566442",
-    "@angular/common": "22.1.0-next.1+sha-1566442",
-    "@angular/platform-browser": "22.1.0-next.1+sha-1566442",
+    "@angular/core": "22.1.0-next.1+sha-a849b6f",
+    "@angular/common": "22.1.0-next.1+sha-a849b6f",
+    "@angular/platform-browser": "22.1.0-next.1+sha-a849b6f",
     "rxjs": "^6.5.3 || ^7.4.0"
   },
   "repository": {
