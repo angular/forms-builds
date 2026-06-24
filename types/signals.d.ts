@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.1+sha-edea40b
+ * @license Angular v22.1.0-next.1+sha-12fcec8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -560,7 +560,10 @@ interface FormUiControl<TValue> {
      */
     readonly pattern?: InputSignal<readonly RegExp[]> | InputSignalWithTransform<readonly RegExp[], unknown>;
     /**
-     * An output to emit when the control is touched.
+     * An output to emit when the user finishes interacting with the control, marking the field as
+     * touched. Emit this in response to the native `blur` event (when focus leaves the control), not
+     * `focus`. The `Field` directive listens to this output to update the field's touched status,
+     * which blur-based rules such as `debounce('blur')` rely on.
      */
     readonly touch?: OutputRef<void>;
     /**
@@ -635,6 +638,9 @@ interface FormCheckboxControl extends FormUiControl<boolean> {
  * @param path The target path to debounce.
  * @param config A debounce configuration, which can be either a debounce duration in milliseconds,
  *     `'blur'` to debounce until the field is blurred, or a custom {@link Debouncer} function.
+ *
+ * @see [Custom form controls](guide/forms/signals/custom-controls) for using `debounce('blur')` with
+ *     a custom `FormValueControl`.
  *
  * @publicApi 22.0
  */
