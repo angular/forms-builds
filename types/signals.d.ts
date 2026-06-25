@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.0.2+sha-9d1d1de
+ * @license Angular v22.0.2+sha-f4f7f37
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import * as i0 from '@angular/core';
-import { DebounceTimer, Signal, ResourceRef, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal, EnvironmentProviders } from '@angular/core';
+import { DebounceTimer, Signal, Resource, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal, EnvironmentProviders } from '@angular/core';
 import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer, FieldTree } from './_structure-chunk.js';
 export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FieldStateByMode, FormField, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IS_ASYNC_VALIDATION_RESOURCE, IgnoreUnknownProperties, ItemFieldContext, ItemType, LimitKey, LimitSelectionKey, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MarkAsTouchedOptions, MaxDateValidationError, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinDateValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, emailError, form, maxDateError, maxError, maxLengthError, metadata, minDateError, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
@@ -351,7 +351,7 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
      * @param params The params to use for constructing the resource
      * @returns A reference to the constructed resource.
      */
-    readonly factory: (params: Signal<TParams | undefined>) => ResourceRef<TResult | undefined>;
+    readonly factory: (params: Signal<TParams | undefined>) => Resource<TResult | undefined>;
     /**
      * A function to handle errors thrown by httpResource (HTTP errors, network errors, etc.).
      * Receives the error and the field context, returns a list of validation errors.
@@ -560,7 +560,10 @@ interface FormUiControl<TValue> {
      */
     readonly pattern?: InputSignal<readonly RegExp[]> | InputSignalWithTransform<readonly RegExp[], unknown>;
     /**
-     * An output to emit when the control is touched.
+     * An output to emit when the user finishes interacting with the control, marking the field as
+     * touched. Emit this in response to the native `blur` event (when focus leaves the control), not
+     * `focus`. The `Field` directive listens to this output to update the field's touched status,
+     * which blur-based rules such as `debounce('blur')` rely on.
      */
     readonly touch?: OutputRef<void>;
     /**
@@ -635,6 +638,9 @@ interface FormCheckboxControl extends FormUiControl<boolean> {
  * @param path The target path to debounce.
  * @param config A debounce configuration, which can be either a debounce duration in milliseconds,
  *     `'blur'` to debounce until the field is blurred, or a custom {@link Debouncer} function.
+ *
+ * @see [Custom form controls](guide/forms/signals/custom-controls) for using `debounce('blur')` with
+ *     a custom `FormValueControl`.
  *
  * @publicApi 22.0
  */
