@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.4+sha-b126dc9
+ * @license Angular v22.1.0-next.4+sha-731d665
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -11,6 +11,8 @@ import '@standard-schema/spec';
 
 /**
  * Options that may be specified when creating a compat form.
+ *
+ * @see [Top-down migration using compatForm](guide/forms/signals/migration#top-down-migration-using-compatform)
  *
  * @category interop
  * @publicApi 22.0
@@ -41,6 +43,8 @@ type CompatFormOptions<TModel> = Omit<FormOptions<TModel>, 'adapter'>;
  * @param model A writable signal that contains the model data for the form. The resulting field
  * structure will match the shape of the model and any changes to the form data will be written to
  * the model.
+ *
+ * @see [Top-down migration using compatForm](guide/forms/signals/migration#top-down-migration-using-compatform)
  *
  * @category interop
  * @publicApi 22.0
@@ -75,6 +79,8 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>): FieldTree<TM
  *      When passing a schema, the form options can be passed as a third argument if needed.
  *   2. The form options (excluding adapter, since it's provided).
  *
+ * @see [Top-down migration using compatForm](guide/forms/signals/migration#top-down-migration-using-compatform)
+ *
  * @category interop
  * @publicApi 22.0
  */
@@ -106,6 +112,8 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptio
  * @param schemaOrOptions A schema or a function used to specify logic for the form (e.g. validation, disabled fields, etc.).
  *      When passing a schema, the form options can be passed as a third argument if needed.
  * @param options The form options (excluding adapter, since it's provided).
+ *
+ * @see [Top-down migration using compatForm](guide/forms/signals/migration#top-down-migration-using-compatform)
  *
  * @category interop
  * @publicApi 22.0
@@ -193,6 +201,8 @@ declare class CompatValidationError<T = unknown> implements ValidationError {
  * A value that can be used for `SignalFormsConfig.classes` to automatically add
  * the `ng-*` status classes from reactive forms.
  *
+ * @see [Automatic status classes](guide/forms/signals/migration#automatic-status-classes)
+ *
  * @publicApi 22.0
  */
 declare const NG_STATUS_CLASSES: SignalFormsConfig['classes'];
@@ -234,6 +244,8 @@ type ValueUpdateOptions = {
  *    <input formControlName="age" />
  *  </form>
  * ```
+ *
+ * @see [Binding SignalFormControl](guide/forms/signals/migration#binding-signalformcontrol)
  *
  * @publicApi 22.0
  */

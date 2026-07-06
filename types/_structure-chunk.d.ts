@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.4+sha-b126dc9
+ * @license Angular v22.1.0-next.4+sha-731d665
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -15,6 +15,8 @@ import { StandardSchemaV1 } from '@standard-schema/spec';
 declare const ɵɵTYPE: unique symbol;
 /**
  * Options that can be specified when submitting a form.
+ *
+ * @see [Form submission](guide/forms/signals/form-submission)
  *
  * @publicApi 22.0
  */
@@ -55,6 +57,8 @@ interface FormSubmitOptions<TRootModel, TSubmittedModel> {
 }
 /**
  * Options for the `markAsTouched` method.
+ *
+ * @see [Touched state](guide/forms/signals/field-state-management#touched-state)
  *
  * @publicApi 22.0
  */
@@ -106,6 +110,8 @@ declare namespace PathKind {
 /**
  * A reason for a field's disablement.
  *
+ * @see [Disabled reasons](guide/forms/signals/form-logic#disabled-reasons)
+ *
  * @category logic
  * @publicApi 22.0
  */
@@ -117,6 +123,8 @@ interface DisabledReason {
 }
 /**
  * The absence of an error which indicates a successful validation result.
+ *
+ * @see [Validation basics](guide/forms/signals/validation#validation-basics)
  *
  * @category types
  * @publicApi 22.0
@@ -133,6 +141,8 @@ type ValidationSuccess = null | undefined | void;
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
+ * @see [Validation errors](guide/forms/signals/validation#validation-errors)
+ *
  * @category types
  * @publicApi 22.0
  */
@@ -147,6 +157,8 @@ type TreeValidationResult<E extends ValidationError.WithOptionalFieldTree = Vali
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
+ * @see [Validation errors](guide/forms/signals/validation#validation-errors)
+ *
  * @category types
  * @publicApi 22.0
  */
@@ -160,6 +172,8 @@ type ValidationResult<E extends ValidationError = ValidationError> = ValidationS
  *
  * @template E the type of error (defaults to {@link ValidationError}).
  *
+ * @see [Async validation](guide/forms/signals/validation#async-validation)
+ *
  * @category types
  * @publicApi 22.0
  */
@@ -169,6 +183,8 @@ type AsyncValidationResult<E extends ValidationError = ValidationError> = Valida
  *
  * @template TValue The type of the value stored in the field.
  * @template TKey The type of the property key which this field resides under in its parent.
+ *
+ * @see [Accessing field state](guide/forms/signals/field-state-management#accessing-field-state)
  *
  * @category types
  * @publicApi 22.0
@@ -241,6 +257,7 @@ type MaybeFieldTree<TModel, TKey extends string | number = string | number, TMod
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
+ *
  *
  * @category structure
  * @publicApi 22.0
@@ -402,6 +419,8 @@ interface ReadonlyFieldState<TValue, TKey extends string | number = string | num
  * @template TValue The type of the data which the field is wrapped around.
  * @template TKey The type of the property key which this field resides under in its parent.
  *
+ * @see [Field state management](guide/forms/signals/field-state-management)
+ *
  * @category structure
  * @publicApi 22.0
  */
@@ -466,6 +485,8 @@ interface FieldState<TValue, TKey extends string | number = string | number> ext
 /**
  * This is FieldState also providing access to the wrapped FormControl.
  *
+ * @see [Migrating existing forms to Signal Forms](guide/forms/signals/migration)
+ *
  * @category interop
  * @publicApi 22.0
  */
@@ -474,6 +495,8 @@ type CompatFieldState<TControl extends AbstractControl, TKey extends string | nu
 };
 /**
  * A readonly {@link CompatFieldState}.
+ *
+ * @see [Migrating existing forms to Signal Forms](guide/forms/signals/migration)
  *
  * @category interop
  * @publicApi 22.0
@@ -490,6 +513,9 @@ type ReadonlyCompatFieldState<TControl extends AbstractControl, TKey extends str
 type FieldStateByMode<TValue, TKey extends string | number, TMode extends 'writable' | 'readonly'> = TMode extends 'writable' ? FieldState<TValue, TKey> : ReadonlyFieldState<TValue, TKey>;
 /**
  * Represents a binding between a field and a UI control through a {@link FormField} directive.
+ *
+ * @see [Focus a form control bound to a form field](guide/forms/signals/field-state-management#focus-a-form-control-bound-to-a-form-field)
+ * @see [How the FormField directive works](guide/forms/signals/custom-controls#how-the-formfield-directive-works)
  *
  * @publicApi 22.0
  */
@@ -517,6 +543,9 @@ interface FormFieldBinding {
 /**
  * Allows declaring whether the Rules are supported for a given path.
  *
+ * @see [Schemas and schema composability](guide/forms/signals/schemas)
+ * @see [Migrating existing forms to Signal Forms](guide/forms/signals/migration)
+ *
  * @publicApi 22.0
  **/
 type SchemaPathRules = SchemaPathRules.Supported | SchemaPathRules.Unsupported;
@@ -538,6 +567,9 @@ declare namespace SchemaPathRules {
  * @template TValue The type of the data which the form is wrapped around.
  * @template TPathKind The kind of path (root field, child field, or item of an array)
  *
+ * @see [The schema function](guide/forms/signals/validation#the-schema-function)
+ * @see [Schemas and schema composability](guide/forms/signals/schemas)
+ *
  * @category types
  * @publicApi 22.0
  */
@@ -550,6 +582,8 @@ type SchemaPath<TValue, TSupportsRules extends SchemaPathRules = SchemaPathRules
 };
 /**
  * Schema path used if the value is an AbstractControl.
+ *
+ * @see [Migrating existing forms to Signal Forms](guide/forms/signals/migration)
  *
  * @category interop
  * @publicApi 22.0
@@ -564,6 +598,9 @@ type CompatSchemaPath<TControl extends AbstractControl, TPathKind extends PathKi
  *
  * It mirrors the structure of a given data structure, and allows applying rules to the appropriate
  * fields.
+ *
+ * @see [The schema function](guide/forms/signals/validation#the-schema-function)
+ * @see [Schemas and schema composability](guide/forms/signals/schemas)
  *
  * @publicApi 22.0
  */
@@ -581,6 +618,8 @@ type SchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = ([TMod
  *
  * @template TValue The type of the data which the field is wrapped around.
  * @template TPathKind The kind of path (root field, child field, or item of an array)
+ *
+ * @see [Schemas and schema composability](guide/forms/signals/schemas)
  *
  * @publicApi 22.0
  */
@@ -623,6 +662,8 @@ type MaybeSchemaPathTree<TModel, TPathKind extends PathKind = PathKind.Root> = (
  *
  * @template TModel Data type.
  *
+ * @see [Create reusable schemas with schema](guide/forms/signals/schemas#create-reusable-schemas-with-schema)
+ *
  * @category types
  * @publicApi 22.0
  */
@@ -647,6 +688,8 @@ type Schema<in TModel> = {
  * @template TModel Data type.
  * @template TPathKind The kind of path this schema function can be bound to.
  *
+ * @see [Schemas and schema composability](guide/forms/signals/schemas)
+ *
  * @category types
  * @publicApi 22.0
  */
@@ -656,6 +699,8 @@ type SchemaFn<TModel, TPathKind extends PathKind = PathKind.Root> = (p: SchemaPa
  *
  * @template TModel The type of data stored in the form that this schema function is attached to.
  * @template TPathKind The kind of path this schema function can be bound to.
+ *
+ * @see [Schemas and schema composability](guide/forms/signals/schemas)
  *
  * @category types
  * @publicApi 22.0
@@ -680,6 +725,8 @@ type LogicFn<TValue, TReturn, TPathKind extends PathKind = PathKind.Root> = (ctx
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
  *
+ * @see [Custom validation rules](guide/forms/signals/validation#using-validate)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -690,6 +737,8 @@ type FieldValidator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicF
  *
  * @template TValue The type of value stored in the field being validated
  * @template TPathKind The kind of path being validated (root field, child field, or item of an array)
+ *
+ * @see [Custom validation rules](guide/forms/signals/validation#using-validatetree)
  *
  * @category types
  * @publicApi 22.0
@@ -711,12 +760,16 @@ type Validator<TValue, TPathKind extends PathKind = PathKind.Root> = LogicFn<TVa
  * Provides access to the state of the current field as well as functions that can be used to look
  * up state of other fields based on a `FieldPath`.
  *
+ * @see [Understanding the field context](guide/forms/signals/cross-field-logic#understanding-the-field-context)
+ *
  * @category types
  * @publicApi 22.0
  */
 type FieldContext<TValue, TPathKind extends PathKind = PathKind.Root> = TPathKind extends PathKind.Item ? ItemFieldContext<TValue> : TPathKind extends PathKind.Child ? ChildFieldContext<TValue> : RootFieldContext<TValue>;
 /**
  * The base field context that is available for all fields.
+ *
+ * @see [Understanding the field context](guide/forms/signals/cross-field-logic#understanding-the-field-context)
  *
  * @publicApi 22.0
  */
@@ -771,6 +824,8 @@ type ItemType<T extends Object> = T extends ReadonlyArray<any> ? T[number] : T[k
  * @template TValue The type of value stored in the field.
  * @template TPathKind The kind of path the debouncer is applied to (root field, child field, or item of an array).
  *
+ * @see [Debouncing form updates](guide/forms/signals/form-logic#delay-input-operations-with-debounce)
+ *
  * @publicApi 22.0
  */
 type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: FieldContext<TValue, TPathKind>, abortSignal: AbortSignal) => Promise<void> | void;
@@ -788,6 +843,9 @@ type Debouncer<TValue, TPathKind extends PathKind = PathKind.Root> = (context: F
  * @template TKey The type of metadata key.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Field metadata](guide/forms/signals/field-metadata)
+ * @see [Setting values from a schema](guide/forms/signals/field-metadata#setting-values-from-a-schema)
+ *
  * @category logic
  * @publicApi 22.0
  */
@@ -798,6 +856,9 @@ declare function metadata<TValue, TKey extends MetadataKey<any, any, any>, TPath
  *
  * @template TAcc The accumulated type of the reduce operation.
  * @template TItem The type of the individual items that are reduced over.
+ *
+ * @see [Combining contributions with reducers](guide/forms/signals/field-metadata#combining-contributions-with-reducers)
+ *
  * @publicApi 22.0
  */
 interface MetadataReducer<TAcc, TItem> {
@@ -825,6 +886,8 @@ declare function override<T>(getInitial: () => T): MetadataReducer<T, T>;
 /**
  * A symbol used to tag a `MetadataKey` as representing an asynchronous validation resource.
  *
+ * @see [Async validation](guide/forms/signals/validation#async-validation)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -839,6 +902,8 @@ declare const IS_ASYNC_VALIDATION_RESOURCE: unique symbol;
  * @template TWrite The type written to this key using the `metadata()` rule
  * @template TAcc The type of the reducer's accumulated value.
  *
+ * @see [Field metadata](guide/forms/signals/field-metadata)
+ *
  * @publicApi 22.0
  */
 declare class MetadataKey<TRead, TWrite, TAcc> {
@@ -852,6 +917,9 @@ declare class MetadataKey<TRead, TWrite, TAcc> {
  * Represents metadata that is used to define a valid limit for a field.
  *
  * @template TLimit The type the limit value.
+ *
+ * @see [Validation constraints](guide/forms/signals/custom-controls#validation-constraints)
+ *
  * @publicApi 22.0
  */
 type LimitKey<TLimit> = MetadataKey<Signal<NonNullable<TLimit> | undefined>, NonNullable<TLimit> | undefined, NonNullable<TLimit> | undefined>;
@@ -865,6 +933,8 @@ declare const LIMIT_SELECTION_KEY: unique symbol;
  * This indirection allows rules to bind a {@link LimitKey} of a specific limit type (e.g. `number`
  * or `Date`) matching the field's type to a generic {@link MetadataKey}.
  *
+ * @see [Validation constraints](guide/forms/signals/custom-controls#validation-constraints)
+ *
  * @publicApi 22.0
  */
 type LimitSelectionKey = MetadataKey<Signal<LimitKey<unknown> | undefined>, LimitKey<unknown>, LimitKey<unknown> | undefined> & {
@@ -875,6 +945,8 @@ type LimitSelectionKey = MetadataKey<Signal<LimitKey<unknown> | undefined>, Limi
  *
  * @template TKey The `MetadataKey` type
  *
+ * @see [Field metadata](guide/forms/signals/field-metadata)
+ *
  * @publicApi 22.0
  */
 type MetadataSetterType<TKey> = TKey extends MetadataKey<any, infer TWrite, any> ? TWrite : never;
@@ -883,6 +955,8 @@ type MetadataSetterType<TKey> = TKey extends MetadataKey<any, infer TWrite, any>
  * The last value set on a given field tree node overrides any previously set values.
  *
  * @template TWrite The type written to this key using the `metadata()` rule
+ *
+ * @see [Creating a metadata key](guide/forms/signals/field-metadata#creating-a-metadata-key)
  *
  * @publicApi 22.0
  */
@@ -893,6 +967,8 @@ declare function createMetadataKey<TWrite>(): MetadataKey<Signal<TWrite | undefi
  * @param reducer The reducer used to combine individually set values into the final computed value.
  * @template TWrite The type written to this key using the `metadata()` rule
  * @template TAcc The type of the reducer's accumulated value.
+ *
+ * @see [Creating a metadata key](guide/forms/signals/field-metadata#creating-a-metadata-key)
  *
  * @publicApi 22.0
  */
@@ -907,6 +983,8 @@ declare function createMetadataKey<TWrite, TAcc>(reducer: MetadataReducer<TAcc, 
  *   and runs in the injection context of that node.
  * @template TRead The type read from the `FieldState` for this key
  * @template TWrite The type written to this key using the `metadata()` rule
+ *
+ * @see [Attaching lifecycle-aware objects with managed metadata](guide/forms/signals/field-metadata#attaching-lifecycle-aware-objects-with-managed-metadata)
  *
  * @publicApi 22.0
  */
@@ -924,17 +1002,23 @@ declare function createManagedMetadataKey<TRead, TWrite>(create: (state: FieldSt
  * @template TWrite The type written to this key using the `metadata()` rule
  * @template TAcc The type of the reducer's accumulated value.
  *
+ * @see [Attaching lifecycle-aware objects with managed metadata](guide/forms/signals/field-metadata#attaching-lifecycle-aware-objects-with-managed-metadata)
+ *
  * @publicApi 22.0
  */
 declare function createManagedMetadataKey<TRead, TWrite, TAcc>(create: (state: FieldState<unknown>, data: Signal<TAcc>) => TRead, reducer: MetadataReducer<TAcc, TWrite>): MetadataKey<TRead, TWrite, TAcc>;
 /**
  * Creates a {@link LimitSelectionKey}.
  *
+ * @see [Validation constraints](guide/forms/signals/custom-controls#validation-constraints)
+ *
  * @publicApi 22.0
  */
 declare function createLimitSelectionKey(): LimitSelectionKey;
 /**
  * A {@link MetadataKey} representing whether the field is required.
+ *
+ * @see [Required validation](guide/forms/signals/validation#required)
  *
  * @category validation
  * @publicApi 22.0
@@ -946,6 +1030,8 @@ declare const REQUIRED: MetadataKey<Signal<boolean>, boolean, boolean>;
  * This indirection allows different keys to be used for different types of values with their
  * own reducers, such as {@link MIN_DATE} and {@link MIN_NUMBER}.
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -953,12 +1039,16 @@ declare const MIN: LimitSelectionKey;
 /**
  * A {@link MetadataKey} representing the minimum valid value of a date field.
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
 declare const MIN_DATE: LimitKey<Date>;
 /**
  * A {@link MetadataKey} representing the minimum valid value of a number field.
+ *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
  *
  * @category validation
  * @publicApi 22.0
@@ -970,12 +1060,16 @@ declare const MIN_NUMBER: LimitKey<number>;
  * This indirection allows different keys to be used for different types of values with their
  * own reducers, such as {@link MAX_DATE} and {@link MAX_NUMBER}.
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
 declare const MAX: LimitSelectionKey;
 /**
  * A {@link MetadataKey} representing the maximum valid value of a date field.
+ *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
  *
  * @category validation
  * @publicApi 22.0
@@ -984,12 +1078,16 @@ declare const MAX_DATE: LimitKey<Date>;
 /**
  * A {@link MetadataKey} representing the maximum valid value of a number field.
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
 declare const MAX_NUMBER: LimitKey<number>;
 /**
  * A {@link MetadataKey} representing the min length of the field.
+ *
+ * @see [Minimum and maximum length validation](guide/forms/signals/validation#minlength-and-maxlength)
  *
  * @category validation
  * @publicApi 22.0
@@ -998,12 +1096,16 @@ declare const MIN_LENGTH: LimitKey<number>;
 /**
  * A {@link MetadataKey} representing the max length of the field.
  *
+ * @see [Minimum and maximum length validation](guide/forms/signals/validation#minlength-and-maxlength)
+ *
  * @category validation
  * @publicApi 22.0
  */
 declare const MAX_LENGTH: LimitKey<number>;
 /**
  * A {@link MetadataKey} representing the patterns the field must match.
+ *
+ * @see [Pattern validation](guide/forms/signals/validation#pattern)
  *
  * @category validation
  * @publicApi 22.0
@@ -1015,6 +1117,8 @@ declare const PATTERN: MetadataKey<Signal<RegExp[]>, RegExp | undefined, RegExp[
  * i.e. `{[key: string]: unknown}`. It allows specific string keys to pass through, even if their
  * value is `unknown`, e.g. `{key: unknown}`.
  *
+ * @see [Integration with schema validation libraries](guide/forms/signals/validation#integration-with-schema-validation-libraries)
+ *
  * @publicApi 22.0
  */
 type RemoveStringIndexUnknownKey<K, V> = string extends K ? unknown extends V ? never : K : K;
@@ -1022,6 +1126,8 @@ type RemoveStringIndexUnknownKey<K, V> = string extends K ? unknown extends V ? 
  * Utility type that recursively ignores unknown string index properties on the given object.
  * We use this on the `TSchema` type in `validateStandardSchema` in order to accommodate Zod's
  * `looseObject` which includes `{[key: string]: unknown}` as part of the type.
+ *
+ * @see [Integration with schema validation libraries](guide/forms/signals/validation#integration-with-schema-validation-libraries)
  *
  * @publicApi 22.0
  */
@@ -1049,6 +1155,8 @@ declare function validateStandardSchema<TSchema, TModel extends IgnoreUnknownPro
  * @param issue The standard schema issue
  * @param options The validation error options
  *
+ * @see [Integration with schema validation libraries](guide/forms/signals/validation#integration-with-schema-validation-libraries)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1058,12 +1166,16 @@ declare function standardSchemaError(issue: StandardSchemaV1.Issue, options: Wit
  * @param issue The standard schema issue
  * @param options The optional validation error options
  *
+ * @see [Integration with schema validation libraries](guide/forms/signals/validation#integration-with-schema-validation-libraries)
+ *
  * @category validation
  * @publicApi 22.0
  */
 declare function standardSchemaError(issue: StandardSchemaV1.Issue, options?: ValidationErrorOptions): WithoutFieldTree<StandardSchemaValidationError>;
 /**
  * An error used to indicate an issue validating against a standard schema.
+ *
+ * @see [Integration with schema validation libraries](guide/forms/signals/validation#integration-with-schema-validation-libraries)
  *
  * @category validation
  * @publicApi 22.0
@@ -1091,6 +1203,8 @@ interface FormFieldBindingOptions {
 /**
  * Lightweight DI token provided by the {@link FormField} directive.
  *
+ * @see [Custom form controls](guide/forms/signals/custom-controls)
+ *
  * @category control
  * @publicApi 22.0
  */
@@ -1112,6 +1226,9 @@ declare const FORM_FIELD: InjectionToken<FormField<unknown>>;
  *    forms.
  *
  * @category control
+ *
+ * @see [How the FormField directive works](guide/forms/signals/custom-controls#how-the-formfield-directive-works)
+ *
  * @publicApi 22.0
  */
 declare class FormField<T> {
@@ -1198,6 +1315,8 @@ interface ValidationErrorOptions {
  * A type that requires the given type `T` to have a `field` property.
  * @template T The type to add a `field` to.
  *
+ * @see [Validation errors](guide/forms/signals/validation#validation-errors)
+ *
  * @publicApi 22.0
  */
 type WithFieldTree<T> = T & {
@@ -1206,6 +1325,8 @@ type WithFieldTree<T> = T & {
 /**
  * A type that allows the given type `T` to optionally have a `field` property.
  * @template T The type to optionally add a `field` to.
+ *
+ * @see [Validation errors](guide/forms/signals/validation#validation-errors)
  *
  * @publicApi 22.0
  */
@@ -1216,6 +1337,8 @@ type WithOptionalFieldTree<T> = Omit<T, 'fieldTree'> & {
  * A type that ensures the given type `T` does not have a `field` property.
  * @template T The type to remove the `field` from.
  *
+ * @see [Validation errors](guide/forms/signals/validation#validation-errors)
+ *
  * @publicApi 22.0
  */
 type WithoutFieldTree<T> = T & {
@@ -1225,12 +1348,16 @@ type WithoutFieldTree<T> = T & {
  * Create a required error associated with the target field
  * @param options The validation error options
  *
+ * @see [Required validation](guide/forms/signals/validation#required)
+ *
  * @publicApi 22.0
  */
 declare function requiredError(options: WithFieldTree<ValidationErrorOptions>): RequiredValidationError;
 /**
  * Create a required error
  * @param options The optional validation error options
+ *
+ * @see [Required validation](guide/forms/signals/validation#required)
  *
  * @category validation
  * @publicApi 22.0
@@ -1241,6 +1368,8 @@ declare function requiredError(options?: ValidationErrorOptions): WithoutFieldTr
  * @param min The min value constraint
  * @param options The validation error options
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1249,6 +1378,8 @@ declare function minError(min: number, options: WithFieldTree<ValidationErrorOpt
  * Create a min value error
  * @param min The min value constraint
  * @param options The optional validation error options
+ *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
  *
  * @category validation
  * @publicApi 22.0
@@ -1259,6 +1390,8 @@ declare function minError(min: number, options?: ValidationErrorOptions): Withou
  * @param minDate The min date constraint
  * @param options The validation error options
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1267,6 +1400,8 @@ declare function minDateError(minDate: Date, options: WithFieldTree<ValidationEr
  * Create a minDate error
  * @param minDate The min date constraint
  * @param options The optional validation error options
+ *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
  *
  * @category validation
  * @publicApi 22.0
@@ -1277,6 +1412,8 @@ declare function minDateError(minDate: Date, options?: ValidationErrorOptions): 
  * @param max The max value constraint
  * @param options The validation error options
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1285,6 +1422,8 @@ declare function maxError(max: number, options: WithFieldTree<ValidationErrorOpt
  * Create a max value error
  * @param max The max value constraint
  * @param options The optional validation error options
+ *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
  *
  * @category validation
  * @publicApi 22.0
@@ -1295,6 +1434,8 @@ declare function maxError(max: number, options?: ValidationErrorOptions): Withou
  * @param maxDate The max date constraint
  * @param options The validation error options
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1303,6 +1444,8 @@ declare function maxDateError(maxDate: Date, options: WithFieldTree<ValidationEr
  * Create a maxDate error
  * @param maxDate The max date constraint
  * @param options The optional validation error options
+ *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
  *
  * @category validation
  * @publicApi 22.0
@@ -1313,6 +1456,8 @@ declare function maxDateError(maxDate: Date, options?: ValidationErrorOptions): 
  * @param minLength The minLength constraint
  * @param options The validation error options
  *
+ * @see [Minimum and maximum length validation](guide/forms/signals/validation#minlength-and-maxlength)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1321,6 +1466,8 @@ declare function minLengthError(minLength: number, options: WithFieldTree<Valida
  * Create a minLength error
  * @param minLength The minLength constraint
  * @param options The optional validation error options
+ *
+ * @see [Minimum and maximum length validation](guide/forms/signals/validation#minlength-and-maxlength)
  *
  * @category validation
  * @publicApi 22.0
@@ -1331,6 +1478,8 @@ declare function minLengthError(minLength: number, options?: ValidationErrorOpti
  * @param maxLength The maxLength constraint
  * @param options The validation error options
  *
+ * @see [Minimum and maximum length validation](guide/forms/signals/validation#minlength-and-maxlength)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1339,6 +1488,8 @@ declare function maxLengthError(maxLength: number, options: WithFieldTree<Valida
  * Create a maxLength error
  * @param maxLength The maxLength constraint
  * @param options The optional validation error options
+ *
+ * @see [Minimum and maximum length validation](guide/forms/signals/validation#minlength-and-maxlength)
  *
  * @category validation
  * @publicApi 22.0
@@ -1349,6 +1500,8 @@ declare function maxLengthError(maxLength: number, options?: ValidationErrorOpti
  * @param pattern The violated pattern
  * @param options The validation error options
  *
+ * @see [Pattern validation](guide/forms/signals/validation#pattern)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1358,6 +1511,8 @@ declare function patternError(pattern: RegExp, options: WithFieldTree<Validation
  * @param pattern The violated pattern
  * @param options The optional validation error options
  *
+ * @see [Pattern validation](guide/forms/signals/validation#pattern)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1366,6 +1521,8 @@ declare function patternError(pattern: RegExp, options?: ValidationErrorOptions)
  * Create an email format error associated with the target field
  * @param options The validation error options
  *
+ * @see [Email validation](guide/forms/signals/validation#email)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1373,6 +1530,8 @@ declare function emailError(options: WithFieldTree<ValidationErrorOptions>): Ema
 /**
  * Create an email format error
  * @param options The optional validation error options
+ *
+ * @see [Email validation](guide/forms/signals/validation#email)
  *
  * @category validation
  * @publicApi 22.0
@@ -1446,6 +1605,8 @@ declare namespace ValidationError {
  * Internal version of `NgValidationError`, we create this separately so we can change its type on
  * the exported version to a type union of the possible sub-classes.
  *
+ * @see [Signal Form Validation Errors](guide/forms/signals/validation#validation-errors)
+ *
  * @publicApi 22.0
  */
 declare abstract class BaseNgValidationError implements ValidationError {
@@ -1462,6 +1623,8 @@ declare abstract class BaseNgValidationError implements ValidationError {
 /**
  * An error used to indicate that a required field is empty.
  *
+ * @see [Required validation](guide/forms/signals/validation#required)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1470,6 +1633,8 @@ declare class RequiredValidationError extends BaseNgValidationError {
 }
 /**
  * An error used to indicate that a value is lower than the minimum allowed.
+ *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
  *
  * @category validation
  * @publicApi 22.0
@@ -1482,6 +1647,8 @@ declare class MinValidationError extends BaseNgValidationError {
 /**
  * An error used to indicate that a date value is earlier than the minimum allowed.
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1492,6 +1659,8 @@ declare class MinDateValidationError extends BaseNgValidationError {
 }
 /**
  * An error used to indicate that a value is higher than the maximum allowed.
+ *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
  *
  * @category validation
  * @publicApi 22.0
@@ -1504,6 +1673,8 @@ declare class MaxValidationError extends BaseNgValidationError {
 /**
  * An error used to indicate that a date value is later than the maximum allowed.
  *
+ * @see [Minimum and maximum validation](guide/forms/signals/validation#min-and-max)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1514,6 +1685,8 @@ declare class MaxDateValidationError extends BaseNgValidationError {
 }
 /**
  * An error used to indicate that a value is shorter than the minimum allowed length.
+ *
+ * @see [Minimum and maximum length validation](guide/forms/signals/validation#minlength-and-maxlength)
  *
  * @category validation
  * @publicApi 22.0
@@ -1526,6 +1699,8 @@ declare class MinLengthValidationError extends BaseNgValidationError {
 /**
  * An error used to indicate that a value is longer than the maximum allowed length.
  *
+ * @see [Minimum and maximum length validation](guide/forms/signals/validation#minlength-and-maxlength)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1536,6 +1711,8 @@ declare class MaxLengthValidationError extends BaseNgValidationError {
 }
 /**
  * An error used to indicate that a value does not match the required pattern.
+ *
+ * @see [Pattern validation](guide/forms/signals/validation#pattern)
  *
  * @category validation
  * @publicApi 22.0
@@ -1548,6 +1725,8 @@ declare class PatternValidationError extends BaseNgValidationError {
 /**
  * An error used to indicate that a value is not a valid email.
  *
+ * @see [Email validation](guide/forms/signals/validation#email)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1556,6 +1735,8 @@ declare class EmailValidationError extends BaseNgValidationError {
 }
 /**
  * An error used to indicate that a value entered in a native input does not parse.
+ *
+ * @see [Value transformation](guide/forms/signals/custom-controls#value-transformation)
  *
  * @category validation
  * @publicApi 22.0
@@ -1585,6 +1766,8 @@ declare class NativeInputParseError extends BaseNgValidationError {
  * }
  * ```
  *
+ * @see [Signal Form Validation Errors](guide/forms/signals/validation#validation-errors)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -1593,6 +1776,8 @@ type NgValidationError = RequiredValidationError | MinValidationError | MinDateV
 
 /**
  * Configuration options for signal forms.
+ *
+ * @see [Automatic status classes](guide/forms/signals/migration#automatic-status-classes)
  *
  * @publicApi 22.0
  */
@@ -1605,12 +1790,16 @@ interface SignalFormsConfig {
 /**
  * Provides configuration options for signal forms.
  *
+ * @see [Automatic status classes](guide/forms/signals/migration#automatic-status-classes)
+ *
  * @publicApi 22.0
  */
 declare function provideSignalFormsConfig(config: SignalFormsConfig): Provider[];
 
 /**
  * Options that may be specified when creating a form.
+ *
+ * @see [Signal Forms setup](guide/forms/signals/overview#setup)
  *
  * @category structure
  * @publicApi 22.0
@@ -1660,6 +1849,8 @@ interface FormOptions<TModel> {
  * @return A `FieldTree` representing a form around the data model.
  * @template TModel The type of the data model.
  *
+ * @see [Creating models](guide/forms/signals/models#creating-models)
+ *
  * @category structure
  * @publicApi 22.0
  */
@@ -1706,6 +1897,8 @@ declare function form<TModel>(model: WritableSignal<TModel>): FieldTree<TModel>;
  * @return A `FieldTree` representing a form around the data model
  * @template TValue The type of the data model.
  *
+ * @see [Creating models](guide/forms/signals/models#creating-models)
+ *
  * @category structure
  * @publicApi 22.0
  */
@@ -1750,6 +1943,8 @@ declare function form<TModel>(model: WritableSignal<TModel>, schemaOrOptions: Sc
  * @return A `FieldTree` representing a form around the data model.
  * @template TModel The type of the data model.
  *
+ * @see [Creating models](guide/forms/signals/models#creating-models)
+ *
  * @category structure
  * @publicApi 22.0
  */
@@ -1772,6 +1967,8 @@ declare function form<TModel>(model: WritableSignal<TModel>, schema: SchemaOrSch
  * @param schema A schema for an element of the array, or function that binds logic to an
  * element of the array.
  * @template TValue The data type of the item field to apply the schema to.
+ *
+ * @see [Array items with applyEach](guide/forms/signals/schemas#array-items-with-applyeach)
  *
  * @category structure
  * @publicApi 22.0
@@ -1796,6 +1993,8 @@ declare function applyEach<TValue extends Object>(path: SchemaPath<TValue>, sche
  * @param schema The schema to apply to the property
  * @template TValue The data type of the field to apply the schema to.
  *
+ * @see [Using the schema with apply](guide/forms/signals/schemas#using-the-schema-with-apply)
+ *
  * @category structure
  * @publicApi 22.0
  */
@@ -1807,6 +2006,8 @@ declare function apply<TValue>(path: SchemaPath<TValue>, schema: NoInfer<SchemaO
  * @param logic A `LogicFn<T, boolean>` that returns `true` when the schema should be applied.
  * @param schema The schema to apply to the field when the `logic` function returns `true`.
  * @template TValue The data type of the field to apply the schema to.
+ *
+ * @see [Conditional schemas with applyWhen](guide/forms/signals/schemas#conditional-schemas-with-applywhen)
  *
  * @category structure
  * @publicApi 22.0
@@ -1822,6 +2023,8 @@ declare function applyWhen<TValue>(path: SchemaPath<TValue>, logic: LogicFn<TVal
  * @template TValue The data type of the field to apply the schema to.
  * @template TNarrowed The data type of the schema (a narrowed type of TValue).
  *
+ * @see [Type-narrowing with applyWhenValue](guide/forms/signals/schemas#type-narrowing-with-applywhenvalue)
+ *
  * @category structure
  * @publicApi 22.0
  */
@@ -1834,6 +2037,8 @@ declare function applyWhenValue<TValue, TNarrowed extends TValue>(path: SchemaPa
  *   should be applied.
  * @param schema The schema to apply to the field when `predicate` returns `true`.
  * @template TValue The data type of the field to apply the schema to.
+ *
+ * @see [Type-narrowing with applyWhenValue](guide/forms/signals/schemas#type-narrowing-with-applywhenvalue)
  *
  * @category structure
  * @publicApi 22.0
@@ -1876,6 +2081,8 @@ declare function applyWhenValue<TValue>(path: SchemaPath<TValue>, predicate: (va
  * @returns Whether the submission was successful.
  * @template TModel The data type of the field being submitted.
  *
+ * @see [Form submission](guide/forms/signals/form-submission)
+ *
  * @category submission
  * @publicApi 22.0
  */
@@ -1886,6 +2093,8 @@ declare function submit<TModel>(form: FieldTree<TModel>, action: NoInfer<FormSub
  * @param fn A **non-reactive** function that sets up reactive logic rules for the form.
  * @returns A schema object that implements the given logic.
  * @template TValue The value type of a `FieldTree` that this schema binds to.
+ *
+ * @see [Create reusable schemas with schema](guide/forms/signals/schemas#create-reusable-schemas-with-schema)
  *
  * @category structure
  * @publicApi 22.0
