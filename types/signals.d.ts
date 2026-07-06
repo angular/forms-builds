@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.5+sha-2b3277f
+ * @license Angular v22.0.5+sha-8006412
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -22,6 +22,9 @@ import '@standard-schema/spec';
  *    and `false` when it is not disabled. Can also be a static string reason.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @see [Disabled fields](guide/forms/signals/form-logic#prevent-field-updates-with-disabled)
+ * @see [Availability state](guide/forms/signals/field-state-management#availability-state)
  *
  * @category logic
  * @publicApi 22.0
@@ -54,6 +57,9 @@ declare function disabled<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Hidden fields](guide/forms/signals/form-logic#configuring-hidden-state-on-fields)
+ * @see [Availability state](guide/forms/signals/field-state-management#availability-state)
+ *
  * @category logic
  * @publicApi 22.0
  */
@@ -76,6 +82,9 @@ declare function hidden<TValue, TPathKind extends PathKind = PathKind.Root>(path
  *  - `when`: A reactive function that returns `true` when the field is readonly.
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
+ *
+ * @see [Readonly fields](guide/forms/signals/form-logic#display-uneditable-fields-with-readonly)
+ * @see [Availability state](guide/forms/signals/field-state-management#availability-state)
  *
  * @category logic
  * @publicApi 22.0
@@ -296,6 +305,8 @@ declare function required<TValue, TPathKind extends PathKind = PathKind.Root>(pa
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Custom validation rules](guide/forms/signals/validation#using-validate)
+ *
  * @category logic
  * @publicApi 22.0
  */
@@ -326,7 +337,10 @@ type MapToErrorsFn<TValue, TResult, TPathKind extends PathKind = PathKind.Root> 
  * @template TParams The type of parameters to the resource.
  * @template TResult The type of result returned by the resource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
  * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
+ * @see [Custom async validation](guide/forms/signals/async-operations#custom-async-validation-with-validateasync)
+ *
  * @category validation
  * @publicApi 22.0
  */
@@ -386,6 +400,7 @@ interface AsyncValidatorOptions<TValue, TParams, TResult, TPathKind extends Path
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
  * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
+ * @see [Custom async validation](guide/forms/signals/async-operations#custom-async-validation-with-validateasync)
  * @category validation
  * @publicApi 22.0
  */
@@ -398,6 +413,9 @@ declare function validateAsync<TValue, TParams, TResult, TPathKind extends PathK
  * @template TValue The type of value stored in the field being validated.
  * @template TResult The type of result returned by the httpResource
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
+ *
+ * @see [HTTP validation with validateHttp](guide/forms/signals/async-operations#http-validation-with-validatehttp)
+ * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
  *
  * @category validation
  * @publicApi 22.0
@@ -453,6 +471,7 @@ interface HttpValidatorOptions<TValue, TResult, TPathKind extends PathKind = Pat
  * @template TPathKind The kind of path being validated (a root path, child path, or item of an array)
  *
  * @see [Signal Form Async Validation](guide/forms/signals/validation#async-validation)
+ * @see [HTTP validation with validateHttp](guide/forms/signals/async-operations#http-validation-with-validatehttp)
  * @category validation
  * @publicApi 22.0
  */
@@ -467,6 +486,9 @@ declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathK
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
+ * @see [Cross-field validation](guide/forms/signals/cross-field-logic#using-validatetree)
+ * @see [Custom validation rules](guide/forms/signals/validation#using-validatetree)
+ *
  * @category logic
  * @publicApi 22.0
  */
@@ -474,6 +496,8 @@ declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root
 
 /**
  * The base set of properties shared by all form control contracts.
+ *
+ * @see [Custom form controls](guide/forms/signals/custom-controls)
  *
  * @category control
  * @publicApi 22.0
@@ -588,6 +612,8 @@ interface FormUiControl<TValue> {
  *
  * @template TValue The type of `FieldTree` that the implementing component can edit.
  *
+ * @see [Custom form controls](guide/forms/signals/custom-controls)
+ *
  * @category control
  * @publicApi 22.0
  */
@@ -611,6 +637,8 @@ interface FormValueControl<TValue> extends FormUiControl<TValue> {
  * Many of the properties declared on this contract are optional. They do not need to be
  * implemented, but if they are will be kept in sync with the field state of the field bound to the
  * `Field` directive.
+ *
+ * @see [Custom form controls](guide/forms/signals/custom-controls)
  *
  * @category control
  * @publicApi 22.0
@@ -639,6 +667,7 @@ interface FormCheckboxControl extends FormUiControl<boolean> {
  * @param config A debounce configuration, which can be either a debounce duration in milliseconds,
  *     `'blur'` to debounce until the field is blurred, or a custom {@link Debouncer} function.
  *
+ * @see [Debouncing form updates](guide/forms/signals/form-logic#delay-input-operations-with-debounce)
  * @see [Custom form controls](guide/forms/signals/custom-controls) for using `debounce('blur')` with
  *     a custom `FormValueControl`.
  *
@@ -662,6 +691,8 @@ interface ParseResult<TValue> {
 /**
  * Options for `transformedValue`.
  *
+ * @see [Value transformation](guide/forms/signals/custom-controls#value-transformation)
+ *
  * @publicApi 22.0
  */
 interface TransformedValueOptions<TValue, TRaw> {
@@ -681,6 +712,8 @@ interface TransformedValueOptions<TValue, TRaw> {
 /**
  * A writable signal representing a "raw" UI value that is synchronized with a model signal
  * via parse/format transformations.
+ *
+ * @see [Value transformation](guide/forms/signals/custom-controls#value-transformation)
  *
  * @category control
  * @publicApi 22.0
@@ -734,6 +767,10 @@ interface TransformedValueSignal<TRaw> extends WritableSignal<TRaw> {
  *   });
  * }
  * ```
+ *
+ * @see [Value transformation](guide/forms/signals/custom-controls#value-transformation)
+ *
+
  */
 declare function transformedValue<TValue, TRaw>(value: ModelSignal<TValue>, options: TransformedValueOptions<TValue, TRaw>): TransformedValueSignal<TRaw>;
 
@@ -753,6 +790,8 @@ declare function transformedValue<TValue, TRaw>(value: ModelSignal<TValue>, opti
  * </form>
  * ```
  *
+ * @see [Setting up form submission with FormRoot](guide/forms/signals/form-submission#setting-up-form-submission-with-formroot)
+ *
  * @publicApi 22.0
  */
 declare class FormRoot<T> {
@@ -765,6 +804,8 @@ declare class FormRoot<T> {
 /**
  * Creates a provider that configures all signal forms with `experimentalWebMcpTool`
  * to be registered as WebMCP tools.
+ *
+ * @see [Implicit tools in Signal Forms](ai/webmcp#implicit-tools-in-signal-forms)
  *
  * @experimental
  */
