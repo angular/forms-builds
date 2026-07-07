@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.4+sha-e91046f
+ * @license Angular v22.1.0-next.4+sha-5ec0b16
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1274,11 +1274,11 @@ function getDebugName(node) {
 function maybeRemoveStaleArrayFields(prevData, value, identitySymbol) {
   let data;
   const oldKeys = new Set(prevData.byPropertyKey.keys());
-  const oldTracking = new Set(prevData.byTrackingKey?.keys());
+  const oldTracking = prevData.byTrackingKey && new Set(prevData.byTrackingKey.keys());
   for (let i = 0; i < value.length; i++) {
     const childValue = value[i];
     oldKeys.delete(i.toString());
-    if (isObject(childValue) && childValue.hasOwnProperty(identitySymbol)) {
+    if (oldTracking && isObject(childValue) && Object.hasOwn(childValue, identitySymbol)) {
       oldTracking.delete(childValue[identitySymbol]);
     }
   }
@@ -1290,12 +1290,12 @@ function maybeRemoveStaleArrayFields(prevData, value, identitySymbol) {
       data.byPropertyKey.delete(key);
     }
   }
-  if (oldTracking.size > 0) {
+  if (oldTracking && oldTracking.size > 0) {
     data ??= {
       ...prevData
     };
     for (const id of oldTracking) {
-      data.byTrackingKey?.delete(id);
+      data.byTrackingKey.delete(id);
     }
   }
   return data;
