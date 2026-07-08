@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.5+sha-bec1413
+ * @license Angular v22.0.5+sha-748faa4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -4307,7 +4307,7 @@ declare class NgModel extends NgControl implements OnChanges, OnDestroy {
      * Tracks the configuration options for this `ngModel` instance.
      *
      * **name**: An alternative to setting the name attribute on the form control element. See
-     * the [example](api/forms/NgModel#using-ngmodel-on-a-standalone-control) for using `NgModel`
+     * the [example](api/forms/NgModel) for using `NgModel`
      * as a standalone control.
      *
      * **standalone**: When set to true, the `ngModel` will not register itself with its parent form,
