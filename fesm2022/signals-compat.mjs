@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.4+sha-39ea1c5
+ * @license Angular v22.1.0-next.4+sha-c0eaaed
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -256,7 +256,7 @@ function compatForm(...args) {
 }
 
 function extractValue(field, filter) {
-  return untracked(() => visitFieldTree(field, filter));
+  return visitFieldTree(field, filter);
 }
 function visitFieldTree(field, filter) {
   const state = field();
