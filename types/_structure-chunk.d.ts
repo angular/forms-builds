@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.5+sha-748faa4
+ * @license Angular v22.0.5+sha-2d52d53
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -350,6 +350,9 @@ interface ReadonlyFieldState<TValue, TKey extends string | number = string | num
      */
     readonly hidden: Signal<boolean>;
     readonly disabledReasons: Signal<readonly DisabledReason[]>;
+    /**
+     * A signal containing the {@link errors} of the field itself, excluding its descendants.
+     */
     readonly errors: Signal<ValidationError.WithFieldTree[]>;
     /**
      * A signal containing the {@link errors} of the field and its descendants.
