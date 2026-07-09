@@ -1,10 +1,10 @@
 /**
- * @license Angular v22.1.0-next.5+sha-5bd00ad
+ * @license Angular v22.1.0-next.5+sha-53ca8c2
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { untracked, ɵRuntimeError as _RuntimeError, computed, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, InjectionToken, inject } from '@angular/core';
+import { untracked, ɵRuntimeError as _RuntimeError, computed, ɵisInParamsFunction as _isInParamsFunction, ɵsetInParamsFunction as _setInParamsFunction, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, InjectionToken, inject } from '@angular/core';
 import { AbstractControl, FormGroup, FormArray } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
@@ -897,15 +897,21 @@ class FieldMetadataState {
     if (!this.node.logicNode.logic.hasMetadataKeys()) {
       return;
     }
-    untracked(() => runInInjectionContext(this.node.structure.injector, () => {
-      for (const key of this.node.logicNode.logic.getMetadataKeys()) {
-        if (key.create) {
-          const logic = this.node.logicNode.logic.getMetadata(key);
-          const result = key.create(this.node, computed(() => logic.compute(this.node.context)));
-          this.metadata.set(key, result);
+    const wasInParams = _isInParamsFunction();
+    if (wasInParams) _setInParamsFunction(false);
+    try {
+      untracked(() => runInInjectionContext(this.node.structure.injector, () => {
+        for (const key of this.node.logicNode.logic.getMetadataKeys()) {
+          if (key.create) {
+            const logic = this.node.logicNode.logic.getMetadata(key);
+            const result = key.create(this.node, computed(() => logic.compute(this.node.context)));
+            this.metadata.set(key, result);
+          }
         }
-      }
-    }));
+      }));
+    } finally {
+      if (wasInParams) _setInParamsFunction(true);
+    }
   }
   get(key) {
     if (this.has(key)) {
