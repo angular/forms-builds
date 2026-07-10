@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.0-next.5+sha-1fb4678
+ * @license Angular v22.1.0-next.5+sha-e6378eb
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1129,7 +1129,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
 class InputValidityMonitor {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.5+sha-1fb4678",
+    version: "22.1.0-next.5+sha-e6378eb",
     ngImport: i0,
     type: InputValidityMonitor,
     deps: [],
@@ -1137,7 +1137,7 @@ class InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.1.0-next.5+sha-1fb4678",
+    version: "22.1.0-next.5+sha-e6378eb",
     ngImport: i0,
     type: InputValidityMonitor,
     providedIn: 'root',
@@ -1146,7 +1146,7 @@ class InputValidityMonitor {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.5+sha-1fb4678",
+  version: "22.1.0-next.5+sha-e6378eb",
   ngImport: i0,
   type: InputValidityMonitor,
   decorators: [{
@@ -1212,7 +1212,7 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.5+sha-1fb4678",
+    version: "22.1.0-next.5+sha-e6378eb",
     ngImport: i0,
     type: AnimationInputValidityMonitor,
     deps: null,
@@ -1220,14 +1220,14 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.1.0-next.5+sha-1fb4678",
+    version: "22.1.0-next.5+sha-e6378eb",
     ngImport: i0,
     type: AnimationInputValidityMonitor
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.5+sha-1fb4678",
+  version: "22.1.0-next.5+sha-e6378eb",
   ngImport: i0,
   type: AnimationInputValidityMonitor,
   decorators: [{
@@ -1406,7 +1406,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.5+sha-1fb4678",
+    version: "22.1.0-next.5+sha-e6378eb",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1414,7 +1414,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.0-next.5+sha-1fb4678",
+    version: "22.1.0-next.5+sha-e6378eb",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1448,7 +1448,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.5+sha-1fb4678",
+  version: "22.1.0-next.5+sha-e6378eb",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1501,7 +1501,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.0-next.5+sha-1fb4678",
+    version: "22.1.0-next.5+sha-e6378eb",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1509,7 +1509,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.0-next.5+sha-1fb4678",
+    version: "22.1.0-next.5+sha-e6378eb",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1535,7 +1535,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.0-next.5+sha-1fb4678",
+  version: "22.1.0-next.5+sha-e6378eb",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
@@ -1560,21 +1560,23 @@ i0.ɵɵngDeclareClassMetadata({
   }
 });
 
-const registerWebMcpForm = async (formTree, options) => {
+const registerWebMcpForm = (formTree, options) => {
   const injector = inject(Injector);
-  effect(() => {
-    untracked(() => {
-      initWebMcpForm(formTree, options, injector);
+  return new Promise((resolve, reject) => {
+    effect(() => {
+      untracked(() => {
+        initWebMcpForm(formTree, options, injector).then(resolve, reject);
+      });
     });
   });
 };
-function initWebMcpForm(formTree, options, injector) {
+async function initWebMcpForm(formTree, options, injector) {
   const node = formTree();
   const inputSchema = inferSchemaFromFieldNode(node);
   if (!inputSchema) {
     throw new Error(`Could not accurately infer WebMCP schema for form "${options.name}". ` + `Ensure that the form model does not contain null, undefined, empty arrays, or unsupported types.`);
   }
-  declareExperimentalWebMcpTool({
+  await declareExperimentalWebMcpTool({
     name: options.name,
     description: options.description,
     inputSchema,
