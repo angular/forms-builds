@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.7+sha-f8df06d
+ * @license Angular v22.0.7+sha-e14ead1
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -808,7 +808,7 @@ function createBindings() {
   return {};
 }
 function bindingUpdated(bindings, key, value) {
-  if (!Object.is(bindings[key], value)) {
+  if (bindings[key] !== value) {
     bindings[key] = value;
     return true;
   }
@@ -861,8 +861,8 @@ function getNativeControlValue(element, currentValue, validityMonitor) {
           value: null
         };
       }
-      const parsed = parseDecimalNumber(element.value);
-      if (parsed === undefined) {
+      const parsed = Number(element.value);
+      if (Number.isNaN(parsed)) {
         return {
           error: new NativeInputParseError()
         };
@@ -921,13 +921,6 @@ function setNativeControlValue(element, value) {
     }
   }
   element.value = value;
-}
-function parseDecimalNumber(value) {
-  const parsed = Number(value);
-  if (Number.isNaN(parsed) || !Object.is(parsed, parseFloat(value))) {
-    return undefined;
-  }
-  return parsed;
 }
 function setNativeNumberControlValue(element, value) {
   if (isNaN(value)) {
@@ -1093,11 +1086,7 @@ function isRelevantSelectMutation(mutation) {
 function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
   let updateMode = false;
   const input = parent.nativeFormElement;
-  const bindings = createBindings();
-  const parser = createParser(() => parent.state().value(), rawValue => {
-    bindings['controlValue'] = rawValue;
-    parent.state().controlValue.set(rawValue);
-  }, _rawValue => getNativeControlValue(input, parent.state().value, validityMonitor));
+  const parser = createParser(() => parent.state().value(), rawValue => parent.state().controlValue.set(rawValue), _rawValue => getNativeControlValue(input, parent.state().value, validityMonitor));
   parseErrorsSource.set(parser.errors);
   parent.onReset = () => {
     parser.reset();
@@ -1119,6 +1108,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
       input.value = parent.state().controlValue();
     }, parent.destroyRef);
   }
+  const bindings = createBindings();
   return () => {
     const state = parent.state();
     for (const name of CONTROL_BINDING_NAMES) {
@@ -1142,7 +1132,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
 class InputValidityMonitor {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.7+sha-f8df06d",
+    version: "22.0.7+sha-e14ead1",
     ngImport: i0,
     type: InputValidityMonitor,
     deps: [],
@@ -1150,7 +1140,7 @@ class InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.7+sha-f8df06d",
+    version: "22.0.7+sha-e14ead1",
     ngImport: i0,
     type: InputValidityMonitor,
     providedIn: 'root',
@@ -1159,7 +1149,7 @@ class InputValidityMonitor {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.7+sha-f8df06d",
+  version: "22.0.7+sha-e14ead1",
   ngImport: i0,
   type: InputValidityMonitor,
   decorators: [{
@@ -1225,7 +1215,7 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.7+sha-f8df06d",
+    version: "22.0.7+sha-e14ead1",
     ngImport: i0,
     type: AnimationInputValidityMonitor,
     deps: null,
@@ -1233,14 +1223,14 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.0.7+sha-f8df06d",
+    version: "22.0.7+sha-e14ead1",
     ngImport: i0,
     type: AnimationInputValidityMonitor
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.7+sha-f8df06d",
+  version: "22.0.7+sha-e14ead1",
   ngImport: i0,
   type: AnimationInputValidityMonitor,
   decorators: [{
@@ -1419,7 +1409,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.7+sha-f8df06d",
+    version: "22.0.7+sha-e14ead1",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1427,7 +1417,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.7+sha-f8df06d",
+    version: "22.0.7+sha-e14ead1",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1461,7 +1451,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.7+sha-f8df06d",
+  version: "22.0.7+sha-e14ead1",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1514,7 +1504,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.0.7+sha-f8df06d",
+    version: "22.0.7+sha-e14ead1",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1522,7 +1512,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.0.7+sha-f8df06d",
+    version: "22.0.7+sha-e14ead1",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1548,7 +1538,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.0.7+sha-f8df06d",
+  version: "22.0.7+sha-e14ead1",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
