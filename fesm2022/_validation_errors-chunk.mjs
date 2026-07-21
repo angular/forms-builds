@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.0.7+sha-a79eb0d
+ * @license Angular v22.0.7+sha-d302c7a
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -748,7 +748,7 @@ class FieldValidationState {
     } : {}),
     equal: shallowArrayEquals
   });
-  pending = computed(() => this.node.structure.reduceChildren(this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.asyncErrors().includes('pending')), ...(ngDevMode ? [{
+  pending = computed(() => this.node.structure.reduceChildren(this.asyncErrors().includes('pending'), (child, value) => value || child.validationState.pending()), ...(ngDevMode ? [{
     debugName: "pending"
   }] : []));
   status = computed(() => {
