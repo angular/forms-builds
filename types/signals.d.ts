@@ -1,13 +1,13 @@
 /**
- * @license Angular v22.0.8+sha-d346905
+ * @license Angular v22.0.8+sha-45d7de4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
+import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, FieldTree, WithOptionalFieldTree, DisabledReason, Debouncer } from './_structure-chunk.js';
+export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FieldStateByMode, FormField, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IS_ASYNC_VALIDATION_RESOURCE, IgnoreUnknownProperties, ItemFieldContext, ItemType, LimitKey, LimitSelectionKey, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MarkAsTouchedOptions, MaxDateValidationError, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinDateValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, emailError, form, maxDateError, maxError, maxLengthError, metadata, minDateError, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import * as i0 from '@angular/core';
 import { DebounceTimer, Signal, Resource, InputSignal, InputSignalWithTransform, OutputRef, ModelSignal, WritableSignal, EnvironmentProviders } from '@angular/core';
-import { PathKind, SchemaPath, SchemaPathRules, LogicFn, OneOrMany, ValidationError, FieldValidator, FieldContext, TreeValidationResult, TreeValidator, WithOptionalFieldTree, DisabledReason, Debouncer, FieldTree } from './_structure-chunk.js';
-export { AsyncValidationResult, BaseNgValidationError, ChildFieldContext, CompatFieldState, CompatSchemaPath, EmailValidationError, FORM_FIELD, Field, FieldState, FieldStateByMode, FormField, FormFieldBinding, FormFieldBindingOptions, FormOptions, FormSubmitOptions, IS_ASYNC_VALIDATION_RESOURCE, IgnoreUnknownProperties, ItemFieldContext, ItemType, LimitKey, LimitSelectionKey, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MarkAsTouchedOptions, MaxDateValidationError, MaxLengthValidationError, MaxValidationError, MaybeFieldTree, MaybeSchemaPathTree, MetadataKey, MetadataReducer, MetadataSetterType, MinDateValidationError, MinLengthValidationError, MinValidationError, NativeInputParseError, NgValidationError, PATTERN, PatternValidationError, REQUIRED, ReadonlyArrayLike, ReadonlyCompatFieldState, ReadonlyFieldState, ReadonlyFieldTree, RemoveStringIndexUnknownKey, RequiredValidationError, RootFieldContext, Schema, SchemaFn, SchemaOrSchemaFn, SchemaPathTree, SignalFormsConfig, StandardSchemaValidationError, Subfields, ValidationErrorOptions, ValidationResult, ValidationSuccess, Validator, WithFieldTree, WithoutFieldTree, apply, applyEach, applyWhen, applyWhenValue, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, emailError, form, maxDateError, maxError, maxLengthError, metadata, minDateError, minError, minLengthError, patternError, provideSignalFormsConfig, requiredError, schema, standardSchemaError, submit, validateStandardSchema, ɵNgFieldDirective } from './_structure-chunk.js';
 import { HttpResourceRequest, HttpResourceOptions } from '@angular/common/http';
 import '@angular/forms';
 import '@standard-schema/spec';
@@ -495,6 +495,14 @@ declare function validateHttp<TValue, TResult = unknown, TPathKind extends PathK
 declare function validateTree<TValue, TPathKind extends PathKind = PathKind.Root>(path: SchemaPath<TValue, SchemaPathRules.Supported, TPathKind>, logic: NoInfer<TreeValidator<TValue, TPathKind>>): void;
 
 /**
+ * Asserts whether a value is a `FieldTree`.
+ * @param value Value to be checked.
+ *
+ * @publicApi 22.1
+ */
+declare function isFieldTree(value: unknown): value is FieldTree<unknown>;
+
+/**
  * The base set of properties shared by all form control contracts.
  *
  * @see [Custom form controls](guide/forms/signals/custom-controls)
@@ -811,5 +819,5 @@ declare class FormRoot<T> {
  */
 declare function provideExperimentalWebMcpForms(): EnvironmentProviders;
 
-export { Debouncer, DisabledReason, FieldContext, FieldTree, FieldValidator, FormRoot, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, max, maxDate, maxLength, min, minDate, minLength, pattern, provideExperimentalWebMcpForms, readonly, required, transformedValue, validate, validateAsync, validateHttp, validateTree };
+export { Debouncer, DisabledReason, FieldContext, FieldTree, FieldValidator, FormRoot, LogicFn, OneOrMany, PathKind, SchemaPath, SchemaPathRules, TreeValidationResult, TreeValidator, ValidationError, WithOptionalFieldTree, debounce, disabled, email, hidden, isFieldTree, max, maxDate, maxLength, min, minDate, minLength, pattern, provideExperimentalWebMcpForms, readonly, required, transformedValue, validate, validateAsync, validateHttp, validateTree };
 export type { AsyncValidatorOptions, FormCheckboxControl, FormUiControl, FormValueControl, HttpValidatorOptions, MapToErrorsFn, ParseResult, TransformedValueOptions, TransformedValueSignal };
