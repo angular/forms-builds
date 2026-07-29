@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.0-next.0+sha-5ad8231
+ * @license Angular v22.2.0-next.0+sha-9182253
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,6 +7,8 @@
 import { untracked, ɵRuntimeError as _RuntimeError, computed, ɵisInParamsFunction as _isInParamsFunction, ɵsetInParamsFunction as _setInParamsFunction, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, InjectionToken, inject } from '@angular/core';
 import { AbstractControl, FormGroup, FormArray } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
+
+const FIELD_TREE = /* @__PURE__ */Symbol('FIELD_TREE');
 
 let boundPathDepth = 0;
 function getBoundPathDepth() {
@@ -931,18 +933,21 @@ class FieldMetadataState {
 }
 
 const FIELD_PROXY_HANDLER = {
-  get(getTgt, p, receiver) {
+  get(getTgt, property, receiver) {
+    if (property === FIELD_TREE) {
+      return true;
+    }
     const tgt = getTgt();
-    const child = tgt.structure.getChild(p);
+    const child = tgt.structure.getChild(property);
     if (child !== undefined) {
       return child.fieldTree;
     }
     const value = untracked(tgt.value);
     if (isArray(value)) {
-      if (p === 'length') {
+      if (property === 'length') {
         return tgt.value().length;
       }
-      if (p === Symbol.iterator) {
+      if (property === Symbol.iterator) {
         return () => {
           tgt.value();
           return Array.prototype[Symbol.iterator].apply(tgt.fieldTree);
@@ -950,7 +955,7 @@ const FIELD_PROXY_HANDLER = {
       }
     }
     if (isObject(value)) {
-      if (p === Symbol.iterator) {
+      if (property === Symbol.iterator) {
         return function* () {
           for (const key in receiver) {
             yield [key, receiver[key]];
@@ -1944,5 +1949,5 @@ function extractNestedReactiveErrors(control) {
   return errors;
 }
 
-export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MetadataKey, MetadataReducer, PATTERN, REGISTER_WEBMCP_FORM, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, shallowArrayEquals, signalErrorsToValidationErrors, submit };
+export { BasicFieldAdapter, CompatValidationError, DEBOUNCER, FIELD_TREE, FieldNode, FieldNodeState, FieldNodeStructure, FieldPathNode, IS_ASYNC_VALIDATION_RESOURCE, MAX, MAX_DATE, MAX_LENGTH, MAX_NUMBER, MIN, MIN_DATE, MIN_LENGTH, MIN_NUMBER, MetadataKey, MetadataReducer, PATTERN, REGISTER_WEBMCP_FORM, REQUIRED, addDefaultField, apply, applyEach, applyWhen, applyWhenValue, assertPathIsCurrent, calculateValidationSelfStatus, createLimitSelectionKey, createManagedMetadataKey, createMetadataKey, extractNestedReactiveErrors, form, getInjectorFromOptions, isArray, isObject, metadata, normalizeFormArgs, reactiveErrorsToSignalErrors, schema, shallowArrayEquals, signalErrorsToValidationErrors, submit };
 //# sourceMappingURL=_validation_errors-chunk.mjs.map
