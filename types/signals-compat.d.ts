@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.1.1+sha-e9660b1
+ * @license Angular v22.1.1+sha-910f391
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { WritableSignal, EventEmitter } from '@angular/core';
-import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError, ReadonlyFieldTree, SignalFormsConfig, SchemaFn } from './_structure-chunk.js';
+import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError, ReadonlyFieldTree, SignalFormsConfig, SchemaFn } from './signals.js';
 import { AbstractControl, FormControlStatus, FormControlState } from '@angular/forms';
 import '@standard-schema/spec';
 
