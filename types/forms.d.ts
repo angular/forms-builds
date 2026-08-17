@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.2+sha-0849fac
+ * @license Angular v22.1.2+sha-5cb4ea7
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -4281,6 +4281,7 @@ declare class NgModel extends NgControl implements OnChanges, OnDestroy {
     readonly control: FormControl;
     /** @docs-private */
     static ngAcceptInputType_isDisabled: boolean | string;
+    private _ngModelInjector?;
     /**
      * Internal reference to the view model value.
      * @docs-private
