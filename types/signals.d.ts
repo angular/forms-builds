@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.2+sha-5cb4ea7
+ * @license Angular v22.1.2+sha-b3c78a5
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -764,12 +764,11 @@ interface TransformedValueSignal<TRaw> extends WritableSignal<TRaw> {
  *
  *   protected readonly rawValue = transformedValue(this.value, {
  *     parse: (val) => {
- *       if (val === '') return {value: null};
- *       const num = Number(val);
- *       if (Number.isNaN(num)) {
- *         return {error: {kind: 'parse', message: `${val} is not numeric`}};
- *       }
- *       return {value: num};
+ *       const parsed = val ? Number(val) : null;
+ *
+ *       return Number.isNaN(parsed)
+ *         ? {error: {kind: 'parse', message: `${val} is not a number`}}
+ *         : {value: parsed};
  *     },
  *     format: (val) => val?.toString() ?? '',
  *   });
