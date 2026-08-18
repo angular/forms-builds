@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.0-next.2+sha-48a0fd6
+ * @license Angular v22.2.0-next.2+sha-732e505
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1308,7 +1308,7 @@ function maybeRemoveStaleArrayFields(prevData, value, identitySymbol) {
 function maybeRemoveStaleObjectFields(prevData, value) {
   let data;
   for (const key of prevData.byPropertyKey.keys()) {
-    if (!value.hasOwnProperty(key)) {
+    if (!Object.hasOwn(value, key)) {
       data ??= {
         ...prevData
       };
