@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.3+sha-87af7a4
+ * @license Angular v22.1.3+sha-ba3bc47
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -64,14 +64,7 @@ function hidden(path, configOrLogic) {
 function readonly(path, configOrLogic) {
   assertPathIsCurrent(path);
   const pathNode = FieldPathNode.unwrapFieldPath(path);
-  let logic;
-  if (typeof configOrLogic === 'object' && configOrLogic !== null && 'when' in configOrLogic) {
-    logic = configOrLogic.when ?? (() => true);
-  } else if (typeof configOrLogic === 'function') {
-    logic = configOrLogic;
-  } else {
-    logic = () => true;
-  }
+  const logic = typeof configOrLogic === 'function' ? configOrLogic : configOrLogic?.when ?? (() => true);
   pathNode.builder.addReadonlyRule(logic);
 }
 
@@ -1138,7 +1131,7 @@ function nativeControlCreate(host, parent, parseErrorsSource, validityMonitor) {
 class InputValidityMonitor {
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.3+sha-87af7a4",
+    version: "22.1.3+sha-ba3bc47",
     ngImport: i0,
     type: InputValidityMonitor,
     deps: [],
@@ -1146,7 +1139,7 @@ class InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.1.3+sha-87af7a4",
+    version: "22.1.3+sha-ba3bc47",
     ngImport: i0,
     type: InputValidityMonitor,
     providedIn: 'root',
@@ -1155,7 +1148,7 @@ class InputValidityMonitor {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.3+sha-87af7a4",
+  version: "22.1.3+sha-ba3bc47",
   ngImport: i0,
   type: InputValidityMonitor,
   decorators: [{
@@ -1221,7 +1214,7 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.3+sha-87af7a4",
+    version: "22.1.3+sha-ba3bc47",
     ngImport: i0,
     type: AnimationInputValidityMonitor,
     deps: null,
@@ -1229,14 +1222,14 @@ class AnimationInputValidityMonitor extends InputValidityMonitor {
   });
   static ɵprov = i0.ɵɵngDeclareInjectable({
     minVersion: "12.0.0",
-    version: "22.1.3+sha-87af7a4",
+    version: "22.1.3+sha-ba3bc47",
     ngImport: i0,
     type: AnimationInputValidityMonitor
   });
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.3+sha-87af7a4",
+  version: "22.1.3+sha-ba3bc47",
   ngImport: i0,
   type: AnimationInputValidityMonitor,
   decorators: [{
@@ -1415,7 +1408,7 @@ class FormField {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.3+sha-87af7a4",
+    version: "22.1.3+sha-ba3bc47",
     ngImport: i0,
     type: FormField,
     deps: [],
@@ -1423,7 +1416,7 @@ class FormField {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.3+sha-87af7a4",
+    version: "22.1.3+sha-ba3bc47",
     type: FormField,
     isStandalone: true,
     selector: "[formField]",
@@ -1457,7 +1450,7 @@ class FormField {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.3+sha-87af7a4",
+  version: "22.1.3+sha-ba3bc47",
   ngImport: i0,
   type: FormField,
   decorators: [{
@@ -1510,7 +1503,7 @@ class FormRoot {
   }
   static ɵfac = i0.ɵɵngDeclareFactory({
     minVersion: "12.0.0",
-    version: "22.1.3+sha-87af7a4",
+    version: "22.1.3+sha-ba3bc47",
     ngImport: i0,
     type: FormRoot,
     deps: [],
@@ -1518,7 +1511,7 @@ class FormRoot {
   });
   static ɵdir = i0.ɵɵngDeclareDirective({
     minVersion: "17.1.0",
-    version: "22.1.3+sha-87af7a4",
+    version: "22.1.3+sha-ba3bc47",
     type: FormRoot,
     isStandalone: true,
     selector: "form[formRoot]",
@@ -1544,7 +1537,7 @@ class FormRoot {
 }
 i0.ɵɵngDeclareClassMetadata({
   minVersion: "12.0.0",
-  version: "22.1.3+sha-87af7a4",
+  version: "22.1.3+sha-ba3bc47",
   ngImport: i0,
   type: FormRoot,
   decorators: [{
