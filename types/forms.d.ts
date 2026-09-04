@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.0-next.5+sha-81c3f3a
+ * @license Angular v22.2.0-next.5+sha-74c1716
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -3532,7 +3532,7 @@ declare class RadioControlRegistry {
     select(accessor: RadioControlValueAccessor): void;
     private _isSameGroup;
     static ɵfac: i0.ɵɵFactoryDeclaration<RadioControlRegistry, never>;
-    static ɵprov: i0.ɵɵInjectableDeclaration<RadioControlRegistry>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<any>;
 }
 /**
  * @description
@@ -5035,7 +5035,7 @@ declare class FormBuilder {
      */
     array<T>(controls: Array<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormArray<ɵElement<T, null>>;
     static ɵfac: i0.ɵɵFactoryDeclaration<FormBuilder, never>;
-    static ɵprov: i0.ɵɵInjectableDeclaration<FormBuilder>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<any>;
 }
 /**
  * @description
@@ -5073,7 +5073,7 @@ declare abstract class NonNullableFormBuilder {
      */
     abstract control<T>(formState: T | FormControlState<T>, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): FormControl<T>;
     static ɵfac: i0.ɵɵFactoryDeclaration<NonNullableFormBuilder, never>;
-    static ɵprov: i0.ɵɵInjectableDeclaration<NonNullableFormBuilder>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<any>;
 }
 /**
  * UntypedFormBuilder is the same as `FormBuilder`, but it provides untyped controls.
@@ -5103,7 +5103,7 @@ declare class UntypedFormBuilder extends FormBuilder {
      */
     array(controlsConfig: any[], validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null): UntypedFormArray;
     static ɵfac: i0.ɵɵFactoryDeclaration<UntypedFormBuilder, never>;
-    static ɵprov: i0.ɵɵInjectableDeclaration<UntypedFormBuilder>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<any>;
 }
 
 /**
