@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.6+sha-66de56b
+ * @license Angular v22.1.6+sha-14d6999
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -70,6 +70,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>): FieldTree<TM
  * });
  *
  * nameForm.last().value(); // lastName, not FormControl
+ * ```
  *
  * @param model A writable signal that contains the model data for the form. The resulting field
  * structure will match the shape of the model and any changes to the form data will be written to
@@ -105,6 +106,7 @@ declare function compatForm<TModel>(model: WritableSignal<TModel>, schemaOrOptio
  * });
  *
  * nameForm.last().value(); // lastName, not FormControl
+ * ```
  *
  * @param model A writable signal that contains the model data for the form. The resulting field
  * structure will match the shape of the model and any changes to the form data will be written to
