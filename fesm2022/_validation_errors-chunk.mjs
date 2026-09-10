@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.0-next.7+sha-8576f16
+ * @license Angular v22.2.0-next.7+sha-4b3f8c2
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1798,7 +1798,8 @@ function form(...args) {
     if (registerWebMcpForm) {
       runInInjectionContext(injector, () => registerWebMcpForm(fieldRoot.fieldTree, {
         name: experimentalWebMcpTool.name,
-        description: experimentalWebMcpTool.description
+        description: experimentalWebMcpTool.description,
+        annotations: experimentalWebMcpTool.annotations
       }));
     } else {
       if (typeof ngDevMode !== 'undefined' && ngDevMode) {

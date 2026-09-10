@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.0-next.7+sha-8576f16
+ * @license Angular v22.2.0-next.7+sha-4b3f8c2
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1826,6 +1826,16 @@ interface FormOptions<TModel> {
         name: string;
         /** A description of the tool's purpose and usage information. */
         description: string;
+        /**
+         * Set of configuration values extending the core tool behavior.
+         */
+        annotations?: {
+            /**
+             * A hint that the tool will have consequential effects like mutating state or interacting
+             * with the external world.
+             */
+            consequentialHint?: boolean;
+        };
     };
     /** Options that define how to handle form submission. */
     submission?: FormSubmitOptions<TModel, unknown>;
