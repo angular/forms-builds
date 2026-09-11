@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.0-next.7+sha-2dcdf9a
+ * @license Angular v22.2.0-next.7+sha-f2cf65a
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -279,6 +279,14 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Schem
  * Binds a validator to the given path that requires the value to be non-empty.
  * This function can only be called on any type of path.
  * In addition to binding a validator, this function adds `REQUIRED` property to the field.
+ *
+ * A value is considered empty when it is `null`, `undefined`, the empty string `''`, `false`, or
+ * `NaN`. Every other value is considered non-empty, including `0` and the empty array `[]` — use
+ * [`minLength()`](api/forms/signals/minLength) to require a minimum number of items in an array.
+ *
+ * `false` is empty to follow the native semantics of `required` on `<input type="checkbox">`, where
+ * an unchecked box fails validation. `NaN` is empty because it is usually the result of a parsing
+ * error, and is not a valid number.
  *
  * @param path Path of the field to validate
  * @param config Optional, allows providing any of the following options:
