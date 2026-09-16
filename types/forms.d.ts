@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.1.6+sha-24ca9d4
+ * @license Angular v22.1.6+sha-f73f059
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -4185,7 +4185,7 @@ declare const ɵFORM_CONTROL_INTEGRATION: InjectionToken<ɵFormControlIntegratio
  * called when disabled, which is the legacy behavior for compatibility.
  *
  * @publicApi
- * @see {@link FormsModule#withconfig}
+ * @see {@link FormsModule#withConfig}
  */
 type SetDisabledStateOption = 'whenDisabledForLegacyCode' | 'always';
 declare function selectValueAccessor(dir: NgControl, valueAccessors: readonly ControlValueAccessor[] | null | undefined): ControlValueAccessor | null;
