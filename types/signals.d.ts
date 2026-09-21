@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.0-rc.0+sha-adea161
+ * @license Angular v22.2.0-rc.0+sha-51f056f
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -129,7 +129,7 @@ type BaseValidatorConfig<TValue, TPathKind extends PathKind = PathKind.Root> = {
  *
  * @param path Path of the field to validate
  * @param config Optional, allows providing any of the following options:
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.email()`
+ *  - `error`: Custom validation error(s) to be used instead of the default `emailError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
@@ -149,7 +149,7 @@ declare function email<TPathKind extends PathKind = PathKind.Root>(path: SchemaP
  * @param path Path of the field to validate
  * @param maxValue The maximum value, or a LogicFn that returns the maximum value.
  * @param config Optional, allows providing any of the following options:
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.max(maxValue)`
+ *  - `error`: Custom validation error(s) to be used instead of the default `maxError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
@@ -168,7 +168,7 @@ declare function max<TValue extends number | null, TPathKind extends PathKind = 
  * @param path Path of the field to validate
  * @param maxDate The maximum date, or a LogicFn that returns the maximum date.
  * @param config Optional, allows providing any of the following options:
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.max(maxDate)`
+ *  - `error`: Custom validation error(s) to be used instead of the default `maxDateError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
@@ -187,7 +187,7 @@ declare function maxDate<TValue extends Date | null, TPathKind extends PathKind 
  * @param path Path of the field to validate
  * @param maxLength The maximum length, or a LogicFn that returns the maximum length.
  * @param config Optional, allows providing any of the following options:
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.maxLength(maxLength)`
+ *  - `error`: Custom validation error(s) to be used instead of the default `maxLengthError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
@@ -208,7 +208,7 @@ declare function maxLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  * @param path Path of the field to validate
  * @param minValue The minimum value, or a LogicFn that returns the minimum value.
  * @param config Optional, allows providing any of the following options:
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.min(minValue)`
+ *  - `error`: Custom validation error(s) to be used instead of the default `minError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
@@ -227,7 +227,7 @@ declare function min<TValue extends number | null, TPathKind extends PathKind = 
  * @param path Path of the field to validate
  * @param minDate The minimum date, or a LogicFn that returns the minimum date.
  * @param config Optional, allows providing any of the following options:
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.min(minDate)`
+ *  - `error`: Custom validation error(s) to be used instead of the default `minDateError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
@@ -246,7 +246,7 @@ declare function minDate<TValue extends Date | null, TPathKind extends PathKind 
  * @param path Path of the field to validate
  * @param minLength The minimum length, or a LogicFn that returns the minimum length.
  * @param config Optional, allows providing any of the following options:
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.minLength(minLength)`
+ *  - `error`: Custom validation error(s) to be used instead of the default `minLengthError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TValue The type of value stored in the field the logic is bound to.
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
@@ -265,7 +265,7 @@ declare function minLength<TValue extends ValueWithLengthOrSize, TPathKind exten
  * @param path Path of the field to validate
  * @param pattern The RegExp pattern to match, or a LogicFn that returns the RegExp pattern.
  * @param config Optional, allows providing any of the following options:
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.pattern(pattern)`
+ *  - `error`: Custom validation error(s) to be used instead of the default `patternError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
@@ -291,7 +291,7 @@ declare function pattern<TPathKind extends PathKind = PathKind.Root>(path: Schem
  * @param path Path of the field to validate
  * @param config Optional, allows providing any of the following options:
  *  - `message`: A user-facing message for the error.
- *  - `error`: Custom validation error(s) to be used instead of the default `ValidationError.required()`
+ *  - `error`: Custom validation error(s) to be used instead of the default `requiredError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  *  - `when`: A function that receives the `FieldContext` and returns true if the field is required
  * @template TValue The type of value stored in the field the logic is bound to.
