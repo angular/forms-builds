@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.1+sha-5744e75
+ * @license Angular v22.2.1+sha-0474258
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -4035,7 +4035,6 @@ declare abstract class AbstractFormDirective extends ControlContainer implements
     private _cleanUpFormContainer;
     private _updateRegistrations;
     private _updateValidators;
-    private _checkFormPresent;
     static ɵfac: i0.ɵɵFactoryDeclaration<AbstractFormDirective, [{ optional: true; self: true; }, { optional: true; self: true; }, { optional: true; }]>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<AbstractFormDirective, never, never, {}, {}, never, never, true, never>;
 }
