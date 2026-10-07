@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.3.0-next.0+sha-e118e15
+ * @license Angular v22.3.0-next.0+sha-ff0dbf1
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -153,7 +153,7 @@ interface ExtractFilter {
     readonly enabled?: boolean;
 }
 /**
- * Utility to unwrap a {@link FieldTree} into its underlying raw value.
+ * Utility to unwrap a {@link /api/forms/signals/FieldTree FieldTree} into its underlying raw value.
  *
  * This function is recursive, so if the field tree represents an object or an array,
  * the result will be an object or an array of the raw values of its children.
@@ -166,7 +166,7 @@ interface ExtractFilter {
  */
 declare function extractValue<T>(field: FieldTree<T>): RawValue<T>;
 /**
- * Utility to unwrap a {@link FieldTree} into its underlying raw value.
+ * Utility to unwrap a {@link /api/forms/signals/FieldTree FieldTree} into its underlying raw value.
  *
  * This function is recursive, so if the field tree represents an object or an array,
  * the result will be an object or an array of the raw values of its children.
