@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.3.0-next.1+sha-9a2c9f1-with-local-changes
+ * @license Angular v22.3.0-next.1+sha-f2b1c1d-with-local-changes
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1627,7 +1627,7 @@ type Schema<in TModel> = {
  * ```typescript
  * const userFormSchema: SchemaFn<User> = (p) => {
  *   required(p.name);
- *   disabled(p.email, ({valueOf}) => valueOf(p.name) === '');
+ *   disabled(p.email, {when: ({valueOf}) => valueOf(p.name) === ''});
  * };
  *
  * const f = form(userModel, userFormSchema, {injector});
