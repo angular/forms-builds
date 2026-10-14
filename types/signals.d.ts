@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.2+sha-fafec77
+ * @license Angular v22.2.2+sha-f6e7755
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -165,14 +165,19 @@ declare function max<TValue extends number | null, TPathKind extends PathKind = 
  * This function can only be called on date paths.
  * In addition to binding a validator, this function adds `MAX` property to the field.
  *
+ * When the field is bound to an `<input type="date">`, its value is a `Date` at midnight UTC, so the
+ * maximum should be built the same way, e.g. `new Date('2026-08-31')` or
+ * `new Date(Date.UTC(2026, 7, 31))`. A `Date` created from local time, such as `new Date(2026, 7, 31)`
+ * or `new Date()`, is offset by the user's time zone, which can make the limit date itself invalid.
+ *
  * @param path Path of the field to validate
- * @param maxDate The maximum date, or a LogicFn that returns the maximum date.
+ * @param maxDateValue The maximum date, or a LogicFn that returns the maximum date.
  * @param config Optional, allows providing any of the following options:
  *  - `error`: Custom validation error(s) to be used instead of the default `maxDateError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @see [Signal Form Max Validation](guide/forms/signals/validation#min-and-max)
+ * @see [Signal Form Max Validation](guide/forms/signals/validation#mindate-and-maxdate)
  * @category validation
  * @publicApi 22.0
  */
@@ -224,14 +229,19 @@ declare function min<TValue extends number | null, TPathKind extends PathKind = 
  * This function can only be called on date paths.
  * In addition to binding a validator, this function adds `MIN` property to the field.
  *
+ * When the field is bound to an `<input type="date">`, its value is a `Date` at midnight UTC, so the
+ * minimum should be built the same way, e.g. `new Date('2026-06-01')` or
+ * `new Date(Date.UTC(2026, 5, 1))`. A `Date` created from local time, such as `new Date(2026, 5, 1)`
+ * or `new Date()`, is offset by the user's time zone, which can make the limit date itself invalid.
+ *
  * @param path Path of the field to validate
- * @param minDate The minimum date, or a LogicFn that returns the minimum date.
+ * @param minDateValue The minimum date, or a LogicFn that returns the minimum date.
  * @param config Optional, allows providing any of the following options:
  *  - `error`: Custom validation error(s) to be used instead of the default `minDateError()`
  *    or a function that receives the `FieldContext` and returns custom validation error(s).
  * @template TPathKind The kind of path the logic is bound to (a root path, child path, or item of an array)
  *
- * @see [Signal Form Min Validation](guide/forms/signals/validation#min-and-max)
+ * @see [Signal Form Min Validation](guide/forms/signals/validation#mindate-and-maxdate)
  * @category validation
  * @publicApi 22.0
  */
