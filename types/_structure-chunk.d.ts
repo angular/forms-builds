@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.3+sha-c1b8b0a-with-local-changes
+ * @license Angular v22.2.3+sha-6a41c99-with-local-changes
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1729,12 +1729,12 @@ interface RootFieldContext<TValue> {
     /** The current field. */
     readonly fieldTree: ReadonlyFieldTree<TValue>;
     /** Gets the value of the field represented by the given path. */
-    valueOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): PValue;
+    valueOf<PValue>(this: void, p: SchemaPath<PValue, SchemaPathRules>): PValue;
     /** Gets the state of the field represented by the given path. */
-    stateOf<PControl extends AbstractControl>(p: CompatSchemaPath<PControl>): [PControl] extends [any] ? ReadonlyCompatFieldState<PControl> : never;
-    stateOf<PValue>(p: SchemaPath<PValue, SchemaPathRules>): [PValue] extends [any] ? ReadonlyFieldState<PValue> : never;
+    stateOf<PControl extends AbstractControl>(this: void, p: CompatSchemaPath<PControl>): [PControl] extends [any] ? ReadonlyCompatFieldState<PControl> : never;
+    stateOf<PValue>(this: void, p: SchemaPath<PValue, SchemaPathRules>): [PValue] extends [any] ? ReadonlyFieldState<PValue> : never;
     /** Gets the field represented by the given path. */
-    fieldTreeOf<PModel>(p: SchemaPathTree<PModel>): [PModel] extends [any] ? ReadonlyFieldTree<PModel> : never;
+    fieldTreeOf<PModel>(this: void, p: SchemaPathTree<PModel>): [PModel] extends [any] ? ReadonlyFieldTree<PModel> : never;
     /** The list of keys that lead from the root field to the current field. */
     readonly pathKeys: Signal<readonly string[]>;
 }
