@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.3+sha-3af7bd8
+ * @license Angular v22.2.3+sha-4e4df4a
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -397,6 +397,7 @@ declare class SelectMultipleControlValueAccessor extends BuiltInControlValueAcce
      * @docs-private
      */
     registerOnChange(fn: (value: any) => any): void;
+    private _getOptionIds;
     static ɵfac: i0.ɵɵFactoryDeclaration<SelectMultipleControlValueAccessor, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<SelectMultipleControlValueAccessor, "select[multiple]:not([ngNoCva])[formControlName],select[multiple]:not([ngNoCva])[formControl],select[multiple]:not([ngNoCva])[ngModel]", never, { "compareWith": { "alias": "compareWith"; "required": false; }; }, {}, never, never, false, never>;
 }
