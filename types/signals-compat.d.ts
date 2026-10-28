@@ -1,12 +1,12 @@
 /**
- * @license Angular v22.2.3+sha-8087f76
+ * @license Angular v22.2.3+sha-1226631
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { WritableSignal, EventEmitter } from '@angular/core';
 import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError, ReadonlyFieldTree, SignalFormsConfig, SchemaFn } from './signals.js';
-import { AbstractControl, FormControlStatus, FormControlState } from '@angular/forms';
+import { AbstractControl, FormControlStatus, FormControlState, FormGroup, FormArray } from '@angular/forms';
 import '@standard-schema/spec';
 
 /**
@@ -308,6 +308,8 @@ declare class SignalFormControl<T> extends AbstractControl {
     markAsUntouched(opts?: {
         onlySelf?: boolean;
     }): void;
+    setParent(parent: FormGroup | FormArray | null): void;
+    get updateOn(): 'change' | 'blur' | 'submit';
     updateValueAndValidity(_opts?: Object): void;
     disable(_opts?: {
         onlySelf?: boolean;
