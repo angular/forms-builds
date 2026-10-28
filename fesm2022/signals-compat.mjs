@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.3.0-next.2+sha-38afab7
+ * @license Angular v22.3.0-next.2+sha-9e99093
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -364,6 +364,13 @@ class SignalFormControl extends AbstractControl {
   statusChanges = new EventEmitter();
   constructor(value, schemaOrOptions, options) {
     super(null, null);
+    const rawOptions = typeof schemaOrOptions === 'object' && schemaOrOptions !== null ? {
+      ...schemaOrOptions,
+      ...options
+    } : options;
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && rawOptions?.updateOn && rawOptions.updateOn !== 'change') {
+      throw unsupportedUpdateOnError(rawOptions.updateOn);
+    }
     const [model, schema, opts] = normalizeFormArgs([signal(value), schemaOrOptions, options]);
     this.sourceValue = model;
     this.initialValue = value;
@@ -604,6 +611,15 @@ class SignalFormControl extends AbstractControl {
     this.fieldState.markAsUntouched();
     this.propagateToParent(opts, parent => parent.markAsUntouched(opts));
   }
+  setParent(parent) {
+    super.setParent(parent);
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && parent && parent.updateOn !== 'change') {
+      throw unsupportedUpdateOnError(parent.updateOn, true);
+    }
+  }
+  get updateOn() {
+    return 'change';
+  }
   updateValueAndValidity(_opts) {}
   _updateValue() {}
   _forEachChild(_cb) {}
@@ -718,6 +734,10 @@ function unsupportedDisableEnableError() {
 }
 function unsupportedValidatorsError() {
   return unsupportedFeatureError(ngDevMode && 'Dynamically adding and removing validators is not supported in signal forms. Instead use the "applyWhen" rule to conditionally apply validators based on a signal.');
+}
+function unsupportedUpdateOnError(updateOn, isInherited = false) {
+  const source = isInherited ? ' inherited from its parent' : '';
+  return unsupportedFeatureError((typeof ngDevMode === 'undefined' || ngDevMode) && `SignalFormControl does not support the "updateOn: '${updateOn}'" option${source}. `);
 }
 function removeListItem(list, el) {
   const index = list.indexOf(el);
