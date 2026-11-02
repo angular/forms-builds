@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.3.0-next.3+sha-2e93925
+ * @license Angular v22.3.0-next.3+sha-97bde8a
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -7,7 +7,7 @@
 import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, extractNestedReactiveErrors, BasicFieldAdapter, normalizeFormArgs, form, isArray, isObject, signalErrorsToValidationErrors } from './_validation_errors-chunk.mjs';
 export { CompatValidationError } from './_validation_errors-chunk.mjs';
 import { linkedSignal, untracked, runInInjectionContext, computed, signal, ɵRuntimeError as _RuntimeError, EventEmitter, inject, Injector, effect } from '@angular/core';
-import { AbstractControl, ValueChangeEvent, StatusChangeEvent, TouchedChangeEvent, PristineChangeEvent, FormResetEvent } from '@angular/forms';
+import { Validators, AbstractControl, ValueChangeEvent, StatusChangeEvent, TouchedChangeEvent, PristineChangeEvent, FormResetEvent } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReplaySubject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -16,10 +16,15 @@ import '@angular/core/primitives/signals';
 class CompatFieldNode extends FieldNode {
   options;
   control;
+  requiredSignal;
   constructor(options) {
     super(options);
     this.options = options;
     this.control = this.options.control;
+    this.requiredSignal = getControlStatusSignal(this.options, c => c.hasValidator(Validators.required));
+  }
+  get required() {
+    return this.requiredSignal;
   }
 }
 function makeCreateDestroySubject() {
