@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.3.0-next.3+sha-37563fc-with-local-changes
+ * @license Angular v22.3.0-next.3+sha-2af465b-with-local-changes
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -902,15 +902,17 @@ class FieldMetadataState {
     const wasInParams = _isInParamsFunction();
     if (wasInParams) _setInParamsFunction(false);
     try {
-      untracked(() => runInInjectionContext(this.node.structure.injector, () => {
+      untracked(() => {
         for (const key of this.node.logicNode.logic.getMetadataKeys()) {
           if (key.create) {
-            const logic = this.node.logicNode.logic.getMetadata(key);
-            const result = key.create(this.node, computed(() => logic.compute(this.node.context)));
-            this.metadata.set(key, result);
+            runInInjectionContext(this.node.structure.injector, () => {
+              const logic = this.node.logicNode.logic.getMetadata(key);
+              const result = key.create(this.node, computed(() => logic.compute(this.node.context)));
+              this.metadata.set(key, result);
+            });
           }
         }
-      }));
+      });
     } finally {
       if (wasInParams) _setInParamsFunction(true);
     }
@@ -1080,7 +1082,7 @@ class FieldNodeStructure {
     return value;
   }
   destroy() {
-    this.injector.destroy();
+    this._injector?.destroy();
   }
   createKeyOrOrphanSignals(kind, identityInParent, initialKeyInParent) {
     if (kind === 'root') {
