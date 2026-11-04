@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.4+sha-11e7670
+ * @license Angular v22.2.4+sha-fcd82c4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -3484,8 +3484,17 @@ declare abstract class NgControl extends AbstractControlDirective {
         required?: boolean;
         errors?: ValidationErrors | null;
     } | null;
+    /**
+     * Last value emitted by the custom control that has not been committed to the `FormControl`
+     * yet (`updateOn: 'blur' | 'submit'`). Only meaningful while `hasPendingCustomValue` is true.
+     */
+    private pendingCustomValue;
+    private hasPendingCustomValue;
     constructor(injector?: Injector, renderer?: Renderer2, rawValueAccessors?: ControlValueAccessor[]);
     protected setupCustomControl(): void;
+    private updateControlFromCustom;
+    private discardPendingCustomValue;
+    private clearPendingCustomValue;
     protected ngControlUpdate(host: _ControlDirectiveHost, bindRequired: boolean): void;
     /**
      * Returns true if the control is currently considered required, false otherwise.
