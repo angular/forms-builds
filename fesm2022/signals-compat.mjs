@@ -1,10 +1,10 @@
 /**
- * @license Angular v22.2.5+sha-30aee51
+ * @license Angular v22.2.5+sha-de5a1df
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
-import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, extractNestedReactiveErrors, BasicFieldAdapter, normalizeFormArgs, form, isArray, isObject, signalErrorsToValidationErrors } from './_validation_errors-chunk.mjs';
+import { FieldNode, getInjectorFromOptions, FieldNodeState, FieldNodeStructure, calculateValidationSelfStatus, extractNestedReactiveErrors, BasicFieldAdapter, form, normalizeFormArgs, isArray, isObject, signalErrorsToValidationErrors } from './_validation_errors-chunk.mjs';
 export { CompatValidationError } from './_validation_errors-chunk.mjs';
 import { linkedSignal, untracked, runInInjectionContext, computed, signal, ɵRuntimeError as _RuntimeError, EventEmitter, inject, Injector, effect } from '@angular/core';
 import { Validators, AbstractControl, ValueChangeEvent, StatusChangeEvent, TouchedChangeEvent, PristineChangeEvent, FormResetEvent } from '@angular/forms';
@@ -369,22 +369,18 @@ class SignalFormControl extends AbstractControl {
   statusChanges = new EventEmitter();
   constructor(value, schemaOrOptions, options) {
     super(null, null);
-    const rawOptions = typeof schemaOrOptions === 'object' && schemaOrOptions !== null ? {
-      ...schemaOrOptions,
-      ...options
-    } : options;
-    if ((typeof ngDevMode === 'undefined' || ngDevMode) && rawOptions?.updateOn && rawOptions.updateOn !== 'change') {
-      throw unsupportedUpdateOnError(rawOptions.updateOn);
-    }
     const [model, schema, opts] = normalizeFormArgs([signal(value), schemaOrOptions, options]);
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && opts?.updateOn && opts.updateOn !== 'change') {
+      throw unsupportedUpdateOnError(opts.updateOn);
+    }
     this.sourceValue = model;
     this.initialValue = value;
     const injector = opts?.injector ?? inject(Injector);
-    const rawTree = schema ? compatForm(this.sourceValue, schema, {
+    const formOptions = {
+      ...opts,
       injector
-    }) : compatForm(this.sourceValue, {
-      injector
-    });
+    };
+    const rawTree = schema ? compatForm(this.sourceValue, schema, formOptions) : compatForm(this.sourceValue, formOptions);
     this.fieldTree = wrapFieldTreeForSyncUpdates(rawTree, () => this.parent?.updateValueAndValidity({
       sourceControl: this
     }));
