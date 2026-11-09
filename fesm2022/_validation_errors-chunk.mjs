@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.3.0-next.4+sha-ef4f80a
+ * @license Angular v22.3.0-next.4+sha-9731822
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1765,19 +1765,17 @@ let nextFormId = 0;
 const REGISTER_WEBMCP_FORM = new InjectionToken(typeof ngDevMode !== 'undefined' && ngDevMode ? 'REGISTER_WEBMCP_FORM' : '');
 
 function normalizeFormArgs(args) {
-  let model;
+  const model = args[0];
   let schema;
   let options;
-  if (args.length === 3) {
-    [model, schema, options] = args;
-  } else if (args.length === 2) {
-    if (isSchemaOrSchemaFn(args[1])) {
-      [model, schema] = args;
-    } else {
-      [model, options] = args;
-    }
+  if (isSchemaOrSchemaFn(args[1])) {
+    schema = args[1];
+    options = args[2];
   } else {
-    [model] = args;
+    options = args[1] && args[2] ? {
+      ...args[1],
+      ...args[2]
+    } : args[1] ?? args[2];
   }
   return [model, schema, options];
 }

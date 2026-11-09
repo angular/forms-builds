@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.3.0-next.4+sha-ef4f80a
+ * @license Angular v22.3.0-next.4+sha-9731822
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { WritableSignal, EventEmitter } from '@angular/core';
-import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError, ReadonlyFieldTree, SignalFormsConfig, SchemaFn } from './signals.js';
+import { FormOptions, FieldTree, SchemaOrSchemaFn, ValidationError, ReadonlyFieldTree, SignalFormsConfig } from './signals.js';
 import { AbstractControl, FormControlStatus, FormControlState, FormGroup, FormArray } from '@angular/forms';
 import '@standard-schema/spec';
 
@@ -263,7 +263,10 @@ declare class SignalFormControl<T> extends AbstractControl {
     private readonly onDisabledChangeCallbacks;
     readonly valueChanges: EventEmitter<T>;
     readonly statusChanges: EventEmitter<FormControlStatus>;
-    constructor(value: T, schemaOrOptions?: SchemaFn<T> | FormOptions<T>, options?: FormOptions<T>);
+    constructor(value: T);
+    constructor(value: T, schema: SchemaOrSchemaFn<T>);
+    constructor(value: T, options: FormOptions<T>);
+    constructor(value: T, schema: SchemaOrSchemaFn<T> | undefined, options: FormOptions<T>);
     /**
      * Defines properties using closure-safe names to prevent issues with property renaming optimizations.
      *
