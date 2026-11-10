@@ -1,11 +1,11 @@
 /**
- * @license Angular v22.2.5+sha-378e21f
+ * @license Angular v22.2.5+sha-935a78d
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 import { untracked, ɵRuntimeError as _RuntimeError, computed, ɵisInParamsFunction as _isInParamsFunction, ɵsetInParamsFunction as _setInParamsFunction, runInInjectionContext, Injector, linkedSignal, signal, APP_ID, effect, InjectionToken, inject } from '@angular/core';
-import { AbstractControl, FormGroup, FormArray } from '@angular/forms';
+import { ɵisAbstractControl as _isAbstractControl, FormGroup, FormArray } from '@angular/forms';
 import { SIGNAL } from '@angular/core/primitives/signals';
 
 const FIELD_TREE = /* @__PURE__ */Symbol('FIELD_TREE');
@@ -882,7 +882,7 @@ class FieldNodeContext {
   }
   valueOf = p => {
     const result = this.resolve(p)().value();
-    if (result instanceof AbstractControl) {
+    if (_isAbstractControl(result)) {
       throw new _RuntimeError(1907, ngDevMode && `Tried to read an 'AbstractControl' value from a 'form()'. Did you mean to use 'compatForm()' instead?`);
     }
     return result;
