@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.2.5+sha-b9a20da
+ * @license Angular v22.2.5+sha-5b66fb4
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1478,21 +1478,22 @@ class FieldNode {
     }
     untracked(() => {
       this.markAsTouchedInternal(options);
-      this.flushSync();
     });
   }
   markAsTouchedInternal(options) {
     if (this.structure.isOrphaned()) {
       return;
     }
-    if (this.validationState.shouldSkipValidation()) {
-      return;
+    const skipValidation = this.validationState.shouldSkipValidation();
+    if (!skipValidation) {
+      this.nodeState.markAsTouched();
     }
-    this.nodeState.markAsTouched();
+    this.flushSync();
     if (options?.skipDescendants) {
       return;
     }
-    for (const child of this.structure.children()) {
+    const children = skipValidation ? this.structure.materializedChildren() : this.structure.children();
+    for (const child of children) {
       child.markAsTouchedInternal();
     }
   }
