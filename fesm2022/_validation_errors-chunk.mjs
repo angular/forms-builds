@@ -1,5 +1,5 @@
 /**
- * @license Angular v22.4.0-next.0+sha-c9cbeb7
+ * @license Angular v22.4.0-next.0+sha-c69da30
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -1756,7 +1756,7 @@ class FormFieldManager {
   }
   markStructuresLive(structure, liveStructures) {
     liveStructures.add(structure);
-    for (const child of structure.children()) {
+    for (const child of structure.materializedChildren()) {
       this.markStructuresLive(child.structure, liveStructures);
     }
   }
